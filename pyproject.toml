@@ -33,7 +33,6 @@ ssb-datadoc-model = "^6.0.0"
 pygments = ">=2.10.0"
 black = ">=22.3.0"
 coverage = { extras = ["toml"], version = ">=6.2" }
-darglint = ">=1.8.1"
 furo = ">=2021.11.12"
 pre-commit = "*"
 ruff = ">=0.0.284"

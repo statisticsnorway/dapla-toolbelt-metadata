@@ -130,7 +130,6 @@ def precommit(session: Session) -> None:
     session.install(
         "pre-commit",
         "pre-commit-hooks",
-        "darglint",
         "ruff",
         "black",
     )
