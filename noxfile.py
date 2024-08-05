@@ -7,7 +7,7 @@ import sys
 from pathlib import Path
 from textwrap import dedent
 
-import nox
+import nox  # type: ignore
 
 
 try:
@@ -23,7 +23,7 @@ except ImportError:
     raise SystemExit(dedent(message)) from None
 
 package = "dapla_toolbelt_metadata"
-python_versions = ["3.10", "3.11", "3.12"]
+python_versions = ["3.11", "3.12"]
 nox.needs_version = ">= 2021.6.6"
 nox.options.sessions = (
     "pre-commit",

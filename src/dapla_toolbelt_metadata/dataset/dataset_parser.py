@@ -180,9 +180,9 @@ class DatasetParserParquet(DatasetParser):
         with self.dataset.open(mode="rb") as f:
             schema: pa.Schema = pq.read_schema(f)  # type: ignore [arg-type]
         return [
-            Variable(
+            Variable(  # type: ignore  # noqa: PGH003
                 short_name=data_field.name.strip(),
-                data_type=self.transform_data_type(str(data_field.type)),
+                data_type=self.transform_data_type(str(data_field.type)),  # type: ignore  # noqa: PGH003
             )
             for data_field in schema
             if data_field.name
@@ -218,7 +218,7 @@ class DatasetParserSas7Bdat(DatasetParser):
         # Get all the values from the row and loop through them
         for i, v in enumerate(row.to_numpy().tolist()[0]):
             fields.append(
-                Variable(
+                Variable(  # type: ignore  # noqa: PGH003
                     short_name=sas_reader.columns[i].name,  # type: ignore [attr-defined]
                     # Assume labels are defined in the default language (NORSK_BOKMÅL)
                     # If this is not correct, the user may fix it via the UI
@@ -233,7 +233,7 @@ class DatasetParserSas7Bdat(DatasetParser):
                         ],
                     ),
                     # Access the python type for the value and transform it to a DataDoc Data type
-                    data_type=self.transform_data_type(type(v).__name__.lower()),
+                    data_type=self.transform_data_type(type(v).__name__.lower()),  # type: ignore  # noqa: PGH003
                 ),
             )
 
