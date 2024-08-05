@@ -36,14 +36,14 @@ def test_use_abstract_class_directly():
 )
 def test_get_fields_parquet(local_parser: DatasetParserParquet):
     expected_fields = [
-        Variable(short_name="pers_id", data_type=DataType.STRING),
-        Variable(short_name="tidspunkt", data_type=DataType.DATETIME),
-        Variable(short_name="sivilstand", data_type=DataType.STRING),
-        Variable(short_name="alm_inntekt", data_type=DataType.INTEGER),
-        Variable(short_name="sykepenger", data_type=DataType.INTEGER),
-        Variable(short_name="ber_bruttoformue", data_type=DataType.INTEGER),
-        Variable(short_name="fullf_utdanning", data_type=DataType.STRING),
-        Variable(short_name="hoveddiagnose", data_type=DataType.STRING),
+        Variable(short_name="pers_id", data_type=DataType.STRING),  # type: ignore  # noqa: PGH003
+        Variable(short_name="tidspunkt", data_type=DataType.DATETIME),  # type: ignore  # noqa: PGH003
+        Variable(short_name="sivilstand", data_type=DataType.STRING),  # type: ignore  # noqa: PGH003
+        Variable(short_name="alm_inntekt", data_type=DataType.INTEGER),  # type: ignore  # noqa: PGH003
+        Variable(short_name="sykepenger", data_type=DataType.INTEGER),  # type: ignore  # noqa: PGH003
+        Variable(short_name="ber_bruttoformue", data_type=DataType.INTEGER),  # type: ignore  # noqa: PGH003
+        Variable(short_name="fullf_utdanning", data_type=DataType.STRING),  # type: ignore  # noqa: PGH003
+        Variable(short_name="hoveddiagnose", data_type=DataType.STRING),  # type: ignore  # noqa: PGH003
     ]
     fields = local_parser.get_fields()
 
