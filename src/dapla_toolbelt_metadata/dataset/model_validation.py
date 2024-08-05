@@ -5,11 +5,11 @@ from __future__ import annotations
 import logging
 import warnings
 from typing import TYPE_CHECKING
-from typing import Self
 from typing import TextIO
 
 from datadoc_model import model
 from pydantic import model_validator
+from typing_extensions import Self
 
 from dapla_toolbelt_metadata.dataset.utility.constants import DATE_VALIDATION_MESSAGE
 from dapla_toolbelt_metadata.dataset.utility.constants import (
