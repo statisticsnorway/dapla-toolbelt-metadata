@@ -1,1 +1,0 @@
-"""Dapla Toolbelt Metadata."""
