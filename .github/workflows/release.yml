@@ -15,6 +15,13 @@ jobs:
       contents: write
       pull-requests: read
     steps:
+      - name: Generate token
+        id: generate_token
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ secrets.DAPLA_BOT_APP_ID }}
+          private-key: ${{ secrets.DAPLA_BOT_PRIVATE_KEY }}
+
       - name: Check out the repository
         uses: actions/checkout@v4
         with:
@@ -63,11 +70,11 @@ jobs:
         if: steps.check-version.outputs.tag
         uses: pypa/gh-action-pypi-publish@v1.9.0
 
-    #- name: Publish package on TestPyPI
-    #  if: (!steps.check-version.outputs.tag)
-    #  uses: pypa/gh-action-pypi-publish@v1.9.0
-    #  with:
-    #    repository-url: https://test.pypi.org/legacy/
+      - name: Publish package on TestPyPI
+        if: (!steps.check-version.outputs.tag)
+        uses: pypa/gh-action-pypi-publish@v1.9.0
+        with:
+          repository-url: https://test.pypi.org/legacy/
 
       - name: Publish the release notes
         uses: release-drafter/release-drafter@v6.0.0
@@ -75,4 +82,5 @@ jobs:
           publish: ${{ steps.check-version.outputs.tag != '' }}
           tag: ${{ steps.check-version.outputs.tag }}
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
+          # GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
