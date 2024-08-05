@@ -62,9 +62,6 @@ faker = "*"
 [tool.pytest.ini_options]
 pythonpath = ["src"]
 
-[tool.poetry.scripts]
-dapla-toolbelt-metadata = "dapla_toolbelt_metadata.__main__:main"
-
 [tool.coverage.paths]
 source = ["src", "*/site-packages"]
 tests = ["tests", "*/tests"]
