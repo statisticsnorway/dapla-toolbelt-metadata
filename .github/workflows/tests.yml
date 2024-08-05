@@ -3,16 +3,9 @@ name: Tests
 on:
   push:
     branches:
-      - "**"
-    paths:
-      - "src/**"
-      - "tests/**"
-      - "docs/**"
-      - "pyproject.toml"
-      - "poetry.lock"
-      - ".pre-commit-config.yaml"
-      - "noxfile.py"
-      - ".github/workflows/tests.yml"
+      - main
+      - master
+  pull_request:
 
 jobs:
   tests:
@@ -22,14 +15,18 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - { python: "3.12", os: "ubuntu-latest", session: "pre-commit" }
+          - { python: "3.10", os: "ubuntu-latest", session: "pre-commit" }
+          - { python: "3.10", os: "ubuntu-latest", session: "mypy" }
           - { python: "3.11", os: "ubuntu-latest", session: "mypy" }
           - { python: "3.12", os: "ubuntu-latest", session: "mypy" }
+          - { python: "3.10", os: "ubuntu-latest", session: "tests" }
           - { python: "3.11", os: "ubuntu-latest", session: "tests" }
           - { python: "3.12", os: "ubuntu-latest", session: "tests" }
-          - { python: "3.12", os: "ubuntu-latest", session: "typeguard" }
-          - { python: "3.12", os: "ubuntu-latest", session: "xdoctest" }
-          - { python: "3.12", os: "ubuntu-latest", session: "docs-build" }
+          - { python: "3.12", os: "windows-latest", session: "tests" }
+          - { python: "3.12", os: "macos-latest", session: "tests" }
+          - { python: "3.10", os: "ubuntu-latest", session: "typeguard" }
+          - { python: "3.10", os: "ubuntu-latest", session: "xdoctest" }
+          - { python: "3.10", os: "ubuntu-latest", session: "docs-build" }
 
     env:
       NOXSESSION: ${{ matrix.session }}
@@ -44,7 +41,6 @@ jobs:
         uses: actions/setup-python@v5.1.1
         with:
           python-version: ${{ matrix.python }}
-          cache: "pip" # caching pip dependencies
 
       - name: Upgrade pip
         run: |
@@ -127,7 +123,6 @@ jobs:
         uses: actions/setup-python@v5.1.1
         with:
           python-version: "3.12"
-          cache: "pip" # caching pip dependencies
 
       - name: Upgrade pip
         run: |
