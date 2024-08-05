@@ -34,7 +34,7 @@ class SupportedLanguages(str, Enum):
     Reference: https://www.iana.org/assignments/language-subtag-registry/language-subtag-registry
     """
 
-    NORSK_BOKMÅL = "nb"
+    NORSK_BOKMÅL = "nb"  # noqa: PLC2401 norwegian character allowed
     NORSK_NYNORSK = "nn"
     ENGLISH = "en"
 
