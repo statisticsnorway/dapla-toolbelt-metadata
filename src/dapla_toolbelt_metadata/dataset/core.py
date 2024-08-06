@@ -117,7 +117,7 @@ class Datadoc:
         self.metadata_document: pathlib.Path | CloudPath | None = None
         self.container: model.MetadataContainer | None = None
         self.dataset_path: pathlib.Path | CloudPath | None = None
-        self.dataset = model.Dataset()  # type: ignore  # noqa: PGH003
+        self.dataset = model.Dataset()
         self.variables: list = []
         self.variables_lookup: dict[str, model.Variable] = {}
         self.explicitly_defined_metadata_document = False
@@ -164,7 +164,7 @@ class Datadoc:
             )
         if (
             self.dataset_path is not None
-            and self.dataset == model.Dataset()  # type: ignore  # noqa: PGH003
+            and self.dataset == model.Dataset()
             and len(self.variables) == 0
         ):
             extracted_metadata = self._extract_metadata_from_dataset(self.dataset_path)
@@ -319,11 +319,11 @@ class Datadoc:
             logger.warning(
                 "No existing metadata found, no merge to perform. Continuing with extracted metadata.",
             )
-            return extracted_metadata or model.DatadocMetadata()  # type: ignore  # noqa: PGH003
+            return extracted_metadata or model.DatadocMetadata()
         if not extracted_metadata:
             return existing_metadata
         # Use the extracted metadata as a base
-        merged_metadata = model.DatadocMetadata(  # type: ignore  # noqa: PGH003
+        merged_metadata = model.DatadocMetadata(
             dataset=copy.deepcopy(extracted_metadata.dataset),
             variables=[],
         )
@@ -470,14 +470,14 @@ class Datadoc:
                 - variables: A list of fields extracted from the dataset schema.
         """
         dapla_dataset_path_info = DaplaDatasetPathInfo(dataset)
-        metadata = model.DatadocMetadata()  # type: ignore  # noqa: PGH003
+        metadata = model.DatadocMetadata()
 
-        metadata.dataset = model.Dataset(  # type: ignore  # noqa: PGH003
+        metadata.dataset = model.Dataset( 
             short_name=dapla_dataset_path_info.dataset_short_name,
-            dataset_state=dapla_dataset_path_info.dataset_state,  # type: ignore  # noqa: PGH003
-            dataset_status=DataSetStatus.DRAFT,  # type: ignore  # noqa: PGH003
+            dataset_state=dapla_dataset_path_info.dataset_state,
+            dataset_status=DataSetStatus.DRAFT,
             assessment=(
-                derive_assessment_from_state(  # type: ignore  # noqa: PGH003
+                derive_assessment_from_state( 
                     dapla_dataset_path_info.dataset_state,
                 )
                 if dapla_dataset_path_info.dataset_state is not None
@@ -528,7 +528,7 @@ class Datadoc:
             user_info.get_user_info_for_current_platform().short_email
         )
         self.dataset.file_path = str(self.dataset_path)
-        datadoc: ValidateDatadocMetadata = ValidateDatadocMetadata(  # type: ignore  # noqa: PGH003
+        datadoc: ValidateDatadocMetadata = ValidateDatadocMetadata( 
             percentage_complete=self.percent_complete,
             dataset=self.dataset,
             variables=self.variables,
