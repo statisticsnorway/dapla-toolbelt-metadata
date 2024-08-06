@@ -472,12 +472,12 @@ class Datadoc:
         dapla_dataset_path_info = DaplaDatasetPathInfo(dataset)
         metadata = model.DatadocMetadata()
 
-        metadata.dataset = model.Dataset( 
+        metadata.dataset = model.Dataset(
             short_name=dapla_dataset_path_info.dataset_short_name,
             dataset_state=dapla_dataset_path_info.dataset_state,
             dataset_status=DataSetStatus.DRAFT,
             assessment=(
-                derive_assessment_from_state( 
+                derive_assessment_from_state(
                     dapla_dataset_path_info.dataset_state,
                 )
                 if dapla_dataset_path_info.dataset_state is not None
@@ -528,7 +528,7 @@ class Datadoc:
             user_info.get_user_info_for_current_platform().short_email
         )
         self.dataset.file_path = str(self.dataset_path)
-        datadoc: ValidateDatadocMetadata = ValidateDatadocMetadata( 
+        datadoc: ValidateDatadocMetadata = ValidateDatadocMetadata(
             percentage_complete=self.percent_complete,
             dataset=self.dataset,
             variables=self.variables,
