@@ -143,7 +143,17 @@ def mypy(session: Session) -> None:
     """Type-check using mypy."""
     args = session.posargs or ["src", "tests"]
     session.install(".")
-    session.install("mypy", "pytest")
+    session.install(
+        "mypy",
+        "pytest",
+        "types-setuptools",
+        "pandas-stubs",
+        "pyarrow-stubs",
+        "types-Pygments",
+        "types-colorama",
+        "types-beautifulsoup4",
+        "faker",
+    )
     session.run("mypy", *args)
     if not session.posargs:
         session.run("mypy", f"--python-executable={sys.executable}", "noxfile.py")
@@ -153,7 +163,9 @@ def mypy(session: Session) -> None:
 def tests(session: Session) -> None:
     """Run the test suite."""
     session.install(".")
-    session.install("coverage[toml]", "pytest", "pygments")
+    session.install(
+        "coverage[toml]", "pytest", "pygments", "pytest-mock", "requests-mock", "faker"
+    )
     try:
         session.run(
             "coverage",
