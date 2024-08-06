@@ -2,11 +2,11 @@
 
 from __future__ import annotations
 
-import concurrent
 import copy
 import json
 import logging
 import warnings
+from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 from typing import TYPE_CHECKING
 
@@ -415,7 +415,7 @@ class Datadoc:
             The code for the statistical subject or None if we couldn't map to one.
         """
         if self._statistic_subject_mapping is None:
-            with concurrent.futures.ThreadPoolExecutor(max_workers=12) as executor:
+            with ThreadPoolExecutor(max_workers=12) as executor:
                 return StatisticSubjectMapping(
                     executor,
                     config.get_statistical_subject_source_url(),

@@ -2,12 +2,12 @@
 
 from __future__ import annotations
 
-import concurrent
 import copy
 import functools
 import os
 import pathlib
 import shutil
+from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime
 from datetime import timezone
 from pathlib import Path
@@ -175,8 +175,8 @@ def subject_xml_file_path() -> pathlib.Path:
 
 
 @pytest.fixture()
-def thread_pool_executor() -> concurrent.futures.ThreadPoolExecutor:
-    return concurrent.futures.ThreadPoolExecutor(max_workers=12)
+def thread_pool_executor() -> ThreadPoolExecutor:
+    return ThreadPoolExecutor(max_workers=12)
 
 
 @pytest.fixture()

@@ -10,6 +10,7 @@ import re
 import typing as t
 from abc import ABC
 from abc import abstractmethod
+from typing import TYPE_CHECKING
 
 import pandas as pd
 from datadoc_model.model import LanguageStringType
@@ -20,7 +21,7 @@ from pyarrow import parquet as pq
 from dataset.utility.enums import DataType
 from dataset.utility.enums import SupportedLanguages
 
-if t.TYPE_CHECKING:
+if TYPE_CHECKING:
     import pyarrow as pa
     from cloudpathlib import CloudPath
 

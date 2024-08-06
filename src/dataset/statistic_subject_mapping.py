@@ -13,7 +13,7 @@ from dataset.external_sources.external_sources import GetExternalSource
 from dataset.utility.enums import SupportedLanguages
 
 if TYPE_CHECKING:
-    import concurrent
+    from concurrent.futures import ThreadPoolExecutor
 
 logger = logging.getLogger(__name__)
 
@@ -71,7 +71,7 @@ class StatisticSubjectMapping(GetExternalSource):
 
     def __init__(
         self,
-        executor: concurrent.futures.ThreadPoolExecutor,
+        executor: ThreadPoolExecutor,
         source_url: str | None,
     ) -> None:
         """Retrieve the statistical structure document from the given URL.

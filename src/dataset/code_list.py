@@ -8,7 +8,7 @@ from dataset.external_sources.external_sources import GetExternalSource
 from dataset.utility.enums import SupportedLanguages
 
 if TYPE_CHECKING:
-    import concurrent
+    from concurrent.futures import ThreadPoolExecutor
 
     import pandas as pd
 
@@ -81,7 +81,7 @@ class CodeList(GetExternalSource):
 
     def __init__(
         self,
-        executor: concurrent.futures.ThreadPoolExecutor,
+        executor: ThreadPoolExecutor,
         classification_id: int | None,
     ) -> None:
         """Initialize the CodeList with the given classification ID and executor.

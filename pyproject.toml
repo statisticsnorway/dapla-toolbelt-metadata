@@ -81,9 +81,18 @@ pythonpath = ["src"]
 source = ["src", "*/site-packages"]
 tests = ["tests", "*/tests"]
 
+# [tool.coverage.run]
+# branch = true
+# source = ["src", "tests"]
+# relative_files = true
+
 [tool.coverage.run]
 branch = true
-source = ["src", "tests"]
+source = ["src"]
+omit = [
+    "tests/*",
+    "__init__.py",
+]
 relative_files = true
 
 [tool.coverage.report]
