@@ -32,6 +32,7 @@
 ## Requirements
 
 - TODO
+- Python
 
 ## Installation
 
