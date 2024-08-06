@@ -91,6 +91,9 @@ show_missing = true
 fail_under = 80
 
 [tool.mypy]
+plugins = [
+    "pydantic.mypy"
+]
 strict = false
 warn_unreachable = true
 pretty = true
