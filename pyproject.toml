@@ -83,7 +83,7 @@ tests = ["tests", "*/tests"]
 
 [tool.coverage.run]
 branch = true
-source = ["dapla_toolbelt_metadata", "tests"]
+source = ["src", "tests"]
 relative_files = true
 
 [tool.coverage.report]
