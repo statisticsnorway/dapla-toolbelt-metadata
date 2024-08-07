@@ -10,24 +10,48 @@ repository = "https://github.com/statisticsnorway/dapla-toolbelt-metadata"
 documentation = "https://statisticsnorway.github.io/dapla-toolbelt-metadata"
 classifiers = ["Development Status :: 4 - Beta"]
 
+packages = [{ include = "dataset", from = "src" }]
+
 [tool.poetry.urls]
 Changelog = "https://github.com/statisticsnorway/dapla-toolbelt-metadata/releases"
 
 [tool.poetry.dependencies]
-python = "^3.10"
 click = ">=8.0.1"
+python = ">=3.10,<4.0"
+pyarrow = ">=8.0.0"
+pydantic = ">=2.5.2"
+pandas = ">=1.4.2"
+dapla-toolbelt = ">=1.3.3"
+gunicorn = ">=21.2.0"
+arrow = ">=1.3.0"
+python-dotenv = ">=1.0.1"
+requests = ">=2.31.0"
+beautifulsoup4 = ">=4.12.3"
+cloudpathlib = { extras = ["gs"], version = ">=0.17.0" }
+pyjwt = ">=2.8.0"
+ssb-klass-python = ">=0.0.9"
+ssb-datadoc-model = "^6.0.0"
+faker = "^26.1.0"
+pygments = "^2.18.0"
+black = "^24.8.0"
+coverage = "^7.6.1"
+furo = "^2024.7.18"
+pre-commit = "^3.8.0"
+ruff = "^0.5.6"
+pytest = "^8.3.2"
+pytest-mock = "^3.14.0"
+requests-mock = "^1.12.1"
+bs4 = "^0.0.2"
+types-beautifulsoup4 = "^4.12.0.20240511"
 
 [tool.poetry.group.dev.dependencies]
 pygments = ">=2.10.0"
-black = { extras = ["jupyter"], version = ">=23.1.0" }
+black = ">=22.3.0"
 coverage = { extras = ["toml"], version = ">=6.2" }
-darglint = ">=1.8.1"
 furo = ">=2021.11.12"
-mypy = ">=0.930"
-pre-commit = ">=2.16.0"
-pre-commit-hooks = ">=4.1.0"
+pre-commit = "*"
 ruff = ">=0.0.284"
-pytest = ">=6.2.5"
+pytest = ">=7.1.2"
 sphinx = ">=6.2.1"
 sphinx-autobuild = ">=2021.3.14"
 sphinx-autodoc-typehints = ">=1.24.0"
@@ -35,20 +59,40 @@ sphinx-click = ">=3.0.2"
 typeguard = ">=2.13.3"
 xdoctest = { extras = ["colors"], version = ">=0.15.10" }
 myst-parser = { version = ">=0.16.1" }
+mypy = ">=0.950"
+pytest-cov = ">=3.0.0"
+nbstripout = ">=0.5.0"
+python-kacl = "*"
+pytest-mock = "*"
+deptry = ">=0.12.0"
+pandas-stubs = "*"
+pyarrow-stubs = ">=10.0.1.9"
+types-Pygments = "*"
+types-colorama = "*"
+types-setuptools = "*"
+types-beautifulsoup4 = "*"
+requests-mock = "*"
+faker = "*"
 
 [tool.pytest.ini_options]
 pythonpath = ["src"]
-
-[tool.poetry.scripts]
-dapla-toolbelt-metadata = "dapla_toolbelt_metadata.__main__:main"
 
 [tool.coverage.paths]
 source = ["src", "*/site-packages"]
 tests = ["tests", "*/tests"]
 
+# [tool.coverage.run]
+# branch = true
+# source = ["src", "tests"]
+# relative_files = true
+
 [tool.coverage.run]
 branch = true
-source = ["dapla_toolbelt_metadata", "tests"]
+source = ["src"]
+omit = [
+    "tests/*",
+    "__init__.py",
+]
 relative_files = true
 
 [tool.coverage.report]
@@ -56,11 +100,38 @@ show_missing = true
 fail_under = 80
 
 [tool.mypy]
-strict = true
+plugins = [
+    "pydantic.mypy"
+]
+strict = false
 warn_unreachable = true
 pretty = true
 show_column_numbers = true
 show_error_context = true
+
+[[tool.mypy.overrides]]
+# Allow missing type hints in third-party libraries without type information.
+module = [
+    "dapla",
+    "gcsfs",
+    "pyarrow",
+    "pyarrow.parquet",
+    "datadoc_model",
+    "datadoc_model.model",
+    "pytest_mock",
+]
+ignore_missing_imports = true
+
+# Disable specific error codes in the 'tests' package
+# Also don't require type annotations
+[[tool.mypy.overrides]]
+module = ["tests.*"]
+disable_error_code = [
+    "var-annotated",
+    "has-type",
+    "no-any-return",
+    "no-untyped-def",
+]
 
 [tool.ruff]
 force-exclude = true  # Apply excludes to pre-commit

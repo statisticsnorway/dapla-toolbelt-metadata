@@ -1,4 +1,4 @@
-from dapla_toolbelt_metadata.functions import example_function
+from src.functions import example_function
 
 
 def test_example_function() -> None:
