@@ -54,8 +54,8 @@ DAPLA_REGION = "DAPLA_REGION"
 
 DAPLA_SERVICE = "DAPLA_SERVICE"
 
-DATADOC_METADATA_MODULE = "dapla_toolbelt_metadata.dataset"
+DATADOC_METADATA_MODULE = "dataset"
 
-DATADOC_METADATA_MODULE_CORE = "dapla_toolbelt_metadata.dataset.core"
+DATADOC_METADATA_MODULE_CORE = "dataset.core"
 
-DATADOC_METADATA_MODULE_UTILS = "dapla_toolbelt_metadata.dataset.utility.utils"
+DATADOC_METADATA_MODULE_UTILS = "dataset.utility.utils"

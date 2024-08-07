@@ -1,7 +1,7 @@
 """Repository for constant values in Datadoc backend."""
 
-from dapla_toolbelt_metadata.dataset.utility.enums import LanguageStringType
-from dapla_toolbelt_metadata.dataset.utility.enums import LanguageStringTypeItem
+from dataset.utility.enums import LanguageStringType
+from dataset.utility.enums import LanguageStringTypeItem
 
 VALIDATION_ERROR = "Validation error: "
 

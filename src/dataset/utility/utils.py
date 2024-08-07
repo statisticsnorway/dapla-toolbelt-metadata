@@ -11,24 +11,18 @@ from cloudpathlib import GSPath
 from dapla import AuthClient
 from datadoc_model import model
 
-from dapla_toolbelt_metadata.dataset.utility.constants import (
-    NUM_OBLIGATORY_VARIABLES_FIELDS,
-)
-from dapla_toolbelt_metadata.dataset.utility.constants import (
-    OBLIGATORY_DATASET_METADATA_IDENTIFIERS,
-)
-from dapla_toolbelt_metadata.dataset.utility.constants import (
+from dataset.utility.constants import NUM_OBLIGATORY_VARIABLES_FIELDS
+from dataset.utility.constants import OBLIGATORY_DATASET_METADATA_IDENTIFIERS
+from dataset.utility.constants import (
     OBLIGATORY_DATASET_METADATA_IDENTIFIERS_MULTILANGUAGE,
 )
-from dapla_toolbelt_metadata.dataset.utility.constants import (
-    OBLIGATORY_VARIABLES_METADATA_IDENTIFIERS,
-)
-from dapla_toolbelt_metadata.dataset.utility.constants import (
+from dataset.utility.constants import OBLIGATORY_VARIABLES_METADATA_IDENTIFIERS
+from dataset.utility.constants import (
     OBLIGATORY_VARIABLES_METADATA_IDENTIFIERS_MULTILANGUAGE,
 )
-from dapla_toolbelt_metadata.dataset.utility.enums import Assessment
-from dapla_toolbelt_metadata.dataset.utility.enums import DataSetState
-from dapla_toolbelt_metadata.dataset.utility.enums import VariableRole
+from dataset.utility.enums import Assessment
+from dataset.utility.enums import DataSetState
+from dataset.utility.enums import VariableRole
 
 logger = logging.getLogger(__name__)
 

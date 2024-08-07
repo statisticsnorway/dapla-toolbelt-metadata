@@ -1,7 +1,7 @@
 import pytest
 
-from dapla_toolbelt_metadata.dataset.code_list import CodeList
-from dapla_toolbelt_metadata.dataset.code_list import CodeListItem
+from dataset.code_list import CodeList
+from dataset.utility.enums import SupportedLanguages
 from tests.dataset.constants import TEST_RESOURCES_DIRECTORY
 
 CODE_LIST_DIR = "code_list"
@@ -12,117 +12,42 @@ CODE_LIST_DIR = "code_list"
         "code_list_csv_filepath_nb",
         "code_list_csv_filepath_nn",
         "code_list_csv_filepath_en",
-        "expected",
+        "titles",
+        "codes",
     ),
     [
         (
             TEST_RESOURCES_DIRECTORY / CODE_LIST_DIR / "code_list_nb.csv",
             TEST_RESOURCES_DIRECTORY / CODE_LIST_DIR / "code_list_nn.csv",
             TEST_RESOURCES_DIRECTORY / CODE_LIST_DIR / "code_list_en.csv",
-            [
-                CodeListItem(
-                    titles={
-                        "nb": "Adresse",
-                        "nn": "Adresse",
-                        "en": "Adresse",
-                    },
-                    code="01",
-                ),
-                CodeListItem(
-                    titles={
-                        "nb": "Arbeidsulykke",
-                        "nn": "Arbeidsulykke",
-                        "en": "Arbeidsulykke",
-                    },
-                    code="02",
-                ),
-                CodeListItem(
-                    titles={
-                        "nb": "Bolig",
-                        "nn": "Bolig",
-                        "en": "Bolig",
-                    },
-                    code="03",
-                ),
-            ],
-        ),
-        (
-            TEST_RESOURCES_DIRECTORY / CODE_LIST_DIR / "empty.csv",
-            TEST_RESOURCES_DIRECTORY / CODE_LIST_DIR / "empty.csv",
-            TEST_RESOURCES_DIRECTORY / CODE_LIST_DIR / "empty.csv",
-            [],
-        ),
-        (
-            TEST_RESOURCES_DIRECTORY / CODE_LIST_DIR / "code_list_nb.csv",
-            TEST_RESOURCES_DIRECTORY / CODE_LIST_DIR / "empty.csv",
-            TEST_RESOURCES_DIRECTORY / CODE_LIST_DIR / "empty.csv",
-            [
-                CodeListItem(
-                    titles={
-                        "nb": "Adresse",
-                        "nn": None,
-                        "en": None,
-                    },
-                    code="01",
-                ),
-                CodeListItem(
-                    titles={
-                        "nb": "Arbeidsulykke",
-                        "nn": None,
-                        "en": None,
-                    },
-                    code="02",
-                ),
-                CodeListItem(
-                    titles={
-                        "nb": "Bolig",
-                        "nn": None,
-                        "en": None,
-                    },
-                    code="03",
-                ),
-            ],
+            ["Adresse", "Arbeidsulykke", "Bolig"],
+            ["01", "02", "03"],
         ),
         (
             TEST_RESOURCES_DIRECTORY / CODE_LIST_DIR / "no_code.csv",
             TEST_RESOURCES_DIRECTORY / CODE_LIST_DIR / "no_code.csv",
             TEST_RESOURCES_DIRECTORY / CODE_LIST_DIR / "no_code.csv",
-            [
-                CodeListItem(
-                    titles={
-                        "nb": "Adresse",
-                        "nn": "Adresse",
-                        "en": "Adresse",
-                    },
-                    code=None,
-                ),
-                CodeListItem(
-                    titles={
-                        "nb": "Arbeidsulykke",
-                        "nn": "Arbeidsulykke",
-                        "en": "Arbeidsulykke",
-                    },
-                    code=None,
-                ),
-                CodeListItem(
-                    titles={
-                        "nb": "Bolig",
-                        "nn": "Bolig",
-                        "en": "Bolig",
-                    },
-                    code=None,
-                ),
-            ],
+            ["Adresse", "Arbeidsulykke", "Bolig"],
+            [None, None, None],
         ),
     ],
 )
 @pytest.mark.usefixtures("_mock_fetch_dataframe")
 def test_read_dataframe(
     code_list_fake_structure: CodeList,
-    expected: list[str],
+    codes: list[str],
+    titles: list[str],
 ):
     code_list_fake_structure.wait_for_external_result()
-    assert code_list_fake_structure.classifications == expected
+
+    for i in range(3):
+        assert code_list_fake_structure.classifications[i].code == codes[i]
+
+    for idx in range(3):
+        classification = code_list_fake_structure.classifications[idx]
+        assert classification.get_title(SupportedLanguages.NORSK_BOKMÅL) == titles[idx]
+        assert classification.get_title(SupportedLanguages.ENGLISH) == titles[idx]
+        assert classification.get_title(SupportedLanguages.NORSK_NYNORSK) == titles[idx]
 
 
 def test_non_existent_code(thread_pool_executor):

@@ -4,14 +4,14 @@ import jwt
 import pytest
 from faker import Faker
 
-from dapla_toolbelt_metadata.dataset import user_info
-from dapla_toolbelt_metadata.dataset.user_info import PLACEHOLDER_EMAIL_ADDRESS
-from dapla_toolbelt_metadata.dataset.user_info import DaplaLabUserInfo
-from dapla_toolbelt_metadata.dataset.user_info import JupyterHubUserInfo
-from dapla_toolbelt_metadata.dataset.user_info import UnknownUserInfo
-from dapla_toolbelt_metadata.dataset.user_info import UserInfo
-from dapla_toolbelt_metadata.dataset.utility.enums import DaplaRegion
-from dapla_toolbelt_metadata.dataset.utility.enums import DaplaService
+from dataset import user_info
+from dataset.user_info import PLACEHOLDER_EMAIL_ADDRESS
+from dataset.user_info import DaplaLabUserInfo
+from dataset.user_info import JupyterHubUserInfo
+from dataset.user_info import UnknownUserInfo
+from dataset.user_info import UserInfo
+from dataset.utility.enums import DaplaRegion
+from dataset.utility.enums import DaplaService
 from tests.dataset.constants import DAPLA_REGION
 from tests.dataset.constants import DAPLA_SERVICE
 from tests.dataset.constants import JUPYTERHUB_USER

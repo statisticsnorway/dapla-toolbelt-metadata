@@ -2,12 +2,12 @@
 
 from __future__ import annotations
 
-import concurrent
 import copy
 import functools
 import os
 import pathlib
 import shutil
+from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime
 from datetime import timezone
 from pathlib import Path
@@ -18,12 +18,11 @@ import pytest
 from bs4 import BeautifulSoup
 from bs4 import ResultSet
 
-from dapla_toolbelt_metadata.dataset.code_list import CodeList
-from dapla_toolbelt_metadata.dataset.core import Datadoc
-from dapla_toolbelt_metadata.dataset.statistic_subject_mapping import (
-    StatisticSubjectMapping,
-)
-from dapla_toolbelt_metadata.dataset.user_info import TestUserInfo
+from dataset.code_list import CodeList
+from dataset.core import Datadoc
+from dataset.statistic_subject_mapping import StatisticSubjectMapping
+from dataset.user_info import TestUserInfo
+from dataset.utility.enums import SupportedLanguages
 from tests.dataset.constants import CODE_LIST_DIR
 from tests.dataset.constants import DATADOC_METADATA_MODULE
 from tests.dataset.constants import TEST_DATASETS_DIRECTORY
@@ -177,8 +176,8 @@ def subject_xml_file_path() -> pathlib.Path:
 
 
 @pytest.fixture()
-def thread_pool_executor() -> concurrent.futures.ThreadPoolExecutor:
-    return concurrent.futures.ThreadPoolExecutor(max_workers=12)
+def thread_pool_executor() -> ThreadPoolExecutor:
+    return ThreadPoolExecutor(max_workers=12)
 
 
 @pytest.fixture()
@@ -240,11 +239,20 @@ def _mock_fetch_dataframe(
     code_list_csv_filepath_nn: pathlib.Path,
     code_list_csv_filepath_en: pathlib.Path,
 ) -> None:
-    def fake_code_list() -> dict[str, pd.DataFrame]:
+    def fake_code_list() -> dict[SupportedLanguages, pd.DataFrame]:
         return {
-            "nb": pd.read_csv(code_list_csv_filepath_nb, converters={"code": str}),
-            "nn": pd.read_csv(code_list_csv_filepath_nn, converters={"code": str}),
-            "en": pd.read_csv(code_list_csv_filepath_en, converters={"code": str}),
+            SupportedLanguages.NORSK_BOKMÅL: pd.read_csv(
+                code_list_csv_filepath_nb,
+                converters={"code": str},
+            ),
+            SupportedLanguages.NORSK_NYNORSK: pd.read_csv(
+                code_list_csv_filepath_nn,
+                converters={"code": str},
+            ),
+            SupportedLanguages.ENGLISH: pd.read_csv(
+                code_list_csv_filepath_en,
+                converters={"code": str},
+            ),
         }
 
     mocker.patch(

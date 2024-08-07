@@ -15,8 +15,8 @@ from typing import Literal
 import arrow
 from cloudpathlib import GSPath
 
-from dapla_toolbelt_metadata.dataset.utility.enums import DataSetState
-from dapla_toolbelt_metadata.dataset.utility.enums import SupportedLanguages
+from dataset.utility.enums import DataSetState
+from dataset.utility.enums import SupportedLanguages
 
 if TYPE_CHECKING:
     import datetime

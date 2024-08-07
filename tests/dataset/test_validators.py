@@ -12,15 +12,13 @@ import pytest
 from datadoc_model import model
 from pydantic import ValidationError
 
-from dapla_toolbelt_metadata.dataset.model_validation import ObligatoryDatasetWarning
-from dapla_toolbelt_metadata.dataset.model_validation import ObligatoryVariableWarning
-from dapla_toolbelt_metadata.dataset.utility.constants import (
-    OBLIGATORY_METADATA_WARNING,
-)
-from dapla_toolbelt_metadata.dataset.utility.enums import TemporalityTypeType
+from dataset.model_validation import ObligatoryDatasetWarning
+from dataset.model_validation import ObligatoryVariableWarning
+from dataset.utility.constants import OBLIGATORY_METADATA_WARNING
+from dataset.utility.enums import TemporalityTypeType
 
 if TYPE_CHECKING:
-    from dapla_toolbelt_metadata.dataset.core import Datadoc
+    from dataset.core import Datadoc
 
 
 @pytest.mark.parametrize(

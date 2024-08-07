@@ -10,6 +10,7 @@ import re
 import typing as t
 from abc import ABC
 from abc import abstractmethod
+from typing import TYPE_CHECKING
 
 import pandas as pd
 from datadoc_model.model import LanguageStringType
@@ -17,10 +18,10 @@ from datadoc_model.model import LanguageStringTypeItem
 from datadoc_model.model import Variable
 from pyarrow import parquet as pq
 
-from dapla_toolbelt_metadata.dataset.utility.enums import DataType
-from dapla_toolbelt_metadata.dataset.utility.enums import SupportedLanguages
+from dataset.utility.enums import DataType
+from dataset.utility.enums import SupportedLanguages
 
-if t.TYPE_CHECKING:
+if TYPE_CHECKING:
     import pyarrow as pa
     from cloudpathlib import CloudPath
 

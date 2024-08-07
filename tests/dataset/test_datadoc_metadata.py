@@ -19,23 +19,19 @@ from datadoc_model.model import DatadocMetadata
 from datadoc_model.model import Dataset
 from datadoc_model.model import Variable
 
-from dapla_toolbelt_metadata.dataset.core import Datadoc
-from dapla_toolbelt_metadata.dataset.core import InconsistentDatasetsError
-from dapla_toolbelt_metadata.dataset.core import InconsistentDatasetsWarning
-from dapla_toolbelt_metadata.dataset.statistic_subject_mapping import (
-    StatisticSubjectMapping,
-)
-from dapla_toolbelt_metadata.dataset.user_info import PLACEHOLDER_EMAIL_ADDRESS
-from dapla_toolbelt_metadata.dataset.user_info import TestUserInfo
-from dapla_toolbelt_metadata.dataset.utility.constants import (
-    DATASET_FIELDS_FROM_EXISTING_METADATA,
-)
-from dapla_toolbelt_metadata.dataset.utility.enums import Assessment
-from dapla_toolbelt_metadata.dataset.utility.enums import DataSetState
-from dapla_toolbelt_metadata.dataset.utility.enums import DataSetStatus
-from dapla_toolbelt_metadata.dataset.utility.enums import DataType
-from dapla_toolbelt_metadata.dataset.utility.enums import IsPersonalData
-from dapla_toolbelt_metadata.dataset.utility.enums import VariableRole
+from dataset.core import Datadoc
+from dataset.core import InconsistentDatasetsError
+from dataset.core import InconsistentDatasetsWarning
+from dataset.statistic_subject_mapping import StatisticSubjectMapping
+from dataset.user_info import PLACEHOLDER_EMAIL_ADDRESS
+from dataset.user_info import TestUserInfo
+from dataset.utility.constants import DATASET_FIELDS_FROM_EXISTING_METADATA
+from dataset.utility.enums import Assessment
+from dataset.utility.enums import DataSetState
+from dataset.utility.enums import DataSetStatus
+from dataset.utility.enums import DataType
+from dataset.utility.enums import IsPersonalData
+from dataset.utility.enums import VariableRole
 from tests.dataset.constants import DATADOC_METADATA_MODULE_CORE
 from tests.dataset.constants import TEST_BUCKET_NAMING_STANDARD_COMPATIBLE_PATH
 from tests.dataset.constants import TEST_DATASETS_DIRECTORY

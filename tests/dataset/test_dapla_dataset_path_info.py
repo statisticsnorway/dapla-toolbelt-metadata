@@ -6,12 +6,12 @@ from typing import TYPE_CHECKING
 
 import pytest
 
-from dapla_toolbelt_metadata.dataset.dapla_dataset_path_info import ISO_YEAR
-from dapla_toolbelt_metadata.dataset.dapla_dataset_path_info import ISO_YEAR_MONTH
-from dapla_toolbelt_metadata.dataset.dapla_dataset_path_info import ISO_YEAR_MONTH_DAY
-from dapla_toolbelt_metadata.dataset.dapla_dataset_path_info import SSB_BIMESTER
-from dapla_toolbelt_metadata.dataset.dapla_dataset_path_info import DaplaDatasetPathInfo
-from dapla_toolbelt_metadata.dataset.utility.enums import DataSetState
+from dataset.dapla_dataset_path_info import ISO_YEAR
+from dataset.dapla_dataset_path_info import ISO_YEAR_MONTH
+from dataset.dapla_dataset_path_info import ISO_YEAR_MONTH_DAY
+from dataset.dapla_dataset_path_info import SSB_BIMESTER
+from dataset.dapla_dataset_path_info import DaplaDatasetPathInfo
+from dataset.utility.enums import DataSetState
 from tests.dataset.constants import TEST_BUCKET_PARQUET_FILEPATH_WITH_SHORTNAME
 from tests.dataset.constants import TEST_PARQUET_FILEPATH
 

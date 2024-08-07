@@ -8,7 +8,7 @@ from typing import Generic
 from typing import TypeVar
 
 if TYPE_CHECKING:
-    import concurrent.futures
+    from concurrent.futures import ThreadPoolExecutor
 
 logger = logging.getLogger(__name__)
 
@@ -24,7 +24,7 @@ class GetExternalSource(ABC, Generic[T]):
     method to define how data is fetched from the specific external source.
     """
 
-    def __init__(self, executor: concurrent.futures.ThreadPoolExecutor) -> None:
+    def __init__(self, executor: ThreadPoolExecutor) -> None:
         """Initialize the GetExternalSource with an executor to manage asynchronous tasks.
 
         This constructor initializes a future object that will hold the result of the

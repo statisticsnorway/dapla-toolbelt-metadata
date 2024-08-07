@@ -4,16 +4,13 @@ import logging
 from dataclasses import dataclass
 from typing import TYPE_CHECKING
 
-from dapla_toolbelt_metadata.dataset.external_sources.external_sources import (
-    GetExternalSource,
-)
-from dapla_toolbelt_metadata.dataset.utility.enums import SupportedLanguages
+from dataset.external_sources.external_sources import GetExternalSource
+from dataset.utility.enums import SupportedLanguages
 
 if TYPE_CHECKING:
-    import concurrent
+    from concurrent.futures import ThreadPoolExecutor
 
     import pandas as pd
-
 from klass.classes.classification import KlassClassification
 
 logger = logging.getLogger(__name__)
@@ -28,7 +25,7 @@ class CodeListItem:
         code: The code associated with the item.
     """
 
-    titles: dict[str, str]
+    titles: dict[SupportedLanguages, str]
     code: str
 
     def get_title(self, language: SupportedLanguages) -> str:
@@ -49,13 +46,13 @@ class CodeListItem:
             try:
                 return self.titles[
                     (
-                        "nb"
+                        SupportedLanguages.NORSK_BOKMÅL
                         if language
                         in [
                             SupportedLanguages.NORSK_BOKMÅL,
                             SupportedLanguages.NORSK_NYNORSK,
                         ]
-                        else "en"
+                        else SupportedLanguages.ENGLISH
                     )
                 ]
             except KeyError:
@@ -83,7 +80,7 @@ class CodeList(GetExternalSource):
 
     def __init__(
         self,
-        executor: concurrent.futures.ThreadPoolExecutor,
+        executor: ThreadPoolExecutor,
         classification_id: int | None,
     ) -> None:
         """Initialize the CodeList with the given classification ID and executor.
@@ -94,17 +91,19 @@ class CodeList(GetExternalSource):
             classification_id: The ID of the classification to retrieve.
         """
         self.supported_languages = [
-            SupportedLanguages.NORSK_BOKMÅL.value,
-            SupportedLanguages.ENGLISH.value,
+            SupportedLanguages.NORSK_BOKMÅL,
+            SupportedLanguages.ENGLISH,
         ]
         self._classifications: list[CodeListItem] = []
         self.classification_id = classification_id
-        self.classifications_dataframes: dict[str, pd.DataFrame] | None = None
+        self.classifications_dataframes: (
+            dict[SupportedLanguages, pd.DataFrame] | None
+        ) = None
         super().__init__(executor)
 
     def _fetch_data_from_external_source(
         self,
-    ) -> dict[str, pd.DataFrame] | None:
+    ) -> dict[SupportedLanguages, pd.DataFrame] | None:
         """Fetch the classifications from Klass by classification ID.
 
         This method retrieves classification data for each supported language and
@@ -117,7 +116,7 @@ class CodeList(GetExternalSource):
             If an exception occurs during the fetching process, logs the exception
             and returns None.
         """
-        classifications_dataframes = {}
+        classifications_dataframes: dict[SupportedLanguages, pd.DataFrame] = {}
         for i in self.supported_languages:
             try:
                 classifications_dataframes[i] = (
@@ -140,7 +139,7 @@ class CodeList(GetExternalSource):
     def _extract_titles(
         self,
         dataframes: dict[SupportedLanguages, pd.DataFrame],
-    ) -> list[dict[str, str]]:
+    ) -> list[dict[SupportedLanguages, str]]:
         """Extract titles from the dataframes for each supported language.
 
         This method processes the provided dataframes and extracts the title from
@@ -162,9 +161,9 @@ class CodeList(GetExternalSource):
             titles = {}
             for j in languages:
                 if "name" in dataframes[j]:
-                    titles[str(j)] = dataframes[j].loc[:, "name"][i]
+                    titles[j] = dataframes[j].loc[:, "name"][i]
                 else:
-                    titles[str(j)] = None
+                    titles[j] = None
             list_of_titles.append(titles)
         return list_of_titles
 
@@ -201,6 +200,7 @@ class CodeList(GetExternalSource):
             classification_items.append(
                 CodeListItem(a, b),
             )
+
         return classification_items
 
     def _get_classification_dataframe_if_loaded(self) -> bool:
@@ -239,5 +239,6 @@ class CodeList(GetExternalSource):
             A list of CodeListItem objects.
         """
         self._get_classification_dataframe_if_loaded()
+
         logger.debug("Got %s classifications subjects", len(self._classifications))
         return self._classifications

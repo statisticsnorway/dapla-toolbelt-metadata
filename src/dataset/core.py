@@ -2,59 +2,39 @@
 
 from __future__ import annotations
 
-import concurrent
 import copy
 import json
 import logging
 import warnings
+from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 from typing import TYPE_CHECKING
 
 from datadoc_model import model
 
-from dapla_toolbelt_metadata.dataset import config
-from dapla_toolbelt_metadata.dataset import user_info
-from dapla_toolbelt_metadata.dataset.dapla_dataset_path_info import DaplaDatasetPathInfo
-from dapla_toolbelt_metadata.dataset.dataset_parser import DatasetParser
-from dapla_toolbelt_metadata.dataset.model_backwards_compatibility import (
-    is_metadata_in_container_structure,
-)
-from dapla_toolbelt_metadata.dataset.model_backwards_compatibility import (
-    upgrade_metadata,
-)
-from dapla_toolbelt_metadata.dataset.model_validation import ValidateDatadocMetadata
-from dapla_toolbelt_metadata.dataset.statistic_subject_mapping import (
-    StatisticSubjectMapping,
-)
-from dapla_toolbelt_metadata.dataset.utility.constants import (
-    DATASET_FIELDS_FROM_EXISTING_METADATA,
-)
-from dapla_toolbelt_metadata.dataset.utility.constants import (
-    DEFAULT_SPATIAL_COVERAGE_DESCRIPTION,
-)
-from dapla_toolbelt_metadata.dataset.utility.constants import INCONSISTENCIES_MESSAGE
-from dapla_toolbelt_metadata.dataset.utility.constants import (
-    METADATA_DOCUMENT_FILE_SUFFIX,
-)
-from dapla_toolbelt_metadata.dataset.utility.constants import (
-    NUM_OBLIGATORY_DATASET_FIELDS,
-)
-from dapla_toolbelt_metadata.dataset.utility.constants import (
-    NUM_OBLIGATORY_VARIABLES_FIELDS,
-)
-from dapla_toolbelt_metadata.dataset.utility.enums import DataSetStatus
-from dapla_toolbelt_metadata.dataset.utility.utils import calculate_percentage
-from dapla_toolbelt_metadata.dataset.utility.utils import derive_assessment_from_state
-from dapla_toolbelt_metadata.dataset.utility.utils import get_timestamp_now
-from dapla_toolbelt_metadata.dataset.utility.utils import normalize_path
-from dapla_toolbelt_metadata.dataset.utility.utils import (
-    num_obligatory_dataset_fields_completed,
-)
-from dapla_toolbelt_metadata.dataset.utility.utils import (
-    num_obligatory_variables_fields_completed,
-)
-from dapla_toolbelt_metadata.dataset.utility.utils import set_default_values_dataset
-from dapla_toolbelt_metadata.dataset.utility.utils import set_default_values_variables
+from dataset import config
+from dataset import user_info
+from dataset.dapla_dataset_path_info import DaplaDatasetPathInfo
+from dataset.dataset_parser import DatasetParser
+from dataset.model_backwards_compatibility import is_metadata_in_container_structure
+from dataset.model_backwards_compatibility import upgrade_metadata
+from dataset.model_validation import ValidateDatadocMetadata
+from dataset.statistic_subject_mapping import StatisticSubjectMapping
+from dataset.utility.constants import DATASET_FIELDS_FROM_EXISTING_METADATA
+from dataset.utility.constants import DEFAULT_SPATIAL_COVERAGE_DESCRIPTION
+from dataset.utility.constants import INCONSISTENCIES_MESSAGE
+from dataset.utility.constants import METADATA_DOCUMENT_FILE_SUFFIX
+from dataset.utility.constants import NUM_OBLIGATORY_DATASET_FIELDS
+from dataset.utility.constants import NUM_OBLIGATORY_VARIABLES_FIELDS
+from dataset.utility.enums import DataSetStatus
+from dataset.utility.utils import calculate_percentage
+from dataset.utility.utils import derive_assessment_from_state
+from dataset.utility.utils import get_timestamp_now
+from dataset.utility.utils import normalize_path
+from dataset.utility.utils import num_obligatory_dataset_fields_completed
+from dataset.utility.utils import num_obligatory_variables_fields_completed
+from dataset.utility.utils import set_default_values_dataset
+from dataset.utility.utils import set_default_values_variables
 
 if TYPE_CHECKING:
     import pathlib
@@ -435,7 +415,7 @@ class Datadoc:
             The code for the statistical subject or None if we couldn't map to one.
         """
         if self._statistic_subject_mapping is None:
-            with concurrent.futures.ThreadPoolExecutor(max_workers=12) as executor:
+            with ThreadPoolExecutor(max_workers=12) as executor:
                 return StatisticSubjectMapping(
                     executor,
                     config.get_statistical_subject_source_url(),

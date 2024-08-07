@@ -11,8 +11,8 @@ from typing import Literal
 from dotenv import dotenv_values
 from dotenv import load_dotenv
 
-from dapla_toolbelt_metadata.dataset.utility.enums import DaplaRegion
-from dapla_toolbelt_metadata.dataset.utility.enums import DaplaService
+from dataset.utility.enums import DaplaRegion
+from dataset.utility.enums import DaplaService
 
 logging.basicConfig(level=logging.DEBUG, force=True)
 
