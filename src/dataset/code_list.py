@@ -10,7 +10,7 @@ from dataset.utility.enums import SupportedLanguages
 if TYPE_CHECKING:
     from concurrent.futures import ThreadPoolExecutor
 
-import pandas as pd
+    import pandas as pd
 from klass.classes.classification import KlassClassification
 
 logger = logging.getLogger(__name__)
