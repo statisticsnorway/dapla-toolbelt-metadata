@@ -12,14 +12,97 @@ delete the .rst file afterwards.
 -->
 
 ```{eval-rst}
-dapla\_toolbelt\_metadata package
-=============================================================================
+dataset package
+===================
 
+Subpackages
+-----------
 
-dapla\_toolbelt\_metadata.functions module
------------------------------------------------------------------------------
+.. toctree::
+   :maxdepth: 4
 
-.. automodule:: dapla_toolbelt_metadata.functions
+   dataset.external_sources
+   dataset.utility
+
+Submodules
+----------
+
+dataset.code\_list module
+-----------------------------
+
+.. automodule:: dataset.code_list
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+dataset.config module
+-------------------------
+
+.. automodule:: dataset.config
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+dataset.core module
+-----------------------
+
+.. automodule:: dataset.core
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+dataset.dapla\_dataset\_path\_info module
+---------------------------------------------
+
+.. automodule:: dataset.dapla_dataset_path_info
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+dataset.dataset\_parser module
+----------------------------------
+
+.. automodule:: src.dataset.dataset_parser
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+dataset.model\_backwards\_compatibility module
+--------------------------------------------------
+
+.. automodule:: dataset.model_backwards_compatibility
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+dataset.model\_validation module
+------------------------------------
+
+.. automodule:: dataset.model_validation
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+dataset.statistic\_subject\_mapping module
+----------------------------------------------
+
+.. automodule:: dataset.statistic_subject_mapping
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+dataset.user\_info module
+-----------------------------
+
+.. automodule:: dataset.user_info
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: dataset
    :members:
    :undoc-members:
    :show-inheritance:
