@@ -46,13 +46,13 @@ class CodeListItem:
             try:
                 return self.titles[
                     (
-                        "nb"
+                        SupportedLanguages.NORSK_BOKMÅL
                         if language
                         in [
                             SupportedLanguages.NORSK_BOKMÅL,
                             SupportedLanguages.NORSK_NYNORSK,
                         ]
-                        else "en"
+                        else SupportedLanguages.ENGLISH
                     )
                 ]
             except KeyError:

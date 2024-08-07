@@ -1,7 +1,7 @@
 import pytest
-from src.dataset.utility.enums import SupportedLanguages
 
 from dataset.code_list import CodeList
+from dataset.utility.enums import SupportedLanguages
 from tests.dataset.constants import TEST_RESOURCES_DIRECTORY
 
 CODE_LIST_DIR = "code_list"
@@ -43,11 +43,11 @@ def test_read_dataframe(
     for i in range(3):
         assert code_list_fake_structure.classifications[i].code == codes[i]
 
-    assert all(
-        code_list_fake_structure.classifications[i].titles[language] == titles[i]
-        for i in range(3)
-        for language in SupportedLanguages
-    )
+    for idx in range(3):
+        classification = code_list_fake_structure.classifications[idx]
+        assert classification.get_title(SupportedLanguages.NORSK_BOKMÅL) == titles[idx]
+        assert classification.get_title(SupportedLanguages.ENGLISH) == titles[idx]
+        assert classification.get_title(SupportedLanguages.NORSK_NYNORSK) == titles[idx]
 
 
 def test_non_existent_code(thread_pool_executor):
