@@ -128,7 +128,7 @@ def english_name() -> str:
 
 
 @pytest.fixture()
-def bokmål_name() -> str:  # noqa: PLC2401
+def bokmål_name() -> str:
     return "Bokmål navn"
 
 
