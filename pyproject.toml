@@ -88,7 +88,7 @@ tests = ["tests", "*/tests"]
 
 [tool.coverage.run]
 branch = true
-source = ["src"]
+source = ["dataset"]
 omit = [
     "tests/*",
     "__init__.py",
