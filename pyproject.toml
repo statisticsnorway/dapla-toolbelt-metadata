@@ -81,11 +81,6 @@ pythonpath = ["src"]
 source = ["src", "*/site-packages"]
 tests = ["tests", "*/tests"]
 
-# [tool.coverage.run]
-# branch = true
-# source = ["src", "tests"]
-# relative_files = true
-
 [tool.coverage.run]
 branch = true
 source = ["dataset"]
