@@ -7,9 +7,8 @@
 
 [![Documentation](https://github.com/statisticsnorway/dapla-toolbelt-metadata/actions/workflows/docs.yml/badge.svg)][documentation]
 [![Tests](https://github.com/statisticsnorway/dapla-toolbelt-metadata/actions/workflows/tests.yml/badge.svg)][tests]
-[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=statisticsnorway_dapla-toolbelt-metadata&metric=coverage)][sonarcov]
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=statisticsnorway_dapla-toolbelt-metadata&metric=alert_status&token=ee0a4d273db2bf811222fca5dffccd4592e3d536)](https://sonarcloud.io/summary/new_code?id=statisticsnorway_dapla-toolbelt-metadata)
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=statisticsnorway_dapla-toolbelt-metadata&metric=alert_status)][sonarquality]
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=statisticsnorway_dapla-toolbelt-metadata&metric=coverage&token=ee0a4d273db2bf811222fca5dffccd4592e3d536)][sonarcov]
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=statisticsnorway_dapla-toolbelt-metadata&metric=alert_status&token=ee0a4d273db2bf811222fca5dffccd4592e3d536)][sonarquality]
 
 [![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)][pre-commit]
 [![Black](https://img.shields.io/badge/code%20style-black-000000.svg)][black]
