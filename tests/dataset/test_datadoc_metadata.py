@@ -76,11 +76,11 @@ def test_existing_metadata_file(
 
 
 def test_metadata_document_percent_complete(metadata: Datadoc):
-    dataset = Dataset(dataset_state=DataSetState.OUTPUT_DATA)  # type: ignore  # noqa: PGH003
-    variable_1 = Variable(data_type=DataType.BOOLEAN)  # type: ignore  # noqa: PGH003
-    variable_2 = Variable(data_type=DataType.INTEGER)  # type: ignore  # noqa: PGH003
-    document = DatadocMetadata(  # type: ignore  # noqa: PGH003
-        percentage_complete=0,  # type: ignore  # noqa: PGH003
+    dataset = Dataset(dataset_state=DataSetState.OUTPUT_DATA)
+    variable_1 = Variable(data_type=DataType.BOOLEAN)
+    variable_2 = Variable(data_type=DataType.INTEGER)
+    document = DatadocMetadata(
+        percentage_complete=0,
         dataset=dataset,
         variables=[variable_1, variable_2],
     )
@@ -111,7 +111,7 @@ def test_write_metadata_document(
     assert (
         # Use our pydantic model to read in the datetime string so we get the correct format
         Dataset(
-            metadata_created_date=datadoc_metadata["metadata_created_date"],  # type: ignore  # noqa: PGH003
+            metadata_created_date=datadoc_metadata["metadata_created_date"],
         ).metadata_created_date
         == dummy_timestamp
     )
@@ -119,7 +119,7 @@ def test_write_metadata_document(
     assert (
         # Use our pydantic model to read in the datetime string so we get the correct format
         Dataset(
-            metadata_last_updated_date=datadoc_metadata["metadata_last_updated_date"],  # type: ignore  # noqa: PGH003
+            metadata_last_updated_date=datadoc_metadata["metadata_last_updated_date"],
         ).metadata_last_updated_date
         == dummy_timestamp
     )
@@ -347,7 +347,7 @@ def test_extract_subject_field_value_from_statistic_structure_xml(
         str(copy_dataset_to_path),
         statistic_subject_mapping=subject_mapping_fake_statistical_structure,
     )
-    assert metadata.dataset.subject_field == expected_subject_code  # type: ignore [union-attr]
+    assert metadata.dataset.subject_field == expected_subject_code
 
 
 @pytest.mark.parametrize(
@@ -609,8 +609,8 @@ def test_check_ready_to_merge_consistent_paths(
         Datadoc._check_ready_to_merge(  # noqa: SLF001
             Path(new_dataset_path),
             Path(existing_dataset_path),
-            DatadocMetadata(variables=[]),  # type: ignore  # noqa: PGH003
-            DatadocMetadata(variables=[]),  # type: ignore  # noqa: PGH003
+            DatadocMetadata(variables=[]),
+            DatadocMetadata(variables=[]),
             errors_as_warnings=errors_as_warnings,
         )
 
@@ -661,8 +661,8 @@ def test_check_ready_to_merge_inconsistent_paths(
         Datadoc._check_ready_to_merge(  # noqa: SLF001
             Path(new_dataset_path),
             Path(existing_dataset_path),
-            DatadocMetadata(variables=[]),  # type: ignore  # noqa: PGH003
-            DatadocMetadata(variables=[]),  # type: ignore  # noqa: PGH003
+            DatadocMetadata(variables=[]),
+            DatadocMetadata(variables=[]),
             errors_as_warnings=errors_as_warnings,
         )
 
@@ -714,11 +714,11 @@ def test_check_ready_to_merge_inconsistent_variable_names(
         Datadoc._check_ready_to_merge(  # noqa: SLF001
             Path(TEST_BUCKET_NAMING_STANDARD_COMPATIBLE_PATH),
             Path(TEST_BUCKET_NAMING_STANDARD_COMPATIBLE_PATH),
-            DatadocMetadata(  # type: ignore  # noqa: PGH003
-                variables=[Variable(short_name=name) for name in extracted_variables],  # type: ignore  # noqa: PGH003
+            DatadocMetadata(
+                variables=[Variable(short_name=name) for name in extracted_variables],
             ),
-            DatadocMetadata(  # type: ignore  # noqa: PGH003
-                variables=[Variable(short_name=name) for name in existing_variables],  # type: ignore  # noqa: PGH003
+            DatadocMetadata(
+                variables=[Variable(short_name=name) for name in existing_variables],
             ),
             errors_as_warnings=errors_as_warnings,
         )
@@ -740,7 +740,7 @@ def test_check_ready_to_merge_consistent_variables(
             Path(TEST_BUCKET_NAMING_STANDARD_COMPATIBLE_PATH),
             DatadocMetadata(
                 variables=[
-                    Variable(short_name=name, data_type=data_type)  # type: ignore  # noqa: PGH003
+                    Variable(short_name=name, data_type=data_type)
                     for name, data_type in zip(
                         VARIABLE_SHORT_NAMES,
                         VARIABLE_DATA_TYPES,
@@ -750,7 +750,7 @@ def test_check_ready_to_merge_consistent_variables(
             ),
             DatadocMetadata(
                 variables=[
-                    Variable(short_name=name, data_type=data_type)  # type: ignore  # noqa: PGH003
+                    Variable(short_name=name, data_type=data_type)
                     for name, data_type in zip(
                         VARIABLE_SHORT_NAMES,
                         VARIABLE_DATA_TYPES,
@@ -780,7 +780,7 @@ def test_check_ready_to_merge_inconsistent_variable_data_types(
             Path(TEST_BUCKET_NAMING_STANDARD_COMPATIBLE_PATH),
             DatadocMetadata(
                 variables=[
-                    Variable(short_name=name, data_type=data_type)  # type: ignore  # noqa: PGH003
+                    Variable(short_name=name, data_type=data_type)
                     for name, data_type in zip(
                         VARIABLE_SHORT_NAMES,
                         VARIABLE_DATA_TYPES[:-1] + [DataType.BOOLEAN],
@@ -790,7 +790,7 @@ def test_check_ready_to_merge_inconsistent_variable_data_types(
             ),
             DatadocMetadata(
                 variables=[
-                    Variable(short_name=name, data_type=data_type)  # type: ignore  # noqa: PGH003
+                    Variable(short_name=name, data_type=data_type)
                     for name, data_type in zip(
                         VARIABLE_SHORT_NAMES,
                         VARIABLE_DATA_TYPES,
