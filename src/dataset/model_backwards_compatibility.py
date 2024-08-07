@@ -254,7 +254,7 @@ def handle_version_3_1_0(supplied_metadata: dict[str, Any]) -> dict[str, Any]:
     Returns:
         The updated metadata dictionary.
     """
-    data: list = supplied_metadata["datadoc"]["dataset"]["data_source"]
+    data = supplied_metadata["datadoc"]["dataset"]["data_source"]
 
     if data is not None:
         supplied_metadata["datadoc"]["dataset"]["data_source"] = str(
