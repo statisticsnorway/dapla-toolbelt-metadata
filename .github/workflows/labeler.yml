@@ -1,5 +1,5 @@
 name: Labeler
-# force rerun because workflow is stuck in queue
+
 on:
   push:
     branches:
