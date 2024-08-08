@@ -16,7 +16,8 @@
 [![Poetry](https://img.shields.io/endpoint?url=https://python-poetry.org/badge/v0.json)][poetry]
 
 [pypi status]: https://pypi.org/project/dapla-toolbelt-metadata/
-[documentation]: https://statisticsnorway.github.io/dapla-toolbelt-metadata
+[documentation]: https://automatic-waddle-8q9p26e.pages.github.io/
+<!-- [documentation]: https://statisticsnorway.github.io/dapla-toolbelt-metadata -->
 [tests]: https://github.com/statisticsnorway/dapla-toolbelt-metadata/actions?workflow=Tests
 
 [sonarcov]: https://sonarcloud.io/summary/overall?id=statisticsnorway_dapla-toolbelt-metadata
