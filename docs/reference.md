@@ -15,15 +15,6 @@ delete the .rst file afterwards.
 dataset package
 ===================
 
-Subpackages
------------
-
-.. toctree::
-   :maxdepth: 4
-
-   dataset.external_sources
-   dataset.utility
-
 Submodules
 ----------
 
