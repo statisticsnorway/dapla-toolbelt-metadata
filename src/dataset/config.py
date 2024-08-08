@@ -1,4 +1,4 @@
-"""Configuration management for Datadoc package."""
+"""Configuration management for dataset package."""
 
 from __future__ import annotations
 
