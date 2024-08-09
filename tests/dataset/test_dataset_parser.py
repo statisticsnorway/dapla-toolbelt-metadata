@@ -5,6 +5,7 @@ import pathlib
 
 import pandas as pd
 import pytest
+from datadoc_model.model import DataType
 from datadoc_model.model import LanguageStringType
 from datadoc_model.model import LanguageStringTypeItem
 from datadoc_model.model import Variable
@@ -16,7 +17,6 @@ from dataset.dataset_parser import KNOWN_INTEGER_TYPES
 from dataset.dataset_parser import KNOWN_STRING_TYPES
 from dataset.dataset_parser import DatasetParser
 from dataset.dataset_parser import DatasetParserParquet
-from dataset.utility.enums import DataType
 from tests.dataset.constants import TEST_PARQUET_FILEPATH
 from tests.dataset.constants import TEST_PARQUET_GZIP_FILEPATH
 from tests.dataset.constants import TEST_SAS7BDAT_FILEPATH

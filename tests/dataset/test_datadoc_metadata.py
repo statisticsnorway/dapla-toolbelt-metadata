@@ -15,9 +15,14 @@ from uuid import UUID
 
 import arrow
 import pytest
+from datadoc_model.model import Assessment
 from datadoc_model.model import DatadocMetadata
 from datadoc_model.model import Dataset
+from datadoc_model.model import DataSetStatus
+from datadoc_model.model import DataType
+from datadoc_model.model import IsPersonalData
 from datadoc_model.model import Variable
+from datadoc_model.model import VariableRole
 
 from dataset.core import Datadoc
 from dataset.core import InconsistentDatasetsError
@@ -26,12 +31,7 @@ from dataset.statistic_subject_mapping import StatisticSubjectMapping
 from dataset.user_info import PLACEHOLDER_EMAIL_ADDRESS
 from dataset.user_info import TestUserInfo
 from dataset.utility.constants import DATASET_FIELDS_FROM_EXISTING_METADATA
-from dataset.utility.enums import Assessment
 from dataset.utility.enums import DataSetState
-from dataset.utility.enums import DataSetStatus
-from dataset.utility.enums import DataType
-from dataset.utility.enums import IsPersonalData
-from dataset.utility.enums import VariableRole
 from tests.dataset.constants import DATADOC_METADATA_MODULE_CORE
 from tests.dataset.constants import TEST_BUCKET_NAMING_STANDARD_COMPATIBLE_PATH
 from tests.dataset.constants import TEST_DATASETS_DIRECTORY

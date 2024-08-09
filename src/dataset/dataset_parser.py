@@ -13,12 +13,12 @@ from abc import abstractmethod
 from typing import TYPE_CHECKING
 
 import pandas as pd
+from datadoc_model.model import DataType
 from datadoc_model.model import LanguageStringType
 from datadoc_model.model import LanguageStringTypeItem
 from datadoc_model.model import Variable
 from pyarrow import parquet as pq
 
-from dataset.utility.enums import DataType
 from dataset.utility.enums import SupportedLanguages
 
 if TYPE_CHECKING:

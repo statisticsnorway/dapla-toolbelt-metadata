@@ -10,12 +10,12 @@ from typing import TYPE_CHECKING
 import datadoc_model
 import pytest
 from datadoc_model import model
+from datadoc_model.model import TemporalityTypeType
 from pydantic import ValidationError
 
 from dataset.model_validation import ObligatoryDatasetWarning
 from dataset.model_validation import ObligatoryVariableWarning
 from dataset.utility.constants import OBLIGATORY_METADATA_WARNING
-from dataset.utility.enums import TemporalityTypeType
 
 if TYPE_CHECKING:
     from dataset.core import Datadoc

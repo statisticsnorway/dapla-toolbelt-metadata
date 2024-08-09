@@ -1,7 +1,7 @@
 """Repository for constant values in Datadoc backend."""
 
-from dataset.utility.enums import LanguageStringType
-from dataset.utility.enums import LanguageStringTypeItem
+from datadoc_model.model import LanguageStringType
+from datadoc_model.model import LanguageStringTypeItem
 
 VALIDATION_ERROR = "Validation error: "
 

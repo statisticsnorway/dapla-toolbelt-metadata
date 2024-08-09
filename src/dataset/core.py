@@ -11,6 +11,7 @@ from pathlib import Path
 from typing import TYPE_CHECKING
 
 from datadoc_model import model
+from datadoc_model.model import DataSetStatus
 
 from dataset import config
 from dataset import user_info
@@ -26,7 +27,6 @@ from dataset.utility.constants import INCONSISTENCIES_MESSAGE
 from dataset.utility.constants import METADATA_DOCUMENT_FILE_SUFFIX
 from dataset.utility.constants import NUM_OBLIGATORY_DATASET_FIELDS
 from dataset.utility.constants import NUM_OBLIGATORY_VARIABLES_FIELDS
-from dataset.utility.enums import DataSetStatus
 from dataset.utility.utils import calculate_percentage
 from dataset.utility.utils import derive_assessment_from_state
 from dataset.utility.utils import get_timestamp_now

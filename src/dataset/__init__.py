@@ -1,6 +1,7 @@
 """Document dataset."""
 
 from datadoc_model import model
+from datadoc_model.model import *  # noqa: F403
 
 from .core import Datadoc
 from .dapla_dataset_path_info import DaplaDatasetPathInfo
