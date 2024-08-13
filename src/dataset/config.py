@@ -50,7 +50,8 @@ def get_jupyterhub_user() -> str | None:
     """Get the JupyterHub user name."""
     return _get_config_item(JUPYTERHUB_USER)
 
-#remove?
+
+# remove?
 def get_log_level() -> int:
     """Get the log level."""
     # Magic numbers as defined in Python's stdlib logging
@@ -70,7 +71,7 @@ def get_log_level() -> int:
         return log_levels["INFO"]
 
 
-#remove?
+# remove?
 def get_log_formatter() -> Literal["simple", "json"]:
     """Get log formatter configuration."""
     if (
@@ -81,20 +82,15 @@ def get_log_formatter() -> Literal["simple", "json"]:
     return "simple"
 
 
-#remove?
+# remove?
 def get_jupyterhub_service_prefix() -> str | None:
     """Get the JupyterHub service prefix."""
     return _get_config_item("JUPYTERHUB_SERVICE_PREFIX")
 
+
 def get_jupyterhub_http_referrer() -> str | None:
     """Get the JupyterHub http referrer."""
     return _get_config_item("JUPYTERHUB_HTTP_REFERER")
-
-
-def get_port() -> int:
-    """Get the port to run the app on."""
-    return int(_get_config_item("DATADOC_PORT") or 7002)
-
 
 def get_statistical_subject_source_url() -> str | None:
     """Get the URL to the statistical subject source."""
