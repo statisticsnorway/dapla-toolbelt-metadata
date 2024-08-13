@@ -86,12 +86,6 @@ def get_jupyterhub_service_prefix() -> str | None:
     """Get the JupyterHub service prefix."""
     return _get_config_item("JUPYTERHUB_SERVICE_PREFIX")
 
-#remove?
-def get_app_name() -> str:
-    """Get the name of the app. Defaults to 'Datadoc'."""
-    return _get_config_item("DATADOC_APP_NAME") or "Datadoc"
-
-
 def get_jupyterhub_http_referrer() -> str | None:
     """Get the JupyterHub http referrer."""
     return _get_config_item("JUPYTERHUB_HTTP_REFERER")
