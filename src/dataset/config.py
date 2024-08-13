@@ -6,7 +6,6 @@ import logging
 import os
 from pathlib import Path
 from pprint import pformat
-from typing import Literal
 
 from dotenv import dotenv_values
 from dotenv import load_dotenv
@@ -50,15 +49,6 @@ def get_jupyterhub_user() -> str | None:
     """Get the JupyterHub user name."""
     return _get_config_item(JUPYTERHUB_USER)
 
-# remove?
-def get_jupyterhub_service_prefix() -> str | None:
-    """Get the JupyterHub service prefix."""
-    return _get_config_item("JUPYTERHUB_SERVICE_PREFIX")
-
-
-def get_jupyterhub_http_referrer() -> str | None:
-    """Get the JupyterHub http referrer."""
-    return _get_config_item("JUPYTERHUB_HTTP_REFERER")
 
 def get_statistical_subject_source_url() -> str | None:
     """Get the URL to the statistical subject source."""
