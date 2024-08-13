@@ -11,6 +11,7 @@ from cloudpathlib import GSPath
 from dapla import AuthClient
 from datadoc_model import model
 from datadoc_model.model import Assessment
+from datadoc_model.model import DataSetState
 from datadoc_model.model import VariableRole
 
 from dataset.utility.constants import NUM_OBLIGATORY_VARIABLES_FIELDS
@@ -22,7 +23,6 @@ from dataset.utility.constants import OBLIGATORY_VARIABLES_METADATA_IDENTIFIERS
 from dataset.utility.constants import (
     OBLIGATORY_VARIABLES_METADATA_IDENTIFIERS_MULTILANGUAGE,
 )
-from dataset.utility.enums import DataSetState
 
 logger = logging.getLogger(__name__)
 

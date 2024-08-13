@@ -14,9 +14,7 @@ from typing import Literal
 
 import arrow
 from cloudpathlib import GSPath
-
-from dataset.utility.enums import DataSetState
-from dataset.utility.enums import SupportedLanguages
+from datadoc_model.model import DataSetState
 
 if TYPE_CHECKING:
     import datetime
@@ -451,17 +449,18 @@ class DaplaDatasetPathInfo:
         Returns:
             A set of variations of the Norwegian dataset state path part.
         """
-        norwegian_dataset_state_path_part = dataset_state.get_value_for_language(
-            SupportedLanguages.NORSK_BOKMÅL,
-        )
-        if norwegian_dataset_state_path_part is not None:
-            norwegian_dataset_state_path_part = (
-                norwegian_dataset_state_path_part.lower()
-            )
-            return_value = {
-                norwegian_dataset_state_path_part.replace(" ", x) for x in ["-", "_"]
-            }
-        return return_value
+        norwegian_mappings = {
+            "SOURCE_DATA": "kildedata",
+            "INPUT_DATA": "inndata",
+            "PROCESSED_DATA": "klargjorte_data",
+            "STATISTICS": "statistikk",
+            "OUTPUT_DATA": "utdata",
+        }
+        norwegian_state = norwegian_mappings.get(dataset_state.name)
+        if norwegian_state:
+            state_name = norwegian_state.lower().replace("_", " ")
+            return {state_name.replace(" ", "-"), state_name.replace(" ", "_")}
+        return set()
 
     @property
     def bucket_name(
@@ -594,15 +593,12 @@ class DaplaDatasetPathInfo:
             None
         """
         dataset_path_parts = set(self.dataset_path.parts)
-        for s in DataSetState:
-            norwegian_dataset_state_path_part_variations = (
-                self._extract_norwegian_dataset_state_path_part(s)
+        for state in DataSetState:
+            norwegian_variations = self._extract_norwegian_dataset_state_path_part(
+                state,
             )
-            # Match on any of the variations anywhere in the path.
-            if norwegian_dataset_state_path_part_variations.intersection(
-                dataset_path_parts,
-            ):
-                return s
+            if norwegian_variations.intersection(dataset_path_parts):
+                return state
         return None
 
     @property
