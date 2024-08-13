@@ -50,38 +50,6 @@ def get_jupyterhub_user() -> str | None:
     """Get the JupyterHub user name."""
     return _get_config_item(JUPYTERHUB_USER)
 
-
-# remove?
-def get_log_level() -> int:
-    """Get the log level."""
-    # Magic numbers as defined in Python's stdlib logging
-    log_levels: dict[str, int] = {
-        "CRITICAL": 50,
-        "ERROR": 40,
-        "WARNING": 30,
-        "INFO": 20,
-        "DEBUG": 10,
-    }
-    if level_string := _get_config_item("DATADOC_LOG_LEVEL"):
-        try:
-            return log_levels[level_string.upper()]
-        except KeyError:
-            return log_levels["INFO"]
-    else:
-        return log_levels["INFO"]
-
-
-# remove?
-def get_log_formatter() -> Literal["simple", "json"]:
-    """Get log formatter configuration."""
-    if (
-        _get_config_item("DATADOC_ENABLE_JSON_FORMATTING") == "True"
-        or get_dapla_region() is not None
-    ):
-        return "json"
-    return "simple"
-
-
 # remove?
 def get_jupyterhub_service_prefix() -> str | None:
     """Get the JupyterHub service prefix."""
