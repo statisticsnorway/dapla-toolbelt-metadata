@@ -456,7 +456,7 @@ class DaplaDatasetPathInfo:
             "STATISTICS": "statistikk",
             "OUTPUT_DATA": "utdata",
         }
-        norwegian_state = norwegian_mappings.get(dataset_state.name.upper())
+        norwegian_state = norwegian_mappings.get(dataset_state.name)
         if norwegian_state:
             state_name = norwegian_state.lower().replace("_", " ")
             return {state_name.replace(" ", "-"), state_name.replace(" ", "_")}
