@@ -50,11 +50,6 @@ def get_jupyterhub_user() -> str | None:
     """Get the JupyterHub user name."""
     return _get_config_item(JUPYTERHUB_USER)
 
-# remove
-#def get_datadoc_dataset_path() -> str | None:
-#    """Get the path to the dataset."""
-#    return _get_config_item("DATADOC_DATASET_PATH")
-
 #remove?
 def get_log_level() -> int:
     """Get the log level."""
