@@ -53,7 +53,7 @@ dataset.dapla\_dataset\_path\_info module
 dataset.dataset\_parser module
 ----------------------------------
 
-.. automodule:: src.dataset.dataset_parser
+.. automodule:: dataset.dataset_parser
    :members:
    :undoc-members:
    :show-inheritance:
