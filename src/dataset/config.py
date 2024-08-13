@@ -50,12 +50,12 @@ def get_jupyterhub_user() -> str | None:
     """Get the JupyterHub user name."""
     return _get_config_item(JUPYTERHUB_USER)
 
+# remove
+#def get_datadoc_dataset_path() -> str | None:
+#    """Get the path to the dataset."""
+#    return _get_config_item("DATADOC_DATASET_PATH")
 
-def get_datadoc_dataset_path() -> str | None:
-    """Get the path to the dataset."""
-    return _get_config_item("DATADOC_DATASET_PATH")
-
-
+#remove?
 def get_log_level() -> int:
     """Get the log level."""
     # Magic numbers as defined in Python's stdlib logging
@@ -75,6 +75,7 @@ def get_log_level() -> int:
         return log_levels["INFO"]
 
 
+#remove?
 def get_log_formatter() -> Literal["simple", "json"]:
     """Get log formatter configuration."""
     if (
@@ -85,11 +86,12 @@ def get_log_formatter() -> Literal["simple", "json"]:
     return "simple"
 
 
+#remove?
 def get_jupyterhub_service_prefix() -> str | None:
     """Get the JupyterHub service prefix."""
     return _get_config_item("JUPYTERHUB_SERVICE_PREFIX")
 
-
+#remove?
 def get_app_name() -> str:
     """Get the name of the app. Defaults to 'Datadoc'."""
     return _get_config_item("DATADOC_APP_NAME") or "Datadoc"
