@@ -138,10 +138,11 @@ class Datadoc:
         """
         extracted_metadata: model.DatadocMetadata | None = None
         existing_metadata: model.DatadocMetadata | None = None
-        if self.metadata_document is not None and self.metadata_document.exists():
+        if self.metadata_document and self.metadata_document.exists():
             existing_metadata = self._extract_metadata_from_existing_document(
                 self.metadata_document,
             )
+
         if (
             self.dataset_path is not None
             and self.dataset == model.Dataset()
@@ -149,22 +150,8 @@ class Datadoc:
         ):
             extracted_metadata = self._extract_metadata_from_dataset(self.dataset_path)
 
-        if (
-            self.dataset_path
-            and self.explicitly_defined_metadata_document
-            and self.metadata_document is not None
-            and self.metadata_document.exists()
-            and extracted_metadata is not None
-            and existing_metadata is not None
-        ):
-            if (
-                extracted_metadata.dataset is not None
-                and extracted_metadata.dataset.file_path is not None
-            ):
-                existing_file_path = extracted_metadata.dataset.file_path
-            else:
-                msg = "Could not access existing dataset file path"
-                raise ValueError(msg)
+        if self._can_merge_metadata(extracted_metadata, existing_metadata):
+            existing_file_path = self._get_existing_file_path(extracted_metadata)
             self._check_ready_to_merge(
                 self.dataset_path,
                 Path(existing_file_path),
@@ -181,31 +168,53 @@ class Datadoc:
             self.metadata_document = self.build_metadata_document_path(
                 self.dataset_path,
             )
-            if merged_metadata.dataset and merged_metadata.variables:
-                self.dataset = merged_metadata.dataset
-                self.variables = merged_metadata.variables
-            else:
-                msg = "Could not read metadata"
-                raise ValueError(msg)
-        elif (
-            existing_metadata
-            and existing_metadata.dataset
-            and existing_metadata.variables
-        ):
-            self.dataset = existing_metadata.dataset
-            self.variables = existing_metadata.variables
-        elif (
-            extracted_metadata
-            and extracted_metadata.dataset
-            and extracted_metadata.variables
-        ):
-            self.dataset = extracted_metadata.dataset
-            self.variables = extracted_metadata.variables
+            self._set_metadata(merged_metadata)
         else:
-            msg = "Could not read metadata"
-            raise ValueError(msg)
+            self._set_metadata(existing_metadata or extracted_metadata)
         set_default_values_variables(self.variables)
         set_default_values_dataset(self.dataset)
+        self._create_variables_lookup()
+
+    def _can_merge_metadata(
+        self,
+        extracted_metadata: model.DatadocMetadata | None,
+        existing_metadata: model.DatadocMetadata | None,
+    ) -> bool:
+        return (
+            self.dataset_path is not None
+            and self.explicitly_defined_metadata_document
+            and self.metadata_document is not None
+            and self.metadata_document.exists()
+            and extracted_metadata is not None
+            and existing_metadata is not None
+        )
+
+    def _get_existing_file_path(
+        self,
+        extracted_metadata: model.DatadocMetadata | None,
+    ) -> str:
+        if (
+            extracted_metadata is not None
+            and extracted_metadata.dataset is not None
+            and extracted_metadata.dataset.file_path is not None
+        ):
+            return extracted_metadata.dataset.file_path
+        msg = "Could not access existing dataset file path"
+        raise ValueError(msg)
+
+    def _set_metadata(
+        self,
+        merged_metadata: model.DatadocMetadata | None,
+    ) -> None:
+        if not merged_metadata or not (
+            merged_metadata.dataset and merged_metadata.variables
+        ):
+            msg = "Could not read metadata"
+            raise ValueError(msg)
+        self.dataset = merged_metadata.dataset
+        self.variables = merged_metadata.variables
+
+    def _create_variables_lookup(self) -> None:
         self.variables_lookup = {
             v.short_name: v for v in self.variables if v.short_name
         }
