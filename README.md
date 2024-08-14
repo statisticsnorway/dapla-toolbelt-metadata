@@ -25,14 +25,16 @@
 [black]: https://github.com/psf/black
 [poetry]: https://python-poetry.org/
 
+Tools and clients for working with the Dapla Metadata system.
+
 ## Features
 
-- TODO
+- Create and update metadata for datasets (Datadoc).
 
-## Requirements
+### Coming
 
-- TODO
-- Python
+- Read, create and update variable definitions.
+- Publish dataset metadata to Statistics Norway's data catalogue.
 
 ## Installation
 
@@ -44,7 +46,7 @@ pip install dapla-toolbelt-metadata
 
 ## Usage
 
-Please see the [Reference Guide] for details.
+Instructions and examples may be found in the [Dapla Manual](https://manual.dapla.ssb.no/statistikkere/). Please see the [Reference Guide] for API documentation.
 
 ## Contributing
 

@@ -14,6 +14,7 @@ from datadoc_model.model import Assessment
 from datadoc_model.model import DataSetState
 from datadoc_model.model import VariableRole
 
+from datasets.utility.constants import DATASET_FIELDS_FROM_EXISTING_METADATA
 from datasets.utility.constants import NUM_OBLIGATORY_VARIABLES_FIELDS
 from datasets.utility.constants import OBLIGATORY_DATASET_METADATA_IDENTIFIERS
 from datasets.utility.constants import (
@@ -403,3 +404,83 @@ def running_in_notebook() -> bool:
         # interpreters and will throw a NameError. Therefore we're not running
         # in Jupyter.
         return False
+
+
+def override_dataset_fields(
+    merged_metadata: model.DatadocMetadata,
+    existing_metadata: model.DatadocMetadata,
+) -> None:
+    """Overrides specific fields in the dataset of `merged_metadata` with values from the dataset of `existing_metadata`.
+
+    This function iterates over a predefined list of fields, `DATASET_FIELDS_FROM_EXISTING_METADATA`,
+    and sets the corresponding fields in the `merged_metadata.dataset` object to the values
+    from the `existing_metadata.dataset` object.
+
+    Args:
+        merged_metadata: An instance of `DatadocMetadata` containing the dataset to be updated.
+        existing_metadata: An instance of `DatadocMetadata` containing the dataset whose values are used to update `merged_metadata.dataset`.
+
+    Returns:
+        `None`.
+    """
+    if merged_metadata.dataset and existing_metadata.dataset:
+        # Override the fields as defined
+        for field in DATASET_FIELDS_FROM_EXISTING_METADATA:
+            setattr(
+                merged_metadata.dataset,
+                field,
+                getattr(existing_metadata.dataset, field),
+            )
+
+
+def merge_variables(
+    existing_metadata: model.DatadocMetadata,
+    extracted_metadata: model.DatadocMetadata,
+    merged_metadata: model.DatadocMetadata,
+) -> model.DatadocMetadata:
+    """Merges variables from the extracted metadata into the existing metadata and updates the merged metadata.
+
+    This function compares the variables from `extracted_metadata` with those in `existing_metadata`.
+    For each variable in `extracted_metadata`, it checks if a variable with the same `short_name` exists
+    in `existing_metadata`. If a match is found, it updates the existing variable with information from
+    `extracted_metadata`. If no match is found, the variable from `extracted_metadata` is directly added to `merged_metadata`.
+
+    Args:
+        existing_metadata: The metadata object containing the current state of variables.
+        extracted_metadata: The metadata object containing new or updated variables to merge.
+        merged_metadata: The metadata object that will contain the result of the merge.
+
+    Returns:
+        model.DatadocMetadata: The `merged_metadata` object containing variables from both `existing_metadata`
+        and `extracted_metadata`.
+    """
+    if (
+        existing_metadata.variables is not None
+        and extracted_metadata is not None
+        and extracted_metadata.variables is not None
+        and merged_metadata.variables is not None
+    ):
+        for extracted in extracted_metadata.variables:
+            existing = next(
+                (
+                    existing
+                    for existing in existing_metadata.variables
+                    if existing.short_name == extracted.short_name
+                ),
+                None,
+            )
+            if existing:
+                existing.id = (
+                    None  # Set to None so that it will be set assigned a fresh ID later
+                )
+                existing.contains_data_from = (
+                    extracted.contains_data_from or existing.contains_data_from
+                )
+                existing.contains_data_until = (
+                    extracted.contains_data_until or existing.contains_data_until
+                )
+                merged_metadata.variables.append(existing)
+            else:
+                # If there is no existing metadata for this variable, we just use what we have extracted
+                merged_metadata.variables.append(extracted)
+    return merged_metadata
