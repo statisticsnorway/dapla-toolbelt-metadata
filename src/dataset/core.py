@@ -298,7 +298,6 @@ class Datadoc:
         extracted_metadata: model.DatadocMetadata | None,
         existing_metadata: model.DatadocMetadata | None,
     ) -> model.DatadocMetadata:
-
         if not existing_metadata:
             logger.warning(
                 "No existing metadata found, no merge to perform. Continuing with extracted metadata.",
