@@ -10,7 +10,7 @@ repository = "https://github.com/statisticsnorway/dapla-toolbelt-metadata"
 documentation = "https://statisticsnorway.github.io/dapla-toolbelt-metadata"
 classifiers = ["Development Status :: 4 - Beta"]
 
-packages = [{ include = "datasets", from = "src"}]
+packages = [{ include = "datasets", from = "src", to = "dapla_metadata"}]
 
 [tool.poetry.urls]
 Changelog = "https://github.com/statisticsnorway/dapla-toolbelt-metadata/releases"
