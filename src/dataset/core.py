@@ -29,6 +29,7 @@ from dataset.utility.constants import NUM_OBLIGATORY_VARIABLES_FIELDS
 from dataset.utility.utils import calculate_percentage
 from dataset.utility.utils import derive_assessment_from_state
 from dataset.utility.utils import get_timestamp_now
+from dataset.utility.utils import merge_variables
 from dataset.utility.utils import normalize_path
 from dataset.utility.utils import num_obligatory_dataset_fields_completed
 from dataset.utility.utils import num_obligatory_variables_fields_completed
@@ -317,34 +318,11 @@ class Datadoc:
 
         # Merge variables.
         # For each extracted variable, copy existing metadata into the merged metadata
-        if (
-            existing_metadata.variables is not None
-            and extracted_metadata is not None
-            and extracted_metadata.variables is not None
-            and merged_metadata.variables is not None
-        ):
-            for extracted in extracted_metadata.variables:
-                existing = next(
-                    (
-                        existing
-                        for existing in existing_metadata.variables
-                        if existing.short_name == extracted.short_name
-                    ),
-                    None,
-                )
-                if existing:
-                    existing.id = None  # Set to None so that it will be set assigned a fresh ID later
-                    existing.contains_data_from = (
-                        extracted.contains_data_from or existing.contains_data_from
-                    )
-                    existing.contains_data_until = (
-                        extracted.contains_data_until or existing.contains_data_until
-                    )
-                    merged_metadata.variables.append(existing)
-                else:
-                    # If there is no existing metadata for this variable, we just use what we have extracted
-                    merged_metadata.variables.append(extracted)
-        return merged_metadata
+        return merge_variables(
+            existing_metadata,
+            extracted_metadata,
+            merged_metadata,
+        )
 
     def _extract_metadata_from_existing_document(
         self,
