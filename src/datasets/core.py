@@ -21,7 +21,6 @@ from datasets.model_backwards_compatibility import is_metadata_in_container_stru
 from datasets.model_backwards_compatibility import upgrade_metadata
 from datasets.model_validation import ValidateDatadocMetadata
 from datasets.statistic_subject_mapping import StatisticSubjectMapping
-from datasets.utility.constants import DATASET_FIELDS_FROM_EXISTING_METADATA
 from datasets.utility.constants import DEFAULT_SPATIAL_COVERAGE_DESCRIPTION
 from datasets.utility.constants import INCONSISTENCIES_MESSAGE
 from datasets.utility.constants import METADATA_DOCUMENT_FILE_SUFFIX
@@ -30,9 +29,11 @@ from datasets.utility.constants import NUM_OBLIGATORY_VARIABLES_FIELDS
 from datasets.utility.utils import calculate_percentage
 from datasets.utility.utils import derive_assessment_from_state
 from datasets.utility.utils import get_timestamp_now
+from datasets.utility.utils import merge_variables
 from datasets.utility.utils import normalize_path
 from datasets.utility.utils import num_obligatory_dataset_fields_completed
 from datasets.utility.utils import num_obligatory_variables_fields_completed
+from datasets.utility.utils import override_dataset_fields
 from datasets.utility.utils import set_default_values_dataset
 from datasets.utility.utils import set_default_values_variables
 
