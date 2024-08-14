@@ -385,7 +385,7 @@ def test_existing_metadata_variables_none_id(
 ):
     with existing_metadata_file.open() as f:
         pre_open_id: list = [v["id"] for v in json.load(f)["datadoc"]["variables"]]
-    assert (i is None for i in pre_open_id)
+    assert all(i is None for i in pre_open_id)
 
     assert all(isinstance(v.id, UUID) for v in metadata.variables)
 
