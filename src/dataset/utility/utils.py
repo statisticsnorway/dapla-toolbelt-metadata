@@ -14,6 +14,7 @@ from datadoc_model.model import Assessment
 from datadoc_model.model import DataSetState
 from datadoc_model.model import VariableRole
 
+from dataset.utility.constants import DATASET_FIELDS_FROM_EXISTING_METADATA
 from dataset.utility.constants import NUM_OBLIGATORY_VARIABLES_FIELDS
 from dataset.utility.constants import OBLIGATORY_DATASET_METADATA_IDENTIFIERS
 from dataset.utility.constants import (
@@ -403,3 +404,30 @@ def running_in_notebook() -> bool:
         # interpreters and will throw a NameError. Therefore we're not running
         # in Jupyter.
         return False
+
+
+def override_dataset_fields(
+    merged_metadata: model.DatadocMetadata,
+    existing_metadata: model.MetadataContainer,
+) -> None:
+    """Overrides specific fields in the dataset of `merged_metadata` with values from the dataset of `existing_metadata`.
+
+    This function iterates over a predefined list of fields, `DATASET_FIELDS_FROM_EXISTING_METADATA`,
+    and sets the corresponding fields in the `merged_metadata.dataset` object to the values
+    from the `existing_metadata.dataset` object.
+
+    Args:
+        merged_metadata: An instance of `DatadocMetadata` containing the dataset to be updated.
+        existing_metadata: An instance of `MetadataContainer` containing the dataset whose values are used to update `merged_metadata.dataset`.
+
+    Returns:
+        `None`.
+    """
+    if merged_metadata.dataset and existing_metadata.dataset:
+        # Override the fields as defined
+        for field in DATASET_FIELDS_FROM_EXISTING_METADATA:
+            setattr(
+                merged_metadata.dataset,
+                field,
+                getattr(existing_metadata.dataset, field),
+            )

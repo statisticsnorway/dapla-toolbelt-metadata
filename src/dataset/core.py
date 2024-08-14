@@ -21,7 +21,6 @@ from dataset.model_backwards_compatibility import is_metadata_in_container_struc
 from dataset.model_backwards_compatibility import upgrade_metadata
 from dataset.model_validation import ValidateDatadocMetadata
 from dataset.statistic_subject_mapping import StatisticSubjectMapping
-from dataset.utility.constants import DATASET_FIELDS_FROM_EXISTING_METADATA
 from dataset.utility.constants import DEFAULT_SPATIAL_COVERAGE_DESCRIPTION
 from dataset.utility.constants import INCONSISTENCIES_MESSAGE
 from dataset.utility.constants import METADATA_DOCUMENT_FILE_SUFFIX
@@ -33,6 +32,7 @@ from dataset.utility.utils import get_timestamp_now
 from dataset.utility.utils import normalize_path
 from dataset.utility.utils import num_obligatory_dataset_fields_completed
 from dataset.utility.utils import num_obligatory_variables_fields_completed
+from dataset.utility.utils import override_dataset_fields
 from dataset.utility.utils import set_default_values_dataset
 from dataset.utility.utils import set_default_values_variables
 
@@ -297,29 +297,23 @@ class Datadoc:
         extracted_metadata: model.DatadocMetadata | None,
         existing_metadata: model.DatadocMetadata | None,
     ) -> model.DatadocMetadata:
+
         if not existing_metadata:
             logger.warning(
                 "No existing metadata found, no merge to perform. Continuing with extracted metadata.",
             )
             return extracted_metadata or model.DatadocMetadata()
+
         if not extracted_metadata:
             return existing_metadata
+
         # Use the extracted metadata as a base
         merged_metadata = model.DatadocMetadata(
             dataset=copy.deepcopy(extracted_metadata.dataset),
             variables=[],
         )
-        if (
-            merged_metadata.dataset is not None
-            and existing_metadata.dataset is not None
-        ):
-            # Override the fields as defined
-            for field in DATASET_FIELDS_FROM_EXISTING_METADATA:
-                setattr(
-                    merged_metadata.dataset,
-                    field,
-                    getattr(existing_metadata.dataset, field),
-                )
+
+        override_dataset_fields(merged_metadata, extracted_metadata)
 
         # Merge variables.
         # For each extracted variable, copy existing metadata into the merged metadata
