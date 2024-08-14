@@ -150,7 +150,14 @@ class Datadoc:
         ):
             extracted_metadata = self._extract_metadata_from_dataset(self.dataset_path)
 
-        if self._can_merge_metadata(extracted_metadata, existing_metadata):
+        if (
+            self.dataset_path
+            and self.explicitly_defined_metadata_document
+            and self.metadata_document is not None
+            and self.metadata_document.exists()
+            and extracted_metadata is not None
+            and existing_metadata is not None
+        ):
             existing_file_path = self._get_existing_file_path(extracted_metadata)
             self._check_ready_to_merge(
                 self.dataset_path,
@@ -174,20 +181,6 @@ class Datadoc:
         set_default_values_variables(self.variables)
         set_default_values_dataset(self.dataset)
         self._create_variables_lookup()
-
-    def _can_merge_metadata(
-        self,
-        extracted_metadata: model.DatadocMetadata | None,
-        existing_metadata: model.DatadocMetadata | None,
-    ) -> bool:
-        return (
-            self.dataset_path is not None
-            and self.explicitly_defined_metadata_document
-            and self.metadata_document is not None
-            and self.metadata_document.exists()
-            and extracted_metadata is not None
-            and existing_metadata is not None
-        )
 
     def _get_existing_file_path(
         self,
