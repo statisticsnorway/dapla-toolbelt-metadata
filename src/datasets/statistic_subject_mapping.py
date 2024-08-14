@@ -9,8 +9,8 @@ import requests
 from bs4 import BeautifulSoup
 from bs4 import ResultSet
 
-from dataset.external_sources.external_sources import GetExternalSource
-from dataset.utility.enums import SupportedLanguages
+from datasets.external_sources.external_sources import GetExternalSource
+from datasets.utility.enums import SupportedLanguages
 
 if TYPE_CHECKING:
     from concurrent.futures import ThreadPoolExecutor

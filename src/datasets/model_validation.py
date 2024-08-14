@@ -11,17 +11,17 @@ from datadoc_model import model
 from pydantic import model_validator
 from typing_extensions import Self
 
-from dataset.utility.constants import DATE_VALIDATION_MESSAGE
-from dataset.utility.constants import NUM_OBLIGATORY_DATASET_FIELDS
-from dataset.utility.constants import NUM_OBLIGATORY_VARIABLES_FIELDS
-from dataset.utility.constants import OBLIGATORY_METADATA_WARNING
-from dataset.utility.utils import get_missing_obligatory_dataset_fields
-from dataset.utility.utils import get_missing_obligatory_variables_fields
-from dataset.utility.utils import get_timestamp_now
-from dataset.utility.utils import incorrect_date_order
-from dataset.utility.utils import num_obligatory_dataset_fields_completed
-from dataset.utility.utils import num_obligatory_variables_fields_completed
-from dataset.utility.utils import set_variables_inherit_from_dataset
+from datasets.utility.constants import DATE_VALIDATION_MESSAGE
+from datasets.utility.constants import NUM_OBLIGATORY_DATASET_FIELDS
+from datasets.utility.constants import NUM_OBLIGATORY_VARIABLES_FIELDS
+from datasets.utility.constants import OBLIGATORY_METADATA_WARNING
+from datasets.utility.utils import get_missing_obligatory_dataset_fields
+from datasets.utility.utils import get_missing_obligatory_variables_fields
+from datasets.utility.utils import get_timestamp_now
+from datasets.utility.utils import incorrect_date_order
+from datasets.utility.utils import num_obligatory_dataset_fields_completed
+from datasets.utility.utils import num_obligatory_variables_fields_completed
+from datasets.utility.utils import set_variables_inherit_from_dataset
 
 if TYPE_CHECKING:
     from datetime import datetime

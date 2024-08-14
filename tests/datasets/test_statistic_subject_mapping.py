@@ -2,10 +2,10 @@ import pytest
 import requests
 from bs4 import BeautifulSoup
 
-from dataset.statistic_subject_mapping import PrimarySubject
-from dataset.statistic_subject_mapping import SecondarySubject
-from dataset.statistic_subject_mapping import StatisticSubjectMapping
-from tests.dataset.constants import TEST_RESOURCES_DIRECTORY
+from datasets.statistic_subject_mapping import PrimarySubject
+from datasets.statistic_subject_mapping import SecondarySubject
+from datasets.statistic_subject_mapping import StatisticSubjectMapping
+from tests.datasets.constants import TEST_RESOURCES_DIRECTORY
 
 
 def test_no_source_url(thread_pool_executor):

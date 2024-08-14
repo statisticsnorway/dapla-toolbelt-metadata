@@ -7,13 +7,13 @@ from typing import TYPE_CHECKING
 import pytest
 from datadoc_model.model import DataSetState
 
-from dataset.dapla_dataset_path_info import ISO_YEAR
-from dataset.dapla_dataset_path_info import ISO_YEAR_MONTH
-from dataset.dapla_dataset_path_info import ISO_YEAR_MONTH_DAY
-from dataset.dapla_dataset_path_info import SSB_BIMESTER
-from dataset.dapla_dataset_path_info import DaplaDatasetPathInfo
-from tests.dataset.constants import TEST_BUCKET_PARQUET_FILEPATH_WITH_SHORTNAME
-from tests.dataset.constants import TEST_PARQUET_FILEPATH
+from datasets.dapla_dataset_path_info import ISO_YEAR
+from datasets.dapla_dataset_path_info import ISO_YEAR_MONTH
+from datasets.dapla_dataset_path_info import ISO_YEAR_MONTH_DAY
+from datasets.dapla_dataset_path_info import SSB_BIMESTER
+from datasets.dapla_dataset_path_info import DaplaDatasetPathInfo
+from tests.datasets.constants import TEST_BUCKET_PARQUET_FILEPATH_WITH_SHORTNAME
+from tests.datasets.constants import TEST_PARQUET_FILEPATH
 
 if TYPE_CHECKING:
     import pathlib

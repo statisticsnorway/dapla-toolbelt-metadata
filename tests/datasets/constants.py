@@ -8,7 +8,7 @@ TEST_BUCKET_PARQUET_FILEPATH_WITH_SHORTNAME = "gs://ssb-staging-dapla-felles-dat
 
 TEST_BUCKET_NAMING_STANDARD_COMPATIBLE_PATH = "gs://ssb-my-team-data-produkt-prod/ifpn/klargjorte_data/person_testdata_p2021-12-31_p2021-12-31_v1.parquet"
 
-TEST_RESOURCES_DIRECTORY = Path("tests/dataset/resources")
+TEST_RESOURCES_DIRECTORY = Path("tests/datasets/resources")
 
 TEST_DATASETS_DIRECTORY = TEST_RESOURCES_DIRECTORY / "datasets"
 
@@ -54,8 +54,8 @@ DAPLA_REGION = "DAPLA_REGION"
 
 DAPLA_SERVICE = "DAPLA_SERVICE"
 
-DATADOC_METADATA_MODULE = "dataset"
+DATADOC_METADATA_MODULE = "datasets"
 
-DATADOC_METADATA_MODULE_CORE = "dataset.core"
+DATADOC_METADATA_MODULE_CORE = "datasets.core"
 
-DATADOC_METADATA_MODULE_UTILS = "dataset.utility.utils"
+DATADOC_METADATA_MODULE_UTILS = "datasets.utility.utils"

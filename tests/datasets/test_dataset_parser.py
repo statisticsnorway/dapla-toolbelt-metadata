@@ -10,16 +10,16 @@ from datadoc_model.model import LanguageStringType
 from datadoc_model.model import LanguageStringTypeItem
 from datadoc_model.model import Variable
 
-from dataset.dataset_parser import KNOWN_BOOLEAN_TYPES
-from dataset.dataset_parser import KNOWN_DATETIME_TYPES
-from dataset.dataset_parser import KNOWN_FLOAT_TYPES
-from dataset.dataset_parser import KNOWN_INTEGER_TYPES
-from dataset.dataset_parser import KNOWN_STRING_TYPES
-from dataset.dataset_parser import DatasetParser
-from dataset.dataset_parser import DatasetParserParquet
-from tests.dataset.constants import TEST_PARQUET_FILEPATH
-from tests.dataset.constants import TEST_PARQUET_GZIP_FILEPATH
-from tests.dataset.constants import TEST_SAS7BDAT_FILEPATH
+from datasets.dataset_parser import KNOWN_BOOLEAN_TYPES
+from datasets.dataset_parser import KNOWN_DATETIME_TYPES
+from datasets.dataset_parser import KNOWN_FLOAT_TYPES
+from datasets.dataset_parser import KNOWN_INTEGER_TYPES
+from datasets.dataset_parser import KNOWN_STRING_TYPES
+from datasets.dataset_parser import DatasetParser
+from datasets.dataset_parser import DatasetParserParquet
+from tests.datasets.constants import TEST_PARQUET_FILEPATH
+from tests.datasets.constants import TEST_PARQUET_GZIP_FILEPATH
+from tests.datasets.constants import TEST_SAS7BDAT_FILEPATH
 
 
 def test_use_abstract_class_directly():

@@ -13,28 +13,28 @@ from typing import TYPE_CHECKING
 from datadoc_model import model
 from datadoc_model.model import DataSetStatus
 
-from dataset import config
-from dataset import user_info
-from dataset.dapla_dataset_path_info import DaplaDatasetPathInfo
-from dataset.dataset_parser import DatasetParser
-from dataset.model_backwards_compatibility import is_metadata_in_container_structure
-from dataset.model_backwards_compatibility import upgrade_metadata
-from dataset.model_validation import ValidateDatadocMetadata
-from dataset.statistic_subject_mapping import StatisticSubjectMapping
-from dataset.utility.constants import DATASET_FIELDS_FROM_EXISTING_METADATA
-from dataset.utility.constants import DEFAULT_SPATIAL_COVERAGE_DESCRIPTION
-from dataset.utility.constants import INCONSISTENCIES_MESSAGE
-from dataset.utility.constants import METADATA_DOCUMENT_FILE_SUFFIX
-from dataset.utility.constants import NUM_OBLIGATORY_DATASET_FIELDS
-from dataset.utility.constants import NUM_OBLIGATORY_VARIABLES_FIELDS
-from dataset.utility.utils import calculate_percentage
-from dataset.utility.utils import derive_assessment_from_state
-from dataset.utility.utils import get_timestamp_now
-from dataset.utility.utils import normalize_path
-from dataset.utility.utils import num_obligatory_dataset_fields_completed
-from dataset.utility.utils import num_obligatory_variables_fields_completed
-from dataset.utility.utils import set_default_values_dataset
-from dataset.utility.utils import set_default_values_variables
+from datasets import config
+from datasets import user_info
+from datasets.dapla_dataset_path_info import DaplaDatasetPathInfo
+from datasets.dataset_parser import DatasetParser
+from datasets.model_backwards_compatibility import is_metadata_in_container_structure
+from datasets.model_backwards_compatibility import upgrade_metadata
+from datasets.model_validation import ValidateDatadocMetadata
+from datasets.statistic_subject_mapping import StatisticSubjectMapping
+from datasets.utility.constants import DATASET_FIELDS_FROM_EXISTING_METADATA
+from datasets.utility.constants import DEFAULT_SPATIAL_COVERAGE_DESCRIPTION
+from datasets.utility.constants import INCONSISTENCIES_MESSAGE
+from datasets.utility.constants import METADATA_DOCUMENT_FILE_SUFFIX
+from datasets.utility.constants import NUM_OBLIGATORY_DATASET_FIELDS
+from datasets.utility.constants import NUM_OBLIGATORY_VARIABLES_FIELDS
+from datasets.utility.utils import calculate_percentage
+from datasets.utility.utils import derive_assessment_from_state
+from datasets.utility.utils import get_timestamp_now
+from datasets.utility.utils import normalize_path
+from datasets.utility.utils import num_obligatory_dataset_fields_completed
+from datasets.utility.utils import num_obligatory_variables_fields_completed
+from datasets.utility.utils import set_default_values_dataset
+from datasets.utility.utils import set_default_values_variables
 
 if TYPE_CHECKING:
     import pathlib

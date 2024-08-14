@@ -25,23 +25,23 @@ from datadoc_model.model import IsPersonalData
 from datadoc_model.model import Variable
 from datadoc_model.model import VariableRole
 
-from dataset.core import Datadoc
-from dataset.core import InconsistentDatasetsError
-from dataset.core import InconsistentDatasetsWarning
-from dataset.statistic_subject_mapping import StatisticSubjectMapping
-from dataset.user_info import PLACEHOLDER_EMAIL_ADDRESS
-from dataset.user_info import TestUserInfo
-from dataset.utility.constants import DATASET_FIELDS_FROM_EXISTING_METADATA
-from tests.dataset.constants import DATADOC_METADATA_MODULE_CORE
-from tests.dataset.constants import TEST_BUCKET_NAMING_STANDARD_COMPATIBLE_PATH
-from tests.dataset.constants import TEST_DATASETS_DIRECTORY
-from tests.dataset.constants import TEST_EXISTING_METADATA_DIRECTORY
-from tests.dataset.constants import TEST_EXISTING_METADATA_FILE_NAME
-from tests.dataset.constants import TEST_EXISTING_METADATA_NAMING_STANDARD_FILEPATH
-from tests.dataset.constants import TEST_NAMING_STANDARD_COMPATIBLE_DATASET
-from tests.dataset.constants import TEST_PARQUET_FILEPATH
-from tests.dataset.constants import TEST_PROCESSED_DATA_POPULATION_DIRECTORY
-from tests.dataset.constants import TEST_RESOURCES_DIRECTORY
+from datasets.core import Datadoc
+from datasets.core import InconsistentDatasetsError
+from datasets.core import InconsistentDatasetsWarning
+from datasets.statistic_subject_mapping import StatisticSubjectMapping
+from datasets.user_info import PLACEHOLDER_EMAIL_ADDRESS
+from datasets.user_info import TestUserInfo
+from datasets.utility.constants import DATASET_FIELDS_FROM_EXISTING_METADATA
+from tests.datasets.constants import DATADOC_METADATA_MODULE_CORE
+from tests.datasets.constants import TEST_BUCKET_NAMING_STANDARD_COMPATIBLE_PATH
+from tests.datasets.constants import TEST_DATASETS_DIRECTORY
+from tests.datasets.constants import TEST_EXISTING_METADATA_DIRECTORY
+from tests.datasets.constants import TEST_EXISTING_METADATA_FILE_NAME
+from tests.datasets.constants import TEST_EXISTING_METADATA_NAMING_STANDARD_FILEPATH
+from tests.datasets.constants import TEST_NAMING_STANDARD_COMPATIBLE_DATASET
+from tests.datasets.constants import TEST_PARQUET_FILEPATH
+from tests.datasets.constants import TEST_PROCESSED_DATA_POPULATION_DIRECTORY
+from tests.datasets.constants import TEST_RESOURCES_DIRECTORY
 
 if TYPE_CHECKING:
     from collections.abc import Generator

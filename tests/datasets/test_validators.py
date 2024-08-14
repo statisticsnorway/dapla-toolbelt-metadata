@@ -13,12 +13,12 @@ from datadoc_model import model
 from datadoc_model.model import TemporalityTypeType
 from pydantic import ValidationError
 
-from dataset.model_validation import ObligatoryDatasetWarning
-from dataset.model_validation import ObligatoryVariableWarning
-from dataset.utility.constants import OBLIGATORY_METADATA_WARNING
+from datasets.model_validation import ObligatoryDatasetWarning
+from datasets.model_validation import ObligatoryVariableWarning
+from datasets.utility.constants import OBLIGATORY_METADATA_WARNING
 
 if TYPE_CHECKING:
-    from dataset.core import Datadoc
+    from datasets.core import Datadoc
 
 
 @pytest.mark.parametrize(

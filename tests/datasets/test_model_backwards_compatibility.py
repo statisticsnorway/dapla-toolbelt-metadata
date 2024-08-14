@@ -5,15 +5,15 @@ from pathlib import Path
 
 import pytest
 
-from dataset.core import Datadoc
-from dataset.model_backwards_compatibility import UnknownModelVersionError
-from dataset.model_backwards_compatibility import add_container
-from dataset.model_backwards_compatibility import handle_version_2_2_0
-from dataset.model_backwards_compatibility import handle_version_3_3_0
-from dataset.model_backwards_compatibility import is_metadata_in_container_structure
-from dataset.model_backwards_compatibility import upgrade_metadata
-from tests.dataset.constants import TEST_COMPATIBILITY_DIRECTORY
-from tests.dataset.constants import TEST_EXISTING_METADATA_FILE_NAME
+from datasets.core import Datadoc
+from datasets.model_backwards_compatibility import UnknownModelVersionError
+from datasets.model_backwards_compatibility import add_container
+from datasets.model_backwards_compatibility import handle_version_2_2_0
+from datasets.model_backwards_compatibility import handle_version_3_3_0
+from datasets.model_backwards_compatibility import is_metadata_in_container_structure
+from datasets.model_backwards_compatibility import upgrade_metadata
+from tests.datasets.constants import TEST_COMPATIBILITY_DIRECTORY
+from tests.datasets.constants import TEST_EXISTING_METADATA_FILE_NAME
 
 BACKWARDS_COMPATIBLE_VERSION_DIRECTORIES = [
     d for d in TEST_COMPATIBILITY_DIRECTORY.iterdir() if d.is_dir()

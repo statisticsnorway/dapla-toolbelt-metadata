@@ -10,7 +10,7 @@ repository = "https://github.com/statisticsnorway/dapla-toolbelt-metadata"
 documentation = "https://statisticsnorway.github.io/dapla-toolbelt-metadata"
 classifiers = ["Development Status :: 4 - Beta"]
 
-packages = [{ include = "dataset", from = "src" }]
+packages = [{ include = "datasets", from = "src" }]
 
 [tool.poetry.urls]
 Changelog = "https://github.com/statisticsnorway/dapla-toolbelt-metadata/releases"
@@ -83,7 +83,7 @@ tests = ["tests", "*/tests"]
 
 [tool.coverage.run]
 branch = true
-source = ["dataset"]
+source = ["datasets"]
 omit = [
     "tests/*",
     "__init__.py",

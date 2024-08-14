@@ -18,22 +18,22 @@ import pytest
 from bs4 import BeautifulSoup
 from bs4 import ResultSet
 
-from dataset.code_list import CodeList
-from dataset.core import Datadoc
-from dataset.statistic_subject_mapping import StatisticSubjectMapping
-from dataset.user_info import TestUserInfo
-from dataset.utility.enums import SupportedLanguages
-from tests.dataset.constants import CODE_LIST_DIR
-from tests.dataset.constants import DATADOC_METADATA_MODULE
-from tests.dataset.constants import TEST_DATASETS_DIRECTORY
-from tests.dataset.constants import TEST_EXISTING_METADATA_DIRECTORY
-from tests.dataset.constants import TEST_EXISTING_METADATA_FILE_NAME
-from tests.dataset.constants import TEST_EXISTING_METADATA_NAMING_STANDARD_FILEPATH
-from tests.dataset.constants import TEST_NAMING_STANDARD_COMPATIBLE_DATASET
-from tests.dataset.constants import TEST_PARQUET_FILE_NAME
-from tests.dataset.constants import TEST_PARQUET_FILEPATH
-from tests.dataset.constants import TEST_RESOURCES_DIRECTORY
-from tests.dataset.test_statistic_subject_mapping import (
+from datasets import Datadoc
+from datasets.code_list import CodeList
+from datasets.statistic_subject_mapping import StatisticSubjectMapping
+from datasets.user_info import TestUserInfo
+from datasets.utility.enums import SupportedLanguages
+from tests.datasets.constants import CODE_LIST_DIR
+from tests.datasets.constants import DATADOC_METADATA_MODULE
+from tests.datasets.constants import TEST_DATASETS_DIRECTORY
+from tests.datasets.constants import TEST_EXISTING_METADATA_DIRECTORY
+from tests.datasets.constants import TEST_EXISTING_METADATA_FILE_NAME
+from tests.datasets.constants import TEST_EXISTING_METADATA_NAMING_STANDARD_FILEPATH
+from tests.datasets.constants import TEST_NAMING_STANDARD_COMPATIBLE_DATASET
+from tests.datasets.constants import TEST_PARQUET_FILE_NAME
+from tests.datasets.constants import TEST_PARQUET_FILEPATH
+from tests.datasets.constants import TEST_RESOURCES_DIRECTORY
+from tests.datasets.test_statistic_subject_mapping import (
     STATISTICAL_SUBJECT_STRUCTURE_DIR,
 )
 
