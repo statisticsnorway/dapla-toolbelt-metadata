@@ -16,13 +16,11 @@ packages = [{ include = "dapla_metadata", from = "src"}]
 Changelog = "https://github.com/statisticsnorway/dapla-toolbelt-metadata/releases"
 
 [tool.poetry.dependencies]
-click = ">=8.0.1"
 python = ">=3.10,<4.0"
 pyarrow = ">=8.0.0"
 pydantic = ">=2.5.2"
 pandas = ">=1.4.2"
 dapla-toolbelt = ">=1.3.3"
-gunicorn = ">=21.2.0"
 arrow = ">=1.3.0"
 python-dotenv = ">=1.0.1"
 requests = ">=2.31.0"
@@ -31,27 +29,17 @@ cloudpathlib = { extras = ["gs"], version = ">=0.17.0" }
 pyjwt = ">=2.8.0"
 ssb-klass-python = ">=0.0.9"
 ssb-datadoc-model = "^6.0.0"
-faker = "^26.1.0"
-pygments = "^2.18.0"
+bs4 = "^0.0.2"
+
+[tool.poetry.group.dev.dependencies]
 black = "^24.8.0"
-coverage = "^7.6.1"
+pygments = "^2.18.0"
+coverage = { extras = ["toml"], version = ">=6.2" }
+faker = "^26.1.0"
 furo = "^2024.7.18"
 pre-commit = "^3.8.0"
 ruff = "^0.5.6"
 pytest = "^8.3.2"
-pytest-mock = "^3.14.0"
-requests-mock = "^1.12.1"
-bs4 = "^0.0.2"
-types-beautifulsoup4 = "^4.12.0.20240511"
-
-[tool.poetry.group.dev.dependencies]
-pygments = ">=2.10.0"
-black = ">=22.3.0"
-coverage = { extras = ["toml"], version = ">=6.2" }
-furo = ">=2021.11.12"
-pre-commit = "*"
-ruff = ">=0.0.284"
-pytest = ">=7.1.2"
 sphinx = ">=6.2.1"
 sphinx-autobuild = ">=2021.3.14"
 sphinx-autodoc-typehints = ">=1.24.0"
@@ -63,16 +51,15 @@ mypy = ">=0.950"
 pytest-cov = ">=3.0.0"
 nbstripout = ">=0.5.0"
 python-kacl = "*"
-pytest-mock = "*"
+pytest-mock = "^3.14.0"
 deptry = ">=0.12.0"
 pandas-stubs = "*"
 pyarrow-stubs = ">=10.0.1.9"
+requests-mock = "^1.12.1"
 types-Pygments = "*"
 types-colorama = "*"
 types-setuptools = "*"
-types-beautifulsoup4 = "*"
-requests-mock = "*"
-faker = "*"
+types-beautifulsoup4 = "^4.12.0.20240511"
 
 [tool.pytest.ini_options]
 pythonpath = ["src"]
