@@ -90,3 +90,7 @@ DATASET_FIELDS_FROM_EXISTING_METADATA = [
 ]
 
 METADATA_DOCUMENT_FILE_SUFFIX = "__DOC.json"
+
+DATADOC_STATISTICAL_SUBJECT_SOURCE_URL = (
+    "https://www.ssb.no/xp/_/service/mimir/subjectStructurStatistics"
+)
