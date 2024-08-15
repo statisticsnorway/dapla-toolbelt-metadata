@@ -10,7 +10,7 @@ repository = "https://github.com/statisticsnorway/dapla-toolbelt-metadata"
 documentation = "https://statisticsnorway.github.io/dapla-toolbelt-metadata"
 classifiers = ["Development Status :: 4 - Beta"]
 
-packages = [{ include = "dapla_metadata", from = "src"}]
+packages = [{ include = "dapla_metadata", from = "src" }]
 
 [tool.poetry.urls]
 Changelog = "https://github.com/statisticsnorway/dapla-toolbelt-metadata/releases"
@@ -29,17 +29,17 @@ cloudpathlib = { extras = ["gs"], version = ">=0.17.0" }
 pyjwt = ">=2.8.0"
 ssb-klass-python = ">=0.0.9"
 ssb-datadoc-model = "^6.0.0"
-bs4 = "^0.0.2"
+typing-extensions = ">=4.12.2"
 
 [tool.poetry.group.dev.dependencies]
-black = "^24.8.0"
-pygments = "^2.18.0"
+black = ">=24.8.0"
+pygments = ">=2.18.0"
 coverage = { extras = ["toml"], version = ">=6.2" }
-faker = "^26.1.0"
-furo = "^2024.7.18"
-pre-commit = "^3.8.0"
-ruff = "^0.5.6"
-pytest = "^8.3.2"
+faker = ">=26.1.0"
+furo = ">=2024.7.18"
+pre-commit = ">=3.8.0"
+ruff = ">=0.5.6"
+pytest = ">=8.3.2"
 sphinx = ">=6.2.1"
 sphinx-autobuild = ">=2021.3.14"
 sphinx-autodoc-typehints = ">=1.24.0"
@@ -51,15 +51,15 @@ mypy = ">=0.950"
 pytest-cov = ">=3.0.0"
 nbstripout = ">=0.5.0"
 python-kacl = "*"
-pytest-mock = "^3.14.0"
+pytest-mock = ">=3.14.0"
 deptry = ">=0.12.0"
 pandas-stubs = "*"
 pyarrow-stubs = ">=10.0.1.9"
-requests-mock = "^1.12.1"
+requests-mock = ">=1.12.1"
 types-Pygments = "*"
 types-colorama = "*"
 types-setuptools = "*"
-types-beautifulsoup4 = "^4.12.0.20240511"
+types-beautifulsoup4 = ">=4.12.0.20240511"
 
 [tool.pytest.ini_options]
 pythonpath = ["src"]
@@ -72,10 +72,7 @@ tests = ["tests", "*/tests"]
 [tool.coverage.run]
 branch = true
 source = ["dapla_metadata"]
-omit = [
-    "tests/*",
-    "__init__.py",
-]
+omit = ["tests/*", "__init__.py"]
 relative_files = true
 
 [tool.coverage.report]
@@ -83,9 +80,7 @@ show_missing = true
 fail_under = 80
 
 [tool.mypy]
-plugins = [
-    "pydantic.mypy"
-]
+plugins = ["pydantic.mypy"]
 strict = false
 warn_unreachable = true
 pretty = true
@@ -117,10 +112,10 @@ disable_error_code = [
 ]
 
 [tool.ruff]
-force-exclude = true  # Apply excludes to pre-commit
+force-exclude = true # Apply excludes to pre-commit
 show-fixes = true
 src = ["src", "tests"]
-target-version = "py310"  # Minimum Python version supported
+target-version = "py310" # Minimum Python version supported
 include = ["*.py", "*.pyi", "**/pyproject.toml", "*.ipynb"]
 extend-exclude = [
     "__pycache__",
@@ -150,26 +145,31 @@ force-single-line = true
 max-complexity = 15
 
 [tool.ruff.lint.pydocstyle]
-convention = "google"  # You can also use "numpy".
+convention = "google" # You can also use "numpy".
 
 [tool.ruff.lint.pep8-naming]
-classmethod-decorators = ["classmethod", "validator", "root_validator", "pydantic.validator"]
+classmethod-decorators = [
+    "classmethod",
+    "validator",
+    "root_validator",
+    "pydantic.validator",
+]
 
 [tool.ruff.lint.per-file-ignores]
 "*/__init__.py" = ["F401"]
 "**/tests/*" = [
-    "ANN001",  # type annotations don't add value for test functions
-    "ANN002",  # type annotations don't add value for test functions
-    "ANN003",  # type annotations don't add value for test functions
-    "ANN201",  # type annotations don't add value for test functions
-    "ANN204",  # type annotations don't add value for test functions
-    "ANN205",  # type annotations don't add value for test functions
-    "ANN206",  # type annotations don't add value for test functions
-    "D100",    # docstrings are overkill for test functions
+    "ANN001", # type annotations don't add value for test functions
+    "ANN002", # type annotations don't add value for test functions
+    "ANN003", # type annotations don't add value for test functions
+    "ANN201", # type annotations don't add value for test functions
+    "ANN204", # type annotations don't add value for test functions
+    "ANN205", # type annotations don't add value for test functions
+    "ANN206", # type annotations don't add value for test functions
+    "D100",   # docstrings are overkill for test functions
     "D101",
     "D102",
     "D103",
-    "S101",    # asserts are encouraged in pytest
+    "S101",   # asserts are encouraged in pytest
 ]
 
 [build-system]
