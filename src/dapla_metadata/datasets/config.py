@@ -10,7 +10,9 @@ from pprint import pformat
 from dotenv import dotenv_values
 from dotenv import load_dotenv
 
-from dapla_metadata.datasets.utility.constants import DATADOC_STATISTICAL_SUBJECT_SOURCE_URL
+from dapla_metadata.datasets.utility.constants import (
+    DATADOC_STATISTICAL_SUBJECT_SOURCE_URL,
+)
 from dapla_metadata.datasets.utility.enums import DaplaRegion
 from dapla_metadata.datasets.utility.enums import DaplaService
 
