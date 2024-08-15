@@ -6,13 +6,13 @@ import pytest
 from cloudpathlib.local import LocalGSClient
 from cloudpathlib.local import LocalGSPath
 
-from dataset.utility.utils import calculate_percentage
-from dataset.utility.utils import incorrect_date_order
-from dataset.utility.utils import normalize_path
-from dataset.utility.utils import running_in_notebook
-from tests.dataset.constants import DATADOC_METADATA_MODULE_UTILS
-from tests.dataset.constants import TEST_BUCKET_PARQUET_FILEPATH
-from tests.dataset.constants import TEST_PARQUET_FILEPATH
+from dapla_metadata.datasets.utility.utils import calculate_percentage
+from dapla_metadata.datasets.utility.utils import incorrect_date_order
+from dapla_metadata.datasets.utility.utils import normalize_path
+from dapla_metadata.datasets.utility.utils import running_in_notebook
+from tests.datasets.constants import DATADOC_METADATA_MODULE_UTILS
+from tests.datasets.constants import TEST_BUCKET_PARQUET_FILEPATH
+from tests.datasets.constants import TEST_PARQUET_FILEPATH
 
 
 @pytest.mark.parametrize(

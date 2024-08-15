@@ -12,88 +12,21 @@ delete the .rst file afterwards.
 -->
 
 ```{eval-rst}
-dataset package
-===================
+dapla\_metadata package
+=======================
 
-Submodules
-----------
+Subpackages
+-----------
 
-dataset.code\_list module
------------------------------
+.. toctree::
+   :maxdepth: 4
 
-.. automodule:: dataset.code_list
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-dataset.config module
--------------------------
-
-.. automodule:: dataset.config
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-dataset.core module
------------------------
-
-.. automodule:: dataset.core
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-dataset.dapla\_dataset\_path\_info module
----------------------------------------------
-
-.. automodule:: dataset.dapla_dataset_path_info
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-dataset.dataset\_parser module
-----------------------------------
-
-.. automodule:: dataset.dataset_parser
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-dataset.model\_backwards\_compatibility module
---------------------------------------------------
-
-.. automodule:: dataset.model_backwards_compatibility
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-dataset.model\_validation module
-------------------------------------
-
-.. automodule:: dataset.model_validation
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-dataset.statistic\_subject\_mapping module
-----------------------------------------------
-
-.. automodule:: dataset.statistic_subject_mapping
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-dataset.user\_info module
------------------------------
-
-.. automodule:: dataset.user_info
-   :members:
-   :undoc-members:
-   :show-inheritance:
+   dapla_metadata.datasets
 
 Module contents
 ---------------
 
-.. automodule:: dataset
+.. automodule:: dapla_metadata
    :members:
    :undoc-members:
    :show-inheritance:

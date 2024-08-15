@@ -14,14 +14,20 @@ from datadoc_model.model import Assessment
 from datadoc_model.model import DataSetState
 from datadoc_model.model import VariableRole
 
-from dataset.utility.constants import DATASET_FIELDS_FROM_EXISTING_METADATA
-from dataset.utility.constants import NUM_OBLIGATORY_VARIABLES_FIELDS
-from dataset.utility.constants import OBLIGATORY_DATASET_METADATA_IDENTIFIERS
-from dataset.utility.constants import (
+from dapla_metadata.datasets.utility.constants import (
+    DATASET_FIELDS_FROM_EXISTING_METADATA,
+)
+from dapla_metadata.datasets.utility.constants import NUM_OBLIGATORY_VARIABLES_FIELDS
+from dapla_metadata.datasets.utility.constants import (
+    OBLIGATORY_DATASET_METADATA_IDENTIFIERS,
+)
+from dapla_metadata.datasets.utility.constants import (
     OBLIGATORY_DATASET_METADATA_IDENTIFIERS_MULTILANGUAGE,
 )
-from dataset.utility.constants import OBLIGATORY_VARIABLES_METADATA_IDENTIFIERS
-from dataset.utility.constants import (
+from dapla_metadata.datasets.utility.constants import (
+    OBLIGATORY_VARIABLES_METADATA_IDENTIFIERS,
+)
+from dapla_metadata.datasets.utility.constants import (
     OBLIGATORY_VARIABLES_METADATA_IDENTIFIERS_MULTILANGUAGE,
 )
 

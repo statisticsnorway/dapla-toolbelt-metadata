@@ -4,17 +4,17 @@ import jwt
 import pytest
 from faker import Faker
 
-from dataset import user_info
-from dataset.user_info import PLACEHOLDER_EMAIL_ADDRESS
-from dataset.user_info import DaplaLabUserInfo
-from dataset.user_info import JupyterHubUserInfo
-from dataset.user_info import UnknownUserInfo
-from dataset.user_info import UserInfo
-from dataset.utility.enums import DaplaRegion
-from dataset.utility.enums import DaplaService
-from tests.dataset.constants import DAPLA_REGION
-from tests.dataset.constants import DAPLA_SERVICE
-from tests.dataset.constants import JUPYTERHUB_USER
+from dapla_metadata.datasets import user_info
+from dapla_metadata.datasets.user_info import PLACEHOLDER_EMAIL_ADDRESS
+from dapla_metadata.datasets.user_info import DaplaLabUserInfo
+from dapla_metadata.datasets.user_info import JupyterHubUserInfo
+from dapla_metadata.datasets.user_info import UnknownUserInfo
+from dapla_metadata.datasets.user_info import UserInfo
+from dapla_metadata.datasets.utility.enums import DaplaRegion
+from dapla_metadata.datasets.utility.enums import DaplaService
+from tests.datasets.constants import DAPLA_REGION
+from tests.datasets.constants import DAPLA_SERVICE
+from tests.datasets.constants import JUPYTERHUB_USER
 
 
 @pytest.fixture()
