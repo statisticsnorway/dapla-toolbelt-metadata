@@ -30,4 +30,159 @@ Module contents
    :members:
    :undoc-members:
    :show-inheritance:
+
+dapla\_metadata.datasets package
+================================
+
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   dapla_metadata.datasets.external_sources
+   dapla_metadata.datasets.utility
+
+Submodules
+----------
+
+dapla\_metadata.datasets.code\_list module
+------------------------------------------
+
+.. automodule:: dapla_metadata.datasets.code_list
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+dapla\_metadata.datasets.config module
+--------------------------------------
+
+.. automodule:: dapla_metadata.datasets.config
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+dapla\_metadata.datasets.core module
+------------------------------------
+
+.. automodule:: dapla_metadata.datasets.core
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+dapla\_metadata.datasets.dapla\_dataset\_path\_info module
+----------------------------------------------------------
+
+.. automodule:: dapla_metadata.datasets.dapla_dataset_path_info
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+dapla\_metadata.datasets.dataset\_parser module
+-----------------------------------------------
+
+.. automodule:: dapla_metadata.datasets.dataset_parser
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+dapla\_metadata.datasets.model\_backwards\_compatibility module
+---------------------------------------------------------------
+
+.. automodule:: dapla_metadata.datasets.model_backwards_compatibility
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+dapla\_metadata.datasets.model\_validation module
+-------------------------------------------------
+
+.. automodule:: dapla_metadata.datasets.model_validation
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+dapla\_metadata.datasets.statistic\_subject\_mapping module
+-----------------------------------------------------------
+
+.. automodule:: dapla_metadata.datasets.statistic_subject_mapping
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+dapla\_metadata.datasets.user\_info module
+------------------------------------------
+
+.. automodule:: dapla_metadata.datasets.user_info
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: dapla_metadata.datasets
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+dapla\_metadata.datasets.utility package
+========================================
+
+Submodules
+----------
+
+dapla\_metadata.datasets.utility.constants module
+-------------------------------------------------
+
+.. automodule:: dapla_metadata.datasets.utility.constants
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+dapla\_metadata.datasets.utility.enums module
+---------------------------------------------
+
+.. automodule:: dapla_metadata.datasets.utility.enums
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+dapla\_metadata.datasets.utility.utils module
+---------------------------------------------
+
+.. automodule:: dapla_metadata.datasets.utility.utils
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: dapla_metadata.datasets.utility
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+dapla\_metadata.datasets.external\_sources package
+==================================================
+
+Submodules
+----------
+
+dapla\_metadata.datasets.external\_sources.external\_sources module
+-------------------------------------------------------------------
+
+.. automodule:: dapla_metadata.datasets.external_sources.external_sources
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: dapla_metadata.datasets.external_sources
+   :members:
+   :undoc-members:
+   :show-inheritance:
 ```
