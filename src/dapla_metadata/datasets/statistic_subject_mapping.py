@@ -116,17 +116,18 @@ class StatisticSubjectMapping(GetExternalSource):
 
         Returns a BeautifulSoup ResultSet.
         """
+        if not self.source_url:
+            logger.debug("No statistic subject url supplied")
+            return None
+
         try:
-            url = str(self.source_url)
-            response = requests.get(url, timeout=30)
+            response = requests.get(str(self.source_url), timeout=30)
             response.encoding = "utf-8"
-            logger.debug("Got response %s from %s", response, url)
+            logger.debug("Got response %s from %s", response, self.source_url)
             soup = BeautifulSoup(response.text, features="xml")
             return soup.find_all("hovedemne")
         except requests.exceptions.RequestException:
-            logger.exception(
-                "Exception while fetching statistical structure ",
-            )
+            logger.exception("Exception while fetching statistical structure")
             return None
 
     def _parse_statistic_subject_structure_xml(
