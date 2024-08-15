@@ -10,6 +10,7 @@ from pprint import pformat
 from dotenv import dotenv_values
 from dotenv import load_dotenv
 
+from dataset.utility.constants import DATADOC_STATISTICAL_SUBJECT_SOURCE_URL
 from dataset.utility.enums import DaplaRegion
 from dataset.utility.enums import DaplaService
 
@@ -52,7 +53,10 @@ def get_jupyterhub_user() -> str | None:
 
 def get_statistical_subject_source_url() -> str | None:
     """Get the URL to the statistical subject source."""
-    return _get_config_item("DATADOC_STATISTICAL_SUBJECT_SOURCE_URL")
+    return (
+        _get_config_item("DATADOC_STATISTICAL_SUBJECT_SOURCE_URL")
+        or DATADOC_STATISTICAL_SUBJECT_SOURCE_URL
+    )
 
 
 def get_dapla_region() -> DaplaRegion | None:
