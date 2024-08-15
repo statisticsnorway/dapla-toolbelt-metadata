@@ -10,7 +10,10 @@ repository = "https://github.com/statisticsnorway/dapla-toolbelt-metadata"
 documentation = "https://statisticsnorway.github.io/dapla-toolbelt-metadata"
 classifiers = ["Development Status :: 4 - Beta"]
 
-packages = [{ include = "datasets", from = "src"}]
+packages = [
+    { include = "datasets", from = "src"},
+    { include = "src", to = "dapla_metadata"},
+]
 
 [tool.poetry.urls]
 Changelog = "https://github.com/statisticsnorway/dapla-toolbelt-metadata/releases"
@@ -76,6 +79,7 @@ faker = "*"
 
 [tool.pytest.ini_options]
 pythonpath = ["src"]
+env = { PYTHONPATH = "src" }
 
 [tool.coverage.paths]
 source = ["src", "*/site-packages"]
