@@ -29,12 +29,11 @@ cloudpathlib = { extras = ["gs"], version = ">=0.17.0" }
 pyjwt = ">=2.8.0"
 ssb-klass-python = ">=0.0.9"
 ssb-datadoc-model = "^6.0.0"
-pygments = "^2.18.0"
 bs4 = "^0.0.2"
 
 [tool.poetry.group.dev.dependencies]
 black = "^24.8.0"
-pygments = ">=2.10.0"
+pygments = "^2.18.0" 
 coverage = { extras = ["toml"], version = ">=6.2" }
 faker = "^26.1.0"
 furo = "^2024.7.18"
