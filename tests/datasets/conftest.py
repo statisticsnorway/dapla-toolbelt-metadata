@@ -18,11 +18,11 @@ import pytest
 from bs4 import BeautifulSoup
 from bs4 import ResultSet
 
-from datasets import Datadoc
-from datasets.code_list import CodeList
-from datasets.statistic_subject_mapping import StatisticSubjectMapping
-from datasets.user_info import TestUserInfo
-from datasets.utility.enums import SupportedLanguages
+from dapla_metadata.datasets import Datadoc
+from dapla_metadata.datasets.code_list import CodeList
+from dapla_metadata.datasets.statistic_subject_mapping import StatisticSubjectMapping
+from dapla_metadata.datasets.user_info import TestUserInfo
+from dapla_metadata.datasets.utility.enums import SupportedLanguages
 from tests.datasets.constants import CODE_LIST_DIR
 from tests.datasets.constants import DATADOC_METADATA_MODULE
 from tests.datasets.constants import TEST_DATASETS_DIRECTORY

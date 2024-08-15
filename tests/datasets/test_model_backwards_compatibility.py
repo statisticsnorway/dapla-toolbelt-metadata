@@ -5,13 +5,17 @@ from pathlib import Path
 
 import pytest
 
-from datasets.core import Datadoc
-from datasets.model_backwards_compatibility import UnknownModelVersionError
-from datasets.model_backwards_compatibility import add_container
-from datasets.model_backwards_compatibility import handle_version_2_2_0
-from datasets.model_backwards_compatibility import handle_version_3_3_0
-from datasets.model_backwards_compatibility import is_metadata_in_container_structure
-from datasets.model_backwards_compatibility import upgrade_metadata
+from dapla_metadata.datasets.core import Datadoc
+from dapla_metadata.datasets.model_backwards_compatibility import (
+    UnknownModelVersionError,
+)
+from dapla_metadata.datasets.model_backwards_compatibility import add_container
+from dapla_metadata.datasets.model_backwards_compatibility import handle_version_2_2_0
+from dapla_metadata.datasets.model_backwards_compatibility import handle_version_3_3_0
+from dapla_metadata.datasets.model_backwards_compatibility import (
+    is_metadata_in_container_structure,
+)
+from dapla_metadata.datasets.model_backwards_compatibility import upgrade_metadata
 from tests.datasets.constants import TEST_COMPATIBILITY_DIRECTORY
 from tests.datasets.constants import TEST_EXISTING_METADATA_FILE_NAME
 

@@ -7,11 +7,11 @@ from typing import TYPE_CHECKING
 import pytest
 from datadoc_model.model import DataSetState
 
-from datasets.dapla_dataset_path_info import ISO_YEAR
-from datasets.dapla_dataset_path_info import ISO_YEAR_MONTH
-from datasets.dapla_dataset_path_info import ISO_YEAR_MONTH_DAY
-from datasets.dapla_dataset_path_info import SSB_BIMESTER
-from datasets.dapla_dataset_path_info import DaplaDatasetPathInfo
+from dapla_metadata.datasets.dapla_dataset_path_info import ISO_YEAR
+from dapla_metadata.datasets.dapla_dataset_path_info import ISO_YEAR_MONTH
+from dapla_metadata.datasets.dapla_dataset_path_info import ISO_YEAR_MONTH_DAY
+from dapla_metadata.datasets.dapla_dataset_path_info import SSB_BIMESTER
+from dapla_metadata.datasets.dapla_dataset_path_info import DaplaDatasetPathInfo
 from tests.datasets.constants import TEST_BUCKET_PARQUET_FILEPATH_WITH_SHORTNAME
 from tests.datasets.constants import TEST_PARQUET_FILEPATH
 

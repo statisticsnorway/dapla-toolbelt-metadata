@@ -25,13 +25,15 @@ from datadoc_model.model import IsPersonalData
 from datadoc_model.model import Variable
 from datadoc_model.model import VariableRole
 
-from datasets.core import Datadoc
-from datasets.core import InconsistentDatasetsError
-from datasets.core import InconsistentDatasetsWarning
-from datasets.statistic_subject_mapping import StatisticSubjectMapping
-from datasets.user_info import PLACEHOLDER_EMAIL_ADDRESS
-from datasets.user_info import TestUserInfo
-from datasets.utility.constants import DATASET_FIELDS_FROM_EXISTING_METADATA
+from dapla_metadata.datasets.core import Datadoc
+from dapla_metadata.datasets.core import InconsistentDatasetsError
+from dapla_metadata.datasets.core import InconsistentDatasetsWarning
+from dapla_metadata.datasets.statistic_subject_mapping import StatisticSubjectMapping
+from dapla_metadata.datasets.user_info import PLACEHOLDER_EMAIL_ADDRESS
+from dapla_metadata.datasets.user_info import TestUserInfo
+from dapla_metadata.datasets.utility.constants import (
+    DATASET_FIELDS_FROM_EXISTING_METADATA,
+)
 from tests.datasets.constants import DATADOC_METADATA_MODULE_CORE
 from tests.datasets.constants import TEST_BUCKET_NAMING_STANDARD_COMPATIBLE_PATH
 from tests.datasets.constants import TEST_DATASETS_DIRECTORY

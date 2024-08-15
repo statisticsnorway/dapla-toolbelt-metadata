@@ -10,8 +10,8 @@ from pprint import pformat
 from dotenv import dotenv_values
 from dotenv import load_dotenv
 
-from datasets.utility.enums import DaplaRegion
-from datasets.utility.enums import DaplaService
+from dapla_metadata.datasets.utility.enums import DaplaRegion
+from dapla_metadata.datasets.utility.enums import DaplaService
 
 logging.basicConfig(level=logging.DEBUG, force=True)
 

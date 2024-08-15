@@ -2,9 +2,9 @@ import pytest
 import requests
 from bs4 import BeautifulSoup
 
-from datasets.statistic_subject_mapping import PrimarySubject
-from datasets.statistic_subject_mapping import SecondarySubject
-from datasets.statistic_subject_mapping import StatisticSubjectMapping
+from dapla_metadata.datasets.statistic_subject_mapping import PrimarySubject
+from dapla_metadata.datasets.statistic_subject_mapping import SecondarySubject
+from dapla_metadata.datasets.statistic_subject_mapping import StatisticSubjectMapping
 from tests.datasets.constants import TEST_RESOURCES_DIRECTORY
 
 

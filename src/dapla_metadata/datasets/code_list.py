@@ -4,8 +4,8 @@ import logging
 from dataclasses import dataclass
 from typing import TYPE_CHECKING
 
-from datasets.external_sources.external_sources import GetExternalSource
-from datasets.utility.enums import SupportedLanguages
+from dapla_metadata.datasets.external_sources.external_sources import GetExternalSource
+from dapla_metadata.datasets.utility.enums import SupportedLanguages
 
 if TYPE_CHECKING:
     from concurrent.futures import ThreadPoolExecutor

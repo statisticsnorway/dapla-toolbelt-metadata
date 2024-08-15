@@ -1,7 +1,7 @@
 import pytest
 
-from datasets.code_list import CodeList
-from datasets.utility.enums import SupportedLanguages
+from dapla_metadata.datasets.code_list import CodeList
+from dapla_metadata.datasets.utility.enums import SupportedLanguages
 from tests.datasets.constants import TEST_RESOURCES_DIRECTORY
 
 CODE_LIST_DIR = "code_list"

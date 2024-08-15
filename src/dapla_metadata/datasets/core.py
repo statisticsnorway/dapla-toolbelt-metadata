@@ -13,29 +13,37 @@ from typing import TYPE_CHECKING
 from datadoc_model import model
 from datadoc_model.model import DataSetStatus
 
-from datasets import config
-from datasets import user_info
-from datasets.dapla_dataset_path_info import DaplaDatasetPathInfo
-from datasets.dataset_parser import DatasetParser
-from datasets.model_backwards_compatibility import is_metadata_in_container_structure
-from datasets.model_backwards_compatibility import upgrade_metadata
-from datasets.model_validation import ValidateDatadocMetadata
-from datasets.statistic_subject_mapping import StatisticSubjectMapping
-from datasets.utility.constants import DEFAULT_SPATIAL_COVERAGE_DESCRIPTION
-from datasets.utility.constants import INCONSISTENCIES_MESSAGE
-from datasets.utility.constants import METADATA_DOCUMENT_FILE_SUFFIX
-from datasets.utility.constants import NUM_OBLIGATORY_DATASET_FIELDS
-from datasets.utility.constants import NUM_OBLIGATORY_VARIABLES_FIELDS
-from datasets.utility.utils import calculate_percentage
-from datasets.utility.utils import derive_assessment_from_state
-from datasets.utility.utils import get_timestamp_now
-from datasets.utility.utils import merge_variables
-from datasets.utility.utils import normalize_path
-from datasets.utility.utils import num_obligatory_dataset_fields_completed
-from datasets.utility.utils import num_obligatory_variables_fields_completed
-from datasets.utility.utils import override_dataset_fields
-from datasets.utility.utils import set_default_values_dataset
-from datasets.utility.utils import set_default_values_variables
+from dapla_metadata.datasets import config
+from dapla_metadata.datasets import user_info
+from dapla_metadata.datasets.dapla_dataset_path_info import DaplaDatasetPathInfo
+from dapla_metadata.datasets.dataset_parser import DatasetParser
+from dapla_metadata.datasets.model_backwards_compatibility import (
+    is_metadata_in_container_structure,
+)
+from dapla_metadata.datasets.model_backwards_compatibility import upgrade_metadata
+from dapla_metadata.datasets.model_validation import ValidateDatadocMetadata
+from dapla_metadata.datasets.statistic_subject_mapping import StatisticSubjectMapping
+from dapla_metadata.datasets.utility.constants import (
+    DEFAULT_SPATIAL_COVERAGE_DESCRIPTION,
+)
+from dapla_metadata.datasets.utility.constants import INCONSISTENCIES_MESSAGE
+from dapla_metadata.datasets.utility.constants import METADATA_DOCUMENT_FILE_SUFFIX
+from dapla_metadata.datasets.utility.constants import NUM_OBLIGATORY_DATASET_FIELDS
+from dapla_metadata.datasets.utility.constants import NUM_OBLIGATORY_VARIABLES_FIELDS
+from dapla_metadata.datasets.utility.utils import calculate_percentage
+from dapla_metadata.datasets.utility.utils import derive_assessment_from_state
+from dapla_metadata.datasets.utility.utils import get_timestamp_now
+from dapla_metadata.datasets.utility.utils import merge_variables
+from dapla_metadata.datasets.utility.utils import normalize_path
+from dapla_metadata.datasets.utility.utils import (
+    num_obligatory_dataset_fields_completed,
+)
+from dapla_metadata.datasets.utility.utils import (
+    num_obligatory_variables_fields_completed,
+)
+from dapla_metadata.datasets.utility.utils import override_dataset_fields
+from dapla_metadata.datasets.utility.utils import set_default_values_dataset
+from dapla_metadata.datasets.utility.utils import set_default_values_variables
 
 if TYPE_CHECKING:
     import pathlib

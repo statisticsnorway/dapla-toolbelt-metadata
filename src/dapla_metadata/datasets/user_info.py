@@ -6,9 +6,9 @@ from typing import Protocol
 
 import jwt
 
-from datasets import config
-from datasets.utility.enums import DaplaRegion
-from datasets.utility.enums import DaplaService
+from dapla_metadata.datasets import config
+from dapla_metadata.datasets.utility.enums import DaplaRegion
+from dapla_metadata.datasets.utility.enums import DaplaService
 
 logger = logging.getLogger(__name__)
 
