@@ -16,8 +16,6 @@ from dapla_metadata.datasets.utility.constants import (
 from dapla_metadata.datasets.utility.enums import DaplaRegion
 from dapla_metadata.datasets.utility.enums import DaplaService
 
-logging.basicConfig(level=logging.DEBUG, force=True)
-
 logger = logging.getLogger(__name__)
 
 DOT_ENV_FILE_PATH = Path(__file__).parent.joinpath(".env")

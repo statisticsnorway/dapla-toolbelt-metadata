@@ -493,8 +493,7 @@ def test_merge_extracted_and_existing_dataset_metadata(metadata_merged: Datadoc)
 
     # Should match existing metadata
     for field in DATASET_FIELDS_FROM_EXISTING_METADATA:
-        actual = getattr(metadata_merged.dataset, field)
-        assert actual == getattr(
+        assert getattr(metadata_merged.dataset, field) == getattr(
             metadata_existing.dataset,
             field,
         ), f"{field} in merged metadata did not match existing metadata"
