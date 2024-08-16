@@ -321,14 +321,16 @@ class Datadoc:
             variables=[],
         )
 
-        override_dataset_fields(merged_metadata, extracted_metadata)
+        override_dataset_fields(
+            merged_metadata=merged_metadata, existing_metadata=existing_metadata
+        )
 
         # Merge variables.
         # For each extracted variable, copy existing metadata into the merged metadata
         return merge_variables(
-            existing_metadata,
-            extracted_metadata,
-            merged_metadata,
+            existing_metadata=existing_metadata,
+            extracted_metadata=extracted_metadata,
+            merged_metadata=merged_metadata,
         )
 
     def _extract_metadata_from_existing_document(
