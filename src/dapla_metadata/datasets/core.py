@@ -322,7 +322,8 @@ class Datadoc:
         )
 
         override_dataset_fields(
-            merged_metadata=merged_metadata, existing_metadata=existing_metadata
+            merged_metadata=merged_metadata,
+            existing_metadata=existing_metadata,
         )
 
         # Merge variables.
