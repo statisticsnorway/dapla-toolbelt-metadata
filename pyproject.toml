@@ -72,7 +72,7 @@ tests = ["tests", "*/tests"]
 
 [tool.coverage.run]
 branch = true
-source = ["src/dapla_metadata"]
+source = ["dapla_metadata"]
 omit = ["tests/*", "__init__.py"]
 relative_files = true
 
