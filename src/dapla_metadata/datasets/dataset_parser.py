@@ -179,11 +179,11 @@ class DatasetParserParquet(DatasetParser):
     def get_fields(self) -> list[Variable]:
         """Extract the fields from this dataset."""
         with self.dataset.open(mode="rb") as f:
-            schema: pa.Schema = pq.read_schema(f)  # type: ignore [arg-type]
+            schema: pa.Schema = pq.read_schema(f)  # type: ignore [arg-type, assignment]
         return [
             Variable(
                 short_name=data_field.name.strip(),
-                data_type=self.transform_data_type(str(data_field.type)),
+                data_type=self.transform_data_type(str(data_field.type)),  # type: ignore [attr-defined]
             )
             for data_field in schema
             if data_field.name
