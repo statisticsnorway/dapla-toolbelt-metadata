@@ -5,6 +5,7 @@ import logging
 import pathlib
 import uuid
 
+import google.auth
 from cloudpathlib import CloudPath
 from cloudpathlib import GSClient
 from cloudpathlib import GSPath
@@ -51,7 +52,11 @@ def normalize_path(path: str) -> pathlib.Path | CloudPath:
         Pathlib compatible object.
     """
     if path.startswith(GSPath.cloud_prefix):
-        client = GSClient(credentials=AuthClient.fetch_google_credentials())
+        try:
+            credentials, _ = google.auth.default()
+            client = GSClient(credentials=credentials)
+        except google.auth.exceptions.DefaultCredentialsError:
+            client = GSClient(credentials=AuthClient.fetch_google_credentials())
         return GSPath(path, client=client)
     return pathlib.Path(path)
 
