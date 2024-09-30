@@ -586,6 +586,9 @@ class DaplaDatasetPathInfo:
             >>> DaplaDatasetPathInfo('klargjorte_data/person_data_v1.parquet').dataset_state
             <DataSetState.PROCESSED_DATA: 'PROCESSED_DATA'>
 
+            >>> DaplaDatasetPathInfo('klargjorte-data/person_data_v1.parquet').dataset_state
+            <DataSetState.PROCESSED_DATA: 'PROCESSED_DATA'>
+
             >>> DaplaDatasetPathInfo('utdata/min_statistikk/person_data_v1.parquet').dataset_state
             <DataSetState.OUTPUT_DATA: 'OUTPUT_DATA'>
 
