@@ -141,6 +141,9 @@ class SsbDateFormat(DateFormat):
 
             >>> SSB_BIMESTER.get_floor("2003B4")
             datetime.date(2003, 7, 1)
+
+            >>> SSB_BIMESTER.get_floor("2003-B4")
+            datetime.date(2003, 7, 1)
         """
         try:
             year = period_string[:4]
@@ -170,6 +173,9 @@ class SsbDateFormat(DateFormat):
 
             >>> SSB_HALF_YEAR.get_ceil("2024H1")
             datetime.date(2024, 6, 30)
+
+            >>> SSB_HALF_YEAR.get_ceil("2024-H1")
+            datetime.date(2024, 6, 30)
         """
         try:
             year = period_string[:4]
@@ -182,7 +188,7 @@ class SsbDateFormat(DateFormat):
 
 SSB_BIMESTER = SsbDateFormat(
     name="SSB_BIMESTER",
-    regex_pattern=r"^\d{4}[B]\d{1}$",
+    regex_pattern=r"^\d{4}-?[B]\d{1}$",
     arrow_pattern="YYYYMM",
     timeframe="month",
     ssb_dates={
@@ -215,7 +221,7 @@ SSB_BIMESTER = SsbDateFormat(
 
 SSB_QUARTERLY = SsbDateFormat(
     name="SSB_QUARTERLY",
-    regex_pattern=r"^\d{4}[Q]\d{1}$",
+    regex_pattern=r"^\d{4}-?[Q]\d{1}$",
     arrow_pattern="YYYYMM",
     timeframe="month",
     ssb_dates={
@@ -240,7 +246,7 @@ SSB_QUARTERLY = SsbDateFormat(
 
 SSB_TRIANNUAL = SsbDateFormat(
     name="SSB_TRIANNUAL",
-    regex_pattern=r"^\d{4}[T]\d{1}$",
+    regex_pattern=r"^\d{4}-?[T]\d{1}$",
     arrow_pattern="YYYYMM",
     timeframe="month",
     ssb_dates={
@@ -260,7 +266,7 @@ SSB_TRIANNUAL = SsbDateFormat(
 )
 SSB_HALF_YEAR = SsbDateFormat(
     name="SSB_HALF_YEAR",
-    regex_pattern=r"^\d{4}[H]\d{1}$",
+    regex_pattern=r"^\d{4}-?[H]\d{1}$",
     arrow_pattern="YYYYMM",
     timeframe="month",
     ssb_dates={
@@ -412,6 +418,9 @@ class DaplaDatasetPathInfo:
 
             >>> DaplaDatasetPathInfo._extract_period_strings(['p1990Q1', 'kommune', 'v1'])
             ['1990Q1']
+
+            >>> DaplaDatasetPathInfo._extract_period_strings(['p1990-Q1', 'kommune', 'v1'])
+            ['1990-Q1']
 
             >>> DaplaDatasetPathInfo._extract_period_strings(['varehandel','v1'])
             []
@@ -584,6 +593,9 @@ class DaplaDatasetPathInfo:
 
         Examples:
             >>> DaplaDatasetPathInfo('klargjorte_data/person_data_v1.parquet').dataset_state
+            <DataSetState.PROCESSED_DATA: 'PROCESSED_DATA'>
+
+            >>> DaplaDatasetPathInfo('klargjorte-data/person_data_v1.parquet').dataset_state
             <DataSetState.PROCESSED_DATA: 'PROCESSED_DATA'>
 
             >>> DaplaDatasetPathInfo('utdata/min_statistikk/person_data_v1.parquet').dataset_state
