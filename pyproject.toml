@@ -81,6 +81,11 @@ relative_files = true
 show_missing = true
 fail_under = 80
 
+[tool.black]
+# We don't want to format generated files because it creates large diffs
+# when generated code is updated.
+extend-exclude = "/generated/"
+
 [tool.mypy]
 plugins = ["pydantic.mypy"]
 strict = false
