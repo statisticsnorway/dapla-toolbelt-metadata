@@ -104,8 +104,15 @@ module = [
     "datadoc_model",
     "datadoc_model.model",
     "pytest_mock",
+    "generated.openapi_client",
 ]
 ignore_missing_imports = true
+
+# Disable specific error codes in the 'tests' package
+# Also don't require type annotations
+[[tool.mypy.overrides]]
+module = ["generated.openapi_client.*"]
+ignore_errors = true
 
 # Disable specific error codes in the 'tests' package
 # Also don't require type annotations
