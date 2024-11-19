@@ -1,3 +1,4 @@
+# Ignore everything to make sure we don't get extra cruft
 **
+# Unignore the directory with source code
 !vardef_client/
-!test/
