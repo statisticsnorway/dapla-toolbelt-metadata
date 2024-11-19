@@ -20,7 +20,7 @@ import json
 
 from pydantic import BaseModel, ConfigDict, StrictStr
 from typing import Any, ClassVar, Dict, List
-from openapi_client.models.language_string_type import LanguageStringType
+from vardef_client.models.language_string_type import LanguageStringType
 from typing import Optional, Set
 from typing_extensions import Self
 

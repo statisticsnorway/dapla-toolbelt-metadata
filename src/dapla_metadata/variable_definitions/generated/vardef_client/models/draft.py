@@ -18,44 +18,40 @@ import pprint
 import re  # noqa: F401
 import json
 
-from datetime import date, datetime
-from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictInt, StrictStr
+from datetime import date
+from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictStr, field_validator
 from typing import Any, ClassVar, Dict, List, Optional
-from openapi_client.models.contact import Contact
-from openapi_client.models.language_string_type import LanguageStringType
-from openapi_client.models.owner import Owner
-from openapi_client.models.person import Person
-from openapi_client.models.variable_status import VariableStatus
+from typing_extensions import Annotated
+from vardef_client.models.contact import Contact
+from vardef_client.models.language_string_type import LanguageStringType
 from typing import Optional, Set
 from typing_extensions import Self
 
-class CompleteResponse(BaseModel):
+class Draft(BaseModel):
     """
-    Complete response For internal users who need all details while maintaining variable definitions.
+    Create a Draft Variable Definition
     """ # noqa: E501
-    id: Optional[StrictStr] = Field(default=None, description="Unique identifier for the variable definition.")
-    patch_id: StrictInt = Field(description="Integer identifying a patch of a variable definition.")
     name: LanguageStringType = Field(description="Name of the variable. Must be unique for a given Unit Type and Owner combination.")
-    short_name: StrictStr = Field(description="Recommended short name. Must be unique within an organization.")
+    short_name: Annotated[str, Field(strict=True)] = Field(description="Recommended short name. Must be unique within an organization.")
     definition: LanguageStringType = Field(description="Definition of the variable.")
     classification_reference: Optional[StrictStr] = Field(default=None, description="ID of a classification or code list from Klass. The given classification defines all possible values for the defined variable.")
     unit_types: List[StrictStr] = Field(description="A list of one or more unit types, e.g. person, vehicle, household. Must be defined as codes from https://www.ssb.no/klass/klassifikasjoner/702.")
     subject_fields: List[StrictStr] = Field(description="A list of subject fields that the variable is used in. Must be defined as codes from https://www.ssb.no/klass/klassifikasjoner/618.")
     contains_sensitive_personal_information: StrictBool = Field(description="True if variable instances contain particularly sensitive information. Applies even if the information or identifiers are pseudonymized. Information within the following categories are regarded as particularly sensitive: Ethnicity, Political alignment, Religion, Philosophical beliefs, Union membership, Genetics, Biometrics, Health, Sexual relations, Sexual orientation")
-    variable_status: Optional[VariableStatus] = Field(default=None, description="Status of the life cycle of the variable")
     measurement_type: Optional[StrictStr] = Field(default=None, description="Type of measurement for the variable, e.g. length, volume, currency. Must be defined as codes from https://www.ssb.no/klass/klassifikasjoner/303")
     valid_from: date = Field(description="The variable definition is valid from this date inclusive")
-    valid_until: Optional[date] = Field(default=None, description="The variable definition is valid until this date inclusive")
     external_reference_uri: Optional[StrictStr] = Field(default=None, description="A link (URI) to an external definition/documentation")
     comment: Optional[LanguageStringType] = Field(default=None, description="Optional comment to explain the definition or communicate potential changes.")
     related_variable_definition_uris: Optional[List[StrictStr]] = Field(default=None, description="Link(s) to related definitions of variables - a list of one or more definitions. For example for a variable after-tax income it could be relevant to link to definitions of income from work, property income etc.")
-    owner: Owner = Field(description="Owner of the definition, i.e. responsible Dapla team (statistics team) and information about access management groups.")
     contact: Optional[Contact] = Field(default=None, description="Contact details")
-    created_at: datetime = Field(description="The timestamp at which this variable definition was first created.")
-    created_by: Optional[Person] = Field(default=None, description="The user who created this variable definition.")
-    last_updated_at: datetime = Field(description="The timestamp at which this variable definition was last modified.")
-    last_updated_by: Optional[Person] = Field(default=None, description="The user who last modified this variable definition.")
-    __properties: ClassVar[List[str]] = ["id", "patch_id", "name", "short_name", "definition", "classification_reference", "unit_types", "subject_fields", "contains_sensitive_personal_information", "variable_status", "measurement_type", "valid_from", "valid_until", "external_reference_uri", "comment", "related_variable_definition_uris", "owner", "contact", "created_at", "created_by", "last_updated_at", "last_updated_by"]
+    __properties: ClassVar[List[str]] = ["name", "short_name", "definition", "classification_reference", "unit_types", "subject_fields", "contains_sensitive_personal_information", "measurement_type", "valid_from", "external_reference_uri", "comment", "related_variable_definition_uris", "contact"]
+
+    @field_validator('short_name')
+    def short_name_validate_regular_expression(cls, value):
+        """Validates the regular expression"""
+        if not re.match(r"^[a-z0-9_]{3,}$", value):
+            raise ValueError(r"must validate the regular expression /^[a-z0-9_]{3,}$/")
+        return value
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -75,7 +71,7 @@ class CompleteResponse(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of CompleteResponse from a JSON string"""
+        """Create an instance of Draft from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -105,42 +101,18 @@ class CompleteResponse(BaseModel):
         # override the default output from pydantic by calling `to_dict()` of comment
         if self.comment:
             _dict['comment'] = self.comment.to_dict()
-        # override the default output from pydantic by calling `to_dict()` of owner
-        if self.owner:
-            _dict['owner'] = self.owner.to_dict()
         # override the default output from pydantic by calling `to_dict()` of contact
         if self.contact:
             _dict['contact'] = self.contact.to_dict()
-        # override the default output from pydantic by calling `to_dict()` of created_by
-        if self.created_by:
-            _dict['created_by'] = self.created_by.to_dict()
-        # override the default output from pydantic by calling `to_dict()` of last_updated_by
-        if self.last_updated_by:
-            _dict['last_updated_by'] = self.last_updated_by.to_dict()
-        # set to None if id (nullable) is None
-        # and model_fields_set contains the field
-        if self.id is None and "id" in self.model_fields_set:
-            _dict['id'] = None
-
         # set to None if classification_reference (nullable) is None
         # and model_fields_set contains the field
         if self.classification_reference is None and "classification_reference" in self.model_fields_set:
             _dict['classification_reference'] = None
 
-        # set to None if variable_status (nullable) is None
-        # and model_fields_set contains the field
-        if self.variable_status is None and "variable_status" in self.model_fields_set:
-            _dict['variable_status'] = None
-
         # set to None if measurement_type (nullable) is None
         # and model_fields_set contains the field
         if self.measurement_type is None and "measurement_type" in self.model_fields_set:
             _dict['measurement_type'] = None
-
-        # set to None if valid_until (nullable) is None
-        # and model_fields_set contains the field
-        if self.valid_until is None and "valid_until" in self.model_fields_set:
-            _dict['valid_until'] = None
 
         # set to None if external_reference_uri (nullable) is None
         # and model_fields_set contains the field
@@ -162,21 +134,11 @@ class CompleteResponse(BaseModel):
         if self.contact is None and "contact" in self.model_fields_set:
             _dict['contact'] = None
 
-        # set to None if created_by (nullable) is None
-        # and model_fields_set contains the field
-        if self.created_by is None and "created_by" in self.model_fields_set:
-            _dict['created_by'] = None
-
-        # set to None if last_updated_by (nullable) is None
-        # and model_fields_set contains the field
-        if self.last_updated_by is None and "last_updated_by" in self.model_fields_set:
-            _dict['last_updated_by'] = None
-
         return _dict
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of CompleteResponse from a dict"""
+        """Create an instance of Draft from a dict"""
         if obj is None:
             return None
 
@@ -184,8 +146,6 @@ class CompleteResponse(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "id": obj.get("id"),
-            "patch_id": obj.get("patch_id"),
             "name": LanguageStringType.from_dict(obj["name"]) if obj.get("name") is not None else None,
             "short_name": obj.get("short_name"),
             "definition": LanguageStringType.from_dict(obj["definition"]) if obj.get("definition") is not None else None,
@@ -193,19 +153,12 @@ class CompleteResponse(BaseModel):
             "unit_types": obj.get("unit_types"),
             "subject_fields": obj.get("subject_fields"),
             "contains_sensitive_personal_information": obj.get("contains_sensitive_personal_information"),
-            "variable_status": obj.get("variable_status"),
             "measurement_type": obj.get("measurement_type"),
             "valid_from": obj.get("valid_from"),
-            "valid_until": obj.get("valid_until"),
             "external_reference_uri": obj.get("external_reference_uri"),
             "comment": LanguageStringType.from_dict(obj["comment"]) if obj.get("comment") is not None else None,
             "related_variable_definition_uris": obj.get("related_variable_definition_uris"),
-            "owner": Owner.from_dict(obj["owner"]) if obj.get("owner") is not None else None,
-            "contact": Contact.from_dict(obj["contact"]) if obj.get("contact") is not None else None,
-            "created_at": obj.get("created_at"),
-            "created_by": Person.from_dict(obj["created_by"]) if obj.get("created_by") is not None else None,
-            "last_updated_at": obj.get("last_updated_at"),
-            "last_updated_by": Person.from_dict(obj["last_updated_by"]) if obj.get("last_updated_by") is not None else None
+            "contact": Contact.from_dict(obj["contact"]) if obj.get("contact") is not None else None
         })
         return _obj
 

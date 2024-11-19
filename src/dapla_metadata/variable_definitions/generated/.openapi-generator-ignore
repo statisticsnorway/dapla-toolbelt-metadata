@@ -1,2 +1,3 @@
 **
-!openapi_client/
+!vardef_client/
+!test/

@@ -4,4 +4,4 @@ install-openapi-generator:
 
 .PHONY: generate-vardef-client
 generate-vardef-client:
-	openapi-generator generate -i https://metadata.test.ssb.no/docs/openapi/variable-definitions-0.1.yml -g python -o src/dapla_metadata/variable_definitions/generated --skip-validate-spec
+	openapi-generator generate -i https://metadata.test.ssb.no/docs/openapi/variable-definitions-0.1.yml -g python -o src/dapla_metadata/variable_definitions/generated --additional-properties=packageName=vardef_client --skip-validate-spec

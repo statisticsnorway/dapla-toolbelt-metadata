@@ -10,7 +10,10 @@ repository = "https://github.com/statisticsnorway/dapla-toolbelt-metadata"
 documentation = "https://statisticsnorway.github.io/dapla-toolbelt-metadata"
 classifiers = ["Development Status :: 4 - Beta"]
 
-packages = [{ include = "dapla_metadata", from = "src" }]
+packages = [
+    { include = "dapla_metadata", from = "src" },
+    { include = "vardef_client", from = "src/dapla_metadata/variable_definitions/generated" },
+]
 
 [tool.poetry.urls]
 Changelog = "https://github.com/statisticsnorway/dapla-toolbelt-metadata/releases"
@@ -62,14 +65,18 @@ types-setuptools = "*"
 types-beautifulsoup4 = ">=4.12.0.20240511"
 ipykernel = "^6.29.5"
 rich = "^13.9.4"
+bpython = "^0.24"
 
 [tool.pytest.ini_options]
-pythonpath = ["src"]
+pythonpath = [
+    "src",
+    "src/dapla_metadata/variable_definitions/generated/openapi_client",
+]
 
 
 [tool.coverage.paths]
 source = ["src", "*/site-packages"]
-tests = ["tests", "*/tests"]
+tests = ["tests", "*/tests", "*/test"]
 
 [tool.coverage.run]
 branch = true
@@ -97,6 +104,7 @@ show_error_context = true
 [[tool.mypy.overrides]]
 # Allow missing type hints in third-party libraries without type information.
 module = [
+    "nox",
     "dapla",
     "gcsfs",
     "pyarrow",
@@ -104,15 +112,16 @@ module = [
     "datadoc_model",
     "datadoc_model.model",
     "pytest_mock",
-    "generated.openapi_client",
+    "openapi_client",
 ]
 ignore_missing_imports = true
 
 # Disable specific error codes in the 'tests' package
 # Also don't require type annotations
 [[tool.mypy.overrides]]
-module = ["generated.openapi_client.*"]
+module = ["openapi_client"]
 ignore_errors = true
+disable_error_code = ["var-annotated"]
 
 # Disable specific error codes in the 'tests' package
 # Also don't require type annotations
