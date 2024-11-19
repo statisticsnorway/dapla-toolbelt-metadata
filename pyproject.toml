@@ -97,6 +97,8 @@ warn_unreachable = true
 pretty = true
 show_column_numbers = true
 show_error_context = true
+# Generated code is not high quality, just ignore the problems there
+exclude = "generated/vardef_client/.*"
 
 [[tool.mypy.overrides]]
 # Allow missing type hints in third-party libraries without type information.
@@ -109,21 +111,13 @@ module = [
     "datadoc_model",
     "datadoc_model.model",
     "pytest_mock",
-    "vardef_client",
 ]
 ignore_missing_imports = true
 
 # Disable specific error codes in the 'tests' package
 # Also don't require type annotations
 [[tool.mypy.overrides]]
-module = ["vardef_client"]
-ignore_errors = true
-disable_error_code = ["var-annotated"]
-
-# Disable specific error codes in the 'tests' package
-# Also don't require type annotations
-[[tool.mypy.overrides]]
-module = ["tests.*", "test.*"]
+module = ["tests.*"]
 disable_error_code = [
     "var-annotated",
     "has-type",
