@@ -10,5 +10,5 @@ generate-vardef-client:
 		-i https://metadata.test.ssb.no/docs/openapi/variable-definitions-0.1.yml \
 		-g python \
 		-o src/dapla_metadata/variable_definitions/generated \
-		--additional-properties=packageName=vardef_client,generateSourceCodeOnly=true \
+		--additional-properties=packageName=vardef_client \
 		--skip-validate-spec

@@ -1,3 +1,4 @@
+README.md
 vardef_client/__init__.py
 vardef_client/api/__init__.py
 vardef_client/api/data_migration_api.py
@@ -9,23 +10,6 @@ vardef_client/api/variable_definitions_api.py
 vardef_client/api_client.py
 vardef_client/api_response.py
 vardef_client/configuration.py
-vardef_client/docs/CompleteResponse.md
-vardef_client/docs/Contact.md
-vardef_client/docs/DataMigrationApi.md
-vardef_client/docs/Draft.md
-vardef_client/docs/DraftVariableDefinitionsApi.md
-vardef_client/docs/LanguageStringType.md
-vardef_client/docs/Owner.md
-vardef_client/docs/Patch.md
-vardef_client/docs/PatchesApi.md
-vardef_client/docs/Person.md
-vardef_client/docs/PublicApi.md
-vardef_client/docs/SupportedLanguages.md
-vardef_client/docs/UpdateDraft.md
-vardef_client/docs/ValidityPeriod.md
-vardef_client/docs/ValidityPeriodsApi.md
-vardef_client/docs/VariableDefinitionsApi.md
-vardef_client/docs/VariableStatus.md
 vardef_client/exceptions.py
 vardef_client/models/__init__.py
 vardef_client/models/complete_response.py
@@ -39,5 +23,5 @@ vardef_client/models/supported_languages.py
 vardef_client/models/update_draft.py
 vardef_client/models/validity_period.py
 vardef_client/models/variable_status.py
+vardef_client/py.typed
 vardef_client/rest.py
-vardef_client/test/__init__.py
