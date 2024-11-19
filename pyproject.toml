@@ -10,10 +10,7 @@ repository = "https://github.com/statisticsnorway/dapla-toolbelt-metadata"
 documentation = "https://statisticsnorway.github.io/dapla-toolbelt-metadata"
 classifiers = ["Development Status :: 4 - Beta"]
 
-packages = [
-    { include = "dapla_metadata", from = "src" },
-    { include = "vardef_client", from = "src/dapla_metadata/variable_definitions/generated" },
-]
+packages = [{ include = "dapla_metadata", from = "src" }]
 
 [tool.poetry.urls]
 Changelog = "https://github.com/statisticsnorway/dapla-toolbelt-metadata/releases"
@@ -112,21 +109,21 @@ module = [
     "datadoc_model",
     "datadoc_model.model",
     "pytest_mock",
-    "openapi_client",
+    "vardef_client",
 ]
 ignore_missing_imports = true
 
 # Disable specific error codes in the 'tests' package
 # Also don't require type annotations
 [[tool.mypy.overrides]]
-module = ["openapi_client"]
+module = ["vardef_client"]
 ignore_errors = true
 disable_error_code = ["var-annotated"]
 
 # Disable specific error codes in the 'tests' package
 # Also don't require type annotations
 [[tool.mypy.overrides]]
-module = ["tests.*"]
+module = ["tests.*", "test.*"]
 disable_error_code = [
     "var-annotated",
     "has-type",
@@ -146,7 +143,6 @@ extend-exclude = [
     ".ipynb_checkpoints",
     "noxfile.py",
     "docs/conf.py",
-    "**/generated",
 ]
 
 # Ruff rules may be customized as desired: https://docs.astral.sh/ruff/rules/
