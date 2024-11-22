@@ -3,33 +3,39 @@ from datetime import date
 import pytest
 from pydantic import BaseModel
 from pydantic import ValidationError
-from vardef_client.models.complete_response import CompleteResponse
-from vardef_client.models.contact import Contact
-from vardef_client.models.draft import Draft
-from vardef_client.models.language_string_type import LanguageStringType
-from vardef_client.models.owner import Owner
-from vardef_client.models.patch import Patch
-from vardef_client.models.person import Person
-from vardef_client.models.update_draft import UpdateDraft
-from vardef_client.models.validity_period import ValidityPeriod
-from vardef_client.models.variable_status import VariableStatus
+
+from dapla_metadata.variable_definitions.generated.vardef_client.models.complete_response import (
+    CompleteResponse,
+)
+from dapla_metadata.variable_definitions.generated.vardef_client.models.contact import (
+    Contact,
+)
+from dapla_metadata.variable_definitions.generated.vardef_client.models.draft import (
+    Draft,
+)
+from dapla_metadata.variable_definitions.generated.vardef_client.models.language_string_type import (
+    LanguageStringType,
+)
+from dapla_metadata.variable_definitions.generated.vardef_client.models.owner import (
+    Owner,
+)
+from dapla_metadata.variable_definitions.generated.vardef_client.models.patch import (
+    Patch,
+)
+from dapla_metadata.variable_definitions.generated.vardef_client.models.person import (
+    Person,
+)
+from dapla_metadata.variable_definitions.generated.vardef_client.models.update_draft import (
+    UpdateDraft,
+)
+from dapla_metadata.variable_definitions.generated.vardef_client.models.validity_period import (
+    ValidityPeriod,
+)
+from dapla_metadata.variable_definitions.generated.vardef_client.models.variable_status import (
+    VariableStatus,
+)
 
 # NOTE: If we need to change these tests, that will normally mean it's a BREAKING CHANGE for users
-
-
-@pytest.fixture
-def language_string_type() -> LanguageStringType:
-    return LanguageStringType(nb="test", nn="test", en="test")
-
-
-@pytest.fixture
-def contact(language_string_type) -> Contact:
-    return Contact(title=language_string_type, email="me@example.com")
-
-
-@pytest.fixture
-def owner() -> Owner:
-    return Owner(team="my_team", groups=["my_team_developers"])
 
 
 @pytest.mark.parametrize(
