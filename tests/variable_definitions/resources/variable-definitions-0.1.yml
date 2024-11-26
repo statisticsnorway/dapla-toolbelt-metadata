@@ -1,0 +1,1977 @@
+openapi: 3.0.1
+info:
+  title: Variable Definitions
+  description: ""
+  contact:
+    name: Team Metadata
+    email: metadata@ssb.no
+  license:
+    name: CC BY 4.0
+    url: https://creativecommons.org/licenses/by/4.0/deed.no
+  version: "0.1"
+  x-audience: external-public
+servers:
+- url: https://metadata.intern.test.ssb.no
+  description: Internal test server
+tags:
+- name: Public
+  description: Operations which are available to the general public without authentication.
+- name: Validity Periods
+  description: Create and access validity periods.
+- name: Patches
+  description: Create and access 'patch' changes.
+- name: Data Migration
+  description: Create variable definitions from existing definitions in Vardok.
+  externalDocs:
+    description: Vardok website
+    url: https://www.ssb.no/a/metadata/definisjoner/variabler/main.html
+- name: Draft Variable Definitions
+  description: "Create, update and delete variable definitions with DRAFT status."
+paths:
+  /public/variable-definitions:
+    get:
+      tags:
+      - Public
+      - Variable Definitions
+      summary: List all variable definitions.
+      description: "List all variable definitions. These are rendered in the given\
+        \ language, with the default being Norwegian Bokmål."
+      operationId: listPublicVariableDefinitions
+      parameters:
+      - name: Accept-Language
+        in: header
+        description: Render the variable definition in the given language.
+        required: true
+        schema:
+          $ref: "#/components/schemas/SupportedLanguages"
+        example: nb
+      - name: date_of_validity
+        in: query
+        description: List only variable definitions which are valid on this date.
+        schema:
+          type: string
+          format: yyyy-MM-dd
+          nullable: true
+        examples:
+          Not specified:
+            value: ""
+          Specific date:
+            value: 1970-01-01
+      responses:
+        "200":
+          description: OK response
+          content:
+            application/json:
+              examples:
+                List of one variable definition:
+                  value: |-
+                    [
+                        {
+                        "id": "wypvb3wd",
+                        "name": "Landbakgrunn",
+                        "short_name": "string",
+                        "definition": "For personer født i utlandet, er dette (med noen få unntak) eget fødeland. For personer født i Norge er det foreldrenes fødeland. I de tilfeller der foreldrene har ulikt fødeland, er det morens fødeland som blir valgt. Hvis ikke personen selv eller noen av foreldrene er utenlandsfødt, hentes landbakgrunn fra de første utenlandsfødte en treffer på i rekkefølgen mormor, morfar, farmor eller farfar.",
+                        "classification_uri": "https://www.ssb.no/en/klass/klassifikasjoner/91",
+                        "unit_types": [{
+                                "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/702",
+                                "code": "20",
+                                "title": "Person"
+                            }
+                        ],
+                        "subject_fields": [
+                        {
+                                "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/618",
+                                "code": "be07",
+                                "title": "Innvandrere"
+                            }
+                        ],
+                        "contains_sensitive_personal_information": true,
+                        "measurement_type": null,
+                        "valid_from": "2003-01-01",
+                        "valid_until": null,
+                        "external_reference_uri": "https://www.ssb.no/a/metadata/conceptvariable/vardok/1919/nb",
+                        "comment": "Fra og med 1.1.2003 ble definisjon endret til også å trekke inn besteforeldrenes fødeland.",
+                        "related_variable_definition_uris": [
+                            "https://example.com/"
+                        ],
+                        "contact": {
+                            "title": "Seksjon for befolkningsstatistikk",
+                            "email": "s320@ssb.no"
+                        }
+                    ,
+                        "last_updated_at": "2024-06-12T10:39:41.038Z"
+                    }
+
+                    ]
+                Empty list:
+                  value: "[]"
+  /public/variable-definitions/{variable-definition-id}:
+    get:
+      tags:
+      - Public
+      - Variable Definitions
+      summary: Get one variable definition.
+      description: "Get one variable definition. This is rendered in the given language,\
+        \ with the default being Norwegian Bokmål."
+      operationId: getPublicVariableDefinitionById
+      parameters:
+      - name: variable-definition-id
+        in: path
+        description: Unique identifier for the variable definition.
+        required: true
+        schema:
+          type: string
+        example: wypvb3wd
+      - name: Accept-Language
+        in: header
+        description: Render the variable definition in the given language.
+        required: true
+        schema:
+          $ref: "#/components/schemas/SupportedLanguages"
+        examples:
+          No date specified:
+            value: nb
+      - name: date_of_validity
+        in: query
+        description: List only variable definitions which are valid on this date.
+        schema:
+          type: string
+          format: date
+          nullable: true
+        examples:
+          No date specified:
+            value: ""
+          Specific date:
+            value: 1970-01-01
+      responses:
+        "200":
+          description: Ok
+          content:
+            application/json:
+              examples:
+                No date specified:
+                  value:
+                    id: wypvb3wd
+                    name: Landbakgrunn
+                    short_name: string
+                    definition: "For personer født i utlandet, er dette (med noen\
+                      \ få unntak) eget fødeland. For personer født i Norge er det\
+                      \ foreldrenes fødeland. I de tilfeller der foreldrene har ulikt\
+                      \ fødeland, er det morens fødeland som blir valgt. Hvis ikke\
+                      \ personen selv eller noen av foreldrene er utenlandsfødt, hentes\
+                      \ landbakgrunn fra de første utenlandsfødte en treffer på i\
+                      \ rekkefølgen mormor, morfar, farmor eller farfar."
+                    classification_uri: https://www.ssb.no/en/klass/klassifikasjoner/91
+                    unit_types:
+                    - reference_uri: https://www.ssb.no/klass/klassifikasjoner/702
+                      code: "20"
+                      title: Person
+                    subject_fields:
+                    - reference_uri: https://www.ssb.no/klass/klassifikasjoner/618
+                      code: be07
+                      title: Innvandrere
+                    contains_sensitive_personal_information: true
+                    valid_from: 2003-01-01
+                    external_reference_uri: https://www.ssb.no/a/metadata/conceptvariable/vardok/1919/nb
+                    comment: Fra og med 1.1.2003 ble definisjon endret til også å
+                      trekke inn besteforeldrenes fødeland.
+                    related_variable_definition_uris:
+                    - https://example.com/
+                    contact:
+                      title: Seksjon for befolkningsstatistikk
+                      email: s320@ssb.no
+                    last_updated_at: 2024-06-12T10:39:41.038Z
+        "404":
+          description: No such variable definition found
+  /public/variable-definitions/{variable-definition-id}/validity-periods:
+    get:
+      tags:
+      - Public
+      - Validity Periods
+      summary: List all validity periods.
+      description: "List all validity periods. These are rendered in the given language,\
+        \ with the default being Norwegian Bokmål."
+      operationId: listPublicValidityPeriods
+      parameters:
+      - name: variable-definition-id
+        in: path
+        description: Unique identifier for the variable definition.
+        required: true
+        schema:
+          type: string
+        examples:
+          one_validity_period:
+            value: wypvb3wd
+      - name: Accept-Language
+        in: header
+        description: Render the variable definition in the given language.
+        required: true
+        schema:
+          $ref: "#/components/schemas/SupportedLanguages"
+        examples:
+          one_validity_period:
+            value: nb
+      responses:
+        "200":
+          description: Ok
+          content:
+            application/json:
+              examples:
+                one_validity_period:
+                  value: |-
+                    [
+                        {
+                        "id": "wypvb3wd",
+                        "name": "Landbakgrunn",
+                        "short_name": "string",
+                        "definition": "For personer født i utlandet, er dette (med noen få unntak) eget fødeland. For personer født i Norge er det foreldrenes fødeland. I de tilfeller der foreldrene har ulikt fødeland, er det morens fødeland som blir valgt. Hvis ikke personen selv eller noen av foreldrene er utenlandsfødt, hentes landbakgrunn fra de første utenlandsfødte en treffer på i rekkefølgen mormor, morfar, farmor eller farfar.",
+                        "classification_uri": "https://www.ssb.no/en/klass/klassifikasjoner/91",
+                        "unit_types": [{
+                                "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/702",
+                                "code": "20",
+                                "title": "Person"
+                            }
+                        ],
+                        "subject_fields": [
+                        {
+                                "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/618",
+                                "code": "be07",
+                                "title": "Innvandrere"
+                            }
+                        ],
+                        "contains_sensitive_personal_information": true,
+                        "measurement_type": null,
+                        "valid_from": "2003-01-01",
+                        "valid_until": null,
+                        "external_reference_uri": "https://www.ssb.no/a/metadata/conceptvariable/vardok/1919/nb",
+                        "comment": "Fra og med 1.1.2003 ble definisjon endret til også å trekke inn besteforeldrenes fødeland.",
+                        "related_variable_definition_uris": [
+                            "https://example.com/"
+                        ],
+                        "contact": {
+                            "title": "Seksjon for befolkningsstatistikk",
+                            "email": "s320@ssb.no"
+                        }
+                    ,
+                        "last_updated_at": "2024-06-12T10:39:41.038Z"
+                    }
+
+                    ]
+  /vardok-migration/{vardok-id}:
+    post:
+      tags:
+      - Data Migration
+      summary: Create a variable definition from a VarDok variable definition.
+      description: Create a variable definition from a VarDok variable definition.
+      operationId: createVariableDefinitionFromVarDok
+      parameters:
+      - name: vardok-id
+        in: path
+        description: The ID of the definition in Vardok.
+        required: true
+        schema:
+          type: string
+        examples:
+          migrate_1607:
+            value: "1607"
+      - name: active_group
+        in: query
+        description: The group which the user currently represents.
+        required: true
+        schema:
+          type: string
+        examples:
+          migrate_1607:
+            value: dapla-felles-developers
+      responses:
+        "201":
+          description: Successfully created.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CompleteResponse"
+              examples:
+                migrate_1607:
+                  value:
+                    id: wypvb3wd
+                    patch_id: 1
+                    name:
+                      en: Country Background
+                      nb: Landbakgrunn
+                      nn: Landbakgrunn
+                    short_name: landbak
+                    definition:
+                      en: "Country background is the person's own, the mother's or\
+                        \ possibly the father's country of birth. Persons without\
+                        \ an immigrant background always have Norway as country background.\
+                        \ In cases where the parents have different countries of birth\
+                        \ the mother's country of birth is chosen. If neither the\
+                        \ person nor the parents are born abroad, country background\
+                        \ is chosen from the first person born abroad in the order\
+                        \ mother's mother, mother's father, father's mother, father's\
+                        \ father."
+                      nb: "For personer født i utlandet, er dette (med noen få unntak)\
+                        \ eget fødeland. For personer født i Norge er det foreldrenes\
+                        \ fødeland. I de tilfeller der foreldrene har ulikt fødeland,\
+                        \ er det morens fødeland som blir valgt. Hvis ikke personen\
+                        \ selv eller noen av foreldrene er utenlandsfødt, hentes landbakgrunn\
+                        \ fra de første utenlandsfødte en treffer på i rekkefølgen\
+                        \ mormor, morfar, farmor eller farfar."
+                      nn: "For personar fødd i utlandet, er dette (med nokre få unntak)\
+                        \ eige fødeland. For personar fødd i Noreg er det fødelandet\
+                        \ til foreldra. I dei tilfella der foreldra har ulikt fødeland,\
+                        \ er det fødelandet til mora som blir valt. Viss ikkje personen\
+                        \ sjølv eller nokon av foreldra er utenlandsfødt, blir henta\
+                        \ landsbakgrunn frå dei første utenlandsfødte ein treffar\
+                        \ på i rekkjefølgja mormor, morfar, farmor eller farfar."
+                    classification_reference: "91"
+                    unit_types:
+                    - "01"
+                    - "02"
+                    subject_fields:
+                    - he04
+                    contains_sensitive_personal_information: true
+                    variable_status: DRAFT
+                    valid_from: 2003-01-01
+                    external_reference_uri: https://www.ssb.no/a/metadata/conceptvariable/vardok/1919/nb
+                    comment:
+                      nb: Fra og med 1.1.2003 ble definisjon endret til også å trekke
+                        inn besteforeldrenes fødeland.
+                      nn: Fra og med 1.1.2003 ble definisjon endret til også å trekke
+                        inn besteforeldrenes fødeland.
+                      en: "As of 1 January 2003, the definition was changed to also\
+                        \ include the grandparents' country of birth."
+                    related_variable_definition_uris:
+                    - https://example.com/
+                    owner:
+                      team: team-a
+                      groups:
+                      - team-a-developers
+                    contact:
+                      title:
+                        en: Division for population statistics
+                        nb: Seksjon for befolkningsstatistikk
+                        nn: Seksjon for befolkningsstatistikk
+                      email: s320@ssb.no
+                    created_at: 2024-06-11T08:15:19.038Z
+                    created_by:
+                      code: ano@ssb.no
+                      name: Ola Nordmann
+                    last_updated_at: 2024-06-11T08:15:19.038Z
+                    last_updated_by:
+                      code: ano@ssb.no
+                      name: Ola Nordmann
+        "400":
+          description: The definition in Vardok has missing or malformed metadata.
+      security:
+      - Keycloak token: []
+  /variable-definitions:
+    get:
+      tags:
+      - Variable Definitions
+      summary: List all variable definitions.
+      description: List all variable definitions.
+      operationId: listVariableDefinitions
+      parameters:
+      - name: date_of_validity
+        in: query
+        description: List only variable definitions which are valid on this date.
+        schema:
+          type: string
+          format: yyyy-MM-dd
+          nullable: true
+        examples:
+          Not specified:
+            value: ""
+          Specific date:
+            value: 1970-01-01
+      responses:
+        "200":
+          description: OK response
+          content:
+            application/json:
+              examples:
+                List of one variable definition:
+                  value: |-
+                    [
+                        {
+                        "id": "wypvb3wd",
+                        "patch_id": 1,
+                        "name": {
+                            "en": "Country Background",
+                            "nb": "Landbakgrunn",
+                            "nn": "Landbakgrunn"
+                        },
+                        "short_name": "landbak",
+                        "definition": {
+                            "en": "Country background is the person's own, the mother's or possibly the father's country of birth. Persons without an immigrant background always have Norway as country background. In cases where the parents have different countries of birth the mother's country of birth is chosen. If neither the person nor the parents are born abroad, country background is chosen from the first person born abroad in the order mother's mother, mother's father, father's mother, father's father.",
+                            "nb": "For personer født i utlandet, er dette (med noen få unntak) eget fødeland. For personer født i Norge er det foreldrenes fødeland. I de tilfeller der foreldrene har ulikt fødeland, er det morens fødeland som blir valgt. Hvis ikke personen selv eller noen av foreldrene er utenlandsfødt, hentes landbakgrunn fra de første utenlandsfødte en treffer på i rekkefølgen mormor, morfar, farmor eller farfar.",
+                            "nn": "For personar fødd i utlandet, er dette (med nokre få unntak) eige fødeland. For personar fødd i Noreg er det fødelandet til foreldra. I dei tilfella der foreldra har ulikt fødeland, er det fødelandet til mora som blir valt. Viss ikkje personen sjølv eller nokon av foreldra er utenlandsfødt, blir henta landsbakgrunn frå dei første utenlandsfødte ein treffar på i rekkjefølgja mormor, morfar, farmor eller farfar."
+                        },
+                        "classification_reference": "91",
+                        "unit_types": ["01", "02"],
+                        "subject_fields": ["he04"],
+                        "contains_sensitive_personal_information": true,
+                        "variable_status": "DRAFT",
+                        "measurement_type": null,
+                        "valid_from": "2003-01-01",
+                        "valid_until": null,
+                        "external_reference_uri": "https://www.ssb.no/a/metadata/conceptvariable/vardok/1919/nb",
+                        "comment": {
+                            "nb": "Fra og med 1.1.2003 ble definisjon endret til også å trekke inn besteforeldrenes fødeland.",
+                            "nn": "Fra og med 1.1.2003 ble definisjon endret til også å trekke inn besteforeldrenes fødeland.",
+                            "en": "As of 1 January 2003, the definition was changed to also include the grandparents' country of birth."
+                        },
+                        "related_variable_definition_uris": [
+                            "https://example.com/"
+                        ],
+                        "owner": {
+                            "team": "team-a",
+                            "groups": ["team-a-developers"]
+                        },
+                        "contact": {
+                            "title": {
+                                "en": "Division for population statistics",
+                                "nb": "Seksjon for befolkningsstatistikk",
+                                "nn": "Seksjon for befolkningsstatistikk"
+                            },
+                            "email": "s320@ssb.no"
+                        },
+                        "created_at": "2024-06-11T08:15:19.038Z",
+                        "created_by": {
+                            "code": "ano@ssb.no",
+                            "name": "Ola Nordmann"
+                        }
+                    ,
+                        "last_updated_at": "2024-06-11T08:15:19.038Z",
+                        "last_updated_by": {
+                            "code": "ano@ssb.no",
+                            "name": "Ola Nordmann"
+                        }
+
+                    }
+
+                    ]
+                Empty list:
+                  value: "[]"
+      security:
+      - Keycloak token: []
+    post:
+      tags:
+      - Draft Variable Definitions
+      summary: Create a variable definition.
+      description: Create a variable definition. New variable definitions are automatically
+        assigned status DRAFT and must include all required fields. Attempts to specify
+        id or variable_status in a request will receive 400 BAD REQUEST responses.
+      operationId: createVariableDefinition
+      parameters:
+      - name: active_group
+        in: query
+        description: The group which the user currently represents.
+        required: true
+        schema:
+          type: string
+        examples:
+          create_draft:
+            value: dapla-felles-developers
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Draft"
+        required: true
+      responses:
+        "201":
+          description: Successfully created.
+          content:
+            application/json:
+              examples:
+                create_draft:
+                  value:
+                    name:
+                      en: Country Background
+                      nb: Landbakgrunn
+                      nn: Landbakgrunn
+                    short_name: landbak
+                    definition:
+                      en: "Country background is the person's own, the mother's or\
+                        \ possibly the father's country of birth. Persons without\
+                        \ an immigrant background always have Norway as country background.\
+                        \ In cases where the parents have different countries of birth\
+                        \ the mother's country of birth is chosen. If neither the\
+                        \ person nor the parents are born abroad, country background\
+                        \ is chosen from the first person born abroad in the order\
+                        \ mother's mother, mother's father, father's mother, father's\
+                        \ father."
+                      nb: "For personer født i utlandet, er dette (med noen få unntak)\
+                        \ eget fødeland. For personer født i Norge er det foreldrenes\
+                        \ fødeland. I de tilfeller der foreldrene har ulikt fødeland,\
+                        \ er det morens fødeland som blir valgt. Hvis ikke personen\
+                        \ selv eller noen av foreldrene er utenlandsfødt, hentes landbakgrunn\
+                        \ fra de første utenlandsfødte en treffer på i rekkefølgen\
+                        \ mormor, morfar, farmor eller farfar."
+                      nn: "For personar fødd i utlandet, er dette (med nokre få unntak)\
+                        \ eige fødeland. For personar fødd i Noreg er det fødelandet\
+                        \ til foreldra. I dei tilfella der foreldra har ulikt fødeland,\
+                        \ er det fødelandet til mora som blir valt. Viss ikkje personen\
+                        \ sjølv eller nokon av foreldra er utenlandsfødt, blir henta\
+                        \ landsbakgrunn frå dei første utenlandsfødte ein treffar\
+                        \ på i rekkjefølgja mormor, morfar, farmor eller farfar."
+                    classification_reference: "91"
+                    unit_types:
+                    - "01"
+                    - "02"
+                    subject_fields:
+                    - he04
+                    contains_sensitive_personal_information: true
+                    valid_from: 2003-01-01
+                    external_reference_uri: https://www.ssb.no/a/metadata/conceptvariable/vardok/1919/nb
+                    comment:
+                      nb: Fra og med 1.1.2003 ble definisjon endret til også å trekke
+                        inn besteforeldrenes fødeland.
+                      nn: Fra og med 1.1.2003 ble definisjon endret til også å trekke
+                        inn besteforeldrenes fødeland.
+                      en: "As of 1 January 2003, the definition was changed to also\
+                        \ include the grandparents' country of birth."
+                    related_variable_definition_uris:
+                    - https://example.com/
+                    contact:
+                      title:
+                        en: Division for population statistics
+                        nb: Seksjon for befolkningsstatistikk
+                        nn: Seksjon for befolkningsstatistikk
+                      email: s320@ssb.no
+        "400":
+          description: "Malformed data, missing data or attempt to specify disallowed\
+            \ fields."
+        "409":
+          description: Short name is already in use by another variable definition.
+      security:
+      - Keycloak token: []
+  /variable-definitions/{variable-definition-id}:
+    get:
+      tags:
+      - Variable Definitions
+      summary: Get one variable definition.
+      description: Get one variable definition.
+      operationId: getVariableDefinitionById
+      parameters:
+      - name: variable-definition-id
+        in: path
+        description: Unique identifier for the variable definition.
+        required: true
+        schema:
+          type: string
+        example: wypvb3wd
+      - name: date_of_validity
+        in: query
+        description: List only variable definitions which are valid on this date.
+        schema:
+          type: string
+          format: date
+          nullable: true
+        examples:
+          No date specified:
+            value: ""
+          Specific date:
+            value: 1970-01-01
+      responses:
+        "200":
+          description: Ok
+          content:
+            application/json:
+              examples:
+                No date specified:
+                  value:
+                    id: wypvb3wd
+                    name: Landbakgrunn
+                    short_name: string
+                    definition: "For personer født i utlandet, er dette (med noen\
+                      \ få unntak) eget fødeland. For personer født i Norge er det\
+                      \ foreldrenes fødeland. I de tilfeller der foreldrene har ulikt\
+                      \ fødeland, er det morens fødeland som blir valgt. Hvis ikke\
+                      \ personen selv eller noen av foreldrene er utenlandsfødt, hentes\
+                      \ landbakgrunn fra de første utenlandsfødte en treffer på i\
+                      \ rekkefølgen mormor, morfar, farmor eller farfar."
+                    classification_uri: https://www.ssb.no/en/klass/klassifikasjoner/91
+                    unit_types:
+                    - reference_uri: https://www.ssb.no/klass/klassifikasjoner/702
+                      code: "20"
+                      title: Person
+                    subject_fields:
+                    - reference_uri: https://www.ssb.no/klass/klassifikasjoner/618
+                      code: be07
+                      title: Innvandrere
+                    contains_sensitive_personal_information: true
+                    valid_from: 2003-01-01
+                    external_reference_uri: https://www.ssb.no/a/metadata/conceptvariable/vardok/1919/nb
+                    comment: Fra og med 1.1.2003 ble definisjon endret til også å
+                      trekke inn besteforeldrenes fødeland.
+                    related_variable_definition_uris:
+                    - https://example.com/
+                    contact:
+                      title: Seksjon for befolkningsstatistikk
+                      email: s320@ssb.no
+                    last_updated_at: 2024-06-12T10:39:41.038Z
+        "404":
+          description: No such variable definition found
+      security:
+      - Keycloak token: []
+    delete:
+      tags:
+      - Draft Variable Definitions
+      summary: Delete a variable definition.
+      description: Delete a variable definition.
+      operationId: deleteVariableDefinitionById
+      parameters:
+      - name: variable-definition-id
+        in: path
+        description: Unique identifier for the variable definition.
+        required: true
+        schema:
+          type: string
+        examples:
+          delete:
+            value: wypvb3wd
+      - name: active_group
+        in: query
+        description: The group which the user currently represents.
+        required: true
+        schema:
+          type: string
+        examples:
+          delete:
+            value: dapla-felles-developers
+      responses:
+        "204":
+          description: Successfully deleted
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Unit"
+        "404":
+          description: No such variable definition found
+        "405":
+          description: Attempt to delete a variable definition with status unlike
+            DRAFT.
+      security:
+      - Keycloak token: []
+    patch:
+      tags:
+      - Draft Variable Definitions
+      summary: Update a variable definition.
+      description: Update a variable definition. Only the fields which need updating
+        should be supplied.
+      operationId: updateVariableDefinitionById
+      parameters:
+      - name: variable-definition-id
+        in: path
+        required: true
+        schema:
+          type: string
+          description: Unique identifier for the variable definition.
+      - name: active_group
+        in: query
+        description: The group which the user currently represents.
+        required: true
+        schema:
+          type: string
+        examples:
+          example:
+            value: dapla-felles-developers
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateDraft"
+        required: true
+      responses:
+        "200":
+          description: Successfully updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CompleteResponse"
+        "400":
+          description: |-
+            Bad request. Examples of these are:
+            - Reference to a Klass classification which doesn't exist.
+            - Owner information missing.
+            - Malformed email addresses.
+        "404":
+          description: No such variable definition found
+        "405":
+          description: Attempt to patch a variable definition with status unlike DRAFT.
+        "409":
+          description: Short name is already in use by another variable definition.
+      security:
+      - Keycloak token: []
+  /variable-definitions/{variable-definition-id}/patches:
+    get:
+      tags:
+      - Patches
+      summary: List all patches for the given variable definition.
+      description: List all patches for the given variable definition. The full object
+        is returned for comparison purposes.
+      operationId: getAllPatches
+      parameters:
+      - name: variable-definition-id
+        in: path
+        description: Unique identifier for the variable definition.
+        required: true
+        schema:
+          type: string
+        examples:
+          one_patch:
+            value: wypvb3wd
+      responses:
+        "404":
+          description: No such variable definition found
+        "200":
+          description: Ok
+          content:
+            application/json:
+              examples:
+                one_patch:
+                  value: |-
+                    [{
+                        "id": "wypvb3wd",
+                        "patch_id": 1,
+                        "name": {
+                            "en": "Country Background",
+                            "nb": "Landbakgrunn",
+                            "nn": "Landbakgrunn"
+                        },
+                        "short_name": "landbak",
+                        "definition": {
+                            "en": "Country background is the person's own, the mother's or possibly the father's country of birth. Persons without an immigrant background always have Norway as country background. In cases where the parents have different countries of birth the mother's country of birth is chosen. If neither the person nor the parents are born abroad, country background is chosen from the first person born abroad in the order mother's mother, mother's father, father's mother, father's father.",
+                            "nb": "For personer født i utlandet, er dette (med noen få unntak) eget fødeland. For personer født i Norge er det foreldrenes fødeland. I de tilfeller der foreldrene har ulikt fødeland, er det morens fødeland som blir valgt. Hvis ikke personen selv eller noen av foreldrene er utenlandsfødt, hentes landbakgrunn fra de første utenlandsfødte en treffer på i rekkefølgen mormor, morfar, farmor eller farfar.",
+                            "nn": "For personar fødd i utlandet, er dette (med nokre få unntak) eige fødeland. For personar fødd i Noreg er det fødelandet til foreldra. I dei tilfella der foreldra har ulikt fødeland, er det fødelandet til mora som blir valt. Viss ikkje personen sjølv eller nokon av foreldra er utenlandsfødt, blir henta landsbakgrunn frå dei første utenlandsfødte ein treffar på i rekkjefølgja mormor, morfar, farmor eller farfar."
+                        },
+                        "classification_reference": "91",
+                        "unit_types": ["01", "02"],
+                        "subject_fields": ["he04"],
+                        "contains_sensitive_personal_information": true,
+                        "variable_status": "DRAFT",
+                        "measurement_type": null,
+                        "valid_from": "2003-01-01",
+                        "valid_until": null,
+                        "external_reference_uri": "https://www.ssb.no/a/metadata/conceptvariable/vardok/1919/nb",
+                        "comment": {
+                            "nb": "Fra og med 1.1.2003 ble definisjon endret til også å trekke inn besteforeldrenes fødeland.",
+                            "nn": "Fra og med 1.1.2003 ble definisjon endret til også å trekke inn besteforeldrenes fødeland.",
+                            "en": "As of 1 January 2003, the definition was changed to also include the grandparents' country of birth."
+                        },
+                        "related_variable_definition_uris": [
+                            "https://example.com/"
+                        ],
+                        "owner": {
+                            "team": "team-a",
+                            "groups": ["team-a-developers"]
+                        },
+                        "contact": {
+                            "title": {
+                                "en": "Division for population statistics",
+                                "nb": "Seksjon for befolkningsstatistikk",
+                                "nn": "Seksjon for befolkningsstatistikk"
+                            },
+                            "email": "s320@ssb.no"
+                        },
+                        "created_at": "2024-06-11T08:15:19.038Z",
+                        "created_by": {
+                            "code": "ano@ssb.no",
+                            "name": "Ola Nordmann"
+                        }
+                    ,
+                        "last_updated_at": "2024-06-11T08:15:19.038Z",
+                        "last_updated_by": {
+                            "code": "ano@ssb.no",
+                            "name": "Ola Nordmann"
+                        }
+
+                    }
+                    ]
+      security:
+      - Keycloak token: []
+    post:
+      tags:
+      - Patches
+      summary: Create a new patch for a variable definition.
+      description: Create a new patch for a variable definition.
+      operationId: createPatch
+      parameters:
+      - name: variable-definition-id
+        in: path
+        description: Unique identifier for the variable definition.
+        required: true
+        schema:
+          type: string
+        examples:
+          create_patch:
+            value: wypvb3wd
+      - name: valid_from
+        in: query
+        description: Valid from date for the specific validity period to be patched.
+        schema:
+          type: string
+          format: date
+          nullable: true
+        examples:
+          create_patch:
+            value: 1970-01-01
+      - name: active_group
+        in: query
+        description: The group which the user currently represents.
+        required: true
+        schema:
+          type: string
+        examples:
+          create_patch:
+            value: dapla-felles-developers
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Patch"
+        required: true
+      responses:
+        "201":
+          description: Successfully created.
+          content:
+            application/json:
+              examples:
+                create_patch:
+                  value:
+                    id: wypvb3wd
+                    patch_id: 1
+                    name:
+                      en: Country Background
+                      nb: Landbakgrunn
+                      nn: Landbakgrunn
+                    short_name: landbak
+                    definition:
+                      en: "Country background is the person's own, the mother's or\
+                        \ possibly the father's country of birth. Persons without\
+                        \ an immigrant background always have Norway as country background.\
+                        \ In cases where the parents have different countries of birth\
+                        \ the mother's country of birth is chosen. If neither the\
+                        \ person nor the parents are born abroad, country background\
+                        \ is chosen from the first person born abroad in the order\
+                        \ mother's mother, mother's father, father's mother, father's\
+                        \ father."
+                      nb: "For personer født i utlandet, er dette (med noen få unntak)\
+                        \ eget fødeland. For personer født i Norge er det foreldrenes\
+                        \ fødeland. I de tilfeller der foreldrene har ulikt fødeland,\
+                        \ er det morens fødeland som blir valgt. Hvis ikke personen\
+                        \ selv eller noen av foreldrene er utenlandsfødt, hentes landbakgrunn\
+                        \ fra de første utenlandsfødte en treffer på i rekkefølgen\
+                        \ mormor, morfar, farmor eller farfar."
+                      nn: "For personar fødd i utlandet, er dette (med nokre få unntak)\
+                        \ eige fødeland. For personar fødd i Noreg er det fødelandet\
+                        \ til foreldra. I dei tilfella der foreldra har ulikt fødeland,\
+                        \ er det fødelandet til mora som blir valt. Viss ikkje personen\
+                        \ sjølv eller nokon av foreldra er utenlandsfødt, blir henta\
+                        \ landsbakgrunn frå dei første utenlandsfødte ein treffar\
+                        \ på i rekkjefølgja mormor, morfar, farmor eller farfar."
+                    classification_reference: "91"
+                    unit_types:
+                    - "01"
+                    - "02"
+                    subject_fields:
+                    - he04
+                    contains_sensitive_personal_information: true
+                    variable_status: DRAFT
+                    valid_from: 2003-01-01
+                    external_reference_uri: https://www.ssb.no/a/metadata/conceptvariable/vardok/1919/nb
+                    comment:
+                      nb: Fra og med 1.1.2003 ble definisjon endret til også å trekke
+                        inn besteforeldrenes fødeland.
+                      nn: Fra og med 1.1.2003 ble definisjon endret til også å trekke
+                        inn besteforeldrenes fødeland.
+                      en: "As of 1 January 2003, the definition was changed to also\
+                        \ include the grandparents' country of birth."
+                    related_variable_definition_uris:
+                    - https://example.com/
+                    owner:
+                      team: team-a
+                      groups:
+                      - team-a-developers
+                    contact:
+                      title:
+                        en: Division for population statistics
+                        nb: Seksjon for befolkningsstatistikk
+                        nn: Seksjon for befolkningsstatistikk
+                      email: s320@ssb.no
+                    created_at: 2024-06-11T08:15:19.038Z
+                    created_by:
+                      code: ano@ssb.no
+                      name: Ola Nordmann
+                    last_updated_at: 2024-06-11T08:15:19.038Z
+                    last_updated_by:
+                      code: ano@ssb.no
+                      name: Ola Nordmann
+        "400":
+          description: Bad request.
+        "405":
+          description: Method only allowed for published variables.
+      security:
+      - Keycloak token: []
+  /variable-definitions/{variable-definition-id}/patches/{patch-id}:
+    get:
+      tags:
+      - Patches
+      summary: Get one concrete patch for the given variable definition.
+      description: Get one concrete patch for the given variable definition. The full
+        object is returned for comparison purposes.
+      operationId: getOnePatch
+      parameters:
+      - name: variable-definition-id
+        in: path
+        description: Unique identifier for the variable definition.
+        required: true
+        schema:
+          type: string
+        examples:
+          patch_1:
+            value: wypvb3wd
+      - name: patch-id
+        in: path
+        description: ID of the patch to retrieve
+        required: true
+        schema:
+          type: integer
+          format: int32
+        examples:
+          patch_1:
+            value: "1"
+      responses:
+        "200":
+          description: Ok
+          content:
+            application/json:
+              examples:
+                patch_1:
+                  value:
+                    id: wypvb3wd
+                    patch_id: 1
+                    name:
+                      en: Country Background
+                      nb: Landbakgrunn
+                      nn: Landbakgrunn
+                    short_name: landbak
+                    definition:
+                      en: "Country background is the person's own, the mother's or\
+                        \ possibly the father's country of birth. Persons without\
+                        \ an immigrant background always have Norway as country background.\
+                        \ In cases where the parents have different countries of birth\
+                        \ the mother's country of birth is chosen. If neither the\
+                        \ person nor the parents are born abroad, country background\
+                        \ is chosen from the first person born abroad in the order\
+                        \ mother's mother, mother's father, father's mother, father's\
+                        \ father."
+                      nb: "For personer født i utlandet, er dette (med noen få unntak)\
+                        \ eget fødeland. For personer født i Norge er det foreldrenes\
+                        \ fødeland. I de tilfeller der foreldrene har ulikt fødeland,\
+                        \ er det morens fødeland som blir valgt. Hvis ikke personen\
+                        \ selv eller noen av foreldrene er utenlandsfødt, hentes landbakgrunn\
+                        \ fra de første utenlandsfødte en treffer på i rekkefølgen\
+                        \ mormor, morfar, farmor eller farfar."
+                      nn: "For personar fødd i utlandet, er dette (med nokre få unntak)\
+                        \ eige fødeland. For personar fødd i Noreg er det fødelandet\
+                        \ til foreldra. I dei tilfella der foreldra har ulikt fødeland,\
+                        \ er det fødelandet til mora som blir valt. Viss ikkje personen\
+                        \ sjølv eller nokon av foreldra er utenlandsfødt, blir henta\
+                        \ landsbakgrunn frå dei første utenlandsfødte ein treffar\
+                        \ på i rekkjefølgja mormor, morfar, farmor eller farfar."
+                    classification_reference: "91"
+                    unit_types:
+                    - "01"
+                    - "02"
+                    subject_fields:
+                    - he04
+                    contains_sensitive_personal_information: true
+                    variable_status: DRAFT
+                    valid_from: 2003-01-01
+                    external_reference_uri: https://www.ssb.no/a/metadata/conceptvariable/vardok/1919/nb
+                    comment:
+                      nb: Fra og med 1.1.2003 ble definisjon endret til også å trekke
+                        inn besteforeldrenes fødeland.
+                      nn: Fra og med 1.1.2003 ble definisjon endret til også å trekke
+                        inn besteforeldrenes fødeland.
+                      en: "As of 1 January 2003, the definition was changed to also\
+                        \ include the grandparents' country of birth."
+                    related_variable_definition_uris:
+                    - https://example.com/
+                    owner:
+                      team: team-a
+                      groups:
+                      - team-a-developers
+                    contact:
+                      title:
+                        en: Division for population statistics
+                        nb: Seksjon for befolkningsstatistikk
+                        nn: Seksjon for befolkningsstatistikk
+                      email: s320@ssb.no
+                    created_at: 2024-06-11T08:15:19.038Z
+                    created_by:
+                      code: ano@ssb.no
+                      name: Ola Nordmann
+                    last_updated_at: 2024-06-11T08:15:19.038Z
+                    last_updated_by:
+                      code: ano@ssb.no
+                      name: Ola Nordmann
+        "404":
+          description: No such variable definition found
+      security:
+      - Keycloak token: []
+  /variable-definitions/{variable-definition-id}/validity-periods:
+    get:
+      tags:
+      - Validity Periods
+      summary: List all validity periods.
+      description: List all validity periods.
+      operationId: listValidityPeriods
+      parameters:
+      - name: variable-definition-id
+        in: path
+        description: Unique identifier for the variable definition.
+        required: true
+        schema:
+          type: string
+        examples:
+          one_validity_period:
+            value: wypvb3wd
+      responses:
+        "200":
+          description: Ok
+          content:
+            application/json:
+              examples:
+                one_validity_period:
+                  value: |-
+                    [
+                        {
+                        "id": "wypvb3wd",
+                        "patch_id": 1,
+                        "name": {
+                            "en": "Country Background",
+                            "nb": "Landbakgrunn",
+                            "nn": "Landbakgrunn"
+                        },
+                        "short_name": "landbak",
+                        "definition": {
+                            "en": "Country background is the person's own, the mother's or possibly the father's country of birth. Persons without an immigrant background always have Norway as country background. In cases where the parents have different countries of birth the mother's country of birth is chosen. If neither the person nor the parents are born abroad, country background is chosen from the first person born abroad in the order mother's mother, mother's father, father's mother, father's father.",
+                            "nb": "For personer født i utlandet, er dette (med noen få unntak) eget fødeland. For personer født i Norge er det foreldrenes fødeland. I de tilfeller der foreldrene har ulikt fødeland, er det morens fødeland som blir valgt. Hvis ikke personen selv eller noen av foreldrene er utenlandsfødt, hentes landbakgrunn fra de første utenlandsfødte en treffer på i rekkefølgen mormor, morfar, farmor eller farfar.",
+                            "nn": "For personar fødd i utlandet, er dette (med nokre få unntak) eige fødeland. For personar fødd i Noreg er det fødelandet til foreldra. I dei tilfella der foreldra har ulikt fødeland, er det fødelandet til mora som blir valt. Viss ikkje personen sjølv eller nokon av foreldra er utenlandsfødt, blir henta landsbakgrunn frå dei første utenlandsfødte ein treffar på i rekkjefølgja mormor, morfar, farmor eller farfar."
+                        },
+                        "classification_reference": "91",
+                        "unit_types": ["01", "02"],
+                        "subject_fields": ["he04"],
+                        "contains_sensitive_personal_information": true,
+                        "variable_status": "DRAFT",
+                        "measurement_type": null,
+                        "valid_from": "2003-01-01",
+                        "valid_until": null,
+                        "external_reference_uri": "https://www.ssb.no/a/metadata/conceptvariable/vardok/1919/nb",
+                        "comment": {
+                            "nb": "Fra og med 1.1.2003 ble definisjon endret til også å trekke inn besteforeldrenes fødeland.",
+                            "nn": "Fra og med 1.1.2003 ble definisjon endret til også å trekke inn besteforeldrenes fødeland.",
+                            "en": "As of 1 January 2003, the definition was changed to also include the grandparents' country of birth."
+                        },
+                        "related_variable_definition_uris": [
+                            "https://example.com/"
+                        ],
+                        "owner": {
+                            "team": "team-a",
+                            "groups": ["team-a-developers"]
+                        },
+                        "contact": {
+                            "title": {
+                                "en": "Division for population statistics",
+                                "nb": "Seksjon for befolkningsstatistikk",
+                                "nn": "Seksjon for befolkningsstatistikk"
+                            },
+                            "email": "s320@ssb.no"
+                        },
+                        "created_at": "2024-06-11T08:15:19.038Z",
+                        "created_by": {
+                            "code": "ano@ssb.no",
+                            "name": "Ola Nordmann"
+                        }
+                    ,
+                        "last_updated_at": "2024-06-11T08:15:19.038Z",
+                        "last_updated_by": {
+                            "code": "ano@ssb.no",
+                            "name": "Ola Nordmann"
+                        }
+
+                    }
+
+                    ]
+      security:
+      - Keycloak token: []
+    post:
+      tags:
+      - Validity Periods
+      summary: Create a new validity period for a variable definition.
+      description: Create a new validity period for a variable definition.
+      operationId: createValidityPeriod
+      parameters:
+      - name: variable-definition-id
+        in: path
+        description: Unique identifier for the variable definition.
+        required: true
+        schema:
+          type: string
+        examples:
+          create_validity_period:
+            value: wypvb3wd
+      - name: active_group
+        in: query
+        description: The group which the user currently represents.
+        required: true
+        schema:
+          type: string
+        examples:
+          create_validity_period:
+            value: dapla-felles-developers
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ValidityPeriod"
+        required: true
+      responses:
+        "201":
+          description: Successfully created.
+          content:
+            application/json:
+              examples:
+                create_validity_period:
+                  value:
+                    id: wypvb3wd
+                    patch_id: 1
+                    name:
+                      en: Country Background
+                      nb: Landbakgrunn
+                      nn: Landbakgrunn
+                    short_name: landbak
+                    definition:
+                      en: "Country background is the person's own, the mother's or\
+                        \ possibly the father's country of birth. Persons without\
+                        \ an immigrant background always have Norway as country background.\
+                        \ In cases where the parents have different countries of birth\
+                        \ the mother's country of birth is chosen. If neither the\
+                        \ person nor the parents are born abroad, country background\
+                        \ is chosen from the first person born abroad in the order\
+                        \ mother's mother, mother's father, father's mother, father's\
+                        \ father."
+                      nb: "For personer født i utlandet, er dette (med noen få unntak)\
+                        \ eget fødeland. For personer født i Norge er det foreldrenes\
+                        \ fødeland. I de tilfeller der foreldrene har ulikt fødeland,\
+                        \ er det morens fødeland som blir valgt. Hvis ikke personen\
+                        \ selv eller noen av foreldrene er utenlandsfødt, hentes landbakgrunn\
+                        \ fra de første utenlandsfødte en treffer på i rekkefølgen\
+                        \ mormor, morfar, farmor eller farfar."
+                      nn: "For personar fødd i utlandet, er dette (med nokre få unntak)\
+                        \ eige fødeland. For personar fødd i Noreg er det fødelandet\
+                        \ til foreldra. I dei tilfella der foreldra har ulikt fødeland,\
+                        \ er det fødelandet til mora som blir valt. Viss ikkje personen\
+                        \ sjølv eller nokon av foreldra er utenlandsfødt, blir henta\
+                        \ landsbakgrunn frå dei første utenlandsfødte ein treffar\
+                        \ på i rekkjefølgja mormor, morfar, farmor eller farfar."
+                    classification_reference: "91"
+                    unit_types:
+                    - "01"
+                    - "02"
+                    subject_fields:
+                    - he04
+                    contains_sensitive_personal_information: true
+                    variable_status: DRAFT
+                    valid_from: 2003-01-01
+                    external_reference_uri: https://www.ssb.no/a/metadata/conceptvariable/vardok/1919/nb
+                    comment:
+                      nb: Fra og med 1.1.2003 ble definisjon endret til også å trekke
+                        inn besteforeldrenes fødeland.
+                      nn: Fra og med 1.1.2003 ble definisjon endret til også å trekke
+                        inn besteforeldrenes fødeland.
+                      en: "As of 1 January 2003, the definition was changed to also\
+                        \ include the grandparents' country of birth."
+                    related_variable_definition_uris:
+                    - https://example.com/
+                    owner:
+                      team: team-a
+                      groups:
+                      - team-a-developers
+                    contact:
+                      title:
+                        en: Division for population statistics
+                        nb: Seksjon for befolkningsstatistikk
+                        nn: Seksjon for befolkningsstatistikk
+                      email: s320@ssb.no
+                    created_at: 2024-06-11T08:15:19.038Z
+                    created_by:
+                      code: ano@ssb.no
+                      name: Ola Nordmann
+                    last_updated_at: 2024-06-11T08:15:19.038Z
+                    last_updated_by:
+                      code: ano@ssb.no
+                      name: Ola Nordmann
+        "400":
+          description: The request is missing or has errors in required fields.
+        "405":
+          description: Method only allowed for published variables.
+      security:
+      - Keycloak token: []
+components:
+  schemas:
+    CompleteResponse:
+      required:
+      - contains_sensitive_personal_information
+      - created_at
+      - definition
+      - last_updated_at
+      - name
+      - owner
+      - patch_id
+      - short_name
+      - subject_fields
+      - unit_types
+      - valid_from
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the variable definition.
+          format: "^[a-zA-Z0-9-_]{8}$"
+          nullable: true
+        patch_id:
+          type: integer
+          description: Integer identifying a patch of a variable definition.
+          format: int32
+          example: 1
+        name:
+          description: Name of the variable. Must be unique for a given Unit Type
+            and Owner combination.
+          allOf:
+          - $ref: "#/components/schemas/LanguageStringType"
+        short_name:
+          type: string
+          description: Recommended short name. Must be unique within an organization.
+        definition:
+          description: Definition of the variable.
+          allOf:
+          - $ref: "#/components/schemas/LanguageStringType"
+        classification_reference:
+          type: string
+          description: ID of a classification or code list from Klass. The given classification
+            defines all possible values for the defined variable.
+          nullable: true
+        unit_types:
+          type: array
+          description: "A list of one or more unit types, e.g. person, vehicle, household.\
+            \ Must be defined as codes from https://www.ssb.no/klass/klassifikasjoner/702."
+          items:
+            type: string
+        subject_fields:
+          type: array
+          description: A list of subject fields that the variable is used in. Must
+            be defined as codes from https://www.ssb.no/klass/klassifikasjoner/618.
+          items:
+            type: string
+        contains_sensitive_personal_information:
+          type: boolean
+          description: "True if variable instances contain particularly sensitive\
+            \ information. Applies even if the information or identifiers are pseudonymized.\
+            \ Information within the following categories are regarded as particularly\
+            \ sensitive: Ethnicity, Political alignment, Religion, Philosophical beliefs,\
+            \ Union membership, Genetics, Biometrics, Health, Sexual relations, Sexual\
+            \ orientation"
+        variable_status:
+          description: Status of the life cycle of the variable
+          nullable: true
+          allOf:
+          - $ref: "#/components/schemas/VariableStatus"
+        measurement_type:
+          type: string
+          description: "Type of measurement for the variable, e.g. length, volume,\
+            \ currency. Must be defined as codes from https://www.ssb.no/klass/klassifikasjoner/303"
+          nullable: true
+        valid_from:
+          type: string
+          description: The variable definition is valid from this date inclusive
+          format: date
+        valid_until:
+          type: string
+          description: The variable definition is valid until this date inclusive
+          format: date
+          nullable: true
+        external_reference_uri:
+          type: string
+          description: A link (URI) to an external definition/documentation
+          format: url
+          nullable: true
+        comment:
+          description: Optional comment to explain the definition or communicate potential
+            changes.
+          nullable: true
+          allOf:
+          - $ref: "#/components/schemas/LanguageStringType"
+        related_variable_definition_uris:
+          type: array
+          description: "Link(s) to related definitions of variables - a list of one\
+            \ or more definitions. For example for a variable after-tax income it\
+            \ could be relevant to link to definitions of income from work, property\
+            \ income etc."
+          nullable: true
+          items:
+            type: string
+            format: url
+        owner:
+          description: "Owner of the definition, i.e. responsible Dapla team (statistics\
+            \ team) and information about access management groups."
+          allOf:
+          - $ref: "#/components/schemas/Owner"
+        contact:
+          description: Contact details
+          nullable: true
+          allOf:
+          - $ref: "#/components/schemas/Contact"
+        created_at:
+          type: string
+          description: The timestamp at which this variable definition was first created.
+          format: date-time
+        created_by:
+          description: The user who created this variable definition.
+          nullable: true
+          allOf:
+          - $ref: "#/components/schemas/Person"
+        last_updated_at:
+          type: string
+          description: The timestamp at which this variable definition was last modified.
+          format: date-time
+        last_updated_by:
+          description: The user who last modified this variable definition.
+          nullable: true
+          allOf:
+          - $ref: "#/components/schemas/Person"
+      description: Complete response For internal users who need all details while
+        maintaining variable definitions.
+    Contact:
+      required:
+      - email
+      - title
+      type: object
+      properties:
+        title:
+          $ref: "#/components/schemas/LanguageStringType"
+        email:
+          type: string
+          format: email
+    Draft:
+      required:
+      - contains_sensitive_personal_information
+      - definition
+      - name
+      - short_name
+      - subject_fields
+      - unit_types
+      - valid_from
+      type: object
+      properties:
+        name:
+          description: Name of the variable. Must be unique for a given Unit Type
+            and Owner combination.
+          allOf:
+          - $ref: "#/components/schemas/LanguageStringType"
+        short_name:
+          pattern: "^[a-z0-9_]{3,}$"
+          type: string
+          description: Recommended short name. Must be unique within an organization.
+        definition:
+          description: Definition of the variable.
+          allOf:
+          - $ref: "#/components/schemas/LanguageStringType"
+        classification_reference:
+          type: string
+          description: ID of a classification or code list from Klass. The given classification
+            defines all possible values for the defined variable.
+          nullable: true
+        unit_types:
+          type: array
+          description: "A list of one or more unit types, e.g. person, vehicle, household.\
+            \ Must be defined as codes from https://www.ssb.no/klass/klassifikasjoner/702."
+          items:
+            type: string
+        subject_fields:
+          type: array
+          description: A list of subject fields that the variable is used in. Must
+            be defined as codes from https://www.ssb.no/klass/klassifikasjoner/618.
+          items:
+            type: string
+        contains_sensitive_personal_information:
+          type: boolean
+          description: "True if variable instances contain particularly sensitive\
+            \ information. Applies even if the information or identifiers are pseudonymized.\
+            \ Information within the following categories are regarded as particularly\
+            \ sensitive: Ethnicity, Political alignment, Religion, Philosophical beliefs,\
+            \ Union membership, Genetics, Biometrics, Health, Sexual relations, Sexual\
+            \ orientation"
+        measurement_type:
+          type: string
+          description: "Type of measurement for the variable, e.g. length, volume,\
+            \ currency. Must be defined as codes from https://www.ssb.no/klass/klassifikasjoner/303"
+          nullable: true
+        valid_from:
+          type: string
+          description: The variable definition is valid from this date inclusive
+          format: date
+        external_reference_uri:
+          type: string
+          description: A link (URI) to an external definition/documentation
+          format: url
+          nullable: true
+        comment:
+          description: Optional comment to explain the definition or communicate potential
+            changes.
+          nullable: true
+          allOf:
+          - $ref: "#/components/schemas/LanguageStringType"
+        related_variable_definition_uris:
+          type: array
+          description: "Link(s) to related definitions of variables - a list of one\
+            \ or more definitions. For example for a variable after-tax income it\
+            \ could be relevant to link to definitions of income from work, property\
+            \ income etc."
+          nullable: true
+          items:
+            type: string
+            format: url
+        contact:
+          description: Contact details
+          nullable: true
+          allOf:
+          - $ref: "#/components/schemas/Contact"
+      description: Create a Draft Variable Definition
+      example:
+        name:
+          en: Country Background
+          nb: Landbakgrunn
+          nn: Landbakgrunn
+        short_name: landbak
+        definition:
+          en: "Country background is the person's own, the mother's or possibly the\
+            \ father's country of birth. Persons without an immigrant background always\
+            \ have Norway as country background. In cases where the parents have different\
+            \ countries of birth the mother's country of birth is chosen. If neither\
+            \ the person nor the parents are born abroad, country background is chosen\
+            \ from the first person born abroad in the order mother's mother, mother's\
+            \ father, father's mother, father's father."
+          nb: "For personer født i utlandet, er dette (med noen få unntak) eget fø\
+            deland. For personer født i Norge er det foreldrenes fødeland. I de tilfeller\
+            \ der foreldrene har ulikt fødeland, er det morens fødeland som blir valgt.\
+            \ Hvis ikke personen selv eller noen av foreldrene er utenlandsfødt, hentes\
+            \ landbakgrunn fra de første utenlandsfødte en treffer på i rekkefølgen\
+            \ mormor, morfar, farmor eller farfar."
+          nn: "For personar fødd i utlandet, er dette (med nokre få unntak) eige fø\
+            deland. For personar fødd i Noreg er det fødelandet til foreldra. I dei\
+            \ tilfella der foreldra har ulikt fødeland, er det fødelandet til mora\
+            \ som blir valt. Viss ikkje personen sjølv eller nokon av foreldra er\
+            \ utenlandsfødt, blir henta landsbakgrunn frå dei første utenlandsfødte\
+            \ ein treffar på i rekkjefølgja mormor, morfar, farmor eller farfar."
+        classification_reference: "91"
+        unit_types:
+        - "01"
+        - "02"
+        subject_fields:
+        - he04
+        contains_sensitive_personal_information: true
+        measurement_type: null
+        valid_from: 2003-01-01
+        external_reference_uri: https://www.ssb.no/a/metadata/conceptvariable/vardok/1919/nb
+        comment:
+          nb: Fra og med 1.1.2003 ble definisjon endret til også å trekke inn besteforeldrenes
+            fødeland.
+          nn: Fra og med 1.1.2003 ble definisjon endret til også å trekke inn besteforeldrenes
+            fødeland.
+          en: "As of 1 January 2003, the definition was changed to also include the\
+            \ grandparents' country of birth."
+        related_variable_definition_uris:
+        - https://example.com/
+        contact:
+          title:
+            en: Division for population statistics
+            nb: Seksjon for befolkningsstatistikk
+            nn: Seksjon for befolkningsstatistikk
+          email: s320@ssb.no
+    LanguageStringType:
+      type: object
+      properties:
+        nb:
+          type: string
+          nullable: true
+        nn:
+          type: string
+          nullable: true
+        en:
+          type: string
+          nullable: true
+    Owner:
+      required:
+      - groups
+      - team
+      type: object
+      properties:
+        team:
+          minLength: 1
+          type: string
+        groups:
+          minItems: 1
+          type: array
+          items:
+            minLength: 1
+            type: string
+      description: Owner
+      example:
+        team: play-obr-b
+        groups:
+        - play-obr-b-developers
+    Patch:
+      type: object
+      properties:
+        name:
+          description: Name of the variable. Must be unique for a given Unit Type
+            and Owner combination.
+          nullable: true
+          allOf:
+          - $ref: "#/components/schemas/LanguageStringType"
+        definition:
+          description: Definition of the variable.
+          nullable: true
+          allOf:
+          - $ref: "#/components/schemas/LanguageStringType"
+        classification_reference:
+          type: string
+          description: ID of a classification or code list from Klass. The given classification
+            defines all possible values for the defined variable.
+          nullable: true
+        unit_types:
+          type: array
+          description: "A list of one or more unit types, e.g. person, vehicle, household.\
+            \ Must be defined as codes from https://www.ssb.no/klass/klassifikasjoner/702."
+          nullable: true
+          items:
+            type: string
+        subject_fields:
+          type: array
+          description: A list of subject fields that the variable is used in. Must
+            be defined as codes from https://www.ssb.no/klass/klassifikasjoner/618.
+          nullable: true
+          items:
+            type: string
+        contains_sensitive_personal_information:
+          type: boolean
+          description: "True if variable instances contain particularly sensitive\
+            \ information. Applies even if the information or identifiers are pseudonymized.\
+            \ Information within the following categories are regarded as particularly\
+            \ sensitive: Ethnicity, Political alignment, Religion, Philosophical beliefs,\
+            \ Union membership, Genetics, Biometrics, Health, Sexual relations, Sexual\
+            \ orientation"
+          nullable: true
+        variable_status:
+          description: Status of the life cycle of the variable
+          nullable: true
+          readOnly: true
+          allOf:
+          - $ref: "#/components/schemas/VariableStatus"
+        measurement_type:
+          type: string
+          description: "Type of measurement for the variable, e.g. length, volume,\
+            \ currency. Must be defined as codes from https://www.ssb.no/klass/klassifikasjoner/303"
+          nullable: true
+        valid_until:
+          type: string
+          description: The variable definition is valid until this date inclusive
+          format: date
+          nullable: true
+        external_reference_uri:
+          type: string
+          description: A link (URI) to an external definition/documentation
+          format: url
+          nullable: true
+        comment:
+          description: Optional comment to explain the definition or communicate potential
+            changes.
+          nullable: true
+          allOf:
+          - $ref: "#/components/schemas/LanguageStringType"
+        related_variable_definition_uris:
+          type: array
+          description: "Link(s) to related definitions of variables - a list of one\
+            \ or more definitions. For example for a variable after-tax income it\
+            \ could be relevant to link to definitions of income from work, property\
+            \ income etc."
+          nullable: true
+          items:
+            type: string
+            format: url
+        owner:
+          description: "Owner of the definition, i.e. responsible Dapla team (statistics\
+            \ team) and information about access management groups."
+          nullable: true
+          allOf:
+          - $ref: "#/components/schemas/Owner"
+        contact:
+          description: Contact details
+          nullable: true
+          allOf:
+          - $ref: "#/components/schemas/Contact"
+      description: Create a new Patch version on a Published Variable Definition.
+      example:
+        name:
+          en: Country Background
+          nb: Landbakgrunnen
+          nn: Landbakgrunnen
+        definition:
+          en: "Country background is the person's own, the mother's or possibly the\
+            \ father's country of birth. Persons without an immigrant background always\
+            \ have Norway as country background. In cases where the parents have different\
+            \ countries of birth the mother's country of birth is chosen. If neither\
+            \ the person nor the parents are born abroad, country background is chosen\
+            \ from the first person born abroad in the order mother's mother, mother's\
+            \ father, father's mother, father's father."
+          nb: "For personer født i utlandet, er dette (med noen få unntak) eget fø\
+            deland. For personer født i Norge er det foreldrenes fødeland. I de tilfeller\
+            \ der foreldrene har ulikt fødeland, er det morens fødeland som blir valgt.\
+            \ Hvis ikke personen selv eller noen av foreldrene er utenlandsfødt, hentes\
+            \ landbakgrunn fra de første utenlandsfødte en treffer på i rekkefølgen\
+            \ mormor, morfar, farmor eller farfar."
+          nn: "For personar fødd i utlandet, er dette (med nokre få unntak) eige fø\
+            deland. For personar fødd i Noreg er det fødelandet til foreldra. I dei\
+            \ tilfella der foreldra har ulikt fødeland, er det fødelandet til mora\
+            \ som blir valt. Viss ikkje personen sjølv eller nokon av foreldra er\
+            \ utenlandsfødt, blir henta landsbakgrunn frå dei første utenlandsfødte\
+            \ ein treffar på i rekkjefølgja mormor, morfar, farmor eller farfar."
+        classification_reference: "91"
+        unit_types:
+        - "01"
+        - "05"
+        subject_fields:
+        - he04
+        contains_sensitive_personal_information: false
+        measurement_type: null
+        valid_until: 2026-01-01
+        external_reference_uri: https://www.ssb.no/a/metadata/conceptvariable/vardok/1919/nb
+        comment:
+          en: Changes in unit types
+          nb: Endring i enhetstyper.
+          nn: Endring i enhetstyper.
+        related_variable_definition_uris:
+        - https://example.com/
+        contact:
+          title:
+            en: Division for population statistics
+            nb: Seksjon for befolkningsstatistikk
+            nn: Seksjon for befolkningsstatistikk
+          email: s320@ssb.no
+    Person:
+      required:
+      - code
+      - name
+      type: object
+      properties:
+        code:
+          type: string
+        name:
+          type: string
+      example:
+        code: ano@ssb.no
+        name: Ola Nordmann
+    SupportedLanguages:
+      type: string
+      description: Languages the application supports.
+      enum:
+      - nb
+      - nn
+      - en
+    Unit:
+      type: object
+    UpdateDraft:
+      type: object
+      properties:
+        name:
+          description: Name of the variable. Must be unique for a given Unit Type
+            and Owner combination.
+          nullable: true
+          allOf:
+          - $ref: "#/components/schemas/LanguageStringType"
+        short_name:
+          pattern: "^[a-z0-9_]{3,}$"
+          type: string
+          description: Recommended short name. Must be unique within an organization.
+          nullable: true
+        definition:
+          description: Definition of the variable.
+          nullable: true
+          allOf:
+          - $ref: "#/components/schemas/LanguageStringType"
+        classification_reference:
+          type: string
+          description: ID of a classification or code list from Klass. The given classification
+            defines all possible values for the defined variable.
+          nullable: true
+        unit_types:
+          type: array
+          description: "A list of one or more unit types, e.g. person, vehicle, household.\
+            \ Must be defined as codes from https://www.ssb.no/klass/klassifikasjoner/702."
+          nullable: true
+          items:
+            type: string
+        subject_fields:
+          type: array
+          description: A list of subject fields that the variable is used in. Must
+            be defined as codes from https://www.ssb.no/klass/klassifikasjoner/618.
+          nullable: true
+          items:
+            type: string
+        contains_sensitive_personal_information:
+          type: boolean
+          description: "True if variable instances contain particularly sensitive\
+            \ information. Applies even if the information or identifiers are pseudonymized.\
+            \ Information within the following categories are regarded as particularly\
+            \ sensitive: Ethnicity, Political alignment, Religion, Philosophical beliefs,\
+            \ Union membership, Genetics, Biometrics, Health, Sexual relations, Sexual\
+            \ orientation"
+          nullable: true
+        variable_status:
+          description: Status of the life cycle of the variable
+          nullable: true
+          allOf:
+          - $ref: "#/components/schemas/VariableStatus"
+        measurement_type:
+          type: string
+          description: "Type of measurement for the variable, e.g. length, volume,\
+            \ currency. Must be defined as codes from https://www.ssb.no/klass/klassifikasjoner/303"
+          nullable: true
+        valid_from:
+          type: string
+          description: The variable definition is valid from this date inclusive
+          format: date
+          nullable: true
+        external_reference_uri:
+          type: string
+          description: A link (URI) to an external definition/documentation
+          format: url
+          nullable: true
+        comment:
+          description: Optional comment to explain the definition or communicate potential
+            changes.
+          nullable: true
+          allOf:
+          - $ref: "#/components/schemas/LanguageStringType"
+        related_variable_definition_uris:
+          type: array
+          description: "Link(s) to related definitions of variables - a list of one\
+            \ or more definitions. For example for a variable after-tax income it\
+            \ could be relevant to link to definitions of income from work, property\
+            \ income etc."
+          nullable: true
+          items:
+            type: string
+            format: url
+        owner:
+          description: "Owner of the definition, i.e. responsible Dapla team (statistics\
+            \ team) and information about access management groups."
+          nullable: true
+          allOf:
+          - $ref: "#/components/schemas/Owner"
+        contact:
+          description: Contact details
+          nullable: true
+          allOf:
+          - $ref: "#/components/schemas/Contact"
+      description: Update variable definition Data structure with all fields optional
+        for updating a Draft Variable Definition.
+      example:
+        name:
+          en: Country Background
+          nb: Landbakgrunn
+          nn: Landbakgrunn
+        short_name: landbak
+        definition:
+          en: "Country background is the person's own, the mother's or possibly the\
+            \ father's country of birth. Persons without an immigrant background always\
+            \ have Norway as country background. In cases where the parents have different\
+            \ countries of birth the mother's country of birth is chosen. If neither\
+            \ the person nor the parents are born abroad, country background is chosen\
+            \ from the first person born abroad in the order mother's mother, mother's\
+            \ father, father's mother, father's father."
+          nb: "For personer født i utlandet, er dette (med noen få unntak) eget fø\
+            deland. For personer født i Norge er det foreldrenes fødeland. I de tilfeller\
+            \ der foreldrene har ulikt fødeland, er det morens fødeland som blir valgt.\
+            \ Hvis ikke personen selv eller noen av foreldrene er utenlandsfødt, hentes\
+            \ landbakgrunn fra de første utenlandsfødte en treffer på i rekkefølgen\
+            \ mormor, morfar, farmor eller farfar."
+          nn: "For personar fødd i utlandet, er dette (med nokre få unntak) eige fø\
+            deland. For personar fødd i Noreg er det fødelandet til foreldra. I dei\
+            \ tilfella der foreldra har ulikt fødeland, er det fødelandet til mora\
+            \ som blir valt. Viss ikkje personen sjølv eller nokon av foreldra er\
+            \ utenlandsfødt, blir henta landsbakgrunn frå dei første utenlandsfødte\
+            \ ein treffar på i rekkjefølgja mormor, morfar, farmor eller farfar."
+        classification_reference: "91"
+        unit_types:
+        - "01"
+        - "02"
+        subject_fields:
+        - he04
+        contains_sensitive_personal_information: true
+        measurement_type: null
+        valid_from: 2003-01-01
+        external_reference_uri: https://www.ssb.no/a/metadata/conceptvariable/vardok/1919/nb
+        comment:
+          nb: Fra og med 1.1.2003 ble definisjon endret til også å trekke inn besteforeldrenes
+            fødeland.
+          nn: Fra og med 1.1.2003 ble definisjon endret til også å trekke inn besteforeldrenes
+            fødeland.
+          en: "As of 1 January 2003, the definition was changed to also include the\
+            \ grandparents' country of birth."
+        related_variable_definition_uris:
+        - https://example.com/
+        contact:
+          title:
+            en: Division for population statistics
+            nb: Seksjon for befolkningsstatistikk
+            nn: Seksjon for befolkningsstatistikk
+          email: s320@ssb.no
+    ValidityPeriod:
+      required:
+      - definition
+      - valid_from
+      type: object
+      properties:
+        name:
+          description: Name of the variable. Must be unique for a given Unit Type
+            and Owner combination.
+          nullable: true
+          allOf:
+          - $ref: "#/components/schemas/LanguageStringType"
+        definition:
+          description: Definition of the variable.
+          allOf:
+          - $ref: "#/components/schemas/LanguageStringType"
+        classification_reference:
+          type: string
+          description: ID of a classification or code list from Klass. The given classification
+            defines all possible values for the defined variable.
+          nullable: true
+        unit_types:
+          type: array
+          description: "A list of one or more unit types, e.g. person, vehicle, household.\
+            \ Must be defined as codes from https://www.ssb.no/klass/klassifikasjoner/702."
+          nullable: true
+          items:
+            type: string
+        subject_fields:
+          type: array
+          description: A list of subject fields that the variable is used in. Must
+            be defined as codes from https://www.ssb.no/klass/klassifikasjoner/618.
+          nullable: true
+          items:
+            type: string
+        contains_sensitive_personal_information:
+          type: boolean
+          description: "True if variable instances contain particularly sensitive\
+            \ information. Applies even if the information or identifiers are pseudonymized.\
+            \ Information within the following categories are regarded as particularly\
+            \ sensitive: Ethnicity, Political alignment, Religion, Philosophical beliefs,\
+            \ Union membership, Genetics, Biometrics, Health, Sexual relations, Sexual\
+            \ orientation"
+          nullable: true
+        variable_status:
+          description: Status of the life cycle of the variable
+          nullable: true
+          readOnly: true
+          allOf:
+          - $ref: "#/components/schemas/VariableStatus"
+        measurement_type:
+          type: string
+          description: "Type of measurement for the variable, e.g. length, volume,\
+            \ currency. Must be defined as codes from https://www.ssb.no/klass/klassifikasjoner/303"
+          nullable: true
+        valid_from:
+          type: string
+          description: The variable definition is valid from this date inclusive
+          format: date
+        external_reference_uri:
+          type: string
+          description: A link (URI) to an external definition/documentation
+          format: url
+          nullable: true
+        comment:
+          description: Optional comment to explain the definition or communicate potential
+            changes.
+          nullable: true
+          allOf:
+          - $ref: "#/components/schemas/LanguageStringType"
+        related_variable_definition_uris:
+          type: array
+          description: "Link(s) to related definitions of variables - a list of one\
+            \ or more definitions. For example for a variable after-tax income it\
+            \ could be relevant to link to definitions of income from work, property\
+            \ income etc."
+          nullable: true
+          items:
+            type: string
+            format: url
+        contact:
+          description: Contact details
+          nullable: true
+          allOf:
+          - $ref: "#/components/schemas/Contact"
+      description: Create a new Validity Period on a Published Variable Definition.
+      example:
+        name:
+          en: Country Background
+          nb: Landbakgrunnen
+          nn: Landbakgrunnen
+        definition:
+          en: Country background is the mothers birth country.
+          nb: For personer født i utlandet er dette mors fødeland.
+          nn: For personar fødd i utlandet mors fødeland.
+        classification_reference: "91"
+        unit_types:
+        - "01"
+        - "05"
+        subject_fields:
+        - he04
+        contains_sensitive_personal_information: false
+        measurement_type: null
+        valid_from: 2026-01-02
+        external_reference_uri: https://www.ssb.no/a/metadata/conceptvariable/vardok/1919/nb
+        comment:
+          en: Change in legislation triggers change of definition text.
+          nb: Endring i lovgiving utløser endring av definisjonstekst.
+          nn: Endring i lovgiving utløser endring av definisjonstekst.
+        related_variable_definition_uris:
+        - https://example.com/
+        contact:
+          title:
+            en: Division for population statistics
+            nb: Seksjon for befolkningsstatistikk
+            nn: Seksjon for befolkningsstatistikk
+          email: s320@ssb.no
+    VariableStatus:
+      type: string
+      description: Life cycle status of a variable definition.
+      enum:
+      - DRAFT
+      - PUBLISHED_INTERNAL
+      - PUBLISHED_EXTERNAL
+      - DEPRECATED
+  securitySchemes:
+    Keycloak token:
+      type: http
+      description: A token granted by Statistics Norway's Keycloak instance. May be
+        obtained from a <a href=https://lab.dapla.ssb.no>Dapla Lab</a> service.
+      scheme: bearer
+      bearerFormat: JWT
