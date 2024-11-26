@@ -2,6 +2,9 @@ from collections.abc import Generator
 from datetime import date
 
 import pytest
+import requests
+from testcontainers.core.waiting_utils import wait_for_logs
+from testcontainers.generic import ServerContainer
 
 from dapla_metadata.variable_definitions.generated import vardef_client
 from dapla_metadata.variable_definitions.generated.vardef_client.api_client import (
@@ -70,3 +73,26 @@ def draft(language_string_type, contact) -> Draft:
         related_variable_definition_uris=["http://www.example.com"],
         contact=contact,
     )
+
+
+@pytest.fixture(scope="session")
+def vardef_mock_service(
+    image_name: str = "quay.io/microcks/microcks-uber:1.10.1-native",
+):
+    print(f"Starting container with image: {image_name}")
+    with ServerContainer(
+        image=image_name,
+        port=9000,
+    ) as container:
+        print(f"Started container: {image_name}\n{container}")
+        url = container._create_connection_url()  # noqa: SLF001
+        print("Waiting for liveness")
+        response = requests.get(f"{url}", timeout=5)
+        assert response.status_code == 200, "Response status code is not 200"
+        print("Waiting for logs")
+        wait_for_logs(
+            container=container,
+            predicate=".*Started MicrocksApplication.*",
+            timeout=1,
+        )
+        yield url
