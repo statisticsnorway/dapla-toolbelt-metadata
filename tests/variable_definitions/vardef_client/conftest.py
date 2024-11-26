@@ -23,6 +23,12 @@ from dapla_metadata.variable_definitions.generated.vardef_client.models.language
 from dapla_metadata.variable_definitions.generated.vardef_client.models.owner import (
     Owner,
 )
+from dapla_metadata.variable_definitions.generated.vardef_client.models.update_draft import (
+    UpdateDraft,
+)
+from dapla_metadata.variable_definitions.generated.vardef_client.models.variable_status import (
+    VariableStatus,
+)
 
 
 @pytest.fixture
@@ -70,6 +76,27 @@ def draft(language_string_type, contact) -> Draft:
         comment=language_string_type,
         related_variable_definition_uris=["http://www.example.com"],
         contact=contact,
+    )
+
+
+@pytest.fixture
+def update_draft(language_string_type, contact, owner) -> UpdateDraft:
+    return UpdateDraft(
+        name=language_string_type,
+        short_name="test",
+        definition=language_string_type,
+        classification_reference="91",
+        unit_types=["a", "b"],
+        subject_fields=["a", "b"],
+        contains_sensitive_personal_information=True,
+        variable_status=VariableStatus.PUBLISHED_EXTERNAL,
+        measurement_type="test",
+        valid_from=date(2024, 11, 1),
+        external_reference_uri="http://www.example.com",
+        comment=language_string_type,
+        related_variable_definition_uris=["http://www.example.com"],
+        contact=contact,
+        owner=owner,
     )
 
 
