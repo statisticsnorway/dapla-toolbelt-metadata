@@ -92,7 +92,7 @@ def get_owner() -> str:
     """Returns the owner read from the GROUP_CONTEXT environment variable."""
     if group := config.get_group_context():
         return parse_team_name(group)
-    raise TypeError
+    raise OSError("DAPLA_GROUP_CONTEXT environment variable not found")
 
 
 def parse_team_name(group: str) -> str:
