@@ -50,7 +50,7 @@ if TYPE_CHECKING:
     from datetime import datetime
 
 
-@pytest.fixture()
+@pytest.fixture
 def generate_periodic_file(
     existing_data_path: Path,
     insert_string: str,

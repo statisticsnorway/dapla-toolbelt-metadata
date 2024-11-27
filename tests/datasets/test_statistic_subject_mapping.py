@@ -147,7 +147,7 @@ def test_get_secondary_subject(
     )
 
 
-@pytest.fixture()
+@pytest.fixture
 def subject_mapping_http_exception(
     requests_mock,
     exception_to_raise,

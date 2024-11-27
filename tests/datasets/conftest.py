@@ -52,12 +52,12 @@ def faker_session_locale():
     return ["no_NO"]
 
 
-@pytest.fixture()
+@pytest.fixture
 def dummy_timestamp() -> datetime:
     return datetime(2022, 1, 1, tzinfo=timezone.utc)
 
 
-@pytest.fixture()
+@pytest.fixture
 def _mock_timestamp(mocker: MockerFixture, dummy_timestamp: datetime) -> None:
     mocker.patch(
         DATADOC_METADATA_MODULE + ".core.get_timestamp_now",
@@ -65,7 +65,7 @@ def _mock_timestamp(mocker: MockerFixture, dummy_timestamp: datetime) -> None:
     )
 
 
-@pytest.fixture()
+@pytest.fixture
 def _mock_user_info(mocker: MockerFixture) -> None:
     mocker.patch(
         DATADOC_METADATA_MODULE + ".user_info.get_user_info_for_current_platform",
@@ -73,7 +73,7 @@ def _mock_user_info(mocker: MockerFixture) -> None:
     )
 
 
-@pytest.fixture()
+@pytest.fixture
 def metadata(
     _mock_timestamp: None,
     _mock_user_info: None,
@@ -87,7 +87,7 @@ def metadata(
     )
 
 
-@pytest.fixture()
+@pytest.fixture
 def metadata_merged(
     _mock_timestamp: None,
     _mock_user_info: None,
@@ -107,12 +107,12 @@ def metadata_merged(
     )
 
 
-@pytest.fixture()
+@pytest.fixture
 def existing_metadata_path() -> Path:
     return TEST_EXISTING_METADATA_DIRECTORY
 
 
-@pytest.fixture()
+@pytest.fixture
 def existing_metadata_file(tmp_path: Path, existing_metadata_path: Path) -> Path:
     # Setup by copying the file into the relevant directory
     shutil.copy(
@@ -122,27 +122,27 @@ def existing_metadata_file(tmp_path: Path, existing_metadata_path: Path) -> Path
     return tmp_path / TEST_EXISTING_METADATA_FILE_NAME
 
 
-@pytest.fixture()
+@pytest.fixture
 def english_name() -> str:
     return "English Name"
 
 
-@pytest.fixture()
+@pytest.fixture
 def bokmål_name() -> str:
     return "Bokmål navn"
 
 
-@pytest.fixture()
+@pytest.fixture
 def nynorsk_name() -> str:
     return "Nynorsk namn"
 
 
-@pytest.fixture()
+@pytest.fixture
 def existing_data_path() -> Path:
     return TEST_PARQUET_FILEPATH
 
 
-@pytest.fixture()
+@pytest.fixture
 def full_dataset_state_path(
     path_parts_to_insert: str | list[str],
 ) -> pathlib.Path:
@@ -166,7 +166,7 @@ def full_dataset_state_path(
     return pathlib.Path().joinpath(*new_path)
 
 
-@pytest.fixture()
+@pytest.fixture
 def subject_xml_file_path() -> pathlib.Path:
     return (
         TEST_RESOURCES_DIRECTORY
@@ -175,12 +175,12 @@ def subject_xml_file_path() -> pathlib.Path:
     )
 
 
-@pytest.fixture()
+@pytest.fixture
 def thread_pool_executor() -> ThreadPoolExecutor:
     return ThreadPoolExecutor(max_workers=12)
 
 
-@pytest.fixture()
+@pytest.fixture
 def subject_mapping_fake_statistical_structure(
     _mock_fetch_statistical_structure,
     thread_pool_executor,
@@ -188,7 +188,7 @@ def subject_mapping_fake_statistical_structure(
     return StatisticSubjectMapping(thread_pool_executor, "placeholder")
 
 
-@pytest.fixture()
+@pytest.fixture
 def _mock_fetch_statistical_structure(
     mocker,
     subject_xml_file_path: pathlib.Path,
@@ -204,7 +204,7 @@ def _mock_fetch_statistical_structure(
     )
 
 
-@pytest.fixture()
+@pytest.fixture
 def subject_mapping_http_exception(
     requests_mock,
     exception_to_raise,
@@ -217,22 +217,22 @@ def subject_mapping_http_exception(
     return StatisticSubjectMapping(thread_pool_executor, "http://test.some.url.com")
 
 
-@pytest.fixture()
+@pytest.fixture
 def code_list_csv_filepath_nb() -> pathlib.Path:
     return TEST_RESOURCES_DIRECTORY / CODE_LIST_DIR / "code_list_nb.csv"
 
 
-@pytest.fixture()
+@pytest.fixture
 def code_list_csv_filepath_nn() -> pathlib.Path:
     return TEST_RESOURCES_DIRECTORY / CODE_LIST_DIR / "code_list_nn.csv"
 
 
-@pytest.fixture()
+@pytest.fixture
 def code_list_csv_filepath_en() -> pathlib.Path:
     return TEST_RESOURCES_DIRECTORY / CODE_LIST_DIR / "code_list_en.csv"
 
 
-@pytest.fixture()
+@pytest.fixture
 def _mock_fetch_dataframe(
     mocker,
     code_list_csv_filepath_nb: pathlib.Path,
@@ -262,12 +262,12 @@ def _mock_fetch_dataframe(
     )
 
 
-@pytest.fixture()
+@pytest.fixture
 def code_list_fake_structure(_mock_fetch_dataframe, thread_pool_executor) -> CodeList:
     return CodeList(thread_pool_executor, 100)
 
 
-@pytest.fixture()
+@pytest.fixture
 def copy_dataset_to_path(
     tmp_path: pathlib.Path,
     full_dataset_state_path: pathlib.Path,
