@@ -78,3 +78,8 @@ def get_dapla_service() -> DaplaService | None:
 def get_oidc_token() -> str | None:
     """Get the JWT token from the environment."""
     return _get_config_item("OIDC_TOKEN")
+
+
+def get_group_context() -> str | None:
+    """Get the JWT token from the environment."""
+    return _get_config_item("GROUP_CONTEXT")

@@ -86,3 +86,16 @@ def get_user_info_for_current_platform() -> UserInfo:
             "Was not possible to retrieve user information! Some fields may not be set.",
         )
         return UnknownUserInfo()
+
+
+def get_owner() -> str:
+    """Returns the owner read from the GROUP_CONTEXT environment variable."""
+    if group := config.get_group_context():
+        return parse_team_name(group)
+    raise TypeError
+
+
+def parse_team_name(group: str) -> str:
+    """Parses the group to get the current team."""
+    parts = group.split("-")
+    return "-".join(parts[:-2] if group.endswith("data-admins") else parts[:-1])

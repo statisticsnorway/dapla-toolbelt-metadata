@@ -491,6 +491,7 @@ class Datadoc:
         self.dataset.metadata_last_updated_by = (
             user_info.get_user_info_for_current_platform().short_email
         )
+        self.dataset.owner = user_info.get_owner()
         self.dataset.file_path = str(self.dataset_path)
         datadoc: ValidateDatadocMetadata = ValidateDatadocMetadata(
             percentage_complete=self.percent_complete,
