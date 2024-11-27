@@ -102,6 +102,13 @@ show_error_context = true
 exclude = "generated/vardef_client/.*"
 
 [[tool.mypy.overrides]]
+module = ["dapla_metadata.variable_definitions.generated.vardef_client.*"]
+warn_unreachable = false
+ignore_errors = true
+disable_error_code = ["unreachable"]
+
+
+[[tool.mypy.overrides]]
 # Allow missing type hints in third-party libraries without type information.
 module = [
     "nox",
@@ -114,6 +121,7 @@ module = [
     "pytest_mock",
     "testcontainers.*",
     "yaml",
+    "httpx",
 ]
 ignore_missing_imports = true
 
