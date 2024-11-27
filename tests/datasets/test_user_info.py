@@ -159,6 +159,7 @@ def test_get_owner_errors(
 
     with pytest.raises(
         OSError,
+        match="DAPLA_GROUP_CONTEXT environment variable not found",
     ) as exc_info:  # Step 1: Expect an exception
         user_info.get_owner()
 
