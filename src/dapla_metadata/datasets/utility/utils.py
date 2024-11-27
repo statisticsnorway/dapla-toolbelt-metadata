@@ -14,6 +14,7 @@ from datadoc_model.model import Assessment
 from datadoc_model.model import DataSetState
 from datadoc_model.model import VariableRole
 
+from dapla_metadata.datasets import user_info
 from dapla_metadata.datasets.utility.constants import (
     DATASET_FIELDS_FROM_EXISTING_METADATA,
 )
@@ -137,6 +138,18 @@ def set_default_values_dataset(dataset: model.Dataset) -> None:
         dataset.id = uuid.uuid4()
     if dataset.contains_personal_data is None:
         dataset.contains_personal_data = False
+
+
+def set_dataset_owner(dataset: model.Dataset) -> None:
+    """Sets the owner of the dataset from the DAPLA_GROUP_CONTEXT enviornment variable.
+
+    Args:
+        dataset: The dataset object to set default values on.
+    """
+    try:
+        dataset.owner = user_info.get_owner()
+    except OSError:
+        logger.exception("Failed to find environment variable DAPLA_GROUP_CONTEXT")
 
 
 def set_variables_inherit_from_dataset(

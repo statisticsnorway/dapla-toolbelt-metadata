@@ -42,6 +42,7 @@ from dapla_metadata.datasets.utility.utils import (
     num_obligatory_variables_fields_completed,
 )
 from dapla_metadata.datasets.utility.utils import override_dataset_fields
+from dapla_metadata.datasets.utility.utils import set_dataset_owner
 from dapla_metadata.datasets.utility.utils import set_default_values_dataset
 from dapla_metadata.datasets.utility.utils import set_default_values_variables
 
@@ -189,6 +190,7 @@ class Datadoc:
             self._set_metadata(existing_metadata or extracted_metadata)
         set_default_values_variables(self.variables)
         set_default_values_dataset(self.dataset)
+        set_dataset_owner(self.dataset)
         self._create_variables_lookup()
 
     def _get_existing_file_path(
