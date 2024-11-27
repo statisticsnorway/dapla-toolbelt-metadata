@@ -1,7 +1,6 @@
 import urllib.parse
 from pathlib import Path
 
-import httpx
 import yaml
 from testcontainers.core.image import DockerImage
 from testcontainers.core.waiting_utils import wait_for_logs
@@ -74,13 +73,6 @@ class MicrocksContainer(ServerContainer):
         return (
             f"{self.get_api_url()}/rest/{urllib.parse.quote_plus(api_name)}/{version}"
         )
-
-    def get_mock_client(self) -> httpx.Client | None:
-        """Get a client for the Mocked service."""
-        if url := self.get_mock_url():
-            return httpx.Client(base_url=url)
-
-        return None
 
     def upload_primary_artifact(self, openapi_definition_path: str) -> str:
         """Upload a local OpenAPI definition file as the primary artifact.
