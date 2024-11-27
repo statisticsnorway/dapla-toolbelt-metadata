@@ -164,7 +164,13 @@ def tests(session: Session) -> None:
     """Run the test suite."""
     session.install(".")
     session.install(
-        "coverage[toml]", "pytest", "pygments", "pytest-mock", "requests-mock", "faker"
+        "coverage[toml]",
+        "pytest",
+        "pygments",
+        "pytest-mock",
+        "requests-mock",
+        "faker",
+        "testcontainers[generic]",
     )
     try:
         session.run(
