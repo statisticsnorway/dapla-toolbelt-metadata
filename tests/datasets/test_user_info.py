@@ -18,7 +18,7 @@ from tests.datasets.constants import DAPLA_SERVICE
 from tests.datasets.constants import JUPYTERHUB_USER
 
 
-@pytest.fixture()
+@pytest.fixture
 def raw_jwt_payload(faker: Faker) -> dict[str, object]:
     user_name = "".join(faker.random_sample(elements=string.ascii_lowercase, length=3))
     email = f"{user_name}@ssb.no"
@@ -62,7 +62,7 @@ def raw_jwt_payload(faker: Faker) -> dict[str, object]:
     }
 
 
-@pytest.fixture()
+@pytest.fixture
 def fake_jwt(raw_jwt_payload):
     return jwt.encode(raw_jwt_payload, "test secret", algorithm="HS256")
 
@@ -122,6 +122,13 @@ def test_dapla_lab_user_info_short_email_no_email_in_jwt(
             "dapla-metadata-data-admins",
             "dapla-metadata",
         ),
+        (DAPLA_GROUP_CONTEXT, "dapla-metadata-dev", "dapla-metadata"),
+        (DAPLA_GROUP_CONTEXT, "dapla-metadata", "dapla"),
+        (
+            DAPLA_GROUP_CONTEXT,
+            "dapla-metadata-not-a-real-group",
+            "dapla-metadata-not-a-real",
+        ),
     ],
 )
 def test_get_owner(
@@ -133,3 +140,26 @@ def test_get_owner(
     if environment_variable_name:
         monkeypatch.setenv(environment_variable_name, environment_variable_value)
     assert user_info.get_owner() == expected_team
+
+
+@pytest.mark.parametrize(
+    ("environment_variable_name", "environment_variable_value"),
+    [
+        (None, None),
+        (DAPLA_GROUP_CONTEXT, ""),
+    ],
+)
+def test_get_owner_errors(
+    monkeypatch: pytest.MonkeyPatch,
+    environment_variable_name: str,
+    environment_variable_value: str,
+):
+    if environment_variable_name:
+        monkeypatch.setenv(environment_variable_name, environment_variable_value)
+
+    with pytest.raises(
+        OSError,
+    ) as exc_info:  # Step 1: Expect an exception
+        user_info.get_owner()
+
+    assert str(exc_info.value) == "DAPLA_GROUP_CONTEXT environment variable not found"

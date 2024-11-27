@@ -41,7 +41,7 @@ def _load_dotenv_file() -> None:
 def _get_config_item(item: str) -> str | None:
     """Get a config item. Makes sure all access is logged."""
     _load_dotenv_file()
-    value = os.getenv(item)
+    value = os.environ.get(item)
     logger.debug("Config accessed. %s", item)
     return value
 
