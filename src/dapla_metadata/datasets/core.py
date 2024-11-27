@@ -189,6 +189,10 @@ class Datadoc:
             self._set_metadata(existing_metadata or extracted_metadata)
         set_default_values_variables(self.variables)
         set_default_values_dataset(self.dataset)
+        try:
+            self.dataset.owner = user_info.get_owner()
+        except OSError:
+            logger.exception("Failed to find environment variable DAPLA_GROUP_CONTEXT")
         self._create_variables_lookup()
 
     def _get_existing_file_path(
@@ -491,10 +495,6 @@ class Datadoc:
         self.dataset.metadata_last_updated_by = (
             user_info.get_user_info_for_current_platform().short_email
         )
-        try:
-            self.dataset.owner = user_info.get_owner()
-        except OSError:
-            logger.exception("Failed to find environment variable DAPLA_GROUP_CONTEXT")
         self.dataset.file_path = str(self.dataset_path)
         datadoc: ValidateDatadocMetadata = ValidateDatadocMetadata(
             percentage_complete=self.percent_complete,
