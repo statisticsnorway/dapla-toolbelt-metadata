@@ -96,6 +96,19 @@ def get_owner() -> str:
 
 
 def parse_team_name(group: str) -> str:
-    """Parses the group to get the current team."""
+    """Parses the group to get the current team.
+
+    >>> parse_team_name(dapla-metadata-developers)
+    (dapla-metadata)
+
+    >>> parse_team_name(dapla-metadata-data-admins)
+    (dapla-metadata)
+
+    >>> parse_team_name(dapla-metadata)
+    (dapla)
+
+    >>> parse_team_name(dapla-metadata-not-real-name)
+    (dapla-metadata-not-real)
+    """
     parts = group.split("-")
     return "-".join(parts[:-2] if group.endswith("data-admins") else parts[:-1])
