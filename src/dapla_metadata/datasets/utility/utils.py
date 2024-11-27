@@ -140,7 +140,7 @@ def set_default_values_dataset(dataset: model.Dataset) -> None:
         dataset.contains_personal_data = False
 
 
-def set_dataset_owner(dataset: model.Dataseta) -> None:
+def set_dataset_owner(dataset: model.Dataset) -> None:
     """Sets the owner of the dataset from the DAPLA_GROUP_CONTEXT enviornment variable.
 
     Args:
