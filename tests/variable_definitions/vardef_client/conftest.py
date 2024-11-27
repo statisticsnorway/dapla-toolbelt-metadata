@@ -23,8 +23,14 @@ from dapla_metadata.variable_definitions.generated.vardef_client.models.language
 from dapla_metadata.variable_definitions.generated.vardef_client.models.owner import (
     Owner,
 )
+from dapla_metadata.variable_definitions.generated.vardef_client.models.patch import (
+    Patch,
+)
 from dapla_metadata.variable_definitions.generated.vardef_client.models.update_draft import (
     UpdateDraft,
+)
+from dapla_metadata.variable_definitions.generated.vardef_client.models.validity_period import (
+    ValidityPeriod,
 )
 from dapla_metadata.variable_definitions.generated.vardef_client.models.variable_status import (
     VariableStatus,
@@ -32,9 +38,9 @@ from dapla_metadata.variable_definitions.generated.vardef_client.models.variable
 
 
 @pytest.fixture
-def client_configuration() -> Configuration:
+def client_configuration(vardef_mock_service) -> Configuration:
     return vardef_client.Configuration(
-        host="http://localhost",
+        host=vardef_mock_service.get_mock_url(),
         access_token="test_dummy",  # noqa: S106
     )
 
@@ -92,6 +98,45 @@ def update_draft(language_string_type, contact, owner) -> UpdateDraft:
         variable_status=VariableStatus.PUBLISHED_EXTERNAL,
         measurement_type="test",
         valid_from=date(2024, 11, 1),
+        external_reference_uri="http://www.example.com",
+        comment=language_string_type,
+        related_variable_definition_uris=["http://www.example.com"],
+        contact=contact,
+        owner=owner,
+    )
+
+
+@pytest.fixture
+def validity_period(language_string_type, contact) -> ValidityPeriod:
+    return ValidityPeriod(
+        name=language_string_type,
+        definition=language_string_type,
+        classification_reference="91",
+        unit_types=["a", "b"],
+        subject_fields=["a", "b"],
+        contains_sensitive_personal_information=True,
+        variable_status=VariableStatus.PUBLISHED_EXTERNAL,
+        measurement_type="test",
+        valid_from=date(2024, 11, 1),
+        external_reference_uri="http://www.example.com",
+        comment=language_string_type,
+        related_variable_definition_uris=["http://www.example.com"],
+        contact=contact,
+    )
+
+
+@pytest.fixture
+def patch(language_string_type, contact, owner) -> Patch:
+    return Patch(
+        name=language_string_type,
+        definition=language_string_type,
+        classification_reference="91",
+        unit_types=["a", "b"],
+        subject_fields=["a", "b"],
+        contains_sensitive_personal_information=True,
+        variable_status=VariableStatus.PUBLISHED_EXTERNAL,
+        measurement_type="test",
+        valid_until=date(2024, 11, 1),
         external_reference_uri="http://www.example.com",
         comment=language_string_type,
         related_variable_definition_uris=["http://www.example.com"],

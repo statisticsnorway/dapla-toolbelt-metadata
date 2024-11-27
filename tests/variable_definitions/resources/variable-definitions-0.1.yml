@@ -364,7 +364,7 @@ paths:
         "400":
           description: The definition in Vardok has missing or malformed metadata.
       security:
-      - Keycloak token: []
+      - keycloak_token: []
   /variable-definitions:
     get:
       tags:
@@ -455,7 +455,7 @@ paths:
                 Empty list:
                   value: "[]"
       security:
-      - Keycloak token: []
+      - keycloak_token: []
     post:
       tags:
       - Draft Variable Definitions
@@ -488,6 +488,8 @@ paths:
               examples:
                 create_draft:
                   value:
+                    id: wypvb3wd
+                    patch_id: 1
                     name:
                       en: Country Background
                       nb: Landbakgrunn
@@ -524,6 +526,7 @@ paths:
                     subject_fields:
                     - he04
                     contains_sensitive_personal_information: true
+                    variable_status: DRAFT
                     valid_from: 2003-01-01
                     external_reference_uri: https://www.ssb.no/a/metadata/conceptvariable/vardok/1919/nb
                     comment:
@@ -535,19 +538,31 @@ paths:
                         \ include the grandparents' country of birth."
                     related_variable_definition_uris:
                     - https://example.com/
+                    owner:
+                      team: team-a
+                      groups:
+                      - team-a-developers
                     contact:
                       title:
                         en: Division for population statistics
                         nb: Seksjon for befolkningsstatistikk
                         nn: Seksjon for befolkningsstatistikk
                       email: s320@ssb.no
+                    created_at: 2024-06-11T08:15:19.038Z
+                    created_by:
+                      code: ano@ssb.no
+                      name: Ola Nordmann
+                    last_updated_at: 2024-06-11T08:15:19.038Z
+                    last_updated_by:
+                      code: ano@ssb.no
+                      name: Ola Nordmann
         "400":
           description: "Malformed data, missing data or attempt to specify disallowed\
             \ fields."
         "409":
           description: Short name is already in use by another variable definition.
       security:
-      - Keycloak token: []
+      - keycloak_token: []
   /variable-definitions/{variable-definition-id}:
     get:
       tags:
@@ -562,7 +577,11 @@ paths:
         required: true
         schema:
           type: string
-        example: wypvb3wd
+        examples:
+          No date specified:
+            value: wypvb3wd
+          Specific date:
+            value: wypvb3wd
       - name: date_of_validity
         in: query
         description: List only variable definitions which are valid on this date.
@@ -584,39 +603,147 @@ paths:
                 No date specified:
                   value:
                     id: wypvb3wd
-                    name: Landbakgrunn
-                    short_name: string
-                    definition: "For personer født i utlandet, er dette (med noen\
-                      \ få unntak) eget fødeland. For personer født i Norge er det\
-                      \ foreldrenes fødeland. I de tilfeller der foreldrene har ulikt\
-                      \ fødeland, er det morens fødeland som blir valgt. Hvis ikke\
-                      \ personen selv eller noen av foreldrene er utenlandsfødt, hentes\
-                      \ landbakgrunn fra de første utenlandsfødte en treffer på i\
-                      \ rekkefølgen mormor, morfar, farmor eller farfar."
-                    classification_uri: https://www.ssb.no/en/klass/klassifikasjoner/91
+                    patch_id: 1
+                    name:
+                      en: Country Background
+                      nb: Landbakgrunn
+                      nn: Landbakgrunn
+                    short_name: landbak
+                    definition:
+                      en: "Country background is the person's own, the mother's or\
+                        \ possibly the father's country of birth. Persons without\
+                        \ an immigrant background always have Norway as country background.\
+                        \ In cases where the parents have different countries of birth\
+                        \ the mother's country of birth is chosen. If neither the\
+                        \ person nor the parents are born abroad, country background\
+                        \ is chosen from the first person born abroad in the order\
+                        \ mother's mother, mother's father, father's mother, father's\
+                        \ father."
+                      nb: "For personer født i utlandet, er dette (med noen få unntak)\
+                        \ eget fødeland. For personer født i Norge er det foreldrenes\
+                        \ fødeland. I de tilfeller der foreldrene har ulikt fødeland,\
+                        \ er det morens fødeland som blir valgt. Hvis ikke personen\
+                        \ selv eller noen av foreldrene er utenlandsfødt, hentes landbakgrunn\
+                        \ fra de første utenlandsfødte en treffer på i rekkefølgen\
+                        \ mormor, morfar, farmor eller farfar."
+                      nn: "For personar fødd i utlandet, er dette (med nokre få unntak)\
+                        \ eige fødeland. For personar fødd i Noreg er det fødelandet\
+                        \ til foreldra. I dei tilfella der foreldra har ulikt fødeland,\
+                        \ er det fødelandet til mora som blir valt. Viss ikkje personen\
+                        \ sjølv eller nokon av foreldra er utenlandsfødt, blir henta\
+                        \ landsbakgrunn frå dei første utenlandsfødte ein treffar\
+                        \ på i rekkjefølgja mormor, morfar, farmor eller farfar."
+                    classification_reference: "91"
                     unit_types:
-                    - reference_uri: https://www.ssb.no/klass/klassifikasjoner/702
-                      code: "20"
-                      title: Person
+                    - "01"
+                    - "02"
                     subject_fields:
-                    - reference_uri: https://www.ssb.no/klass/klassifikasjoner/618
-                      code: be07
-                      title: Innvandrere
+                    - he04
                     contains_sensitive_personal_information: true
+                    variable_status: DRAFT
                     valid_from: 2003-01-01
                     external_reference_uri: https://www.ssb.no/a/metadata/conceptvariable/vardok/1919/nb
-                    comment: Fra og med 1.1.2003 ble definisjon endret til også å
-                      trekke inn besteforeldrenes fødeland.
+                    comment:
+                      nb: Fra og med 1.1.2003 ble definisjon endret til også å trekke
+                        inn besteforeldrenes fødeland.
+                      nn: Fra og med 1.1.2003 ble definisjon endret til også å trekke
+                        inn besteforeldrenes fødeland.
+                      en: "As of 1 January 2003, the definition was changed to also\
+                        \ include the grandparents' country of birth."
                     related_variable_definition_uris:
                     - https://example.com/
+                    owner:
+                      team: team-a
+                      groups:
+                      - team-a-developers
                     contact:
-                      title: Seksjon for befolkningsstatistikk
+                      title:
+                        en: Division for population statistics
+                        nb: Seksjon for befolkningsstatistikk
+                        nn: Seksjon for befolkningsstatistikk
                       email: s320@ssb.no
-                    last_updated_at: 2024-06-12T10:39:41.038Z
+                    created_at: 2024-06-11T08:15:19.038Z
+                    created_by:
+                      code: ano@ssb.no
+                      name: Ola Nordmann
+                    last_updated_at: 2024-06-11T08:15:19.038Z
+                    last_updated_by:
+                      code: ano@ssb.no
+                      name: Ola Nordmann
+                Specific date:
+                  value:
+                    id: wypvb3wd
+                    patch_id: 1
+                    name:
+                      en: Country Background
+                      nb: Landbakgrunn
+                      nn: Landbakgrunn
+                    short_name: landbak
+                    definition:
+                      en: "Country background is the person's own, the mother's or\
+                        \ possibly the father's country of birth. Persons without\
+                        \ an immigrant background always have Norway as country background.\
+                        \ In cases where the parents have different countries of birth\
+                        \ the mother's country of birth is chosen. If neither the\
+                        \ person nor the parents are born abroad, country background\
+                        \ is chosen from the first person born abroad in the order\
+                        \ mother's mother, mother's father, father's mother, father's\
+                        \ father."
+                      nb: "For personer født i utlandet, er dette (med noen få unntak)\
+                        \ eget fødeland. For personer født i Norge er det foreldrenes\
+                        \ fødeland. I de tilfeller der foreldrene har ulikt fødeland,\
+                        \ er det morens fødeland som blir valgt. Hvis ikke personen\
+                        \ selv eller noen av foreldrene er utenlandsfødt, hentes landbakgrunn\
+                        \ fra de første utenlandsfødte en treffer på i rekkefølgen\
+                        \ mormor, morfar, farmor eller farfar."
+                      nn: "For personar fødd i utlandet, er dette (med nokre få unntak)\
+                        \ eige fødeland. For personar fødd i Noreg er det fødelandet\
+                        \ til foreldra. I dei tilfella der foreldra har ulikt fødeland,\
+                        \ er det fødelandet til mora som blir valt. Viss ikkje personen\
+                        \ sjølv eller nokon av foreldra er utenlandsfødt, blir henta\
+                        \ landsbakgrunn frå dei første utenlandsfødte ein treffar\
+                        \ på i rekkjefølgja mormor, morfar, farmor eller farfar."
+                    classification_reference: "91"
+                    unit_types:
+                    - "01"
+                    - "02"
+                    subject_fields:
+                    - he04
+                    contains_sensitive_personal_information: true
+                    variable_status: DRAFT
+                    valid_from: 2003-01-01
+                    external_reference_uri: https://www.ssb.no/a/metadata/conceptvariable/vardok/1919/nb
+                    comment:
+                      nb: Fra og med 1.1.2003 ble definisjon endret til også å trekke
+                        inn besteforeldrenes fødeland.
+                      nn: Fra og med 1.1.2003 ble definisjon endret til også å trekke
+                        inn besteforeldrenes fødeland.
+                      en: "As of 1 January 2003, the definition was changed to also\
+                        \ include the grandparents' country of birth."
+                    related_variable_definition_uris:
+                    - https://example.com/
+                    owner:
+                      team: team-a
+                      groups:
+                      - team-a-developers
+                    contact:
+                      title:
+                        en: Division for population statistics
+                        nb: Seksjon for befolkningsstatistikk
+                        nn: Seksjon for befolkningsstatistikk
+                      email: s320@ssb.no
+                    created_at: 2024-06-11T08:15:19.038Z
+                    created_by:
+                      code: ano@ssb.no
+                      name: Ola Nordmann
+                    last_updated_at: 2024-06-11T08:15:19.038Z
+                    last_updated_by:
+                      code: ano@ssb.no
+                      name: Ola Nordmann
         "404":
           description: No such variable definition found
       security:
-      - Keycloak token: []
+      - keycloak_token: []
     delete:
       tags:
       - Draft Variable Definitions
@@ -647,15 +774,16 @@ paths:
           description: Successfully deleted
           content:
             application/json:
-              schema:
-                $ref: "#/components/schemas/Unit"
+              examples:
+                delete:
+                  value: ""
         "404":
           description: No such variable definition found
         "405":
           description: Attempt to delete a variable definition with status unlike
             DRAFT.
       security:
-      - Keycloak token: []
+      - keycloak_token: []
     patch:
       tags:
       - Draft Variable Definitions
@@ -666,10 +794,14 @@ paths:
       parameters:
       - name: variable-definition-id
         in: path
+        description: Unique identifier for the variable definition.
         required: true
         schema:
           type: string
           description: Unique identifier for the variable definition.
+        examples:
+          update:
+            value: wypvb3wd
       - name: active_group
         in: query
         description: The group which the user currently represents.
@@ -677,7 +809,7 @@ paths:
         schema:
           type: string
         examples:
-          example:
+          update:
             value: dapla-felles-developers
       requestBody:
         content:
@@ -690,8 +822,77 @@ paths:
           description: Successfully updated
           content:
             application/json:
-              schema:
-                $ref: "#/components/schemas/CompleteResponse"
+              examples:
+                update:
+                  value:
+                    id: wypvb3wd
+                    patch_id: 1
+                    name:
+                      en: Country Background
+                      nb: Landbakgrunn
+                      nn: Landbakgrunn
+                    short_name: landbak
+                    definition:
+                      en: "Country background is the person's own, the mother's or\
+                        \ possibly the father's country of birth. Persons without\
+                        \ an immigrant background always have Norway as country background.\
+                        \ In cases where the parents have different countries of birth\
+                        \ the mother's country of birth is chosen. If neither the\
+                        \ person nor the parents are born abroad, country background\
+                        \ is chosen from the first person born abroad in the order\
+                        \ mother's mother, mother's father, father's mother, father's\
+                        \ father."
+                      nb: "For personer født i utlandet, er dette (med noen få unntak)\
+                        \ eget fødeland. For personer født i Norge er det foreldrenes\
+                        \ fødeland. I de tilfeller der foreldrene har ulikt fødeland,\
+                        \ er det morens fødeland som blir valgt. Hvis ikke personen\
+                        \ selv eller noen av foreldrene er utenlandsfødt, hentes landbakgrunn\
+                        \ fra de første utenlandsfødte en treffer på i rekkefølgen\
+                        \ mormor, morfar, farmor eller farfar."
+                      nn: "For personar fødd i utlandet, er dette (med nokre få unntak)\
+                        \ eige fødeland. For personar fødd i Noreg er det fødelandet\
+                        \ til foreldra. I dei tilfella der foreldra har ulikt fødeland,\
+                        \ er det fødelandet til mora som blir valt. Viss ikkje personen\
+                        \ sjølv eller nokon av foreldra er utenlandsfødt, blir henta\
+                        \ landsbakgrunn frå dei første utenlandsfødte ein treffar\
+                        \ på i rekkjefølgja mormor, morfar, farmor eller farfar."
+                    classification_reference: "91"
+                    unit_types:
+                    - "01"
+                    - "02"
+                    subject_fields:
+                    - he04
+                    contains_sensitive_personal_information: true
+                    variable_status: DRAFT
+                    valid_from: 2003-01-01
+                    external_reference_uri: https://www.ssb.no/a/metadata/conceptvariable/vardok/1919/nb
+                    comment:
+                      nb: Fra og med 1.1.2003 ble definisjon endret til også å trekke
+                        inn besteforeldrenes fødeland.
+                      nn: Fra og med 1.1.2003 ble definisjon endret til også å trekke
+                        inn besteforeldrenes fødeland.
+                      en: "As of 1 January 2003, the definition was changed to also\
+                        \ include the grandparents' country of birth."
+                    related_variable_definition_uris:
+                    - https://example.com/
+                    owner:
+                      team: team-a
+                      groups:
+                      - team-a-developers
+                    contact:
+                      title:
+                        en: Division for population statistics
+                        nb: Seksjon for befolkningsstatistikk
+                        nn: Seksjon for befolkningsstatistikk
+                      email: s320@ssb.no
+                    created_at: 2024-06-11T08:15:19.038Z
+                    created_by:
+                      code: ano@ssb.no
+                      name: Ola Nordmann
+                    last_updated_at: 2024-06-11T08:15:19.038Z
+                    last_updated_by:
+                      code: ano@ssb.no
+                      name: Ola Nordmann
         "400":
           description: |-
             Bad request. Examples of these are:
@@ -705,7 +906,7 @@ paths:
         "409":
           description: Short name is already in use by another variable definition.
       security:
-      - Keycloak token: []
+      - keycloak_token: []
   /variable-definitions/{variable-definition-id}/patches:
     get:
       tags:
@@ -792,7 +993,7 @@ paths:
                     }
                     ]
       security:
-      - Keycloak token: []
+      - keycloak_token: []
     post:
       tags:
       - Patches
@@ -915,7 +1116,7 @@ paths:
         "405":
           description: Method only allowed for published variables.
       security:
-      - Keycloak token: []
+      - keycloak_token: []
   /variable-definitions/{variable-definition-id}/patches/{patch-id}:
     get:
       tags:
@@ -1023,7 +1224,7 @@ paths:
         "404":
           description: No such variable definition found
       security:
-      - Keycloak token: []
+      - keycloak_token: []
   /variable-definitions/{variable-definition-id}/validity-periods:
     get:
       tags:
@@ -1109,7 +1310,7 @@ paths:
 
                     ]
       security:
-      - Keycloak token: []
+      - keycloak_token: []
     post:
       tags:
       - Validity Periods
@@ -1222,7 +1423,7 @@ paths:
         "405":
           description: Method only allowed for published variables.
       security:
-      - Keycloak token: []
+      - keycloak_token: []
 components:
   schemas:
     CompleteResponse:
@@ -1694,8 +1895,6 @@ components:
       - nb
       - nn
       - en
-    Unit:
-      type: object
     UpdateDraft:
       type: object
       properties:
@@ -1969,7 +2168,7 @@ components:
       - PUBLISHED_EXTERNAL
       - DEPRECATED
   securitySchemes:
-    Keycloak token:
+    keycloak_token:
       type: http
       description: A token granted by Statistics Norway's Keycloak instance. May be
         obtained from a <a href=https://lab.dapla.ssb.no>Dapla Lab</a> service.

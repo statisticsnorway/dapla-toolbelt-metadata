@@ -22,6 +22,7 @@ from urllib.parse import quote
 from dateutil.parser import parse
 from pydantic import SecretStr
 
+from . import models
 from . import rest
 from .api_response import ApiResponse
 from .api_response import T as ApiResponseT
@@ -291,7 +292,8 @@ class ApiClient:
         ):
             # if not found, look for '1XX', '2XX', etc.
             response_type = response_types_map.get(
-                str(response_data.status)[0] + "XX", None
+                str(response_data.status)[0] + "XX",
+                None,
             )
 
         # deserialize response data
@@ -310,7 +312,9 @@ class ApiClient:
                 encoding = match.group(1) if match else "utf-8"
                 response_text = response_data.data.decode(encoding)
                 return_data = self.deserialize(
-                    response_text, response_type, content_type
+                    response_text,
+                    response_type,
+                    content_type,
                 )
         finally:
             if not 200 <= response_data.status <= 299:
@@ -372,7 +376,10 @@ class ApiClient:
         }
 
     def deserialize(
-        self, response_text: str, response_type: str, content_type: str | None
+        self,
+        response_text: str,
+        response_type: str,
+        content_type: str | None,
     ):
         """Deserializes response into an object.
 
@@ -436,7 +443,7 @@ class ApiClient:
             if klass in self.NATIVE_TYPES_MAPPING:
                 klass = self.NATIVE_TYPES_MAPPING[klass]
             else:
-                klass = getattr(vardef_client.models, klass)
+                klass = getattr(models, klass)
 
         if klass in self.PRIMITIVE_TYPES:
             return self.__deserialize_primitive(data, klass)
