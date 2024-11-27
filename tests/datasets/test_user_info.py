@@ -18,7 +18,7 @@ from tests.datasets.constants import DAPLA_SERVICE
 from tests.datasets.constants import JUPYTERHUB_USER
 
 
-@pytest.fixture
+@pytest.fixture()
 def raw_jwt_payload(faker: Faker) -> dict[str, object]:
     user_name = "".join(faker.random_sample(elements=string.ascii_lowercase, length=3))
     email = f"{user_name}@ssb.no"
@@ -62,7 +62,7 @@ def raw_jwt_payload(faker: Faker) -> dict[str, object]:
     }
 
 
-@pytest.fixture
+@pytest.fixture()
 def fake_jwt(raw_jwt_payload):
     return jwt.encode(raw_jwt_payload, "test secret", algorithm="HS256")
 

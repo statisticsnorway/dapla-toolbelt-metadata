@@ -493,7 +493,7 @@ class Datadoc:
         )
         try:
             self.dataset.owner = user_info.get_owner()
-        except TypeError:
+        except OSError:
             logger.exception("Failed to find environment variable DAPLA_GROUP_CONTEXT")
         self.dataset.file_path = str(self.dataset_path)
         datadoc: ValidateDatadocMetadata = ValidateDatadocMetadata(
