@@ -12,12 +12,13 @@ from dapla_metadata.datasets.user_info import UnknownUserInfo
 from dapla_metadata.datasets.user_info import UserInfo
 from dapla_metadata.datasets.utility.enums import DaplaRegion
 from dapla_metadata.datasets.utility.enums import DaplaService
+from tests.datasets.constants import DAPLA_GROUP_CONTEXT
 from tests.datasets.constants import DAPLA_REGION
 from tests.datasets.constants import DAPLA_SERVICE
 from tests.datasets.constants import JUPYTERHUB_USER
 
 
-@pytest.fixture()
+@pytest.fixture
 def raw_jwt_payload(faker: Faker) -> dict[str, object]:
     user_name = "".join(faker.random_sample(elements=string.ascii_lowercase, length=3))
     email = f"{user_name}@ssb.no"
@@ -61,7 +62,7 @@ def raw_jwt_payload(faker: Faker) -> dict[str, object]:
     }
 
 
-@pytest.fixture()
+@pytest.fixture
 def fake_jwt(raw_jwt_payload):
     return jwt.encode(raw_jwt_payload, "test secret", algorithm="HS256")
 
@@ -110,3 +111,25 @@ def test_dapla_lab_user_info_short_email_no_email_in_jwt(
 ):
     monkeypatch.setenv("OIDC_TOKEN", fake_jwt)
     assert DaplaLabUserInfo().short_email is None
+
+
+@pytest.mark.parametrize(
+    ("environment_variable_name", "environment_variable_value", "expected_team"),
+    [
+        (DAPLA_GROUP_CONTEXT, "dapla-metadata-developers", "dapla-metadata"),
+        (
+            DAPLA_GROUP_CONTEXT,
+            "dapla-metadata-data-admins",
+            "dapla-metadata",
+        ),
+    ],
+)
+def test_get_owner(
+    monkeypatch: pytest.MonkeyPatch,
+    environment_variable_name: str,
+    environment_variable_value: str,
+    expected_team: str,
+):
+    if environment_variable_name:
+        monkeypatch.setenv(environment_variable_name, environment_variable_value)
+    assert user_info.get_owner() == expected_team
