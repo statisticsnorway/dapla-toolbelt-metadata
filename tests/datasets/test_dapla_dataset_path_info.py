@@ -135,17 +135,17 @@ def test_data(request: pytest.FixtureRequest) -> DatasetPathTestCase:
     return request.param
 
 
-@pytest.fixture()
+@pytest.fixture
 def dataset_path(test_data: DatasetPathTestCase) -> DaplaDatasetPathInfo:
     return DaplaDatasetPathInfo(test_data.path)
 
 
-@pytest.fixture()
+@pytest.fixture
 def expected_contains_data_from(test_data: DatasetPathTestCase) -> datetime.date:
     return test_data.expected_contains_data_from
 
 
-@pytest.fixture()
+@pytest.fixture
 def expected_contains_data_until(test_data: DatasetPathTestCase) -> datetime.date:
     return test_data.expected_contains_data_until
 

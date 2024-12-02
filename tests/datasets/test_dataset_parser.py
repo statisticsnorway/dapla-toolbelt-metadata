@@ -106,7 +106,7 @@ def test_transform_datatype(expected: DataType, concrete_type: str):
     assert actual == expected
 
 
-@pytest.fixture()
+@pytest.fixture
 def parquet_with_index_column(tmp_path):
     """Create a parquet file with a column called __index_level_0__."""
     test_data = pd.read_csv(

@@ -34,6 +34,16 @@ nox.options.sessions = (
     "docs-build",
 )
 
+TESTS_SESSIONS_DEPENDENCIES = {
+    "coverage[toml]",
+    "pytest",
+    "pygments",
+    "pytest-mock",
+    "requests-mock",
+    "faker",
+    "testcontainers[generic]",
+}
+
 
 def activate_virtualenv_in_precommit_hooks(session: Session) -> None:
     """Activate virtualenv in hooks installed by pre-commit.
@@ -163,9 +173,7 @@ def mypy(session: Session) -> None:
 def tests(session: Session) -> None:
     """Run the test suite."""
     session.install(".")
-    session.install(
-        "coverage[toml]", "pytest", "pygments", "pytest-mock", "requests-mock", "faker"
-    )
+    session.install(*TESTS_SESSIONS_DEPENDENCIES)
     try:
         session.run(
             "coverage",
@@ -199,10 +207,8 @@ def coverage(session: Session) -> None:
 def typeguard(session: Session) -> None:
     """Runtime type checking using Typeguard."""
     session.install(".")
-    session.install(
-        "pytest", "typeguard", "pygments", "pytest_mock", "requests_mock", "faker"
-    )
-    session.run("pytest", f"--typeguard-packages={package}", *session.posargs)
+    session.install(*TESTS_SESSIONS_DEPENDENCIES, "typeguard")
+    session.run("pytest", f"--typeguard-packages={package}.datasets", *session.posargs)
 
 
 @session(python=python_versions[-1])

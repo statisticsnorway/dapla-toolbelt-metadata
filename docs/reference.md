@@ -22,6 +22,7 @@ Subpackages
    :maxdepth: 4
 
    dapla_metadata.datasets
+   dapla_metadata.variable_definitions
 
 Module contents
 ---------------
@@ -185,4 +186,272 @@ Module contents
    :members:
    :undoc-members:
    :show-inheritance:
+
+dapla\_metadata.variable\_definitions package
+=============================================
+
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   dapla_metadata.variable_definitions.generated
+
+Module contents
+---------------
+
+.. automodule:: dapla_metadata.variable_definitions
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+dapla\_metadata.variable\_definitions.generated package
+=======================================================
+
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   dapla_metadata.variable_definitions.generated.vardef_client
+
+Module contents
+---------------
+
+.. automodule:: dapla_metadata.variable_definitions.generated
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+dapla\_metadata.variable\_definitions.generated.vardef\_client package
+======================================================================
+
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   dapla_metadata.variable_definitions.generated.vardef_client.api
+   dapla_metadata.variable_definitions.generated.vardef_client.models
+
+Submodules
+----------
+
+dapla\_metadata.variable\_definitions.generated.vardef\_client.api\_client module
+---------------------------------------------------------------------------------
+
+.. automodule:: dapla_metadata.variable_definitions.generated.vardef_client.api_client
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+dapla\_metadata.variable\_definitions.generated.vardef\_client.api\_response module
+-----------------------------------------------------------------------------------
+
+.. automodule:: dapla_metadata.variable_definitions.generated.vardef_client.api_response
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+dapla\_metadata.variable\_definitions.generated.vardef\_client.configuration module
+-----------------------------------------------------------------------------------
+
+.. automodule:: dapla_metadata.variable_definitions.generated.vardef_client.configuration
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+dapla\_metadata.variable\_definitions.generated.vardef\_client.exceptions module
+--------------------------------------------------------------------------------
+
+.. automodule:: dapla_metadata.variable_definitions.generated.vardef_client.exceptions
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+dapla\_metadata.variable\_definitions.generated.vardef\_client.rest module
+--------------------------------------------------------------------------
+
+.. automodule:: dapla_metadata.variable_definitions.generated.vardef_client.rest
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: dapla_metadata.variable_definitions.generated.vardef_client
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+
+dapla\_metadata.variable\_definitions.generated.vardef\_client.api package
+==========================================================================
+
+Submodules
+----------
+
+dapla\_metadata.variable\_definitions.generated.vardef\_client.api.data\_migration\_api module
+----------------------------------------------------------------------------------------------
+
+.. automodule:: dapla_metadata.variable_definitions.generated.vardef_client.api.data_migration_api
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+dapla\_metadata.variable\_definitions.generated.vardef\_client.api.draft\_variable\_definitions\_api module
+-----------------------------------------------------------------------------------------------------------
+
+.. automodule:: dapla_metadata.variable_definitions.generated.vardef_client.api.draft_variable_definitions_api
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+dapla\_metadata.variable\_definitions.generated.vardef\_client.api.patches\_api module
+--------------------------------------------------------------------------------------
+
+.. automodule:: dapla_metadata.variable_definitions.generated.vardef_client.api.patches_api
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+dapla\_metadata.variable\_definitions.generated.vardef\_client.api.public\_api module
+-------------------------------------------------------------------------------------
+
+.. automodule:: dapla_metadata.variable_definitions.generated.vardef_client.api.public_api
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+dapla\_metadata.variable\_definitions.generated.vardef\_client.api.validity\_periods\_api module
+------------------------------------------------------------------------------------------------
+
+.. automodule:: dapla_metadata.variable_definitions.generated.vardef_client.api.validity_periods_api
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+dapla\_metadata.variable\_definitions.generated.vardef\_client.api.variable\_definitions\_api module
+----------------------------------------------------------------------------------------------------
+
+.. automodule:: dapla_metadata.variable_definitions.generated.vardef_client.api.variable_definitions_api
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: dapla_metadata.variable_definitions.generated.vardef_client.api
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+dapla\_metadata.variable\_definitions.generated.vardef\_client.models package
+=============================================================================
+
+Submodules
+----------
+
+dapla\_metadata.variable\_definitions.generated.vardef\_client.models.complete\_response module
+-----------------------------------------------------------------------------------------------
+
+.. automodule:: dapla_metadata.variable_definitions.generated.vardef_client.models.complete_response
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+dapla\_metadata.variable\_definitions.generated.vardef\_client.models.contact module
+------------------------------------------------------------------------------------
+
+.. automodule:: dapla_metadata.variable_definitions.generated.vardef_client.models.contact
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+dapla\_metadata.variable\_definitions.generated.vardef\_client.models.draft module
+----------------------------------------------------------------------------------
+
+.. automodule:: dapla_metadata.variable_definitions.generated.vardef_client.models.draft
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+dapla\_metadata.variable\_definitions.generated.vardef\_client.models.language\_string\_type module
+---------------------------------------------------------------------------------------------------
+
+.. automodule:: dapla_metadata.variable_definitions.generated.vardef_client.models.language_string_type
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+dapla\_metadata.variable\_definitions.generated.vardef\_client.models.owner module
+----------------------------------------------------------------------------------
+
+.. automodule:: dapla_metadata.variable_definitions.generated.vardef_client.models.owner
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+dapla\_metadata.variable\_definitions.generated.vardef\_client.models.patch module
+----------------------------------------------------------------------------------
+
+.. automodule:: dapla_metadata.variable_definitions.generated.vardef_client.models.patch
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+dapla\_metadata.variable\_definitions.generated.vardef\_client.models.person module
+-----------------------------------------------------------------------------------
+
+.. automodule:: dapla_metadata.variable_definitions.generated.vardef_client.models.person
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+dapla\_metadata.variable\_definitions.generated.vardef\_client.models.supported\_languages module
+-------------------------------------------------------------------------------------------------
+
+.. automodule:: dapla_metadata.variable_definitions.generated.vardef_client.models.supported_languages
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+dapla\_metadata.variable\_definitions.generated.vardef\_client.models.update\_draft module
+------------------------------------------------------------------------------------------
+
+.. automodule:: dapla_metadata.variable_definitions.generated.vardef_client.models.update_draft
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+dapla\_metadata.variable\_definitions.generated.vardef\_client.models.validity\_period module
+---------------------------------------------------------------------------------------------
+
+.. automodule:: dapla_metadata.variable_definitions.generated.vardef_client.models.validity_period
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+dapla\_metadata.variable\_definitions.generated.vardef\_client.models.variable\_status module
+---------------------------------------------------------------------------------------------
+
+.. automodule:: dapla_metadata.variable_definitions.generated.vardef_client.models.variable_status
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: dapla_metadata.variable_definitions.generated.vardef_client.models
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+
 ```

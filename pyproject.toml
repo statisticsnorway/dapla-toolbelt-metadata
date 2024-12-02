@@ -62,14 +62,19 @@ types-setuptools = "*"
 types-beautifulsoup4 = ">=4.12.0.20240511"
 ipykernel = "^6.29.5"
 rich = "^13.9.4"
+bpython = "^0.24"
+testcontainers = { version = "^4.8.2", extras = ["generic"] }
 
 [tool.pytest.ini_options]
-pythonpath = ["src"]
+pythonpath = [
+    "src",
+    "src/dapla_metadata/variable_definitions/generated/openapi_client",
+]
 
 
 [tool.coverage.paths]
 source = ["src", "*/site-packages"]
-tests = ["tests", "*/tests"]
+tests = ["tests", "*/tests", "*/test"]
 
 [tool.coverage.run]
 branch = true
@@ -81,6 +86,11 @@ relative_files = true
 show_missing = true
 fail_under = 80
 
+[tool.black]
+# We don't want to format generated files because it creates large diffs
+# when generated code is updated.
+extend-exclude = "/generated/"
+
 [tool.mypy]
 plugins = ["pydantic.mypy"]
 strict = false
@@ -88,10 +98,20 @@ warn_unreachable = true
 pretty = true
 show_column_numbers = true
 show_error_context = true
+# Generated code is not high quality, just ignore the problems there
+exclude = "generated/vardef_client/.*"
+
+[[tool.mypy.overrides]]
+module = ["dapla_metadata.variable_definitions.generated.vardef_client.*"]
+warn_unreachable = false
+ignore_errors = true
+disable_error_code = ["unreachable"]
+
 
 [[tool.mypy.overrides]]
 # Allow missing type hints in third-party libraries without type information.
 module = [
+    "nox",
     "dapla",
     "gcsfs",
     "pyarrow",
@@ -99,6 +119,9 @@ module = [
     "datadoc_model",
     "datadoc_model.model",
     "pytest_mock",
+    "testcontainers.*",
+    "yaml",
+    "httpx",
 ]
 ignore_missing_imports = true
 
@@ -148,6 +171,9 @@ max-complexity = 15
 
 [tool.ruff.lint.pydocstyle]
 convention = "google" # You can also use "numpy".
+
+[tool.ruff.lint.flake8-pytest-style]
+fixture-parentheses = false
 
 [tool.ruff.lint.pep8-naming]
 classmethod-decorators = [
