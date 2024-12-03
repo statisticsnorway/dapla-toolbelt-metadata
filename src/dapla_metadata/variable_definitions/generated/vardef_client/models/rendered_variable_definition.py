@@ -15,81 +15,59 @@ import json
 import pprint
 import re  # noqa: F401
 from datetime import date
+from datetime import datetime
 from typing import Any
 from typing import ClassVar
 
 from pydantic import BaseModel
 from pydantic import ConfigDict
-from pydantic import Field
 from pydantic import StrictBool
+from pydantic import StrictInt
 from pydantic import StrictStr
 from typing_extensions import Self
 
-from ..models.contact import Contact
-from ..models.language_string_type import LanguageStringType
-from ..models.variable_status import VariableStatus
+from ..models.klass_reference import KlassReference
+from ..models.rendered_contact import RenderedContact
 
 
-class ValidityPeriod(BaseModel):
-    """Create a new Validity Period on a Published Variable Definition."""
+class RenderedVariableDefinition(BaseModel):
+    """Render a Variable Definition in a specific language, for display to end users."""
 
-    name: LanguageStringType | None = Field(
-        default=None,
-        description="Name of the variable. Must be unique for a given Unit Type and Owner combination.",
-    )
-    definition: LanguageStringType = Field(description="Definition of the variable.")
-    classification_reference: StrictStr | None = Field(
-        default=None,
-        description="ID of a classification or code list from Klass. The given classification defines all possible values for the defined variable.",
-    )
-    unit_types: list[StrictStr] | None = Field(
-        default=None,
-        description="A list of one or more unit types, e.g. person, vehicle, household. Must be defined as codes from https://www.ssb.no/klass/klassifikasjoner/702.",
-    )
-    subject_fields: list[StrictStr] | None = Field(
-        default=None,
-        description="A list of subject fields that the variable is used in. Must be defined as codes from https://www.ssb.no/klass/klassifikasjoner/618.",
-    )
-    contains_sensitive_personal_information: StrictBool | None = Field(
-        default=None,
-        description="True if variable instances contain particularly sensitive information. Applies even if the information or identifiers are pseudonymized. Information within the following categories are regarded as particularly sensitive: Ethnicity, Political alignment, Religion, Philosophical beliefs, Union membership, Genetics, Biometrics, Health, Sexual relations, Sexual orientation",
-    )
-    variable_status: VariableStatus | None = Field(
-        default=None, description="Status of the life cycle of the variable"
-    )
-    measurement_type: StrictStr | None = Field(
-        default=None,
-        description="Type of measurement for the variable, e.g. length, volume, currency. Must be defined as codes from https://www.ssb.no/klass/klassifikasjoner/303",
-    )
-    valid_from: date = Field(
-        description="The variable definition is valid from this date inclusive"
-    )
-    external_reference_uri: StrictStr | None = Field(
-        default=None, description="A link (URI) to an external definition/documentation"
-    )
-    comment: LanguageStringType | None = Field(
-        default=None,
-        description="Optional comment to explain the definition or communicate potential changes.",
-    )
-    related_variable_definition_uris: list[StrictStr] | None = Field(
-        default=None,
-        description="Link(s) to related definitions of variables - a list of one or more definitions. For example for a variable after-tax income it could be relevant to link to definitions of income from work, property income etc.",
-    )
-    contact: Contact | None = Field(default=None, description="Contact details")
+    id: StrictStr
+    patch_id: StrictInt
+    name: StrictStr | None = None
+    short_name: StrictStr
+    definition: StrictStr | None = None
+    classification_uri: StrictStr | None = None
+    unit_types: list[KlassReference | None]
+    subject_fields: list[KlassReference | None]
+    contains_sensitive_personal_information: StrictBool
+    measurement_type: KlassReference | None = None
+    valid_from: date
+    valid_until: date | None = None
+    external_reference_uri: StrictStr | None = None
+    comment: StrictStr | None = None
+    related_variable_definition_uris: list[StrictStr] | None = None
+    contact: RenderedContact | None = None
+    last_updated_at: datetime
     __properties: ClassVar[list[str]] = [
+        "id",
+        "patch_id",
         "name",
+        "short_name",
         "definition",
-        "classification_reference",
+        "classification_uri",
         "unit_types",
         "subject_fields",
         "contains_sensitive_personal_information",
-        "variable_status",
         "measurement_type",
         "valid_from",
+        "valid_until",
         "external_reference_uri",
         "comment",
         "related_variable_definition_uris",
         "contact",
+        "last_updated_at",
     ]
 
     model_config = ConfigDict(
@@ -109,7 +87,7 @@ class ValidityPeriod(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Self | None:
-        """Create an instance of ValidityPeriod from a JSON string"""
+        """Create an instance of RenderedVariableDefinition from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> dict[str, Any]:
@@ -121,28 +99,31 @@ class ValidityPeriod(BaseModel):
         * `None` is only added to the output dict for nullable fields that
           were set at model initialization. Other fields with value `None`
           are ignored.
-        * OpenAPI `readOnly` fields are excluded.
         """
-        excluded_fields: set[str] = set(
-            [
-                "variable_status",
-            ]
-        )
+        excluded_fields: set[str] = set([])
 
         _dict = self.model_dump(
             by_alias=True,
             exclude=excluded_fields,
             exclude_none=True,
         )
-        # override the default output from pydantic by calling `to_dict()` of name
-        if self.name:
-            _dict["name"] = self.name.to_dict()
-        # override the default output from pydantic by calling `to_dict()` of definition
-        if self.definition:
-            _dict["definition"] = self.definition.to_dict()
-        # override the default output from pydantic by calling `to_dict()` of comment
-        if self.comment:
-            _dict["comment"] = self.comment.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of each item in unit_types (list)
+        _items = []
+        if self.unit_types:
+            for _item_unit_types in self.unit_types:
+                if _item_unit_types:
+                    _items.append(_item_unit_types.to_dict())
+            _dict["unit_types"] = _items
+        # override the default output from pydantic by calling `to_dict()` of each item in subject_fields (list)
+        _items = []
+        if self.subject_fields:
+            for _item_subject_fields in self.subject_fields:
+                if _item_subject_fields:
+                    _items.append(_item_subject_fields.to_dict())
+            _dict["subject_fields"] = _items
+        # override the default output from pydantic by calling `to_dict()` of measurement_type
+        if self.measurement_type:
+            _dict["measurement_type"] = self.measurement_type.to_dict()
         # override the default output from pydantic by calling `to_dict()` of contact
         if self.contact:
             _dict["contact"] = self.contact.to_dict()
@@ -151,36 +132,18 @@ class ValidityPeriod(BaseModel):
         if self.name is None and "name" in self.model_fields_set:
             _dict["name"] = None
 
-        # set to None if classification_reference (nullable) is None
+        # set to None if definition (nullable) is None
+        # and model_fields_set contains the field
+        if self.definition is None and "definition" in self.model_fields_set:
+            _dict["definition"] = None
+
+        # set to None if classification_uri (nullable) is None
         # and model_fields_set contains the field
         if (
-            self.classification_reference is None
-            and "classification_reference" in self.model_fields_set
+            self.classification_uri is None
+            and "classification_uri" in self.model_fields_set
         ):
-            _dict["classification_reference"] = None
-
-        # set to None if unit_types (nullable) is None
-        # and model_fields_set contains the field
-        if self.unit_types is None and "unit_types" in self.model_fields_set:
-            _dict["unit_types"] = None
-
-        # set to None if subject_fields (nullable) is None
-        # and model_fields_set contains the field
-        if self.subject_fields is None and "subject_fields" in self.model_fields_set:
-            _dict["subject_fields"] = None
-
-        # set to None if contains_sensitive_personal_information (nullable) is None
-        # and model_fields_set contains the field
-        if (
-            self.contains_sensitive_personal_information is None
-            and "contains_sensitive_personal_information" in self.model_fields_set
-        ):
-            _dict["contains_sensitive_personal_information"] = None
-
-        # set to None if variable_status (nullable) is None
-        # and model_fields_set contains the field
-        if self.variable_status is None and "variable_status" in self.model_fields_set:
-            _dict["variable_status"] = None
+            _dict["classification_uri"] = None
 
         # set to None if measurement_type (nullable) is None
         # and model_fields_set contains the field
@@ -189,6 +152,11 @@ class ValidityPeriod(BaseModel):
             and "measurement_type" in self.model_fields_set
         ):
             _dict["measurement_type"] = None
+
+        # set to None if valid_until (nullable) is None
+        # and model_fields_set contains the field
+        if self.valid_until is None and "valid_until" in self.model_fields_set:
+            _dict["valid_until"] = None
 
         # set to None if external_reference_uri (nullable) is None
         # and model_fields_set contains the field
@@ -220,7 +188,7 @@ class ValidityPeriod(BaseModel):
 
     @classmethod
     def from_dict(cls, obj: dict[str, Any] | None) -> Self | None:
-        """Create an instance of ValidityPeriod from a dict"""
+        """Create an instance of RenderedVariableDefinition from a dict"""
         if obj is None:
             return None
 
@@ -229,31 +197,39 @@ class ValidityPeriod(BaseModel):
 
         _obj = cls.model_validate(
             {
-                "name": LanguageStringType.from_dict(obj["name"])
-                if obj.get("name") is not None
+                "id": obj.get("id"),
+                "patch_id": obj.get("patch_id"),
+                "name": obj.get("name"),
+                "short_name": obj.get("short_name"),
+                "definition": obj.get("definition"),
+                "classification_uri": obj.get("classification_uri"),
+                "unit_types": [
+                    KlassReference.from_dict(_item) for _item in obj["unit_types"]
+                ]
+                if obj.get("unit_types") is not None
                 else None,
-                "definition": LanguageStringType.from_dict(obj["definition"])
-                if obj.get("definition") is not None
+                "subject_fields": [
+                    KlassReference.from_dict(_item) for _item in obj["subject_fields"]
+                ]
+                if obj.get("subject_fields") is not None
                 else None,
-                "classification_reference": obj.get("classification_reference"),
-                "unit_types": obj.get("unit_types"),
-                "subject_fields": obj.get("subject_fields"),
                 "contains_sensitive_personal_information": obj.get(
                     "contains_sensitive_personal_information"
                 ),
-                "variable_status": obj.get("variable_status"),
-                "measurement_type": obj.get("measurement_type"),
-                "valid_from": obj.get("valid_from"),
-                "external_reference_uri": obj.get("external_reference_uri"),
-                "comment": LanguageStringType.from_dict(obj["comment"])
-                if obj.get("comment") is not None
+                "measurement_type": KlassReference.from_dict(obj["measurement_type"])
+                if obj.get("measurement_type") is not None
                 else None,
+                "valid_from": obj.get("valid_from"),
+                "valid_until": obj.get("valid_until"),
+                "external_reference_uri": obj.get("external_reference_uri"),
+                "comment": obj.get("comment"),
                 "related_variable_definition_uris": obj.get(
                     "related_variable_definition_uris"
                 ),
-                "contact": Contact.from_dict(obj["contact"])
+                "contact": RenderedContact.from_dict(obj["contact"])
                 if obj.get("contact") is not None
                 else None,
+                "last_updated_at": obj.get("last_updated_at"),
             }
         )
         return _obj
