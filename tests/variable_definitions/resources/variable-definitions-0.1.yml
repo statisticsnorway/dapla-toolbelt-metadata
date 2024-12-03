@@ -1,7 +1,42 @@
 openapi: 3.0.1
 info:
   title: Variable Definitions
-  description: ""
+  description: "## Introduction\n\nVariable Definitions are centralized definitions\
+    \ of concrete variables which are typically present in multiple datasets. Variable\
+    \ Definitions support standardization of data and metadata and facilitate sharing\
+    \ and joining of data by clarifying when variables have an identical definition.\n\
+    \n## Maintenance of Variable Definitions\nThis API allows for creation, maintenance\
+    \ and access of Variable Definitions.\n\n### Ownership\nCreation and maintenance\
+    \ of variables may only be performed by Statistics Norway employees representing\
+    \ a specific Dapla team, who are defined as the owners of a given Variable Definition.\
+    \ The team an owner represents must be specified when making a request through\
+    \ the `active_group` query parameter. All maintenance is to be performed by the\
+    \ owners, with no intervention from administrators.\n\n### Status\nAll Variable\
+    \ Definitions have an associated status. The possible values for status are `DRAFT`,\
+    \ `PUBLISHED_INTERNAL` and `PUBLISHED_EXTERNAL`.\n \n#### Draft\nWhen a Variable\
+    \ Definition is created it is assigned the status `DRAFT`. Under this status the\
+    \ Variable Definition is:\n\n- Only visible to Statistics Norway employees.\n\
+    - Mutable (it may be changed directly without need for versioning).\n- Not suitable\
+    \ to refer to from other systems.\n\nThis status may be changed to `PUBLISHED_INTERNAL`\
+    \ or `PUBLISHED_EXTERNAL` with a direct update.\n\n#### Published Internal\nUnder\
+    \ this status the Variable Definition is:\n\n- Only visible to Statistics Norway\
+    \ employees.\n- Immutable (all changes are versioned).\n- Suitable to refer to\
+    \ in internal systems for statistics production.\n- Not suitable to refer to for\
+    \ external use (for example in Statistikkbanken).\n\nThis status may be changed\
+    \ to `PUBLISHED_EXTERNAL` by creating a Patch version.\n\n#### Published External\n\
+    Under this status the Variable Definition is:\n\n- Visible to the general public.\n\
+    - Immutable (all changes are versioned).\n- Suitable to refer to from any system.\n\
+    \nThis status may not be changed as it would break immutability. If a Variable\
+    \ Definition is no longer relevant then its period of validity should be ended\
+    \ by specifying a `valid_until` date in a Patch version.\n\n### Immutability\n\
+    Variable Definitions are immutable. This means that any changes must be performed\
+    \ in a strict versioning system. Consumers can avoid being exposed to breaking\
+    \ changes by specifying a `date_of_validity` when they request a Variable Definition.\n\
+    \n#### Patches\nPatches are for changes which do not affect the fundamental meaning\
+    \ of the Variable Definition.\n\n#### Validity Periods\nValidity Periods are versions\
+    \ with a period defined by a `valid_from` date and optionally a `valid_until`\
+    \ date. If the fundamental meaning of a Variable Definition is to be changed,\
+    \ it should be done by creating a new Validity Period.\n\n"
   contact:
     name: Team Metadata
     email: metadata@ssb.no
@@ -9,7 +44,6 @@ info:
     name: CC BY 4.0
     url: https://creativecommons.org/licenses/by/4.0/deed.no
   version: "0.1"
-  x-audience: external-public
 servers:
 - url: https://metadata.intern.test.ssb.no
   description: Internal test server
@@ -17,9 +51,9 @@ tags:
 - name: Public
   description: Operations which are available to the general public without authentication.
 - name: Validity Periods
-  description: Create and access validity periods.
+  description: Create and access Validity Periods.
 - name: Patches
-  description: Create and access 'patch' changes.
+  description: Create and access Patches.
 - name: Data Migration
   description: Create variable definitions from existing definitions in Vardok.
   externalDocs:
@@ -62,6 +96,10 @@ paths:
           description: OK response
           content:
             application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/RenderedVariableDefinition"
               examples:
                 List of one variable definition:
                   value: |-
@@ -148,6 +186,8 @@ paths:
           description: Ok
           content:
             application/json:
+              schema:
+                $ref: "#/components/schemas/RenderedVariableDefinition"
               examples:
                 No date specified:
                   value:
@@ -216,6 +256,10 @@ paths:
           description: Ok
           content:
             application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/RenderedVariableDefinition"
               examples:
                 one_validity_period:
                   value: |-
@@ -390,6 +434,10 @@ paths:
           description: OK response
           content:
             application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/CompleteResponse"
               examples:
                 List of one variable definition:
                   value: |-
@@ -485,6 +533,8 @@ paths:
           description: Successfully created.
           content:
             application/json:
+              schema:
+                $ref: "#/components/schemas/CompleteResponse"
               examples:
                 create_draft:
                   value:
@@ -599,6 +649,8 @@ paths:
           description: Ok
           content:
             application/json:
+              schema:
+                $ref: "#/components/schemas/CompleteResponse"
               examples:
                 No date specified:
                   value:
@@ -822,6 +874,8 @@ paths:
           description: Successfully updated
           content:
             application/json:
+              schema:
+                $ref: "#/components/schemas/CompleteResponse"
               examples:
                 update:
                   value:
@@ -914,7 +968,7 @@ paths:
       summary: List all patches for the given variable definition.
       description: List all patches for the given variable definition. The full object
         is returned for comparison purposes.
-      operationId: getAllPatches
+      operationId: listPatches
       parameters:
       - name: variable-definition-id
         in: path
@@ -932,10 +986,15 @@ paths:
           description: Ok
           content:
             application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/CompleteResponse"
               examples:
                 one_patch:
                   value: |-
-                    [{
+                    [
+                        {
                         "id": "wypvb3wd",
                         "patch_id": 1,
                         "name": {
@@ -991,6 +1050,7 @@ paths:
                         }
 
                     }
+
                     ]
       security:
       - keycloak_token: []
@@ -1040,6 +1100,8 @@ paths:
           description: Successfully created.
           content:
             application/json:
+              schema:
+                $ref: "#/components/schemas/CompleteResponse"
               examples:
                 create_patch:
                   value:
@@ -1124,7 +1186,7 @@ paths:
       summary: Get one concrete patch for the given variable definition.
       description: Get one concrete patch for the given variable definition. The full
         object is returned for comparison purposes.
-      operationId: getOnePatch
+      operationId: getPatch
       parameters:
       - name: variable-definition-id
         in: path
@@ -1150,6 +1212,8 @@ paths:
           description: Ok
           content:
             application/json:
+              schema:
+                $ref: "#/components/schemas/CompleteResponse"
               examples:
                 patch_1:
                   value:
@@ -1247,6 +1311,10 @@ paths:
           description: Ok
           content:
             application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/CompleteResponse"
               examples:
                 one_validity_period:
                   value: |-
@@ -1347,6 +1415,8 @@ paths:
           description: Successfully created.
           content:
             application/json:
+              schema:
+                $ref: "#/components/schemas/CompleteResponse"
               examples:
                 create_validity_period:
                   value:
@@ -1705,6 +1775,19 @@ components:
             nb: Seksjon for befolkningsstatistikk
             nn: Seksjon for befolkningsstatistikk
           email: s320@ssb.no
+    KlassReference:
+      required:
+      - reference_uri
+      type: object
+      properties:
+        reference_uri:
+          type: string
+        code:
+          type: string
+          nullable: true
+        title:
+          type: string
+          nullable: true
     LanguageStringType:
       type: object
       properties:
@@ -1888,6 +1971,126 @@ components:
       example:
         code: ano@ssb.no
         name: Ola Nordmann
+    RenderedContact:
+      required:
+      - email
+      type: object
+      properties:
+        title:
+          type: string
+          nullable: true
+        email:
+          type: string
+      example:
+        title: Seksjon for befolkningsstatistikk
+        email: s320@ssb.no
+    RenderedVariableDefinition:
+      required:
+      - contains_sensitive_personal_information
+      - id
+      - last_updated_at
+      - patch_id
+      - short_name
+      - subject_fields
+      - unit_types
+      - valid_from
+      type: object
+      properties:
+        id:
+          type: string
+        patch_id:
+          type: integer
+          format: int32
+        name:
+          type: string
+          nullable: true
+        short_name:
+          type: string
+        definition:
+          type: string
+          nullable: true
+        classification_uri:
+          type: string
+          nullable: true
+        unit_types:
+          type: array
+          items:
+            nullable: true
+            allOf:
+            - $ref: "#/components/schemas/KlassReference"
+        subject_fields:
+          type: array
+          items:
+            nullable: true
+            allOf:
+            - $ref: "#/components/schemas/KlassReference"
+        contains_sensitive_personal_information:
+          type: boolean
+        measurement_type:
+          nullable: true
+          allOf:
+          - $ref: "#/components/schemas/KlassReference"
+        valid_from:
+          type: string
+          format: date
+        valid_until:
+          type: string
+          format: date
+          nullable: true
+        external_reference_uri:
+          type: string
+          format: url
+          nullable: true
+        comment:
+          type: string
+          nullable: true
+        related_variable_definition_uris:
+          type: array
+          nullable: true
+          items:
+            type: string
+            format: url
+        contact:
+          nullable: true
+          allOf:
+          - $ref: "#/components/schemas/RenderedContact"
+        last_updated_at:
+          type: string
+          format: date-time
+      description: "Render a Variable Definition in a specific language, for display\
+        \ to end users."
+      example:
+        id: wypvb3wd
+        name: Landbakgrunn
+        short_name: string
+        definition: "For personer født i utlandet, er dette (med noen få unntak) eget\
+          \ fødeland. For personer født i Norge er det foreldrenes fødeland. I de\
+          \ tilfeller der foreldrene har ulikt fødeland, er det morens fødeland som\
+          \ blir valgt. Hvis ikke personen selv eller noen av foreldrene er utenlandsfø\
+          dt, hentes landbakgrunn fra de første utenlandsfødte en treffer på i rekkefø\
+          lgen mormor, morfar, farmor eller farfar."
+        classification_uri: https://www.ssb.no/en/klass/klassifikasjoner/91
+        unit_types:
+        - reference_uri: https://www.ssb.no/klass/klassifikasjoner/702
+          code: "20"
+          title: Person
+        subject_fields:
+        - reference_uri: https://www.ssb.no/klass/klassifikasjoner/618
+          code: be07
+          title: Innvandrere
+        contains_sensitive_personal_information: true
+        measurement_type: null
+        valid_from: 2003-01-01
+        valid_until: null
+        external_reference_uri: https://www.ssb.no/a/metadata/conceptvariable/vardok/1919/nb
+        comment: Fra og med 1.1.2003 ble definisjon endret til også å trekke inn besteforeldrenes
+          fødeland.
+        related_variable_definition_uris:
+        - https://example.com/
+        contact:
+          title: Seksjon for befolkningsstatistikk
+          email: s320@ssb.no
+        last_updated_at: 2024-06-12T10:39:41.038Z
     SupportedLanguages:
       type: string
       description: Languages the application supports.
