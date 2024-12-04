@@ -3,19 +3,19 @@ import string
 import jwt
 import pytest
 from faker import Faker
+from tests.utils.constants import DAPLA_GROUP_CONTEXT
+from tests.utils.constants import DAPLA_REGION
+from tests.utils.constants import DAPLA_SERVICE
+from tests.utils.constants import JUPYTERHUB_USER
 
-from dapla_metadata.datasets import user_info
-from dapla_metadata.datasets.user_info import PLACEHOLDER_EMAIL_ADDRESS
-from dapla_metadata.datasets.user_info import DaplaLabUserInfo
-from dapla_metadata.datasets.user_info import JupyterHubUserInfo
-from dapla_metadata.datasets.user_info import UnknownUserInfo
-from dapla_metadata.datasets.user_info import UserInfo
-from dapla_metadata.datasets.utility.enums import DaplaRegion
-from dapla_metadata.datasets.utility.enums import DaplaService
-from tests.datasets.constants import DAPLA_GROUP_CONTEXT
-from tests.datasets.constants import DAPLA_REGION
-from tests.datasets.constants import DAPLA_SERVICE
-from tests.datasets.constants import JUPYTERHUB_USER
+from dapla_metadata._shared import user_info
+from dapla_metadata._shared.enums import DaplaRegion
+from dapla_metadata._shared.enums import DaplaService
+from dapla_metadata._shared.user_info import PLACEHOLDER_EMAIL_ADDRESS
+from dapla_metadata._shared.user_info import DaplaLabUserInfo
+from dapla_metadata._shared.user_info import JupyterHubUserInfo
+from dapla_metadata._shared.user_info import UnknownUserInfo
+from dapla_metadata._shared.user_info import UserInfo
 
 
 @pytest.fixture

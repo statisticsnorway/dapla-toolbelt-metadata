@@ -3,3 +3,4 @@
 import datadoc_model.model as datadoc_model
 
 from . import datasets
+from . import variable_definitions
