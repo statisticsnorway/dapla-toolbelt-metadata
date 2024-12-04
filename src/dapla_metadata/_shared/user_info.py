@@ -6,9 +6,9 @@ from typing import Protocol
 
 import jwt
 
-from dapla_metadata.datasets import config
-from dapla_metadata.datasets.utility.enums import DaplaRegion
-from dapla_metadata.datasets.utility.enums import DaplaService
+from dapla_metadata._shared import config
+from dapla_metadata._shared.enums import DaplaRegion
+from dapla_metadata._shared.enums import DaplaService
 
 logger = logging.getLogger(__name__)
 
@@ -90,7 +90,7 @@ def get_user_info_for_current_platform() -> UserInfo:
 
 def get_owner() -> str:
     """Returns the owner read from the GROUP_CONTEXT environment variable."""
-    if group := config.get_group_context():
+    if group := config.get_dapla_group_context():
         return parse_team_name(group)
     msg = "DAPLA_GROUP_CONTEXT environment variable not found"
     raise OSError(msg)

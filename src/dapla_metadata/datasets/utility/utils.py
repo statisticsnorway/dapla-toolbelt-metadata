@@ -14,7 +14,7 @@ from datadoc_model.model import Assessment
 from datadoc_model.model import DataSetState
 from datadoc_model.model import VariableRole
 
-from dapla_metadata.datasets import user_info
+from dapla_metadata._shared import user_info
 from dapla_metadata.datasets.utility.constants import (
     DATASET_FIELDS_FROM_EXISTING_METADATA,
 )

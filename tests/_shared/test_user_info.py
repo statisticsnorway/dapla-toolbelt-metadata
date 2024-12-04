@@ -1,70 +1,17 @@
-import string
-
-import jwt
 import pytest
-from faker import Faker
 
-from dapla_metadata.datasets import user_info
-from dapla_metadata.datasets.user_info import PLACEHOLDER_EMAIL_ADDRESS
-from dapla_metadata.datasets.user_info import DaplaLabUserInfo
-from dapla_metadata.datasets.user_info import JupyterHubUserInfo
-from dapla_metadata.datasets.user_info import UnknownUserInfo
-from dapla_metadata.datasets.user_info import UserInfo
-from dapla_metadata.datasets.utility.enums import DaplaRegion
-from dapla_metadata.datasets.utility.enums import DaplaService
-from tests.datasets.constants import DAPLA_GROUP_CONTEXT
-from tests.datasets.constants import DAPLA_REGION
-from tests.datasets.constants import DAPLA_SERVICE
-from tests.datasets.constants import JUPYTERHUB_USER
-
-
-@pytest.fixture
-def raw_jwt_payload(faker: Faker) -> dict[str, object]:
-    user_name = "".join(faker.random_sample(elements=string.ascii_lowercase, length=3))
-    email = f"{user_name}@ssb.no"
-    first_name = faker.first_name()
-    last_name = faker.last_name()
-    return {
-        "exp": faker.unix_time(),
-        "iat": faker.unix_time(),
-        "auth_time": faker.unix_time(),
-        "jti": faker.uuid4(),
-        "iss": faker.url(),
-        "aud": [
-            faker.word(),
-            faker.uuid4(),
-            "broker",
-            "account",
-        ],
-        "sub": faker.uuid4(),
-        "typ": "Bearer",
-        "azp": "onyxia",
-        "session_state": faker.uuid4(),
-        "allowed-origins": ["*"],
-        "realm_access": {
-            "roles": [faker.word(), faker.word()],
-        },
-        "resource_access": {
-            "broker": {"roles": [faker.word()]},
-            "account": {
-                "roles": [faker.word()],
-            },
-        },
-        "scope": "openid email profile",
-        "sid": faker.uuid4(),
-        "email_verified": True,
-        "name": f"{first_name} {last_name}",
-        "short_username": f"ssb-{user_name}",
-        "preferred_username": email,
-        "given_name": first_name,
-        "family_name": last_name,
-        "email": email,
-    }
-
-
-@pytest.fixture
-def fake_jwt(raw_jwt_payload):
-    return jwt.encode(raw_jwt_payload, "test secret", algorithm="HS256")
+from dapla_metadata._shared import user_info
+from dapla_metadata._shared.enums import DaplaRegion
+from dapla_metadata._shared.enums import DaplaService
+from dapla_metadata._shared.user_info import PLACEHOLDER_EMAIL_ADDRESS
+from dapla_metadata._shared.user_info import DaplaLabUserInfo
+from dapla_metadata._shared.user_info import JupyterHubUserInfo
+from dapla_metadata._shared.user_info import UnknownUserInfo
+from dapla_metadata._shared.user_info import UserInfo
+from tests.utils.constants import DAPLA_GROUP_CONTEXT
+from tests.utils.constants import DAPLA_REGION
+from tests.utils.constants import DAPLA_SERVICE
+from tests.utils.constants import JUPYTERHUB_USER
 
 
 @pytest.mark.parametrize(
