@@ -5,7 +5,6 @@ from dapla_metadata.variable_definitions.generated.vardef_client.exceptions impo
 )
 
 
-# validation exception
 class VardefClientException(OpenApiException):
     """Class for handling exceptions from Vardef."""
 

@@ -6,9 +6,6 @@ from dapla_metadata.variable_definitions.generated import vardef_client
 from dapla_metadata.variable_definitions.generated.vardef_client.configuration import (
     Configuration,
 )
-from dapla_metadata.variable_definitions.generated.vardef_client.exceptions import (
-    ApiException,
-)
 from dapla_metadata.variable_definitions.generated.vardef_client.models import (
     language_string_type,
 )
@@ -18,7 +15,7 @@ from dapla_metadata.variable_definitions.generated.vardef_client.models.complete
 from dapla_metadata.variable_definitions.generated.vardef_client.models.draft import (
     Draft,
 )
-from dapla_metadata.variable_definitions.vardef.errors import VardefClientException
+from dapla_metadata.variable_definitions.vardef.exceptions import VardefClientException
 
 # Configure the logger
 logging.basicConfig(
@@ -80,16 +77,14 @@ class Vardef:
                 "dapla-felles-developers",
                 draft=draft,
             )
-        except vardef_client.exceptions.ApiException as e:
+        except vardef_client.exceptions.OpenApiException as e:
             raise VardefClientException(e.body, e.status)
 
     @staticmethod
     def list_draft() -> list[CompleteResponse] | None:
         """List all variable definitions with status Draft."""
         host = "http://localhost:8080"
-        access_token = os.environ.get("OIDC_TOKEN")
-        if access_token is None:
-            return None
+        access_token = None
         config = vardef_client.Configuration(
             host=host,
             access_token=access_token,
@@ -100,7 +95,4 @@ class Vardef:
             return api_instance.list_variable_definitions()
         except vardef_client.exceptions.UnauthorizedException as e:
             logging.info(e.reason)
-            return None
-        except ApiException as e:
-            logging.info(f"API Exception: {e.status} - {e.reason}")  # noqa: G004
             return None
