@@ -1,4 +1,3 @@
-README.md
 vardef_client/__init__.py
 vardef_client/api/__init__.py
 vardef_client/api/data_migration_api.py
@@ -15,10 +14,13 @@ vardef_client/models/__init__.py
 vardef_client/models/complete_response.py
 vardef_client/models/contact.py
 vardef_client/models/draft.py
+vardef_client/models/klass_reference.py
 vardef_client/models/language_string_type.py
 vardef_client/models/owner.py
 vardef_client/models/patch.py
 vardef_client/models/person.py
+vardef_client/models/rendered_contact.py
+vardef_client/models/rendered_variable_definition.py
 vardef_client/models/supported_languages.py
 vardef_client/models/update_draft.py
 vardef_client/models/validity_period.py
