@@ -3,10 +3,6 @@ import string
 import jwt
 import pytest
 from faker import Faker
-from tests.utils.constants import DAPLA_GROUP_CONTEXT
-from tests.utils.constants import DAPLA_REGION
-from tests.utils.constants import DAPLA_SERVICE
-from tests.utils.constants import JUPYTERHUB_USER
 
 from dapla_metadata._shared import user_info
 from dapla_metadata._shared.enums import DaplaRegion
@@ -16,6 +12,10 @@ from dapla_metadata._shared.user_info import DaplaLabUserInfo
 from dapla_metadata._shared.user_info import JupyterHubUserInfo
 from dapla_metadata._shared.user_info import UnknownUserInfo
 from dapla_metadata._shared.user_info import UserInfo
+from tests.utils.constants import DAPLA_GROUP_CONTEXT
+from tests.utils.constants import DAPLA_REGION
+from tests.utils.constants import DAPLA_SERVICE
+from tests.utils.constants import JUPYTERHUB_USER
 
 
 @pytest.fixture
