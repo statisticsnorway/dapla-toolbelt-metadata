@@ -44,7 +44,7 @@ class Vardef:
             en=None,
         ),
         classification_reference="91",
-        unit_types=["pp"],
+        unit_types=["01"],
         subject_fields=["al"],
         contains_sensitive_personal_information=True,
         measurement_type="01",
@@ -84,7 +84,7 @@ class Vardef:
     def list_draft() -> list[CompleteResponse] | None:
         """List all variable definitions with status Draft."""
         host = "http://localhost:8080"
-        access_token = None
+        access_token = os.environ.get("OIDC_TOKEN")
         config = vardef_client.Configuration(
             host=host,
             access_token=access_token,
