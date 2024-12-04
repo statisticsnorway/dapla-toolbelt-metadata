@@ -1,13 +1,12 @@
 """Simple tests for basic coverage of the generated client."""
 
-from tests.utils.constants import VARDEF_EXAMPLE_ACTIVE_GROUP
-from tests.utils.constants import VARDEF_EXAMPLE_DATE
-from tests.utils.constants import VARDEF_EXAMPLE_DEFINITION_ID
-
 from dapla_metadata.variable_definitions.generated import vardef_client
 from dapla_metadata.variable_definitions.generated.vardef_client.models.complete_response import (
     CompleteResponse,
 )
+from tests.utils.constants import VARDEF_EXAMPLE_ACTIVE_GROUP
+from tests.utils.constants import VARDEF_EXAMPLE_DATE
+from tests.utils.constants import VARDEF_EXAMPLE_DEFINITION_ID
 
 
 def test_create_draft(api_client, draft):

@@ -10,6 +10,14 @@ class DaplaRegion(str, Enum):
     CLOUD_RUN = "CLOUD_RUN"
 
 
+class DaplaEnvironment(str, Enum):
+    """Dapla lifecycle environment."""
+
+    PROD = "PROD"
+    TEST = "TEST"
+    DEV = "DEV"
+
+
 class DaplaService(str, Enum):
     """Dapla services."""
 
