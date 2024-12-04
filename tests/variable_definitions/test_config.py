@@ -48,6 +48,18 @@ def test_get_vardef_client_configuration(
     assert config.access_token is not None
 
 
+def test_get_vardef_client_configuration_no_token(
+    monkeypatch: pytest.MonkeyPatch,
+):
+    monkeypatch.setenv(DAPLA_ENVIRONMENT, DaplaEnvironment.TEST.value)
+    monkeypatch.delenv(OIDC_TOKEN, raising=False)
+    with pytest.raises(
+        OSError,
+        match="Environment variable OIDC_TOKEN not defined",
+    ):
+        get_vardef_client_configuration()
+
+
 def test_active_group_unset(monkeypatch: pytest.MonkeyPatch):
     monkeypatch.delenv(DAPLA_GROUP_CONTEXT, raising=False)
     with pytest.raises(

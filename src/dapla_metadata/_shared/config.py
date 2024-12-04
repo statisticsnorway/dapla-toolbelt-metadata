@@ -42,10 +42,24 @@ def _load_dotenv_file() -> None:
         )
 
 
-def get_config_item(item: str) -> str | None:
-    """Get a config item. Makes sure all access is logged."""
+def get_config_item(item: str, *, raising: bool = False) -> str | None:
+    """Get a config item. Makes sure all access is logged.
+
+    Args:
+        item: The name of the environment variable to obtain.
+        raising: `True` if an exception should be raised when the item isn't present.
+
+    Returns:
+        The set value or `None`
+
+    Raises:
+        OSError: Only if `raising` is True and the item is not found.
+    """
     _load_dotenv_file()
     value = os.environ.get(item)
+    if raising and not value:
+        msg = f"Environment variable {item} not defined."
+        raise OSError(msg)
     logger.debug("Config accessed. %s", item)
     return value
 
@@ -87,11 +101,11 @@ def get_dapla_service() -> DaplaService | None:
     return None
 
 
-def get_oidc_token() -> str | None:
+def get_oidc_token(*, raising: bool = False) -> str | None:
     """Get the JWT token from the environment."""
-    return get_config_item(OIDC_TOKEN)
+    return get_config_item(OIDC_TOKEN, raising=raising)
 
 
-def get_dapla_group_context() -> str | None:
+def get_dapla_group_context(*, raising: bool = False) -> str | None:
     """Get the group which the user has chosen to represent."""
-    return get_config_item(DAPLA_GROUP_CONTEXT)
+    return get_config_item(DAPLA_GROUP_CONTEXT, raising=raising)

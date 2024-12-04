@@ -1,4 +1,3 @@
-from dapla_metadata._shared.config import DAPLA_GROUP_CONTEXT
 from dapla_metadata._shared.config import get_config_item
 from dapla_metadata._shared.config import get_dapla_environment
 from dapla_metadata._shared.config import get_dapla_group_context
@@ -16,17 +15,8 @@ def get_active_group() -> str:
 
     Returns:
         A string with the active group.
-
-    Raises:
-        OSError if the expected environment variable is not found.
     """
-    if active_group := get_dapla_group_context():
-        return active_group
-
-    msg = f"Environment variable {DAPLA_GROUP_CONTEXT} not defined. Modification or creation of Variable Definitions can not be performed."
-    raise OSError(
-        msg,
-    )
+    return str(get_dapla_group_context(raising=True))
 
 
 def get_vardef_host() -> str:
@@ -55,5 +45,5 @@ def get_vardef_client_configuration() -> Configuration:
     """Build a config to be supplied to the `ApiClient`."""
     return Configuration(
         host=get_vardef_host(),
-        access_token=get_oidc_token(),
+        access_token=get_oidc_token(raising=True),
     )
