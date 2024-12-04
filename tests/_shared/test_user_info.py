@@ -1,8 +1,4 @@
-import string
-
-import jwt
 import pytest
-from faker import Faker
 
 from dapla_metadata._shared import user_info
 from dapla_metadata._shared.enums import DaplaRegion

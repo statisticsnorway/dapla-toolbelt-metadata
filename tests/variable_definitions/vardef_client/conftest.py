@@ -2,7 +2,6 @@ from collections.abc import Generator
 from datetime import date
 
 import pytest
-from tests.utils.microcks_testcontainer import MicrocksContainer
 
 from dapla_metadata.variable_definitions.generated import vardef_client
 from dapla_metadata.variable_definitions.generated.vardef_client.api_client import (
@@ -35,6 +34,7 @@ from dapla_metadata.variable_definitions.generated.vardef_client.models.validity
 from dapla_metadata.variable_definitions.generated.vardef_client.models.variable_status import (
     VariableStatus,
 )
+from tests.utils.microcks_testcontainer import MicrocksContainer
 
 
 @pytest.fixture
