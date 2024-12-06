@@ -1356,12 +1356,12 @@ files = [
 google-auth = ">=2.14.1,<3.0.dev0"
 googleapis-common-protos = ">=1.56.2,<2.0.dev0"
 grpcio = [
-    {version = ">=1.49.1,<2.0dev", optional = true, markers = "python_version >= \"3.11\" and extra == \"grpc\""},
     {version = ">=1.33.2,<2.0dev", optional = true, markers = "python_version < \"3.11\" and extra == \"grpc\""},
+    {version = ">=1.49.1,<2.0dev", optional = true, markers = "python_version >= \"3.11\" and extra == \"grpc\""},
 ]
 grpcio-status = [
-    {version = ">=1.49.1,<2.0.dev0", optional = true, markers = "python_version >= \"3.11\" and extra == \"grpc\""},
     {version = ">=1.33.2,<2.0.dev0", optional = true, markers = "python_version < \"3.11\" and extra == \"grpc\""},
+    {version = ">=1.49.1,<2.0.dev0", optional = true, markers = "python_version >= \"3.11\" and extra == \"grpc\""},
 ]
 proto-plus = ">=1.22.3,<2.0.0dev"
 protobuf = ">=3.19.5,<3.20.0 || >3.20.0,<3.20.1 || >3.20.1,<4.21.0 || >4.21.0,<4.21.1 || >4.21.1,<4.21.2 || >4.21.2,<4.21.3 || >4.21.3,<4.21.4 || >4.21.4,<4.21.5 || >4.21.5,<6.0.0.dev0"
@@ -1451,8 +1451,8 @@ grpcio-status = ">=1.33.2"
 opentelemetry-api = {version = ">=1.27.0", markers = "python_version >= \"3.8\""}
 opentelemetry-sdk = {version = ">=1.27.0", markers = "python_version >= \"3.8\""}
 proto-plus = [
-    {version = ">=1.22.2,<2.0.0dev", markers = "python_version >= \"3.11\""},
     {version = ">=1.22.0,<2.0.0dev", markers = "python_version < \"3.11\""},
+    {version = ">=1.22.2,<2.0.0dev", markers = "python_version >= \"3.11\""},
 ]
 protobuf = ">=3.20.2,<4.21.0 || >4.21.0,<4.21.1 || >4.21.1,<4.21.2 || >4.21.2,<4.21.3 || >4.21.3,<4.21.4 || >4.21.4,<4.21.5 || >4.21.5,<6.0.0dev"
 
@@ -2997,9 +2997,9 @@ files = [
 [package.dependencies]
 lxml = {version = ">=4.9.2", optional = true, markers = "extra == \"xml\""}
 numpy = [
-    {version = ">=1.26.0", markers = "python_version >= \"3.12\""},
     {version = ">=1.22.4", markers = "python_version < \"3.11\""},
     {version = ">=1.23.2", markers = "python_version == \"3.11\""},
+    {version = ">=1.26.0", markers = "python_version >= \"3.12\""},
 ]
 odfpy = {version = ">=1.4.1", optional = true, markers = "extra == \"excel\""}
 openpyxl = {version = ">=3.1.0", optional = true, markers = "extra == \"excel\""}
@@ -3563,8 +3563,8 @@ files = [
 annotated-types = ">=0.6.0"
 pydantic-core = "2.23.4"
 typing-extensions = [
-    {version = ">=4.12.2", markers = "python_version >= \"3.13\""},
     {version = ">=4.6.1", markers = "python_version < \"3.13\""},
+    {version = ">=4.12.2", markers = "python_version >= \"3.13\""},
 ]
 
 [package.extras]
@@ -4899,16 +4899,15 @@ name = "testcontainers"
 version = "4.8.2"
 description = "Python library for throwaway instances of anything that can run in a Docker container"
 optional = false
-python-versions = "<4.0,>=3.9"
-files = [
-    {file = "testcontainers-4.8.2-py3-none-any.whl", hash = "sha256:9e19af077cd96e1957c13ee466f1f32905bc6c5bc1bc98643eb18be1a989bfb0"},
-    {file = "testcontainers-4.8.2.tar.gz", hash = "sha256:dd4a6a2ea09e3c3ecd39e180b6548105929d0bb78d665ce9919cb3f8c98f9853"},
-]
+python-versions = ">=3.9,<4.0"
+files = []
+develop = true
 
 [package.dependencies]
 docker = "*"
-httpx = {version = "*", optional = true, markers = "extra == \"aws\" or extra == \"generic\" or extra == \"test-module-import\""}
-redis = {version = "*", optional = true, markers = "extra == \"generic\" or extra == \"redis\""}
+httpx = {version = "*", optional = true}
+python-dotenv = "*"
+redis = {version = "*", optional = true}
 typing-extensions = "*"
 urllib3 = "*"
 wrapt = "*"
@@ -4917,26 +4916,36 @@ wrapt = "*"
 arangodb = ["python-arango (>=7.8,<8.0)"]
 aws = ["boto3", "httpx"]
 azurite = ["azure-storage-blob (>=12.19,<13.0)"]
+cassandra = []
 chroma = ["chromadb-client"]
 clickhouse = ["clickhouse-driver"]
+cockroachdb = []
 cosmosdb = ["azure-cosmos"]
 db2 = ["ibm_db_sa", "sqlalchemy"]
+elasticsearch = []
 generic = ["httpx", "redis"]
 google = ["google-cloud-datastore (>=2)", "google-cloud-pubsub (>=2)"]
 influxdb = ["influxdb", "influxdb-client"]
 k3s = ["kubernetes", "pyyaml"]
+kafka = []
 keycloak = ["python-keycloak"]
 localstack = ["boto3"]
 mailpit = ["cryptography"]
+memcached = []
+milvus = []
 minio = ["minio"]
 mongodb = ["pymongo"]
+mqtt = []
 mssql = ["pymssql", "sqlalchemy"]
 mysql = ["pymysql[rsa]", "sqlalchemy"]
 nats = ["nats-py"]
 neo4j = ["neo4j"]
+nginx = []
+ollama = []
 opensearch = ["opensearch-py"]
 oracle = ["oracledb", "sqlalchemy"]
 oracle-free = ["oracledb", "sqlalchemy"]
+postgres = []
 qdrant = ["qdrant-client"]
 rabbitmq = ["pika"]
 redis = ["redis"]
@@ -4946,7 +4955,12 @@ selenium = ["selenium"]
 sftp = ["cryptography"]
 test-module-import = ["httpx"]
 trino = ["trino"]
+vault = []
 weaviate = ["weaviate-client (>=4.5.4,<5.0.0)"]
+
+[package.source]
+type = "directory"
+url = "../testcontainers-python"
 
 [[package]]
 name = "toml"
@@ -5717,4 +5731,4 @@ type = ["pytest-mypy"]
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.10,<4.0"
-content-hash = "5763f94bb3ae2dfb5387864d98607e264e86fc403150e7d93fc4f522e8b64923"
+content-hash = "41ff087038439b9d0a337e603812d942242b5d11093100228778d71c8f4a8356"
