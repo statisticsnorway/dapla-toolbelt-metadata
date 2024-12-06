@@ -1,3 +1,5 @@
+from datetime import date
+
 from dapla_metadata.variable_definitions.config import get_vardef_client_configuration
 from dapla_metadata.variable_definitions.generated.vardef_client.api.variable_definitions_api import (
     VariableDefinitionsApi,
@@ -95,7 +97,7 @@ class Vardef:
     @classmethod
     def list_variable_definitions(
         cls,
-        date_of_validity: str | None = None,
+        date_of_validity: date | None = None,
     ) -> list[CompleteResponse]:
         """List variable definitions.
 
@@ -106,11 +108,34 @@ class Vardef:
         individual arguments to understand their effect. Filter arguments are combined with AND logic.
 
         Args:
-            date_of_validity (str | None, optional): List only variable definitions which are valid on this date. Defaults to None.
+            date_of_validity (date | None, optional): List only variable definitions which are valid on this date. Defaults to None.
 
         Returns:
             list[CompleteResponse]: The list of Variable Definitions.
         """
         return VariableDefinitionsApi(cls._get_client()).list_variable_definitions(
+            date_of_validity=date_of_validity,
+        )
+
+    @classmethod
+    def get_variable_definition(
+        cls,
+        variable_definition_id: str,
+        date_of_validity: date | None = None,
+    ) -> CompleteResponse:
+        """Get a Variable Definition by ID.
+
+        Args:
+            variable_definition_id (str): The ID of the desired Variable Definition
+            date_of_validity (date | None, optional): List only variable definitions which are valid on this date. Defaults to None.
+
+        Returns:
+            CompleteResponse: The Variable Definition.
+
+        Raises:
+            NotFoundException when the given ID is not found
+        """
+        return VariableDefinitionsApi(cls._get_client()).get_variable_definition_by_id(
+            variable_definition_id=variable_definition_id,
             date_of_validity=date_of_validity,
         )

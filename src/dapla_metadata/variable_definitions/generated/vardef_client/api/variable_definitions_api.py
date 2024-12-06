@@ -930,7 +930,7 @@ class VariableDefinitionsApi:
     def list_variable_definitions(
         self,
         date_of_validity: Annotated[
-            StrictStr | None,
+            date | None,
             Field(
                 description="List only variable definitions which are valid on this date."
             ),
@@ -950,7 +950,7 @@ class VariableDefinitionsApi:
         List all variable definitions.
 
         :param date_of_validity: List only variable definitions which are valid on this date.
-        :type date_of_validity: str
+        :type date_of_validity: date
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -997,7 +997,7 @@ class VariableDefinitionsApi:
     def list_variable_definitions_with_http_info(
         self,
         date_of_validity: Annotated[
-            StrictStr | None,
+            date | None,
             Field(
                 description="List only variable definitions which are valid on this date."
             ),
@@ -1017,7 +1017,7 @@ class VariableDefinitionsApi:
         List all variable definitions.
 
         :param date_of_validity: List only variable definitions which are valid on this date.
-        :type date_of_validity: str
+        :type date_of_validity: date
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1064,7 +1064,7 @@ class VariableDefinitionsApi:
     def list_variable_definitions_without_preload_content(
         self,
         date_of_validity: Annotated[
-            StrictStr | None,
+            date | None,
             Field(
                 description="List only variable definitions which are valid on this date."
             ),
@@ -1084,7 +1084,7 @@ class VariableDefinitionsApi:
         List all variable definitions.
 
         :param date_of_validity: List only variable definitions which are valid on this date.
-        :type date_of_validity: str
+        :type date_of_validity: date
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1148,7 +1148,17 @@ class VariableDefinitionsApi:
         # process the path parameters
         # process the query parameters
         if date_of_validity is not None:
-            _query_params.append(("date_of_validity", date_of_validity))
+            if isinstance(date_of_validity, date):
+                _query_params.append(
+                    (
+                        "date_of_validity",
+                        date_of_validity.strftime(
+                            self.api_client.configuration.date_format,
+                        ),
+                    ),
+                )
+            else:
+                _query_params.append(("date_of_validity", date_of_validity))
 
         # process the header parameters
         # process the form parameters

@@ -422,7 +422,7 @@ paths:
         description: List only variable definitions which are valid on this date.
         schema:
           type: string
-          format: yyyy-MM-dd
+          format: date
           nullable: true
         examples:
           Not specified:
@@ -2098,6 +2098,10 @@ components:
       - nb
       - nn
       - en
+      x-enum-descriptions:
+      - Norwegian Bokmål
+      - Norwegian Nynorsk
+      - English
     UpdateDraft:
       type: object
       properties:
