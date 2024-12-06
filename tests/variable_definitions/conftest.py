@@ -73,7 +73,45 @@ def draft(language_string_type, contact) -> Draft:
         short_name="test",
         definition=language_string_type,
         classification_reference="91",
-        unit_types=["a", "b"],
+        unit_types=["01"],
+        subject_fields=["a", "b"],
+        contains_sensitive_personal_information=True,
+        measurement_type="test",
+        valid_from=date(2024, 11, 1),
+        external_reference_uri="http://www.example.com",
+        comment=language_string_type,
+        related_variable_definition_uris=["http://www.example.com"],
+        contact=contact,
+    )
+
+
+@pytest.fixture
+def draft_invalid_unit_types(language_string_type, contact) -> Draft:
+    return Draft(
+        name=language_string_type,
+        short_name="test",
+        definition=language_string_type,
+        classification_reference="91",
+        unit_types=["a"],
+        subject_fields=["a", "b"],
+        contains_sensitive_personal_information=True,
+        measurement_type="test",
+        valid_from=date(2024, 11, 1),
+        external_reference_uri="http://www.example.com",
+        comment=language_string_type,
+        related_variable_definition_uris=["http://www.example.com"],
+        contact=contact,
+    )
+
+
+@pytest.fixture
+def draft_invalid_unit_type(language_string_type, contact) -> Draft:
+    return Draft(
+        name=language_string_type,
+        short_name="test",
+        definition=language_string_type,
+        classification_reference="91",
+        unit_types=["a"],
         subject_fields=["a", "b"],
         contains_sensitive_personal_information=True,
         measurement_type="test",
