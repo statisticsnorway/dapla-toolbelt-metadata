@@ -11,7 +11,11 @@ from dapla_metadata.variable_definitions.generated.vardef_client.exceptions impo
 from dapla_metadata.variable_definitions.generated.vardef_client.exceptions import (
     BadRequestException,
 )
+from dapla_metadata.variable_definitions.generated.vardef_client.exceptions import (
+    OpenApiException,
+)
 from tests.utils.constants import VARDEF_EXAMPLE_ACTIVE_GROUP
+from tests.utils.constants import VARDEF_EXAMPLE_DEFINITION_ID
 
 
 def test_create_draft(api_client, draft_invalid_unit_types):
@@ -34,9 +38,27 @@ def test_error_message_create_draft(api_client, draft_invalid_unit_types):
         response = e.body
         data = json.loads(response)
         embedded = data["_embedded"]
-        message = embedded["errors"]["message"]
+        message = embedded["errors"]
+        last = message[0]["message"]
 
         assert (
-            message
+            last
             == "draft.unitTypes[0]: Code a is not a member of classification with id 702"
+        )
+
+
+def test_none_existing_patch(api_client):
+    api_instance = vardef_client.PatchesApi(api_client)
+    with pytest.raises(OpenApiException):
+        api_instance.get_patch(VARDEF_EXAMPLE_DEFINITION_ID, 200)
+
+
+def test_none_existing_patch_message(api_client):
+    api_instance = vardef_client.PatchesApi(api_client)
+    try:
+        api_instance.get_patch(VARDEF_EXAMPLE_DEFINITION_ID, 200)
+    except OpenApiException as e:
+        assert (
+            str(e.body)
+            == "The response /patch-id=200/variable-definition-id=wypvb3wd does not exist!"
         )
