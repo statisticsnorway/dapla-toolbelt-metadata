@@ -4,6 +4,10 @@ from datetime import date
 
 import pytest
 
+from dapla_metadata.variable_definitions.generated import vardef_client
+from dapla_metadata.variable_definitions.generated.vardef_client.exceptions import (
+    OpenApiException,
+)
 from dapla_metadata.variable_definitions.generated.vardef_client.models import (
     language_string_type,
 )
@@ -12,6 +16,7 @@ from dapla_metadata.variable_definitions.generated.vardef_client.models.draft im
 )
 from dapla_metadata.variable_definitions.vardef.exceptions import VardefClientException
 from dapla_metadata.variable_definitions.vardef.vardef import Vardef
+from tests.utils.constants import VARDEF_EXAMPLE_ACTIVE_GROUP
 
 draft_unittypes = Draft(
     name=language_string_type.LanguageStringType(
@@ -42,3 +47,12 @@ def test_create_draft():
     # api_instance = vardef_client.DraftVariableDefinitionsApi(api_client)
     with pytest.raises(VardefClientException):
         Vardef.create_draft(draft_unittypes)
+
+
+def test_create_draft_2(api_client):
+    api_instance = vardef_client.DraftVariableDefinitionsApi(api_client)
+    with pytest.raises(OpenApiException):
+        api_instance.create_variable_definition(
+            VARDEF_EXAMPLE_ACTIVE_GROUP,
+            draft_unittypes,
+        )

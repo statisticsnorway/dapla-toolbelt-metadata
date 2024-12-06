@@ -79,20 +79,3 @@ class Vardef:
             )
         except vardef_client.exceptions.OpenApiException as e:
             raise VardefClientException(e.body, e.status)
-
-    @staticmethod
-    def list_draft() -> list[CompleteResponse] | None:
-        """List all variable definitions with status Draft."""
-        host = "http://localhost:8080"
-        access_token = os.environ.get("OIDC_TOKEN")
-        config = vardef_client.Configuration(
-            host=host,
-            access_token=access_token,
-        )
-        api_client = vardef_client.ApiClient(configuration=config)
-        api_instance = vardef_client.VariableDefinitionsApi(api_client)
-        try:
-            return api_instance.list_variable_definitions()
-        except vardef_client.exceptions.UnauthorizedException as e:
-            logging.info(e.reason)
-            return None
