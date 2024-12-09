@@ -522,8 +522,6 @@ paths:
         examples:
           create_draft:
             value: dapla-felles-developers
-          bad_request:
-            value: dapla-felles-developers
       requestBody:
         content:
           application/json:
@@ -611,24 +609,6 @@ paths:
         "400":
           description: "Malformed data, missing data or attempt to specify disallowed\
             \ fields."
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/HttpClientException"
-              examples:
-                bad_request:
-                  value:
-                    _links:
-                      self:
-                      - href: /variable-definitions?active_group=dapla-felles-developers
-                        templated: false
-                    _embedded:
-                      errors:
-                      - _links: {}
-                        _embedded: {}
-                        message: "draft.unitTypes[0]: Code a is not a member of classification\
-                          \ with id 702"
-                    message: Bad Request
         "409":
           description: Short name is already in use by another variable definition.
       security:
@@ -652,6 +632,8 @@ paths:
             value: wypvb3wd
           Specific date:
             value: wypvb3wd
+          not_found:
+            value: invalid id
       - name: date_of_validity
         in: query
         description: List only variable definitions which are valid on this date.
@@ -814,6 +796,15 @@ paths:
                       name: Ola Nordmann
         "404":
           description: No such variable definition found
+          content:
+            application/problem+json:
+              examples:
+                not_found:
+                  value:
+                    type: about:blank
+                    status: 404
+                    detail: Variable with ID invalid id not found
+                    parameters: {}
       security:
       - keycloak_token: []
     delete:
@@ -1795,30 +1786,6 @@ components:
             nb: Seksjon for befolkningsstatistikk
             nn: Seksjon for befolkningsstatistikk
           email: s320@ssb.no
-    Exception:
-      $ref: "#/components/schemas/Throwable"
-    HttpClientException:
-      required:
-      - message
-      - serviceId
-      type: object
-      allOf:
-      - $ref: "#/components/schemas/HttpException"
-      - $ref: "#/components/schemas/RuntimeException"
-      - $ref: "#/components/schemas/Exception"
-      - $ref: "#/components/schemas/Throwable"
-      - properties:
-          serviceId:
-            type: string
-          message:
-            type: string
-            nullable: true
-    HttpException:
-      type: object
-      allOf:
-      - $ref: "#/components/schemas/RuntimeException"
-      - $ref: "#/components/schemas/Exception"
-      - $ref: "#/components/schemas/Throwable"
     KlassReference:
       required:
       - reference_uri
@@ -2135,40 +2102,6 @@ components:
           title: Seksjon for befolkningsstatistikk
           email: s320@ssb.no
         last_updated_at: 2024-06-12T10:39:41.038Z
-    RuntimeException:
-      type: object
-      allOf:
-      - $ref: "#/components/schemas/Exception"
-      - $ref: "#/components/schemas/Throwable"
-    StackTraceElement:
-      required:
-      - class_loader_name
-      - class_name
-      - file_name
-      - line_number
-      - method_name
-      - module_name
-      - module_version
-      - native_method
-      type: object
-      properties:
-        file_name:
-          type: string
-        line_number:
-          type: integer
-          format: int32
-        module_name:
-          type: string
-        module_version:
-          type: string
-        class_loader_name:
-          type: string
-        class_name:
-          type: string
-        method_name:
-          type: string
-        native_method:
-          type: boolean
     SupportedLanguages:
       type: string
       description: Languages the application supports.
@@ -2180,30 +2113,6 @@ components:
       - Norwegian Bokmål
       - Norwegian Nynorsk
       - English
-    Throwable:
-      required:
-      - localized_message
-      - stack_trace
-      - suppressed
-      type: object
-      properties:
-        localized_message:
-          type: string
-        stack_trace:
-          type: array
-          items:
-            $ref: "#/components/schemas/StackTraceElement"
-        suppressed:
-          type: array
-          items:
-            $ref: "#/components/schemas/Throwable"
-        cause:
-          nullable: true
-          allOf:
-          - $ref: "#/components/schemas/Throwable"
-        message:
-          type: string
-          nullable: true
     UpdateDraft:
       type: object
       properties:
