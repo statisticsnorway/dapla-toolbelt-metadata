@@ -6,9 +6,6 @@ import pytest
 
 from dapla_metadata.variable_definitions.generated import vardef_client
 from dapla_metadata.variable_definitions.generated.vardef_client.exceptions import (
-    ApiException,
-)
-from dapla_metadata.variable_definitions.generated.vardef_client.exceptions import (
     BadRequestException,
 )
 from dapla_metadata.variable_definitions.generated.vardef_client.exceptions import (
