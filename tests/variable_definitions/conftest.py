@@ -89,7 +89,7 @@ def draft(language_string_type, contact) -> Draft:
 def draft_invalid_unit_types(language_string_type, contact) -> Draft:
     return Draft(
         name=language_string_type,
-        short_name="test",
+        short_name="test_unit_types",
         definition=language_string_type,
         classification_reference="91",
         unit_types=["a"],
