@@ -87,7 +87,7 @@ paths:
           format: yyyy-MM-dd
           nullable: true
         examples:
-          Not specified:
+          Date not specified:
             value: ""
           Specific date:
             value: 1970-01-01
@@ -101,7 +101,7 @@ paths:
                 items:
                   $ref: "#/components/schemas/RenderedVariableDefinition"
               examples:
-                List of one variable definition:
+                Specific date:
                   value: |-
                     [
                         {
@@ -141,7 +141,7 @@ paths:
                     }
 
                     ]
-                Empty list:
+                Date not specified:
                   value: "[]"
   /public/variable-definitions/{variable-definition-id}:
     get:
@@ -167,7 +167,9 @@ paths:
         schema:
           $ref: "#/components/schemas/SupportedLanguages"
         examples:
-          No date specified:
+          Date not specified:
+            value: nb
+          Specific date:
             value: nb
       - name: date_of_validity
         in: query
@@ -177,7 +179,7 @@ paths:
           format: date
           nullable: true
         examples:
-          No date specified:
+          Date not specified:
             value: ""
           Specific date:
             value: 1970-01-01
@@ -189,7 +191,39 @@ paths:
               schema:
                 $ref: "#/components/schemas/RenderedVariableDefinition"
               examples:
-                No date specified:
+                Date not specified:
+                  value:
+                    id: wypvb3wd
+                    name: Landbakgrunn
+                    short_name: string
+                    definition: "For personer født i utlandet, er dette (med noen\
+                      \ få unntak) eget fødeland. For personer født i Norge er det\
+                      \ foreldrenes fødeland. I de tilfeller der foreldrene har ulikt\
+                      \ fødeland, er det morens fødeland som blir valgt. Hvis ikke\
+                      \ personen selv eller noen av foreldrene er utenlandsfødt, hentes\
+                      \ landbakgrunn fra de første utenlandsfødte en treffer på i\
+                      \ rekkefølgen mormor, morfar, farmor eller farfar."
+                    classification_uri: https://www.ssb.no/en/klass/klassifikasjoner/91
+                    unit_types:
+                    - reference_uri: https://www.ssb.no/klass/klassifikasjoner/702
+                      code: "20"
+                      title: Person
+                    subject_fields:
+                    - reference_uri: https://www.ssb.no/klass/klassifikasjoner/618
+                      code: be07
+                      title: Innvandrere
+                    contains_sensitive_personal_information: true
+                    valid_from: 2003-01-01
+                    external_reference_uri: https://www.ssb.no/a/metadata/conceptvariable/vardok/1919/nb
+                    comment: Fra og med 1.1.2003 ble definisjon endret til også å
+                      trekke inn besteforeldrenes fødeland.
+                    related_variable_definition_uris:
+                    - https://example.com/
+                    contact:
+                      title: Seksjon for befolkningsstatistikk
+                      email: s320@ssb.no
+                    last_updated_at: 2024-06-12T10:39:41.038Z
+                Specific date:
                   value:
                     id: wypvb3wd
                     name: Landbakgrunn
@@ -240,7 +274,7 @@ paths:
         schema:
           type: string
         examples:
-          one_validity_period:
+          Validity periods:
             value: wypvb3wd
       - name: Accept-Language
         in: header
@@ -249,7 +283,7 @@ paths:
         schema:
           $ref: "#/components/schemas/SupportedLanguages"
         examples:
-          one_validity_period:
+          Validity periods:
             value: nb
       responses:
         "200":
@@ -261,7 +295,7 @@ paths:
                 items:
                   $ref: "#/components/schemas/RenderedVariableDefinition"
               examples:
-                one_validity_period:
+                Validity periods:
                   value: |-
                     [
                         {
@@ -316,7 +350,7 @@ paths:
         schema:
           type: string
         examples:
-          migrate_1607:
+          Migrate Vardok:
             value: "1607"
       - name: active_group
         in: query
@@ -325,7 +359,7 @@ paths:
         schema:
           type: string
         examples:
-          migrate_1607:
+          Migrate Vardok:
             value: dapla-felles-developers
       responses:
         "201":
@@ -335,7 +369,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/CompleteResponse"
               examples:
-                migrate_1607:
+                Migrate Vardok:
                   value:
                     id: wypvb3wd
                     patch_id: 1
@@ -422,10 +456,10 @@ paths:
         description: List only variable definitions which are valid on this date.
         schema:
           type: string
-          format: yyyy-MM-dd
+          format: date
           nullable: true
         examples:
-          Not specified:
+          Date not specified:
             value: ""
           Specific date:
             value: 1970-01-01
@@ -439,7 +473,7 @@ paths:
                 items:
                   $ref: "#/components/schemas/CompleteResponse"
               examples:
-                List of one variable definition:
+                Specific date:
                   value: |-
                     [
                         {
@@ -500,7 +534,7 @@ paths:
                     }
 
                     ]
-                Empty list:
+                Date not specified:
                   value: "[]"
       security:
       - keycloak_token: []
@@ -520,7 +554,7 @@ paths:
         schema:
           type: string
         examples:
-          create_draft:
+          Create draft:
             value: dapla-felles-developers
       requestBody:
         content:
@@ -536,7 +570,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/CompleteResponse"
               examples:
-                create_draft:
+                Create draft:
                   value:
                     id: wypvb3wd
                     patch_id: 1
@@ -628,7 +662,7 @@ paths:
         schema:
           type: string
         examples:
-          No date specified:
+          Date not specified:
             value: wypvb3wd
           Specific date:
             value: wypvb3wd
@@ -642,7 +676,7 @@ paths:
           format: date
           nullable: true
         examples:
-          No date specified:
+          Date not specified:
             value: ""
           Specific date:
             value: 1970-01-01
@@ -654,7 +688,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/CompleteResponse"
               examples:
-                No date specified:
+                Date not specified:
                   value:
                     id: wypvb3wd
                     patch_id: 1
@@ -823,7 +857,7 @@ paths:
         schema:
           type: string
         examples:
-          delete:
+          Delete:
             value: wypvb3wd
       - name: active_group
         in: query
@@ -832,7 +866,7 @@ paths:
         schema:
           type: string
         examples:
-          delete:
+          Delete:
             value: dapla-felles-developers
       responses:
         "204":
@@ -840,7 +874,7 @@ paths:
           content:
             application/json:
               examples:
-                delete:
+                Delete:
                   value: ""
         "404":
           description: No such variable definition found
@@ -865,7 +899,7 @@ paths:
           type: string
           description: Unique identifier for the variable definition.
         examples:
-          update:
+          Update:
             value: wypvb3wd
       - name: active_group
         in: query
@@ -874,7 +908,7 @@ paths:
         schema:
           type: string
         examples:
-          update:
+          Update:
             value: dapla-felles-developers
       requestBody:
         content:
@@ -890,7 +924,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/CompleteResponse"
               examples:
-                update:
+                Update:
                   value:
                     id: wypvb3wd
                     patch_id: 1
@@ -990,7 +1024,7 @@ paths:
         schema:
           type: string
         examples:
-          one_patch:
+          Patches:
             value: wypvb3wd
       responses:
         "404":
@@ -1004,7 +1038,7 @@ paths:
                 items:
                   $ref: "#/components/schemas/CompleteResponse"
               examples:
-                one_patch:
+                Patches:
                   value: |-
                     [
                         {
@@ -1081,7 +1115,7 @@ paths:
         schema:
           type: string
         examples:
-          create_patch:
+          Create patch:
             value: wypvb3wd
       - name: valid_from
         in: query
@@ -1091,7 +1125,7 @@ paths:
           format: date
           nullable: true
         examples:
-          create_patch:
+          Create patch:
             value: 1970-01-01
       - name: active_group
         in: query
@@ -1100,7 +1134,7 @@ paths:
         schema:
           type: string
         examples:
-          create_patch:
+          Create patch:
             value: dapla-felles-developers
       requestBody:
         content:
@@ -1116,7 +1150,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/CompleteResponse"
               examples:
-                create_patch:
+                Create patch:
                   value:
                     id: wypvb3wd
                     patch_id: 1
@@ -1208,7 +1242,7 @@ paths:
         schema:
           type: string
         examples:
-          patch_1:
+          Patch:
             value: wypvb3wd
       - name: patch-id
         in: path
@@ -1218,7 +1252,7 @@ paths:
           type: integer
           format: int32
         examples:
-          patch_1:
+          Patch:
             value: "1"
       responses:
         "200":
@@ -1228,7 +1262,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/CompleteResponse"
               examples:
-                patch_1:
+                Patch:
                   value:
                     id: wypvb3wd
                     patch_id: 1
@@ -1317,7 +1351,7 @@ paths:
         schema:
           type: string
         examples:
-          one_validity_period:
+          Validity periods:
             value: wypvb3wd
       responses:
         "200":
@@ -1329,7 +1363,7 @@ paths:
                 items:
                   $ref: "#/components/schemas/CompleteResponse"
               examples:
-                one_validity_period:
+                Validity periods:
                   value: |-
                     [
                         {
@@ -1406,7 +1440,7 @@ paths:
         schema:
           type: string
         examples:
-          create_validity_period:
+          Create validity period:
             value: wypvb3wd
       - name: active_group
         in: query
@@ -1415,7 +1449,7 @@ paths:
         schema:
           type: string
         examples:
-          create_validity_period:
+          Create validity period:
             value: dapla-felles-developers
       requestBody:
         content:
@@ -1431,7 +1465,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/CompleteResponse"
               examples:
-                create_validity_period:
+                Create validity period:
                   value:
                     id: wypvb3wd
                     patch_id: 1
