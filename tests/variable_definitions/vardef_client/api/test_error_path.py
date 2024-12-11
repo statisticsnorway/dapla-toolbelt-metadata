@@ -15,20 +15,20 @@ def test_not_found_variable(api_client):
     api_instance = vardef_client.VariableDefinitionsApi(api_client)
     with pytest.raises(
         OpenApiException,
-        match="Variable with ID invalid id not found",
+        match="Not found",
     ) as exc_info:
         api_instance.get_variable_definition_by_id("invalid id")
     response = exc_info.value.body
     result = json.loads(response)
-    assert result["detail"] == "Variable with ID invalid id not found"
+    assert result["detail"] == "Not found"
 
 
 def test_not_found_response(api_client):
     api_instance = vardef_client.VariableDefinitionsApi(api_client)
     with pytest.raises(
         OpenApiException,
-        match="Variable with ID invalid id not found",
+        match="Not found",
     ) as e:
         api_instance.get_variable_definition_by_id("invalid id")
     exception = VardefClientException(e.value.body)
-    assert str(exception) == "Status 404: Variable with ID invalid id not found"
+    assert str(exception) == "Status 404: Not found"
