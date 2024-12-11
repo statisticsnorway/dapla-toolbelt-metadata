@@ -29,3 +29,57 @@ CONSTRAINT_VIOLATION_BODY = """{
         }
     ]
 }"""
+CONSTRAINT_VIOLATION_BODY_MISSING_MESSAGES = """{
+    "cause": null,
+    "suppressed": [
+    ],
+    "detail": null,
+    "instance": null,
+    "parameters": {
+    },
+    "type": "https://zalando.github.io/problem/constraint-violation",
+    "title": "Constraint Violation",
+    "status": 400,
+    "violations": [
+        {
+            "field": "updateVariableDefinitionById.updateDraft.owner.team"
+        },
+        {
+            "field": "updateVariableDefinitionById.updateDraft.owner.team"
+        }
+    ]
+}"""
+
+CONSTRAINT_VIOLATION_BODY_MISSING_VIOLATIONS = """{
+    "cause": null,
+    "suppressed": [
+    ],
+    "detail": null,
+    "instance": null,
+    "parameters": {
+    },
+    "type": "https://zalando.github.io/problem/constraint-violation",
+    "title": "Constraint Violation",
+    "status": 400,
+    "violations": []
+}"""
+CONSTRAINT_VIOLATION_BODY_MISSING_FIELD = """{
+    "cause": null,
+    "suppressed": [
+    ],
+    "detail": null,
+    "instance": null,
+    "parameters": {
+    },
+    "type": "https://zalando.github.io/problem/constraint-violation",
+    "title": "Constraint Violation",
+    "status": 400,
+    "violations": [
+        {
+            "message": "Invalid Dapla team"
+        },
+        {
+            "message": "must not be empty"
+        }
+    ]
+}"""
