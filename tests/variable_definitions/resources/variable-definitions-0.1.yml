@@ -84,7 +84,7 @@ paths:
         description: List only variable definitions which are valid on this date.
         schema:
           type: string
-          format: yyyy-MM-dd
+          format: date
           nullable: true
         examples:
           Date not specified:
@@ -256,7 +256,18 @@ paths:
                       email: s320@ssb.no
                     last_updated_at: 2024-06-12T10:39:41.038Z
         "404":
-          description: No such variable definition found
+          description: Not found
+          content:
+            application/problem+json:
+              schema:
+                $ref: https://opensource.zalando.com/restful-api-guidelines/models/problem-1.0.1.yaml#/Problem
+              examples:
+                Not found:
+                  value:
+                    type: about:blank
+                    status: 404
+                    detail: Not found
+                    parameters: {}
   /public/variable-definitions/{variable-definition-id}/validity-periods:
     get:
       tags:
@@ -440,7 +451,30 @@ paths:
                       code: ano@ssb.no
                       name: Ola Nordmann
         "400":
-          description: The definition in Vardok has missing or malformed metadata.
+          description: Bad request.
+          content:
+            application/problem+json:
+              schema:
+                $ref: https://opensource.zalando.com/restful-api-guidelines/models/problem-1.0.1.yaml#/Problem
+              examples:
+                Bad request:
+                  value:
+                    type: about:blank
+                    status: 400
+                    detail: "Failed to convert argument [example] for value [null]\
+                      \ due to: Error deserializing type: example"
+                Constraint violation:
+                  value:
+                    suppressed: []
+                    parameters: {}
+                    type: https://zalando.github.io/problem/constraint-violation
+                    title: Constraint Violation
+                    status: 400
+                    violations:
+                    - field: myField
+                      message: Invalid format
+                    - field: otherField
+                      message: must not be empty
       security:
       - keycloak_token: []
   /variable-definitions:
@@ -639,10 +673,42 @@ paths:
                       code: ano@ssb.no
                       name: Ola Nordmann
         "400":
-          description: "Malformed data, missing data or attempt to specify disallowed\
-            \ fields."
+          description: Bad request.
+          content:
+            application/problem+json:
+              schema:
+                $ref: https://opensource.zalando.com/restful-api-guidelines/models/problem-1.0.1.yaml#/Problem
+              examples:
+                Bad request:
+                  value:
+                    type: about:blank
+                    status: 400
+                    detail: "Failed to convert argument [example] for value [null]\
+                      \ due to: Error deserializing type: example"
+                Constraint violation:
+                  value:
+                    suppressed: []
+                    parameters: {}
+                    type: https://zalando.github.io/problem/constraint-violation
+                    title: Constraint Violation
+                    status: 400
+                    violations:
+                    - field: myField
+                      message: Invalid format
+                    - field: otherField
+                      message: must not be empty
         "409":
           description: Short name is already in use by another variable definition.
+          content:
+            application/problem+json:
+              schema:
+                $ref: https://opensource.zalando.com/restful-api-guidelines/models/problem-1.0.1.yaml#/Problem
+              examples:
+                Conflict:
+                  value:
+                    type: about:blank
+                    status: 409
+                    detail: Short name is already in use by another variable definition.
       security:
       - keycloak_token: []
   /variable-definitions/{variable-definition-id}:
@@ -827,7 +893,7 @@ paths:
                       code: ano@ssb.no
                       name: Ola Nordmann
         "404":
-          description: No such variable definition found
+          description: Not found
           content:
             application/problem+json:
               schema:
@@ -837,7 +903,7 @@ paths:
                   value:
                     type: about:blank
                     status: 404
-                    detail: Variable with ID invalid id not found
+                    detail: Not found
                     parameters: {}
       security:
       - keycloak_token: []
@@ -875,10 +941,30 @@ paths:
                 Delete:
                   value: ""
         "404":
-          description: No such variable definition found
+          description: Not found
+          content:
+            application/problem+json:
+              schema:
+                $ref: https://opensource.zalando.com/restful-api-guidelines/models/problem-1.0.1.yaml#/Problem
+              examples:
+                Not found:
+                  value:
+                    type: about:blank
+                    status: 404
+                    detail: Not found
+                    parameters: {}
         "405":
-          description: Attempt to delete a variable definition with status unlike
-            DRAFT.
+          description: Not allowed for variable definitions with this status.
+          content:
+            application/problem+json:
+              schema:
+                $ref: https://opensource.zalando.com/restful-api-guidelines/models/problem-1.0.1.yaml#/Problem
+              examples:
+                Method not allowed:
+                  value:
+                    type: about:blank
+                    status: 405
+                    detail: Not allowed for variable definitions with this status.
       security:
       - keycloak_token: []
     patch:
@@ -993,17 +1079,67 @@ paths:
                       code: ano@ssb.no
                       name: Ola Nordmann
         "400":
-          description: |-
-            Bad request. Examples of these are:
-            - Reference to a Klass classification which doesn't exist.
-            - Owner information missing.
-            - Malformed email addresses.
+          description: Bad request.
+          content:
+            application/problem+json:
+              schema:
+                $ref: https://opensource.zalando.com/restful-api-guidelines/models/problem-1.0.1.yaml#/Problem
+              examples:
+                Bad request:
+                  value:
+                    type: about:blank
+                    status: 400
+                    detail: "Failed to convert argument [example] for value [null]\
+                      \ due to: Error deserializing type: example"
+                Constraint violation:
+                  value:
+                    suppressed: []
+                    parameters: {}
+                    type: https://zalando.github.io/problem/constraint-violation
+                    title: Constraint Violation
+                    status: 400
+                    violations:
+                    - field: myField
+                      message: Invalid format
+                    - field: otherField
+                      message: must not be empty
         "404":
-          description: No such variable definition found
+          description: Not found
+          content:
+            application/problem+json:
+              schema:
+                $ref: https://opensource.zalando.com/restful-api-guidelines/models/problem-1.0.1.yaml#/Problem
+              examples:
+                Not found:
+                  value:
+                    type: about:blank
+                    status: 404
+                    detail: Not found
+                    parameters: {}
         "405":
-          description: Attempt to patch a variable definition with status unlike DRAFT.
+          description: Not allowed for variable definitions with this status.
+          content:
+            application/problem+json:
+              schema:
+                $ref: https://opensource.zalando.com/restful-api-guidelines/models/problem-1.0.1.yaml#/Problem
+              examples:
+                Method not allowed:
+                  value:
+                    type: about:blank
+                    status: 405
+                    detail: Not allowed for variable definitions with this status.
         "409":
           description: Short name is already in use by another variable definition.
+          content:
+            application/problem+json:
+              schema:
+                $ref: https://opensource.zalando.com/restful-api-guidelines/models/problem-1.0.1.yaml#/Problem
+              examples:
+                Conflict:
+                  value:
+                    type: about:blank
+                    status: 409
+                    detail: Short name is already in use by another variable definition.
       security:
       - keycloak_token: []
   /variable-definitions/{variable-definition-id}/patches:
@@ -1025,8 +1161,6 @@ paths:
           Patches:
             value: wypvb3wd
       responses:
-        "404":
-          description: No such variable definition found
         "200":
           description: Ok
           content:
@@ -1097,6 +1231,19 @@ paths:
                     }
 
                     ]
+        "404":
+          description: Not found
+          content:
+            application/problem+json:
+              schema:
+                $ref: https://opensource.zalando.com/restful-api-guidelines/models/problem-1.0.1.yaml#/Problem
+              examples:
+                Not found:
+                  value:
+                    type: about:blank
+                    status: 404
+                    detail: Not found
+                    parameters: {}
       security:
       - keycloak_token: []
     post:
@@ -1220,8 +1367,41 @@ paths:
                       name: Ola Nordmann
         "400":
           description: Bad request.
+          content:
+            application/problem+json:
+              schema:
+                $ref: https://opensource.zalando.com/restful-api-guidelines/models/problem-1.0.1.yaml#/Problem
+              examples:
+                Bad request:
+                  value:
+                    type: about:blank
+                    status: 400
+                    detail: "Failed to convert argument [example] for value [null]\
+                      \ due to: Error deserializing type: example"
+                Constraint violation:
+                  value:
+                    suppressed: []
+                    parameters: {}
+                    type: https://zalando.github.io/problem/constraint-violation
+                    title: Constraint Violation
+                    status: 400
+                    violations:
+                    - field: myField
+                      message: Invalid format
+                    - field: otherField
+                      message: must not be empty
         "405":
-          description: Method only allowed for published variables.
+          description: Not allowed for variable definitions with this status.
+          content:
+            application/problem+json:
+              schema:
+                $ref: https://opensource.zalando.com/restful-api-guidelines/models/problem-1.0.1.yaml#/Problem
+              examples:
+                Method not allowed:
+                  value:
+                    type: about:blank
+                    status: 405
+                    detail: Not allowed for variable definitions with this status.
       security:
       - keycloak_token: []
   /variable-definitions/{variable-definition-id}/patches/{patch-id}:
@@ -1331,7 +1511,18 @@ paths:
                       code: ano@ssb.no
                       name: Ola Nordmann
         "404":
-          description: No such variable definition found
+          description: Not found
+          content:
+            application/problem+json:
+              schema:
+                $ref: https://opensource.zalando.com/restful-api-guidelines/models/problem-1.0.1.yaml#/Problem
+              examples:
+                Not found:
+                  value:
+                    type: about:blank
+                    status: 404
+                    detail: Not found
+                    parameters: {}
       security:
       - keycloak_token: []
   /variable-definitions/{variable-definition-id}/validity-periods:
@@ -1534,9 +1725,42 @@ paths:
                       code: ano@ssb.no
                       name: Ola Nordmann
         "400":
-          description: The request is missing or has errors in required fields.
+          description: Bad request.
+          content:
+            application/problem+json:
+              schema:
+                $ref: https://opensource.zalando.com/restful-api-guidelines/models/problem-1.0.1.yaml#/Problem
+              examples:
+                Bad request:
+                  value:
+                    type: about:blank
+                    status: 400
+                    detail: "Failed to convert argument [example] for value [null]\
+                      \ due to: Error deserializing type: example"
+                Constraint violation:
+                  value:
+                    suppressed: []
+                    parameters: {}
+                    type: https://zalando.github.io/problem/constraint-violation
+                    title: Constraint Violation
+                    status: 400
+                    violations:
+                    - field: myField
+                      message: Invalid format
+                    - field: otherField
+                      message: must not be empty
         "405":
-          description: Method only allowed for published variables.
+          description: Not allowed for variable definitions with this status.
+          content:
+            application/problem+json:
+              schema:
+                $ref: https://opensource.zalando.com/restful-api-guidelines/models/problem-1.0.1.yaml#/Problem
+              examples:
+                Method not allowed:
+                  value:
+                    type: about:blank
+                    status: 405
+                    detail: Not allowed for variable definitions with this status.
       security:
       - keycloak_token: []
 components:
