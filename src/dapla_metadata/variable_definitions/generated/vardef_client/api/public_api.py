@@ -109,7 +109,7 @@ class PublicApi:
 
         _response_types_map: dict[str, str | None] = {
             "200": "RenderedVariableDefinition",
-            "404": None,
+            "404": "Problem",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -191,7 +191,7 @@ class PublicApi:
 
         _response_types_map: dict[str, str | None] = {
             "200": "RenderedVariableDefinition",
-            "404": None,
+            "404": "Problem",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -273,7 +273,7 @@ class PublicApi:
 
         _response_types_map: dict[str, str | None] = {
             "200": "RenderedVariableDefinition",
-            "404": None,
+            "404": "Problem",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -333,6 +333,7 @@ class PublicApi:
             _header_params["Accept"] = self.api_client.select_header_accept(
                 [
                     "application/json",
+                    "application/problem+json",
                 ],
             )
 
@@ -633,7 +634,7 @@ class PublicApi:
             Field(description="Render the variable definition in the given language."),
         ],
         date_of_validity: Annotated[
-            StrictStr | None,
+            date | None,
             Field(
                 description="List only variable definitions which are valid on this date."
             ),
@@ -655,7 +656,7 @@ class PublicApi:
         :param accept_language: Render the variable definition in the given language. (required)
         :type accept_language: SupportedLanguages
         :param date_of_validity: List only variable definitions which are valid on this date.
-        :type date_of_validity: str
+        :type date_of_validity: date
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -707,7 +708,7 @@ class PublicApi:
             Field(description="Render the variable definition in the given language."),
         ],
         date_of_validity: Annotated[
-            StrictStr | None,
+            date | None,
             Field(
                 description="List only variable definitions which are valid on this date."
             ),
@@ -729,7 +730,7 @@ class PublicApi:
         :param accept_language: Render the variable definition in the given language. (required)
         :type accept_language: SupportedLanguages
         :param date_of_validity: List only variable definitions which are valid on this date.
-        :type date_of_validity: str
+        :type date_of_validity: date
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -781,7 +782,7 @@ class PublicApi:
             Field(description="Render the variable definition in the given language."),
         ],
         date_of_validity: Annotated[
-            StrictStr | None,
+            date | None,
             Field(
                 description="List only variable definitions which are valid on this date."
             ),
@@ -803,7 +804,7 @@ class PublicApi:
         :param accept_language: Render the variable definition in the given language. (required)
         :type accept_language: SupportedLanguages
         :param date_of_validity: List only variable definitions which are valid on this date.
-        :type date_of_validity: str
+        :type date_of_validity: date
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -869,7 +870,17 @@ class PublicApi:
         # process the path parameters
         # process the query parameters
         if date_of_validity is not None:
-            _query_params.append(("date_of_validity", date_of_validity))
+            if isinstance(date_of_validity, date):
+                _query_params.append(
+                    (
+                        "date_of_validity",
+                        date_of_validity.strftime(
+                            self.api_client.configuration.date_format,
+                        ),
+                    ),
+                )
+            else:
+                _query_params.append(("date_of_validity", date_of_validity))
 
         # process the header parameters
         if accept_language is not None:

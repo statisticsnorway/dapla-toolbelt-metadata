@@ -97,8 +97,8 @@ class DraftVariableDefinitionsApi:
 
         _response_types_map: dict[str, str | None] = {
             "201": "CompleteResponse",
-            "400": None,
-            "409": None,
+            "400": "Problem",
+            "409": "Problem",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -168,8 +168,8 @@ class DraftVariableDefinitionsApi:
 
         _response_types_map: dict[str, str | None] = {
             "201": "CompleteResponse",
-            "400": None,
-            "409": None,
+            "400": "Problem",
+            "409": "Problem",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -239,8 +239,8 @@ class DraftVariableDefinitionsApi:
 
         _response_types_map: dict[str, str | None] = {
             "201": "CompleteResponse",
-            "400": None,
-            "409": None,
+            "400": "Problem",
+            "409": "Problem",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -287,6 +287,7 @@ class DraftVariableDefinitionsApi:
             _header_params["Accept"] = self.api_client.select_header_accept(
                 [
                     "application/json",
+                    "application/problem+json",
                 ],
             )
 
@@ -383,8 +384,8 @@ class DraftVariableDefinitionsApi:
 
         _response_types_map: dict[str, str | None] = {
             "204": None,
-            "404": None,
-            "405": None,
+            "404": "Problem",
+            "405": "Problem",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -457,8 +458,8 @@ class DraftVariableDefinitionsApi:
 
         _response_types_map: dict[str, str | None] = {
             "204": None,
-            "404": None,
-            "405": None,
+            "404": "Problem",
+            "405": "Problem",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -531,8 +532,8 @@ class DraftVariableDefinitionsApi:
 
         _response_types_map: dict[str, str | None] = {
             "204": None,
-            "404": None,
-            "405": None,
+            "404": "Problem",
+            "405": "Problem",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -579,6 +580,7 @@ class DraftVariableDefinitionsApi:
             _header_params["Accept"] = self.api_client.select_header_accept(
                 [
                     "application/json",
+                    "application/problem+json",
                 ],
             )
 
@@ -667,10 +669,10 @@ class DraftVariableDefinitionsApi:
 
         _response_types_map: dict[str, str | None] = {
             "200": "CompleteResponse",
-            "400": None,
-            "404": None,
-            "405": None,
-            "409": None,
+            "400": "Problem",
+            "404": "Problem",
+            "405": "Problem",
+            "409": "Problem",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -747,10 +749,10 @@ class DraftVariableDefinitionsApi:
 
         _response_types_map: dict[str, str | None] = {
             "200": "CompleteResponse",
-            "400": None,
-            "404": None,
-            "405": None,
-            "409": None,
+            "400": "Problem",
+            "404": "Problem",
+            "405": "Problem",
+            "409": "Problem",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -827,10 +829,10 @@ class DraftVariableDefinitionsApi:
 
         _response_types_map: dict[str, str | None] = {
             "200": "CompleteResponse",
-            "400": None,
-            "404": None,
-            "405": None,
-            "409": None,
+            "400": "Problem",
+            "404": "Problem",
+            "405": "Problem",
+            "409": "Problem",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -880,6 +882,7 @@ class DraftVariableDefinitionsApi:
             _header_params["Accept"] = self.api_client.select_header_accept(
                 [
                     "application/json",
+                    "application/problem+json",
                 ],
             )
 

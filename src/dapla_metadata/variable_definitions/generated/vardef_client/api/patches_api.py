@@ -113,8 +113,8 @@ class PatchesApi:
 
         _response_types_map: dict[str, str | None] = {
             "201": "CompleteResponse",
-            "400": None,
-            "405": None,
+            "400": "Problem",
+            "405": "Problem",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -200,8 +200,8 @@ class PatchesApi:
 
         _response_types_map: dict[str, str | None] = {
             "201": "CompleteResponse",
-            "400": None,
-            "405": None,
+            "400": "Problem",
+            "405": "Problem",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -287,8 +287,8 @@ class PatchesApi:
 
         _response_types_map: dict[str, str | None] = {
             "201": "CompleteResponse",
-            "400": None,
-            "405": None,
+            "400": "Problem",
+            "405": "Problem",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -352,6 +352,7 @@ class PatchesApi:
             _header_params["Accept"] = self.api_client.select_header_accept(
                 [
                     "application/json",
+                    "application/problem+json",
                 ],
             )
 
@@ -447,7 +448,7 @@ class PatchesApi:
 
         _response_types_map: dict[str, str | None] = {
             "200": "CompleteResponse",
-            "404": None,
+            "404": "Problem",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -519,7 +520,7 @@ class PatchesApi:
 
         _response_types_map: dict[str, str | None] = {
             "200": "CompleteResponse",
-            "404": None,
+            "404": "Problem",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -591,7 +592,7 @@ class PatchesApi:
 
         _response_types_map: dict[str, str | None] = {
             "200": "CompleteResponse",
-            "404": None,
+            "404": "Problem",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -637,6 +638,7 @@ class PatchesApi:
             _header_params["Accept"] = self.api_client.select_header_accept(
                 [
                     "application/json",
+                    "application/problem+json",
                 ],
             )
 
@@ -713,8 +715,8 @@ class PatchesApi:
         )
 
         _response_types_map: dict[str, str | None] = {
-            "404": None,
             "200": "List[CompleteResponse]",
+            "404": "Problem",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -779,8 +781,8 @@ class PatchesApi:
         )
 
         _response_types_map: dict[str, str | None] = {
-            "404": None,
             "200": "List[CompleteResponse]",
+            "404": "Problem",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -845,8 +847,8 @@ class PatchesApi:
         )
 
         _response_types_map: dict[str, str | None] = {
-            "404": None,
             "200": "List[CompleteResponse]",
+            "404": "Problem",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -889,6 +891,7 @@ class PatchesApi:
             _header_params["Accept"] = self.api_client.select_header_accept(
                 [
                     "application/json",
+                    "application/problem+json",
                 ],
             )
 

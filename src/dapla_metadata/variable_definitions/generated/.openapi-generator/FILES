@@ -19,6 +19,7 @@ vardef_client/models/language_string_type.py
 vardef_client/models/owner.py
 vardef_client/models/patch.py
 vardef_client/models/person.py
+vardef_client/models/problem.py
 vardef_client/models/rendered_contact.py
 vardef_client/models/rendered_variable_definition.py
 vardef_client/models/supported_languages.py
