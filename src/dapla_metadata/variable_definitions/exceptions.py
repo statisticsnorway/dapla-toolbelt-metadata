@@ -45,7 +45,7 @@ class VardefClientException(OpenApiException):
                 self.detail = self._format_violations(violations)
             else:
                 self.detail = data.get("detail", "No detail provided")
-            self.response_body = response_body  # Save the full response for debugging
+            self.response_body = response_body
         except (json.JSONDecodeError, TypeError):
             self.status = "Unknown"
             self.detail = "Invalid response body"

@@ -17,6 +17,19 @@ def test_valid_response_body():
     assert str(exc) == "Status 400: Bad Request"
 
 
+def test_respons_empty_status():
+    response_body = '{"status": , "detail": "Bad Request"}'
+    exc = VardefClientException(response_body)
+    assert exc.status == "Unknown"
+
+
+def tests_no_status():
+    response_body = '{"detail": "Bad Request"}'
+    exc = VardefClientException(response_body)
+    assert exc.status == "Unknown status"
+    assert exc.detail == "Bad Request"
+
+
 def test_invalid_json():
     response_body = "Not a JSON string"
     exc = VardefClientException(response_body)
