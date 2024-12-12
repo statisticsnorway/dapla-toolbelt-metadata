@@ -292,8 +292,7 @@ class ApiClient:
         ):
             # if not found, look for '1XX', '2XX', etc.
             response_type = response_types_map.get(
-                str(response_data.status)[0] + "XX",
-                None,
+                str(response_data.status)[0] + "XX", None
             )
 
         # deserialize response data
@@ -312,9 +311,7 @@ class ApiClient:
                 encoding = match.group(1) if match else "utf-8"
                 response_text = response_data.data.decode(encoding)
                 return_data = self.deserialize(
-                    response_text,
-                    response_type,
-                    content_type,
+                    response_text, response_type, content_type
                 )
         finally:
             if not 200 <= response_data.status <= 299:
@@ -381,10 +378,7 @@ class ApiClient:
         }
 
     def deserialize(
-        self,
-        response_text: str,
-        response_type: str,
-        content_type: str | None,
+        self, response_text: str, response_type: str, content_type: str | None
     ):
         """Deserializes response into an object.
 
