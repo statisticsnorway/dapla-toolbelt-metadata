@@ -39,7 +39,7 @@ def test_get_variable_definition(client_configuration: Configuration):
     assert landbak.classification_reference == "91"
 
 
-def test_get_variable_definition_exception(client_configuration: Configuration):
+def test_get_variable_definition_invalid_id(client_configuration: Configuration):
     VardefClient.set_config(client_configuration)
     with pytest.raises(VardefClientException) as e:
         Vardef.get_variable_definition(
