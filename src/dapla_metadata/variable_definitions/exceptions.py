@@ -33,9 +33,6 @@ class VardefClientException(OpenApiException):
             response_body (str): The raw response body string, stored for
                                 debugging purposes.
 
-        Raises:
-            None: The constructor handles invalid JSON and missing keys
-                gracefully, defaulting to error messages.
         """
         self.detail: str | list
         try:
@@ -49,7 +46,7 @@ class VardefClientException(OpenApiException):
             self.response_body = response_body
         except (json.JSONDecodeError, TypeError):
             self.status = "Unknown"
-            self.detail = "Invalid response body"
+            self.detail = "Could not decode error response from API"
             data = None
         super().__init__(f"Status {self.status}: {self.detail}")
 
