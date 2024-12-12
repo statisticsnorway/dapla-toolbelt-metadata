@@ -105,8 +105,8 @@ class ValidityPeriodsApi:
 
         _response_types_map: dict[str, str | None] = {
             "201": "CompleteResponse",
-            "400": None,
-            "405": None,
+            "400": "Problem",
+            "405": "Problem",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -183,8 +183,8 @@ class ValidityPeriodsApi:
 
         _response_types_map: dict[str, str | None] = {
             "201": "CompleteResponse",
-            "400": None,
-            "405": None,
+            "400": "Problem",
+            "405": "Problem",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -261,8 +261,8 @@ class ValidityPeriodsApi:
 
         _response_types_map: dict[str, str | None] = {
             "201": "CompleteResponse",
-            "400": None,
-            "405": None,
+            "400": "Problem",
+            "405": "Problem",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -312,6 +312,7 @@ class ValidityPeriodsApi:
             _header_params["Accept"] = self.api_client.select_header_accept(
                 [
                     "application/json",
+                    "application/problem+json",
                 ],
             )
 

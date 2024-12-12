@@ -97,7 +97,7 @@ class DataMigrationApi:
 
         _response_types_map: dict[str, str | None] = {
             "201": "CompleteResponse",
-            "400": None,
+            "400": "Problem",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -169,7 +169,7 @@ class DataMigrationApi:
 
         _response_types_map: dict[str, str | None] = {
             "201": "CompleteResponse",
-            "400": None,
+            "400": "Problem",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -241,7 +241,7 @@ class DataMigrationApi:
 
         _response_types_map: dict[str, str | None] = {
             "201": "CompleteResponse",
-            "400": None,
+            "400": "Problem",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -288,6 +288,7 @@ class DataMigrationApi:
             _header_params["Accept"] = self.api_client.select_header_accept(
                 [
                     "application/json",
+                    "application/problem+json",
                 ],
             )
 

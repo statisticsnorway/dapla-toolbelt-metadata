@@ -1,16 +1,10 @@
-from dapla_metadata.variable_definitions.config import get_vardef_client_configuration
+from datetime import date
+
+from dapla_metadata.variable_definitions._client import VardefClient
 from dapla_metadata.variable_definitions.generated.vardef_client.api.variable_definitions_api import (
     VariableDefinitionsApi,
 )
-from dapla_metadata.variable_definitions.generated.vardef_client.api_client import (
-    ApiClient,
-)
-from dapla_metadata.variable_definitions.generated.vardef_client.configuration import (
-    Configuration,
-)
-from dapla_metadata.variable_definitions.generated.vardef_client.models.complete_response import (
-    CompleteResponse,
-)
+from dapla_metadata.variable_definitions.variable_definition import VariableDefinition
 
 
 class Vardef:
@@ -73,30 +67,11 @@ class Vardef:
     being exposed to breaking changes by specifying a `date_of_validity` when they request a Variable Definition.
     """
 
-    _client: ApiClient | None = None
-    _config: Configuration | None = None
-
-    @classmethod
-    def get_config(cls) -> Configuration | None:
-        """Get the client configuration object."""
-        return cls._config
-
-    @classmethod
-    def set_config(cls, config: Configuration) -> None:
-        """Set the client configuration object."""
-        cls._config = config
-
-    @classmethod
-    def _get_client(cls) -> ApiClient:
-        if not cls._client:
-            cls._client = ApiClient(cls._config or get_vardef_client_configuration())
-        return cls._client
-
     @classmethod
     def list_variable_definitions(
         cls,
-        date_of_validity: str | None = None,
-    ) -> list[CompleteResponse]:
+        date_of_validity: date | None = None,
+    ) -> list[VariableDefinition]:
         """List variable definitions.
 
         ---------
@@ -106,11 +81,45 @@ class Vardef:
         individual arguments to understand their effect. Filter arguments are combined with AND logic.
 
         Args:
-            date_of_validity (str | None, optional): List only variable definitions which are valid on this date. Defaults to None.
+            date_of_validity (date | None, optional): List only variable definitions which are valid on this date. Defaults to None.
 
         Returns:
-            list[CompleteResponse]: The list of Variable Definitions.
+            list[VariableDefinition]: The list of Variable Definitions.
         """
-        return VariableDefinitionsApi(cls._get_client()).list_variable_definitions(
-            date_of_validity=date_of_validity,
+        return [
+            VariableDefinition.model_construct(**definition.model_dump())
+            for definition in VariableDefinitionsApi(
+                VardefClient.get_client(),
+            ).list_variable_definitions(
+                date_of_validity=date_of_validity,
+            )
+        ]
+
+    @classmethod
+    def get_variable_definition(
+        cls,
+        variable_definition_id: str,
+        date_of_validity: date | None = None,
+    ) -> VariableDefinition:
+        """Get a Variable Definition by ID.
+
+        Args:
+            variable_definition_id (str): The ID of the desired Variable Definition
+            date_of_validity (date | None, optional): List only variable definitions which are valid on this date. Defaults to None.
+
+        Returns:
+            VariableDefinition: The Variable Definition.
+
+        Raises:
+            NotFoundException when the given ID is not found
+        """
+        return VariableDefinition.model_construct(
+            **VariableDefinitionsApi(
+                VardefClient.get_client(),
+            )
+            .get_variable_definition_by_id(
+                variable_definition_id=variable_definition_id,
+                date_of_validity=date_of_validity,
+            )
+            .model_dump(),
         )
