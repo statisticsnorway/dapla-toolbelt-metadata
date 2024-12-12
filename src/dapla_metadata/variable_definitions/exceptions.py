@@ -71,9 +71,11 @@ class VardefClientException(OpenApiException):
         ]
 
 
-def vardef_exception_handler(method):
+def vardef_exception_handler(method):  # noqa: ANN201, ANN001
+    """Decorator for handling exceptions in Vardef."""
+
     @wraps(method)
-    def _impl(self, *method_args, **method_kwargs):
+    def _impl(self, *method_args, **method_kwargs):  # noqa: ANN001, ANN002, ANN003
         try:
             return method(self, *method_args, **method_kwargs)
         except OpenApiException as e:
