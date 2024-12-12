@@ -1768,6 +1768,7 @@ components:
       - contains_sensitive_personal_information
       - created_at
       - definition
+      - id
       - last_updated_at
       - name
       - owner
@@ -1782,7 +1783,6 @@ components:
           type: string
           description: Unique identifier for the variable definition.
           format: "^[a-zA-Z0-9-_]{8}$"
-          nullable: true
         patch_id:
           type: integer
           description: Integer identifying a patch of a variable definition.
