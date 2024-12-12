@@ -21,6 +21,13 @@ class VariableDefinition(CompleteResponse):
         CompleteResponse: The Pydantic model superclass, representing a Variable Definition.
     """
 
+    @staticmethod
+    def from_complete_response(
+        complete_response: CompleteResponse,
+    ) -> "VariableDefinition":
+        """Create a VariableDefinition instance from a CompleteResponse."""
+        return VariableDefinition.model_construct(**complete_response.model_dump())
+
     def list_validity_periods(self) -> list[CompleteResponse]:
         """List all Validity Periods for this Variable Definition."""
         return ValidityPeriodsApi(VardefClient.get_client()).list_validity_periods(
