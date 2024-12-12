@@ -1754,52 +1754,6 @@ files = [
 ]
 
 [[package]]
-name = "httpcore"
-version = "1.0.7"
-description = "A minimal low-level HTTP client."
-optional = false
-python-versions = ">=3.8"
-files = [
-    {file = "httpcore-1.0.7-py3-none-any.whl", hash = "sha256:a3fff8f43dc260d5bd363d9f9cf1830fa3a458b332856f34282de498ed420edd"},
-    {file = "httpcore-1.0.7.tar.gz", hash = "sha256:8551cb62a169ec7162ac7be8d4817d561f60e08eaa485234898414bb5a8a0b4c"},
-]
-
-[package.dependencies]
-certifi = "*"
-h11 = ">=0.13,<0.15"
-
-[package.extras]
-asyncio = ["anyio (>=4.0,<5.0)"]
-http2 = ["h2 (>=3,<5)"]
-socks = ["socksio (==1.*)"]
-trio = ["trio (>=0.22.0,<1.0)"]
-
-[[package]]
-name = "httpx"
-version = "0.27.2"
-description = "The next generation HTTP client."
-optional = false
-python-versions = ">=3.8"
-files = [
-    {file = "httpx-0.27.2-py3-none-any.whl", hash = "sha256:7bb2708e112d8fdd7829cd4243970f0c223274051cb35ee80c03301ee29a3df0"},
-    {file = "httpx-0.27.2.tar.gz", hash = "sha256:f7c2be1d2f3c3c3160d441802406b206c2b76f5947b11115e6df10c6c65e66c2"},
-]
-
-[package.dependencies]
-anyio = "*"
-certifi = "*"
-httpcore = "==1.*"
-idna = "*"
-sniffio = "*"
-
-[package.extras]
-brotli = ["brotli", "brotlicffi"]
-cli = ["click (==8.*)", "pygments (==2.*)", "rich (>=10,<14)"]
-http2 = ["h2 (>=3,<5)"]
-socks = ["socksio (==1.*)"]
-zstd = ["zstandard (>=0.18.0)"]
-
-[[package]]
 name = "identify"
 version = "2.6.1"
 description = "File identification library for Python"
@@ -4166,24 +4120,6 @@ files = [
 cffi = {version = "*", markers = "implementation_name == \"pypy\""}
 
 [[package]]
-name = "redis"
-version = "5.2.0"
-description = "Python client for Redis database and key-value store"
-optional = false
-python-versions = ">=3.8"
-files = [
-    {file = "redis-5.2.0-py3-none-any.whl", hash = "sha256:ae174f2bb3b1bf2b09d54bf3e51fbc1469cf6c10aa03e21141f51969801a7897"},
-    {file = "redis-5.2.0.tar.gz", hash = "sha256:0b1087665a771b1ff2e003aa5bdd354f15a70c9e25d5a7dbf9c722c16528a7b0"},
-]
-
-[package.dependencies]
-async-timeout = {version = ">=4.0.3", markers = "python_full_version < \"3.11.3\""}
-
-[package.extras]
-hiredis = ["hiredis (>=3.0.0)"]
-ocsp = ["cryptography (>=36.0.1)", "pyopenssl (==23.2.1)", "requests (>=2.31.0)"]
-
-[[package]]
 name = "referencing"
 version = "0.35.1"
 description = "JSON Referencing + Python"
@@ -4896,18 +4832,18 @@ full = ["httpx (>=0.22.0)", "itsdangerous", "jinja2", "python-multipart (>=0.0.7
 
 [[package]]
 name = "testcontainers"
-version = "4.8.2"
+version = "4.9.0"
 description = "Python library for throwaway instances of anything that can run in a Docker container"
 optional = false
-python-versions = ">=3.9,<4.0"
-files = []
-develop = true
+python-versions = "<4.0,>=3.9"
+files = [
+    {file = "testcontainers-4.9.0-py3-none-any.whl", hash = "sha256:c6fee929990972c40bf6b91b7072c94064ff3649b405a14fde0274c8b2479d32"},
+    {file = "testcontainers-4.9.0.tar.gz", hash = "sha256:2cd6af070109ff68c1ab5389dc89c86c2dc3ab30a21ca734b2cb8f0f80ad479e"},
+]
 
 [package.dependencies]
 docker = "*"
-httpx = {version = "*", optional = true}
 python-dotenv = "*"
-redis = {version = "*", optional = true}
 typing-extensions = "*"
 urllib3 = "*"
 wrapt = "*"
@@ -4916,36 +4852,26 @@ wrapt = "*"
 arangodb = ["python-arango (>=7.8,<8.0)"]
 aws = ["boto3", "httpx"]
 azurite = ["azure-storage-blob (>=12.19,<13.0)"]
-cassandra = []
 chroma = ["chromadb-client"]
 clickhouse = ["clickhouse-driver"]
-cockroachdb = []
 cosmosdb = ["azure-cosmos"]
 db2 = ["ibm_db_sa", "sqlalchemy"]
-elasticsearch = []
 generic = ["httpx", "redis"]
 google = ["google-cloud-datastore (>=2)", "google-cloud-pubsub (>=2)"]
 influxdb = ["influxdb", "influxdb-client"]
 k3s = ["kubernetes", "pyyaml"]
-kafka = []
 keycloak = ["python-keycloak"]
 localstack = ["boto3"]
 mailpit = ["cryptography"]
-memcached = []
-milvus = []
 minio = ["minio"]
 mongodb = ["pymongo"]
-mqtt = []
 mssql = ["pymssql", "sqlalchemy"]
 mysql = ["pymysql[rsa]", "sqlalchemy"]
 nats = ["nats-py"]
 neo4j = ["neo4j"]
-nginx = []
-ollama = []
 opensearch = ["opensearch-py"]
 oracle = ["oracledb", "sqlalchemy"]
 oracle-free = ["oracledb", "sqlalchemy"]
-postgres = []
 qdrant = ["qdrant-client"]
 rabbitmq = ["pika"]
 redis = ["redis"]
@@ -4955,12 +4881,7 @@ selenium = ["selenium"]
 sftp = ["cryptography"]
 test-module-import = ["httpx"]
 trino = ["trino"]
-vault = []
 weaviate = ["weaviate-client (>=4.5.4,<5.0.0)"]
-
-[package.source]
-type = "directory"
-url = "../testcontainers-python"
 
 [[package]]
 name = "toml"
@@ -5731,4 +5652,4 @@ type = ["pytest-mypy"]
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.10,<4.0"
-content-hash = "41ff087038439b9d0a337e603812d942242b5d11093100228778d71c8f4a8356"
+content-hash = "f4011623ffbb1013dc30e2c44af0cc60e1b2557ac0f0aa68b0ca80e5cc008904"
