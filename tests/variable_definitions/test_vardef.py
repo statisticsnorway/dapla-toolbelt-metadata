@@ -1,4 +1,7 @@
+import pytest
+
 from dapla_metadata.variable_definitions._client import VardefClient
+from dapla_metadata.variable_definitions.exceptions import VardefClientException
 from dapla_metadata.variable_definitions.generated.vardef_client.configuration import (
     Configuration,
 )
@@ -7,6 +10,7 @@ from dapla_metadata.variable_definitions.generated.vardef_client.models.complete
 )
 from dapla_metadata.variable_definitions.vardef import Vardef
 from dapla_metadata.variable_definitions.variable_definition import VariableDefinition
+from tests.utils.constants import NOT_FOUND_STATUS
 from tests.utils.constants import VARDEF_EXAMPLE_DATE
 from tests.utils.constants import VARDEF_EXAMPLE_DEFINITION_ID
 
@@ -33,6 +37,17 @@ def test_get_variable_definition(client_configuration: Configuration):
     )
     assert isinstance(landbak, VariableDefinition)
     assert landbak.classification_reference == "91"
+
+
+def test_get_variable_definition_exception(client_configuration: Configuration):
+    VardefClient.set_config(client_configuration)
+    with pytest.raises(VardefClientException) as e:
+        Vardef.get_variable_definition(
+            variable_definition_id="invalid id",
+        )
+    assert e.value.status == NOT_FOUND_STATUS
+    assert e.value.detail == "Not found"
+    assert str(e.value) == "Status 404: Not found"
 
 
 def test_list_patches(client_configuration: Configuration):

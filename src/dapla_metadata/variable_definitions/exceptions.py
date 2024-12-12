@@ -1,6 +1,7 @@
 """Vardef client exceptions."""
 
 import json
+from functools import wraps
 
 from dapla_metadata.variable_definitions.generated.vardef_client.exceptions import (
     OpenApiException,
@@ -70,13 +71,12 @@ class VardefClientException(OpenApiException):
         ]
 
 
-def vardef_exception_handler(func):  # noqa: ANN001, ANN201
-    """Decorator function for handling api exceptions."""
-
-    def inner_function(*args, **kwargs):  # noqa: ANN002, ANN003
+def vardef_exception_handler(method):
+    @wraps(method)
+    def _impl(self, *method_args, **method_kwargs):
         try:
-            return func(*args, **kwargs)
+            return method(self, *method_args, **method_kwargs)
         except OpenApiException as e:
             raise VardefClientException(e.body) from e
 
-    return inner_function
+    return _impl

@@ -1,6 +1,7 @@
 from datetime import date
 
 from dapla_metadata.variable_definitions._client import VardefClient
+from dapla_metadata.variable_definitions.exceptions import vardef_exception_handler
 from dapla_metadata.variable_definitions.generated.vardef_client.api.variable_definitions_api import (
     VariableDefinitionsApi,
 )
@@ -68,6 +69,7 @@ class Vardef:
     """
 
     @classmethod
+    @vardef_exception_handler
     def list_variable_definitions(
         cls,
         date_of_validity: date | None = None,
@@ -96,6 +98,7 @@ class Vardef:
         ]
 
     @classmethod
+    @vardef_exception_handler
     def get_variable_definition(
         cls,
         variable_definition_id: str,
