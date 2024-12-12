@@ -68,3 +68,15 @@ class VardefClientException(OpenApiException):
             }
             for violation in violations
         ]
+
+
+def vardef_exception_handler(func):  # noqa: ANN001, ANN201
+    """Decorator function for handling api exceptions."""
+
+    def inner_function(*args, **kwargs):  # noqa: ANN002, ANN003
+        try:
+            return func(*args, **kwargs)
+        except OpenApiException as e:
+            raise VardefClientException(e.body) from e
+
+    return inner_function
