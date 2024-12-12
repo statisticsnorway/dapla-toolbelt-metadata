@@ -32,7 +32,6 @@ class VardefClientException(OpenApiException):
                         the detail is a list with field and message.
             response_body (str): The raw response body string, stored for
                                 debugging purposes.
-
         """
         self.detail: str | list
         try:
@@ -40,7 +39,13 @@ class VardefClientException(OpenApiException):
             self.status = data.get("status", "Unknown status")
             if data.get("title") == "Constraint Violation":
                 violations = data.get("violations", [])
-                self.detail = self._format_violations(violations)
+                self.detail = [
+                    {
+                        "field": violation.get("field", "Unknown field"),
+                        "message": violation.get("message", "No message provided"),
+                    }
+                    for violation in violations
+                ]
             else:
                 self.detail = data.get("detail", "No detail provided")
             self.response_body = response_body
@@ -49,23 +54,6 @@ class VardefClientException(OpenApiException):
             self.detail = "Could not decode error response from API"
             data = None
         super().__init__(f"Status {self.status}: {self.detail}")
-
-    def _format_violations(self, violations: list) -> list:
-        """Format a list of violations into a readable string.
-
-        Args:
-            violations (list): List of violation dictionaries with 'field' and 'message'.
-
-        Returns:
-            str: Formatted string of violations.
-        """
-        return [
-            {
-                "Field": violation.get("field", "Unknown field"),
-                "Message": violation.get("message", "No message provided"),
-            }
-            for violation in violations
-        ]
 
 
 def vardef_exception_handler(method):  # noqa: ANN201, ANN001

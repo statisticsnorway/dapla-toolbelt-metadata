@@ -34,8 +34,8 @@ def test_invalid_json():
     response_body = "Not a JSON string"
     exc = VardefClientException(response_body)
     assert exc.status == "Unknown"
-    assert exc.detail == "Invalid response body"
-    assert str(exc) == "Status Unknown: Invalid response body"
+    assert exc.detail == "Could not decode error response from API"
+    assert str(exc) == "Status Unknown: Could not decode error response from API"
 
 
 def test_missing_keys():
@@ -50,11 +50,11 @@ def test_constraint_violation():
     response_body = CONSTRAINT_VIOLATION_BODY
     exc = VardefClientException(response_body)
     assert exc.status == BAD_REQUEST_STATUS
-    assert exc.detail[0]["Message"] == "Invalid Dapla team"
+    assert exc.detail[0]["message"] == "Invalid Dapla team"
     assert (
         str(exc) == "Status 400: ["
-        "{'Field': 'updateVariableDefinitionById.updateDraft.owner.team', 'Message': 'Invalid Dapla team'}, "
-        "{'Field': 'updateVariableDefinitionById.updateDraft.owner.team', 'Message': 'must not be empty'}]"
+        "{'field': 'updateVariableDefinitionById.updateDraft.owner.team', 'message': 'Invalid Dapla team'}, "
+        "{'field': 'updateVariableDefinitionById.updateDraft.owner.team', 'message': 'must not be empty'}]"
     )
 
 
@@ -62,7 +62,7 @@ def test_constraint_violation_missing_messages():
     response_body = CONSTRAINT_VIOLATION_BODY_MISSING_MESSAGES
     exc = VardefClientException(response_body)
     assert exc.status == BAD_REQUEST_STATUS
-    assert exc.detail[0]["Message"] == "No message provided"
+    assert exc.detail[0]["message"] == "No message provided"
 
 
 def test_constraint_violation_empty_violations():
@@ -78,6 +78,6 @@ def test_constraint_violation_empty_field():
     assert exc.status == BAD_REQUEST_STATUS
     assert str(exc) == (
         "Status 400: ["
-        "{'Field': 'Unknown field', 'Message': 'Invalid Dapla team'}, "
-        "{'Field': 'Unknown field', 'Message': 'must not be empty'}]"
+        "{'field': 'Unknown field', 'message': 'Invalid Dapla team'}, "
+        "{'field': 'Unknown field', 'message': 'must not be empty'}]"
     )
