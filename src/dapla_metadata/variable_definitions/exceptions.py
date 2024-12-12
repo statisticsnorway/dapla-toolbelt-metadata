@@ -33,9 +33,6 @@ class VardefClientException(OpenApiException):
             response_body (str): The raw response body string, stored for
                                 debugging purposes.
 
-        Raises:
-            None: The constructor handles invalid JSON and missing keys
-                gracefully, defaulting to error messages.
         """
         self.detail: str | list
         try:
