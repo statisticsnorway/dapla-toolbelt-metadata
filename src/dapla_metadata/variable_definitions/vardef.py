@@ -4,9 +4,6 @@ from dapla_metadata.variable_definitions._client import VardefClient
 from dapla_metadata.variable_definitions.generated.vardef_client.api.variable_definitions_api import (
     VariableDefinitionsApi,
 )
-from dapla_metadata.variable_definitions.generated.vardef_client.models.complete_response import (
-    CompleteResponse,
-)
 from dapla_metadata.variable_definitions.variable_definition import VariableDefinition
 
 
@@ -74,7 +71,7 @@ class Vardef:
     def list_variable_definitions(
         cls,
         date_of_validity: date | None = None,
-    ) -> list[CompleteResponse]:
+    ) -> list[VariableDefinition]:
         """List variable definitions.
 
         ---------
@@ -87,13 +84,16 @@ class Vardef:
             date_of_validity (date | None, optional): List only variable definitions which are valid on this date. Defaults to None.
 
         Returns:
-            list[CompleteResponse]: The list of Variable Definitions.
+            list[VariableDefinition]: The list of Variable Definitions.
         """
-        return VariableDefinitionsApi(
-            VardefClient.get_client(),
-        ).list_variable_definitions(
-            date_of_validity=date_of_validity,
-        )
+        return [
+            VariableDefinition.model_construct(**definition.model_dump())
+            for definition in VariableDefinitionsApi(
+                VardefClient.get_client(),
+            ).list_variable_definitions(
+                date_of_validity=date_of_validity,
+            )
+        ]
 
     @classmethod
     def get_variable_definition(
@@ -108,7 +108,7 @@ class Vardef:
             date_of_validity (date | None, optional): List only variable definitions which are valid on this date. Defaults to None.
 
         Returns:
-            CompleteResponse: The Variable Definition.
+            VariableDefinition: The Variable Definition.
 
         Raises:
             NotFoundException when the given ID is not found
