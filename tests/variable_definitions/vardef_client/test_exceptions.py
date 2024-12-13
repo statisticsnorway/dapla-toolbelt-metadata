@@ -1,7 +1,5 @@
 """Tests for Vardef client exception handling."""
 
-import json
-
 from dapla_metadata.variable_definitions.exceptions import VardefClientException
 from tests.utils.constants import BAD_REQUEST_STATUS
 from tests.utils.constants import CONSTRAINT_VIOLATION_BODY
@@ -52,11 +50,9 @@ def test_constraint_violation():
     response_body = CONSTRAINT_VIOLATION_BODY
     exc = VardefClientException(response_body)
     assert exc.status == BAD_REQUEST_STATUS
-    assert exc.detail[0]["message"] == "Invalid Dapla team"
     assert (
-        str(exc) == "Status 400: ["
-        "{'field': 'updateVariableDefinitionById.updateDraft.owner.team', 'message': 'Invalid Dapla team'}, "
-        "{'field': 'updateVariableDefinitionById.updateDraft.owner.team', 'message': 'must not be empty'}]"
+        exc.detail[0]
+        == "updateVariableDefinitionById.updateDraft.owner.team: Invalid Dapla team"
     )
 
 
@@ -78,17 +74,7 @@ def test_constraint_violation_empty_field():
     response_body = CONSTRAINT_VIOLATION_BODY_MISSING_FIELD
     exc = VardefClientException(response_body)
     assert exc.status == BAD_REQUEST_STATUS
-    excpected_message = json.dumps(
-        [
-            {
-                "field": "Unknown field",
-                "message": "Invalid Dapla team",
-            },
-            {
-                "field": "Unknown field",
-                "message": "must not be empty",
-            },
-        ],
-        indent=4,
-    )
-    assert exc.detail == excpected_message
+    assert exc.detail == [
+        "Unknown field: Invalid Dapla team",
+        "updateVariableDefinitionById.updateDraft.owner.team: must not be empty",
+    ]

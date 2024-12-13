@@ -39,16 +39,11 @@ class VardefClientException(OpenApiException):
             self.status = data.get("status", "Unknown status")
             if data.get("title") == "Constraint Violation":
                 violations = data.get("violations", [])
-                self.detail = json.dumps(
-                    [
-                        {
-                            "field": violation.get("field", "Unknown field"),
-                            "message": violation.get("message", "No message provided"),
-                        }
-                        for violation in violations
-                    ],
-                    indent=4,
-                )
+                self.detail = [
+                    f"{violation.get('field', 'Unknown field')}: {violation.get('message', 'No message provided')}"
+                    for violation in violations
+                ]
+
             else:
                 self.detail = data.get("detail", "No detail provided")
             self.response_body = response_body
