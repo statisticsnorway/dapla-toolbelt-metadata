@@ -1,9 +1,19 @@
 from datetime import date
 
+from dapla_metadata.variable_definitions import config
 from dapla_metadata.variable_definitions._client import VardefClient
 from dapla_metadata.variable_definitions.exceptions import vardef_exception_handler
+from dapla_metadata.variable_definitions.generated.vardef_client.api.data_migration_api import (
+    DataMigrationApi,
+)
+from dapla_metadata.variable_definitions.generated.vardef_client.api.draft_variable_definitions_api import (
+    DraftVariableDefinitionsApi,
+)
 from dapla_metadata.variable_definitions.generated.vardef_client.api.variable_definitions_api import (
     VariableDefinitionsApi,
+)
+from dapla_metadata.variable_definitions.generated.vardef_client.models.draft import (
+    Draft,
 )
 from dapla_metadata.variable_definitions.variable_definition import VariableDefinition
 
@@ -69,6 +79,41 @@ class Vardef:
     """
 
     @classmethod
+    def create_draft(cls, draft: Draft) -> VariableDefinition:
+        """Create a Draft Variable Definition."""
+        return VariableDefinition.from_complete_response(
+            DraftVariableDefinitionsApi(
+                VardefClient.get_client(),
+            ).create_variable_definition(
+                active_group=config.get_active_group(),
+                draft=draft,
+            ),
+        )
+
+    @classmethod
+    def migrate_from_vardok(cls, vardok_id: str) -> VariableDefinition:
+        """Migrate a Variable Definition from Vardok to Vardef.
+
+        - Each Vardok Variable Definition may only be migrated once.
+        - The Dapla team of the person who performs the migration will be set as the owner.
+        - All metadata should be checked for correctness before publication.
+
+        Args:
+            vardok_id (str): The ID of a Variable Definition in Vardok.
+
+        Returns:
+            VariableDefinition: The migrated Variable Definition in Vardef.
+        """
+        return VariableDefinition.from_complete_response(
+            DataMigrationApi(
+                VardefClient.get_client(),
+            ).create_variable_definition_from_var_dok(
+                active_group=config.get_active_group(),
+                vardok_id=vardok_id,
+            ),
+        )
+
+    @classmethod
     @vardef_exception_handler
     def list_variable_definitions(
         cls,
@@ -89,7 +134,7 @@ class Vardef:
             list[VariableDefinition]: The list of Variable Definitions.
         """
         return [
-            VariableDefinition.model_construct(**definition.model_dump())
+            VariableDefinition.from_complete_response(definition)
             for definition in VariableDefinitionsApi(
                 VardefClient.get_client(),
             ).list_variable_definitions(
@@ -116,13 +161,11 @@ class Vardef:
         Raises:
             NotFoundException when the given ID is not found
         """
-        return VariableDefinition.model_construct(
-            **VariableDefinitionsApi(
+        return VariableDefinition.from_complete_response(
+            VariableDefinitionsApi(
                 VardefClient.get_client(),
-            )
-            .get_variable_definition_by_id(
+            ).get_variable_definition_by_id(
                 variable_definition_id=variable_definition_id,
                 date_of_validity=date_of_validity,
-            )
-            .model_dump(),
+            ),
         )
