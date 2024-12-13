@@ -82,6 +82,7 @@ class Vardef:
     """
 
     @classmethod
+    @vardef_exception_handler
     def create_draft(cls, draft: Draft) -> VariableDefinition:
         """Create a Draft Variable Definition."""
         return VariableDefinition.from_complete_response(
@@ -107,6 +108,26 @@ class Vardef:
             ).update_variable_definition_by_id(
                 active_group=config.get_active_group(),
                 variable_definition_id=variable_definition_id,
+                update_draft=update_draft,
+            ),
+        )
+
+    @classmethod
+    @vardef_exception_handler
+    def update_draft_by_short_name(
+        cls,
+        short_name: str,
+        update_draft: UpdateDraft,
+    ) -> VariableDefinition:
+        """Update a Draft variable definition."""
+        return VariableDefinition.from_complete_response(
+            DraftVariableDefinitionsApi(
+                VardefClient.get_client(),
+            ).update_variable_definition_by_id(
+                active_group=config.get_active_group(),
+                variable_definition_id=VariableDefinition.get_id_from_short_name(
+                    short_name=short_name,
+                ),
                 update_draft=update_draft,
             ),
         )
