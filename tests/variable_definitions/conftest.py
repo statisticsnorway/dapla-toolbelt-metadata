@@ -73,7 +73,7 @@ def draft(language_string_type, contact) -> Draft:
         short_name="test",
         definition=language_string_type,
         classification_reference="91",
-        unit_types=["a", "b"],
+        unit_types=["01"],
         subject_fields=["a", "b"],
         contains_sensitive_personal_information=True,
         measurement_type="test",
