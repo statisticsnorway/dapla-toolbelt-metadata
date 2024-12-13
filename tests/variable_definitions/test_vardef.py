@@ -83,6 +83,7 @@ def test_list_validity_periods(client_configuration: Configuration):
         variable_definition_id=VARDEF_EXAMPLE_DEFINITION_ID,
     )
     assert isinstance(landbak.list_validity_periods()[0], CompleteResponse)
+    
 
 
 def test_create_draft(
@@ -124,4 +125,15 @@ def test_update_draft(
     monkeypatch.setenv(DAPLA_GROUP_CONTEXT, VARDEF_EXAMPLE_ACTIVE_GROUP)
     VardefClient.set_config(client_configuration)
     updated_draft = Vardef.update_draft(VARDEF_EXAMPLE_DEFINITION_ID, update_draft)
+    assert isinstance(updated_draft, CompleteResponse)
+
+
+def test_update_draft_by_short_name(
+    monkeypatch: pytest.MonkeyPatch,
+    client_configuration: Configuration,
+    update_draft: UpdateDraft,
+):
+    monkeypatch.setenv(DAPLA_GROUP_CONTEXT, VARDEF_EXAMPLE_ACTIVE_GROUP)
+    VardefClient.set_config(client_configuration)
+    updated_draft = Vardef.update_draft_by_short_name("landbak", update_draft)
     assert isinstance(updated_draft, CompleteResponse)

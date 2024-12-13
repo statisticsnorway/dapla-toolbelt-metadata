@@ -1,3 +1,5 @@
+from tests.utils.constants import VARDEF_EXAMPLE_DATE
+
 from dapla_metadata.variable_definitions._client import VardefClient
 from dapla_metadata.variable_definitions.generated.vardef_client.api.patches_api import (
     PatchesApi,
@@ -68,6 +70,6 @@ class VariableDefinition(CompleteResponse):
         """
         variable = VariableDefinitionsApi(
             VardefClient.get_client(),
-        ).list_variable_definitions()
+        ).list_variable_definitions(date_of_validity=VARDEF_EXAMPLE_DATE)
         var_id = [var.id for var in variable if var.short_name == short_name]
         return var_id[0]
