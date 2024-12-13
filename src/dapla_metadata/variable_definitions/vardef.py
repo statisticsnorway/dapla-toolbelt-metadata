@@ -12,6 +12,9 @@ from dapla_metadata.variable_definitions.generated.vardef_client.api.draft_varia
 from dapla_metadata.variable_definitions.generated.vardef_client.api.variable_definitions_api import (
     VariableDefinitionsApi,
 )
+from dapla_metadata.variable_definitions.generated.vardef_client.models.contact import (
+    Contact,
+)
 from dapla_metadata.variable_definitions.generated.vardef_client.models.draft import (
     Draft,
 )
@@ -79,6 +82,7 @@ class Vardef:
     """
 
     @classmethod
+    @vardef_exception_handler
     def create_draft(cls, draft: Draft) -> VariableDefinition:
         """Create a Draft Variable Definition."""
         return VariableDefinition.from_complete_response(
@@ -169,3 +173,19 @@ class Vardef:
                 date_of_validity=date_of_validity,
             ),
         )
+
+    draft = Draft(
+        name={"nb": "testing"},
+        short_name="test",
+        definition={"nb": "def testing"},
+        classification_reference="91",
+        unit_types=["haha"],
+        subject_fields=["a"],
+        contains_sensitive_personal_information=True,
+        measurement_type="01",
+        valid_from=date(2024, 11, 1),
+        external_reference_uri="http://www.example.com",
+        comment=None,
+        related_variable_definition_uris=["http://www.example.com"],
+        contact=Contact(title={"nb": "title"}, email="cbi@ssb.no"),
+    )
