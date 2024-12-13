@@ -60,7 +60,7 @@ def test_constraint_violation_missing_messages():
     response_body = CONSTRAINT_VIOLATION_BODY_MISSING_MESSAGES
     exc = VardefClientException(response_body)
     assert exc.status == BAD_REQUEST_STATUS
-    assert exc.detail[0]["message"] == "No message provided"
+    assert exc.detail[0] == "updateVariableDefinitionById.updateDraft.owner.team: No message provided"
 
 
 def test_constraint_violation_empty_violations():
