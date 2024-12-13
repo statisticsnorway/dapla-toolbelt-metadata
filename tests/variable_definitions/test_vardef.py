@@ -83,7 +83,6 @@ def test_list_validity_periods(client_configuration: Configuration):
         variable_definition_id=VARDEF_EXAMPLE_DEFINITION_ID,
     )
     assert isinstance(landbak.list_validity_periods()[0], CompleteResponse)
-    
 
 
 def test_create_draft(
