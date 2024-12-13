@@ -15,9 +15,6 @@ from dapla_metadata.variable_definitions.generated.vardef_client.api.variable_de
 from dapla_metadata.variable_definitions.generated.vardef_client.models.draft import (
     Draft,
 )
-from dapla_metadata.variable_definitions.generated.vardef_client.models.update_draft import (
-    UpdateDraft,
-)
 from dapla_metadata.variable_definitions.variable_definition import VariableDefinition
 
 
@@ -91,44 +88,6 @@ class Vardef:
             ).create_variable_definition(
                 active_group=config.get_active_group(),
                 draft=draft,
-            ),
-        )
-
-    @classmethod
-    @vardef_exception_handler
-    def update_draft(
-        cls,
-        variable_definition_id: str,
-        update_draft: UpdateDraft,
-    ) -> VariableDefinition:
-        """Update a Draft variable definition."""
-        return VariableDefinition.from_complete_response(
-            DraftVariableDefinitionsApi(
-                VardefClient.get_client(),
-            ).update_variable_definition_by_id(
-                active_group=config.get_active_group(),
-                variable_definition_id=variable_definition_id,
-                update_draft=update_draft,
-            ),
-        )
-
-    @classmethod
-    @vardef_exception_handler
-    def update_draft_by_short_name(
-        cls,
-        short_name: str,
-        update_draft: UpdateDraft,
-    ) -> VariableDefinition:
-        """Update a Draft variable definition."""
-        return VariableDefinition.from_complete_response(
-            DraftVariableDefinitionsApi(
-                VardefClient.get_client(),
-            ).update_variable_definition_by_id(
-                active_group=config.get_active_group(),
-                variable_definition_id=VariableDefinition.get_id_from_short_name(
-                    short_name=short_name,
-                ),
-                update_draft=update_draft,
             ),
         )
 

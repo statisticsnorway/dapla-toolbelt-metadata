@@ -1,17 +1,19 @@
-from tests.utils.constants import VARDEF_EXAMPLE_DATE
-
 from dapla_metadata.variable_definitions._client import VardefClient
+from dapla_metadata.variable_definitions.exceptions import vardef_exception_handler
+from dapla_metadata.variable_definitions.generated.vardef_client.api.draft_variable_definitions_api import (
+    DraftVariableDefinitionsApi,
+)
 from dapla_metadata.variable_definitions.generated.vardef_client.api.patches_api import (
     PatchesApi,
 )
 from dapla_metadata.variable_definitions.generated.vardef_client.api.validity_periods_api import (
     ValidityPeriodsApi,
 )
-from dapla_metadata.variable_definitions.generated.vardef_client.api.variable_definitions_api import (
-    VariableDefinitionsApi,
-)
 from dapla_metadata.variable_definitions.generated.vardef_client.models.complete_response import (
     CompleteResponse,
+)
+from dapla_metadata.variable_definitions.generated.vardef_client.models.update_draft import (
+    UpdateDraft,
 )
 
 
@@ -59,17 +61,16 @@ class VariableDefinition(CompleteResponse):
             patch_id=patch_id,
         )
 
-    @staticmethod
-    def get_id_from_short_name(short_name: str) -> str:
-        """Return id for variable definition based on short name.
-
-        Args:
-            short_name (str): The short name for one saved variable definition
-        Returns:
-            str: The id of the saved variable definition
-        """
-        variable = VariableDefinitionsApi(
+    @vardef_exception_handler
+    def update_draft(
+        self,
+        update_draft: UpdateDraft,
+    ) -> CompleteResponse:
+        """Update a Draft variable definition."""
+        return DraftVariableDefinitionsApi(
             VardefClient.get_client(),
-        ).list_variable_definitions(date_of_validity=VARDEF_EXAMPLE_DATE)
-        var_id = [var.id for var in variable if var.short_name == short_name]
-        return var_id[0]
+        ).update_variable_definition_by_id(
+            active_group="dapla-felles-developers",
+            variable_definition_id=self.id,
+            update_draft=update_draft,
+        )
