@@ -50,9 +50,9 @@ def test_constraint_violation():
     response_body = CONSTRAINT_VIOLATION_BODY
     exc = VardefClientException(response_body)
     assert exc.status == BAD_REQUEST_STATUS
-    assert (
-        exc.detail[0]
-        == "updateVariableDefinitionById.updateDraft.owner.team: Invalid Dapla team"
+    assert exc.detail == (
+        "\nupdateVariableDefinitionById.updateDraft.owner.team: Invalid Dapla team"
+        "\nupdateVariableDefinitionById.updateDraft.owner.team: must not be empty"
     )
 
 
@@ -60,9 +60,9 @@ def test_constraint_violation_missing_messages():
     response_body = CONSTRAINT_VIOLATION_BODY_MISSING_MESSAGES
     exc = VardefClientException(response_body)
     assert exc.status == BAD_REQUEST_STATUS
-    assert (
-        exc.detail[0]
-        == "updateVariableDefinitionById.updateDraft.owner.team: No message provided"
+    assert exc.detail == (
+        "\nupdateVariableDefinitionById.updateDraft.owner.team: No message provided"
+        "\nupdateVariableDefinitionById.updateDraft.owner.team: No message provided"
     )
 
 
@@ -70,14 +70,13 @@ def test_constraint_violation_empty_violations():
     response_body = CONSTRAINT_VIOLATION_BODY_MISSING_VIOLATIONS
     exc = VardefClientException(response_body)
     assert exc.status == BAD_REQUEST_STATUS
-    assert str(exc) == "Status 400: []"
+    assert str(exc) == "Status 400: "
 
 
 def test_constraint_violation_empty_field():
     response_body = CONSTRAINT_VIOLATION_BODY_MISSING_FIELD
     exc = VardefClientException(response_body)
     assert exc.status == BAD_REQUEST_STATUS
-    assert exc.detail == [
-        "Unknown field: Invalid Dapla team",
-        "updateVariableDefinitionById.updateDraft.owner.team: must not be empty",
-    ]
+    assert exc.detail == (
+        "\nUnknown field: Invalid Dapla team\nUnknown field: must not be empty"
+    )

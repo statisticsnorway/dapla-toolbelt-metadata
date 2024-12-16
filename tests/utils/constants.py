@@ -81,7 +81,6 @@ CONSTRAINT_VIOLATION_BODY_MISSING_FIELD = """{
             "message": "Invalid Dapla team"
         },
         {
-            "field": "updateVariableDefinitionById.updateDraft.owner.team",
             "message": "must not be empty"
         }
     ]
