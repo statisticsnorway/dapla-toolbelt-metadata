@@ -50,7 +50,7 @@ class ValidityPeriod(BaseModel):
         default=None,
         description="A list of subject fields that the variable is used in. Must be defined as codes from https://www.ssb.no/klass/klassifikasjoner/618.",
     )
-    contains_sensitive_personal_information: StrictBool | None = Field(
+    contains_special_categories_of_personal_data: StrictBool | None = Field(
         default=None,
         description="True if variable instances contain particularly sensitive information. Applies even if the information or identifiers are pseudonymized. Information within the following categories are regarded as particularly sensitive: Ethnicity, Political alignment, Religion, Philosophical beliefs, Union membership, Genetics, Biometrics, Health, Sexual relations, Sexual orientation",
     )
@@ -82,7 +82,7 @@ class ValidityPeriod(BaseModel):
         "classification_reference",
         "unit_types",
         "subject_fields",
-        "contains_sensitive_personal_information",
+        "contains_special_categories_of_personal_data",
         "variable_status",
         "measurement_type",
         "valid_from",
@@ -169,13 +169,13 @@ class ValidityPeriod(BaseModel):
         if self.subject_fields is None and "subject_fields" in self.model_fields_set:
             _dict["subject_fields"] = None
 
-        # set to None if contains_sensitive_personal_information (nullable) is None
+        # set to None if contains_special_categories_of_personal_data (nullable) is None
         # and model_fields_set contains the field
         if (
-            self.contains_sensitive_personal_information is None
-            and "contains_sensitive_personal_information" in self.model_fields_set
+            self.contains_special_categories_of_personal_data is None
+            and "contains_special_categories_of_personal_data" in self.model_fields_set
         ):
-            _dict["contains_sensitive_personal_information"] = None
+            _dict["contains_special_categories_of_personal_data"] = None
 
         # set to None if variable_status (nullable) is None
         # and model_fields_set contains the field
@@ -238,8 +238,8 @@ class ValidityPeriod(BaseModel):
                 "classification_reference": obj.get("classification_reference"),
                 "unit_types": obj.get("unit_types"),
                 "subject_fields": obj.get("subject_fields"),
-                "contains_sensitive_personal_information": obj.get(
-                    "contains_sensitive_personal_information"
+                "contains_special_categories_of_personal_data": obj.get(
+                    "contains_special_categories_of_personal_data"
                 ),
                 "variable_status": obj.get("variable_status"),
                 "measurement_type": obj.get("measurement_type"),
