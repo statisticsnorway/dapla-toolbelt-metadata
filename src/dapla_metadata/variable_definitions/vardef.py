@@ -79,6 +79,7 @@ class Vardef:
     """
 
     @classmethod
+    @vardef_exception_handler
     def create_draft(cls, draft: Draft) -> VariableDefinition:
         """Create a Draft Variable Definition."""
         return VariableDefinition.from_complete_response(
