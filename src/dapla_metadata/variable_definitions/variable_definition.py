@@ -1,3 +1,4 @@
+from dapla_metadata.variable_definitions import config
 from dapla_metadata.variable_definitions._client import VardefClient
 from dapla_metadata.variable_definitions.exceptions import vardef_exception_handler
 from dapla_metadata.variable_definitions.generated.vardef_client.api.draft_variable_definitions_api import (
@@ -70,7 +71,7 @@ class VariableDefinition(CompleteResponse):
         return DraftVariableDefinitionsApi(
             VardefClient.get_client(),
         ).update_variable_definition_by_id(
-            active_group="dapla-felles-developers",
+            active_group=config.get_active_group(),
             variable_definition_id=self.id,
             update_draft=update_draft,
         )
