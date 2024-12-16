@@ -740,8 +740,6 @@ paths:
           format: date
           nullable: true
         examples:
-          Date not specified:
-            value: ""
           Specific date:
             value: 1970-01-01
       responses:
