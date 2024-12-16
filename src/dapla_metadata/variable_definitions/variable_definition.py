@@ -71,7 +71,7 @@ class VariableDefinition(CompleteResponse):
         return DraftVariableDefinitionsApi(
             VardefClient.get_client(),
         ).update_variable_definition_by_id(
-            active_group=config.get_active_group(),
             variable_definition_id=self.id,
+            active_group=config.get_active_group(),
             update_draft=update_draft,
         )
