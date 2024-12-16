@@ -58,7 +58,7 @@ class CompleteResponse(BaseModel):
     subject_fields: list[StrictStr] = Field(
         description="A list of subject fields that the variable is used in. Must be defined as codes from https://www.ssb.no/klass/klassifikasjoner/618."
     )
-    contains_sensitive_personal_information: StrictBool = Field(
+    contains_special_categories_of_personal_data: StrictBool = Field(
         description="True if variable instances contain particularly sensitive information. Applies even if the information or identifiers are pseudonymized. Information within the following categories are regarded as particularly sensitive: Ethnicity, Political alignment, Religion, Philosophical beliefs, Union membership, Genetics, Biometrics, Health, Sexual relations, Sexual orientation"
     )
     variable_status: VariableStatus | None = Field(
@@ -111,7 +111,7 @@ class CompleteResponse(BaseModel):
         "classification_reference",
         "unit_types",
         "subject_fields",
-        "contains_sensitive_personal_information",
+        "contains_special_categories_of_personal_data",
         "variable_status",
         "measurement_type",
         "valid_from",
@@ -272,8 +272,8 @@ class CompleteResponse(BaseModel):
                 "classification_reference": obj.get("classification_reference"),
                 "unit_types": obj.get("unit_types"),
                 "subject_fields": obj.get("subject_fields"),
-                "contains_sensitive_personal_information": obj.get(
-                    "contains_sensitive_personal_information"
+                "contains_special_categories_of_personal_data": obj.get(
+                    "contains_special_categories_of_personal_data"
                 ),
                 "variable_status": obj.get("variable_status"),
                 "measurement_type": obj.get("measurement_type"),

@@ -41,7 +41,7 @@ class RenderedVariableDefinition(BaseModel):
     classification_uri: StrictStr | None = None
     unit_types: list[KlassReference | None]
     subject_fields: list[KlassReference | None]
-    contains_sensitive_personal_information: StrictBool
+    contains_special_categories_of_personal_data: StrictBool
     measurement_type: KlassReference | None = None
     valid_from: date
     valid_until: date | None = None
@@ -59,7 +59,7 @@ class RenderedVariableDefinition(BaseModel):
         "classification_uri",
         "unit_types",
         "subject_fields",
-        "contains_sensitive_personal_information",
+        "contains_special_categories_of_personal_data",
         "measurement_type",
         "valid_from",
         "valid_until",
@@ -213,8 +213,8 @@ class RenderedVariableDefinition(BaseModel):
                 ]
                 if obj.get("subject_fields") is not None
                 else None,
-                "contains_sensitive_personal_information": obj.get(
-                    "contains_sensitive_personal_information"
+                "contains_special_categories_of_personal_data": obj.get(
+                    "contains_special_categories_of_personal_data"
                 ),
                 "measurement_type": KlassReference.from_dict(obj["measurement_type"])
                 if obj.get("measurement_type") is not None
