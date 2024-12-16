@@ -37,7 +37,9 @@ from ..models.variable_status import VariableStatus
 class CompleteResponse(BaseModel):
     """Complete response For internal users who need all details while maintaining variable definitions."""
 
-    id: StrictStr = Field(description="Unique identifier for the variable definition.")
+    id: StrictStr | None = Field(
+        default=None, description="Unique identifier for the variable definition."
+    )
     patch_id: StrictInt = Field(
         description="Integer identifying a patch of a variable definition."
     )
@@ -58,7 +60,7 @@ class CompleteResponse(BaseModel):
     subject_fields: list[StrictStr] = Field(
         description="A list of subject fields that the variable is used in. Must be defined as codes from https://www.ssb.no/klass/klassifikasjoner/618."
     )
-    contains_sensitive_personal_information: StrictBool = Field(
+    contains_special_categories_of_personal_data: StrictBool = Field(
         description="True if variable instances contain particularly sensitive information. Applies even if the information or identifiers are pseudonymized. Information within the following categories are regarded as particularly sensitive: Ethnicity, Political alignment, Religion, Philosophical beliefs, Union membership, Genetics, Biometrics, Health, Sexual relations, Sexual orientation"
     )
     variable_status: VariableStatus | None = Field(
@@ -111,7 +113,7 @@ class CompleteResponse(BaseModel):
         "classification_reference",
         "unit_types",
         "subject_fields",
-        "contains_sensitive_personal_information",
+        "contains_special_categories_of_personal_data",
         "variable_status",
         "measurement_type",
         "valid_from",
@@ -185,6 +187,11 @@ class CompleteResponse(BaseModel):
         # override the default output from pydantic by calling `to_dict()` of last_updated_by
         if self.last_updated_by:
             _dict["last_updated_by"] = self.last_updated_by.to_dict()
+        # set to None if id (nullable) is None
+        # and model_fields_set contains the field
+        if self.id is None and "id" in self.model_fields_set:
+            _dict["id"] = None
+
         # set to None if classification_reference (nullable) is None
         # and model_fields_set contains the field
         if (
@@ -272,8 +279,8 @@ class CompleteResponse(BaseModel):
                 "classification_reference": obj.get("classification_reference"),
                 "unit_types": obj.get("unit_types"),
                 "subject_fields": obj.get("subject_fields"),
-                "contains_sensitive_personal_information": obj.get(
-                    "contains_sensitive_personal_information"
+                "contains_special_categories_of_personal_data": obj.get(
+                    "contains_special_categories_of_personal_data"
                 ),
                 "variable_status": obj.get("variable_status"),
                 "measurement_type": obj.get("measurement_type"),
