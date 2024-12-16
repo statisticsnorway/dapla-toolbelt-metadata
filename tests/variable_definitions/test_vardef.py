@@ -123,7 +123,7 @@ def test_update_draft(
 ):
     monkeypatch.setenv(DAPLA_GROUP_CONTEXT, VARDEF_EXAMPLE_ACTIVE_GROUP)
     VardefClient.set_config(client_configuration)
-    landbak = Vardef.get_variable_definition(
+    my_draft = Vardef.get_variable_definition(
         variable_definition_id=VARDEF_EXAMPLE_DEFINITION_ID,
     )
-    assert isinstance(landbak.update_draft(update_draft), CompleteResponse)
+    assert isinstance(my_draft.update_draft(update_draft), CompleteResponse)
