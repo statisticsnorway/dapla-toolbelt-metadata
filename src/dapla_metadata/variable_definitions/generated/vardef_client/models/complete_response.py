@@ -37,9 +37,7 @@ from ..models.variable_status import VariableStatus
 class CompleteResponse(BaseModel):
     """Complete response For internal users who need all details while maintaining variable definitions."""
 
-    id: StrictStr | None = Field(
-        default=None, description="Unique identifier for the variable definition."
-    )
+    id: StrictStr = Field(description="Unique identifier for the variable definition.")
     patch_id: StrictInt = Field(
         description="Integer identifying a patch of a variable definition."
     )
@@ -187,11 +185,6 @@ class CompleteResponse(BaseModel):
         # override the default output from pydantic by calling `to_dict()` of last_updated_by
         if self.last_updated_by:
             _dict["last_updated_by"] = self.last_updated_by.to_dict()
-        # set to None if id (nullable) is None
-        # and model_fields_set contains the field
-        if self.id is None and "id" in self.model_fields_set:
-            _dict["id"] = None
-
         # set to None if classification_reference (nullable) is None
         # and model_fields_set contains the field
         if (

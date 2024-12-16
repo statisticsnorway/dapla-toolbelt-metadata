@@ -87,8 +87,6 @@ paths:
           format: date
           nullable: true
         examples:
-          Date not specified:
-            value: ""
           Specific date:
             value: 1970-01-01
       responses:
@@ -135,11 +133,9 @@ paths:
                         "contact": {
                             "title": "Seksjon for befolkningsstatistikk",
                             "email": "s320@ssb.no"
-                        }
-                    ,
+                        },
                         "last_updated_at": "2024-06-12T10:39:41.038Z"
                     }
-
                     ]
                 Date not specified:
                   value: "[]"
@@ -179,8 +175,6 @@ paths:
           format: date
           nullable: true
         examples:
-          Date not specified:
-            value: ""
           Specific date:
             value: 1970-01-01
       responses:
@@ -340,11 +334,9 @@ paths:
                         "contact": {
                             "title": "Seksjon for befolkningsstatistikk",
                             "email": "s320@ssb.no"
-                        }
-                    ,
+                        },
                         "last_updated_at": "2024-06-12T10:39:41.038Z"
                     }
-
                     ]
   /vardok-migration/{vardok-id}:
     post:
@@ -555,14 +547,12 @@ paths:
                         "created_by": {
                             "code": "ano@ssb.no",
                             "name": "Ola Nordmann"
-                        }
-                    ,
+                        },
                         "last_updated_at": "2024-06-11T08:15:19.038Z",
                         "last_updated_by": {
                             "code": "ano@ssb.no",
                             "name": "Ola Nordmann"
                         }
-
                     }
 
                     ]
@@ -1218,14 +1208,12 @@ paths:
                         "created_by": {
                             "code": "ano@ssb.no",
                             "name": "Ola Nordmann"
-                        }
-                    ,
+                        },
                         "last_updated_at": "2024-06-11T08:15:19.038Z",
                         "last_updated_by": {
                             "code": "ano@ssb.no",
                             "name": "Ola Nordmann"
                         }
-
                     }
 
                     ]
@@ -1600,14 +1588,12 @@ paths:
                         "created_by": {
                             "code": "ano@ssb.no",
                             "name": "Ola Nordmann"
-                        }
-                    ,
+                        },
                         "last_updated_at": "2024-06-11T08:15:19.038Z",
                         "last_updated_by": {
                             "code": "ano@ssb.no",
                             "name": "Ola Nordmann"
                         }
-
                     }
 
                     ]
@@ -1768,6 +1754,7 @@ components:
       - contains_special_categories_of_personal_data
       - created_at
       - definition
+      - id
       - last_updated_at
       - name
       - owner
@@ -1782,7 +1769,6 @@ components:
           type: string
           description: Unique identifier for the variable definition.
           format: "^[a-zA-Z0-9-_]{8}$"
-          nullable: true
         patch_id:
           type: integer
           description: Integer identifying a patch of a variable definition.
