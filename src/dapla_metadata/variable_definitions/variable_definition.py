@@ -1,4 +1,9 @@
+from dapla_metadata.variable_definitions import config
 from dapla_metadata.variable_definitions._client import VardefClient
+from dapla_metadata.variable_definitions.exceptions import vardef_exception_handler
+from dapla_metadata.variable_definitions.generated.vardef_client.api.draft_variable_definitions_api import (
+    DraftVariableDefinitionsApi,
+)
 from dapla_metadata.variable_definitions.generated.vardef_client.api.patches_api import (
     PatchesApi,
 )
@@ -53,3 +58,16 @@ class VariableDefinition(CompleteResponse):
             variable_definition_id=self.id,
             patch_id=patch_id,
         )
+
+    @vardef_exception_handler
+    def delete_draft(
+        self,
+    ) -> str:
+        """Update a Draft variable definition."""
+        DraftVariableDefinitionsApi(
+            VardefClient.get_client(),
+        ).delete_variable_definition_by_id(
+            variable_definition_id=self.id,
+            active_group=config.get_active_group(),
+        )
+        return f"Variable {self.id} safely deleted"
