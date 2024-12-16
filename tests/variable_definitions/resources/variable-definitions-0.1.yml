@@ -123,7 +123,7 @@ paths:
                                 "title": "Innvandrere"
                             }
                         ],
-                        "contains_sensitive_personal_information": true,
+                        "contains_special_categories_of_personal_data": true,
                         "measurement_type": null,
                         "valid_from": "2003-01-01",
                         "valid_until": null,
@@ -212,7 +212,7 @@ paths:
                     - reference_uri: https://www.ssb.no/klass/klassifikasjoner/618
                       code: be07
                       title: Innvandrere
-                    contains_sensitive_personal_information: true
+                    contains_special_categories_of_personal_data: true
                     valid_from: 2003-01-01
                     external_reference_uri: https://www.ssb.no/a/metadata/conceptvariable/vardok/1919/nb
                     comment: Fra og med 1.1.2003 ble definisjon endret til også å
@@ -244,7 +244,7 @@ paths:
                     - reference_uri: https://www.ssb.no/klass/klassifikasjoner/618
                       code: be07
                       title: Innvandrere
-                    contains_sensitive_personal_information: true
+                    contains_special_categories_of_personal_data: true
                     valid_from: 2003-01-01
                     external_reference_uri: https://www.ssb.no/a/metadata/conceptvariable/vardok/1919/nb
                     comment: Fra og med 1.1.2003 ble definisjon endret til også å
@@ -328,7 +328,7 @@ paths:
                                 "title": "Innvandrere"
                             }
                         ],
-                        "contains_sensitive_personal_information": true,
+                        "contains_special_categories_of_personal_data": true,
                         "measurement_type": null,
                         "valid_from": "2003-01-01",
                         "valid_until": null,
@@ -419,7 +419,7 @@ paths:
                     - "02"
                     subject_fields:
                     - he04
-                    contains_sensitive_personal_information: true
+                    contains_special_categories_of_personal_data: true
                     variable_status: DRAFT
                     valid_from: 2003-01-01
                     external_reference_uri: https://www.ssb.no/a/metadata/conceptvariable/vardok/1919/nb
@@ -525,7 +525,7 @@ paths:
                         "classification_reference": "91",
                         "unit_types": ["01", "02"],
                         "subject_fields": ["he04"],
-                        "contains_sensitive_personal_information": true,
+                        "contains_special_categories_of_personal_data": true,
                         "variable_status": "DRAFT",
                         "measurement_type": null,
                         "valid_from": "2003-01-01",
@@ -641,7 +641,7 @@ paths:
                     - "02"
                     subject_fields:
                     - he04
-                    contains_sensitive_personal_information: true
+                    contains_special_categories_of_personal_data: true
                     variable_status: DRAFT
                     valid_from: 2003-01-01
                     external_reference_uri: https://www.ssb.no/a/metadata/conceptvariable/vardok/1919/nb
@@ -740,6 +740,8 @@ paths:
           format: date
           nullable: true
         examples:
+          Date not specified:
+            value: ""
           Specific date:
             value: 1970-01-01
       responses:
@@ -789,7 +791,7 @@ paths:
                     - "02"
                     subject_fields:
                     - he04
-                    contains_sensitive_personal_information: true
+                    contains_special_categories_of_personal_data: true
                     variable_status: DRAFT
                     valid_from: 2003-01-01
                     external_reference_uri: https://www.ssb.no/a/metadata/conceptvariable/vardok/1919/nb
@@ -859,7 +861,7 @@ paths:
                     - "02"
                     subject_fields:
                     - he04
-                    contains_sensitive_personal_information: true
+                    contains_special_categories_of_personal_data: true
                     variable_status: DRAFT
                     valid_from: 2003-01-01
                     external_reference_uri: https://www.ssb.no/a/metadata/conceptvariable/vardok/1919/nb
@@ -1045,7 +1047,7 @@ paths:
                     - "02"
                     subject_fields:
                     - he04
-                    contains_sensitive_personal_information: true
+                    contains_special_categories_of_personal_data: true
                     variable_status: DRAFT
                     valid_from: 2003-01-01
                     external_reference_uri: https://www.ssb.no/a/metadata/conceptvariable/vardok/1919/nb
@@ -1188,7 +1190,7 @@ paths:
                         "classification_reference": "91",
                         "unit_types": ["01", "02"],
                         "subject_fields": ["he04"],
-                        "contains_sensitive_personal_information": true,
+                        "contains_special_categories_of_personal_data": true,
                         "variable_status": "DRAFT",
                         "measurement_type": null,
                         "valid_from": "2003-01-01",
@@ -1332,7 +1334,7 @@ paths:
                     - "02"
                     subject_fields:
                     - he04
-                    contains_sensitive_personal_information: true
+                    contains_special_categories_of_personal_data: true
                     variable_status: DRAFT
                     valid_from: 2003-01-01
                     external_reference_uri: https://www.ssb.no/a/metadata/conceptvariable/vardok/1919/nb
@@ -1477,7 +1479,7 @@ paths:
                     - "02"
                     subject_fields:
                     - he04
-                    contains_sensitive_personal_information: true
+                    contains_special_categories_of_personal_data: true
                     variable_status: DRAFT
                     valid_from: 2003-01-01
                     external_reference_uri: https://www.ssb.no/a/metadata/conceptvariable/vardok/1919/nb
@@ -1570,7 +1572,7 @@ paths:
                         "classification_reference": "91",
                         "unit_types": ["01", "02"],
                         "subject_fields": ["he04"],
-                        "contains_sensitive_personal_information": true,
+                        "contains_special_categories_of_personal_data": true,
                         "variable_status": "DRAFT",
                         "measurement_type": null,
                         "valid_from": "2003-01-01",
@@ -1691,7 +1693,7 @@ paths:
                     - "02"
                     subject_fields:
                     - he04
-                    contains_sensitive_personal_information: true
+                    contains_special_categories_of_personal_data: true
                     variable_status: DRAFT
                     valid_from: 2003-01-01
                     external_reference_uri: https://www.ssb.no/a/metadata/conceptvariable/vardok/1919/nb
@@ -1765,10 +1767,9 @@ components:
   schemas:
     CompleteResponse:
       required:
-      - contains_sensitive_personal_information
+      - contains_special_categories_of_personal_data
       - created_at
       - definition
-      - id
       - last_updated_at
       - name
       - owner
@@ -1783,6 +1784,7 @@ components:
           type: string
           description: Unique identifier for the variable definition.
           format: "^[a-zA-Z0-9-_]{8}$"
+          nullable: true
         patch_id:
           type: integer
           description: Integer identifying a patch of a variable definition.
@@ -1817,7 +1819,7 @@ components:
             be defined as codes from https://www.ssb.no/klass/klassifikasjoner/618.
           items:
             type: string
-        contains_sensitive_personal_information:
+        contains_special_categories_of_personal_data:
           type: boolean
           description: "True if variable instances contain particularly sensitive\
             \ information. Applies even if the information or identifiers are pseudonymized.\
@@ -1908,7 +1910,7 @@ components:
           format: email
     Draft:
       required:
-      - contains_sensitive_personal_information
+      - contains_special_categories_of_personal_data
       - definition
       - name
       - short_name
@@ -1947,7 +1949,7 @@ components:
             be defined as codes from https://www.ssb.no/klass/klassifikasjoner/618.
           items:
             type: string
-        contains_sensitive_personal_information:
+        contains_special_categories_of_personal_data:
           type: boolean
           description: "True if variable instances contain particularly sensitive\
             \ information. Applies even if the information or identifiers are pseudonymized.\
@@ -1955,6 +1957,7 @@ components:
             \ sensitive: Ethnicity, Political alignment, Religion, Philosophical beliefs,\
             \ Union membership, Genetics, Biometrics, Health, Sexual relations, Sexual\
             \ orientation"
+          default: false
         measurement_type:
           type: string
           description: "Type of measurement for the variable, e.g. length, volume,\
@@ -2023,7 +2026,7 @@ components:
         - "02"
         subject_fields:
         - he04
-        contains_sensitive_personal_information: true
+        contains_special_categories_of_personal_data: true
         measurement_type: null
         valid_from: 2003-01-01
         external_reference_uri: https://www.ssb.no/a/metadata/conceptvariable/vardok/1919/nb
@@ -2120,7 +2123,7 @@ components:
           nullable: true
           items:
             type: string
-        contains_sensitive_personal_information:
+        contains_special_categories_of_personal_data:
           type: boolean
           description: "True if variable instances contain particularly sensitive\
             \ information. Applies even if the information or identifiers are pseudonymized.\
@@ -2209,7 +2212,7 @@ components:
         - "05"
         subject_fields:
         - he04
-        contains_sensitive_personal_information: false
+        contains_special_categories_of_personal_data: false
         measurement_type: null
         valid_until: 2026-01-01
         external_reference_uri: https://www.ssb.no/a/metadata/conceptvariable/vardok/1919/nb
@@ -2253,7 +2256,7 @@ components:
         email: s320@ssb.no
     RenderedVariableDefinition:
       required:
-      - contains_sensitive_personal_information
+      - contains_special_categories_of_personal_data
       - id
       - last_updated_at
       - patch_id
@@ -2291,7 +2294,7 @@ components:
             nullable: true
             allOf:
             - $ref: "#/components/schemas/KlassReference"
-        contains_sensitive_personal_information:
+        contains_special_categories_of_personal_data:
           type: boolean
         measurement_type:
           nullable: true
@@ -2345,7 +2348,7 @@ components:
         - reference_uri: https://www.ssb.no/klass/klassifikasjoner/618
           code: be07
           title: Innvandrere
-        contains_sensitive_personal_information: true
+        contains_special_categories_of_personal_data: true
         measurement_type: null
         valid_from: 2003-01-01
         valid_until: null
@@ -2407,7 +2410,7 @@ components:
           nullable: true
           items:
             type: string
-        contains_sensitive_personal_information:
+        contains_special_categories_of_personal_data:
           type: boolean
           description: "True if variable instances contain particularly sensitive\
             \ information. Applies even if the information or identifiers are pseudonymized.\
@@ -2497,7 +2500,7 @@ components:
         - "02"
         subject_fields:
         - he04
-        contains_sensitive_personal_information: true
+        contains_special_categories_of_personal_data: true
         measurement_type: null
         valid_from: 2003-01-01
         external_reference_uri: https://www.ssb.no/a/metadata/conceptvariable/vardok/1919/nb
@@ -2551,7 +2554,7 @@ components:
           nullable: true
           items:
             type: string
-        contains_sensitive_personal_information:
+        contains_special_categories_of_personal_data:
           type: boolean
           description: "True if variable instances contain particularly sensitive\
             \ information. Applies even if the information or identifiers are pseudonymized.\
@@ -2617,7 +2620,7 @@ components:
         - "05"
         subject_fields:
         - he04
-        contains_sensitive_personal_information: false
+        contains_special_categories_of_personal_data: false
         measurement_type: null
         valid_from: 2026-01-02
         external_reference_uri: https://www.ssb.no/a/metadata/conceptvariable/vardok/1919/nb
