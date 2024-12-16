@@ -66,11 +66,7 @@ bpython = "^0.24"
 testcontainers = { version = "^4.8.2", extras = ["generic"] }
 
 [tool.pytest.ini_options]
-pythonpath = [
-    "src",
-    "src/dapla_metadata/variable_definitions/generated/openapi_client",
-]
-
+pythonpath = ["src"]
 
 [tool.coverage.paths]
 source = ["src", "*/site-packages"]
@@ -78,13 +74,13 @@ tests = ["tests", "*/tests", "*/test"]
 
 [tool.coverage.run]
 branch = true
-source = ["dapla_metadata"]
-omit = ["tests/*", "__init__.py"]
+omit = ["*/dapla_metadata/variable_definitions/generated/*"]
 relative_files = true
 
 [tool.coverage.report]
 show_missing = true
 fail_under = 80
+omit = ["*/dapla_metadata/variable_definitions/generated/*"]
 
 [tool.black]
 # We don't want to format generated files because it creates large diffs
