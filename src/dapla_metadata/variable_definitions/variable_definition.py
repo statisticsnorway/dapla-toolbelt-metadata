@@ -72,6 +72,22 @@ class VariableDefinition(CompleteResponse):
         )
 
     @vardef_exception_handler
+    def create_patch(
+        self,
+        patch: Patch,
+        valid_from: date | None = None,
+    ) -> CompleteResponse:
+        """Create new patch for variable definition."""
+        return PatchesApi(
+            VardefClient.get_client(),
+        ).create_patch(
+            variable_definition_id=self.id,
+            active_group=config.get_active_group(),
+            patch=patch,
+            valid_from=valid_from,
+        )
+
+    @vardef_exception_handler
     def update_draft(
         self,
         update_draft: UpdateDraft,
@@ -97,22 +113,6 @@ class VariableDefinition(CompleteResponse):
             active_group=config.get_active_group(),
         )
         return f"Variable {self.id} safely deleted"
-
-    @vardef_exception_handler
-    def create_patch(
-        self,
-        patch: Patch,
-        valid_from: date | None = None,
-    ) -> CompleteResponse:
-        """Create new patch for variable definition."""
-        return PatchesApi(
-            VardefClient.get_client(),
-        ).create_patch(
-            variable_definition_id=self.id,
-            active_group=config.get_active_group(),
-            patch=patch,
-            valid_from=valid_from,
-        )
 
     @vardef_exception_handler
     def create_validity_period(
