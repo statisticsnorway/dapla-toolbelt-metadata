@@ -12,8 +12,14 @@ from dapla_metadata.variable_definitions.generated.vardef_client.models.complete
 from dapla_metadata.variable_definitions.generated.vardef_client.models.draft import (
     Draft,
 )
+from dapla_metadata.variable_definitions.generated.vardef_client.models.patch import (
+    Patch,
+)
 from dapla_metadata.variable_definitions.generated.vardef_client.models.update_draft import (
     UpdateDraft,
+)
+from dapla_metadata.variable_definitions.generated.vardef_client.models.validity_period import (
+    ValidityPeriod,
 )
 from dapla_metadata.variable_definitions.generated.vardef_client.models.variable_status import (
     VariableStatus,
@@ -127,17 +133,45 @@ def test_update_draft(
         variable_definition_id=VARDEF_EXAMPLE_DEFINITION_ID,
     )
     assert isinstance(my_draft.update_draft(update_draft), CompleteResponse)
-    
+
+
 def test_delete_draft(
     monkeypatch: pytest.MonkeyPatch,
     client_configuration: Configuration,
-    draft: Draft,
 ):
     monkeypatch.setenv(DAPLA_GROUP_CONTEXT, VARDEF_EXAMPLE_ACTIVE_GROUP)
     VardefClient.set_config(client_configuration)
-    my_draft = Vardef.create_draft(
-        draft=draft,
+    my_draft = Vardef.get_variable_definition(
+        variable_definition_id=VARDEF_EXAMPLE_DEFINITION_ID,
     )
     assert my_draft.id is not None
     result = my_draft.delete_draft()
     assert result == f"Variable {VARDEF_EXAMPLE_DEFINITION_ID} safely deleted"
+
+
+def test_create_patch(
+    monkeypatch: pytest.MonkeyPatch,
+    client_configuration: Configuration,
+    patch: Patch,
+    variable_definition: VariableDefinition,
+):
+    monkeypatch.setenv(DAPLA_GROUP_CONTEXT, VARDEF_EXAMPLE_ACTIVE_GROUP)
+    VardefClient.set_config(client_configuration)
+    my_variable = variable_definition
+    assert my_variable.patch_id == 1
+    assert my_variable.variable_status == "PUBLISHED_INTERNAL"
+    # created_patch = my_variable.create_patch(patch)
+    # with pytest.raises(VardefClientException) as exc:
+    #    my_variable.create_patch(patch=patch)
+    # assert str(exc.value) == "Status Unknown: Could not decode error response from API"
+
+
+def test_create_validity_period(
+    monkeypatch: pytest.MonkeyPatch,
+    client_configuration: Configuration,
+    validity_period: ValidityPeriod,
+    variable_definition: VariableDefinition,
+):
+    monkeypatch.setenv(DAPLA_GROUP_CONTEXT, VARDEF_EXAMPLE_ACTIVE_GROUP)
+    VardefClient.set_config(client_configuration)
+    my_variable = variable_definition

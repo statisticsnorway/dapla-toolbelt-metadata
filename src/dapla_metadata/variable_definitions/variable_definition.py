@@ -1,3 +1,5 @@
+from datetime import date
+
 from dapla_metadata.variable_definitions import config
 from dapla_metadata.variable_definitions._client import VardefClient
 from dapla_metadata.variable_definitions.exceptions import vardef_exception_handler
@@ -13,8 +15,14 @@ from dapla_metadata.variable_definitions.generated.vardef_client.api.validity_pe
 from dapla_metadata.variable_definitions.generated.vardef_client.models.complete_response import (
     CompleteResponse,
 )
+from dapla_metadata.variable_definitions.generated.vardef_client.models.patch import (
+    Patch,
+)
 from dapla_metadata.variable_definitions.generated.vardef_client.models.update_draft import (
     UpdateDraft,
+)
+from dapla_metadata.variable_definitions.generated.vardef_client.models.validity_period import (
+    ValidityPeriod,
 )
 
 
@@ -88,3 +96,36 @@ class VariableDefinition(CompleteResponse):
             active_group=config.get_active_group(),
         )
         return f"Variable {self.id} safely deleted"
+
+    @vardef_exception_handler
+    def create_patch(
+        self,
+        patch: Patch,
+        valid_from: date | None = None,
+    ) -> CompleteResponse:
+        """Create new patch for variable definition."""
+        return PatchesApi(
+            VardefClient.get_client(),
+        ).create_patch(
+            variable_definition_id=self.id,
+            active_group=config.get_active_group(),
+            patch=patch,
+            valid_from=valid_from,
+        )
+
+    @vardef_exception_handler
+    def create_validity_period(
+        self,
+        validity_period: ValidityPeriod,
+    ) -> CompleteResponse:
+        """Create new validity period for variable definition.
+
+        New period must have new defintion text for all languages present and new valid from.
+        """
+        return ValidityPeriodsApi(
+            VardefClient.get_client(),
+        ).create_validity_period(
+            variable_definition_id=self.id,
+            active_group=config.get_active_group(),
+            validity_period=validity_period,
+        )
