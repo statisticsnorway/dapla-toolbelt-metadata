@@ -44,12 +44,14 @@ class VariableDefinition(CompleteResponse):
         """Create a VariableDefinition instance from a CompleteResponse."""
         return VariableDefinition.model_construct(**complete_response.model_dump())
 
+    @vardef_exception_handler
     def list_validity_periods(self) -> list[CompleteResponse]:
         """List all Validity Periods for this Variable Definition."""
         return ValidityPeriodsApi(VardefClient.get_client()).list_validity_periods(
             variable_definition_id=self.id,
         )
 
+    @vardef_exception_handler
     def list_patches(self) -> list[CompleteResponse]:
         """List all Patches for this Variable Definition."""
         return PatchesApi(VardefClient.get_client()).list_patches(
