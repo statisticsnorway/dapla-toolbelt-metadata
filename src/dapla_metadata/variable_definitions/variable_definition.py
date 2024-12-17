@@ -1,4 +1,9 @@
+from dapla_metadata.variable_definitions import config
 from dapla_metadata.variable_definitions._client import VardefClient
+from dapla_metadata.variable_definitions.exceptions import vardef_exception_handler
+from dapla_metadata.variable_definitions.generated.vardef_client.api.draft_variable_definitions_api import (
+    DraftVariableDefinitionsApi,
+)
 from dapla_metadata.variable_definitions.generated.vardef_client.api.patches_api import (
     PatchesApi,
 )
@@ -7,6 +12,9 @@ from dapla_metadata.variable_definitions.generated.vardef_client.api.validity_pe
 )
 from dapla_metadata.variable_definitions.generated.vardef_client.models.complete_response import (
     CompleteResponse,
+)
+from dapla_metadata.variable_definitions.generated.vardef_client.models.update_draft import (
+    UpdateDraft,
 )
 
 
@@ -52,4 +60,18 @@ class VariableDefinition(CompleteResponse):
         return PatchesApi(VardefClient.get_client()).get_patch(
             variable_definition_id=self.id,
             patch_id=patch_id,
+        )
+
+    @vardef_exception_handler
+    def update_draft(
+        self,
+        update_draft: UpdateDraft,
+    ) -> CompleteResponse:
+        """Update a Draft variable definition."""
+        return DraftVariableDefinitionsApi(
+            VardefClient.get_client(),
+        ).update_variable_definition_by_id(
+            variable_definition_id=self.id,
+            active_group=config.get_active_group(),
+            update_draft=update_draft,
         )

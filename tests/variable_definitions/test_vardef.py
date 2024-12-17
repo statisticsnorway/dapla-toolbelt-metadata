@@ -12,6 +12,9 @@ from dapla_metadata.variable_definitions.generated.vardef_client.models.complete
 from dapla_metadata.variable_definitions.generated.vardef_client.models.draft import (
     Draft,
 )
+from dapla_metadata.variable_definitions.generated.vardef_client.models.update_draft import (
+    UpdateDraft,
+)
 from dapla_metadata.variable_definitions.generated.vardef_client.models.variable_status import (
     VariableStatus,
 )
@@ -111,3 +114,16 @@ def test_migrate_from_vardok(
     assert my_draft.id is not None
     assert my_draft.patch_id == 1
     assert my_draft.variable_status == VariableStatus.DRAFT
+
+
+def test_update_draft(
+    monkeypatch: pytest.MonkeyPatch,
+    client_configuration: Configuration,
+    update_draft: UpdateDraft,
+):
+    monkeypatch.setenv(DAPLA_GROUP_CONTEXT, VARDEF_EXAMPLE_ACTIVE_GROUP)
+    VardefClient.set_config(client_configuration)
+    my_draft = Vardef.get_variable_definition(
+        variable_definition_id=VARDEF_EXAMPLE_DEFINITION_ID,
+    )
+    assert isinstance(my_draft.update_draft(update_draft), CompleteResponse)
