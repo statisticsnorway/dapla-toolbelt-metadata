@@ -31,6 +31,8 @@ from tests.utils.constants import VARDEF_EXAMPLE_ACTIVE_GROUP
 from tests.utils.constants import VARDEF_EXAMPLE_DATE
 from tests.utils.constants import VARDEF_EXAMPLE_DEFINITION_ID
 
+PATCH_ID = 2
+
 
 def test_list_variable_definitions(client_configuration: Configuration):
     VardefClient.set_config(client_configuration)
@@ -159,13 +161,15 @@ def test_create_patch(
     VardefClient.set_config(client_configuration)
     my_variable = variable_definition
     assert my_variable.patch_id == 1
+    created_patch = my_variable.create_patch(
+        patch=patch,
+        valid_from=VARDEF_EXAMPLE_DATE,
+    )
     assert isinstance(
-        my_variable.create_patch(
-            patch=patch,
-            valid_from=VARDEF_EXAMPLE_DATE,
-        ),
+        created_patch,
         CompleteResponse,
     )
+    assert created_patch.patch_id == PATCH_ID
 
 
 def test_create_validity_period(
