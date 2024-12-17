@@ -56,6 +56,7 @@ class VariableDefinition(CompleteResponse):
             variable_definition_id=self.id,
         )
 
+    @vardef_exception_handler
     def get_patch(self, patch_id: int) -> CompleteResponse:
         """Get a single Patch by ID.
 
