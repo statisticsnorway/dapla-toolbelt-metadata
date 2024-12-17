@@ -66,7 +66,7 @@ class VariableDefinition(CompleteResponse):
         Variable definition must have status 'DRAFT'.
 
         Args:
-            updateDraft: The input with updated values.
+            update_draft: The input with updated values.
 
         Returns:
             CompleteResponse: Updated Variable definition with all details.
