@@ -102,7 +102,7 @@ def variable_definition(language_string_type, contact, owner) -> VariableDefinit
         unit_types=["01"],
         subject_fields=["a", "b"],
         contains_special_categories_of_personal_data=True,
-        variable_status=VariableStatus.PUBLISHED_INTERNAL,
+        variable_status=VariableStatus.PUBLISHED_EXTERNAL,
         measurement_type="test",
         valid_from=date(2024, 11, 1),
         valid_until=None,

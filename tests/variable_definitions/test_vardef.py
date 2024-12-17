@@ -159,11 +159,7 @@ def test_create_patch(
     VardefClient.set_config(client_configuration)
     my_variable = variable_definition
     assert my_variable.patch_id == 1
-    assert my_variable.variable_status == "PUBLISHED_INTERNAL"
-    # created_patch = my_variable.create_patch(patch)
-    # with pytest.raises(VardefClientException) as exc:
-    #    my_variable.create_patch(patch=patch)
-    # assert str(exc.value) == "Status Unknown: Could not decode error response from API"
+    my_variable.create_patch(patch=patch, valid_from=VARDEF_EXAMPLE_DATE)
 
 
 def test_create_validity_period(
@@ -175,3 +171,4 @@ def test_create_validity_period(
     monkeypatch.setenv(DAPLA_GROUP_CONTEXT, VARDEF_EXAMPLE_ACTIVE_GROUP)
     VardefClient.set_config(client_configuration)
     my_variable = variable_definition
+    my_variable.create_validity_period(validity_period)
