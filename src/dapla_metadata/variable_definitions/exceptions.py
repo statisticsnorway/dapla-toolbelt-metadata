@@ -3,8 +3,6 @@
 import json
 from functools import wraps
 
-from pydantic import ValidationError
-
 from dapla_metadata.variable_definitions.generated.vardef_client.exceptions import (
     OpenApiException,
 )
@@ -56,12 +54,6 @@ class VardefClientException(OpenApiException):
         super().__init__(f"Status {self.status}: {self.detail}")
 
 
-class VardefValidationError(ValidationError):
-    def __init__(self, response) -> None:
-        self.response = response
-        super().__init__(f"Validation failed {self.response}")
-
-
 def vardef_exception_handler(method):  # noqa: ANN201, ANN001
     """Decorator for handling exceptions in Vardef."""
 
@@ -71,7 +63,5 @@ def vardef_exception_handler(method):  # noqa: ANN201, ANN001
             return method(self, *method_args, **method_kwargs)
         except OpenApiException as e:
             raise VardefClientException(e.body) from e
-        except ValidationError as e:
-            raise VardefValidationError from e
 
     return _impl
