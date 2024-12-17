@@ -57,6 +57,49 @@ class VariableDefinition(CompleteResponse):
         )
 
     @vardef_exception_handler
+    def update_draft(
+        self,
+        update_draft: UpdateDraft,
+    ) -> CompleteResponse:
+        """Update this Variable definition.
+
+        Variable definition must have status 'DRAFT'.
+
+        Args:
+            updateDraft: The input with updated values.
+
+        Returns:
+            CompleteResponse: Updated Variable definition with all details.
+        """
+        return DraftVariableDefinitionsApi(
+            VardefClient.get_client(),
+        ).update_variable_definition_by_id(
+            variable_definition_id=self.id,
+            active_group=config.get_active_group(),
+            update_draft=update_draft,
+        )
+
+    @vardef_exception_handler
+    def delete_draft(
+        self,
+    ) -> str:
+        """Delete this Variable definition.
+
+        Variable definition must have status 'DRAFT'.
+
+        Returns:
+            str: A message if the operation was succsessful.
+
+        """
+        DraftVariableDefinitionsApi(
+            VardefClient.get_client(),
+        ).delete_variable_definition_by_id(
+            variable_definition_id=self.id,
+            active_group=config.get_active_group(),
+        )
+        return f"Variable {self.id} safely deleted"
+
+    @vardef_exception_handler
     def get_patch(self, patch_id: int) -> CompleteResponse:
         """Get a single Patch by ID.
 
@@ -77,7 +120,17 @@ class VariableDefinition(CompleteResponse):
         patch: Patch,
         valid_from: date | None = None,
     ) -> CompleteResponse:
-        """Create new patch for variable definition."""
+        """Create a new patch for this Variable definition.
+
+        Args:
+            patch: The input for a new patch.
+            valid_from: Optional date for selecting validity period to create patch in.
+            If value is None the patch is created in the last validity period.
+
+        Returns:
+            CompleteResponse: Variable definition with all details.
+
+        """
         return PatchesApi(
             VardefClient.get_client(),
         ).create_patch(
@@ -88,40 +141,20 @@ class VariableDefinition(CompleteResponse):
         )
 
     @vardef_exception_handler
-    def update_draft(
-        self,
-        update_draft: UpdateDraft,
-    ) -> CompleteResponse:
-        """Update a Draft variable definition."""
-        return DraftVariableDefinitionsApi(
-            VardefClient.get_client(),
-        ).update_variable_definition_by_id(
-            variable_definition_id=self.id,
-            active_group=config.get_active_group(),
-            update_draft=update_draft,
-        )
-
-    @vardef_exception_handler
-    def delete_draft(
-        self,
-    ) -> str:
-        """Update a Draft variable definition."""
-        DraftVariableDefinitionsApi(
-            VardefClient.get_client(),
-        ).delete_variable_definition_by_id(
-            variable_definition_id=self.id,
-            active_group=config.get_active_group(),
-        )
-        return f"Variable {self.id} safely deleted"
-
-    @vardef_exception_handler
     def create_validity_period(
         self,
         validity_period: ValidityPeriod,
     ) -> CompleteResponse:
-        """Create new validity period for variable definition.
+        """Create a new validity period for this Variable definition.
 
-        New period must have new defintion text for all languages present and new valid from.
+        In order to create a new validity period input must contain updated
+        'definition' text for all present languages and a new valid from.
+
+        Args:
+            validity_period: The input for new validity period
+
+        Returns:
+            CompleteResponse: Variable definition with all details.
         """
         return ValidityPeriodsApi(
             VardefClient.get_client(),
