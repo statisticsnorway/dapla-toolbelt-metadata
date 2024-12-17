@@ -75,3 +75,16 @@ class VariableDefinition(CompleteResponse):
             active_group=config.get_active_group(),
             update_draft=update_draft,
         )
+
+    @vardef_exception_handler
+    def delete_draft(
+        self,
+    ) -> str:
+        """Update a Draft variable definition."""
+        DraftVariableDefinitionsApi(
+            VardefClient.get_client(),
+        ).delete_variable_definition_by_id(
+            variable_definition_id=self.id,
+            active_group=config.get_active_group(),
+        )
+        return f"Variable {self.id} safely deleted"

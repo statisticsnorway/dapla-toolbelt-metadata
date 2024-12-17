@@ -127,3 +127,17 @@ def test_update_draft(
         variable_definition_id=VARDEF_EXAMPLE_DEFINITION_ID,
     )
     assert isinstance(my_draft.update_draft(update_draft), CompleteResponse)
+    
+def test_delete_draft(
+    monkeypatch: pytest.MonkeyPatch,
+    client_configuration: Configuration,
+    draft: Draft,
+):
+    monkeypatch.setenv(DAPLA_GROUP_CONTEXT, VARDEF_EXAMPLE_ACTIVE_GROUP)
+    VardefClient.set_config(client_configuration)
+    my_draft = Vardef.create_draft(
+        draft=draft,
+    )
+    assert my_draft.id is not None
+    result = my_draft.delete_draft()
+    assert result == f"Variable {VARDEF_EXAMPLE_DEFINITION_ID} safely deleted"
