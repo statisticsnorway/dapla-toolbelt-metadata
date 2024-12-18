@@ -25,6 +25,9 @@ from dapla_metadata.variable_definitions.generated.vardef_client.models.owner im
 from dapla_metadata.variable_definitions.generated.vardef_client.models.patch import (
     Patch,
 )
+from dapla_metadata.variable_definitions.generated.vardef_client.models.person import (
+    Person,
+)
 from dapla_metadata.variable_definitions.generated.vardef_client.models.update_draft import (
     UpdateDraft,
 )
@@ -34,6 +37,8 @@ from dapla_metadata.variable_definitions.generated.vardef_client.models.validity
 from dapla_metadata.variable_definitions.generated.vardef_client.models.variable_status import (
     VariableStatus,
 )
+from dapla_metadata.variable_definitions.variable_definition import VariableDefinition
+from tests.utils.constants import VARDEF_EXAMPLE_DEFINITION_ID
 from tests.utils.microcks_testcontainer import MicrocksContainer
 
 
@@ -82,6 +87,34 @@ def draft(language_string_type, contact) -> Draft:
         comment=language_string_type,
         related_variable_definition_uris=["http://www.example.com"],
         contact=contact,
+    )
+
+
+@pytest.fixture
+def variable_definition(language_string_type, contact, owner) -> VariableDefinition:
+    return VariableDefinition(
+        id=VARDEF_EXAMPLE_DEFINITION_ID,
+        patch_id=1,
+        name=language_string_type,
+        short_name="var_test",
+        definition=language_string_type,
+        classification_reference="91",
+        unit_types=["01"],
+        subject_fields=["a", "b"],
+        contains_special_categories_of_personal_data=True,
+        variable_status=VariableStatus.PUBLISHED_EXTERNAL,
+        measurement_type="test",
+        valid_from=date(2024, 11, 1),
+        valid_until=None,
+        external_reference_uri="http://www.example.com",
+        comment=language_string_type,
+        related_variable_definition_uris=["http://www.example.com"],
+        contact=contact,
+        owner=owner,
+        created_at=date(2024, 11, 1),
+        created_by=Person(code="724", name="name"),
+        last_updated_at=date(2024, 11, 1),
+        last_updated_by=Person(code="724", name="name"),
     )
 
 
@@ -136,7 +169,6 @@ def patch(language_string_type, contact, owner) -> Patch:
         contains_special_categories_of_personal_data=True,
         variable_status=VariableStatus.PUBLISHED_EXTERNAL,
         measurement_type="test",
-        valid_until=date(2024, 11, 1),
         external_reference_uri="http://www.example.com",
         comment=language_string_type,
         related_variable_definition_uris=["http://www.example.com"],

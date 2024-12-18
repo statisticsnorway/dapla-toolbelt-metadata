@@ -29,11 +29,10 @@ class VardefClientException(OpenApiException):
                         if not available or the response is invalid.
             detail (str || list): A detailed error message from the response, or
                         "No detail provided" if not provided. If "Constraint violation"
-                        the detail is a list with field and message.
+                        detail contains 'field' and 'message'.
             response_body (str): The raw response body string, stored for
                                 debugging purposes.
         """
-        self.detail: str | list
         try:
             data = json.loads(response_body)
             self.status = data.get("status", "Unknown status")
