@@ -82,7 +82,7 @@ class Vardef:
     @vardef_exception_handler
     def create_draft(cls, draft: Draft) -> VariableDefinition:
         """Create a Draft Variable Definition."""
-        return VariableDefinition.from_complete_response(
+        return VariableDefinition.from_model(
             DraftVariableDefinitionsApi(
                 VardefClient.get_client(),
             ).create_variable_definition(
@@ -105,7 +105,7 @@ class Vardef:
         Returns:
             VariableDefinition: The migrated Variable Definition in Vardef.
         """
-        return VariableDefinition.from_complete_response(
+        return VariableDefinition.from_model(
             DataMigrationApi(
                 VardefClient.get_client(),
             ).create_variable_definition_from_var_dok(
@@ -135,7 +135,7 @@ class Vardef:
             list[VariableDefinition]: The list of Variable Definitions.
         """
         return [
-            VariableDefinition.from_complete_response(definition)
+            VariableDefinition.from_model(definition)
             for definition in VariableDefinitionsApi(
                 VardefClient.get_client(),
             ).list_variable_definitions(
@@ -162,7 +162,7 @@ class Vardef:
         Raises:
             NotFoundException when the given ID is not found
         """
-        return VariableDefinition.from_complete_response(
+        return VariableDefinition.from_model(
             VariableDefinitionsApi(
                 VardefClient.get_client(),
             ).get_variable_definition_by_id(
