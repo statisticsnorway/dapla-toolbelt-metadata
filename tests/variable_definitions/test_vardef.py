@@ -6,9 +6,6 @@ from dapla_metadata.variable_definitions.exceptions import VardefClientException
 from dapla_metadata.variable_definitions.generated.vardef_client.configuration import (
     Configuration,
 )
-from dapla_metadata.variable_definitions.generated.vardef_client.models.complete_response import (
-    CompleteResponse,
-)
 from dapla_metadata.variable_definitions.generated.vardef_client.models.draft import (
     Draft,
 )
@@ -25,6 +22,7 @@ from dapla_metadata.variable_definitions.generated.vardef_client.models.variable
     VariableStatus,
 )
 from dapla_metadata.variable_definitions.vardef import Vardef
+from dapla_metadata.variable_definitions.variable_definition import CompletePatchOutput
 from dapla_metadata.variable_definitions.variable_definition import VariableDefinition
 from tests.utils.constants import NOT_FOUND_STATUS
 from tests.utils.constants import VARDEF_EXAMPLE_ACTIVE_GROUP
@@ -45,7 +43,7 @@ def test_list_variable_definitions_with_date_of_validity(
     VardefClient.set_config(client_configuration)
     assert isinstance(
         Vardef.list_variable_definitions(date_of_validity=VARDEF_EXAMPLE_DATE)[0],
-        CompleteResponse,
+        CompletePatchOutput,
     )
 
 
@@ -74,7 +72,7 @@ def test_list_patches(client_configuration: Configuration):
     landbak = Vardef.get_variable_definition(
         variable_definition_id=VARDEF_EXAMPLE_DEFINITION_ID,
     )
-    assert isinstance(landbak.list_patches()[0], CompleteResponse)
+    assert isinstance(landbak.list_patches()[0], CompletePatchOutput)
 
 
 def test_get_patch(client_configuration: Configuration):
@@ -82,7 +80,7 @@ def test_get_patch(client_configuration: Configuration):
     landbak = Vardef.get_variable_definition(
         variable_definition_id=VARDEF_EXAMPLE_DEFINITION_ID,
     )
-    assert isinstance(landbak.get_patch(1), CompleteResponse)
+    assert isinstance(landbak.get_patch(1), CompletePatchOutput)
 
 
 def test_list_validity_periods(client_configuration: Configuration):
@@ -90,7 +88,7 @@ def test_list_validity_periods(client_configuration: Configuration):
     landbak = Vardef.get_variable_definition(
         variable_definition_id=VARDEF_EXAMPLE_DEFINITION_ID,
     )
-    assert isinstance(landbak.list_validity_periods()[0], CompleteResponse)
+    assert isinstance(landbak.list_validity_periods()[0], CompletePatchOutput)
 
 
 def test_create_draft(
@@ -103,7 +101,7 @@ def test_create_draft(
     my_draft = Vardef.create_draft(
         draft=draft,
     )
-    assert isinstance(my_draft, CompleteResponse)
+    assert isinstance(my_draft, CompletePatchOutput)
     assert my_draft.id is not None
     assert my_draft.patch_id == 1
     assert my_draft.variable_status == VariableStatus.DRAFT
@@ -118,7 +116,7 @@ def test_migrate_from_vardok(
     my_draft = Vardef.migrate_from_vardok(
         vardok_id="1607",
     )
-    assert isinstance(my_draft, CompleteResponse)
+    assert isinstance(my_draft, CompletePatchOutput)
     assert my_draft.id is not None
     assert my_draft.patch_id == 1
     assert my_draft.variable_status == VariableStatus.DRAFT
@@ -134,7 +132,7 @@ def test_update_draft(
     my_draft = Vardef.get_variable_definition(
         variable_definition_id=VARDEF_EXAMPLE_DEFINITION_ID,
     )
-    assert isinstance(my_draft.update_draft(update_draft), CompleteResponse)
+    assert isinstance(my_draft.update_draft(update_draft), CompletePatchOutput)
 
 
 def test_delete_draft(
@@ -167,7 +165,7 @@ def test_create_patch(
     )
     assert isinstance(
         created_patch,
-        CompleteResponse,
+        CompletePatchOutput,
     )
     assert created_patch.patch_id == PATCH_ID
 
@@ -183,5 +181,5 @@ def test_create_validity_period(
     my_variable = variable_definition
     assert isinstance(
         my_variable.create_validity_period(validity_period),
-        CompleteResponse,
+        CompletePatchOutput,
     )
