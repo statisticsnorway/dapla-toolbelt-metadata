@@ -74,7 +74,12 @@ tests = ["tests", "*/tests", "*/test"]
 
 [tool.coverage.run]
 branch = true
-omit = ["*/dapla_metadata/variable_definitions/generated/*"]
+source = ["dapla_metadata"]
+omit = [
+    "tests/*",
+    "__init__.py",
+    "*/dapla_metadata/variable_definitions/generated/*",
+]
 relative_files = true
 
 [tool.coverage.report]
