@@ -349,7 +349,7 @@ class ValidityPeriodsApi:
         )
 
     @validate_call
-    def list_public_validity_periods_0(
+    def list_public_validity_periods(
         self,
         variable_definition_id: Annotated[
             StrictStr,
@@ -398,7 +398,7 @@ class ValidityPeriodsApi:
         :type _host_index: int, optional
         :return: Returns the result object.
         """
-        _param = self._list_public_validity_periods_0_serialize(
+        _param = self._list_public_validity_periods_serialize(
             variable_definition_id=variable_definition_id,
             accept_language=accept_language,
             _request_auth=_request_auth,
@@ -421,7 +421,7 @@ class ValidityPeriodsApi:
         ).data
 
     @validate_call
-    def list_public_validity_periods_0_with_http_info(
+    def list_public_validity_periods_with_http_info(
         self,
         variable_definition_id: Annotated[
             StrictStr,
@@ -470,7 +470,7 @@ class ValidityPeriodsApi:
         :type _host_index: int, optional
         :return: Returns the result object.
         """
-        _param = self._list_public_validity_periods_0_serialize(
+        _param = self._list_public_validity_periods_serialize(
             variable_definition_id=variable_definition_id,
             accept_language=accept_language,
             _request_auth=_request_auth,
@@ -493,7 +493,7 @@ class ValidityPeriodsApi:
         )
 
     @validate_call
-    def list_public_validity_periods_0_without_preload_content(
+    def list_public_validity_periods_without_preload_content(
         self,
         variable_definition_id: Annotated[
             StrictStr,
@@ -542,7 +542,7 @@ class ValidityPeriodsApi:
         :type _host_index: int, optional
         :return: Returns the result object.
         """
-        _param = self._list_public_validity_periods_0_serialize(
+        _param = self._list_public_validity_periods_serialize(
             variable_definition_id=variable_definition_id,
             accept_language=accept_language,
             _request_auth=_request_auth,
@@ -560,7 +560,7 @@ class ValidityPeriodsApi:
         )
         return response_data.response
 
-    def _list_public_validity_periods_0_serialize(
+    def _list_public_validity_periods_serialize(
         self,
         variable_definition_id,
         accept_language,

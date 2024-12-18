@@ -15,8 +15,14 @@ import logging
 import multiprocessing
 import sys
 from logging import FileHandler
+from typing import Any
+from typing import ClassVar
+from typing import Literal
+from typing import TypedDict
 
 import urllib3
+from typing_extensions import NotRequired
+from typing_extensions import Self
 
 JSON_SCHEMA_VALIDATION_KEYWORDS = {
     "multipleOf",
@@ -30,6 +36,101 @@ JSON_SCHEMA_VALIDATION_KEYWORDS = {
     "maxItems",
     "minItems",
 }
+
+ServerVariablesT = dict[str, str]
+
+GenericAuthSetting = TypedDict(
+    "GenericAuthSetting",
+    {
+        "type": str,
+        "in": str,
+        "key": str,
+        "value": str,
+    },
+)
+
+
+OAuth2AuthSetting = TypedDict(
+    "OAuth2AuthSetting",
+    {
+        "type": Literal["oauth2"],
+        "in": Literal["header"],
+        "key": Literal["Authorization"],
+        "value": str,
+    },
+)
+
+
+APIKeyAuthSetting = TypedDict(
+    "APIKeyAuthSetting",
+    {
+        "type": Literal["api_key"],
+        "in": str,
+        "key": str,
+        "value": str | None,
+    },
+)
+
+
+BasicAuthSetting = TypedDict(
+    "BasicAuthSetting",
+    {
+        "type": Literal["basic"],
+        "in": Literal["header"],
+        "key": Literal["Authorization"],
+        "value": str | None,
+    },
+)
+
+
+BearerFormatAuthSetting = TypedDict(
+    "BearerFormatAuthSetting",
+    {
+        "type": Literal["bearer"],
+        "in": Literal["header"],
+        "format": Literal["JWT"],
+        "key": Literal["Authorization"],
+        "value": str,
+    },
+)
+
+
+BearerAuthSetting = TypedDict(
+    "BearerAuthSetting",
+    {
+        "type": Literal["bearer"],
+        "in": Literal["header"],
+        "key": Literal["Authorization"],
+        "value": str,
+    },
+)
+
+
+HTTPSignatureAuthSetting = TypedDict(
+    "HTTPSignatureAuthSetting",
+    {
+        "type": Literal["http-signature"],
+        "in": Literal["header"],
+        "key": Literal["Authorization"],
+        "value": None,
+    },
+)
+
+
+class AuthSettings(TypedDict, total=False):
+    keycloak_token: BearerFormatAuthSetting
+
+
+class HostSettingVariable(TypedDict):
+    description: str
+    default_value: str
+    enum_values: list[str]
+
+
+class HostSetting(TypedDict):
+    url: str
+    description: str
+    variables: NotRequired[dict[str, HostSettingVariable]]
 
 
 class Configuration:
@@ -66,23 +167,23 @@ class Configuration:
     :Example:
     """
 
-    _default = None
+    _default: ClassVar[Self | None] = None
 
     def __init__(
         self,
-        host=None,
-        api_key=None,
-        api_key_prefix=None,
-        username=None,
-        password=None,
-        access_token=None,
-        server_index=None,
-        server_variables=None,
-        server_operation_index=None,
-        server_operation_variables=None,
-        ignore_operation_servers=False,
-        ssl_ca_cert=None,
-        retries=None,
+        host: str | None = None,
+        api_key: dict[str, str] | None = None,
+        api_key_prefix: dict[str, str] | None = None,
+        username: str | None = None,
+        password: str | None = None,
+        access_token: str | None = None,
+        server_index: int | None = None,
+        server_variables: ServerVariablesT | None = None,
+        server_operation_index: dict[int, int] | None = None,
+        server_operation_variables: dict[int, ServerVariablesT] | None = None,
+        ignore_operation_servers: bool = False,
+        ssl_ca_cert: str | None = None,
+        retries: int | None = None,
         *,
         debug: bool | None = None,
     ) -> None:
@@ -210,7 +311,7 @@ class Configuration:
         """date format
         """
 
-    def __deepcopy__(self, memo):
+    def __deepcopy__(self, memo: dict[int, Any]) -> Self:
         cls = self.__class__
         result = cls.__new__(cls)
         memo[id(self)] = result
@@ -224,11 +325,11 @@ class Configuration:
         result.debug = self.debug
         return result
 
-    def __setattr__(self, name, value):
+    def __setattr__(self, name: str, value: Any) -> None:
         object.__setattr__(self, name, value)
 
     @classmethod
-    def set_default(cls, default):
+    def set_default(cls, default: Self | None) -> None:
         """Set default instance of configuration.
 
         It stores default configuration, which can be
@@ -239,7 +340,7 @@ class Configuration:
         cls._default = default
 
     @classmethod
-    def get_default_copy(cls):
+    def get_default_copy(cls) -> Self:
         """Deprecated. Please use `get_default` instead.
 
         Deprecated. Please use `get_default` instead.
@@ -249,7 +350,7 @@ class Configuration:
         return cls.get_default()
 
     @classmethod
-    def get_default(cls):
+    def get_default(cls) -> Self:
         """Return the default configuration.
 
         This method returns newly created, based on default constructor,
@@ -259,11 +360,11 @@ class Configuration:
         :return: The configuration object.
         """
         if cls._default is None:
-            cls._default = Configuration()
+            cls._default = cls()
         return cls._default
 
     @property
-    def logger_file(self):
+    def logger_file(self) -> str | None:
         """The logger file.
 
         If the logger_file is None, then add stream handler and remove file
@@ -275,7 +376,7 @@ class Configuration:
         return self.__logger_file
 
     @logger_file.setter
-    def logger_file(self, value):
+    def logger_file(self, value: str | None) -> None:
         """The logger file.
 
         If the logger_file is None, then add stream handler and remove file
@@ -294,7 +395,7 @@ class Configuration:
                 logger.addHandler(self.logger_file_handler)
 
     @property
-    def debug(self):
+    def debug(self) -> bool:
         """Debug status
 
         :param value: The debug status, True or False.
@@ -303,7 +404,7 @@ class Configuration:
         return self.__debug
 
     @debug.setter
-    def debug(self, value):
+    def debug(self, value: bool) -> None:
         """Debug status
 
         :param value: The debug status, True or False.
@@ -325,7 +426,7 @@ class Configuration:
             httplib.HTTPConnection.debuglevel = 0
 
     @property
-    def logger_format(self):
+    def logger_format(self) -> str:
         """The logger format.
 
         The logger_formatter will be updated when sets logger_format.
@@ -336,7 +437,7 @@ class Configuration:
         return self.__logger_format
 
     @logger_format.setter
-    def logger_format(self, value):
+    def logger_format(self, value: str) -> None:
         """The logger format.
 
         The logger_formatter will be updated when sets logger_format.
@@ -347,7 +448,9 @@ class Configuration:
         self.__logger_format = value
         self.logger_formatter = logging.Formatter(self.__logger_format)
 
-    def get_api_key_with_prefix(self, identifier, alias=None):
+    def get_api_key_with_prefix(
+        self, identifier: str, alias: str | None = None
+    ) -> str | None:
         """Gets API key (with prefix if set).
 
         :param identifier: The identifier of apiKey.
@@ -363,9 +466,12 @@ class Configuration:
             prefix = self.api_key_prefix.get(identifier)
             if prefix:
                 return "%s %s" % (prefix, key)
-            return key
+            else:
+                return key
 
-    def get_basic_auth_token(self):
+        return None
+
+    def get_basic_auth_token(self) -> str | None:
         """Gets HTTP basic authentication header (string).
 
         :return: The token for basic HTTP authentication.
@@ -380,12 +486,12 @@ class Configuration:
             basic_auth=username + ":" + password,
         ).get("authorization")
 
-    def auth_settings(self):
+    def auth_settings(self) -> AuthSettings:
         """Gets Auth Settings dict for api client.
 
         :return: The Auth Settings information dict.
         """
-        auth = {}
+        auth: AuthSettings = {}
         if self.access_token is not None:
             auth["keycloak_token"] = {
                 "type": "bearer",
@@ -396,7 +502,7 @@ class Configuration:
             }
         return auth
 
-    def to_debug_report(self):
+    def to_debug_report(self) -> str:
         """Gets the essential information for debugging.
 
         :return: The report for debugging.
@@ -409,7 +515,7 @@ class Configuration:
             "SDK Package Version: 1.0.0"
         )
 
-    def get_host_settings(self):
+    def get_host_settings(self) -> list[HostSetting]:
         """Gets an array of host settings
 
         :return: An array of host settings
@@ -421,7 +527,12 @@ class Configuration:
             },
         ]
 
-    def get_host_from_settings(self, index, variables=None, servers=None):
+    def get_host_from_settings(
+        self,
+        index: int | None,
+        variables: ServerVariablesT | None = None,
+        servers: list[HostSetting] | None = None,
+    ) -> str:
         """Gets host URL based on the index and variables
         :param index: array index of the host settings
         :param variables: hash of variable and the corresponding value
@@ -461,14 +572,14 @@ class Configuration:
         return url
 
     @property
-    def host(self):
+    def host(self) -> str:
         """Return generated host."""
         return self.get_host_from_settings(
             self.server_index, variables=self.server_variables
         )
 
     @host.setter
-    def host(self, value):
+    def host(self, value: str) -> None:
         """Fix base path."""
         self._base_path = value
         self.server_index = None

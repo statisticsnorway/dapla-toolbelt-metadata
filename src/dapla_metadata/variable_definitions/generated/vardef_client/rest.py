@@ -29,7 +29,8 @@ def is_socks_proxy_url(url):
     split_section = url.split("://")
     if len(split_section) < 2:
         return False
-    return split_section[0].lower() in SUPPORTED_SOCKS_PROXIES
+    else:
+        return split_section[0].lower() in SUPPORTED_SOCKS_PROXIES
 
 
 class RESTResponse(io.IOBase):
