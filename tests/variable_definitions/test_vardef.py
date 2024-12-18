@@ -6,9 +6,6 @@ from dapla_metadata.variable_definitions.exceptions import VardefClientException
 from dapla_metadata.variable_definitions.generated.vardef_client.configuration import (
     Configuration,
 )
-from dapla_metadata.variable_definitions.generated.vardef_client.models.complete_response import (
-    CompletePatchOutput,
-)
 from dapla_metadata.variable_definitions.generated.vardef_client.models.draft import (
     Draft,
 )
@@ -25,6 +22,7 @@ from dapla_metadata.variable_definitions.generated.vardef_client.models.variable
     VariableStatus,
 )
 from dapla_metadata.variable_definitions.vardef import Vardef
+from dapla_metadata.variable_definitions.variable_definition import CompletePatchOutput
 from dapla_metadata.variable_definitions.variable_definition import VariableDefinition
 from tests.utils.constants import NOT_FOUND_STATUS
 from tests.utils.constants import VARDEF_EXAMPLE_ACTIVE_GROUP
