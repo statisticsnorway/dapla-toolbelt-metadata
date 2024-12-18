@@ -33,7 +33,7 @@ class CompletePatchOutput(CompleteResponse):
     def from_model(
         model: CompleteResponse,
     ) -> "CompletePatchOutput":
-        """Create a CompletePatchOutput instance from a CompleteResponse."""
+        """Create a CompletePatchOutput instance from a CompletePatchOutput."""
         return CompletePatchOutput.model_construct(**model.model_dump())
 
     def __str__(self) -> str:
@@ -56,11 +56,11 @@ class VariableDefinition(CompletePatchOutput):
     def from_model(
         model: CompleteResponse,
     ) -> "VariableDefinition":
-        """Create a VariableDefinition instance from a CompleteResponse or CompletePatchOutput."""
+        """Create a VariableDefinition instance from a CompletePatchOutput or CompletePatchOutput."""
         return VariableDefinition.model_construct(**model.model_dump())
 
     @vardef_exception_handler
-    def list_validity_periods(self) -> list[CompleteResponse]:
+    def list_validity_periods(self) -> list[CompletePatchOutput]:
         """List all Validity Periods for this Variable Definition."""
         return [
             CompletePatchOutput.from_model(validity_period)
@@ -72,7 +72,7 @@ class VariableDefinition(CompletePatchOutput):
         ]
 
     @vardef_exception_handler
-    def list_patches(self) -> list[CompleteResponse]:
+    def list_patches(self) -> list[CompletePatchOutput]:
         """List all Patches for this Variable Definition."""
         return [
             CompletePatchOutput.from_model(patch)
@@ -85,7 +85,7 @@ class VariableDefinition(CompletePatchOutput):
     def update_draft(
         self,
         update_draft: UpdateDraft,
-    ) -> CompleteResponse:
+    ) -> CompletePatchOutput:
         """Update this Variable definition.
 
         Variable definition must have status 'DRAFT'.
@@ -94,14 +94,16 @@ class VariableDefinition(CompletePatchOutput):
             update_draft: The input with updated values.
 
         Returns:
-            CompleteResponse: Updated Variable definition with all details.
+            CompletePatchOutput: Updated Variable definition with all details.
         """
-        return DraftVariableDefinitionsApi(
-            VardefClient.get_client(),
-        ).update_variable_definition_by_id(
-            variable_definition_id=self.id,
-            active_group=config.get_active_group(),
-            update_draft=update_draft,
+        return CompletePatchOutput.from_model(
+            DraftVariableDefinitionsApi(
+                VardefClient.get_client(),
+            ).update_variable_definition_by_id(
+                variable_definition_id=self.id,
+                active_group=config.get_active_group(),
+                update_draft=update_draft,
+            ),
         )
 
     @vardef_exception_handler
@@ -125,7 +127,7 @@ class VariableDefinition(CompletePatchOutput):
         return f"Variable {self.id} safely deleted"
 
     @vardef_exception_handler
-    def get_patch(self, patch_id: int) -> CompleteResponse:
+    def get_patch(self, patch_id: int) -> CompletePatchOutput:
         """Get a single Patch by ID.
 
         Args:
@@ -146,7 +148,7 @@ class VariableDefinition(CompletePatchOutput):
         self,
         patch: Patch,
         valid_from: date | None = None,
-    ) -> CompleteResponse:
+    ) -> CompletePatchOutput:
         """Create a new patch for this Variable definition.
 
         Args:
@@ -155,23 +157,25 @@ class VariableDefinition(CompletePatchOutput):
             If value is None the patch is created in the last validity period.
 
         Returns:
-            CompleteResponse: Variable definition with all details.
+            CompletePatchOutput: Variable definition with all details.
 
         """
-        return PatchesApi(
-            VardefClient.get_client(),
-        ).create_patch(
-            variable_definition_id=self.id,
-            active_group=config.get_active_group(),
-            patch=patch,
-            valid_from=valid_from,
+        return CompletePatchOutput.from_model(
+            PatchesApi(
+                VardefClient.get_client(),
+            ).create_patch(
+                variable_definition_id=self.id,
+                active_group=config.get_active_group(),
+                patch=patch,
+                valid_from=valid_from,
+            ),
         )
 
     @vardef_exception_handler
     def create_validity_period(
         self,
         validity_period: ValidityPeriod,
-    ) -> CompleteResponse:
+    ) -> CompletePatchOutput:
         """Create a new validity period for this Variable definition.
 
         In order to create a new validity period input must contain updated
@@ -181,12 +185,14 @@ class VariableDefinition(CompletePatchOutput):
             validity_period: The input for new validity period
 
         Returns:
-            CompleteResponse: Variable definition with all details.
+            CompletePatchOutput: Variable definition with all details.
         """
-        return ValidityPeriodsApi(
-            VardefClient.get_client(),
-        ).create_validity_period(
-            variable_definition_id=self.id,
-            active_group=config.get_active_group(),
-            validity_period=validity_period,
+        return CompletePatchOutput.from_model(
+            ValidityPeriodsApi(
+                VardefClient.get_client(),
+            ).create_validity_period(
+                variable_definition_id=self.id,
+                active_group=config.get_active_group(),
+                validity_period=validity_period,
+            ),
         )

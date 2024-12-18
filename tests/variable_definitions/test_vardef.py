@@ -9,9 +9,6 @@ from dapla_metadata.variable_definitions.generated.vardef_client.configuration i
 from dapla_metadata.variable_definitions.generated.vardef_client.models.complete_response import (
     CompletePatchOutput,
 )
-from dapla_metadata.variable_definitions.generated.vardef_client.models.complete_response import (
-    CompleteResponse,
-)
 from dapla_metadata.variable_definitions.generated.vardef_client.models.draft import (
     Draft,
 )
@@ -137,7 +134,7 @@ def test_update_draft(
     my_draft = Vardef.get_variable_definition(
         variable_definition_id=VARDEF_EXAMPLE_DEFINITION_ID,
     )
-    assert isinstance(my_draft.update_draft(update_draft), CompleteResponse)
+    assert isinstance(my_draft.update_draft(update_draft), CompletePatchOutput)
 
 
 def test_delete_draft(
@@ -170,7 +167,7 @@ def test_create_patch(
     )
     assert isinstance(
         created_patch,
-        CompleteResponse,
+        CompletePatchOutput,
     )
     assert created_patch.patch_id == PATCH_ID
 
@@ -186,5 +183,5 @@ def test_create_validity_period(
     my_variable = variable_definition
     assert isinstance(
         my_variable.create_validity_period(validity_period),
-        CompleteResponse,
+        CompletePatchOutput,
     )
