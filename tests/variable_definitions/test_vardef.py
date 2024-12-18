@@ -7,7 +7,7 @@ from dapla_metadata.variable_definitions.generated.vardef_client.configuration i
     Configuration,
 )
 from dapla_metadata.variable_definitions.generated.vardef_client.models.complete_response import (
-    CompleteResponse,
+    CompletePatchOutput,
 )
 from dapla_metadata.variable_definitions.generated.vardef_client.models.draft import (
     Draft,
@@ -34,7 +34,7 @@ def test_list_variable_definitions_with_date_of_validity(
     VardefClient.set_config(client_configuration)
     assert isinstance(
         Vardef.list_variable_definitions(date_of_validity=VARDEF_EXAMPLE_DATE)[0],
-        CompleteResponse,
+        CompletePatchOutput,
     )
 
 
@@ -63,7 +63,7 @@ def test_list_patches(client_configuration: Configuration):
     landbak = Vardef.get_variable_definition(
         variable_definition_id=VARDEF_EXAMPLE_DEFINITION_ID,
     )
-    assert isinstance(landbak.list_patches()[0], CompleteResponse)
+    assert isinstance(landbak.list_patches()[0], CompletePatchOutput)
 
 
 def test_get_patch(client_configuration: Configuration):
@@ -71,7 +71,7 @@ def test_get_patch(client_configuration: Configuration):
     landbak = Vardef.get_variable_definition(
         variable_definition_id=VARDEF_EXAMPLE_DEFINITION_ID,
     )
-    assert isinstance(landbak.get_patch(1), CompleteResponse)
+    assert isinstance(landbak.get_patch(1), CompletePatchOutput)
 
 
 def test_list_validity_periods(client_configuration: Configuration):
@@ -79,7 +79,7 @@ def test_list_validity_periods(client_configuration: Configuration):
     landbak = Vardef.get_variable_definition(
         variable_definition_id=VARDEF_EXAMPLE_DEFINITION_ID,
     )
-    assert isinstance(landbak.list_validity_periods()[0], CompleteResponse)
+    assert isinstance(landbak.list_validity_periods()[0], CompletePatchOutput)
 
 
 def test_create_draft(
@@ -92,7 +92,7 @@ def test_create_draft(
     my_draft = Vardef.create_draft(
         draft=draft,
     )
-    assert isinstance(my_draft, CompleteResponse)
+    assert isinstance(my_draft, CompletePatchOutput)
     assert my_draft.id is not None
     assert my_draft.patch_id == 1
     assert my_draft.variable_status == VariableStatus.DRAFT
@@ -107,7 +107,7 @@ def test_migrate_from_vardok(
     my_draft = Vardef.migrate_from_vardok(
         vardok_id="1607",
     )
-    assert isinstance(my_draft, CompleteResponse)
+    assert isinstance(my_draft, CompletePatchOutput)
     assert my_draft.id is not None
     assert my_draft.patch_id == 1
     assert my_draft.variable_status == VariableStatus.DRAFT
