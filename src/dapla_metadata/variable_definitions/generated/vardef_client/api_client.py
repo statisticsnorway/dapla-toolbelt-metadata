@@ -22,6 +22,7 @@ from urllib.parse import quote
 from dateutil.parser import parse
 from pydantic import SecretStr
 
+from . import models
 from . import rest
 from .api_response import ApiResponse
 from .api_response import T as ApiResponseT
@@ -291,7 +292,8 @@ class ApiClient:
         ):
             # if not found, look for '1XX', '2XX', etc.
             response_type = response_types_map.get(
-                str(response_data.status)[0] + "XX", None
+                str(response_data.status)[0] + "XX",
+                None,
             )
 
         # deserialize response data
@@ -310,7 +312,9 @@ class ApiClient:
                 encoding = match.group(1) if match else "utf-8"
                 response_text = response_data.data.decode(encoding)
                 return_data = self.deserialize(
-                    response_text, response_type, content_type
+                    response_text,
+                    response_type,
+                    content_type,
                 )
         finally:
             if not 200 <= response_data.status <= 299:
@@ -345,22 +349,22 @@ class ApiClient:
         """
         if obj is None:
             return None
-        elif isinstance(obj, Enum):
+        if isinstance(obj, Enum):
             return obj.value
-        elif isinstance(obj, SecretStr):
+        if isinstance(obj, SecretStr):
             return obj.get_secret_value()
-        elif isinstance(obj, self.PRIMITIVE_TYPES):
+        if isinstance(obj, self.PRIMITIVE_TYPES):
             return obj
-        elif isinstance(obj, list):
+        if isinstance(obj, list):
             return [self.sanitize_for_serialization(sub_obj) for sub_obj in obj]
-        elif isinstance(obj, tuple):
+        if isinstance(obj, tuple):
             return tuple(self.sanitize_for_serialization(sub_obj) for sub_obj in obj)
-        elif isinstance(obj, (datetime.datetime, datetime.date)):
+        if isinstance(obj, (datetime.datetime, datetime.date)):
             return obj.isoformat()
-        elif isinstance(obj, decimal.Decimal):
+        if isinstance(obj, decimal.Decimal):
             return str(obj)
 
-        elif isinstance(obj, dict):
+        if isinstance(obj, dict):
             obj_dict = obj
         elif hasattr(obj, "to_dict") and callable(obj.to_dict):
             obj_dict = obj.to_dict()
@@ -372,7 +376,10 @@ class ApiClient:
         }
 
     def deserialize(
-        self, response_text: str, response_type: str, content_type: str | None
+        self,
+        response_text: str,
+        response_type: str,
+        content_type: str | None,
     ):
         """Deserializes response into an object.
 
@@ -436,22 +443,21 @@ class ApiClient:
             if klass in self.NATIVE_TYPES_MAPPING:
                 klass = self.NATIVE_TYPES_MAPPING[klass]
             else:
-                klass = getattr(vardef_client.models, klass)
+                klass = getattr(models, klass)
 
         if klass in self.PRIMITIVE_TYPES:
             return self.__deserialize_primitive(data, klass)
-        elif klass == object:
+        if klass == object:
             return self.__deserialize_object(data)
-        elif klass == datetime.date:
+        if klass == datetime.date:
             return self.__deserialize_date(data)
-        elif klass == datetime.datetime:
+        if klass == datetime.datetime:
             return self.__deserialize_datetime(data)
-        elif klass == decimal.Decimal:
+        if klass == decimal.Decimal:
             return decimal.Decimal(data)
-        elif issubclass(klass, Enum):
+        if issubclass(klass, Enum):
             return self.__deserialize_enum(data, klass)
-        else:
-            return self.__deserialize_model(data, klass)
+        return self.__deserialize_model(data, klass)
 
     def parameters_to_tuples(self, params, collection_formats):
         """Get parameters as list of tuples, formatting collections.
