@@ -38,7 +38,7 @@ class CompletePatchOutput(CompleteResponse):
 
     def __str__(self) -> str:
         """Format as indented JSON."""
-        return self.model_dump_json(indent=2)
+        return self.model_dump_json(indent=2, warnings=False)
 
 
 class VariableDefinition(CompletePatchOutput):
