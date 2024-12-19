@@ -86,9 +86,10 @@ class VariableDefinition(CompletePatchOutput):
         self,
         update_draft: UpdateDraft,
     ) -> CompletePatchOutput:
-        """Update this Variable definition.
+        """Update this Variable Definition.
 
-        Variable definition must have status 'DRAFT'.
+        - Variable definition must have status 'DRAFT'.
+        - Supply only the fields to be changed. Other fields will retain their current values.
 
         Args:
             update_draft: The input with updated values.
@@ -149,15 +150,24 @@ class VariableDefinition(CompletePatchOutput):
         patch: Patch,
         valid_from: date | None = None,
     ) -> CompletePatchOutput:
-        """Create a new patch for this Variable definition.
+        """Create a new Patch for this Variable Definition.
+
+        Patches are to be used for minor changes which don't require a new Validity Period.
+        Examples of reasons for creating a new Patch:
+          - Correcting a typo
+          - Adding a translation
+          - Adding a subject field
+
+        Supply only the fields to be changed. Other fields will retain their current values.
 
         Args:
             patch: The input for a new patch.
-            valid_from: Optional date for selecting validity period to create patch in.
-            If value is None the patch is created in the last validity period.
+            valid_from: Optional date for selecting a Validity Period to create patch in. The date must
+                        exactly match the Validity Period `valid_from`. If value is None the patch is
+                        created in the last validity period.
 
         Returns:
-            CompletePatchOutput: Variable definition with all details.
+            CompletePatchOutput: Variable Definition with all details.
 
         """
         return CompletePatchOutput.from_model(
@@ -176,16 +186,20 @@ class VariableDefinition(CompletePatchOutput):
         self,
         validity_period: ValidityPeriod,
     ) -> CompletePatchOutput:
-        """Create a new validity period for this Variable definition.
+        """Create a new Validity Period for this Variable Definition.
 
-        In order to create a new validity period input must contain updated
+        In order to create a new Validity Period input must contain updated
         'definition' text for all present languages and a new valid from.
 
+        A new Validity Period should be created only when the fundamental definition
+        of the variable has changed. This way the previous definition can be preserved
+        for use in historical data.
+
         Args:
-            validity_period: The input for new validity period
+            validity_period: The input for new Validity Period
 
         Returns:
-            CompletePatchOutput: Variable definition with all details.
+            CompletePatchOutput: Variable Definition with all details.
         """
         return CompletePatchOutput.from_model(
             ValidityPeriodsApi(
