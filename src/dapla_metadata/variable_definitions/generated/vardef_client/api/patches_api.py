@@ -113,6 +113,7 @@ class PatchesApi:
 
         _response_types_map: dict[str, str | None] = {
             "201": "CompleteResponse",
+            "404": "Problem",
             "400": "Problem",
             "405": "Problem",
         }
@@ -200,6 +201,7 @@ class PatchesApi:
 
         _response_types_map: dict[str, str | None] = {
             "201": "CompleteResponse",
+            "404": "Problem",
             "400": "Problem",
             "405": "Problem",
         }
@@ -287,6 +289,7 @@ class PatchesApi:
 
         _response_types_map: dict[str, str | None] = {
             "201": "CompleteResponse",
+            "404": "Problem",
             "400": "Problem",
             "405": "Problem",
         }

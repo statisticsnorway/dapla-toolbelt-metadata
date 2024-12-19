@@ -26,7 +26,6 @@ class VariableStatus(str, Enum):
     DRAFT = "DRAFT"
     PUBLISHED_INTERNAL = "PUBLISHED_INTERNAL"
     PUBLISHED_EXTERNAL = "PUBLISHED_EXTERNAL"
-    DEPRECATED = "DEPRECATED"
 
     @classmethod
     def from_json(cls, json_str: str) -> Self:

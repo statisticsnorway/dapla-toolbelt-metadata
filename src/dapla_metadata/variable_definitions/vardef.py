@@ -92,6 +92,7 @@ class Vardef:
         )
 
     @classmethod
+    @vardef_exception_handler
     def migrate_from_vardok(cls, vardok_id: str) -> VariableDefinition:
         """Migrate a Variable Definition from Vardok to Vardef.
 

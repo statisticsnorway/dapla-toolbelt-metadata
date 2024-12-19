@@ -39,6 +39,7 @@ from dapla_metadata.variable_definitions.generated.vardef_client.models.variable
 )
 from dapla_metadata.variable_definitions.variable_definition import VariableDefinition
 from tests.utils.constants import VARDEF_EXAMPLE_DEFINITION_ID
+from tests.utils.constants import VARDEF_EXAMPLE_INVALID_ID
 from tests.utils.microcks_testcontainer import MicrocksContainer
 
 
@@ -90,14 +91,13 @@ def draft(language_string_type, contact) -> Draft:
     )
 
 
-@pytest.fixture
-def variable_definition(language_string_type, contact, owner) -> VariableDefinition:
+def sample_variable_definition() -> VariableDefinition:
     return VariableDefinition(
         id=VARDEF_EXAMPLE_DEFINITION_ID,
         patch_id=1,
-        name=language_string_type,
+        name=LanguageStringType(nb="test", nn="test", en="test"),
         short_name="var_test",
-        definition=language_string_type,
+        definition=LanguageStringType(nb="test", nn="test", en="test"),
         classification_reference="91",
         unit_types=["01"],
         subject_fields=["a", "b"],
@@ -107,15 +107,29 @@ def variable_definition(language_string_type, contact, owner) -> VariableDefinit
         valid_from=date(2024, 11, 1),
         valid_until=None,
         external_reference_uri="http://www.example.com",
-        comment=language_string_type,
+        comment=LanguageStringType(nb="test", nn="test", en="test"),
         related_variable_definition_uris=["http://www.example.com"],
-        contact=contact,
-        owner=owner,
+        contact=Contact(
+            title=LanguageStringType(nb="test", nn="test", en="test"),
+            email="me@example.com",
+        ),
+        owner=Owner(team="my_team", groups=["my_team_developers"]),
         created_at=date(2024, 11, 1),
         created_by=Person(code="724", name="name"),
         last_updated_at=date(2024, 11, 1),
         last_updated_by=Person(code="724", name="name"),
     )
+
+
+def unknown_variable_definition() -> VariableDefinition:
+    unknown = sample_variable_definition()
+    unknown.id = VARDEF_EXAMPLE_INVALID_ID
+    return unknown
+
+
+@pytest.fixture
+def variable_definition() -> VariableDefinition:
+    return sample_variable_definition()
 
 
 @pytest.fixture
