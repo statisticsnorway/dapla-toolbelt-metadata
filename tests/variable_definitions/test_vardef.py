@@ -1,3 +1,6 @@
+import functools
+from collections.abc import Callable
+
 import pytest
 
 from dapla_metadata._shared.config import DAPLA_GROUP_CONTEXT
@@ -28,6 +31,9 @@ from tests.utils.constants import NOT_FOUND_STATUS
 from tests.utils.constants import VARDEF_EXAMPLE_ACTIVE_GROUP
 from tests.utils.constants import VARDEF_EXAMPLE_DATE
 from tests.utils.constants import VARDEF_EXAMPLE_DEFINITION_ID
+from tests.utils.constants import VARDEF_EXAMPLE_INVALID_ID
+from tests.variable_definitions.conftest import sample_variable_definition
+from tests.variable_definitions.conftest import unknown_variable_definition
 
 PATCH_ID = 2
 
@@ -56,12 +62,27 @@ def test_get_variable_definition(client_configuration: Configuration):
     assert landbak.classification_reference == "91"
 
 
-def test_get_variable_definition_invalid_id(client_configuration: Configuration):
+@pytest.mark.parametrize(
+    ("method"),
+    [
+        functools.partial(
+            Vardef.get_variable_definition,
+            variable_definition_id=VARDEF_EXAMPLE_INVALID_ID,
+        ),
+        unknown_variable_definition().list_validity_periods,
+        unknown_variable_definition().list_patches,
+        functools.partial(sample_variable_definition().get_patch, patch_id=244),
+    ],
+)
+def test_not_found(
+    monkeypatch: pytest.MonkeyPatch,
+    client_configuration: Configuration,
+    method: Callable,
+):
+    monkeypatch.setenv(DAPLA_GROUP_CONTEXT, VARDEF_EXAMPLE_ACTIVE_GROUP)
     VardefClient.set_config(client_configuration)
     with pytest.raises(VardefClientException) as e:
-        Vardef.get_variable_definition(
-            variable_definition_id="invalid id",
-        )
+        method()
     assert e.value.status == NOT_FOUND_STATUS
     assert e.value.detail == "Not found"
     assert str(e.value) == "Status 404: Not found"
