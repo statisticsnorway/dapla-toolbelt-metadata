@@ -25,9 +25,6 @@ from dapla_metadata.variable_definitions.generated.vardef_client.models.owner im
 from dapla_metadata.variable_definitions.generated.vardef_client.models.patch import (
     Patch,
 )
-from dapla_metadata.variable_definitions.generated.vardef_client.models.person import (
-    Person,
-)
 from dapla_metadata.variable_definitions.generated.vardef_client.models.update_draft import (
     UpdateDraft,
 )
