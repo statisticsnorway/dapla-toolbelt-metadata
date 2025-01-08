@@ -25,9 +25,6 @@ from dapla_metadata.variable_definitions.generated.vardef_client.models.owner im
 from dapla_metadata.variable_definitions.generated.vardef_client.models.patch import (
     Patch,
 )
-from dapla_metadata.variable_definitions.generated.vardef_client.models.person import (
-    Person,
-)
 from dapla_metadata.variable_definitions.generated.vardef_client.models.update_draft import (
     UpdateDraft,
 )
@@ -115,9 +112,9 @@ def sample_variable_definition() -> VariableDefinition:
         ),
         owner=Owner(team="my_team", groups=["my_team_developers"]),
         created_at=date(2024, 11, 1),
-        created_by=Person(code="724", name="name"),
+        created_by="ano@ssb.no",
         last_updated_at=date(2024, 11, 1),
-        last_updated_by=Person(code="724", name="name"),
+        last_updated_by="ano@ssb.no",
     )
 
 

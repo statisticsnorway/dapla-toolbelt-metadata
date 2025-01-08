@@ -41,7 +41,7 @@ class VariableDefinitionsApi:
         self.api_client = api_client
 
     @validate_call
-    def get_public_variable_definition_by_id_0(
+    def get_public_variable_definition_by_id(
         self,
         variable_definition_id: Annotated[
             StrictStr,
@@ -98,7 +98,7 @@ class VariableDefinitionsApi:
         :type _host_index: int, optional
         :return: Returns the result object.
         """
-        _param = self._get_public_variable_definition_by_id_0_serialize(
+        _param = self._get_public_variable_definition_by_id_serialize(
             variable_definition_id=variable_definition_id,
             accept_language=accept_language,
             date_of_validity=date_of_validity,
@@ -123,7 +123,7 @@ class VariableDefinitionsApi:
         ).data
 
     @validate_call
-    def get_public_variable_definition_by_id_0_with_http_info(
+    def get_public_variable_definition_by_id_with_http_info(
         self,
         variable_definition_id: Annotated[
             StrictStr,
@@ -180,7 +180,7 @@ class VariableDefinitionsApi:
         :type _host_index: int, optional
         :return: Returns the result object.
         """
-        _param = self._get_public_variable_definition_by_id_0_serialize(
+        _param = self._get_public_variable_definition_by_id_serialize(
             variable_definition_id=variable_definition_id,
             accept_language=accept_language,
             date_of_validity=date_of_validity,
@@ -205,7 +205,7 @@ class VariableDefinitionsApi:
         )
 
     @validate_call
-    def get_public_variable_definition_by_id_0_without_preload_content(
+    def get_public_variable_definition_by_id_without_preload_content(
         self,
         variable_definition_id: Annotated[
             StrictStr,
@@ -262,7 +262,7 @@ class VariableDefinitionsApi:
         :type _host_index: int, optional
         :return: Returns the result object.
         """
-        _param = self._get_public_variable_definition_by_id_0_serialize(
+        _param = self._get_public_variable_definition_by_id_serialize(
             variable_definition_id=variable_definition_id,
             accept_language=accept_language,
             date_of_validity=date_of_validity,
@@ -282,7 +282,7 @@ class VariableDefinitionsApi:
         )
         return response_data.response
 
-    def _get_public_variable_definition_by_id_0_serialize(
+    def _get_public_variable_definition_by_id_serialize(
         self,
         variable_definition_id,
         accept_language,
@@ -651,7 +651,7 @@ class VariableDefinitionsApi:
         )
 
     @validate_call
-    def list_public_variable_definitions_0(
+    def list_public_variable_definitions(
         self,
         accept_language: Annotated[
             SupportedLanguages,
@@ -702,7 +702,7 @@ class VariableDefinitionsApi:
         :type _host_index: int, optional
         :return: Returns the result object.
         """
-        _param = self._list_public_variable_definitions_0_serialize(
+        _param = self._list_public_variable_definitions_serialize(
             accept_language=accept_language,
             date_of_validity=date_of_validity,
             _request_auth=_request_auth,
@@ -725,7 +725,7 @@ class VariableDefinitionsApi:
         ).data
 
     @validate_call
-    def list_public_variable_definitions_0_with_http_info(
+    def list_public_variable_definitions_with_http_info(
         self,
         accept_language: Annotated[
             SupportedLanguages,
@@ -776,7 +776,7 @@ class VariableDefinitionsApi:
         :type _host_index: int, optional
         :return: Returns the result object.
         """
-        _param = self._list_public_variable_definitions_0_serialize(
+        _param = self._list_public_variable_definitions_serialize(
             accept_language=accept_language,
             date_of_validity=date_of_validity,
             _request_auth=_request_auth,
@@ -799,7 +799,7 @@ class VariableDefinitionsApi:
         )
 
     @validate_call
-    def list_public_variable_definitions_0_without_preload_content(
+    def list_public_variable_definitions_without_preload_content(
         self,
         accept_language: Annotated[
             SupportedLanguages,
@@ -850,7 +850,7 @@ class VariableDefinitionsApi:
         :type _host_index: int, optional
         :return: Returns the result object.
         """
-        _param = self._list_public_variable_definitions_0_serialize(
+        _param = self._list_public_variable_definitions_serialize(
             accept_language=accept_language,
             date_of_validity=date_of_validity,
             _request_auth=_request_auth,
@@ -868,7 +868,7 @@ class VariableDefinitionsApi:
         )
         return response_data.response
 
-    def _list_public_variable_definitions_0_serialize(
+    def _list_public_variable_definitions_serialize(
         self,
         accept_language,
         date_of_validity,

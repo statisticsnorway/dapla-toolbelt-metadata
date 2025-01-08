@@ -30,7 +30,6 @@ from typing_extensions import Self
 from ..models.contact import Contact
 from ..models.language_string_type import LanguageStringType
 from ..models.owner import Owner
-from ..models.person import Person
 from ..models.variable_status import VariableStatus
 
 
@@ -93,14 +92,14 @@ class CompleteResponse(BaseModel):
     created_at: datetime = Field(
         description="The timestamp at which this variable definition was first created."
     )
-    created_by: Person | None = Field(
-        default=None, description="The user who created this variable definition."
+    created_by: StrictStr = Field(
+        description="The user who created this variable definition."
     )
     last_updated_at: datetime = Field(
         description="The timestamp at which this variable definition was last modified."
     )
-    last_updated_by: Person | None = Field(
-        default=None, description="The user who last modified this variable definition."
+    last_updated_by: StrictStr = Field(
+        description="The user who last modified this variable definition."
     )
     __properties: ClassVar[list[str]] = [
         "id",
@@ -179,12 +178,6 @@ class CompleteResponse(BaseModel):
         # override the default output from pydantic by calling `to_dict()` of contact
         if self.contact:
             _dict["contact"] = self.contact.to_dict()
-        # override the default output from pydantic by calling `to_dict()` of created_by
-        if self.created_by:
-            _dict["created_by"] = self.created_by.to_dict()
-        # override the default output from pydantic by calling `to_dict()` of last_updated_by
-        if self.last_updated_by:
-            _dict["last_updated_by"] = self.last_updated_by.to_dict()
         # set to None if classification_reference (nullable) is None
         # and model_fields_set contains the field
         if (
@@ -237,16 +230,6 @@ class CompleteResponse(BaseModel):
         if self.contact is None and "contact" in self.model_fields_set:
             _dict["contact"] = None
 
-        # set to None if created_by (nullable) is None
-        # and model_fields_set contains the field
-        if self.created_by is None and "created_by" in self.model_fields_set:
-            _dict["created_by"] = None
-
-        # set to None if last_updated_by (nullable) is None
-        # and model_fields_set contains the field
-        if self.last_updated_by is None and "last_updated_by" in self.model_fields_set:
-            _dict["last_updated_by"] = None
-
         return _dict
 
     @classmethod
@@ -293,13 +276,9 @@ class CompleteResponse(BaseModel):
                 if obj.get("contact") is not None
                 else None,
                 "created_at": obj.get("created_at"),
-                "created_by": Person.from_dict(obj["created_by"])
-                if obj.get("created_by") is not None
-                else None,
+                "created_by": obj.get("created_by"),
                 "last_updated_at": obj.get("last_updated_at"),
-                "last_updated_by": Person.from_dict(obj["last_updated_by"])
-                if obj.get("last_updated_by") is not None
-                else None,
+                "last_updated_by": obj.get("last_updated_by"),
             }
         )
         return _obj
