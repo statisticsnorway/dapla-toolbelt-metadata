@@ -14,5 +14,8 @@
     ],
     "python.testing.pytestEnabled": true,
     "python.testing.unittestEnabled": false,
-    "ruff.lint.run": "onType"
+    "ruff.lint.run": "onType",
+    "python.analysis.extraPaths": [
+        "./src/dapla_metadata/variable_definitions/generated"
+    ]
 }
