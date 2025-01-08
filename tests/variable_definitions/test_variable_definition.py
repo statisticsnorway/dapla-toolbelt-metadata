@@ -52,14 +52,8 @@ def test_str(variable_definition):
     "email": "me@example.com"
   },
   "created_at": "2024-11-01T00:00:00",
-  "created_by": {
-    "code": "724",
-    "name": "name"
-  },
+  "created_by": "ano@ssb.no",
   "last_updated_at": "2024-11-01T00:00:00",
-  "last_updated_by": {
-    "code": "724",
-    "name": "name"
-  }
+  "last_updated_by": "ano@ssb.no"
 }"""
     )
