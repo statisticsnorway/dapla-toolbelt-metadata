@@ -114,8 +114,8 @@ class UpdateDraft(BaseModel):
         if value is None:
             return value
 
-        if not re.match(r"^[a-z0-9_]{3,}$", value):
-            raise ValueError(r"must validate the regular expression /^[a-z0-9_]{3,}$/")
+        if not re.match(r"^[a-z0-9_]{2,}$", value):
+            raise ValueError(r"must validate the regular expression /^[a-z0-9_]{2,}$/")
         return value
 
     model_config = ConfigDict(

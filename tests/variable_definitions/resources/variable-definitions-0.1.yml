@@ -2054,7 +2054,7 @@ components:
           allOf:
           - $ref: "#/components/schemas/LanguageStringType"
         short_name:
-          pattern: "^[a-z0-9_]{3,}$"
+          pattern: "^[a-z0-9_]{2,}$"
           type: string
           description: Recommended short name. Must be unique within an organization.
         definition:
@@ -2096,6 +2096,11 @@ components:
           type: string
           description: The variable definition is valid from this date inclusive
           format: date
+        valid_until:
+          type: string
+          description: The variable definition is valid until this date inclusive
+          format: date
+          nullable: true
         external_reference_uri:
           type: string
           description: A link (URI) to an external definition/documentation
@@ -2498,7 +2503,7 @@ components:
           allOf:
           - $ref: "#/components/schemas/LanguageStringType"
         short_name:
-          pattern: "^[a-z0-9_]{3,}$"
+          pattern: "^[a-z0-9_]{2,}$"
           type: string
           description: Recommended short name. Must be unique within an organization.
           nullable: true
