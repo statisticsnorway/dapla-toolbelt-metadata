@@ -61,6 +61,10 @@ class Draft(BaseModel):
     valid_from: date = Field(
         description="The variable definition is valid from this date inclusive"
     )
+    valid_until: date | None = Field(
+        default=None,
+        description="The variable definition is valid until this date inclusive",
+    )
     external_reference_uri: StrictStr | None = Field(
         default=None, description="A link (URI) to an external definition/documentation"
     )
@@ -83,6 +87,7 @@ class Draft(BaseModel):
         "contains_special_categories_of_personal_data",
         "measurement_type",
         "valid_from",
+        "valid_until",
         "external_reference_uri",
         "comment",
         "related_variable_definition_uris",
@@ -92,8 +97,8 @@ class Draft(BaseModel):
     @field_validator("short_name")
     def short_name_validate_regular_expression(cls, value):
         """Validates the regular expression"""
-        if not re.match(r"^[a-z0-9_]{3,}$", value):
-            raise ValueError(r"must validate the regular expression /^[a-z0-9_]{3,}$/")
+        if not re.match(r"^[a-z0-9_]{2,}$", value):
+            raise ValueError(r"must validate the regular expression /^[a-z0-9_]{2,}$/")
         return value
 
     model_config = ConfigDict(
@@ -161,6 +166,11 @@ class Draft(BaseModel):
         ):
             _dict["measurement_type"] = None
 
+        # set to None if valid_until (nullable) is None
+        # and model_fields_set contains the field
+        if self.valid_until is None and "valid_until" in self.model_fields_set:
+            _dict["valid_until"] = None
+
         # set to None if external_reference_uri (nullable) is None
         # and model_fields_set contains the field
         if (
@@ -217,6 +227,7 @@ class Draft(BaseModel):
                 else False,
                 "measurement_type": obj.get("measurement_type"),
                 "valid_from": obj.get("valid_from"),
+                "valid_until": obj.get("valid_until"),
                 "external_reference_uri": obj.get("external_reference_uri"),
                 "comment": LanguageStringType.from_dict(obj["comment"])
                 if obj.get("comment") is not None
