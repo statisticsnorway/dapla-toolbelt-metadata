@@ -43,7 +43,6 @@ from .models.klass_reference import KlassReference
 from .models.language_string_type import LanguageStringType
 from .models.owner import Owner
 from .models.patch import Patch
-from .models.person import Person
 from .models.problem import Problem
 from .models.rendered_contact import RenderedContact
 from .models.rendered_variable_definition import RenderedVariableDefinition

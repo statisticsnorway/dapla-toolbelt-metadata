@@ -127,7 +127,6 @@ Class | Method | HTTP request | Description
 - [LanguageStringType](vardef_client/docs/LanguageStringType.md)
 - [Owner](vardef_client/docs/Owner.md)
 - [Patch](vardef_client/docs/Patch.md)
-- [Person](vardef_client/docs/Person.md)
 - [SupportedLanguages](vardef_client/docs/SupportedLanguages.md)
 - [UpdateDraft](vardef_client/docs/UpdateDraft.md)
 - [ValidityPeriod](vardef_client/docs/ValidityPeriod.md)

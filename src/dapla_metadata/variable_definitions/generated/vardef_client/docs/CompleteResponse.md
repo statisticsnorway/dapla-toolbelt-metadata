@@ -25,9 +25,9 @@ Name | Type | Description | Notes
 **owner** | [**Owner**](Owner.md) | Owner of the definition, i.e. responsible Dapla team (statistics team) and information about access management groups. |
 **contact** | [**Contact**](Contact.md) | Contact details | [optional]
 **created_at** | **datetime** | The timestamp at which this variable definition was first created. |
-**created_by** | [**Person**](Person.md) | The user who created this variable definition. | [optional]
+**created_by** | **str** | The user who created this variable definition. | [optional]
 **last_updated_at** | **datetime** | The timestamp at which this variable definition was last modified. |
-**last_updated_by** | [**Person**](Person.md) | The user who last modified this variable definition. | [optional]
+**last_updated_by** | **str** | The user who last modified this variable definition. | [optional]
 
 ## Example
 
