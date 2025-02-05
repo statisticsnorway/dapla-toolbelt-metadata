@@ -1,0 +1,38 @@
+{
+    "name": {
+        "en": "",
+        "nb": "default",
+        "nn": ""
+    },
+    "short_name": "default",
+    "definition": {
+        "en": "",
+        "nb": "default",
+        "nn": ""
+    },
+    "classification_reference": "91",
+    "unit_types": [
+        "01"
+    ],
+    "subject_fields": [
+        "he04"
+    ],
+    "contains_special_categories_of_personal_data": false,
+    "measurement_type": null,
+    "valid_from": "1900-01-01",
+    "external_reference_uri": null,
+    "comment": {
+        "nb": "",
+        "nn": "",
+        "en": ""
+    },
+    "related_variable_definition_uris": [],
+    "contact": {
+        "title": {
+            "en": "",
+            "nb": "default",
+            "nn": ""
+        },
+        "email": "default@ssb.no"
+    }
+}
