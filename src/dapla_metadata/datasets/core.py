@@ -507,7 +507,10 @@ class Datadoc:
             content = self.container.model_dump_json(indent=4)
             self.metadata_document.write_text(content)
             logger.info("Saved metadata document %s", self.metadata_document)
-            logger.info("Metadata content:\n%s", content)
+            logger.info(
+                "Metadata content",
+                extra={"metadata_content": json.loads(content)},
+            )
         else:
             msg = "No metadata document to save"
             raise ValueError(msg)
