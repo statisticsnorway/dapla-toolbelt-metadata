@@ -19,18 +19,17 @@ from dapla_metadata.variable_definitions.generated.vardef_client.models.variable
 from dapla_metadata.variable_definitions.utils.time_template import get_current_time
 from dapla_metadata.variable_definitions.variable_definition import CompletePatchOutput
 
-yaml = YAML()
-yaml.default_flow_style = False  # Ensures pretty YAML formatting
-# check this if it works
-yaml.sort_keys = False  # Prevents automatic sorting
-
 
 def model_to_yaml_with_comments(
     model_instance: CompletePatchOutput,
-    yaml: YAML,
     file_path: str,
 ) -> str:
     """Converts a CompletePatchOutput instance to YAML with inline comments from field descriptions."""
+    yaml = YAML()
+    yaml.default_flow_style = False  # Ensures pretty YAML formatting
+    # check this if it works
+    yaml.sort_keys = False  # Prevents automatic sorting
+
     machine_generated_fields = [
         "id",
         "patch_id",
@@ -124,6 +123,5 @@ default_template = CompletePatchOutput(
 
 model_to_yaml_with_comments(
     default_template,
-    yaml,
     "variable_definition_template_" + get_current_time() + ".yaml",
 )
