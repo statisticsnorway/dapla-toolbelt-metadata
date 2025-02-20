@@ -1,3 +1,4 @@
+"""Template datetime for file."""
 from datetime import datetime
 
 import pytz

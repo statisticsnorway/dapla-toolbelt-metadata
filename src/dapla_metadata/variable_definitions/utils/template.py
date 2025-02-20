@@ -1,7 +1,6 @@
 from datetime import date
 from pathlib import Path
 
-import time_template
 from ruamel.yaml import YAML
 from ruamel.yaml import CommentedMap
 
@@ -17,6 +16,7 @@ from dapla_metadata.variable_definitions.generated.vardef_client.models.owner im
 from dapla_metadata.variable_definitions.generated.vardef_client.models.variable_status import (
     VariableStatus,
 )
+from dapla_metadata.variable_definitions.utils.time_template import get_current_time
 from dapla_metadata.variable_definitions.variable_definition import CompletePatchOutput
 
 yaml = YAML()
@@ -125,5 +125,5 @@ default_template = CompletePatchOutput(
 model_to_yaml_with_comments(
     default_template,
     yaml,
-    "variable_definition_template_" + time_template.get_current_time() + ".yaml",
+    "variable_definition_template_" + get_current_time() + ".yaml",
 )
