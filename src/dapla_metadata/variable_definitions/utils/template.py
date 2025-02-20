@@ -22,7 +22,7 @@ from dapla_metadata.variable_definitions.variable_definition import CompletePatc
 
 def model_to_yaml_with_comments(
     model_instance: CompletePatchOutput,
-    file_path: str,
+    file_path: str | None,
 ) -> str:
     """Converts a CompletePatchOutput instance to YAML with inline comments from field descriptions."""
     yaml = YAML()
@@ -70,7 +70,7 @@ def model_to_yaml_with_comments(
                     field_name,
                     before=description,
                 )
-
+    file_path = "variable_definition_template_" + get_current_time() + ".yaml"
     with Path.open(file_path, "w", encoding="utf-8") as file:
         commented_map.yaml_set_start_comment("--- Variable definition template ---\n")
         yaml.dump(commented_map, file)
@@ -119,9 +119,4 @@ default_template = CompletePatchOutput(
     created_by="",
     last_updated_at=default_date,
     last_updated_by="",
-)
-
-model_to_yaml_with_comments(
-    default_template,
-    "variable_definition_template_" + get_current_time() + ".yaml",
 )

@@ -178,7 +178,7 @@ class Vardef:
         )
 
     @classmethod
-    def write_template_to_file(cls, path: str) -> str:
+    def write_template_to_file(cls, path: str | None) -> str:
         """Write to a yaml file."""
         template = default_template
         model_to_yaml_with_comments(template, path)
