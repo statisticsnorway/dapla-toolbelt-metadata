@@ -182,3 +182,4 @@ class Vardef:
         """Write to a yaml file."""
         template = default_template
         model_to_yaml_with_comments(template, path)
+        return "sucessful printed to file"
