@@ -19,9 +19,38 @@ from dapla_metadata.variable_definitions.generated.vardef_client.models.variable
 from dapla_metadata.variable_definitions.utils.time_template import get_current_time
 from dapla_metadata.variable_definitions.variable_definition import CompletePatchOutput
 
+# Template with default values
+default_date = date(1000, 1, 1)
+
+default_template = CompletePatchOutput(
+    name=LanguageStringType(nb="default navn", nn="default namn", en="default name"),
+    short_name="default_kortnavn",
+    definition=LanguageStringType(
+        nb="default definisjon",
+        nn="default definisjon",
+        en="default definition",
+    ),
+    classification_reference="code",
+    valid_from=default_date,
+    unit_types=["00"],
+    subject_fields=["aa"],
+    contains_special_categories_of_personal_data=False,
+    variable_status=VariableStatus.DRAFT.value,
+    owner=Owner(team="generated", groups=["generated"]),
+    contact=Contact(
+        title=LanguageStringType(nb="default tittel"),
+        email="default@ssb.no",
+    ),
+    id="",
+    patch_id=0,
+    created_at=default_date,
+    created_by="",
+    last_updated_at=default_date,
+    last_updated_by="",
+)
+
 
 def model_to_yaml_with_comments(
-    model_instance: CompletePatchOutput,
     file_path: str | None,
 ) -> str:
     """Converts a CompletePatchOutput instance to YAML with inline comments from field descriptions."""
@@ -29,7 +58,7 @@ def model_to_yaml_with_comments(
     yaml.default_flow_style = False  # Ensures pretty YAML formatting
     # check this if it works
     yaml.sort_keys = False  # Prevents automatic sorting
-
+    model_instance = default_template
     machine_generated_fields = [
         "id",
         "patch_id",
@@ -86,37 +115,3 @@ def model_to_yaml_with_comments(
             "\n--- Machine generated fields. Do not edit ---\n",
         )
         yaml.dump(machine_generated_map, file)
-
-
-# Have a template with default values
-default_date = date(1000, 1, 1)
-default_language_string_type = (
-    LanguageStringType(nb="default navn", nn="default namn", en="default name"),
-)
-
-default_template = CompletePatchOutput(
-    name=LanguageStringType(nb="default navn", nn="default namn", en="default name"),
-    short_name="default_kortnavn",
-    definition=LanguageStringType(
-        nb="default definisjon",
-        nn="default definisjon",
-        en="default definition",
-    ),
-    classification_reference="code",
-    valid_from=default_date,
-    unit_types=["00"],
-    subject_fields=["aa"],
-    contains_special_categories_of_personal_data=False,
-    variable_status=VariableStatus.DRAFT.value,
-    owner=Owner(team="generated", groups=["generated"]),
-    contact=Contact(
-        title=LanguageStringType(nb="default tittel"),
-        email="default@ssb.no",
-    ),
-    id="",
-    patch_id=0,
-    created_at=default_date,
-    created_by="",
-    last_updated_at=default_date,
-    last_updated_by="",
-)

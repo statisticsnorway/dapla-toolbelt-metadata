@@ -1,6 +1,5 @@
 from datetime import date
 
-from src.dapla_metadata.variable_definitions.utils.template import default_template
 from src.dapla_metadata.variable_definitions.utils.template import (
     model_to_yaml_with_comments,
 )
@@ -180,6 +179,5 @@ class Vardef:
     @classmethod
     def write_template_to_file(cls, path: str | None) -> str:
         """Write to a yaml file."""
-        template = default_template
-        model_to_yaml_with_comments(template, path)
+        model_to_yaml_with_comments(path)
         return "sucessful printed to file"
