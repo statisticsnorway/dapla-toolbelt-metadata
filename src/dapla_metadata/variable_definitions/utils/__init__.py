@@ -1,1 +1,1 @@
-"""For utils."""
+"""Util methods for variable definitions."""
