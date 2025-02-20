@@ -1,6 +1,7 @@
 from datetime import date
 from pathlib import Path
 
+from pydantic import ConfigDict
 from pydantic import Field
 from ruamel.yaml import YAML
 from ruamel.yaml import CommentedMap
@@ -32,14 +33,8 @@ yaml.sort_keys = False  # Prevents automatic sorting
 class TemplateDefinition(CompleteResponse):
     """This is."""
 
-    variable_status: VariableStatus = Field(
-        description="Life cycle status of a variable definition.",
-    )
-
-    class ConfigDict:
-        """This."""
-
-        str_strip_whitespace = True
+    model_config = ConfigDict(use_enum_values=True, str_strip_whitespace=True)
+    variable_status: VariableStatus = Field(default=VariableStatus.DRAFT.value)
 
 
 default_date = date(1000, 1, 1)
@@ -47,7 +42,7 @@ default_language_string_type = (
     LanguageStringType(nb="default navn", nn="default namn", en="default name"),
 )
 
-template = TemplateDefinition(
+template2 = TemplateDefinition(
     name=LanguageStringType(nb="default navn", nn="default namn", en="default name"),
     short_name="default_kortnavn",
     definition=LanguageStringType(
@@ -60,7 +55,7 @@ template = TemplateDefinition(
     unit_types=["00"],
     subject_fields=["aa"],
     contains_special_categories_of_personal_data=False,
-    variable_status=VariableStatus.DRAFT,
+    variable_status=VariableStatus.DRAFT.value,
     owner=Owner(team="generated", groups=["generated"]),
     contact=Contact(
         title=LanguageStringType(nb="default tittel"),
@@ -91,11 +86,9 @@ def model_to_yaml_with_comments(
         "last_updated_by",
     ]
     data = model_instance.model_dump()  # Convert Pydantic model instance to dictionary
-    data["variable_status"] = data["variable_status"].value
     machine_generated_map = CommentedMap()
     commented_map = CommentedMap()  # Enables YAML comments
     status_map = CommentedMap()
-
     # Loop through all fields in the model
     for field_name, value in data.items():
         if field_name == "variable_status":
@@ -147,7 +140,7 @@ def model_to_yaml_with_comments(
 
 
 # Convert model instance to YAML with inline comments
-model_to_yaml_with_comments(template, yaml, "variable_definition_template.yaml")
+model_to_yaml_with_comments(template2, yaml, "variable_definition_template.yaml")
 
 with Path.open("variable_definition_template.yaml") as file:
     result = yaml.load(file)
