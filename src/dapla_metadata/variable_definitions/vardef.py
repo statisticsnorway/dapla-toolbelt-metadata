@@ -1,5 +1,10 @@
 from datetime import date
 
+from src.dapla_metadata.variable_definitions.utils.template import default_template
+from src.dapla_metadata.variable_definitions.utils.template import (
+    model_to_yaml_with_comments,
+)
+
 from dapla_metadata.variable_definitions import config
 from dapla_metadata.variable_definitions._client import VardefClient
 from dapla_metadata.variable_definitions.exceptions import vardef_exception_handler
@@ -171,3 +176,9 @@ class Vardef:
                 date_of_validity=date_of_validity,
             ),
         )
+
+    @classmethod
+    def write_template_to_file(cls, path: str) -> str:
+        """Write to a yaml file."""
+        template = default_template
+        model_to_yaml_with_comments(template, path)
