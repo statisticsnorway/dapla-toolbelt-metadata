@@ -51,6 +51,7 @@ default_template = CompletePatchOutput(
 
 
 def model_to_yaml_with_comments(
+    model_instance: CompletePatchOutput | None,
     file_path: str | None,
 ) -> str:
     """Converts a CompletePatchOutput instance to YAML with inline comments from field descriptions."""
@@ -58,7 +59,8 @@ def model_to_yaml_with_comments(
     yaml.default_flow_style = False  # Ensures pretty YAML formatting
     # check this if it works
     yaml.sort_keys = False  # Prevents automatic sorting
-    model_instance = default_template
+    if model_instance is None:
+        model_instance = default_template
     machine_generated_fields = [
         "id",
         "patch_id",
