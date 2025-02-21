@@ -169,7 +169,7 @@ version = "0.7.0"
 description = "Reusable constraint types to use with typing.Annotated"
 optional = false
 python-versions = ">=3.8"
-groups = ["main", "dev"]
+groups = ["main"]
 markers = "python_version <= \"3.11\" or python_version >= \"3.12\""
 files = [
     {file = "annotated_types-0.7.0-py3-none-any.whl", hash = "sha256:1f02e8b43a8fbbc3f3e0d4f0f4bfc8131bcb4eebe8849b8e5c773f3a1c582a53"},
@@ -3885,7 +3885,7 @@ version = "2.10.4"
 description = "Data validation using Python type hints"
 optional = false
 python-versions = ">=3.8"
-groups = ["main", "dev"]
+groups = ["main"]
 markers = "python_version <= \"3.11\" or python_version >= \"3.12\""
 files = [
     {file = "pydantic-2.10.4-py3-none-any.whl", hash = "sha256:597e135ea68be3a37552fb524bc7d0d66dcf93d395acd93a00682f1efcb8ee3d"},
@@ -3907,7 +3907,7 @@ version = "2.27.2"
 description = "Core functionality for Pydantic validation and serialization"
 optional = false
 python-versions = ">=3.8"
-groups = ["main", "dev"]
+groups = ["main"]
 markers = "python_version <= \"3.11\" or python_version >= \"3.12\""
 files = [
     {file = "pydantic_core-2.27.2-cp310-cp310-macosx_10_12_x86_64.whl", hash = "sha256:2d367ca20b2f14095a8f4fa1210f5a7b78b8a20009ecced6b12818f455b1e9fa"},
@@ -4014,28 +4014,6 @@ files = [
 
 [package.dependencies]
 typing-extensions = ">=4.6.0,<4.7.0 || >4.7.0"
-
-[[package]]
-name = "pydantic-yaml"
-version = "1.4.0"
-description = "Adds some YAML functionality to the excellent `pydantic` library."
-optional = false
-python-versions = ">=3.8"
-groups = ["dev"]
-markers = "python_version <= \"3.11\" or python_version >= \"3.12\""
-files = [
-    {file = "pydantic_yaml-1.4.0-py3-none-any.whl", hash = "sha256:f9ad82d8c0548e779e00d6ec639f6efa8f8c7e14d12d0bf9fdc400a37300d7ba"},
-    {file = "pydantic_yaml-1.4.0.tar.gz", hash = "sha256:09f6b9ec9d80550dd3a58596a6a0948a1830fae94b73329b95c2b9dbfc35ae00"},
-]
-
-[package.dependencies]
-pydantic = ">=1.8"
-"ruamel.yaml" = ">=0.16.0,<0.19.0"
-typing-extensions = ">=4.5.0"
-
-[package.extras]
-dev = ["black (==24.8.0)", "mypy (==1.13.0)", "pre-commit (==3.5.0)", "pytest (==8.3.3)", "ruff (==0.7.3)", "setuptools (>=61.0.0)", "setuptools-scm[toml] (>=6.2)"]
-docs = ["mkdocs", "mkdocs-material", "mkdocstrings[python]", "pygments", "pymdown-extensions"]
 
 [[package]]
 name = "pygments"
@@ -4890,7 +4868,7 @@ version = "0.18.10"
 description = "ruamel.yaml is a YAML parser/emitter that supports roundtrip preservation of comments, seq/map flow style, and map key order"
 optional = false
 python-versions = ">=3.7"
-groups = ["main", "dev"]
+groups = ["main"]
 markers = "python_version <= \"3.11\" or python_version >= \"3.12\""
 files = [
     {file = "ruamel.yaml-0.18.10-py3-none-any.whl", hash = "sha256:30f22513ab2301b3d2b577adc121c6471f28734d3d9728581245f1e76468b4f1"},
@@ -4910,7 +4888,7 @@ version = "0.2.12"
 description = "C version of reader, parser and emitter for ruamel.yaml derived from libyaml"
 optional = false
 python-versions = ">=3.9"
-groups = ["main", "dev"]
+groups = ["main"]
 markers = "platform_python_implementation == \"CPython\" and python_version < \"3.13\" and (python_version <= \"3.11\" or python_version >= \"3.12\")"
 files = [
     {file = "ruamel.yaml.clib-0.2.12-cp310-cp310-macosx_13_0_arm64.whl", hash = "sha256:11f891336688faf5156a36293a9c362bdc7c88f03a8a027c2c1d8e0bcde998e5"},
@@ -6352,4 +6330,4 @@ type = ["pytest-mypy"]
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.10,<4.0"
-content-hash = "89641e93076f3642f1ce41927328456f641d43c5ce91523ec4a7e21ff18a1199"
+content-hash = "2b03c7f400c3dfcdd829f38ec3ad9b73906f7fcb3a39fad03b4dc4061bf213ed"
