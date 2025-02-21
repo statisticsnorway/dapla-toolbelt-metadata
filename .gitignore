@@ -145,3 +145,6 @@ dmypy.json
 .history/
 # Built Visual Studio Code Extensions
 *.vsix
+
+# Generated template Yaml files
+/variable_definition_template_*.yaml
