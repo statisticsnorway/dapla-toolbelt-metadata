@@ -101,7 +101,7 @@ def _populate_commented_map(
     value: str,
     commented_map: CommentedMap,
     model_instance: CompletePatchOutput,
-) -> CommentedMap:
+) -> None:
     """Add data to a CommentedMap."""
     commented_map[field_name] = value
     description = model_instance.model_fields[field_name].description
