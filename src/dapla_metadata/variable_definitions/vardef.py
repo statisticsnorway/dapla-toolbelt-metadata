@@ -180,6 +180,6 @@ class Vardef:
         """Write template with default values to a yaml file."""
         file_path = model_to_yaml_with_comments()
         # Check if the file was created
-        if file_path.exists():
-            return "Successfully written to file"
-        return ""
+        if not file_path.exists():
+            return "Error: File was not created"
+        return "Successfully written to file"
