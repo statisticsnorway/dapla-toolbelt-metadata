@@ -48,23 +48,21 @@ def model_to_yaml_with_comments(
 
     file_path = _file_path_base(get_current_time())
 
+    # The sequence of the yaml dump operations
     with Path.open(file_path, "w", encoding="utf-8") as file:
         commented_map.yaml_set_start_comment("--- Variable definition template ---\n")
         yaml.dump(commented_map, file)
 
-    with Path.open(file_path, "a") as file:
         status_map.yaml_set_start_comment(
             "\n--- Status field. Value 'DRAFT' before publishing. Do not edit if creating new variable defintion ---\n",
         )
         yaml.dump(status_map, file)
 
-    with Path.open(file_path, "a") as file:
         owner_map.yaml_set_start_comment(
             "\n--- Owner team and groups. Do not edit if creating new variable defintion, value is generated ---\n",
         )
         yaml.dump(owner_map, file)
 
-    with Path.open(file_path, "a") as file:
         machine_generated_map.yaml_set_start_comment(
             "\n--- Machine generated fields. Do not edit ---\n",
         )
