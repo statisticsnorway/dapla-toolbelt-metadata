@@ -1,9 +1,5 @@
 from datetime import date
 
-from src.dapla_metadata.variable_definitions.utils.template import (
-    model_to_yaml_with_comments,
-)
-
 from dapla_metadata.variable_definitions import config
 from dapla_metadata.variable_definitions._client import VardefClient
 from dapla_metadata.variable_definitions.exceptions import vardef_exception_handler
@@ -18,6 +14,9 @@ from dapla_metadata.variable_definitions.generated.vardef_client.api.variable_de
 )
 from dapla_metadata.variable_definitions.generated.vardef_client.models.draft import (
     Draft,
+)
+from dapla_metadata.variable_definitions.utils.template import (
+    model_to_yaml_with_comments,
 )
 from dapla_metadata.variable_definitions.variable_definition import VariableDefinition
 
