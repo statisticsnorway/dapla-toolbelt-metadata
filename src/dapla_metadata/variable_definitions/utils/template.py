@@ -49,8 +49,6 @@ def model_to_yaml_with_comments(
     """
     yaml = YAML()  # Use ruamel.yaml library
     yaml.default_flow_style = False  # Ensures pretty YAML formatting
-    # check this if it works
-    yaml.sort_keys = False  # Prevents automatic sorting
 
     data = model_instance.to_dict()  # Convert Pydantic model instance to dictionary
 
