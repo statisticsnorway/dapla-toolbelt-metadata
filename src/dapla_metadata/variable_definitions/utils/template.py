@@ -27,16 +27,33 @@ def model_to_yaml_with_comments(
     model_instance: CompletePatchOutput = DEFAULT_TEMPLATE,
     file_path: str = "",
 ) -> str:
-    """Converts a CompletePatchOutput instance to YAML template file.
+    """Convert a CompletePatchOutput instance into a structured YAML template file with comments.
 
-    For each field a comment above with content from field descriptions.
+    This function:
+    - Extracts data from a `CompletePatchOutput` instance.
+    - Adds descriptive comments above each field.
+    - Organizes the YAML output into logical sections with meaningful headers.
+    - Saves the YAML content to a file, ensuring a predictable structure.
+
+    The resulting file is named with a fixed filename and a timestamp to avoid overwriting previous templates.
+
+    Args:
+        model_instance (CompletePatchOutput, optional):
+            The instance to convert. Defaults to `DEFAULT_TEMPLATE`.
+        file_path (str, optional):
+            The destination file path.
+
+    Returns:
+        str: The file path of the generated YAML file.
     """
-    yaml = YAML()
+    yaml = YAML()  # Use ruamel.yaml library
     yaml.default_flow_style = False  # Ensures pretty YAML formatting
     # check this if it works
     yaml.sort_keys = False  # Prevents automatic sorting
+
     data = model_instance.to_dict()  # Convert Pydantic model instance to dictionary
 
+    # One CommentMap for each section in the yaml file
     machine_generated_map = CommentedMap()
     commented_map = CommentedMap()
     status_map = CommentedMap()
@@ -58,10 +75,11 @@ def model_to_yaml_with_comments(
         elif field_name not in {VARIABLE_STATUS_FIELD_NAME, OWNER_FIELD_NAME}:
             _populate_commented_map(field_name, value, commented_map, model_instance)
 
-    # Add path/ optional path
+    # Add path/optional path
     file_path = _file_path_base(get_current_time())
 
     # It is important to preserve the order of the yaml dump operations when writing to file
+    # so that the file is predictable for the user
     with Path.open(file_path, "w", encoding="utf-8") as file:
         commented_map.yaml_set_start_comment(TEMPLATE_HEADER)
         yaml.dump(commented_map, file)
@@ -84,6 +102,7 @@ def _populate_commented_map(
     commented_map: CommentedMap,
     model_instance: CompletePatchOutput,
 ) -> CommentedMap:
+    """Add data to a CommentedMap."""
     commented_map[field_name] = value
     description = model_instance.model_fields[field_name].description
     if description:
@@ -94,4 +113,5 @@ def _populate_commented_map(
 
 
 def _file_path_base(time_object: str) -> str:
+    """Return file name with dynamic timestamp."""
     return "variable_definition_template_" + time_object + ".yaml"
