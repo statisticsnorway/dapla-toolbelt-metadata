@@ -1,107 +1,53 @@
-from datetime import date
 from pathlib import Path
 
 from ruamel.yaml import YAML
 from ruamel.yaml import CommentedMap
 
-from dapla_metadata.variable_definitions.generated.vardef_client.models.contact import (
-    Contact,
-)
-from dapla_metadata.variable_definitions.generated.vardef_client.models.language_string_type import (
-    LanguageStringType,
-)
-from dapla_metadata.variable_definitions.generated.vardef_client.models.owner import (
-    Owner,
-)
-from dapla_metadata.variable_definitions.generated.vardef_client.models.variable_status import (
-    VariableStatus,
+from dapla_metadata.variable_definitions.utils.constants import DEFAULT_TEMPLATE
+from dapla_metadata.variable_definitions.utils.constants import MACHINE_GENERATED_FIELDS
+from dapla_metadata.variable_definitions.utils.constants import OWNER_FIELD_NAME
+from dapla_metadata.variable_definitions.utils.constants import (
+    VARIABLE_STATUS_FIELD_NAME,
 )
 from dapla_metadata.variable_definitions.utils.time_template import get_current_time
 from dapla_metadata.variable_definitions.variable_definition import CompletePatchOutput
 
-# Template with default values
-default_date = date(1000, 1, 1)
-
-default_template = CompletePatchOutput(
-    name=LanguageStringType(nb="default navn", nn="default namn", en="default name"),
-    short_name="default_kortnavn",
-    definition=LanguageStringType(
-        nb="default definisjon",
-        nn="default definisjon",
-        en="default definition",
-    ),
-    classification_reference="code",
-    valid_from=default_date,
-    unit_types=["00"],
-    subject_fields=["aa"],
-    contains_special_categories_of_personal_data=False,
-    variable_status=VariableStatus.DRAFT.value,
-    owner=Owner(team="generated", groups=["generated"]),
-    contact=Contact(
-        title=LanguageStringType(nb="default tittel"),
-        email="default@ssb.no",
-    ),
-    id="",
-    patch_id=0,
-    created_at=default_date,
-    created_by="",
-    last_updated_at=default_date,
-    last_updated_by="",
-)
-
 
 def model_to_yaml_with_comments(
-    model_instance: CompletePatchOutput | None,
-    file_path: str | None,
+    model_instance: CompletePatchOutput = DEFAULT_TEMPLATE,
+    file_path: str = "",
 ) -> str:
-    """Converts a CompletePatchOutput instance to YAML with inline comments from field descriptions."""
+    """Converts a CompletePatchOutput instance to YAML template file.
+
+    For each field a comment above with content from field descriptions.
+    """
     yaml = YAML()
     yaml.default_flow_style = False  # Ensures pretty YAML formatting
     # check this if it works
     yaml.sort_keys = False  # Prevents automatic sorting
-    if model_instance is None:
-        model_instance = default_template
-    machine_generated_fields = [
-        "id",
-        "patch_id",
-        "created_at",
-        "created_by",
-        "owner",
-        "last_updated_at",
-        "last_updated_by",
-    ]
     data = model_instance.to_dict()  # Convert Pydantic model instance to dictionary
     machine_generated_map = CommentedMap()
     commented_map = CommentedMap()
     status_map = CommentedMap()
+    owner_map = CommentedMap()
     # Loop through all fields in the model
     for field_name, value in data.items():
-        if field_name == "variable_status":
-            status_map[field_name] = value
-            description = model_instance.model_fields[field_name].description
-            if description:
-                status_map.yaml_set_comment_before_after_key(
-                    field_name,
-                    before=description,
-                )
-        if field_name in machine_generated_fields:
-            machine_generated_map[field_name] = value
-
-            description = model_instance.model_fields[field_name].description
-            if description:
-                machine_generated_map.yaml_set_comment_before_after_key(
-                    field_name,
-                    before=description,
-                )
+        if field_name == VARIABLE_STATUS_FIELD_NAME:
+            _populate_commented_map(field_name, value, status_map, model_instance)
+        if field_name == OWNER_FIELD_NAME:
+            _populate_commented_map(field_name, value, owner_map, model_instance)
+        if field_name in MACHINE_GENERATED_FIELDS:
+            _populate_commented_map(
+                field_name,
+                value,
+                machine_generated_map,
+                model_instance,
+            )
         elif field_name != "variable_status":
-            commented_map[field_name] = value
-            description = model_instance.model_fields[field_name].description
-            if description:
-                commented_map.yaml_set_comment_before_after_key(
-                    field_name,
-                    before=description,
-                )
-    file_path = "variable_definition_template_" + get_current_time() + ".yaml"
+            _populate_commented_map(field_name, value, commented_map, model_instance)
+
+    file_path = _file_path_base(get_current_time())
+
     with Path.open(file_path, "w", encoding="utf-8") as file:
         commented_map.yaml_set_start_comment("--- Variable definition template ---\n")
         yaml.dump(commented_map, file)
@@ -113,7 +59,32 @@ def model_to_yaml_with_comments(
         yaml.dump(status_map, file)
 
     with Path.open(file_path, "a") as file:
+        owner_map.yaml_set_start_comment(
+            "\n--- Owner team and groups. Do not edit if creating new variable defintion, value is generated ---\n",
+        )
+        yaml.dump(owner_map, file)
+
+    with Path.open(file_path, "a") as file:
         machine_generated_map.yaml_set_start_comment(
             "\n--- Machine generated fields. Do not edit ---\n",
         )
         yaml.dump(machine_generated_map, file)
+
+
+def _populate_commented_map(
+    field_name: str,
+    value: str,
+    commented_map: CommentedMap,
+    model_instance: CompletePatchOutput,
+) -> CommentedMap:
+    commented_map[field_name] = value
+    description = model_instance.model_fields[field_name].description
+    if description:
+        commented_map.yaml_set_comment_before_after_key(
+            field_name,
+            before=description,
+        )
+
+
+def _file_path_base(time_object: str) -> str:
+    return "variable_definition_template_" + time_object + ".yaml"
