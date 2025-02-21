@@ -75,11 +75,11 @@ def model_to_yaml_with_comments(
             _populate_commented_map(field_name, value, commented_map, model_instance)
 
     # Add path/optional path
-    file_path = _file_path_base(_get_current_time())
+    file_path = Path(_file_path_base(_get_current_time()))
 
     # It is important to preserve the order of the yaml dump operations when writing to file
     # so that the file is predictable for the user
-    with Path.open(file_path, "w", encoding="utf-8") as file:
+    with file_path.open("w", encoding="utf-8") as file:
         commented_map.yaml_set_start_comment(TEMPLATE_HEADER)
         yaml.dump(commented_map, file)
 
