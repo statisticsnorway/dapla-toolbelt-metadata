@@ -26,7 +26,7 @@ from dapla_metadata.variable_definitions.variable_definition import CompletePatc
 def model_to_yaml_with_comments(
     model_instance: CompletePatchOutput = DEFAULT_TEMPLATE,
     file_path: str = "",
-) -> None:
+) -> Path:
     """Convert a CompletePatchOutput instance into a structured YAML template file with comments.
 
     This function:
@@ -94,6 +94,7 @@ def model_to_yaml_with_comments(
             TEMPLATE_SECTION_HEADER_MACHINE_GENERATED,
         )
         yaml.dump(machine_generated_map, file)
+    return Path(file_path)
 
 
 def _populate_commented_map(
