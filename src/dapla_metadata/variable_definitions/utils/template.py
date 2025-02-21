@@ -1,5 +1,7 @@
+from datetime import datetime
 from pathlib import Path
 
+import pytz
 from ruamel.yaml import YAML
 from ruamel.yaml import CommentedMap
 
@@ -19,7 +21,6 @@ from dapla_metadata.variable_definitions.utils.constants import (
 from dapla_metadata.variable_definitions.utils.constants import (
     VARIABLE_STATUS_FIELD_NAME,
 )
-from dapla_metadata.variable_definitions.utils.time_template import get_current_time
 from dapla_metadata.variable_definitions.variable_definition import CompletePatchOutput
 
 
@@ -76,7 +77,7 @@ def model_to_yaml_with_comments(
             _populate_commented_map(field_name, value, commented_map, model_instance)
 
     # Add path/optional path
-    file_path = _file_path_base(get_current_time())
+    file_path = _file_path_base(_get_current_time())
 
     # It is important to preserve the order of the yaml dump operations when writing to file
     # so that the file is predictable for the user
@@ -116,3 +117,10 @@ def _populate_commented_map(
 def _file_path_base(time_object: str) -> str:
     """Return file name with dynamic timestamp."""
     return "variable_definition_template_" + time_object + ".yaml"
+
+
+def _get_current_time() -> str:
+    """Return a string format date now for filename."""
+    timezone = pytz.timezone("Europe/Oslo")
+    current_datetime = datetime.now(timezone).strftime("%Y-%m-%dT%H-%M-%S")
+    return str(current_datetime)
