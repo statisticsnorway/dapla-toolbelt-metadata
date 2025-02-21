@@ -6,6 +6,16 @@ from ruamel.yaml import CommentedMap
 from dapla_metadata.variable_definitions.utils.constants import DEFAULT_TEMPLATE
 from dapla_metadata.variable_definitions.utils.constants import MACHINE_GENERATED_FIELDS
 from dapla_metadata.variable_definitions.utils.constants import OWNER_FIELD_NAME
+from dapla_metadata.variable_definitions.utils.constants import TEMPLATE_HEADER
+from dapla_metadata.variable_definitions.utils.constants import (
+    TEMPLATE_SECTION_HEADER_MACHINE_GENERATED,
+)
+from dapla_metadata.variable_definitions.utils.constants import (
+    TEMPLATE_SECTION_HEADER_OWNER,
+)
+from dapla_metadata.variable_definitions.utils.constants import (
+    TEMPLATE_SECTION_HEADER_STATUS,
+)
 from dapla_metadata.variable_definitions.utils.constants import (
     VARIABLE_STATUS_FIELD_NAME,
 )
@@ -26,45 +36,44 @@ def model_to_yaml_with_comments(
     # check this if it works
     yaml.sort_keys = False  # Prevents automatic sorting
     data = model_instance.to_dict()  # Convert Pydantic model instance to dictionary
+
     machine_generated_map = CommentedMap()
     commented_map = CommentedMap()
     status_map = CommentedMap()
     owner_map = CommentedMap()
-    # Loop through all fields in the model
+
+    # Loop through all fields in the model and populate the commented maps
     for field_name, value in data.items():
         if field_name == VARIABLE_STATUS_FIELD_NAME:
             _populate_commented_map(field_name, value, status_map, model_instance)
-        if field_name == OWNER_FIELD_NAME:
+        elif field_name == OWNER_FIELD_NAME:
             _populate_commented_map(field_name, value, owner_map, model_instance)
-        if field_name in MACHINE_GENERATED_FIELDS:
+        elif field_name in MACHINE_GENERATED_FIELDS:
             _populate_commented_map(
                 field_name,
                 value,
                 machine_generated_map,
                 model_instance,
             )
-        elif field_name != "variable_status":
+        elif field_name not in {VARIABLE_STATUS_FIELD_NAME, OWNER_FIELD_NAME}:
             _populate_commented_map(field_name, value, commented_map, model_instance)
 
+    # Add path/ optional path
     file_path = _file_path_base(get_current_time())
 
-    # The sequence of the yaml dump operations
+    # It is important to preserve the order of the yaml dump operations when writing to file
     with Path.open(file_path, "w", encoding="utf-8") as file:
-        commented_map.yaml_set_start_comment("--- Variable definition template ---\n")
+        commented_map.yaml_set_start_comment(TEMPLATE_HEADER)
         yaml.dump(commented_map, file)
 
-        status_map.yaml_set_start_comment(
-            "\n--- Status field. Value 'DRAFT' before publishing. Do not edit if creating new variable defintion ---\n",
-        )
+        status_map.yaml_set_start_comment(TEMPLATE_SECTION_HEADER_STATUS)
         yaml.dump(status_map, file)
 
-        owner_map.yaml_set_start_comment(
-            "\n--- Owner team and groups. Do not edit if creating new variable defintion, value is generated ---\n",
-        )
+        owner_map.yaml_set_start_comment(TEMPLATE_SECTION_HEADER_OWNER)
         yaml.dump(owner_map, file)
 
         machine_generated_map.yaml_set_start_comment(
-            "\n--- Machine generated fields. Do not edit ---\n",
+            TEMPLATE_SECTION_HEADER_MACHINE_GENERATED,
         )
         yaml.dump(machine_generated_map, file)
 
