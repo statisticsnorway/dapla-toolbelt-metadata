@@ -177,7 +177,12 @@ class Vardef:
         )
 
     @classmethod
-    def write_template_to_file(cls, path: str | None) -> str:
-        """Write to a yaml file."""
-        model_to_yaml_with_comments(path)
-        return "sucessful printed to file"
+    def write_template_to_file(cls) -> str:
+        """Write template with default values to a yaml file."""
+        try:
+            file_path = model_to_yaml_with_comments()
+            # Check if the file was created
+            if file_path.exists():
+                return "Successfully written to file"
+        except TypeError as e:
+            return f"Error: {e!s}"
