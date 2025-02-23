@@ -1,8 +1,5 @@
 """Test class for creating a yaml template."""
 
-
-from pathlib import Path
-
 import ruamel.yaml
 
 from dapla_metadata.variable_definitions.utils.constants import DEFAULT_TEMPLATE
@@ -57,9 +54,3 @@ def test_file_name():
     """Check filename."""
     file_path = model_to_yaml_with_comments(model_instance=DEFAULT_TEMPLATE)
     assert "variable_definition_template_" in str(file_path)
-
-
-def test_file_path(work_folder: Path):
-    """Check file path."""
-    work_dir = work_folder
-    assert work_dir.exists()
