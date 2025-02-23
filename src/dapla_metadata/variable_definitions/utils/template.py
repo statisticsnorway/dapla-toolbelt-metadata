@@ -26,7 +26,6 @@ from dapla_metadata.variable_definitions.variable_definition import CompletePatc
 
 
 def model_to_yaml_with_comments(
-    custom_path: Path | None = None,
     model_instance: CompletePatchOutput = DEFAULT_TEMPLATE,
 ) -> Path:
     """Convert a CompletePatchOutput instance into a structured YAML template file with comments.
@@ -40,10 +39,8 @@ def model_to_yaml_with_comments(
     The resulting file is named with a fixed filename and a timestamp to avoid overwriting previous templates.
 
     Args:
-        model_instance (CompletePatchOutput, optional):
-            The instance to convert. Defaults to `DEFAULT_TEMPLATE`.
-        custom_path (str, optional):
-            Optional destination file path.
+        model_instance:
+            The instance to convert. Defaults to variable definition template with default values.
 
     Returns:
         str: The file path of the generated YAML file.
@@ -75,8 +72,7 @@ def model_to_yaml_with_comments(
         elif field_name not in {VARIABLE_STATUS_FIELD_NAME, OWNER_FIELD_NAME}:
             _populate_commented_map(field_name, value, commented_map, model_instance)
 
-    # If no custom path use standard directory
-    folder_path = custom_path if custom_path else _get_work_dir()
+    folder_path = _get_work_dir()
 
     file_name = Path(_file_path_base(_get_current_time()))
     file_path = folder_path / file_name
