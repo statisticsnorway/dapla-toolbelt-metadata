@@ -18,6 +18,7 @@ from dapla_metadata.variable_definitions.utils.constants import (
 from dapla_metadata.variable_definitions.utils.constants import (
     TEMPLATE_SECTION_HEADER_STATUS,
 )
+from dapla_metadata.variable_definitions.utils.constants import VARIABLE_DEFINITIONS_DIR
 from dapla_metadata.variable_definitions.utils.constants import (
     VARIABLE_STATUS_FIELD_NAME,
 )
@@ -25,6 +26,7 @@ from dapla_metadata.variable_definitions.variable_definition import CompletePatc
 
 
 def model_to_yaml_with_comments(
+    custom_path: Path | None = None,
     model_instance: CompletePatchOutput = DEFAULT_TEMPLATE,
 ) -> Path:
     """Convert a CompletePatchOutput instance into a structured YAML template file with comments.
@@ -40,8 +42,8 @@ def model_to_yaml_with_comments(
     Args:
         model_instance (CompletePatchOutput, optional):
             The instance to convert. Defaults to `DEFAULT_TEMPLATE`.
-        file_path (str, optional):
-            The destination file path.
+        custom_path (str, optional):
+            Optional destination file path.
 
     Returns:
         str: The file path of the generated YAML file.
@@ -73,12 +75,15 @@ def model_to_yaml_with_comments(
         elif field_name not in {VARIABLE_STATUS_FIELD_NAME, OWNER_FIELD_NAME}:
             _populate_commented_map(field_name, value, commented_map, model_instance)
 
-    # Add path/optional path
-    file_path_base = Path(_file_path_base(_get_current_time()))
+    # If no custom path use standard directory
+    folder_path = custom_path if custom_path is not None else _get_work_dir()
+
+    file_name = Path(_file_path_base(_get_current_time()))
+    file_path = folder_path / file_name
 
     # It is important to preserve the order of the yaml dump operations when writing to file
     # so that the file is predictable for the user
-    with file_path_base.open("w", encoding="utf-8") as file:
+    with file_path.open("w", encoding="utf-8") as file:
         commented_map.yaml_set_start_comment(TEMPLATE_HEADER)
         yaml.dump(commented_map, file)
 
@@ -92,7 +97,7 @@ def model_to_yaml_with_comments(
             TEMPLATE_SECTION_HEADER_MACHINE_GENERATED,
         )
         yaml.dump(machine_generated_map, file)
-    return file_path_base
+    return file_path
 
 
 def _populate_commented_map(
@@ -121,3 +126,19 @@ def _get_current_time() -> str:
     timezone = pytz.timezone("Europe/Oslo")
     current_datetime = datetime.now(timezone).strftime("%Y-%m-%dT%H-%M-%S")
     return str(current_datetime)
+
+
+def _get_work_dir() -> Path:
+    """Return path to folder in work directory."""
+    current_dir = Path.cwd()
+    while current_dir != current_dir.parent:
+        if (current_dir / "work").exists():
+            work_dir = current_dir / "work"
+            break
+        current_dir = current_dir.parent
+    else:
+        msg = "'work' directory not found at the root"
+        raise FileNotFoundError(msg)
+    folder_path = work_dir / VARIABLE_DEFINITIONS_DIR
+    folder_path.mkdir(exist_ok=True)
+    return folder_path
