@@ -1,6 +1,8 @@
 """Test class for creating a yaml template."""
 
 
+from pathlib import Path
+
 import ruamel.yaml
 
 from dapla_metadata.variable_definitions.utils.constants import DEFAULT_TEMPLATE
@@ -14,13 +16,13 @@ yaml = ruamel.yaml.YAML()
 
 def test_yaml_file_creation():
     """Test if the function generates a YAML file."""
-    file_path = model_to_yaml_with_comments(DEFAULT_TEMPLATE)
+    file_path = model_to_yaml_with_comments(model_instance=DEFAULT_TEMPLATE)
     assert file_path.exists(), "YAML file was not created"
 
 
 def test_yaml_content_default_values():
     """Check if the generated YAML file with default values contains the expected data."""
-    file_path = model_to_yaml_with_comments(DEFAULT_TEMPLATE)
+    file_path = model_to_yaml_with_comments(model_instance=DEFAULT_TEMPLATE)
     with file_path.open(encoding="utf-8") as f:
         parsed_yaml = yaml.load(f)
 
@@ -30,7 +32,7 @@ def test_yaml_content_default_values():
 
 def test_yaml_content_saved_values(complete_patch_output: CompletePatchOutput) -> None:
     """Check if the generated YAML file with saved values contains the expected data."""
-    file_path = model_to_yaml_with_comments(complete_patch_output)
+    file_path = model_to_yaml_with_comments(model_instance=complete_patch_output)
     with file_path.open(encoding="utf-8") as f:
         parsed_yaml = yaml.load(f)
 
@@ -40,7 +42,7 @@ def test_yaml_content_saved_values(complete_patch_output: CompletePatchOutput) -
 
 def test_yaml_comments():
     """Ensure the YAML file includes the expected header comments."""
-    file_path = model_to_yaml_with_comments(DEFAULT_TEMPLATE)
+    file_path = model_to_yaml_with_comments(model_instance=DEFAULT_TEMPLATE)
 
     with file_path.open(encoding="utf-8") as f:
         content = f.read()
@@ -53,5 +55,11 @@ def test_yaml_comments():
 
 def test_file_name():
     """Check filename."""
-    file_path = model_to_yaml_with_comments(DEFAULT_TEMPLATE)
+    file_path = model_to_yaml_with_comments(model_instance=DEFAULT_TEMPLATE)
     assert "variable_definition_template_" in str(file_path)
+
+
+def test_file_path(work_folder: Path):
+    """Check file path."""
+    work_dir = work_folder
+    assert work_dir.exists()
