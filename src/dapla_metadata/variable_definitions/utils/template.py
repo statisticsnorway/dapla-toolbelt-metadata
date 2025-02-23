@@ -76,7 +76,7 @@ def model_to_yaml_with_comments(
             _populate_commented_map(field_name, value, commented_map, model_instance)
 
     # If no custom path use standard directory
-    folder_path = custom_path if custom_path is not None else _get_work_dir()
+    folder_path = custom_path if custom_path else _get_work_dir()
 
     file_name = Path(_file_path_base(_get_current_time()))
     file_path = folder_path / file_name
