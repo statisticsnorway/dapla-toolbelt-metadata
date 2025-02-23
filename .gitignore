@@ -147,4 +147,4 @@ dmypy.json
 *.vsix
 
 # Generated template Yaml files
-/variable_definition_template_*.yaml
+variable_definition_template_*.yaml
