@@ -77,7 +77,8 @@ def model_to_yaml_with_comments(
 
     base_path = _get_work_dir() if custom_directory is None else custom_directory
 
-    base_path.mkdir(parents=True, exist_ok=True)  # Ensure directory exists
+    if custom_directory is not None:
+        base_path.mkdir(parents=True, exist_ok=True)
 
     file_path = base_path / _file_path_base(_get_current_time())
 
