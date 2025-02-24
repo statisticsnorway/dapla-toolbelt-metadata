@@ -75,11 +75,11 @@ def model_to_yaml_with_comments(
         elif field_name not in {VARIABLE_STATUS_FIELD_NAME, OWNER_FIELD_NAME}:
             _populate_commented_map(field_name, value, commented_map, model_instance)
 
-    custom_directory = _get_work_dir(custom_directory)
+    base_path = _get_work_dir() if custom_directory is None else custom_directory
 
-    custom_directory.mkdir(parents=True, exist_ok=True)  # Ensure directory exists
+    base_path.mkdir(parents=True, exist_ok=True)  # Ensure directory exists
 
-    file_path = custom_directory / _file_path_base(_get_current_time())
+    file_path = base_path / _file_path_base(_get_current_time())
 
     # It is important to preserve the order of the yaml dump operations when writing to file
     # so that the file is predictable for the user
@@ -128,16 +128,27 @@ def _get_current_time() -> str:
     return str(current_datetime)
 
 
-def _get_work_dir(custom_directory: Path | None = None) -> Path:
-    """Return path to folder in work directory."""
-    current_dir = Path.cwd() if custom_directory is None else custom_directory
+def _get_work_dir() -> Path:
+    """Return the default base path for saving generated templates.
+
+    Searches upwards from the current directory to find 'work'.
+    If found, ensures the 'variable-definitions' subdirectory exists and returns its path.
+    Raises a FileNotFoundError if 'work' is not found.
+
+    Returns:
+        Path: The path to 'work/variable-definitions'.
+
+    Raises:
+        FileNotFoundError: If 'work' is not found in the directory tree.
+    """
+    current_dir = Path.cwd()
     while current_dir != current_dir.parent:
         if (current_dir / "work").exists():
             work_dir = current_dir / "work"
             break
         current_dir = current_dir.parent
     else:
-        msg = "'work' directory not found at the root"
+        msg = "'work' directory not found"
         raise FileNotFoundError(msg)
     folder_path = work_dir / VARIABLE_DEFINITIONS_DIR
     folder_path.mkdir(exist_ok=True)
