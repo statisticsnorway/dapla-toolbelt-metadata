@@ -1,6 +1,7 @@
 import functools
 from collections.abc import Callable
 from pathlib import Path
+from unittest.mock import patch
 
 import pytest
 
@@ -207,8 +208,20 @@ def test_create_validity_period(
     )
 
 
-def test_write_template_file(tmp_path: Path):
+def test_write_template(tmp_path: Path):
     base_path = tmp_path / "work"
     base_path.mkdir(parents=True, exist_ok=True)
-    result = Vardef.write_template_to_file(custom_directory=base_path)
-    assert result == "Successfully written to file"
+
+    with patch.object(Path, "cwd", return_value=tmp_path):
+        result = Vardef.write_template_to_file()
+        assert result == "Successfully written to file"
+
+
+def test_write_template_not_found(tmp_path: Path):
+    base_path = tmp_path / "statistics"
+    base_path.mkdir(parents=True, exist_ok=True)
+
+    with patch.object(Path, "cwd", return_value=tmp_path):
+        with pytest.raises(FileNotFoundError) as exc_info:
+            Vardef.write_template_to_file()
+        assert str(exc_info.value) == "'work' directory not found"
