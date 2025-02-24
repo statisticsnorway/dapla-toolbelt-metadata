@@ -76,7 +76,7 @@ def model_to_yaml_with_comments(
             _populate_commented_map(field_name, value, commented_map, model_instance)
 
     if custom_directory is None:
-        custom_directory = Path.cwd()
+        custom_directory = _get_work_dir()
 
     custom_directory.mkdir(parents=True, exist_ok=True)  # Ensure directory exists
 
