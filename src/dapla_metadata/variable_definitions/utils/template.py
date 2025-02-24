@@ -75,8 +75,7 @@ def model_to_yaml_with_comments(
         elif field_name not in {VARIABLE_STATUS_FIELD_NAME, OWNER_FIELD_NAME}:
             _populate_commented_map(field_name, value, commented_map, model_instance)
 
-    if custom_directory is None:
-        custom_directory = _get_work_dir()
+    custom_directory = _get_work_dir(custom_directory)
 
     custom_directory.mkdir(parents=True, exist_ok=True)  # Ensure directory exists
 
@@ -129,9 +128,9 @@ def _get_current_time() -> str:
     return str(current_datetime)
 
 
-def _get_work_dir() -> Path:
+def _get_work_dir(custom_directory: Path | None = None) -> Path:
     """Return path to folder in work directory."""
-    current_dir = Path.cwd()
+    current_dir = Path.cwd() if custom_directory is None else custom_directory
     while current_dir != current_dir.parent:
         if (current_dir / "work").exists():
             work_dir = current_dir / "work"
