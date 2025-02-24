@@ -1,11 +1,13 @@
 import functools
 from collections.abc import Callable
+from pathlib import Path
 
 import pytest
 
 from dapla_metadata._shared.config import DAPLA_GROUP_CONTEXT
 from dapla_metadata.variable_definitions._client import VardefClient
 from dapla_metadata.variable_definitions.exceptions import VardefClientException
+from dapla_metadata.variable_definitions.exceptions import VardefTemplateException
 from dapla_metadata.variable_definitions.generated.vardef_client.configuration import (
     Configuration,
 )
@@ -206,6 +208,16 @@ def test_create_validity_period(
     )
 
 
-def test_write_template_file():
-    result = Vardef.write_template_to_file()
+def test_write_template_file(tmp_path: Path):
+    base_path = tmp_path / "work"
+    base_path.mkdir(parents=True, exist_ok=True)
+    result = Vardef.write_template_to_file(custom_directory=base_path)
     assert result == "Successfully written to file"
+
+
+def test_write_template_file_not_found(tmp_path: Path):
+    base_path = tmp_path
+    base_path.mkdir(parents=True, exist_ok=True)
+    with pytest.raises(VardefTemplateException) as exc_info:
+        Vardef.write_template_to_file(custom_directory=base_path)
+    assert "File not found" in str(exc_info.value)
