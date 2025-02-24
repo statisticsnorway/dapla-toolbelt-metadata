@@ -124,7 +124,6 @@ class Vardef:
     def list_variable_definitions(
         cls,
         date_of_validity: date | None = None,
-        short_name: str | None = None,
     ) -> list[VariableDefinition]:
         """List variable definitions.
 
@@ -146,7 +145,6 @@ class Vardef:
                 VardefClient.get_client(),
             ).list_variable_definitions(
                 date_of_validity=date_of_validity,
-                short_name=short_name,
             )
         ]
 
@@ -188,7 +186,6 @@ class Vardef:
         api = VariableDefinitionsApi(client)
 
         if short_name:
-
             v = api.list_variable_definitions(
                 short_name=short_name,
                 date_of_validity=date_of_validity,
