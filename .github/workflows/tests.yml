@@ -141,9 +141,6 @@ jobs:
           pipx inject --pip-args "-c ${{ github.workspace }}/.github/workflows/constraints.txt" poetry poetry-plugin-export
           poetry --version
 
-      - name: Check Poetry Plugins
-        run: pipx run poetry self show plugins
-
       - name: Install Nox
         run: |
           pipx install --pip-args "-c ${{ github.workspace }}/.github/workflows/constraints.txt" nox
