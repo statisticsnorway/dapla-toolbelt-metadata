@@ -1,5 +1,4 @@
 from datetime import date
-from pathlib import Path
 
 from dapla_metadata.variable_definitions import config
 from dapla_metadata.variable_definitions._client import VardefClient
@@ -177,7 +176,7 @@ class Vardef:
         )
 
     @classmethod
-    def write_template_to_file(cls, custom_directory: Path | None = None) -> str:
+    def write_template_to_file(cls) -> str:
         """Write template with default values to a yaml file."""
-        model_to_yaml_with_comments(custom_directory=custom_directory)
+        model_to_yaml_with_comments()
         return "Successfully written to file"
