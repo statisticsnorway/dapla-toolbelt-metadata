@@ -1,11 +1,16 @@
 import functools
 from collections.abc import Callable
+from unittest.mock import patch
 
 import pytest
 
 from dapla_metadata._shared.config import DAPLA_GROUP_CONTEXT
 from dapla_metadata.variable_definitions._client import VardefClient
 from dapla_metadata.variable_definitions.exceptions import VardefClientException
+from dapla_metadata.variable_definitions.exceptions import VariableNotFoundError
+from dapla_metadata.variable_definitions.generated.vardef_client.api.variable_definitions_api import (
+    VariableDefinitionsApi,
+)
 from dapla_metadata.variable_definitions.generated.vardef_client.configuration import (
     Configuration,
 )
@@ -32,6 +37,7 @@ from tests.utils.constants import VARDEF_EXAMPLE_ACTIVE_GROUP
 from tests.utils.constants import VARDEF_EXAMPLE_DATE
 from tests.utils.constants import VARDEF_EXAMPLE_DEFINITION_ID
 from tests.utils.constants import VARDEF_EXAMPLE_INVALID_ID
+from tests.utils.constants import VARDEF_EXAMPLE_SHORT_NAME
 from tests.variable_definitions.conftest import sample_variable_definition
 from tests.variable_definitions.conftest import unknown_variable_definition
 
@@ -53,13 +59,64 @@ def test_list_variable_definitions_with_date_of_validity(
     )
 
 
-def test_get_variable_definition(client_configuration: Configuration):
+def test_get_variable_definition_by_id(client_configuration: Configuration):
     VardefClient.set_config(client_configuration)
     landbak = Vardef.get_variable_definition(
         variable_definition_id=VARDEF_EXAMPLE_DEFINITION_ID,
     )
     assert isinstance(landbak, VariableDefinition)
     assert landbak.classification_reference == "91"
+
+
+def test_get_variable_definition_by_short_name(client_configuration: Configuration):
+    VardefClient.set_config(client_configuration)
+    landbak = Vardef.get_variable_definition(
+        short_name=VARDEF_EXAMPLE_SHORT_NAME,
+    )
+    assert isinstance(landbak, VariableDefinition)
+    assert landbak.classification_reference == "91"
+
+
+def test_get_variable_definition_by_nonexistent_short_name(
+    client_configuration: Configuration,
+):
+    VardefClient.set_config(client_configuration)
+    short_name = "nonexistent"
+    mock_response = []
+    with patch.object(
+        VariableDefinitionsApi,
+        "list_variable_definitions",
+        return_value=mock_response,
+    ), pytest.raises(
+        VariableNotFoundError,
+        match=f"Variable with short name %s{short_name} not found",
+    ):
+        Vardef.get_variable_definition(short_name=short_name)
+
+
+def test_get_variable_definition_by_short_name_and_id(
+    client_configuration: Configuration,
+):
+    VardefClient.set_config(client_configuration)
+    with pytest.raises(
+        ValueError,
+        match="Must specify either 'variable_definition_id' or 'short_name'.",
+    ):
+        Vardef.get_variable_definition()
+
+
+def test_get_variable_definition_raises_value_error(
+    client_configuration: Configuration,
+):
+    VardefClient.set_config(client_configuration)
+    with pytest.raises(
+        ValueError,
+        match="Specify either 'variable_definition_id' or 'short_name', not both.",
+    ):
+        Vardef.get_variable_definition(
+            variable_definition_id=VARDEF_EXAMPLE_DEFINITION_ID,
+            short_name=VARDEF_EXAMPLE_SHORT_NAME,
+        )
 
 
 @pytest.mark.parametrize(

@@ -2,6 +2,7 @@ from datetime import date
 
 from dapla_metadata.variable_definitions import config
 from dapla_metadata.variable_definitions._client import VardefClient
+from dapla_metadata.variable_definitions.exceptions import VariableNotFoundError
 from dapla_metadata.variable_definitions.exceptions import vardef_exception_handler
 from dapla_metadata.variable_definitions.generated.vardef_client.api.data_migration_api import (
     DataMigrationApi,
@@ -14,9 +15,6 @@ from dapla_metadata.variable_definitions.generated.vardef_client.api.variable_de
 )
 from dapla_metadata.variable_definitions.generated.vardef_client.models.draft import (
     Draft,
-)
-from dapla_metadata.variable_definitions.utils.template import (
-    model_to_yaml_with_comments,
 )
 from dapla_metadata.variable_definitions.variable_definition import VariableDefinition
 
@@ -123,6 +121,7 @@ class Vardef:
     def list_variable_definitions(
         cls,
         date_of_validity: date | None = None,
+        short_name: str | None = None,
     ) -> list[VariableDefinition]:
         """List variable definitions.
 
@@ -144,6 +143,7 @@ class Vardef:
                 VardefClient.get_client(),
             ).list_variable_definitions(
                 date_of_validity=date_of_validity,
+                short_name=short_name,
             )
         ]
 
@@ -151,35 +151,59 @@ class Vardef:
     @vardef_exception_handler
     def get_variable_definition(
         cls,
-        variable_definition_id: str,
+        variable_definition_id: str | None = None,
+        short_name: str | None = None,
         date_of_validity: date | None = None,
     ) -> VariableDefinition:
-        """Get a Variable Definition by ID.
+        """Retrieve a Variable Definition by ID or short name.
 
         Args:
-            variable_definition_id (str): The ID of the desired Variable Definition
-            date_of_validity (date | None, optional): List only variable definitions which are valid on this date. Defaults to None.
+            variable_definition_id (str | None): The ID of the Variable Definition.
+            short_name (str | None): The short name of the Variable Definition.
+            date_of_validity (date | None, optional): Filter by validity date. Defaults to None.
 
         Returns:
-            VariableDefinition: The Variable Definition.
+            VariableDefinition: The retrieved Variable Definition.
 
         Raises:
-            NotFoundException when the given ID is not found
+            ValueError: If both `variable_definition_id` and `short_name` are provided.
+            NotFoundException: If no matching Variable Definition is found.
         """
+        if variable_definition_id and short_name:
+            msg = "Specify either 'variable_definition_id' or 'short_name', not both."
+            raise ValueError(
+                msg,
+            )
+
+        if variable_definition_id is None and short_name is None:
+            msg = "Must specify either 'variable_definition_id' or 'short_name'."
+            raise ValueError(
+                msg,
+            )
+
+        client = VardefClient.get_client()
+        api = VariableDefinitionsApi(client)
+
+        if short_name:
+
+            v = api.list_variable_definitions(
+                short_name=short_name,
+                date_of_validity=date_of_validity,
+            )
+            if len(v) == 0:
+                msg = f"Variable with short name %s{short_name} not found"
+                raise VariableNotFoundError(msg)
+
+            return VariableDefinition.from_model(
+                api.list_variable_definitions(
+                    short_name=short_name,
+                    date_of_validity=date_of_validity,
+                )[0],
+            )
+
         return VariableDefinition.from_model(
-            VariableDefinitionsApi(
-                VardefClient.get_client(),
-            ).get_variable_definition_by_id(
+            api.get_variable_definition_by_id(
                 variable_definition_id=variable_definition_id,
                 date_of_validity=date_of_validity,
             ),
         )
-
-    @classmethod
-    def write_template_to_file(cls) -> str:
-        """Write template with default values to a yaml file."""
-        file_path = model_to_yaml_with_comments()
-        # Check if the file was created
-        if not file_path.exists():
-            return "Error: File was not created"
-        return "Successfully written to file"
