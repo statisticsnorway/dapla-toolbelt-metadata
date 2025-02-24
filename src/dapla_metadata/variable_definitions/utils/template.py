@@ -38,13 +38,11 @@ def model_to_yaml_with_comments(
     The resulting file is named with a fixed filename and a timestamp to avoid overwriting previous templates.
 
     Args:
-        model_instance (CompletePatchOutput, optional):
+        model_instance:
             The instance to convert. Defaults to `DEFAULT_TEMPLATE`.
-        file_path (str, optional):
-            The destination file path.
 
     Returns:
-        str: The file path of the generated YAML file.
+        Path: The file path of the generated YAML file.
     """
     yaml = YAML()  # Use ruamel.yaml library
     yaml.default_flow_style = False  # Ensures pretty YAML formatting
