@@ -80,7 +80,7 @@ class VardefTemplateError(Exception):
 
     def __str__(self) -> str:
         """Returning a custom string representation of the exception."""
-        return f"VardefTemplateException: {self.message}"
+        return f"VardefTemplateError: {self.message}"
 
 
 def template_generator_handler(method):  # noqa: ANN201, ANN001
@@ -106,7 +106,7 @@ def template_generator_handler(method):  # noqa: ANN201, ANN001
             raise VardefTemplateError(msg) from e
         except PermissionError as e:
             # Catch PermissionError and raise a custom exception with specific message
-            msg = f"Permission denied when accessing the file: {method_kwargs.get('file_path', 'unknown')}"
+            msg = "Permission denied when accessing the file"
             raise VardefTemplateError(msg) from e
         except UnknownTimeZoneError as e:
             # Catch PermissionError and raise a custom exception with specific message
