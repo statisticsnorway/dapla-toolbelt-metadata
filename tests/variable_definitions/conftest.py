@@ -1,5 +1,6 @@
 from collections.abc import Generator
 from datetime import date
+from pathlib import Path
 
 import pytest
 
@@ -34,6 +35,11 @@ from dapla_metadata.variable_definitions.generated.vardef_client.models.validity
 from dapla_metadata.variable_definitions.generated.vardef_client.models.variable_status import (
     VariableStatus,
 )
+from dapla_metadata.variable_definitions.utils.constants import DEFAULT_TEMPLATE
+from dapla_metadata.variable_definitions.utils.template import (
+    model_to_yaml_with_comments,
+)
+from dapla_metadata.variable_definitions.variable_definition import CompletePatchOutput
 from dapla_metadata.variable_definitions.variable_definition import VariableDefinition
 from tests.utils.constants import VARDEF_EXAMPLE_DEFINITION_ID
 from tests.utils.constants import VARDEF_EXAMPLE_INVALID_ID
@@ -195,3 +201,79 @@ def vardef_mock_service(
     with MicrocksContainer() as container:
         container.upload_primary_artifact(openapi_definition)
         yield container
+
+
+def sample_complete_patch_output() -> CompletePatchOutput:
+    return CompletePatchOutput(
+        id=VARDEF_EXAMPLE_DEFINITION_ID,
+        patch_id=1,
+        name=LanguageStringType(nb="test", nn="test", en="test"),
+        short_name="var_test",
+        definition=LanguageStringType(nb="test", nn="test", en="test"),
+        classification_reference="91",
+        unit_types=["01"],
+        subject_fields=["a", "b"],
+        contains_special_categories_of_personal_data=True,
+        variable_status=VariableStatus.PUBLISHED_INTERNAL,
+        measurement_type="test",
+        valid_from=date(2024, 11, 1),
+        valid_until=None,
+        external_reference_uri="http://www.example.com",
+        comment=LanguageStringType(nb="test", nn="test", en="test"),
+        related_variable_definition_uris=["http://www.example.com"],
+        contact=Contact(
+            title=LanguageStringType(nb="test", nn="test", en="test"),
+            email="me@example.com",
+        ),
+        owner=Owner(team="my_team", groups=["my_team_developers"]),
+        created_at=date(2024, 11, 1),
+        created_by="ano@ssb.no",
+        last_updated_at=date(2024, 11, 1),
+        last_updated_by="ano@ssb.no",
+    )
+
+
+@pytest.fixture
+def complete_patch_output() -> CompletePatchOutput:
+    return sample_complete_patch_output()
+
+
+def _clean_up_after_test(target_path: Path, base_path: Path):
+    if target_path.exists():
+        target_path.unlink()
+    if base_path.exists():
+        base_path.rmdir()
+
+
+@pytest.fixture
+def work_folder_defaults(tmp_path: Path):
+    """Fixture that ensures a work folder exists for template with default values."""
+    base_path = tmp_path / "work"
+    base_path.mkdir(parents=True, exist_ok=True)
+
+    file_name = model_to_yaml_with_comments(
+        DEFAULT_TEMPLATE,
+        custom_directory=base_path,
+    )
+
+    target_path = base_path / file_name
+
+    yield target_path
+
+    _clean_up_after_test(target_path, base_path)
+
+
+@pytest.fixture
+def work_folder_saved_variable(tmp_path: Path):
+    """Fixture that ensures a work folder exists for template with saved variable definition values."""
+    base_path = tmp_path / "work"
+    base_path.mkdir(parents=True, exist_ok=True)
+
+    file_name = model_to_yaml_with_comments(
+        sample_complete_patch_output(),
+        custom_directory=base_path,
+    )
+    target_path = base_path / file_name
+    yield target_path
+
+    _clean_up_after_test(target_path, base_path)

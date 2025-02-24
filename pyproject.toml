@@ -33,6 +33,7 @@ pyjwt = ">=2.8.0"
 ssb-klass-python = ">=0.0.9"
 ssb-datadoc-model = "^6.0.0"
 typing-extensions = ">=4.12.2"
+ruamel-yaml = "^0.18.10"
 
 [tool.poetry.group.dev.dependencies]
 black = ">=24.8.0"

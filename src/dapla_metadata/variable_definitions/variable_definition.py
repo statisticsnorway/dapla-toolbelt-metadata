@@ -1,5 +1,7 @@
 from datetime import date
 
+from pydantic import ConfigDict
+
 from dapla_metadata.variable_definitions import config
 from dapla_metadata.variable_definitions._client import VardefClient
 from dapla_metadata.variable_definitions.exceptions import vardef_exception_handler
@@ -35,6 +37,12 @@ class CompletePatchOutput(CompleteResponse):
     ) -> "CompletePatchOutput":
         """Create a CompletePatchOutput instance from a CompletePatchOutput."""
         return CompletePatchOutput.model_construct(**model.model_dump())
+
+    model_config = ConfigDict(use_enum_values=True, str_strip_whitespace=True)
+
+    def to_dict(self) -> dict:
+        """Return as dictionary."""
+        return super().to_dict()
 
     def __str__(self) -> str:
         """Format as indented JSON."""

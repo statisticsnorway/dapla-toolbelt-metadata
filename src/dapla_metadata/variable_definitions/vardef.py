@@ -15,6 +15,9 @@ from dapla_metadata.variable_definitions.generated.vardef_client.api.variable_de
 from dapla_metadata.variable_definitions.generated.vardef_client.models.draft import (
     Draft,
 )
+from dapla_metadata.variable_definitions.utils.template import (
+    model_to_yaml_with_comments,
+)
 from dapla_metadata.variable_definitions.variable_definition import VariableDefinition
 
 
@@ -171,3 +174,12 @@ class Vardef:
                 date_of_validity=date_of_validity,
             ),
         )
+
+    @classmethod
+    def write_template_to_file(cls) -> str:
+        """Write template with default values to a yaml file."""
+        file_path = model_to_yaml_with_comments()
+        # Check if the file was created
+        if not file_path.exists():
+            return "Error: File was not created"
+        return "Successfully written to file"
