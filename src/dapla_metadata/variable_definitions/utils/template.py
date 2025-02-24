@@ -26,6 +26,7 @@ from dapla_metadata.variable_definitions.variable_definition import CompletePatc
 
 def model_to_yaml_with_comments(
     model_instance: CompletePatchOutput = DEFAULT_TEMPLATE,
+    custom_directory: Path | None = None,
 ) -> Path:
     """Convert a CompletePatchOutput instance into a structured YAML template file with comments.
 
@@ -40,6 +41,8 @@ def model_to_yaml_with_comments(
     Args:
         model_instance:
             The instance to convert. Defaults to `DEFAULT_TEMPLATE`.
+        custom_directory:
+            Optional directory where to save the template. defaults to None
 
     Returns:
         Path: The file path of the generated YAML file.
@@ -71,12 +74,16 @@ def model_to_yaml_with_comments(
         elif field_name not in {VARIABLE_STATUS_FIELD_NAME, OWNER_FIELD_NAME}:
             _populate_commented_map(field_name, value, commented_map, model_instance)
 
-    # Add path/optional path
-    file_path_base = Path(_file_path_base(_get_current_time()))
+    if custom_directory is None:
+        custom_directory = Path.cwd()
+
+    custom_directory.mkdir(parents=True, exist_ok=True)  # Ensure directory exists
+
+    file_path = custom_directory / _file_path_base(_get_current_time())
 
     # It is important to preserve the order of the yaml dump operations when writing to file
     # so that the file is predictable for the user
-    with file_path_base.open("w", encoding="utf-8") as file:
+    with file_path.open("w", encoding="utf-8") as file:
         commented_map.yaml_set_start_comment(TEMPLATE_HEADER)
         yaml.dump(commented_map, file)
 
@@ -90,7 +97,7 @@ def model_to_yaml_with_comments(
             TEMPLATE_SECTION_HEADER_MACHINE_GENERATED,
         )
         yaml.dump(machine_generated_map, file)
-    return file_path_base
+    return file_path
 
 
 def _populate_commented_map(
