@@ -1,18 +1,22 @@
 name: Tests
 
+# on:
+#   push:
+#     branches:
+#       - "**"
+#     paths:
+#       - "src/**"
+#       - "tests/**"
+#       - "docs/**"
+#       - "pyproject.toml"
+#       - "poetry.lock"
+#       - ".pre-commit-config.yaml"
+#       - "noxfile.py"
+#       - ".github/workflows/tests.yml"
+
 on:
-  push:
-    branches:
-      - "**"
-    paths:
-      - "src/**"
-      - "tests/**"
-      - "docs/**"
-      - "pyproject.toml"
-      - "poetry.lock"
-      - ".pre-commit-config.yaml"
-      - "noxfile.py"
-      - ".github/workflows/tests.yml"
+  pull_request:
+    
 
 jobs:
   tests:
