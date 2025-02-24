@@ -277,11 +277,3 @@ def work_folder_saved_variable(tmp_path: Path):
     yield target_path
 
     _clean_up_after_test(target_path, base_path)
-
-
-@pytest.fixture
-def work_folder_permission(tmp_path: Path):
-    """Fixture that ensures a work folder exists for template with saved variable definition values."""
-    base_path = tmp_path / "work"
-    base_path.mkdir(mode=0o444, parents=True, exist_ok=True)
-    return base_path

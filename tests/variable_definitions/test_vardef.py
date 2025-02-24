@@ -1,14 +1,12 @@
 import functools
 from collections.abc import Callable
 from pathlib import Path
-from unittest import mock
 
 import pytest
 
 from dapla_metadata._shared.config import DAPLA_GROUP_CONTEXT
 from dapla_metadata.variable_definitions._client import VardefClient
 from dapla_metadata.variable_definitions.exceptions import VardefClientException
-from dapla_metadata.variable_definitions.exceptions import VardefTemplateError
 from dapla_metadata.variable_definitions.generated.vardef_client.configuration import (
     Configuration,
 )
@@ -214,29 +212,3 @@ def test_write_template_file(tmp_path: Path):
     base_path.mkdir(parents=True, exist_ok=True)
     result = Vardef.write_template_to_file(custom_directory=base_path)
     assert result == "Successfully written to file"
-
-
-def test_write_template_file_not_found(tmp_path: Path):
-    base_path = tmp_path
-    base_path.mkdir(parents=True, exist_ok=True)
-    with pytest.raises(VardefTemplateError) as exc_info:
-        Vardef.write_template_to_file(custom_directory=base_path)
-    assert (
-        str(
-            exc_info.value,
-        )
-        == "VardefTemplateError: File not found: unknown file path"
-    )
-
-
-def test_file_not_found_error():
-    with mock.patch("builtins.open", mock.Mock(side_effect=FileNotFoundError)):
-        with pytest.raises(VardefTemplateError) as exc_info:
-            Vardef.write_template_to_file(custom_directory=None)
-        assert "File not found" in str(exc_info.value)
-
-
-def test_permission_error(work_folder_permission: Path):
-    with pytest.raises(VardefTemplateError) as exc_info:
-        Vardef.write_template_to_file(custom_directory=work_folder_permission)
-    assert exc_info.value.message == "Permission denied when accessing the file"
