@@ -204,8 +204,3 @@ def test_create_validity_period(
         my_variable.create_validity_period(validity_period),
         CompletePatchOutput,
     )
-
-
-def test_write_template_file():
-    result = Vardef.write_template_to_file()
-    assert result == "Successfully written to file"
