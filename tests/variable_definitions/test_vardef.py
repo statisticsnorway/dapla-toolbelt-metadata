@@ -89,7 +89,7 @@ def test_get_variable_definition_by_nonexistent_short_name(
         return_value=mock_response,
     ), pytest.raises(
         VariableNotFoundError,
-        match=f"Variable with short name %s{short_name} not found",
+        match=f"Variable with short name {short_name} not found",
     ):
         Vardef.get_variable_definition(short_name=short_name)
 
