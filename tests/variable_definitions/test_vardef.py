@@ -208,20 +208,18 @@ def test_create_validity_period(
     )
 
 
+@pytest.mark.usefixtures("set_temp_workspace")
 def test_write_template(tmp_path: Path):
-    base_path = tmp_path / "work"
-    base_path.mkdir(parents=True, exist_ok=True)
-
     with patch.object(Path, "cwd", return_value=tmp_path):
         result = Vardef.write_template_to_file()
         assert result == "Successfully written to file"
 
 
 def test_write_template_not_found(tmp_path: Path):
-    base_path = tmp_path / "statistics"
-    base_path.mkdir(parents=True, exist_ok=True)
-
     with patch.object(Path, "cwd", return_value=tmp_path):
         with pytest.raises(FileNotFoundError) as exc_info:
             Vardef.write_template_to_file()
-        assert str(exc_info.value) == "'work' directory not found"
+        assert (
+            str(exc_info.value)
+            == "'work' directory not found and env WORKSPACE_DIR is not set."
+        )
