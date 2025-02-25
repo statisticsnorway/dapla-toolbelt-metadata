@@ -45,10 +45,10 @@ class Draft(BaseModel):
         default=None,
         description="ID of a classification or code list from Klass. The given classification defines all possible values for the defined variable.",
     )
-    unit_types: list[StrictStr] = Field(
+    unit_types: list[Annotated[str, Field(min_length=1, strict=True)]] = Field(
         description="A list of one or more unit types, e.g. person, vehicle, household. Must be defined as codes from https://www.ssb.no/klass/klassifikasjoner/702."
     )
-    subject_fields: list[StrictStr] = Field(
+    subject_fields: list[Annotated[str, Field(min_length=1, strict=True)]] = Field(
         description="A list of subject fields that the variable is used in. Must be defined as codes from https://www.ssb.no/klass/klassifikasjoner/618."
     )
     contains_special_categories_of_personal_data: StrictBool = Field(
@@ -76,7 +76,7 @@ class Draft(BaseModel):
         default=None,
         description="Link(s) to related definitions of variables - a list of one or more definitions. For example for a variable after-tax income it could be relevant to link to definitions of income from work, property income etc.",
     )
-    contact: Contact | None = Field(default=None, description="Contact details")
+    contact: Contact = Field(description="Contact details")
     __properties: ClassVar[list[str]] = [
         "name",
         "short_name",
@@ -191,11 +191,6 @@ class Draft(BaseModel):
             and "related_variable_definition_uris" in self.model_fields_set
         ):
             _dict["related_variable_definition_uris"] = None
-
-        # set to None if contact (nullable) is None
-        # and model_fields_set contains the field
-        if self.contact is None and "contact" in self.model_fields_set:
-            _dict["contact"] = None
 
         return _dict
 

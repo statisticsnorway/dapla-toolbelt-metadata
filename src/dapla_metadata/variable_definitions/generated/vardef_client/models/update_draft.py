@@ -51,13 +51,15 @@ class UpdateDraft(BaseModel):
         default=None,
         description="ID of a classification or code list from Klass. The given classification defines all possible values for the defined variable.",
     )
-    unit_types: list[StrictStr] | None = Field(
+    unit_types: list[Annotated[str, Field(min_length=1, strict=True)]] | None = Field(
         default=None,
         description="A list of one or more unit types, e.g. person, vehicle, household. Must be defined as codes from https://www.ssb.no/klass/klassifikasjoner/702.",
     )
-    subject_fields: list[StrictStr] | None = Field(
-        default=None,
-        description="A list of subject fields that the variable is used in. Must be defined as codes from https://www.ssb.no/klass/klassifikasjoner/618.",
+    subject_fields: list[Annotated[str, Field(min_length=1, strict=True)]] | None = (
+        Field(
+            default=None,
+            description="A list of subject fields that the variable is used in. Must be defined as codes from https://www.ssb.no/klass/klassifikasjoner/618.",
+        )
     )
     contains_special_categories_of_personal_data: StrictBool | None = Field(
         default=None,
@@ -74,6 +76,7 @@ class UpdateDraft(BaseModel):
         default=None,
         description="The variable definition is valid from this date inclusive",
     )
+    valid_until: date | None = None
     external_reference_uri: StrictStr | None = Field(
         default=None, description="A link (URI) to an external definition/documentation"
     )
@@ -101,6 +104,7 @@ class UpdateDraft(BaseModel):
         "variable_status",
         "measurement_type",
         "valid_from",
+        "valid_until",
         "external_reference_uri",
         "comment",
         "related_variable_definition_uris",
@@ -229,6 +233,11 @@ class UpdateDraft(BaseModel):
         if self.valid_from is None and "valid_from" in self.model_fields_set:
             _dict["valid_from"] = None
 
+        # set to None if valid_until (nullable) is None
+        # and model_fields_set contains the field
+        if self.valid_until is None and "valid_until" in self.model_fields_set:
+            _dict["valid_until"] = None
+
         # set to None if external_reference_uri (nullable) is None
         # and model_fields_set contains the field
         if (
@@ -289,6 +298,7 @@ class UpdateDraft(BaseModel):
                 "variable_status": obj.get("variable_status"),
                 "measurement_type": obj.get("measurement_type"),
                 "valid_from": obj.get("valid_from"),
+                "valid_until": obj.get("valid_until"),
                 "external_reference_uri": obj.get("external_reference_uri"),
                 "comment": LanguageStringType.from_dict(obj["comment"])
                 if obj.get("comment") is not None

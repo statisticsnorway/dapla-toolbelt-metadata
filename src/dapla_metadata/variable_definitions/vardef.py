@@ -2,6 +2,7 @@ from datetime import date
 
 from dapla_metadata.variable_definitions import config
 from dapla_metadata.variable_definitions._client import VardefClient
+from dapla_metadata.variable_definitions.exceptions import VariableNotFoundError
 from dapla_metadata.variable_definitions.exceptions import vardef_exception_handler
 from dapla_metadata.variable_definitions.generated.vardef_client.api.data_migration_api import (
     DataMigrationApi,
@@ -151,29 +152,62 @@ class Vardef:
     @vardef_exception_handler
     def get_variable_definition(
         cls,
-        variable_definition_id: str,
+        variable_definition_id: str | None = None,
+        short_name: str | None = None,
         date_of_validity: date | None = None,
-    ) -> VariableDefinition:
-        """Get a Variable Definition by ID.
+    ) -> VariableDefinition | None:
+        """Retrieve a Variable Definition by ID or short name.
 
         Args:
-            variable_definition_id (str): The ID of the desired Variable Definition
-            date_of_validity (date | None, optional): List only variable definitions which are valid on this date. Defaults to None.
+            variable_definition_id (str | None): The ID of the Variable Definition.
+            short_name (str | None): The short name of the Variable Definition.
+            date_of_validity (date | None, optional): Filter by validity date. Defaults to None.
 
         Returns:
-            VariableDefinition: The Variable Definition.
+            VariableDefinition: The retrieved Variable Definition.
 
         Raises:
-            NotFoundException when the given ID is not found
+            ValueError: If both `variable_definition_id` and `short_name` are provided.
+            NotFoundException: If no matching Variable Definition is found.
         """
-        return VariableDefinition.from_model(
-            VariableDefinitionsApi(
-                VardefClient.get_client(),
-            ).get_variable_definition_by_id(
-                variable_definition_id=variable_definition_id,
+        if variable_definition_id and short_name:
+            msg = "Specify either 'variable_definition_id' or 'short_name', not both."
+            raise ValueError(
+                msg,
+            )
+
+        if variable_definition_id is None and short_name is None:
+            msg = "Must specify either 'variable_definition_id' or 'short_name'."
+            raise ValueError(
+                msg,
+            )
+
+        client = VardefClient.get_client()
+        api = VariableDefinitionsApi(client)
+
+        if short_name:
+            variable_definitions = api.list_variable_definitions(
+                short_name=short_name,
                 date_of_validity=date_of_validity,
-            ),
-        )
+            )
+
+            if not variable_definitions:
+                msg = f"Variable with short name {short_name} not found"
+                raise VariableNotFoundError(msg)
+            if len(variable_definitions) > 1:
+                msg = f"Lookup by short name {short_name} found multiple variables which should not be possible."
+                raise ValueError(msg)
+
+            return VariableDefinition.from_model(variable_definitions[0])
+
+        if variable_definition_id:
+            return VariableDefinition.from_model(
+                api.get_variable_definition_by_id(
+                    variable_definition_id=variable_definition_id,
+                    date_of_validity=date_of_validity,
+                ),
+            )
+        return None
 
     @classmethod
     def write_template_to_file(cls) -> str:

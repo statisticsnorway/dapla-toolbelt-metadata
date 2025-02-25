@@ -947,6 +947,12 @@ class VariableDefinitionsApi:
                 description="List only variable definitions which are valid on this date."
             ),
         ] = None,
+        short_name: Annotated[
+            StrictStr | None,
+            Field(
+                description="List only the variable definition with the given short name."
+            ),
+        ] = None,
         _request_timeout: None
         | Annotated[StrictFloat, Field(gt=0)]
         | tuple[
@@ -963,6 +969,8 @@ class VariableDefinitionsApi:
 
         :param date_of_validity: List only variable definitions which are valid on this date.
         :type date_of_validity: date
+        :param short_name: List only the variable definition with the given short name.
+        :type short_name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -986,6 +994,7 @@ class VariableDefinitionsApi:
         """
         _param = self._list_variable_definitions_serialize(
             date_of_validity=date_of_validity,
+            short_name=short_name,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1014,6 +1023,12 @@ class VariableDefinitionsApi:
                 description="List only variable definitions which are valid on this date."
             ),
         ] = None,
+        short_name: Annotated[
+            StrictStr | None,
+            Field(
+                description="List only the variable definition with the given short name."
+            ),
+        ] = None,
         _request_timeout: None
         | Annotated[StrictFloat, Field(gt=0)]
         | tuple[
@@ -1030,6 +1045,8 @@ class VariableDefinitionsApi:
 
         :param date_of_validity: List only variable definitions which are valid on this date.
         :type date_of_validity: date
+        :param short_name: List only the variable definition with the given short name.
+        :type short_name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1053,6 +1070,7 @@ class VariableDefinitionsApi:
         """
         _param = self._list_variable_definitions_serialize(
             date_of_validity=date_of_validity,
+            short_name=short_name,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1081,6 +1099,12 @@ class VariableDefinitionsApi:
                 description="List only variable definitions which are valid on this date."
             ),
         ] = None,
+        short_name: Annotated[
+            StrictStr | None,
+            Field(
+                description="List only the variable definition with the given short name."
+            ),
+        ] = None,
         _request_timeout: None
         | Annotated[StrictFloat, Field(gt=0)]
         | tuple[
@@ -1097,6 +1121,8 @@ class VariableDefinitionsApi:
 
         :param date_of_validity: List only variable definitions which are valid on this date.
         :type date_of_validity: date
+        :param short_name: List only the variable definition with the given short name.
+        :type short_name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1120,6 +1146,7 @@ class VariableDefinitionsApi:
         """
         _param = self._list_variable_definitions_serialize(
             date_of_validity=date_of_validity,
+            short_name=short_name,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1138,6 +1165,7 @@ class VariableDefinitionsApi:
     def _list_variable_definitions_serialize(
         self,
         date_of_validity,
+        short_name,
         _request_auth,
         _content_type,
         _headers,
@@ -1171,6 +1199,9 @@ class VariableDefinitionsApi:
                 )
             else:
                 _query_params.append(("date_of_validity", date_of_validity))
+
+        if short_name is not None:
+            _query_params.append(("short_name", short_name))
 
         # process the header parameters
         # process the form parameters

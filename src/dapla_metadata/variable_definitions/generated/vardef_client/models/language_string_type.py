@@ -19,16 +19,17 @@ from typing import ClassVar
 
 from pydantic import BaseModel
 from pydantic import ConfigDict
+from pydantic import Field
 from pydantic import StrictStr
 from typing_extensions import Self
 
 
 class LanguageStringType(BaseModel):
-    """LanguageStringType"""
+    """Language string type Represents one text, with translations for the languages in \\[SupportedLanguages\\]. All fields are nullable to allow for flexibility for maintainers."""
 
-    nb: StrictStr | None = None
-    nn: StrictStr | None = None
-    en: StrictStr | None = None
+    nb: StrictStr | None = Field(default=None, description="Norwegian Bokmål")
+    nn: StrictStr | None = Field(default=None, description="Norwegian Nynorsk")
+    en: StrictStr | None = Field(default=None, description="English")
     __properties: ClassVar[list[str]] = ["nb", "nn", "en"]
 
     model_config = ConfigDict(
