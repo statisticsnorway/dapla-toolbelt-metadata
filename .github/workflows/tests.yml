@@ -40,6 +40,11 @@ jobs:
     steps:
       - name: Check out the repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Show pyproject.toml contents
+        run: cat pyproject.toml
 
       - name: Set up Python ${{ matrix.python }}
         uses: actions/setup-python@v5.3.0
