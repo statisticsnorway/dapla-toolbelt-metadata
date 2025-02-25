@@ -94,6 +94,23 @@ def test_get_variable_definition_by_nonexistent_short_name(
         Vardef.get_variable_definition(short_name=short_name)
 
 
+def test_get_variable_definition_multiple_variables_returned(
+    client_configuration: Configuration,
+):
+    VardefClient.set_config(client_configuration)
+    short_name = "multiple"
+    mock_response = ["variable", "variable"]
+    with patch.object(
+        VariableDefinitionsApi,
+        "list_variable_definitions",
+        return_value=mock_response,
+    ), pytest.raises(
+        ValueError,
+        match=f"Lookup by short name {short_name} found multiple variables which should not be possible",
+    ):
+        Vardef.get_variable_definition(short_name=short_name)
+
+
 def test_get_variable_definition_no_inputs(
     client_configuration: Configuration,
 ):

@@ -2,7 +2,6 @@ from datetime import date
 
 from dapla_metadata.variable_definitions import config
 from dapla_metadata.variable_definitions._client import VardefClient
-from dapla_metadata.variable_definitions.exceptions import MultipleVariablesError
 from dapla_metadata.variable_definitions.exceptions import VariableNotFoundError
 from dapla_metadata.variable_definitions.exceptions import vardef_exception_handler
 from dapla_metadata.variable_definitions.generated.vardef_client.api.data_migration_api import (
@@ -197,7 +196,7 @@ class Vardef:
                 raise VariableNotFoundError(msg)
             if len(variable_definitions) > 1:
                 msg = f"Lookup by short name {short_name} found multiple variables which should not be possible."
-                raise MultipleVariablesError(msg)
+                raise ValueError(msg)
 
             return VariableDefinition.from_model(variable_definitions[0])
 
