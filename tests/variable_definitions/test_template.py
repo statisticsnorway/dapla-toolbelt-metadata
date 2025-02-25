@@ -5,7 +5,7 @@ from pathlib import Path
 import pytest
 import ruamel.yaml
 
-from dapla_metadata.variable_definitions.utils.template import get_workspace_dir
+from dapla_metadata.variable_definitions.utils.template import _get_workspace_dir
 
 yaml = ruamel.yaml.YAML()
 
@@ -58,6 +58,6 @@ def test_workspace_fixture(set_temp_workspace: Path, tmp_path: Path):
 
 @pytest.mark.usefixtures("set_temp_workspace")
 def test_get_workspace_dir_without_env_var():
-    workspace_dir = get_workspace_dir()
+    workspace_dir = _get_workspace_dir()
     assert workspace_dir.exists()
     assert workspace_dir.is_dir()
