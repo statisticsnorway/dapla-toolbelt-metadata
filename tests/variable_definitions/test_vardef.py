@@ -94,7 +94,7 @@ def test_get_variable_definition_by_nonexistent_short_name(
         Vardef.get_variable_definition(short_name=short_name)
 
 
-def test_get_variable_definition_by_short_name_and_id(
+def test_get_variable_definition_no_inputs(
     client_configuration: Configuration,
 ):
     VardefClient.set_config(client_configuration)
@@ -105,7 +105,7 @@ def test_get_variable_definition_by_short_name_and_id(
         Vardef.get_variable_definition()
 
 
-def test_get_variable_definition_raises_value_error(
+def test_get_variable_definition_both_inputs(
     client_configuration: Configuration,
 ):
     VardefClient.set_config(client_configuration)

@@ -155,7 +155,7 @@ class Vardef:
         variable_definition_id: str | None = None,
         short_name: str | None = None,
         date_of_validity: date | None = None,
-    ) -> VariableDefinition:
+    ) -> VariableDefinition | None:
         """Retrieve a Variable Definition by ID or short name.
 
         Args:
@@ -186,27 +186,25 @@ class Vardef:
         api = VariableDefinitionsApi(client)
 
         if short_name:
-            v = api.list_variable_definitions(
+            variable_definitions = api.list_variable_definitions(
                 short_name=short_name,
                 date_of_validity=date_of_validity,
             )
-            if len(v) == 0:
-                msg = f"Variable with short name %s{short_name} not found"
+
+            if not variable_definitions:
+                msg = f"Variable with short name {short_name} not found"
                 raise VariableNotFoundError(msg)
 
-            return VariableDefinition.from_model(
-                api.list_variable_definitions(
-                    short_name=short_name,
-                    date_of_validity=date_of_validity,
-                )[0],
-            )
+            return VariableDefinition.from_model(variable_definitions[0])
 
-        return VariableDefinition.from_model(
-            api.get_variable_definition_by_id(
-                variable_definition_id=variable_definition_id,
-                date_of_validity=date_of_validity,
-            ),
-        )
+        if variable_definition_id:
+            return VariableDefinition.from_model(
+                api.get_variable_definition_by_id(
+                    variable_definition_id=variable_definition_id,
+                    date_of_validity=date_of_validity,
+                ),
+            )
+        return None
 
     @classmethod
     def write_template_to_file(cls) -> str:
