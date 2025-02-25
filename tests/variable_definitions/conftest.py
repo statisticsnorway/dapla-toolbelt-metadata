@@ -283,3 +283,18 @@ def work_folder_saved_variable(set_temp_workspace: Path):
     yield target_path
 
     _clean_up_after_test(target_path, base_path)
+
+
+@pytest.fixture
+def _delete_workspace_dir():
+    original_workspace_dir = os.environ.get("WORKSPACE_DIR")
+
+    if "WORKSPACE_DIR" in os.environ:
+        del os.environ["WORKSPACE_DIR"]
+
+    yield
+
+    if original_workspace_dir is not None:
+        os.environ["WORKSPACE_DIR"] = original_workspace_dir
+    else:
+        pass

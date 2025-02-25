@@ -215,7 +215,7 @@ def test_write_template(tmp_path: Path):
         assert result.split(".yaml", 1)[1] == " Successfully written to file"
 
 
-@pytest.mark.usefixtures("reset_workspace_dir")
+@pytest.mark.usefixtures("_delete_workspace_dir")
 def test_write_template_no_workspace(tmp_path: Path):
     with patch.object(Path, "cwd", return_value=tmp_path):
         with pytest.raises(FileNotFoundError) as exc_info:
@@ -226,7 +226,7 @@ def test_write_template_no_workspace(tmp_path: Path):
         )
 
 
-@pytest.mark.usefixtures("reset_workspace_dir")
+@pytest.mark.usefixtures("_delete_workspace_dir")
 def test_write_template_path_no_env_value(tmp_path: Path):
     workspace_dir = tmp_path / "work"
     workspace_dir.mkdir(parents=True, exist_ok=True)
