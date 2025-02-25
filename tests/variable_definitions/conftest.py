@@ -1,3 +1,4 @@
+import os
 from collections.abc import Generator
 from datetime import date
 from pathlib import Path
@@ -246,11 +247,18 @@ def _clean_up_after_test(target_path: Path, base_path: Path):
 
 
 @pytest.fixture
-def work_folder_defaults(tmp_path: Path):
-    """Fixture that ensures a work folder exists for template with default values."""
-    base_path = tmp_path / "work"
-    base_path.mkdir(parents=True, exist_ok=True)
+def set_temp_workspace(tmp_path: Path):
+    """Fixture which set env WORKSPACE_DIR to tmp path/work."""
+    workspace_dir = tmp_path / "work"
+    workspace_dir.mkdir(parents=True, exist_ok=True)
+    os.environ["WORKSPACE_DIR"] = str(workspace_dir)
+    return workspace_dir
 
+
+@pytest.fixture
+def work_folder_defaults(set_temp_workspace: Path):
+    """Fixture that ensures a work folder exists for template with default values."""
+    base_path = set_temp_workspace
     file_name = model_to_yaml_with_comments(
         DEFAULT_TEMPLATE,
         custom_directory=base_path,
@@ -264,11 +272,9 @@ def work_folder_defaults(tmp_path: Path):
 
 
 @pytest.fixture
-def work_folder_saved_variable(tmp_path: Path):
+def work_folder_saved_variable(set_temp_workspace: Path):
     """Fixture that ensures a work folder exists for template with saved variable definition values."""
-    base_path = tmp_path / "work"
-    base_path.mkdir(parents=True, exist_ok=True)
-
+    base_path = set_temp_workspace
     file_name = model_to_yaml_with_comments(
         sample_complete_patch_output(),
         custom_directory=base_path,
