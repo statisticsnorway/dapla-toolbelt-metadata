@@ -1,3 +1,4 @@
+import os
 from datetime import datetime
 from pathlib import Path
 
@@ -75,7 +76,11 @@ def model_to_yaml_with_comments(
         elif field_name not in {VARIABLE_STATUS_FIELD_NAME, OWNER_FIELD_NAME}:
             _populate_commented_map(field_name, value, commented_map, model_instance)
 
-    base_path = _get_work_dir() if custom_directory is None else custom_directory
+    base_path = (
+        _get_variable_definitions_dir()
+        if custom_directory is None
+        else custom_directory
+    )
 
     if custom_directory is not None:
         base_path.mkdir(parents=True, exist_ok=True)
@@ -129,28 +134,40 @@ def _get_current_time() -> str:
     return str(current_datetime)
 
 
-def _get_work_dir() -> Path:
-    """Return the default base path for saving generated templates.
+def _get_workspace_dir():
+    """Determine the workspace directory."""
+    try:
+        # Attempt to get the directory from the environment variable
+        workspace_dir = Path(os.environ["WORKSPACE_DIR"])
 
-    Searches upwards from the current directory to find 'work'.
-    If found, ensures the 'variable-definitions' subdirectory exists and returns its path.
-    Raises a FileNotFoundError if 'work' is not found.
+        # Check if the directory exists and is actually a directory
+        if not workspace_dir.exists():
+            msg = f"WORKSPACE_DIR '{workspace_dir}' does not exist."
+            raise FileNotFoundError(msg)
+        if not workspace_dir.is_dir():
+            msg = f"WORKSPACE_DIR '{workspace_dir}' is not a directory."
+            raise NotADirectoryError(msg)
 
-    Returns:
-        Path: The path to 'work/variable-definitions'.
+    except KeyError:
+        # Fallback: search for a directory called 'work' starting from the current directory
+        current_dir = Path.cwd()
+        while current_dir != current_dir.parent:
+            potential_workspace = current_dir / "work"
+            if potential_workspace.exists() and potential_workspace.is_dir():
+                workspace_dir = potential_workspace
+                break
+            current_dir = current_dir.parent
+        else:
+            # Raise an error if 'work' directory is not found
+            msg = "'work' directory not found and env WORKSPACE_DIR is not set."
+            raise FileNotFoundError(msg)
 
-    Raises:
-        FileNotFoundError: If 'work' is not found in the directory tree.
-    """
-    current_dir = Path.cwd()
-    while current_dir != current_dir.parent:
-        if (current_dir / "work").exists():
-            work_dir = current_dir / "work"
-            break
-        current_dir = current_dir.parent
-    else:
-        msg = "'work' directory not found"
-        raise FileNotFoundError(msg)
-    folder_path = work_dir / VARIABLE_DEFINITIONS_DIR
-    folder_path.mkdir(exist_ok=True)
+    return workspace_dir
+
+
+def _get_variable_definitions_dir():
+    """Get or create the variable definitions directory inside the workspace."""
+    workspace_dir = _get_workspace_dir()
+    folder_path = workspace_dir / VARIABLE_DEFINITIONS_DIR
+    folder_path.mkdir(parents=True, exist_ok=True)
     return folder_path
