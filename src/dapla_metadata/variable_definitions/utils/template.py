@@ -1,3 +1,4 @@
+import os
 from datetime import datetime
 from pathlib import Path
 
@@ -18,6 +19,7 @@ from dapla_metadata.variable_definitions.utils.constants import (
 from dapla_metadata.variable_definitions.utils.constants import (
     TEMPLATE_SECTION_HEADER_STATUS,
 )
+from dapla_metadata.variable_definitions.utils.constants import VARIABLE_DEFINITIONS_DIR
 from dapla_metadata.variable_definitions.utils.constants import (
     VARIABLE_STATUS_FIELD_NAME,
 )
@@ -74,12 +76,16 @@ def model_to_yaml_with_comments(
         elif field_name not in {VARIABLE_STATUS_FIELD_NAME, OWNER_FIELD_NAME}:
             _populate_commented_map(field_name, value, commented_map, model_instance)
 
-    if custom_directory is None:
-        custom_directory = Path.cwd()
+    base_path = (
+        _get_variable_definitions_dir()
+        if custom_directory is None
+        else custom_directory
+    )
 
-    custom_directory.mkdir(parents=True, exist_ok=True)  # Ensure directory exists
+    if custom_directory is not None:
+        base_path.mkdir(parents=True, exist_ok=True)
 
-    file_path = custom_directory / _file_path_base(_get_current_time())
+    file_path = base_path / _file_path_base(_get_current_time())
 
     # It is important to preserve the order of the yaml dump operations when writing to file
     # so that the file is predictable for the user
@@ -126,3 +132,42 @@ def _get_current_time() -> str:
     timezone = pytz.timezone("Europe/Oslo")
     current_datetime = datetime.now(timezone).strftime("%Y-%m-%dT%H-%M-%S")
     return str(current_datetime)
+
+
+def _get_workspace_dir():
+    """Determine the workspace directory."""
+    try:
+        # Attempt to get the directory from the environment variable
+        workspace_dir = Path(os.environ["WORKSPACE_DIR"])
+
+        # Check if the directory exists and is actually a directory
+        if not workspace_dir.exists():
+            msg = f"WORKSPACE_DIR '{workspace_dir}' does not exist."
+            raise FileNotFoundError(msg)
+        if not workspace_dir.is_dir():
+            msg = f"WORKSPACE_DIR '{workspace_dir}' is not a directory."
+            raise NotADirectoryError(msg)
+
+    except KeyError:
+        # Fallback: search for a directory called 'work' starting from the current directory
+        current_dir = Path.cwd()
+        while current_dir != current_dir.parent:
+            potential_workspace = current_dir / "work"
+            if potential_workspace.exists() and potential_workspace.is_dir():
+                workspace_dir = potential_workspace
+                break
+            current_dir = current_dir.parent
+        else:
+            # Raise an error if 'work' directory is not found
+            msg = "'work' directory not found and env WORKSPACE_DIR is not set."
+            raise FileNotFoundError(msg)
+
+    return workspace_dir
+
+
+def _get_variable_definitions_dir():
+    """Get or create the variable definitions directory inside the workspace."""
+    workspace_dir = _get_workspace_dir()
+    folder_path = workspace_dir / VARIABLE_DEFINITIONS_DIR
+    folder_path.mkdir(parents=True, exist_ok=True)
+    return folder_path

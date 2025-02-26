@@ -16,6 +16,7 @@ from dapla_metadata.variable_definitions.generated.vardef_client.models.variable
 )
 from dapla_metadata.variable_definitions.variable_definition import CompletePatchOutput
 
+VARIABLE_DEFINITIONS_DIR = "variable_definitions"
 VARIABLE_STATUS_FIELD_NAME = "variable_status"
 OWNER_FIELD_NAME = "owner"
 

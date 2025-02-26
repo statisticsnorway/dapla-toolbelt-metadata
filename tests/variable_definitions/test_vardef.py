@@ -1,5 +1,6 @@
 import functools
 from collections.abc import Callable
+from pathlib import Path
 from unittest.mock import patch
 
 import pytest
@@ -253,3 +254,34 @@ def test_create_validity_period(
         my_variable.create_validity_period(validity_period),
         CompletePatchOutput,
     )
+
+
+@pytest.mark.usefixtures("set_temp_workspace")
+def test_write_template(tmp_path: Path):
+    with patch.object(Path, "cwd", return_value=tmp_path):
+        result = Vardef.write_template_to_file()
+        assert result.split(".yaml", 1)[1] == " Successfully written to file"
+
+
+@pytest.mark.usefixtures("_delete_workspace_dir")
+def test_write_template_no_workspace(tmp_path: Path):
+    with patch.object(Path, "cwd", return_value=tmp_path):
+        with pytest.raises(FileNotFoundError) as exc_info:
+            Vardef.write_template_to_file()
+        assert (
+            str(exc_info.value)
+            == "'work' directory not found and env WORKSPACE_DIR is not set."
+        )
+
+
+@pytest.mark.usefixtures("_delete_workspace_dir")
+def test_write_template_path_no_env_value(tmp_path: Path):
+    workspace_dir = tmp_path / "work"
+    workspace_dir.mkdir(parents=True, exist_ok=True)
+    with patch.object(Path, "cwd", return_value=workspace_dir):
+        result = Vardef.write_template_to_file()
+    # remove time stamp result
+    result_without_timestamp = result.rsplit("_", 1)[0] + ".yaml"
+    result_without_timestamp += result.split(".yaml", 1)[1]
+    expected_result = f"File path {workspace_dir}/variable_definitions/variable_definition_template.yaml Successfully written to file"
+    assert result_without_timestamp == expected_result
