@@ -1,4 +1,5 @@
 from datetime import date
+from pathlib import Path
 
 from dapla_metadata.variable_definitions import config
 from dapla_metadata.variable_definitions._client import VardefClient
@@ -18,6 +19,7 @@ from dapla_metadata.variable_definitions.generated.vardef_client.models.draft im
 from dapla_metadata.variable_definitions.utils.template import (
     model_to_yaml_with_comments,
 )
+from dapla_metadata.variable_definitions.variable_definition import CompletePatchOutput
 from dapla_metadata.variable_definitions.variable_definition import VariableDefinition
 
 
@@ -153,7 +155,7 @@ class Vardef:
         cls,
         variable_definition_id: str,
         date_of_validity: date | None = None,
-    ) -> VariableDefinition:
+    ) -> CompletePatchOutput:
         """Get a Variable Definition by ID.
 
         Args:
@@ -183,3 +185,17 @@ class Vardef:
         if not file_path.exists():
             return "Error: File was not created"
         return "Successfully written to file"
+
+    @classmethod
+    def write_variable_to_file(
+        cls,
+        variable_definition_id: str,
+        custom_directory: Path = None,
+    ) -> Path:
+        """Write template with default values to a yaml file."""
+        v = cls.get_variable_definition(variable_definition_id=variable_definition_id)
+
+        return model_to_yaml_with_comments(
+            model_instance=v,
+            custom_directory=custom_directory,
+        )

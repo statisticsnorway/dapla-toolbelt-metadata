@@ -1,7 +1,11 @@
 import functools
 from collections.abc import Callable
+from pathlib import Path
 
 import pytest
+import ruamel.yaml
+
+yaml = ruamel.yaml.YAML()
 
 from dapla_metadata._shared.config import DAPLA_GROUP_CONTEXT
 from dapla_metadata.variable_definitions._client import VardefClient
@@ -204,3 +208,28 @@ def test_create_validity_period(
         my_variable.create_validity_period(validity_period),
         CompletePatchOutput,
     )
+
+
+def test_some_stuff2(
+    client_configuration: Configuration,
+    tmp_path: Path,
+):
+    VardefClient.set_config(client_configuration)
+
+    base_path = tmp_path / "work"
+    base_path.mkdir(parents=True, exist_ok=True)
+    file_name = Vardef.write_variable_to_file(
+        variable_definition_id=VARDEF_EXAMPLE_DEFINITION_ID,
+    )
+
+    target_path = base_path / file_name
+
+    with target_path.open(encoding="utf-8") as f:
+        parsed_yaml = yaml.load(f)
+
+    assert parsed_yaml["variable_status"] == "DRAFT"
+    assert parsed_yaml["short_name"] == "landbak"
+
+    # _clean_up_after_test(target_path, base_path)
+
+    # pytest.fail()

@@ -22,10 +22,11 @@ from dapla_metadata.variable_definitions.utils.constants import (
     VARIABLE_STATUS_FIELD_NAME,
 )
 from dapla_metadata.variable_definitions.variable_definition import CompletePatchOutput
+from dapla_metadata.variable_definitions.variable_definition import VariableDefinition
 
 
 def model_to_yaml_with_comments(
-    model_instance: CompletePatchOutput = DEFAULT_TEMPLATE,
+    model_instance: CompletePatchOutput | VariableDefinition = DEFAULT_TEMPLATE,
     custom_directory: Path | None = None,
 ) -> Path:
     """Convert a CompletePatchOutput instance into a structured YAML template file with comments.
@@ -50,7 +51,15 @@ def model_to_yaml_with_comments(
     yaml = YAML()  # Use ruamel.yaml library
     yaml.default_flow_style = False  # Ensures pretty YAML formatting
 
-    data = model_instance.to_dict()  # Convert Pydantic model instance to dictionary
+    # yaml.representer.add_representer(
+    #     VariableStatus,
+    #     lambda dumper, data: dumper.represent_scalar(
+    #         "tag:yaml.org,2002:str",
+    #         data.value,
+    #     ),
+    # )
+
+    data = model_instance.model_dump()  # Convert Pydantic model instance to dictionary
 
     # One CommentMap for each section in the yaml file
     machine_generated_map = CommentedMap()
