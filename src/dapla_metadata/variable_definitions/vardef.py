@@ -209,7 +209,7 @@ class Vardef:
             raise VariableNotFoundError(msg)
         if len(variable_definitions) > 1:
             msg = f"Lookup by short name {short_name} found multiple variables which should not be possible."
-            raise ValueError(msg)
+            raise VariableNotFoundError(msg)
 
         return VariableDefinition.from_model(variable_definitions[0])
 
