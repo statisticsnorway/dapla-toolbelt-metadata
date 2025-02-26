@@ -186,8 +186,7 @@ class Vardef:
         """Retrieve a Variable Definition by ID or short name.
 
         Args:
-            variable_definition_id (str | None): The ID of the Variable Definition.
-            short_name (str | None): The short name of the Variable Definition.
+            short_name (str): The short name of the Variable Definition.
             date_of_validity (date | None, optional): Filter by validity date. Defaults to None.
 
         Returns:
