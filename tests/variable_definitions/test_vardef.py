@@ -1,10 +1,7 @@
 import functools
 from collections.abc import Callable
 from pathlib import Path
-<<<<<<< HEAD
-=======
 from unittest.mock import patch
->>>>>>> origin/main
 
 import pytest
 import ruamel.yaml
