@@ -10,7 +10,7 @@ from dapla_metadata.variable_definitions.utils.template import _get_workspace_di
 from dapla_metadata.variable_definitions.utils.template import (
     model_to_yaml_with_comments,
 )
-from tests.variable_definitions.conftest import _get_variable_definition_as_dict
+from tests.variable_definitions.conftest import get_variable_definition_as_dict
 
 yaml = ruamel.yaml.YAML()
 
@@ -36,6 +36,17 @@ def test_yaml_content_saved_values(work_folder_saved_variable: Path) -> None:
         parsed_yaml = yaml.load(f)
 
     assert parsed_yaml["variable_status"] == "PUBLISHED_INTERNAL"
+    assert parsed_yaml["last_updated_by"] == "ano@ssb.no"
+
+
+def test_yaml_content_from_model_variable_definition(
+    work_folder_variable_definition: Path,
+) -> None:
+    """Check if the generated YAML file with saved values contains the expected data."""
+    with work_folder_variable_definition.open(encoding="utf-8") as f:
+        parsed_yaml = yaml.load(f)
+
+    assert parsed_yaml["variable_status"] == "PUBLISHED_EXTERNAL"
     assert parsed_yaml["last_updated_by"] == "ano@ssb.no"
 
 
@@ -72,7 +83,7 @@ def test_generate_yaml_from_dict() -> None:
     """Check if the generated YAML file with saved values contains the expected data."""
     with pytest.raises(VardefTemplateError) as exc_info:
         model_to_yaml_with_comments(
-            _get_variable_definition_as_dict(),
+            get_variable_definition_as_dict(),
             custom_directory=None,
         )
     assert str(exc_info.value) == "VardefTemplateError: Possible input is dict"
