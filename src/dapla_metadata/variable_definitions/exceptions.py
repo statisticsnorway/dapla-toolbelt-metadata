@@ -85,12 +85,11 @@ class VardefTemplateError(Exception):
 
 def template_generator_handler(method):  # noqa: ANN201, ANN001
     """Decorator for handling exceptions when generating yaml files."""
-    wraps(method)
 
-    def _impl(self, *method_args, **method_kwargs):  # noqa: ANN001, ANN002, ANN003
+    @wraps(method)
+    def _impl(*method_args, **method_kwargs):  # noqa: ANN002, ANN003
         try:
             return method(
-                self,
                 *method_args,
                 **method_kwargs,
             )
