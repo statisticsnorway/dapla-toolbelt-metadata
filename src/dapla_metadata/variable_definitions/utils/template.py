@@ -25,11 +25,12 @@ from dapla_metadata.variable_definitions.utils.constants import (
     VARIABLE_STATUS_FIELD_NAME,
 )
 from dapla_metadata.variable_definitions.variable_definition import CompletePatchOutput
+from dapla_metadata.variable_definitions.variable_definition import VariableDefinition
 
 
 @template_generator_handler
 def model_to_yaml_with_comments(
-    model_instance: CompletePatchOutput = DEFAULT_TEMPLATE,
+    model_instance: CompletePatchOutput | VariableDefinition = DEFAULT_TEMPLATE,
     custom_directory: Path | None = None,
 ) -> Path:
     """Convert a CompletePatchOutput instance into a structured YAML template file with comments.
