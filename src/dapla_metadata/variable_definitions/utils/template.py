@@ -31,7 +31,8 @@ from dapla_metadata.variable_definitions.variable_definition import VariableDefi
 
 
 def model_to_yaml_with_comments(
-    model_instance: CompletePatchOutput | VariableDefinition = DEFAULT_TEMPLATE,
+    model_instance: CompletePatchOutput | VariableDefinition,
+    file_name: str,
     custom_directory: Path | None = None,
 ) -> Path:
     """Convert a CompletePatchOutput instance into a structured YAML template file with comments.
@@ -47,6 +48,8 @@ def model_to_yaml_with_comments(
     Args:
         model_instance:
             The instance to convert. Defaults to `DEFAULT_TEMPLATE`.
+        file_name:
+            The file name that the yaml file will get.
         custom_directory:
             Optional directory where to save the template. defaults to None
 
@@ -88,7 +91,7 @@ def model_to_yaml_with_comments(
     if custom_directory is not None:
         base_path.mkdir(parents=True, exist_ok=True)
 
-    file_path = base_path / _file_path_base(_get_current_time())
+    file_path = base_path / file_name
 
     # It is important to preserve the order of the yaml dump operations when writing to file
     # so that the file is predictable for the user
@@ -109,6 +112,42 @@ def model_to_yaml_with_comments(
     return file_path
 
 
+def create_variable_yaml(
+    model_instance: VariableDefinition,
+    custom_directory: Path | None = None,
+) -> str:
+    """Creates a yaml file for an existing variable definition."""
+    file_name = _create_file_name(
+        "variable_definition",
+        _get_current_time(),
+        _get_shortname(model_instance),
+        _get_variable_definition_id(model_instance),
+    )
+
+    return model_to_yaml_with_comments(
+        model_instance,
+        file_name,
+        custom_directory=custom_directory,
+    )
+
+
+def create_template_yaml(
+    model_instance: CompletePatchOutput = DEFAULT_TEMPLATE,
+    custom_directory: Path | None = None,
+) -> str:
+    """Creates a template yaml file for a new variable definition."""
+    file_name = _create_file_name(
+        "variable_definition_template",
+        _get_current_time(),
+    )
+
+    return model_to_yaml_with_comments(
+        model_instance,
+        file_name,
+        custom_directory=custom_directory,
+    )
+
+
 def _populate_commented_map(
     field_name: str,
     value: str,
@@ -125,9 +164,27 @@ def _populate_commented_map(
         )
 
 
-def _file_path_base(time_object: str) -> str:
-    """Return file name with dynamic timestamp."""
-    return "variable_definition_template_" + time_object + ".yaml"
+def _create_file_name(
+    base_name: str,
+    time_object: str,
+    short_name: str | None = None,
+    variable_definition_id: str | None = None,
+) -> str:
+    """Return file name with dynamic timestamp, and shortname and id if available."""
+    return (
+        "_".join(
+            filter(
+                None,
+                [
+                    base_name,
+                    short_name,
+                    variable_definition_id,
+                    time_object,
+                ],
+            ),
+        )
+        + ".yaml"
+    )
 
 
 def _get_current_time() -> str:
@@ -189,3 +246,15 @@ def _configure_yaml() -> YAML:
     )
 
     return yaml
+
+
+def _get_shortname(
+    model_instance: CompletePatchOutput | VariableDefinition,
+) -> str | None:
+    return model_instance.short_name
+
+
+def _get_variable_definition_id(
+    model_instance: CompletePatchOutput | VariableDefinition,
+) -> str | None:
+    return model_instance.id
