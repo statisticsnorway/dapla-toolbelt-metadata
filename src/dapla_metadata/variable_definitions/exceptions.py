@@ -69,6 +69,27 @@ def vardef_exception_handler(method):  # noqa: ANN201, ANN001
     return _impl
 
 
+class VariableNotFoundError(Exception):
+    """Custom exception for when a variable is not found.
+
+    Attributes:
+        message (str): Message describing the error.
+    """
+
+    def __init__(self, message: str) -> None:
+        """Initialize the VariableNotFoundError.
+
+        Args:
+            message (str): Description of the error.
+        """
+        super().__init__(message)
+        self.message = message
+
+    def __str__(self) -> str:
+        """Return the string representation of the exception."""
+        return f" {self.message}"
+
+
 class VardefTemplateError(Exception):
     """Custom exception for handling errors related to YAML template generation."""
 

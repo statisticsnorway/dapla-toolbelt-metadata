@@ -2,6 +2,7 @@ from datetime import date
 
 from dapla_metadata.variable_definitions import config
 from dapla_metadata.variable_definitions._client import VardefClient
+from dapla_metadata.variable_definitions.exceptions import VariableNotFoundError
 from dapla_metadata.variable_definitions.exceptions import template_generator_handler
 from dapla_metadata.variable_definitions.exceptions import vardef_exception_handler
 from dapla_metadata.variable_definitions.generated.vardef_client.api.data_migration_api import (
@@ -150,7 +151,7 @@ class Vardef:
 
     @classmethod
     @vardef_exception_handler
-    def get_variable_definition(
+    def get_variable_definition_by_id(
         cls,
         variable_definition_id: str,
         date_of_validity: date | None = None,
@@ -175,6 +176,43 @@ class Vardef:
                 date_of_validity=date_of_validity,
             ),
         )
+
+    @classmethod
+    @vardef_exception_handler
+    def get_variable_definition_by_shortname(
+        cls,
+        short_name: str,
+        date_of_validity: date | None = None,
+    ) -> VariableDefinition:
+        """Retrieve a Variable Definition by ID or short name.
+
+        Args:
+            short_name (str): The short name of the Variable Definition.
+            date_of_validity (date | None, optional): Filter by validity date. Defaults to None.
+
+        Returns:
+            VariableDefinition: The retrieved Variable Definition.
+
+        Raises:
+            VariableNotFoundError: If no matching Variable Definition is found.
+            ValueError: If multiple variables with the same shortname is found.
+        """
+        client = VardefClient.get_client()
+        api = VariableDefinitionsApi(client)
+
+        variable_definitions = api.list_variable_definitions(
+            short_name=short_name,
+            date_of_validity=date_of_validity,
+        )
+
+        if not variable_definitions:
+            msg = f"Variable with short name {short_name} not found"
+            raise VariableNotFoundError(msg)
+        if len(variable_definitions) > 1:
+            msg = f"Lookup by short name {short_name} found multiple variables which should not be possible."
+            raise VariableNotFoundError(msg)
+
+        return VariableDefinition.from_model(variable_definitions[0])
 
     @classmethod
     @template_generator_handler

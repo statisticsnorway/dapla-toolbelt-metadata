@@ -286,6 +286,21 @@ def work_folder_saved_variable(set_temp_workspace: Path):
 
 
 @pytest.fixture
+def _delete_workspace_dir():
+    original_workspace_dir = os.environ.get("WORKSPACE_DIR")
+
+    if "WORKSPACE_DIR" in os.environ:
+        del os.environ["WORKSPACE_DIR"]
+
+    yield
+
+    if original_workspace_dir is not None:
+        os.environ["WORKSPACE_DIR"] = original_workspace_dir
+    else:
+        pass
+
+
+@pytest.fixture
 def work_folder_patch(set_temp_workspace: Path, patch: Patch):
     """Fixture that ensures a work folder exists for template with saved variable definition values."""
     base_path = set_temp_workspace
