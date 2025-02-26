@@ -6,6 +6,9 @@ import pytz
 from ruamel.yaml import YAML
 from ruamel.yaml import CommentedMap
 
+from dapla_metadata.variable_definitions.generated.vardef_client.models.variable_status import (
+    VariableStatus,
+)
 from dapla_metadata.variable_definitions.utils.constants import DEFAULT_TEMPLATE
 from dapla_metadata.variable_definitions.utils.constants import MACHINE_GENERATED_FIELDS
 from dapla_metadata.variable_definitions.utils.constants import OWNER_FIELD_NAME
@@ -50,16 +53,7 @@ def model_to_yaml_with_comments(
     Returns:
         Path: The file path of the generated YAML file.
     """
-    yaml = YAML()  # Use ruamel.yaml library
-    yaml.default_flow_style = False  # Ensures pretty YAML formatting
-
-    # yaml.representer.add_representer(
-    #     VariableStatus,
-    #     lambda dumper, data: dumper.represent_scalar(
-    #         "tag:yaml.org,2002:str",
-    #         data.value,
-    #     ),
-    # )
+    yaml = _configure_yaml()
 
     data = model_instance.model_dump()  # Convert Pydantic model instance to dictionary
 
@@ -143,7 +137,7 @@ def _get_current_time() -> str:
     return str(current_datetime)
 
 
-def _get_workspace_dir():
+def _get_workspace_dir() -> Path:
     """Determine the workspace directory."""
     try:
         # Attempt to get the directory from the environment variable
@@ -180,3 +174,18 @@ def _get_variable_definitions_dir():
     folder_path = workspace_dir / VARIABLE_DEFINITIONS_DIR
     folder_path.mkdir(parents=True, exist_ok=True)
     return folder_path
+
+
+def _configure_yaml() -> YAML:
+    yaml = YAML()  # Use ruamel.yaml library
+    yaml.default_flow_style = False  # Ensures pretty YAML formatting
+
+    yaml.representer.add_representer(
+        VariableStatus,
+        lambda dumper, data: dumper.represent_scalar(
+            "tag:yaml.org,2002:str",
+            data.value,
+        ),
+    )
+
+    return yaml

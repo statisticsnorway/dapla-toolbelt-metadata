@@ -6,6 +6,8 @@ from unittest.mock import patch
 import pytest
 import ruamel.yaml
 
+from dapla_metadata.variable_definitions.utils.template import _get_workspace_dir
+
 yaml = ruamel.yaml.YAML()
 
 from dapla_metadata._shared.config import DAPLA_GROUP_CONTEXT
@@ -290,26 +292,19 @@ def test_write_template_path_no_env_value(tmp_path: Path):
     assert result_without_timestamp == expected_result
 
 
-def test_some_stuff2(
+@pytest.mark.usefixtures("set_temp_workspace")
+def test_write_existing_variable_to_file(
     client_configuration: Configuration,
-    tmp_path: Path,
 ):
     VardefClient.set_config(client_configuration)
-
-    base_path = tmp_path / "work"
-    base_path.mkdir(parents=True, exist_ok=True)
     file_name = Vardef.write_variable_to_file(
         variable_definition_id=VARDEF_EXAMPLE_DEFINITION_ID,
     )
 
-    target_path = base_path / file_name
+    target_path = _get_workspace_dir() / file_name
 
     with target_path.open(encoding="utf-8") as f:
         parsed_yaml = yaml.load(f)
 
     assert parsed_yaml["variable_status"] == "DRAFT"
     assert parsed_yaml["short_name"] == "landbak"
-
-    # _clean_up_after_test(target_path, base_path)
-
-    # pytest.fail()

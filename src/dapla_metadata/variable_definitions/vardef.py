@@ -225,12 +225,14 @@ class Vardef:
     def write_variable_to_file(
         cls,
         variable_definition_id: str,
-        custom_directory: Path = None,
+        custom_directory: Path | None = None,
     ) -> Path:
         """Write template with default values to a yaml file."""
-        v = cls.get_variable_definition(variable_definition_id=variable_definition_id)
+        variable_definition = cls.get_variable_definition_by_id(
+            variable_definition_id=variable_definition_id,
+        )
 
         return model_to_yaml_with_comments(
-            model_instance=v,
+            model_instance=variable_definition,
             custom_directory=custom_directory,
         )
