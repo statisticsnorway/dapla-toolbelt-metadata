@@ -19,7 +19,6 @@ from dapla_metadata.variable_definitions.generated.vardef_client.models.draft im
 )
 from dapla_metadata.variable_definitions.utils.template import create_template_yaml
 from dapla_metadata.variable_definitions.utils.template import create_variable_yaml
-from dapla_metadata.variable_definitions.variable_definition import CompletePatchOutput
 from dapla_metadata.variable_definitions.variable_definition import VariableDefinition
 
 
@@ -155,7 +154,7 @@ class Vardef:
         cls,
         variable_definition_id: str,
         date_of_validity: date | None = None,
-    ) -> CompletePatchOutput:
+    ) -> VariableDefinition:
         """Get a Variable Definition by ID.
 
         Args:
