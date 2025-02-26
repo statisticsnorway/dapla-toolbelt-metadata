@@ -193,8 +193,8 @@ class Vardef:
             VariableDefinition: The retrieved Variable Definition.
 
         Raises:
-            ValueError: If both `variable_definition_id` and `short_name` are provided.
-            NotFoundException: If no matching Variable Definition is found.
+            VariableNotFoundError: If no matching Variable Definition is found.
+            ValueError: If multiple variables with the same shortname is found.
         """
         client = VardefClient.get_client()
         api = VariableDefinitionsApi(client)
