@@ -115,7 +115,7 @@ def model_to_yaml_with_comments(
 def create_variable_yaml(
     model_instance: VariableDefinition,
     custom_directory: Path | None = None,
-) -> str:
+) -> Path:
     """Creates a yaml file for an existing variable definition."""
     file_name = _create_file_name(
         "variable_definition",
@@ -134,7 +134,7 @@ def create_variable_yaml(
 def create_template_yaml(
     model_instance: CompletePatchOutput = DEFAULT_TEMPLATE,
     custom_directory: Path | None = None,
-) -> str:
+) -> Path:
     """Creates a template yaml file for a new variable definition."""
     file_name = _create_file_name(
         "variable_definition_template",
