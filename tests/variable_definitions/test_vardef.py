@@ -4,10 +4,12 @@ from pathlib import Path
 from unittest.mock import patch
 
 import pytest
+import ruamel.yaml
 
 from dapla_metadata._shared.config import DAPLA_GROUP_CONTEXT
 from dapla_metadata.variable_definitions._client import VardefClient
 from dapla_metadata.variable_definitions.exceptions import VardefClientException
+from dapla_metadata.variable_definitions.exceptions import VardefTemplateError
 from dapla_metadata.variable_definitions.exceptions import VariableNotFoundError
 from dapla_metadata.variable_definitions.generated.vardef_client.api.variable_definitions_api import (
     VariableDefinitionsApi,
@@ -41,6 +43,8 @@ from tests.utils.constants import VARDEF_EXAMPLE_INVALID_ID
 from tests.utils.constants import VARDEF_EXAMPLE_SHORT_NAME
 from tests.variable_definitions.conftest import sample_variable_definition
 from tests.variable_definitions.conftest import unknown_variable_definition
+
+yaml = ruamel.yaml.YAML()
 
 PATCH_ID = 2
 
@@ -266,11 +270,11 @@ def test_write_template(tmp_path: Path):
 @pytest.mark.usefixtures("_delete_workspace_dir")
 def test_write_template_no_workspace(tmp_path: Path):
     with patch.object(Path, "cwd", return_value=tmp_path):
-        with pytest.raises(FileNotFoundError) as exc_info:
+        with pytest.raises(VardefTemplateError) as exc_info:
             Vardef.write_template_to_file()
         assert (
             str(exc_info.value)
-            == "'work' directory not found and env WORKSPACE_DIR is not set."
+            == "VardefTemplateError: File not found: unknown file path"
         )
 
 
@@ -287,10 +291,22 @@ def test_write_template_path_no_env_value(tmp_path: Path):
     assert result_without_timestamp == expected_result
 
 
-def test_write_template_from_tmp_path(tmp_path: Path):
-    with patch.object(Path, "cwd", return_value=tmp_path):
+def test_write_template_from_tmp_path():
+    base_path = Path("../../")
+    with patch.object(Path, "cwd", return_value=base_path):
         result = Vardef.write_template_to_file()
         assert "Successfully written to file" in result
+
+
+def test_open_file():
+    file_path = Path(
+        "work/variable_definitions/variable_definition_template_2025-02-26T13-05-29.yaml",
+    )
+    with file_path.open(encoding="utf-8") as f:
+        parsed_yaml = yaml.load(f)
+
+    assert parsed_yaml["variable_status"] == "DRAFT"
+    assert parsed_yaml["last_updated_by"] == ""
 
 
 def test_write_template_from_random_dir():
