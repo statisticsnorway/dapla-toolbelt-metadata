@@ -6,6 +6,7 @@ import pytz
 from ruamel.yaml import YAML
 from ruamel.yaml import CommentedMap
 
+from dapla_metadata.variable_definitions.exceptions import template_generator_handler
 from dapla_metadata.variable_definitions.utils.constants import DEFAULT_TEMPLATE
 from dapla_metadata.variable_definitions.utils.constants import MACHINE_GENERATED_FIELDS
 from dapla_metadata.variable_definitions.utils.constants import OWNER_FIELD_NAME
@@ -26,6 +27,7 @@ from dapla_metadata.variable_definitions.utils.constants import (
 from dapla_metadata.variable_definitions.variable_definition import CompletePatchOutput
 
 
+@template_generator_handler
 def model_to_yaml_with_comments(
     model_instance: CompletePatchOutput = DEFAULT_TEMPLATE,
     custom_directory: Path | None = None,
