@@ -298,19 +298,8 @@ def test_write_template_from_tmp_path():
         assert "Successfully written to file" in result
 
 
-def test_open_file():
-    file_path = Path(
-        "work/variable_definitions/variable_definition_template_2025-02-26T13-05-29.yaml",
-    )
-    with file_path.open(encoding="utf-8") as f:
-        parsed_yaml = yaml.load(f)
-
-    assert parsed_yaml["variable_status"] == "DRAFT"
-    assert parsed_yaml["last_updated_by"] == ""
-
-
-def test_write_template_from_random_dir():
-    base_path = Path("statistics/")
+def test_write_template_from_random_dir(tmp_path: Path):
+    base_path = tmp_path / "statistics/"
     base_path.mkdir(parents=True, exist_ok=True)
 
     with patch.object(Path, "cwd", return_value=base_path):
@@ -318,8 +307,8 @@ def test_write_template_from_random_dir():
         assert "Successfully written to file" in result
 
 
-def test_write_template_random_dir_work_dir():
-    base_path = Path("statistics/a/work")
+def test_write_template_random_dir_work_dir(tmp_path: Path):
+    base_path = tmp_path / "statistics/a/work"
     base_path.mkdir(parents=True, exist_ok=True)
     with patch.object(Path, "cwd", return_value=base_path):
         result = Vardef.write_template_to_file()
