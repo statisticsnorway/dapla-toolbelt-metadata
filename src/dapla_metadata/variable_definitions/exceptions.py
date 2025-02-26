@@ -3,6 +3,9 @@
 import json
 from functools import wraps
 
+from pytz import UnknownTimeZoneError
+from yaml import YAMLError
+
 from dapla_metadata.variable_definitions.generated.vardef_client.exceptions import (
     OpenApiException,
 )
@@ -62,5 +65,51 @@ def vardef_exception_handler(method):  # noqa: ANN201, ANN001
             return method(self, *method_args, **method_kwargs)
         except OpenApiException as e:
             raise VardefClientException(e.body) from e
+
+    return _impl
+
+
+class VardefTemplateError(Exception):
+    """Custom exception for handling errors related to YAML template generation."""
+
+    def __init__(self, message: str, *args) -> None:  # noqa: ANN002
+        """Accepting the message and any additional arguments."""
+        super().__init__(message, *args)
+        self.message = message
+        self.args = args
+
+    def __str__(self) -> str:
+        """Returning a custom string representation of the exception."""
+        return f"VardefTemplateError: {self.message}"
+
+
+def template_generator_handler(method):  # noqa: ANN201, ANN001
+    """Decorator for handling exceptions when generating yaml files."""
+    wraps(method)
+
+    def _impl(self, *method_args, **method_kwargs):  # noqa: ANN001, ANN002, ANN003
+        try:
+            return method(
+                self,
+                *method_args,
+                **method_kwargs,
+            )
+        except FileNotFoundError as e:
+            msg = (
+                f"File not found: {method_kwargs.get('file_path', 'unknown file path')}"
+            )
+            raise VardefTemplateError(msg) from e
+        except FileExistsError as e:
+            msg = f"File already exists and can not be saved: {method_kwargs.get('file_path', 'unknown file path')}"
+            raise VardefTemplateError(msg) from e
+        except PermissionError as e:
+            msg = f"Permission denied for {method_kwargs.get('file_path', 'unknown file path')} when accessing the file"
+            raise VardefTemplateError(msg) from e
+        except UnknownTimeZoneError as e:
+            msg = f"Timezone is unknown: {method_kwargs.get('time_zone', 'unknown')}"
+            raise VardefTemplateError(msg) from e
+        except YAMLError as e:
+            msg = "Not possible to serialize yaml"
+            raise VardefTemplateError(msg) from e
 
     return _impl

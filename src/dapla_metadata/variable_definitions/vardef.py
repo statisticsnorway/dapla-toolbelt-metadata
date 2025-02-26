@@ -2,6 +2,7 @@ from datetime import date
 
 from dapla_metadata.variable_definitions import config
 from dapla_metadata.variable_definitions._client import VardefClient
+from dapla_metadata.variable_definitions.exceptions import template_generator_handler
 from dapla_metadata.variable_definitions.exceptions import vardef_exception_handler
 from dapla_metadata.variable_definitions.generated.vardef_client.api.data_migration_api import (
     DataMigrationApi,
@@ -176,6 +177,7 @@ class Vardef:
         )
 
     @classmethod
+    @template_generator_handler
     def write_template_to_file(cls) -> str:
         """Write template with default values to a yaml file."""
         file_path = model_to_yaml_with_comments()

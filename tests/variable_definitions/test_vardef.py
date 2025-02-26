@@ -8,6 +8,7 @@ import pytest
 from dapla_metadata._shared.config import DAPLA_GROUP_CONTEXT
 from dapla_metadata.variable_definitions._client import VardefClient
 from dapla_metadata.variable_definitions.exceptions import VardefClientException
+from dapla_metadata.variable_definitions.exceptions import VardefTemplateError
 from dapla_metadata.variable_definitions.generated.vardef_client.configuration import (
     Configuration,
 )
@@ -218,11 +219,11 @@ def test_write_template(tmp_path: Path):
 @pytest.mark.usefixtures("_delete_workspace_dir")
 def test_write_template_no_workspace(tmp_path: Path):
     with patch.object(Path, "cwd", return_value=tmp_path):
-        with pytest.raises(FileNotFoundError) as exc_info:
+        with pytest.raises(VardefTemplateError) as exc_info:
             Vardef.write_template_to_file()
         assert (
             str(exc_info.value)
-            == "'work' directory not found and env WORKSPACE_DIR is not set."
+            == "VardefTemplateError: File not found: unknown file path"
         )
 
 
