@@ -292,21 +292,42 @@ def test_write_template_path_no_env_value(tmp_path: Path):
 
 
 def test_write_template_from_tmp_path():
-    base_path = Path("../../")
+    base_path = Path("../")
     with patch.object(Path, "cwd", return_value=base_path):
         result = Vardef.write_template_to_file()
         assert "Successfully written to file" in result
 
 
-def test_write_template_from_random_dir(tmp_path: Path):
-    base_path = tmp_path / "statistics/"
+@pytest.mark.usefixtures("set_temp_workspace_invalid")
+def test_write_template_invalid():
+    """Env 'WORKSPACE_DIR' not present and 'work' not on path."""
+    base_path = Path("../")
     base_path.mkdir(parents=True, exist_ok=True)
 
     with patch.object(Path, "cwd", return_value=base_path):
-        result = Vardef.write_template_to_file()
-        assert "Successfully written to file" in result
+        with pytest.raises(VardefTemplateError) as exc_info:
+            Vardef.write_template_to_file()
+        assert (
+            str(exc_info.value)
+            == "VardefTemplateError: File not found: unknown file path"
+        )
 
 
+@pytest.mark.usefixtures("set_env_work_dir")
+def test_write_template_no_work_folder(tmp_path: Path):
+    base_path = tmp_path / "statistics/a/work"
+    base_path.mkdir(parents=True, exist_ok=True)
+
+    with patch.object(Path, "cwd", return_value=base_path):
+        with pytest.raises(VardefTemplateError) as exc_info:
+            Vardef.write_template_to_file()
+        assert (
+            str(exc_info.value)
+            == "VardefTemplateError: File not found: unknown file path"
+        )
+
+
+@pytest.mark.usefixtures("set_temp_workspace")
 def test_write_template_random_dir_work_dir(tmp_path: Path):
     base_path = tmp_path / "statistics/a/work"
     base_path.mkdir(parents=True, exist_ok=True)
@@ -315,6 +336,7 @@ def test_write_template_random_dir_work_dir(tmp_path: Path):
         assert "Successfully written to file" in result
 
 
+@pytest.mark.usefixtures("set_temp_workspace")
 def test_write_template_from_current():
     with patch.object(Path, "cwd", return_value=Path("./")):
         result = Vardef.write_template_to_file()
