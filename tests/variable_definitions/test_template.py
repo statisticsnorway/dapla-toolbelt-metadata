@@ -5,7 +5,12 @@ from pathlib import Path
 import pytest
 import ruamel.yaml
 
+from dapla_metadata.variable_definitions.exceptions import VardefTemplateError
 from dapla_metadata.variable_definitions.utils.template import _get_workspace_dir
+from dapla_metadata.variable_definitions.utils.template import (
+    model_to_yaml_with_comments,
+)
+from tests.variable_definitions.conftest import _get_variable_definition_as_dict
 
 yaml = ruamel.yaml.YAML()
 
@@ -61,3 +66,13 @@ def test_get_workspace_dir_without_env_var():
     workspace_dir = _get_workspace_dir()
     assert workspace_dir.exists()
     assert workspace_dir.is_dir()
+
+
+def test_generate_yaml_from_dict() -> None:
+    """Check if the generated YAML file with saved values contains the expected data."""
+    with pytest.raises(VardefTemplateError) as exc_info:
+        model_to_yaml_with_comments(
+            _get_variable_definition_as_dict(),
+            custom_directory=None,
+        )
+    assert str(exc_info.value) == "VardefTemplateError: Possible input is dict"
