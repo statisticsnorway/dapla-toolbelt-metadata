@@ -111,5 +111,8 @@ def template_generator_handler(method):  # noqa: ANN201, ANN001
         except YAMLError as e:
             msg = "Not possible to serialize yaml"
             raise VardefTemplateError(msg) from e
+        except AttributeError as e:
+            msg = "Possible input is dict"
+            raise VardefTemplateError(msg) from e
 
     return _impl
