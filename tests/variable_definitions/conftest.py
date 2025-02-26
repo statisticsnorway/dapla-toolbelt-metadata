@@ -328,21 +328,6 @@ def work_folder_variable_definition(set_temp_workspace: Path):
     _clean_up_after_test(target_path, base_path)
 
 
-@pytest.fixture
-def _delete_workspace_dir():
-    original_workspace_dir = os.environ.get("WORKSPACE_DIR")
-
-    if "WORKSPACE_DIR" in os.environ:
-        del os.environ["WORKSPACE_DIR"]
-
-    yield
-
-    if original_workspace_dir is not None:
-        os.environ["WORKSPACE_DIR"] = original_workspace_dir
-    else:
-        pass
-
-
 def get_variable_definition_as_dict():
     return {
         "name": {
