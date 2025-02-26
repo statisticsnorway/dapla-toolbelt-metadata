@@ -61,7 +61,7 @@ def test_list_variable_definitions_with_date_of_validity(
 
 def test_get_variable_definition_by_id(client_configuration: Configuration):
     VardefClient.set_config(client_configuration)
-    landbak = Vardef.get_variable_definition(
+    landbak = Vardef.get_variable_definition_by_id(
         variable_definition_id=VARDEF_EXAMPLE_DEFINITION_ID,
     )
     assert isinstance(landbak, VariableDefinition)
@@ -70,7 +70,7 @@ def test_get_variable_definition_by_id(client_configuration: Configuration):
 
 def test_get_variable_definition_by_short_name(client_configuration: Configuration):
     VardefClient.set_config(client_configuration)
-    landbak = Vardef.get_variable_definition(
+    landbak = Vardef.get_variable_definition_by_shortname(
         short_name=VARDEF_EXAMPLE_SHORT_NAME,
     )
     assert isinstance(landbak, VariableDefinition)
@@ -91,7 +91,7 @@ def test_get_variable_definition_by_nonexistent_short_name(
         VariableNotFoundError,
         match=f"Variable with short name {short_name} not found",
     ):
-        Vardef.get_variable_definition(short_name=short_name)
+        Vardef.get_variable_definition_by_shortname(short_name=short_name)
 
 
 def test_get_variable_definition_multiple_variables_returned(
@@ -108,39 +108,14 @@ def test_get_variable_definition_multiple_variables_returned(
         ValueError,
         match=f"Lookup by short name {short_name} found multiple variables which should not be possible",
     ):
-        Vardef.get_variable_definition(short_name=short_name)
-
-
-def test_get_variable_definition_no_inputs(
-    client_configuration: Configuration,
-):
-    VardefClient.set_config(client_configuration)
-    with pytest.raises(
-        ValueError,
-        match="Must specify either 'variable_definition_id' or 'short_name'.",
-    ):
-        Vardef.get_variable_definition()
-
-
-def test_get_variable_definition_both_inputs(
-    client_configuration: Configuration,
-):
-    VardefClient.set_config(client_configuration)
-    with pytest.raises(
-        ValueError,
-        match="Specify either 'variable_definition_id' or 'short_name', not both.",
-    ):
-        Vardef.get_variable_definition(
-            variable_definition_id=VARDEF_EXAMPLE_DEFINITION_ID,
-            short_name=VARDEF_EXAMPLE_SHORT_NAME,
-        )
+        Vardef.get_variable_definition_by_shortname(short_name=short_name)
 
 
 @pytest.mark.parametrize(
     ("method"),
     [
         functools.partial(
-            Vardef.get_variable_definition,
+            Vardef.get_variable_definition_by_id,
             variable_definition_id=VARDEF_EXAMPLE_INVALID_ID,
         ),
         unknown_variable_definition().list_validity_periods,
@@ -164,7 +139,7 @@ def test_not_found(
 
 def test_list_patches(client_configuration: Configuration):
     VardefClient.set_config(client_configuration)
-    landbak = Vardef.get_variable_definition(
+    landbak = Vardef.get_variable_definition_by_id(
         variable_definition_id=VARDEF_EXAMPLE_DEFINITION_ID,
     )
     assert isinstance(landbak.list_patches()[0], CompletePatchOutput)
@@ -172,7 +147,7 @@ def test_list_patches(client_configuration: Configuration):
 
 def test_get_patch(client_configuration: Configuration):
     VardefClient.set_config(client_configuration)
-    landbak = Vardef.get_variable_definition(
+    landbak = Vardef.get_variable_definition_by_id(
         variable_definition_id=VARDEF_EXAMPLE_DEFINITION_ID,
     )
     assert isinstance(landbak.get_patch(1), CompletePatchOutput)
@@ -180,7 +155,7 @@ def test_get_patch(client_configuration: Configuration):
 
 def test_list_validity_periods(client_configuration: Configuration):
     VardefClient.set_config(client_configuration)
-    landbak = Vardef.get_variable_definition(
+    landbak = Vardef.get_variable_definition_by_id(
         variable_definition_id=VARDEF_EXAMPLE_DEFINITION_ID,
     )
     assert isinstance(landbak.list_validity_periods()[0], CompletePatchOutput)
@@ -224,7 +199,7 @@ def test_update_draft(
 ):
     monkeypatch.setenv(DAPLA_GROUP_CONTEXT, VARDEF_EXAMPLE_ACTIVE_GROUP)
     VardefClient.set_config(client_configuration)
-    my_draft = Vardef.get_variable_definition(
+    my_draft = Vardef.get_variable_definition_by_id(
         variable_definition_id=VARDEF_EXAMPLE_DEFINITION_ID,
     )
     assert isinstance(my_draft.update_draft(update_draft), CompletePatchOutput)
@@ -236,7 +211,7 @@ def test_delete_draft(
 ):
     monkeypatch.setenv(DAPLA_GROUP_CONTEXT, VARDEF_EXAMPLE_ACTIVE_GROUP)
     VardefClient.set_config(client_configuration)
-    my_draft = Vardef.get_variable_definition(
+    my_draft = Vardef.get_variable_definition_by_id(
         variable_definition_id=VARDEF_EXAMPLE_DEFINITION_ID,
     )
     assert my_draft.id is not None

@@ -150,12 +150,39 @@ class Vardef:
 
     @classmethod
     @vardef_exception_handler
-    def get_variable_definition(
+    def get_variable_definition_by_id(
         cls,
-        variable_definition_id: str | None = None,
-        short_name: str | None = None,
+        variable_definition_id: str,
         date_of_validity: date | None = None,
-    ) -> VariableDefinition | None:
+    ) -> VariableDefinition:
+        """Get a Variable Definition by ID.
+
+        Args:
+            variable_definition_id (str): The ID of the desired Variable Definition
+            date_of_validity (date | None, optional): List only variable definitions which are valid on this date. Defaults to None.
+
+        Returns:
+            VariableDefinition: The Variable Definition.
+
+        Raises:
+            NotFoundException when the given ID is not found
+        """
+        return VariableDefinition.from_model(
+            VariableDefinitionsApi(
+                VardefClient.get_client(),
+            ).get_variable_definition_by_id(
+                variable_definition_id=variable_definition_id,
+                date_of_validity=date_of_validity,
+            ),
+        )
+
+    @classmethod
+    @vardef_exception_handler
+    def get_variable_definition_by_shortname(
+        cls,
+        short_name: str,
+        date_of_validity: date | None = None,
+    ) -> VariableDefinition:
         """Retrieve a Variable Definition by ID or short name.
 
         Args:
@@ -170,44 +197,22 @@ class Vardef:
             ValueError: If both `variable_definition_id` and `short_name` are provided.
             NotFoundException: If no matching Variable Definition is found.
         """
-        if variable_definition_id and short_name:
-            msg = "Specify either 'variable_definition_id' or 'short_name', not both."
-            raise ValueError(
-                msg,
-            )
-
-        if variable_definition_id is None and short_name is None:
-            msg = "Must specify either 'variable_definition_id' or 'short_name'."
-            raise ValueError(
-                msg,
-            )
-
         client = VardefClient.get_client()
         api = VariableDefinitionsApi(client)
 
-        if short_name:
-            variable_definitions = api.list_variable_definitions(
-                short_name=short_name,
-                date_of_validity=date_of_validity,
-            )
+        variable_definitions = api.list_variable_definitions(
+            short_name=short_name,
+            date_of_validity=date_of_validity,
+        )
 
-            if not variable_definitions:
-                msg = f"Variable with short name {short_name} not found"
-                raise VariableNotFoundError(msg)
-            if len(variable_definitions) > 1:
-                msg = f"Lookup by short name {short_name} found multiple variables which should not be possible."
-                raise ValueError(msg)
+        if not variable_definitions:
+            msg = f"Variable with short name {short_name} not found"
+            raise VariableNotFoundError(msg)
+        if len(variable_definitions) > 1:
+            msg = f"Lookup by short name {short_name} found multiple variables which should not be possible."
+            raise ValueError(msg)
 
-            return VariableDefinition.from_model(variable_definitions[0])
-
-        if variable_definition_id:
-            return VariableDefinition.from_model(
-                api.get_variable_definition_by_id(
-                    variable_definition_id=variable_definition_id,
-                    date_of_validity=date_of_validity,
-                ),
-            )
-        return None
+        return VariableDefinition.from_model(variable_definitions[0])
 
     @classmethod
     def write_template_to_file(cls) -> str:
