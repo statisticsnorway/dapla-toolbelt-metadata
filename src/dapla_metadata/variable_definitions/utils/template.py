@@ -10,6 +10,7 @@ from dapla_metadata.variable_definitions.generated.vardef_client.models.variable
     VariableStatus,
 )
 from dapla_metadata.variable_definitions.utils.constants import DEFAULT_TEMPLATE
+from dapla_metadata.variable_definitions.utils.constants import HEADER
 from dapla_metadata.variable_definitions.utils.constants import MACHINE_GENERATED_FIELDS
 from dapla_metadata.variable_definitions.utils.constants import OWNER_FIELD_NAME
 from dapla_metadata.variable_definitions.utils.constants import TEMPLATE_HEADER
@@ -33,9 +34,10 @@ from dapla_metadata.variable_definitions.variable_definition import VariableDefi
 def model_to_yaml_with_comments(
     model_instance: CompletePatchOutput | VariableDefinition,
     file_name: str,
+    start_comment: str,
     custom_directory: Path | None = None,
 ) -> Path:
-    """Convert a CompletePatchOutput instance into a structured YAML template file with comments.
+    """Convert a CompletePatchOutput instance into a structured YAML file with comments.
 
     This function:
     - Extracts data from a `CompletePatchOutput` instance.
@@ -96,7 +98,7 @@ def model_to_yaml_with_comments(
     # It is important to preserve the order of the yaml dump operations when writing to file
     # so that the file is predictable for the user
     with file_path.open("w", encoding="utf-8") as file:
-        commented_map.yaml_set_start_comment(TEMPLATE_HEADER)
+        commented_map.yaml_set_start_comment(start_comment)
         yaml.dump(commented_map, file)
 
         status_map.yaml_set_start_comment(TEMPLATE_SECTION_HEADER_STATUS)
@@ -127,6 +129,7 @@ def create_variable_yaml(
     return model_to_yaml_with_comments(
         model_instance,
         file_name,
+        HEADER,
         custom_directory=custom_directory,
     )
 
@@ -144,6 +147,7 @@ def create_template_yaml(
     return model_to_yaml_with_comments(
         model_instance,
         file_name,
+        TEMPLATE_HEADER,
         custom_directory=custom_directory,
     )
 
