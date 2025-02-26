@@ -238,3 +238,32 @@ def test_write_template_path_no_env_value(tmp_path: Path):
     result_without_timestamp += result.split(".yaml", 1)[1]
     expected_result = f"File path {workspace_dir}/variable_definitions/variable_definition_template.yaml Successfully written to file"
     assert result_without_timestamp == expected_result
+
+
+def test_write_template_from_tmp_path(tmp_path: Path):
+    with patch.object(Path, "cwd", return_value=tmp_path):
+        result = Vardef.write_template_to_file()
+        assert "Successfully written to file" in result
+
+
+def test_write_template_from_random_dir():
+    base_path = Path("statistics/")
+    base_path.mkdir(parents=True, exist_ok=True)
+
+    with patch.object(Path, "cwd", return_value=base_path):
+        result = Vardef.write_template_to_file()
+        assert "Successfully written to file" in result
+
+
+def test_write_template_random_dir_work_dir():
+    base_path = Path("statistics/a/work")
+    base_path.mkdir(parents=True, exist_ok=True)
+    with patch.object(Path, "cwd", return_value=base_path):
+        result = Vardef.write_template_to_file()
+        assert "Successfully written to file" in result
+
+
+def test_write_template_from_current():
+    with patch.object(Path, "cwd", return_value=Path("./")):
+        result = Vardef.write_template_to_file()
+        assert "Successfully written to file" in result
