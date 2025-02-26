@@ -228,7 +228,6 @@ class Vardef:
         variable_definition = cls.get_variable_definition_by_id(
             variable_definition_id=variable_definition_id,
         )
-
         return create_variable_yaml(
             model_instance=variable_definition,
         )
