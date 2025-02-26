@@ -6,6 +6,9 @@ import pytest
 import ruamel.yaml
 
 from dapla_metadata.variable_definitions.exceptions import VardefTemplateError
+from dapla_metadata.variable_definitions.generated.vardef_client.models.patch import (
+    Patch,
+)
 from dapla_metadata.variable_definitions.utils.template import _get_workspace_dir
 from dapla_metadata.variable_definitions.utils.template import (
     model_to_yaml_with_comments,
@@ -48,6 +51,21 @@ def test_yaml_content_from_model_variable_definition(
 
     assert parsed_yaml["variable_status"] == "PUBLISHED_EXTERNAL"
     assert parsed_yaml["last_updated_by"] == "ano@ssb.no"
+
+
+def test_yaml_content_from_model_patch(
+    patch: Patch,
+) -> None:
+    """Check if the generated YAML file with saved values contains the expected data."""
+    exception_message: str = ""
+    try:
+        model_to_yaml_with_comments(
+            patch,
+            custom_directory=None,
+        )
+    except VardefTemplateError as e:
+        exception_message = e.message
+    assert exception_message == "File not found: unknown file path"
 
 
 def test_yaml_comments(work_folder_defaults: Path):

@@ -286,6 +286,20 @@ def work_folder_saved_variable(set_temp_workspace: Path):
 
 
 @pytest.fixture
+def work_folder_patch(set_temp_workspace: Path, patch: Patch):
+    """Fixture that ensures a work folder exists for template with saved variable definition values."""
+    base_path = set_temp_workspace
+    file_name = model_to_yaml_with_comments(
+        patch,
+        custom_directory=base_path,
+    )
+    target_path = base_path / file_name
+    yield target_path
+
+    _clean_up_after_test(target_path, base_path)
+
+
+@pytest.fixture
 def work_folder_variable_definition(set_temp_workspace: Path):
     """Fixture that ensures a work folder exists for template with saved variable definition values."""
     base_path = set_temp_workspace
