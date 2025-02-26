@@ -88,7 +88,7 @@ class CompleteResponse(BaseModel):
     owner: Owner = Field(
         description="Owner of the definition, i.e. responsible Dapla team (statistics team) and information about access management groups."
     )
-    contact: Contact | None = Field(default=None, description="Contact details")
+    contact: Contact = Field(description="Contact details")
     created_at: datetime = Field(
         description="The timestamp at which this variable definition was first created."
     )
@@ -224,11 +224,6 @@ class CompleteResponse(BaseModel):
             and "related_variable_definition_uris" in self.model_fields_set
         ):
             _dict["related_variable_definition_uris"] = None
-
-        # set to None if contact (nullable) is None
-        # and model_fields_set contains the field
-        if self.contact is None and "contact" in self.model_fields_set:
-            _dict["contact"] = None
 
         return _dict
 

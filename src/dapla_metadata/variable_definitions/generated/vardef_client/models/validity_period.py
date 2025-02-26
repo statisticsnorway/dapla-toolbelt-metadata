@@ -15,6 +15,7 @@ import json
 import pprint
 import re  # noqa: F401
 from datetime import date
+from typing import Annotated
 from typing import Any
 from typing import ClassVar
 
@@ -27,7 +28,6 @@ from typing_extensions import Self
 
 from ..models.contact import Contact
 from ..models.language_string_type import LanguageStringType
-from ..models.variable_status import VariableStatus
 
 
 class ValidityPeriod(BaseModel):
@@ -42,20 +42,19 @@ class ValidityPeriod(BaseModel):
         default=None,
         description="ID of a classification or code list from Klass. The given classification defines all possible values for the defined variable.",
     )
-    unit_types: list[StrictStr] | None = Field(
+    unit_types: list[Annotated[str, Field(min_length=1, strict=True)]] | None = Field(
         default=None,
         description="A list of one or more unit types, e.g. person, vehicle, household. Must be defined as codes from https://www.ssb.no/klass/klassifikasjoner/702.",
     )
-    subject_fields: list[StrictStr] | None = Field(
-        default=None,
-        description="A list of subject fields that the variable is used in. Must be defined as codes from https://www.ssb.no/klass/klassifikasjoner/618.",
+    subject_fields: list[Annotated[str, Field(min_length=1, strict=True)]] | None = (
+        Field(
+            default=None,
+            description="A list of subject fields that the variable is used in. Must be defined as codes from https://www.ssb.no/klass/klassifikasjoner/618.",
+        )
     )
     contains_special_categories_of_personal_data: StrictBool | None = Field(
         default=None,
         description="True if variable instances contain particularly sensitive information. Applies even if the information or identifiers are pseudonymized. Information within the following categories are regarded as particularly sensitive: Ethnicity, Political alignment, Religion, Philosophical beliefs, Union membership, Genetics, Biometrics, Health, Sexual relations, Sexual orientation",
-    )
-    variable_status: VariableStatus | None = Field(
-        default=None, description="Status of the life cycle of the variable"
     )
     measurement_type: StrictStr | None = Field(
         default=None,
@@ -83,7 +82,6 @@ class ValidityPeriod(BaseModel):
         "unit_types",
         "subject_fields",
         "contains_special_categories_of_personal_data",
-        "variable_status",
         "measurement_type",
         "valid_from",
         "external_reference_uri",
@@ -121,13 +119,8 @@ class ValidityPeriod(BaseModel):
         * `None` is only added to the output dict for nullable fields that
           were set at model initialization. Other fields with value `None`
           are ignored.
-        * OpenAPI `readOnly` fields are excluded.
         """
-        excluded_fields: set[str] = set(
-            [
-                "variable_status",
-            ]
-        )
+        excluded_fields: set[str] = set([])
 
         _dict = self.model_dump(
             by_alias=True,
@@ -176,11 +169,6 @@ class ValidityPeriod(BaseModel):
             and "contains_special_categories_of_personal_data" in self.model_fields_set
         ):
             _dict["contains_special_categories_of_personal_data"] = None
-
-        # set to None if variable_status (nullable) is None
-        # and model_fields_set contains the field
-        if self.variable_status is None and "variable_status" in self.model_fields_set:
-            _dict["variable_status"] = None
 
         # set to None if measurement_type (nullable) is None
         # and model_fields_set contains the field
@@ -241,7 +229,6 @@ class ValidityPeriod(BaseModel):
                 "contains_special_categories_of_personal_data": obj.get(
                     "contains_special_categories_of_personal_data"
                 ),
-                "variable_status": obj.get("variable_status"),
                 "measurement_type": obj.get("measurement_type"),
                 "valid_from": obj.get("valid_from"),
                 "external_reference_uri": obj.get("external_reference_uri"),

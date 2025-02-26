@@ -26,7 +26,7 @@ from typing_extensions import Self
 class RenderedContact(BaseModel):
     """RenderedContact"""
 
-    title: StrictStr | None = None
+    title: StrictStr
     email: StrictStr
     __properties: ClassVar[list[str]] = ["title", "email"]
 
@@ -67,11 +67,6 @@ class RenderedContact(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
-        # set to None if title (nullable) is None
-        # and model_fields_set contains the field
-        if self.title is None and "title" in self.model_fields_set:
-            _dict["title"] = None
-
         return _dict
 
     @classmethod
