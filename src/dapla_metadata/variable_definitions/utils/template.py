@@ -31,7 +31,7 @@ from dapla_metadata.variable_definitions.variable_definition import CompletePatc
 from dapla_metadata.variable_definitions.variable_definition import VariableDefinition
 
 
-def model_to_yaml_with_comments(
+def _model_to_yaml_with_comments(
     model_instance: CompletePatchOutput | VariableDefinition,
     file_name: str,
     start_comment: str,
@@ -52,6 +52,8 @@ def model_to_yaml_with_comments(
             The instance to convert. Defaults to `DEFAULT_TEMPLATE`.
         file_name:
             The file name that the yaml file will get.
+        start_comment:
+            The comment at the top of the generated yaml file.
         custom_directory:
             Optional directory where to save the template. defaults to None
 
@@ -126,7 +128,7 @@ def create_variable_yaml(
         _get_variable_definition_id(model_instance),
     )
 
-    return model_to_yaml_with_comments(
+    return _model_to_yaml_with_comments(
         model_instance,
         file_name,
         HEADER,
@@ -144,7 +146,7 @@ def create_template_yaml(
         _get_current_time(),
     )
 
-    return model_to_yaml_with_comments(
+    return _model_to_yaml_with_comments(
         model_instance,
         file_name,
         TEMPLATE_HEADER,
