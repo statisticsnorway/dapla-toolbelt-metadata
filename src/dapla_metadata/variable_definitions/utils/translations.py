@@ -13,7 +13,7 @@ def load_translations(file_path: str) -> dict:
 
 
 TRANSLATIONS = load_translations(
-    "src/dapla_metadata/variable_definitions/utils/variable_definition_fields_descriptions.yaml",
+    "src/dapla_metadata/variable_definitions/utils/norwegian_fields_descriptions.yaml",
 )
 
 
