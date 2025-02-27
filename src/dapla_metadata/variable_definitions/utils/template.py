@@ -6,7 +6,11 @@ import pytz
 from ruamel.yaml import YAML
 from ruamel.yaml import CommentedMap
 
+from dapla_metadata.variable_definitions.generated.vardef_client.models.variable_status import (
+    VariableStatus,
+)
 from dapla_metadata.variable_definitions.utils.constants import DEFAULT_TEMPLATE
+from dapla_metadata.variable_definitions.utils.constants import HEADER
 from dapla_metadata.variable_definitions.utils.constants import MACHINE_GENERATED_FIELDS
 from dapla_metadata.variable_definitions.utils.constants import OWNER_FIELD_NAME
 from dapla_metadata.variable_definitions.utils.constants import TEMPLATE_HEADER
@@ -24,13 +28,16 @@ from dapla_metadata.variable_definitions.utils.constants import (
     VARIABLE_STATUS_FIELD_NAME,
 )
 from dapla_metadata.variable_definitions.variable_definition import CompletePatchOutput
+from dapla_metadata.variable_definitions.variable_definition import VariableDefinition
 
 
-def model_to_yaml_with_comments(
-    model_instance: CompletePatchOutput = DEFAULT_TEMPLATE,
+def _model_to_yaml_with_comments(
+    model_instance: CompletePatchOutput | VariableDefinition,
+    file_name: str,
+    start_comment: str,
     custom_directory: Path | None = None,
 ) -> Path:
-    """Convert a CompletePatchOutput instance into a structured YAML template file with comments.
+    """Convert a CompletePatchOutput instance into a structured YAML file with comments.
 
     This function:
     - Extracts data from a `CompletePatchOutput` instance.
@@ -43,16 +50,19 @@ def model_to_yaml_with_comments(
     Args:
         model_instance:
             The instance to convert. Defaults to `DEFAULT_TEMPLATE`.
+        file_name:
+            The file name that the yaml file will get.
+        start_comment:
+            The comment at the top of the generated yaml file.
         custom_directory:
             Optional directory where to save the template. defaults to None
 
     Returns:
         Path: The file path of the generated YAML file.
     """
-    yaml = YAML()  # Use ruamel.yaml library
-    yaml.default_flow_style = False  # Ensures pretty YAML formatting
+    yaml = _configure_yaml()
 
-    data = model_instance.to_dict()  # Convert Pydantic model instance to dictionary
+    data = model_instance.model_dump()  # Convert Pydantic model instance to dictionary
 
     # One CommentMap for each section in the yaml file
     machine_generated_map = CommentedMap()
@@ -85,12 +95,12 @@ def model_to_yaml_with_comments(
     if custom_directory is not None:
         base_path.mkdir(parents=True, exist_ok=True)
 
-    file_path = base_path / _file_path_base(_get_current_time())
+    file_path = base_path / file_name
 
     # It is important to preserve the order of the yaml dump operations when writing to file
     # so that the file is predictable for the user
     with file_path.open("w", encoding="utf-8") as file:
-        commented_map.yaml_set_start_comment(TEMPLATE_HEADER)
+        commented_map.yaml_set_start_comment(start_comment)
         yaml.dump(commented_map, file)
 
         status_map.yaml_set_start_comment(TEMPLATE_SECTION_HEADER_STATUS)
@@ -104,6 +114,44 @@ def model_to_yaml_with_comments(
         )
         yaml.dump(machine_generated_map, file)
     return file_path
+
+
+def create_variable_yaml(
+    model_instance: VariableDefinition,
+    custom_directory: Path | None = None,
+) -> Path:
+    """Creates a yaml file for an existing variable definition."""
+    file_name = _create_file_name(
+        "variable_definition",
+        _get_current_time(),
+        _get_shortname(model_instance),
+        _get_variable_definition_id(model_instance),
+    )
+
+    return _model_to_yaml_with_comments(
+        model_instance,
+        file_name,
+        HEADER,
+        custom_directory=custom_directory,
+    )
+
+
+def create_template_yaml(
+    model_instance: CompletePatchOutput = DEFAULT_TEMPLATE,
+    custom_directory: Path | None = None,
+) -> Path:
+    """Creates a template yaml file for a new variable definition."""
+    file_name = _create_file_name(
+        "variable_definition_template",
+        _get_current_time(),
+    )
+
+    return _model_to_yaml_with_comments(
+        model_instance,
+        file_name,
+        TEMPLATE_HEADER,
+        custom_directory=custom_directory,
+    )
 
 
 def _populate_commented_map(
@@ -122,9 +170,27 @@ def _populate_commented_map(
         )
 
 
-def _file_path_base(time_object: str) -> str:
-    """Return file name with dynamic timestamp."""
-    return "variable_definition_template_" + time_object + ".yaml"
+def _create_file_name(
+    base_name: str,
+    time_object: str,
+    short_name: str | None = None,
+    variable_definition_id: str | None = None,
+) -> str:
+    """Return file name with dynamic timestamp, and shortname and id if available."""
+    return (
+        "_".join(
+            filter(
+                None,
+                [
+                    base_name,
+                    short_name,
+                    variable_definition_id,
+                    time_object,
+                ],
+            ),
+        )
+        + ".yaml"
+    )
 
 
 def _get_current_time() -> str:
@@ -134,7 +200,7 @@ def _get_current_time() -> str:
     return str(current_datetime)
 
 
-def _get_workspace_dir():
+def _get_workspace_dir() -> Path:
     """Determine the workspace directory."""
     try:
         # Attempt to get the directory from the environment variable
@@ -171,3 +237,30 @@ def _get_variable_definitions_dir():
     folder_path = workspace_dir / VARIABLE_DEFINITIONS_DIR
     folder_path.mkdir(parents=True, exist_ok=True)
     return folder_path
+
+
+def _configure_yaml() -> YAML:
+    yaml = YAML()  # Use ruamel.yaml library
+    yaml.default_flow_style = False  # Ensures pretty YAML formatting
+
+    yaml.representer.add_representer(
+        VariableStatus,
+        lambda dumper, data: dumper.represent_scalar(
+            "tag:yaml.org,2002:str",
+            data.value,
+        ),
+    )
+
+    return yaml
+
+
+def _get_shortname(
+    model_instance: CompletePatchOutput | VariableDefinition,
+) -> str | None:
+    return model_instance.short_name
+
+
+def _get_variable_definition_id(
+    model_instance: CompletePatchOutput | VariableDefinition,
+) -> str | None:
+    return model_instance.id
