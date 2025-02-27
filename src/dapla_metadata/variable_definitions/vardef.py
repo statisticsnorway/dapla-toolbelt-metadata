@@ -4,8 +4,8 @@ from pathlib import Path
 from dapla_metadata.variable_definitions import config
 from dapla_metadata.variable_definitions._client import VardefClient
 from dapla_metadata.variable_definitions.exceptions import VariableNotFoundError
-from dapla_metadata.variable_definitions.exceptions import template_generator_handler
 from dapla_metadata.variable_definitions.exceptions import vardef_exception_handler
+from dapla_metadata.variable_definitions.exceptions import vardef_file_error_handler
 from dapla_metadata.variable_definitions.generated.vardef_client.api.data_migration_api import (
     DataMigrationApi,
 )
@@ -215,7 +215,7 @@ class Vardef:
         return VariableDefinition.from_model(variable_definitions[0])
 
     @classmethod
-    @template_generator_handler
+    @vardef_file_error_handler
     def write_template_to_file(cls) -> str:
         """Write template with default values to a yaml file."""
         file_path = create_template_yaml()
