@@ -1,16 +1,25 @@
 # --- Variable definition descriptions in norwegian ---
 # ref: https://statistics-norway.atlassian.net/wiki/spaces/MPD/pages/3009839199/VarDef+-+Krav+til+dokumentasjon+av+variabler
-name: "Variabelens navn. Dette skal ikke være en mer “teknisk” forkortelse, men et navn som er forståelig for mennesker, f.eks. “Lønnsinntekter”."
-short_name: "Dette er variabelens kortnavn, som kan være en mer “teknisk” forkortelse, f.eks. wlonn (kortnavnet til Lønnsinntekter). Kortnavnet til en variabel i Vardef skal være unikt.  Kravet til kortnavnet er at det kan inneholde a-z (kun små bokstaver), 0-9 og _ (understrek). Minimumslengden på kortnavnet er 2 tegn.  Bokstavene “æ”, “ø” og “å” kan ikke brukes. Disse anbefales erstattet med hhv. “ae”, “oe” og “aa"
-definition: "En definisjon skal beskrive hva variabelen betyr og være så kort og presis som mulig. Mer utfyllende opplysninger kan legges i Merknad-feltet."
-classification_reference: "ID of a classification or code list from Klass. The given classification defines all possible values for the defined variable."
-unit_types: "A list of one or more unit types, e.g. person, vehicle, household. Must be defined as codes from https://www.ssb.no/klass/klassifikasjoner/702."
+name: "Variabelens navn. Dette skal ikke være en mer “teknisk” forkortelse,
+  men et navn som er forståelig for mennesker, f.eks. “Lønnsinntekter”."
+short_name:
+  "Dette er variabelens kortnavn, som kan være en mer “teknisk” forkortelse, f.eks. wlonn (kortnavnet til Lønnsinntekter).
+  Kortnavnet til en variabel i Vardef skal være unikt.  Kravet til kortnavnet er at det kan inneholde a-z (kun små bokstaver), 0-9
+  og _ (understrek). Minimumslengden på kortnavnet er 2 tegn.  Bokstavene “æ”, “ø” og “å” kan ikke brukes. Disse anbefales erstattet med hhv. “ae”, “oe” og “aa"
+definition:
+  "En definisjon skal beskrive hva variabelen betyr og være så kort og presis som mulig.
+  Mer utfyllende opplysninger kan legges i Merknad-feltet."
+classification_reference:
+  "Lenke (URI) til kodeverk (klassifikasjon eller kodeliste) i KLASS som beskriver verdiene variabelen kan anta.
+  F.eks. vil variabelen “Sivilstand” ha kodeverks-URI Standard for sivilstand."
+unit_types: "Enhetstype(r) - enheten(e) som beskrives av denne variabelen. Variabelen “sivilstand” vil f.eks. ha enhetstypen person, mens f.eks. “Produsentpris for tjenester”
+  vil ha både foretak og bedrift som enhetstyper siden variabelen kan beskrive begge. Må defineres med koder fra https://www.ssb.no/klass/klassifikasjoner/702."
 subject_fields: "A list of subject fields that the variable is used in. Must be defined as codes from https://www.ssb.no/klass/klassifikasjoner/618."
 contains_special_categories_of_personal_data: "True if variable instances contain particularly sensitive information. Applies even if the information or identifiers are pseudonymized. Information within the following categories are regarded as particularly sensitive: Ethnicity, Political alignment, Religion, Philosophical beliefs, Union membership, Genetics, Biometrics, Health, Sexual relations, Sexual orientation"
 measurement_type: "Type of measurement for the variable, e.g. length, volume, currency. Must be defined as codes from https://www.ssb.no/klass/klassifikasjoner/303"
 valid_from: "The variable definition is valid from this date inclusive"
 valid_until: "The variable definition is valid until this date inclusive"
-external_reference_uri:  "A link (URI) to an external definition/documentation"
+external_reference_uri: "A link (URI) to an external definition/documentation"
 comment: "Optional comment to explain the definition or communicate potential changes."
 related_variable_definition_uris: "Link(s) to related definitions of variables - a list of one or more definitions. For example for a variable after-tax income it could be relevant to link to definitions of income from work, property income etc."
 contact: "Contact details"
@@ -19,6 +28,6 @@ id: "Unique identifier for the variable definition."
 patch_id: "Integer identifying a patch of a variable definition."
 owner: "Owner of the definition, i.e. responsible Dapla team (statistics team) and information about access management groups."
 created_at: "The timestamp at which this variable definition was first created."
-created_by:  "The user who created this variable definition."
+created_by: "The user who created this variable definition."
 last_updated_at: "The timestamp at which this variable definition was last modified."
 last_updated_by: "The user who last modified this variable definition."
