@@ -91,7 +91,11 @@ class VariableNotFoundError(Exception):
 
 
 class VardefFileError(Exception):
-    """Custom exception for handling errors related to YAML file handling."""
+    """Custom exception for catching errors related to variable definition file handling.
+
+    Attributes:
+        message (str): Message describing the error.
+    """
 
     def __init__(self, message: str, *args) -> None:  # noqa: ANN002
         """Accepting the message and any additional arguments."""
@@ -101,11 +105,11 @@ class VardefFileError(Exception):
 
     def __str__(self) -> str:
         """Returning a custom string representation of the exception."""
-        return f"VardefTemplateError: {self.message}"
+        return f"VardefFileError: {self.message}"
 
 
 def vardef_file_error_handler(method):  # noqa: ANN201, ANN001
-    """Decorator for handling exceptions when generating yaml files."""
+    """Decorator for handling exceptions when generating yaml files for variable definitions."""
 
     @wraps(method)
     def _impl(*method_args, **method_kwargs):  # noqa: ANN002, ANN003
@@ -115,15 +119,13 @@ def vardef_file_error_handler(method):  # noqa: ANN201, ANN001
                 **method_kwargs,
             )
         except FileNotFoundError as e:
-            msg = (
-                f"File not found: {method_kwargs.get('file_path', 'unknown file path')}"
-            )
+            msg = f"File not found at file path: {method_kwargs.get('file_path', 'unknown file path')}"
             raise VardefFileError(msg) from e
         except FileExistsError as e:
             msg = f"File already exists and can not be saved: {method_kwargs.get('file_path', 'unknown file path')}"
             raise VardefFileError(msg) from e
         except PermissionError as e:
-            msg = f"Permission denied for {method_kwargs.get('file_path', 'unknown file path')} when accessing the file"
+            msg = f"Permission denied for file path: {method_kwargs.get('file_path', 'unknown file path')} when accessing the file"
             raise VardefFileError(msg) from e
         except UnknownTimeZoneError as e:
             msg = f"Timezone is unknown: {method_kwargs.get('time_zone', 'unknown')}"
@@ -134,5 +136,7 @@ def vardef_file_error_handler(method):  # noqa: ANN201, ANN001
         except AttributeError as e:
             msg = "There is no such attribute"
             raise VardefFileError(msg) from e
+        #  EOF error
+        #  NotADirectoryError
 
     return _impl

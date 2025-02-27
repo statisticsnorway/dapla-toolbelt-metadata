@@ -276,7 +276,7 @@ def test_write_template_no_workspace(tmp_path: Path):
             Vardef.write_template_to_file()
         assert (
             str(exc_info.value)
-            == "VardefTemplateError: File not found: unknown file path"
+            == "VardefFileError: File not found at file path: unknown file path"
         )
 
 
@@ -307,7 +307,7 @@ def test_write_template_invalid():
             Vardef.write_template_to_file()
         assert (
             str(exc_info.value)
-            == "VardefTemplateError: File not found: unknown file path"
+            == "VardefFileError: File not found at file path: unknown file path"
         )
 
 
@@ -321,7 +321,7 @@ def test_write_template_no_work_folder(tmp_path: Path):
             Vardef.write_template_to_file()
         assert (
             str(exc_info.value)
-            == "VardefTemplateError: File not found: unknown file path"
+            == "VardefFileError: File not found at file path: unknown file path"
         )
 
 
@@ -336,6 +336,13 @@ def test_write_template_random_dir_work_dir(tmp_path: Path):
 
 @pytest.mark.usefixtures("set_temp_workspace")
 def test_write_template_from_current():
+    with patch.object(Path, "cwd", return_value=Path("./")):
+        file_path = Vardef.write_template_to_file()
+        assert file_path.exists()
+
+
+@pytest.mark.usefixtures("set_temp_workspace")
+def test_write_template_permission_denied():
     with patch.object(Path, "cwd", return_value=Path("./")):
         file_path = Vardef.write_template_to_file()
         assert file_path.exists()
