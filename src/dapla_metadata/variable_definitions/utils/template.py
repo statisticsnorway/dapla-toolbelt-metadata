@@ -171,3 +171,8 @@ def _get_variable_definitions_dir():
     folder_path = workspace_dir / VARIABLE_DEFINITIONS_DIR
     folder_path.mkdir(parents=True, exist_ok=True)
     return folder_path
+
+
+def file_write_success(file_path: Path) -> dict:
+    """Return file path and user friendly message when file was saved to path."""
+    return {"file_path": file_path, "message": "File was successfully written to file"}
