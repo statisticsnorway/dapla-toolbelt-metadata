@@ -21,6 +21,8 @@ VARIABLE_STATUS_FIELD_NAME = "variable_status"
 OWNER_FIELD_NAME = "owner"
 
 TEMPLATE_HEADER = "--- Variable definition template ---\n"
+HEADER = "--- Variable definition ---\n"
+
 TEMPLATE_SECTION_HEADER_STATUS = "\n--- Status field. Value 'DRAFT' before publishing. Do not edit if creating new variable defintion ---\n"
 TEMPLATE_SECTION_HEADER_OWNER = "\n--- Owner team and groups. Do not edit if creating new variable defintion, value is generated ---\n"
 TEMPLATE_SECTION_HEADER_MACHINE_GENERATED = (
