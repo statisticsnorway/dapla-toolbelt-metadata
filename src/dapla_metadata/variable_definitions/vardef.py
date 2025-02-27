@@ -154,7 +154,7 @@ class Vardef:
         cls,
         variable_definition_id: str,
         date_of_validity: date | None = None,
-    ) -> VariableDefinition:
+    ) -> Path:
         """Get a Variable Definition by ID.
 
         Args:
@@ -167,12 +167,14 @@ class Vardef:
         Raises:
             NotFoundException when the given ID is not found
         """
-        return VariableDefinition.from_model(
-            VariableDefinitionsApi(
-                VardefClient.get_client(),
-            ).get_variable_definition_by_id(
-                variable_definition_id=variable_definition_id,
-                date_of_validity=date_of_validity,
+        return cls.write_variable_to_file(
+            VariableDefinition.from_model(
+                VariableDefinitionsApi(
+                    VardefClient.get_client(),
+                ).get_variable_definition_by_id(
+                    variable_definition_id=variable_definition_id,
+                    date_of_validity=date_of_validity,
+                ),
             ),
         )
 
