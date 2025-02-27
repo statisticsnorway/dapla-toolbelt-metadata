@@ -5,8 +5,12 @@ from pathlib import Path
 import pytest
 import ruamel.yaml
 
-from dapla_metadata.variable_definitions.utils.template import _get_workspace_dir
-from dapla_metadata.variable_definitions.utils.template import create_template_yaml
+from dapla_metadata.variable_definitions.utils.variable_definition_files import (
+    _get_workspace_dir,
+)
+from dapla_metadata.variable_definitions.utils.variable_definition_files import (
+    create_template_yaml,
+)
 from tests.variable_definitions.conftest import get_variable_definition_as_dict
 
 yaml = ruamel.yaml.YAML()

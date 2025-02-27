@@ -37,7 +37,9 @@ from dapla_metadata.variable_definitions.generated.vardef_client.models.variable
     VariableStatus,
 )
 from dapla_metadata.variable_definitions.utils.constants import DEFAULT_TEMPLATE
-from dapla_metadata.variable_definitions.utils.template import create_template_yaml
+from dapla_metadata.variable_definitions.utils.variable_definition_files import (
+    create_template_yaml,
+)
 from dapla_metadata.variable_definitions.variable_definition import CompletePatchOutput
 from dapla_metadata.variable_definitions.variable_definition import VariableDefinition
 from tests.utils.constants import VARDEF_EXAMPLE_DEFINITION_ID
