@@ -37,9 +37,7 @@ from dapla_metadata.variable_definitions.generated.vardef_client.models.variable
     VariableStatus,
 )
 from dapla_metadata.variable_definitions.utils.constants import DEFAULT_TEMPLATE
-from dapla_metadata.variable_definitions.utils.template import (
-    model_to_yaml_with_comments,
-)
+from dapla_metadata.variable_definitions.utils.template import create_template_yaml
 from dapla_metadata.variable_definitions.variable_definition import CompletePatchOutput
 from dapla_metadata.variable_definitions.variable_definition import VariableDefinition
 from tests.utils.constants import VARDEF_EXAMPLE_DEFINITION_ID
@@ -275,7 +273,7 @@ def set_temp_workspace_invalid(tmp_path: Path, _delete_workspace_dir):
 def work_folder_defaults(set_temp_workspace: Path):
     """Fixture that ensures a work folder exists for template with default values."""
     base_path = set_temp_workspace
-    file_name = model_to_yaml_with_comments(
+    file_name = create_template_yaml(
         DEFAULT_TEMPLATE,
         custom_directory=base_path,
     )
@@ -291,7 +289,7 @@ def work_folder_defaults(set_temp_workspace: Path):
 def work_folder_saved_variable(set_temp_workspace: Path):
     """Fixture that ensures a work folder exists for template with saved variable definition values."""
     base_path = set_temp_workspace
-    file_name = model_to_yaml_with_comments(
+    file_name = create_template_yaml(
         sample_complete_patch_output(),
         custom_directory=base_path,
     )
@@ -308,7 +306,7 @@ def work_folder_saved_variable_2(
 ):
     """Fixture that ensures a work folder exists for template with saved variable definition values."""
     base_path = set_temp_workspace
-    file_name = model_to_yaml_with_comments(
+    file_name = create_template_yaml(
         sample_variable_definition,
         custom_directory=base_path,
     )
@@ -337,7 +335,7 @@ def _delete_workspace_dir():
 def work_folder_patch(set_temp_workspace: Path, patch: Patch):
     """Fixture that ensures a work folder exists for template with saved variable definition values."""
     base_path = set_temp_workspace
-    file_name = model_to_yaml_with_comments(
+    file_name = create_template_yaml(
         patch,
         custom_directory=base_path,
     )
@@ -351,7 +349,7 @@ def work_folder_patch(set_temp_workspace: Path, patch: Patch):
 def work_folder_variable_definition(set_temp_workspace: Path):
     """Fixture that ensures a work folder exists for template with saved variable definition values."""
     base_path = set_temp_workspace
-    file_name = model_to_yaml_with_comments(
+    file_name = create_template_yaml(
         sample_variable_definition(),
         custom_directory=base_path,
     )
