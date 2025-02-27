@@ -132,7 +132,7 @@ def vardef_file_error_handler(method):  # noqa: ANN201, ANN001
             msg = "Not possible to serialize yaml"
             raise VardefFileError(msg) from e
         except AttributeError as e:
-            msg = "Possible input is dict"
+            msg = "There is no such attribute"
             raise VardefFileError(msg) from e
 
     return _impl
