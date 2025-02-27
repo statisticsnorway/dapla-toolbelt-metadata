@@ -90,8 +90,8 @@ class VariableNotFoundError(Exception):
         return f" {self.message}"
 
 
-class VardefTemplateError(Exception):
-    """Custom exception for handling errors related to YAML template generation."""
+class VardefFileError(Exception):
+    """Custom exception for handling errors related to YAML file handling."""
 
     def __init__(self, message: str, *args) -> None:  # noqa: ANN002
         """Accepting the message and any additional arguments."""
@@ -104,7 +104,7 @@ class VardefTemplateError(Exception):
         return f"VardefTemplateError: {self.message}"
 
 
-def template_generator_handler(method):  # noqa: ANN201, ANN001
+def vardef_file_error_handler(method):  # noqa: ANN201, ANN001
     """Decorator for handling exceptions when generating yaml files."""
 
     @wraps(method)
@@ -118,21 +118,21 @@ def template_generator_handler(method):  # noqa: ANN201, ANN001
             msg = (
                 f"File not found: {method_kwargs.get('file_path', 'unknown file path')}"
             )
-            raise VardefTemplateError(msg) from e
+            raise VardefFileError(msg) from e
         except FileExistsError as e:
             msg = f"File already exists and can not be saved: {method_kwargs.get('file_path', 'unknown file path')}"
-            raise VardefTemplateError(msg) from e
+            raise VardefFileError(msg) from e
         except PermissionError as e:
             msg = f"Permission denied for {method_kwargs.get('file_path', 'unknown file path')} when accessing the file"
-            raise VardefTemplateError(msg) from e
+            raise VardefFileError(msg) from e
         except UnknownTimeZoneError as e:
             msg = f"Timezone is unknown: {method_kwargs.get('time_zone', 'unknown')}"
-            raise VardefTemplateError(msg) from e
+            raise VardefFileError(msg) from e
         except YAMLError as e:
             msg = "Not possible to serialize yaml"
-            raise VardefTemplateError(msg) from e
+            raise VardefFileError(msg) from e
         except AttributeError as e:
             msg = "Possible input is dict"
-            raise VardefTemplateError(msg) from e
+            raise VardefFileError(msg) from e
 
     return _impl
