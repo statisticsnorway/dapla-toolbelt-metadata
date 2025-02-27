@@ -265,8 +265,8 @@ def test_create_validity_period(
 @pytest.mark.usefixtures("set_temp_workspace")
 def test_write_template(tmp_path: Path):
     with patch.object(Path, "cwd", return_value=tmp_path):
-        result = Vardef.write_template_to_file()
-        assert result.split(".yaml", 1)[1] == " Successfully written to file"
+        file_path = Vardef.write_template_to_file()
+        assert file_path.exists()
 
 
 @pytest.mark.usefixtures("_delete_workspace_dir")
@@ -285,19 +285,15 @@ def test_write_template_path_no_env_value(tmp_path: Path):
     workspace_dir = tmp_path / "work"
     workspace_dir.mkdir(parents=True, exist_ok=True)
     with patch.object(Path, "cwd", return_value=workspace_dir):
-        result = Vardef.write_template_to_file()
-    # remove time stamp result
-    result_without_timestamp = result.rsplit("_", 1)[0] + ".yaml"
-    result_without_timestamp += result.split(".yaml", 1)[1]
-    expected_result = f"File path {workspace_dir}/variable_definitions/variable_definition_template.yaml Successfully written to file"
-    assert result_without_timestamp == expected_result
+        file_path = Vardef.write_template_to_file()
+    assert file_path.exists()
 
 
 def test_write_template_from_tmp_path():
     base_path = Path("../")
     with patch.object(Path, "cwd", return_value=base_path):
-        result = Vardef.write_template_to_file()
-        assert "Successfully written to file" in result
+        file_path = Vardef.write_template_to_file()
+        assert file_path.exists()
 
 
 @pytest.mark.usefixtures("set_temp_workspace_invalid")
@@ -334,12 +330,12 @@ def test_write_template_random_dir_work_dir(tmp_path: Path):
     base_path = tmp_path / "statistics/a/work"
     base_path.mkdir(parents=True, exist_ok=True)
     with patch.object(Path, "cwd", return_value=base_path):
-        result = Vardef.write_template_to_file()
-        assert "Successfully written to file" in result
+        file_path = Vardef.write_template_to_file()
+        assert file_path.exists()
 
 
 @pytest.mark.usefixtures("set_temp_workspace")
 def test_write_template_from_current():
     with patch.object(Path, "cwd", return_value=Path("./")):
-        result = Vardef.write_template_to_file()
-        assert "Successfully written to file" in result
+        file_path = Vardef.write_template_to_file()
+        assert file_path.exists()
