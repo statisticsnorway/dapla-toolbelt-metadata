@@ -11,7 +11,7 @@ yaml = ruamel.yaml.YAML()
 from dapla_metadata._shared.config import DAPLA_GROUP_CONTEXT
 from dapla_metadata.variable_definitions._client import VardefClient
 from dapla_metadata.variable_definitions.exceptions import VardefClientException
-from dapla_metadata.variable_definitions.exceptions import VardefTemplateError
+from dapla_metadata.variable_definitions.exceptions import VardefFileError
 from dapla_metadata.variable_definitions.exceptions import VariableNotFoundError
 from dapla_metadata.variable_definitions.generated.vardef_client.api.variable_definitions_api import (
     VariableDefinitionsApi,
@@ -272,7 +272,7 @@ def test_write_template(tmp_path: Path):
 @pytest.mark.usefixtures("_delete_workspace_dir")
 def test_write_template_no_workspace(tmp_path: Path):
     with patch.object(Path, "cwd", return_value=tmp_path):
-        with pytest.raises(VardefTemplateError) as exc_info:
+        with pytest.raises(VardefFileError) as exc_info:
             Vardef.write_template_to_file()
         assert (
             str(exc_info.value)
@@ -307,7 +307,7 @@ def test_write_template_invalid():
     base_path.mkdir(parents=True, exist_ok=True)
 
     with patch.object(Path, "cwd", return_value=base_path):
-        with pytest.raises(VardefTemplateError) as exc_info:
+        with pytest.raises(VardefFileError) as exc_info:
             Vardef.write_template_to_file()
         assert (
             str(exc_info.value)
@@ -321,7 +321,7 @@ def test_write_template_no_work_folder(tmp_path: Path):
     base_path.mkdir(parents=True, exist_ok=True)
 
     with patch.object(Path, "cwd", return_value=base_path):
-        with pytest.raises(VardefTemplateError) as exc_info:
+        with pytest.raises(VardefFileError) as exc_info:
             Vardef.write_template_to_file()
         assert (
             str(exc_info.value)
