@@ -27,6 +27,9 @@ from dapla_metadata.variable_definitions.utils.constants import VARIABLE_DEFINIT
 from dapla_metadata.variable_definitions.utils.constants import (
     VARIABLE_STATUS_FIELD_NAME,
 )
+from dapla_metadata.variable_definitions.utils.translations import (
+    apply_translations_to_model,
+)
 from dapla_metadata.variable_definitions.variable_definition import CompletePatchOutput
 from dapla_metadata.variable_definitions.variable_definition import VariableDefinition
 
@@ -61,7 +64,8 @@ def _model_to_yaml_with_comments(
         Path: The file path of the generated YAML file.
     """
     yaml = _configure_yaml()
-
+    apply_translations_to_model(CompletePatchOutput)
+    apply_translations_to_model(VariableDefinition)
     data = model_instance.model_dump()  # Convert Pydantic model instance to dictionary
 
     # One CommentMap for each section in the yaml file
@@ -162,7 +166,9 @@ def _populate_commented_map(
 ) -> None:
     """Add data to a CommentedMap."""
     commented_map[field_name] = value
-    description = model_instance.model_fields[field_name].description
+    description = model_instance.model_fields[field_name].json_schema_extra[
+        "translated_description"
+    ]
     if description:
         commented_map.yaml_set_comment_before_after_key(
             field_name,
