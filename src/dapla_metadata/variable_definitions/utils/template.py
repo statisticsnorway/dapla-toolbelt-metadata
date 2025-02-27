@@ -6,7 +6,6 @@ import pytz
 from ruamel.yaml import YAML
 from ruamel.yaml import CommentedMap
 
-from dapla_metadata.variable_definitions.exceptions import template_generator_handler
 from dapla_metadata.variable_definitions.generated.vardef_client.models.variable_status import (
     VariableStatus,
 )
@@ -32,7 +31,6 @@ from dapla_metadata.variable_definitions.variable_definition import CompletePatc
 from dapla_metadata.variable_definitions.variable_definition import VariableDefinition
 
 
-@template_generator_handler
 def _model_to_yaml_with_comments(
     model_instance: CompletePatchOutput | VariableDefinition,
     file_name: str,
