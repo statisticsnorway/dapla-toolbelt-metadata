@@ -10,9 +10,7 @@ from dapla_metadata.variable_definitions.generated.vardef_client.models.patch im
     Patch,
 )
 from dapla_metadata.variable_definitions.utils.template import _get_workspace_dir
-from dapla_metadata.variable_definitions.utils.template import (
-    model_to_yaml_with_comments,
-)
+from dapla_metadata.variable_definitions.utils.template import create_template_yaml
 from tests.variable_definitions.conftest import get_variable_definition_as_dict
 
 yaml = ruamel.yaml.YAML()
@@ -59,7 +57,7 @@ def test_yaml_content_from_model_patch(
     """Check if the generated YAML file with saved values contains the expected data."""
     exception_message: str = ""
     try:
-        model_to_yaml_with_comments(
+        create_template_yaml(
             patch,
             custom_directory=None,
         )
@@ -100,7 +98,7 @@ def test_get_workspace_dir_without_env_var():
 def test_generate_yaml_from_dict() -> None:
     """Check if the generated YAML file with saved values contains the expected data."""
     with pytest.raises(VardefTemplateError) as exc_info:
-        model_to_yaml_with_comments(
+        create_template_yaml(
             get_variable_definition_as_dict(),
             custom_directory=None,
         )
