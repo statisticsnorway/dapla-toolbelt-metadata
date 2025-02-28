@@ -25,7 +25,7 @@ external_reference_uri: "En peker (URI) til ekstern definisjon/dokumentasjon, f.
 comment: "Her kan en sette inn eventuelle tilleggsopplysninger som ikke hører hjemme i selve definisjonen. Variabelen “Landbakgrunn” har f.eks. merknaden “Fra og med 1.1.2003 ble definisjon endret til også å trekke inn besteforeldrenes fødeland”."
 related_variable_definition_uris: "Her kan en legge inn URI(er) til andre variabler som er relevante .
   Eksempelvis er variabelen “Inntekt etter skatt” en beregnet variabel der  “Yrkesinntekter” og “Kapitalinntekter” inngår i beregningen. En kan da legge inn deres URI-er i dette feltet."
-contact: "Contact details"
+contact: "Her dokumenterer en navn og epost for person eller gruppe som kan svare på spørsmål."
 variable_status: "Livssyklus for variabelen. Denne har tre kategorier: Utkast, Publisert internt og Publisert eksternt."
 id: "Unique identifier for the variable definition."
 patch_id: "Integer identifying a patch of a variable definition."
