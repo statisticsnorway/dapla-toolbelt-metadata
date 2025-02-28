@@ -2,8 +2,6 @@
 
 from typing import cast
 
-from pydantic import JsonDict
-
 from dapla_metadata.variable_definitions.utils.descriptions import (
     apply_norwegian_descriptions_to_model,
 )
@@ -17,7 +15,7 @@ def test_descriptions_complete_patch_output(get_norwegian_descriptions_from_file
     field_metadata = CompletePatchOutput.model_fields["name"]
     if field_metadata is not None:
         assert descriptions["name"] == cast(
-            JsonDict,
+            dict,
             field_metadata.json_schema_extra["norwegian_description"],
         )
 
@@ -28,6 +26,6 @@ def test_descriptions_variable_definition(get_norwegian_descriptions_from_file: 
     field_metadata = VariableDefinition.model_fields["short_name"]
     if field_metadata is not None:
         assert descriptions["short_name"] == cast(
-            JsonDict,
+            dict,
             field_metadata.json_schema_extra["norwegian_description"],
         )
