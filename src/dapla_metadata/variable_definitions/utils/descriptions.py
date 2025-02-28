@@ -1,10 +1,10 @@
 """Utilities for dynamically adding extra fields to Pydantic models, specifically Norwegian descriptions."""
 from pathlib import Path
-from typing import Any
 from typing import cast
 
 import yaml
 from pydantic import Field
+from pydantic.config import JsonDict
 
 from dapla_metadata.variable_definitions.utils.constants import (
     VARDEF_DESCRIPTIONS_FILE_PATH,
@@ -61,7 +61,7 @@ def apply_norwegian_descriptions_to_model(
             description=field_info.description,
             annotation=field_info.annotation,
             json_schema_extra=cast(
-                dict[str, Any],
+                JsonDict,
                 {"norwegian_description": new_description},
             ),
         )

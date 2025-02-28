@@ -3,10 +3,10 @@
 import os
 from datetime import datetime
 from pathlib import Path
-from typing import Any
 from typing import cast
 
 import pytz
+from pydantic.config import JsonDict
 from ruamel.yaml import YAML
 from ruamel.yaml import CommentedMap
 
@@ -166,7 +166,7 @@ def _populate_commented_map(
     """Add data to a CommentedMap."""
     commented_map[field_name] = value
     description = cast(
-        dict[str, Any],
+        JsonDict,
         model_instance.model_fields[field_name].json_schema_extra[
             NORWEGIAN_DESCRIPTIONS
         ],
