@@ -118,7 +118,7 @@ class Vardef:
                     active_group=config.get_active_group(),
                     vardok_id=vardok_id,
                 ),
-            ),
+            ).id,
         )
 
     @classmethod
@@ -177,7 +177,7 @@ class Vardef:
                     variable_definition_id=variable_definition_id,
                     date_of_validity=date_of_validity,
                 ),
-            ),
+            ).id,
         )
 
     @classmethod
