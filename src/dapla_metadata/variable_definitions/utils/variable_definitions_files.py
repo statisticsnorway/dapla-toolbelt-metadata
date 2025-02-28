@@ -3,13 +3,10 @@
 import os
 from datetime import datetime
 from pathlib import Path
-from typing import TYPE_CHECKING
+from typing import cast
 
 import pytz
-
-if TYPE_CHECKING:
-    from pydantic.config import JsonDict
-
+from pydantic.config import JsonDict
 from ruamel.yaml import YAML
 from ruamel.yaml import CommentedMap
 
@@ -168,9 +165,7 @@ def _populate_commented_map(
 ) -> None:
     """Add data to a CommentedMap."""
     commented_map[field_name] = value
-    description: JsonDict = model_instance.model_fields[field_name].json_schema_extra[
-        NORWEGIAN_DESCRIPTIONS
-    ]  # type: ignore[index]
+    description: JsonDict = cast(JsonDict, model_instance.model_fields[field_name].json_schema_extra[NORWEGIAN_DESCRIPTIONS])  # type: ignore[index]
     if description is not None:
         commented_map.yaml_set_comment_before_after_key(
             field_name,
