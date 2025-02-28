@@ -12,7 +12,7 @@ from dapla_metadata.variable_definitions.variable_definition import CompletePatc
 from dapla_metadata.variable_definitions.variable_definition import VariableDefinition
 
 
-def load_descriptions(file_path: str) -> dict:
+def load_descriptions(file_path: str) -> dict[str, str]:
     """Load and return the contents of a YAML file as a dictionary.
 
     Args:
@@ -59,7 +59,7 @@ def apply_norwegian_descriptions_to_model(
             description=field_info.description,
             annotation=field_info.annotation,
             json_schema_extra=cast(
-                dict,
+                dict[str, str],
                 {"norwegian_description": new_description},
             ),
         )
