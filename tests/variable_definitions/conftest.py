@@ -304,5 +304,5 @@ def _delete_workspace_dir():
 
 @pytest.fixture
 def get_norwegian_descriptions_from_file():
-    """Return dict representation of key values yaml file.."""
+    """Return dict representation of model field descriptions."""
     return load_descriptions(VARDEF_DESCRIPTIONS_FILE_PATH)
