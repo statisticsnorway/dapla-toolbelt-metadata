@@ -181,19 +181,23 @@ def test_create_draft(
     assert my_draft.variable_status == VariableStatus.DRAFT
 
 
+@pytest.mark.usefixtures("set_temp_workspace")
 def test_migrate_from_vardok(
     monkeypatch: pytest.MonkeyPatch,
     client_configuration: Configuration,
 ):
     monkeypatch.setenv(DAPLA_GROUP_CONTEXT, VARDEF_EXAMPLE_ACTIVE_GROUP)
     VardefClient.set_config(client_configuration)
-    my_draft = Vardef.migrate_from_vardok(
+    migrated_variable_path = Vardef.migrate_from_vardok(
         vardok_id="1607",
     )
-    assert isinstance(my_draft, CompletePatchOutput)
-    assert my_draft.id is not None
-    assert my_draft.patch_id == 1
-    assert my_draft.variable_status == VariableStatus.DRAFT
+
+    with migrated_variable_path.open(encoding="utf-8") as f:
+        parsed_yaml = yaml.load(f)
+
+    assert parsed_yaml["variable_status"] == "DRAFT"
+    assert parsed_yaml["id"] is not None
+    assert parsed_yaml["patch_id"] == 1
 
 
 def test_update_draft(

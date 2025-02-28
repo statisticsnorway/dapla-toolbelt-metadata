@@ -97,7 +97,7 @@ class Vardef:
 
     @classmethod
     @vardef_exception_handler
-    def migrate_from_vardok(cls, vardok_id: str) -> VariableDefinition:
+    def migrate_from_vardok(cls, vardok_id: str) -> Path:
         """Migrate a Variable Definition from Vardok to Vardef.
 
         - Each Vardok Variable Definition may only be migrated once.
@@ -110,7 +110,7 @@ class Vardef:
         Returns:
             VariableDefinition: The migrated Variable Definition in Vardef.
         """
-        return VariableDefinition.from_model(
+        migrated_variable = VariableDefinition.from_model(
             DataMigrationApi(
                 VardefClient.get_client(),
             ).create_variable_definition_from_var_dok(
@@ -118,6 +118,8 @@ class Vardef:
                 vardok_id=vardok_id,
             ),
         )
+
+        return cls.write_variable_to_file(migrated_variable.id)
 
     @classmethod
     @vardef_exception_handler
