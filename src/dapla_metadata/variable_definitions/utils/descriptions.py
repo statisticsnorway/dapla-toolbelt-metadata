@@ -23,12 +23,23 @@ def load_descriptions(file_path: str) -> dict:
         return yaml.safe_load(f)
 
 
+# Loads when module is imported
 DESCRIPTIONS = load_descriptions(VARDEF_DESCRIPTIONS_FILE_PATH)
 
 
-# Basemodel?
 def apply_norwegian_descriptions_to_model(model: BaseModel) -> None:
-    """Dynamically adds norwegian descriptions to a Pydantic model."""
+    """Enhance a Pydantic model by adding Norwegian descriptions to its fields.
+
+    This function updates the model fields by inserting a Norwegian description
+    from a predefined dictionary (DESCRIPTIONS). If a field does not have a corresponding
+    Norwegian description, a default message is used.
+
+    Args:
+        model (BaseModel): A Pydantic model instance to be updated.
+
+    Returns:
+        None: The function modifies the model in place.
+    """
     new_fields = {}
 
     for field_name, field_info in model.model_fields.items():
