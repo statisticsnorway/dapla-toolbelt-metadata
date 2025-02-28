@@ -32,8 +32,5 @@ def test_descriptions_variable_definition(
     apply_norwegian_descriptions_to_model(VariableDefinition)
     field_metadata = VariableDefinition.model_fields["short_name"]
     if field_metadata is not None:
-        field_value: JsonDict = cast(
-            JsonDict,
-            field_metadata.json_schema_extra["norwegian_description"],
-        )  # type: ignore[index]
+        field_value: JsonDict = cast(JsonDict, field_metadata.json_schema_extra["norwegian_description"])  # type: ignore[index]
         assert descriptions["short_name"] == field_value
