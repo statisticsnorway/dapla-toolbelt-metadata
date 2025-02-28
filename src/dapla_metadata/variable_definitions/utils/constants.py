@@ -1,4 +1,4 @@
-"""Constants for utils."""
+"""Constants for variable definitions."""
 
 from datetime import date
 
