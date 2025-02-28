@@ -2,12 +2,13 @@
 from pathlib import Path
 
 import yaml
-from pydantic import BaseModel
 from pydantic import Field
 
 from dapla_metadata.variable_definitions.utils.constants import (
     VARDEF_DESCRIPTIONS_FILE_PATH,
 )
+from dapla_metadata.variable_definitions.variable_definition import CompletePatchOutput
+from dapla_metadata.variable_definitions.variable_definition import VariableDefinition
 
 
 def load_descriptions(file_path: str) -> dict:
@@ -27,7 +28,9 @@ def load_descriptions(file_path: str) -> dict:
 DESCRIPTIONS = load_descriptions(VARDEF_DESCRIPTIONS_FILE_PATH)
 
 
-def apply_norwegian_descriptions_to_model(model: BaseModel) -> None:
+def apply_norwegian_descriptions_to_model(
+    model: CompletePatchOutput | VariableDefinition,
+) -> None:
     """Enhance a Pydantic model by adding Norwegian descriptions to its fields.
 
     This function updates the model fields by inserting a Norwegian description
