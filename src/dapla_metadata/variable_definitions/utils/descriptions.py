@@ -31,7 +31,7 @@ DESCRIPTIONS = load_descriptions(VARDEF_DESCRIPTIONS_FILE_PATH)
 def apply_norwegian_descriptions_to_model(
     model: CompletePatchOutput | VariableDefinition,
 ) -> None:
-    """Enhance a Pydantic model by adding Norwegian descriptions to its fields.
+    """Add Norwegian descriptions to the fields of a Pydantic model.
 
     This function updates the model fields by inserting a Norwegian description
     from a predefined dictionary (DESCRIPTIONS). If a field does not have a corresponding
