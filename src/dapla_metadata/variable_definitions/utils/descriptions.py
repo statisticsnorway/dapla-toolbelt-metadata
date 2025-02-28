@@ -21,7 +21,7 @@ def load_descriptions(file_path: str) -> dict:
     Returns:
     dict: Parsed contents of the YAML file.
     """
-    with Path.open(file_path, encoding="utf-8") as f:
+    with Path.open(file_path, "r", encoding="utf-8") as f:
         return yaml.safe_load(f)
 
 
