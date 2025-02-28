@@ -1,6 +1,5 @@
 """Utilities for dynamically adding extra fields to Pydantic models, specifically Norwegian descriptions."""
 from pathlib import Path
-from typing import Any
 from typing import cast
 
 import yaml
@@ -61,7 +60,7 @@ def apply_norwegian_descriptions_to_model(
             description=field_info.description,
             annotation=field_info.annotation,
             json_schema_extra=cast(
-                dict[str, Any],
+                dict,
                 {"norwegian_description": new_description},
             ),
         )
