@@ -54,7 +54,7 @@ def apply_norwegian_descriptions_to_model(
             f"No description in norwegian found for {field_name}",
         )
 
-        new_fields[field_name] = Field(
+        new_fields[field_name] = Field(  # type: ignore[call-overload]
             default=field_info.default,
             alias=field_info.alias,
             title=field_info.title,
