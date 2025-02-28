@@ -156,7 +156,7 @@ class Vardef:
         cls,
         variable_definition_id: str,
         date_of_validity: date | None = None,
-    ) -> Path:
+    ) -> VariableDefinition:
         """Get a Variable Definition by ID.
 
         Args:
