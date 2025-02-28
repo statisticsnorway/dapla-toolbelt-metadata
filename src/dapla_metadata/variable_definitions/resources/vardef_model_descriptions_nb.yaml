@@ -13,13 +13,12 @@ classification_reference:
   "Lenke (URI) til kodeverk (klassifikasjon eller kodeliste) i KLASS som beskriver verdiene variabelen kan anta.
   F.eks. vil variabelen “Sivilstand” ha kodeverks-URI Standard for sivilstand."
 unit_types: "Enhetstype(r) - enheten(e) som beskrives av denne variabelen. Variabelen “sivilstand” vil f.eks. ha enhetstypen person, mens f.eks. “Produsentpris for tjenester”
-  vil ha både foretak og bedrift som enhetstyper siden variabelen kan beskrive begge. Må defineres med koder fra https://www.ssb.no/klass/klassifikasjoner/702."
-subject_fields: "Statistikkområde(r) som variabelen brukes innenfor, hentet fra Kodeliste for statistikkområder i Statistikkbanken. F.eks. tilhører variabelen “Sivilstand” statistikkområdet “Befolkning”. Must be defined as codes from https://www.ssb.no/klass/klassifikasjoner/618. [https://www.ssb.no/klass/klassifikasjoner/618]"
+  vil ha både foretak og bedrift som enhetstyper siden variabelen kan beskrive begge ref: https://www.ssb.no/klass/klassifikasjoner/702."
+subject_fields: "Statistikkområde(r) som variabelen brukes innenfor, hentet fra Kodeliste for statistikkområder i Statistikkbanken. F.eks. tilhører variabelen “Sivilstand” statistikkområdet “Befolkning” ref: https://www.ssb.no/klass/klassifikasjoner/618"
 contains_special_categories_of_personal_data: "Viser om variabelen inneholder spesielt sensitive personopplysninger.
-  Applies even if the information or identifiers are pseudonymized.
   Information within the following categories are regarded as particularly sensitive: Ethnicity, Political alignment, Religion, Philosophical beliefs, Union membership, Genetics, Biometrics, Health, Sexual relations, Sexual orientation
-  [https://lovdata.no/dokument/NL/lov/2018-06-15-38/KAPITTEL_gdpr-2#gdpr/a9]"
-measurement_type: "Måletype som en kvantitativ variabelen tilhører, f.eks.  valuta, areal osv. Disse ligger i kodeverket (SSB måletyper/måleenheter)[https://www.ssb.no/klass/klassifikasjoner/303/koder]"
+  ref: https://lovdata.no/dokument/NL/lov/2018-06-15-38/KAPITTEL_gdpr-2#gdpr/a9"
+measurement_type: "Måletype som en kvantitativ variabelen tilhører, f.eks.  valuta, areal osv. Disse ligger i kodeverket SSB måletyper/måleenheter ref: https://www.ssb.no/klass/klassifikasjoner/303/koder"
 valid_from: "Datoen variabeldefinisjonen er gyldig  f.o.m."
 valid_until: "Datoen variabeldefinisjonens var gyldig t.o.m. Settes hvis definisjonen skal erstattet av en ny definisjon (med en ny gyldighetsperiode), eller variabelen ikke lenger skal brukes."
 external_reference_uri: "En peker (URI) til ekstern definisjon/dokumentasjon, f.eks. ei webside som er relevant for variabelen."
