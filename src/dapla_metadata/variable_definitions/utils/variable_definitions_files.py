@@ -166,7 +166,7 @@ def _populate_commented_map(
     description = model_instance.model_fields[field_name].json_schema_extra[
         NORWEGIAN_DESCRIPTIONS
     ]
-    if description:
+    if description is not None:
         commented_map.yaml_set_comment_before_after_key(
             field_name,
             before=description,
