@@ -1,5 +1,7 @@
 """Utilities for dynamically adding extra fields to Pydantic models, specifically Norwegian descriptions."""
+from collections.abc import Callable
 from pathlib import Path
+from typing import Any
 from typing import cast
 
 import yaml
@@ -28,6 +30,13 @@ def load_descriptions(file_path_str: str) -> dict:
 
 # Loads when module is imported
 DESCRIPTIONS = load_descriptions(VARDEF_DESCRIPTIONS_FILE_PATH)
+
+JsonDict = dict[str, Any]
+
+
+def is_json_dict(value: JsonDict | Callable[[JsonDict], None]) -> bool:
+    """Return 'True' if type is dict."""
+    return isinstance(value, dict)
 
 
 def apply_norwegian_descriptions_to_model(
@@ -60,7 +69,7 @@ def apply_norwegian_descriptions_to_model(
             description=field_info.description,
             annotation=field_info.annotation,
             json_schema_extra=cast(
-                dict,
+                JsonDict,
                 {"norwegian_description": new_description},
             ),
         )

@@ -31,6 +31,7 @@ from dapla_metadata.variable_definitions.utils.constants import VARIABLE_DEFINIT
 from dapla_metadata.variable_definitions.utils.constants import (
     VARIABLE_STATUS_FIELD_NAME,
 )
+from dapla_metadata.variable_definitions.utils.descriptions import JsonDict
 from dapla_metadata.variable_definitions.utils.descriptions import (
     apply_norwegian_descriptions_to_model,
 )
@@ -165,7 +166,7 @@ def _populate_commented_map(
     """Add data to a CommentedMap."""
     commented_map[field_name] = value
     description = cast(
-        dict,
+        JsonDict,
         model_instance.model_fields[field_name].json_schema_extra[
             NORWEGIAN_DESCRIPTIONS
         ],
