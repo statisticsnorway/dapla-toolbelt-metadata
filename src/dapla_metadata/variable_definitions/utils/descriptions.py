@@ -60,7 +60,10 @@ def apply_norwegian_descriptions_to_model(
             title=field_info.title,
             description=field_info.description,
             annotation=field_info.annotation,
-            json_schema_extra=cast(JsonDict, {"norwegian_description": new_description}),  # type: ignore[assignment]
+            json_schema_extra=cast(
+                JsonDict,
+                {"norwegian_description": new_description},
+            ),
         )
 
     model.model_fields.update(new_fields)  # Apply changes
