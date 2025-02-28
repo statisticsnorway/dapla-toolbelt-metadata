@@ -3,6 +3,8 @@
 import os
 from datetime import datetime
 from pathlib import Path
+from typing import Any
+from typing import cast
 
 import pytz
 from ruamel.yaml import YAML
@@ -30,7 +32,6 @@ from dapla_metadata.variable_definitions.utils.constants import VARIABLE_DEFINIT
 from dapla_metadata.variable_definitions.utils.constants import (
     VARIABLE_STATUS_FIELD_NAME,
 )
-from dapla_metadata.variable_definitions.utils.descriptions import JsonDict
 from dapla_metadata.variable_definitions.utils.descriptions import (
     apply_norwegian_descriptions_to_model,
 )
@@ -164,7 +165,8 @@ def _populate_commented_map(
 ) -> None:
     """Add data to a CommentedMap."""
     commented_map[field_name] = value
-    description = JsonDict(
+    description = cast(
+        dict[str, Any],
         model_instance.model_fields[field_name].json_schema_extra[
             NORWEGIAN_DESCRIPTIONS
         ],
