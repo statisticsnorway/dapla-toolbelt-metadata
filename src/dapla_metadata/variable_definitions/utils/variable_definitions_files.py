@@ -3,7 +3,6 @@
 import os
 from datetime import datetime
 from pathlib import Path
-from typing import cast
 
 import pytz
 from ruamel.yaml import YAML
@@ -165,8 +164,7 @@ def _populate_commented_map(
 ) -> None:
     """Add data to a CommentedMap."""
     commented_map[field_name] = value
-    description = cast(
-        JsonDict,
+    description = JsonDict(
         model_instance.model_fields[field_name].json_schema_extra[
             NORWEGIAN_DESCRIPTIONS
         ],

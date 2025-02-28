@@ -2,7 +2,6 @@
 from collections.abc import Callable
 from pathlib import Path
 from typing import Any
-from typing import cast
 
 import yaml
 from pydantic import Field
@@ -68,8 +67,7 @@ def apply_norwegian_descriptions_to_model(
             title=field_info.title,
             description=field_info.description,
             annotation=field_info.annotation,
-            json_schema_extra=cast(
-                JsonDict,
+            json_schema_extra=JsonDict(
                 {"norwegian_description": new_description},
             ),
         )
