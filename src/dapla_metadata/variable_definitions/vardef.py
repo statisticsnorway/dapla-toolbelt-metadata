@@ -110,7 +110,7 @@ class Vardef:
         Returns:
             VariableDefinition: The migrated Variable Definition in Vardef.
         """
-        a = VariableDefinition.from_model(
+        migrated_variable = VariableDefinition.from_model(
             DataMigrationApi(
                 VardefClient.get_client(),
             ).create_variable_definition_from_var_dok(
@@ -119,9 +119,7 @@ class Vardef:
             ),
         )
 
-        b = cls.write_variable_to_file(a.id)
-
-        return b
+        return cls.write_variable_to_file(migrated_variable.id)
 
     @classmethod
     @vardef_exception_handler
