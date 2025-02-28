@@ -4,6 +4,7 @@ from typing import cast
 
 import yaml
 from pydantic import Field
+from pydantic import JsonDict
 
 from dapla_metadata.variable_definitions.utils.constants import (
     VARDEF_DESCRIPTIONS_FILE_PATH,
@@ -58,7 +59,10 @@ def apply_norwegian_descriptions_to_model(
             title=field_info.title,
             description=field_info.description,
             annotation=field_info.annotation,
-            json_schema_extra=cast(dict, {"norwegian_description": new_description}),
+            json_schema_extra=cast(
+                JsonDict,
+                {"norwegian_description": new_description},
+            ),
         )
 
     model.model_fields.update(new_fields)  # Apply changes
