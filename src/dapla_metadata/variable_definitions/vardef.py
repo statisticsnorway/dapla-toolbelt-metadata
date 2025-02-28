@@ -110,16 +110,18 @@ class Vardef:
         Returns:
             VariableDefinition: The migrated Variable Definition in Vardef.
         """
-        return cls.write_variable_to_file(
-            VariableDefinition.from_model(
-                DataMigrationApi(
-                    VardefClient.get_client(),
-                ).create_variable_definition_from_var_dok(
-                    active_group=config.get_active_group(),
-                    vardok_id=vardok_id,
-                ),
-            ).id,
+        a = VariableDefinition.from_model(
+            DataMigrationApi(
+                VardefClient.get_client(),
+            ).create_variable_definition_from_var_dok(
+                active_group=config.get_active_group(),
+                vardok_id=vardok_id,
+            ),
         )
+
+        b = cls.write_variable_to_file(a.id)
+
+        return b
 
     @classmethod
     @vardef_exception_handler
