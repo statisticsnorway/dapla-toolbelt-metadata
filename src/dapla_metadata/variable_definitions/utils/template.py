@@ -1,3 +1,5 @@
+"""Generate structured YAML files from Pydantic models with Norwegian descriptions as comments."""
+
 import os
 from datetime import datetime
 from pathlib import Path
@@ -41,32 +43,26 @@ def _model_to_yaml_with_comments(
     start_comment: str,
     custom_directory: Path | None = None,
 ) -> Path:
-    """Convert a CompletePatchOutput instance into a structured YAML file with comments.
+    """Convert a model instance to a structured YAML file with Norwegian descriptions as comments.
 
-    This function:
-    - Extracts data from a `CompletePatchOutput` instance.
-    - Adds descriptive comments above each field.
-    - Organizes the YAML output into logical sections with meaningful headers.
-    - Saves the YAML content to a file, ensuring a predictable structure.
-
-    The resulting file is named with a fixed filename and a timestamp to avoid overwriting previous templates.
+    Adds Norwegian descriptions to the model, organizes fields into sections, and saves
+    the YAML file with a structured format and timestamped filename.
 
     Args:
-        model_instance:
-            The instance to convert. Defaults to `DEFAULT_TEMPLATE`.
-        file_name:
-            The file name that the yaml file will get.
-        start_comment:
-            The comment at the top of the generated yaml file.
-        custom_directory:
-            Optional directory where to save the template. defaults to None
+        model_instance: The model instance to convert.
+        file_name: Name of the generated YAML file.
+        start_comment: Comment at the top of the file.
+        custom_directory: Optional directory to save the file.
 
     Returns:
-        Path: The file path of the generated YAML file.
+        Path: File path of the generated YAML file.
     """
     yaml = _configure_yaml()
+
+    # Apply new fields to model
     apply_norwegian_descriptions_to_model(CompletePatchOutput)
     apply_norwegian_descriptions_to_model(VariableDefinition)
+
     data = model_instance.model_dump()  # Convert Pydantic model instance to dictionary
 
     # One CommentMap for each section in the yaml file
@@ -163,7 +159,7 @@ def _populate_commented_map(
     field_name: str,
     value: str,
     commented_map: CommentedMap,
-    model_instance: CompletePatchOutput,
+    model_instance: CompletePatchOutput | VariableDefinition,
 ) -> None:
     """Add data to a CommentedMap."""
     commented_map[field_name] = value
