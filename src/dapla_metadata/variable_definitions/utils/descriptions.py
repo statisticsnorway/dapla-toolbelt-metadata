@@ -1,5 +1,6 @@
 """Utilities for dynamically adding extra fields to Pydantic models, specifically Norwegian descriptions."""
 from pathlib import Path
+from typing import Any
 from typing import cast
 
 import yaml
@@ -12,7 +13,7 @@ from dapla_metadata.variable_definitions.variable_definition import CompletePatc
 from dapla_metadata.variable_definitions.variable_definition import VariableDefinition
 
 
-def load_descriptions(file_path_str: str) -> dict[str, str]:
+def load_descriptions(file_path_str: str) -> dict:
     """Load and return the contents of a YAML file as a dictionary.
 
     Args:
@@ -60,7 +61,7 @@ def apply_norwegian_descriptions_to_model(
             description=field_info.description,
             annotation=field_info.annotation,
             json_schema_extra=cast(
-                dict[str, str],
+                dict[str, Any],
                 {"norwegian_description": new_description},
             ),
         )
