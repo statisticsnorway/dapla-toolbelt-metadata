@@ -169,15 +169,13 @@ class Vardef:
         Raises:
             NotFoundException when the given ID is not found
         """
-        return cls.write_variable_to_file(
-            VariableDefinition.from_model(
-                VariableDefinitionsApi(
-                    VardefClient.get_client(),
-                ).get_variable_definition_by_id(
-                    variable_definition_id=variable_definition_id,
-                    date_of_validity=date_of_validity,
-                ),
-            ).id,
+        return VariableDefinition.from_model(
+            VariableDefinitionsApi(
+                VardefClient.get_client(),
+            ).get_variable_definition_by_id(
+                variable_definition_id=variable_definition_id,
+                date_of_validity=date_of_validity,
+            ),
         )
 
     @classmethod
