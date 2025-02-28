@@ -1,16 +1,24 @@
+"""Utilities for dynamically adding extra fields to Pydantic models, specifically Norwegian descriptions."""
 from pathlib import Path
 
 import yaml
+from pydantic import BaseModel
 from pydantic import Field
 
 from dapla_metadata.variable_definitions.utils.constants import (
     VARDEF_DESCRIPTIONS_FILE_PATH,
 )
-from dapla_metadata.variable_definitions.variable_definition import CompletePatchOutput
 
 
 def load_descriptions(file_path: str) -> dict:
-    """Read content of yaml file."""
+    """Load and return the contents of a YAML file as a dictionary.
+
+    Args:
+        file_path (str): Path to the YAML file.
+
+    Returns:
+    dict: Parsed contents of the YAML file.
+    """
     with Path.open(file_path, encoding="utf-8") as f:
         return yaml.safe_load(f)
 
@@ -19,7 +27,7 @@ DESCRIPTIONS = load_descriptions(VARDEF_DESCRIPTIONS_FILE_PATH)
 
 
 # Basemodel?
-def apply_norwegian_descriptions_to_model(model: CompletePatchOutput) -> None:
+def apply_norwegian_descriptions_to_model(model: BaseModel) -> None:
     """Dynamically adds norwegian descriptions to a Pydantic model."""
     new_fields = {}
 
