@@ -12,16 +12,17 @@ from dapla_metadata.variable_definitions.variable_definition import CompletePatc
 from dapla_metadata.variable_definitions.variable_definition import VariableDefinition
 
 
-def load_descriptions(file_path: str) -> dict[str, str]:
+def load_descriptions(file_path_str: str) -> dict[str, str]:
     """Load and return the contents of a YAML file as a dictionary.
 
     Args:
-        file_path (str): Path to the YAML file.
+        file_path_str (str): Path to the YAML file.
 
     Returns:
     dict: Parsed contents of the YAML file.
     """
-    with Path.open(file_path, "r", encoding="utf-8") as f:
+    file_path = Path(file_path_str)
+    with Path.open(file_path, encoding="utf-8") as f:
         return yaml.safe_load(f)
 
 
