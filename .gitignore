@@ -148,3 +148,6 @@ dmypy.json
 
 # Generated template Yaml files
 **/variable_definition_*.yaml
+
+# MacOS
+.DS_Store

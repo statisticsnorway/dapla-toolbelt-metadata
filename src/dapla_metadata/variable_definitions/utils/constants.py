@@ -1,4 +1,4 @@
-"""Constants for utils."""
+"""Constants for variable definitions."""
 
 from datetime import date
 
@@ -17,6 +17,7 @@ from dapla_metadata.variable_definitions.generated.vardef_client.models.variable
 from dapla_metadata.variable_definitions.variable_definition import CompletePatchOutput
 
 VARIABLE_DEFINITIONS_DIR = "variable_definitions"
+
 VARIABLE_STATUS_FIELD_NAME = "variable_status"
 OWNER_FIELD_NAME = "owner"
 
@@ -28,6 +29,9 @@ TEMPLATE_SECTION_HEADER_OWNER = "\n--- Owner team and groups. Do not edit if cre
 TEMPLATE_SECTION_HEADER_MACHINE_GENERATED = (
     "\n--- Machine generated fields. Do not edit ---\n"
 )
+
+VARDEF_DESCRIPTIONS_FILE_PATH = "src/dapla_metadata/variable_definitions/resources/vardef_model_descriptions_nb.yaml"
+NORWEGIAN_DESCRIPTIONS = "norwegian_description"
 
 DEFAULT_DATE = date(1000, 1, 1)
 

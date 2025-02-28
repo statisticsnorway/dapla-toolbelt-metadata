@@ -37,7 +37,13 @@ from dapla_metadata.variable_definitions.generated.vardef_client.models.variable
     VariableStatus,
 )
 from dapla_metadata.variable_definitions.utils.constants import DEFAULT_TEMPLATE
-from dapla_metadata.variable_definitions.utils.template import create_template_yaml
+from dapla_metadata.variable_definitions.utils.constants import (
+    VARDEF_DESCRIPTIONS_FILE_PATH,
+)
+from dapla_metadata.variable_definitions.utils.descriptions import load_descriptions
+from dapla_metadata.variable_definitions.utils.variable_definitions_files import (
+    create_template_yaml,
+)
 from dapla_metadata.variable_definitions.variable_definition import CompletePatchOutput
 from dapla_metadata.variable_definitions.variable_definition import VariableDefinition
 from tests.utils.constants import VARDEF_EXAMPLE_DEFINITION_ID
@@ -296,3 +302,9 @@ def _delete_workspace_dir():
         os.environ["WORKSPACE_DIR"] = original_workspace_dir
     else:
         pass
+
+
+@pytest.fixture
+def get_norwegian_descriptions_from_file():
+    """Return dict representation of model field descriptions."""
+    return load_descriptions(VARDEF_DESCRIPTIONS_FILE_PATH)
