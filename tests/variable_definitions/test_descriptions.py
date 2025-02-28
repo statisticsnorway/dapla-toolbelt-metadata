@@ -18,10 +18,7 @@ def test_descriptions_complete_patch_output(
     apply_norwegian_descriptions_to_model(CompletePatchOutput)
     field_metadata = CompletePatchOutput.model_fields["name"]
     if field_metadata is not None:
-        field_value: JsonDict = cast(
-            JsonDict,
-            field_metadata.json_schema_extra["norwegian_description"],
-        )  # type: ignore[index]
+        field_value: JsonDict = cast(JsonDict, field_metadata.json_schema_extra["norwegian_description"])  # type: ignore[index]
         assert descriptions.get("name") == field_value
 
 
