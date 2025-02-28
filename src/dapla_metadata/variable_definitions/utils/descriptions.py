@@ -49,7 +49,7 @@ def apply_norwegian_descriptions_to_model(
     new_fields = {}
 
     for field_name, field_info in model.model_fields.items():
-        new_description = DESCRIPTIONS.get(
+        new_description: str = DESCRIPTIONS.get(
             field_name,
             f"No description in norwegian found for {field_name}",
         )
