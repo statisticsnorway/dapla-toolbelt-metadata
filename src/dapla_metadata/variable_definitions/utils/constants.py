@@ -29,6 +29,8 @@ TEMPLATE_SECTION_HEADER_MACHINE_GENERATED = (
     "\n--- Machine generated fields. Do not edit ---\n"
 )
 
+VARDEF_DESCRIPTIONS_FILE_PATH = "src/dapla_metadata/variable_definitions/resources/vardef_model_descriptions_nb.yaml"
+NORWEGIAN_DESCRIPTIONS = "norwegian_description"
 DEFAULT_DATE = date(1000, 1, 1)
 
 DEFAULT_TEMPLATE = CompletePatchOutput(
