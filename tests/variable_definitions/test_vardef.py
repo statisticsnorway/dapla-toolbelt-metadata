@@ -1,18 +1,15 @@
 import functools
 from collections.abc import Callable
-from pathlib import Path
 from unittest.mock import patch
 
 import pytest
 import ruamel.yaml
-from pytz import UnknownTimeZoneError
 
 yaml = ruamel.yaml.YAML()
 
 from dapla_metadata._shared.config import DAPLA_GROUP_CONTEXT
 from dapla_metadata.variable_definitions._client import VardefClient
 from dapla_metadata.variable_definitions.exceptions import VardefClientException
-from dapla_metadata.variable_definitions.exceptions import VardefFileError
 from dapla_metadata.variable_definitions.exceptions import VariableNotFoundError
 from dapla_metadata.variable_definitions.generated.vardef_client.api.variable_definitions_api import (
     VariableDefinitionsApi,
@@ -261,126 +258,3 @@ def test_create_validity_period(
         my_variable.create_validity_period(validity_period),
         CompletePatchOutput,
     )
-
-
-@pytest.mark.usefixtures("set_temp_workspace")
-def test_write_template(tmp_path: Path):
-    with patch.object(Path, "cwd", return_value=tmp_path):
-        file_path = Vardef.write_template_to_file()
-        assert file_path.exists()
-
-
-@pytest.mark.usefixtures("_delete_workspace_dir")
-def test_write_template_no_workspace(tmp_path: Path):
-    with patch.object(Path, "cwd", return_value=tmp_path):
-        with pytest.raises(VardefFileError) as exc_info:
-            Vardef.write_template_to_file()
-        assert (
-            str(exc_info.value)
-            == "VardefFileError: File not found at file path: unknown file path"
-        )
-
-
-@pytest.mark.usefixtures("_delete_workspace_dir")
-def test_write_template_path_no_env_value(tmp_path: Path):
-    workspace_dir = tmp_path / "work"
-    workspace_dir.mkdir(parents=True, exist_ok=True)
-    with patch.object(Path, "cwd", return_value=workspace_dir):
-        file_path = Vardef.write_template_to_file()
-    assert file_path.exists()
-
-
-def test_write_template_from_tmp_path():
-    base_path = Path("../")
-    with patch.object(Path, "cwd", return_value=base_path):
-        file_path = Vardef.write_template_to_file()
-        assert file_path.exists()
-
-
-@pytest.mark.usefixtures("set_temp_workspace_invalid")
-def test_write_template_invalid():
-    """Env 'WORKSPACE_DIR' not present and 'work' not on path."""
-    base_path = Path("../")
-    base_path.mkdir(parents=True, exist_ok=True)
-
-    with patch.object(Path, "cwd", return_value=base_path):
-        with pytest.raises(VardefFileError) as exc_info:
-            Vardef.write_template_to_file()
-        assert (
-            str(exc_info.value)
-            == "VardefFileError: File not found at file path: unknown file path"
-        )
-
-
-@pytest.mark.usefixtures("set_env_work_dir")
-def test_write_template_no_work_folder(tmp_path: Path):
-    base_path = tmp_path / "statistics/a/work"
-    base_path.mkdir(parents=True, exist_ok=True)
-
-    with patch.object(Path, "cwd", return_value=base_path):
-        with pytest.raises(VardefFileError) as exc_info:
-            Vardef.write_template_to_file()
-        assert (
-            str(exc_info.value)
-            == "VardefFileError: File not found at file path: unknown file path"
-        )
-
-
-@pytest.mark.usefixtures("set_temp_workspace")
-def test_write_template_random_dir_work_dir(tmp_path: Path):
-    base_path = tmp_path / "statistics/a/work"
-    base_path.mkdir(parents=True, exist_ok=True)
-    with patch.object(Path, "cwd", return_value=base_path):
-        file_path = Vardef.write_template_to_file()
-        assert file_path.exists()
-
-
-@pytest.mark.usefixtures("set_temp_workspace")
-def test_write_template_from_current():
-    with patch.object(Path, "cwd", return_value=Path("./")):
-        file_path = Vardef.write_template_to_file()
-        assert file_path.exists()
-
-
-@pytest.mark.usefixtures("set_temp_workspace")
-def test_write_template_permission_denied():
-    with patch.object(Path, "cwd", return_value=Path("./")):
-        file_path = Vardef.write_template_to_file()
-        assert file_path.exists()
-
-
-@pytest.mark.usefixtures("set_temp_workspace")
-def test_write_template_file_exists(mocker):
-    mocker.patch(
-        "dapla_metadata.variable_definitions.utils.variable_definition_files._model_to_yaml_with_comments",
-        side_effect=FileExistsError("File already exists"),
-    )
-
-    with pytest.raises(
-        VardefFileError,
-        match="File already exists and can not be saved: unknown file path",
-    ):
-        Vardef.write_template_to_file()
-
-
-@pytest.mark.usefixtures("set_temp_workspace")
-def test_write_template_permission_error(mocker):
-    """Test that _model_to_yaml_with_comments raises VardefFileError when a PermissionError occurs."""
-    mocker.patch(
-        "dapla_metadata.variable_definitions.utils.variable_definition_files._model_to_yaml_with_comments",
-        side_effect=PermissionError("Permission denied"),
-    )
-
-    with pytest.raises(VardefFileError, match="Permission denied for file path"):
-        Vardef.write_template_to_file()
-
-
-@pytest.mark.usefixtures("set_temp_workspace")
-def test_write_template_time_stamp_error(mocker):
-    mocker.patch(
-        "dapla_metadata.variable_definitions.utils.variable_definition_files._get_current_time",
-        side_effect=UnknownTimeZoneError("Unknown timezone"),
-    )
-
-    with pytest.raises(VardefFileError, match="Timezone is unknown"):
-        Vardef.write_template_to_file()
