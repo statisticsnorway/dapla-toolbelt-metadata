@@ -132,7 +132,9 @@ class VariableDefinition(CompletePatchOutput):
         Returns:
             CompletePatchOutput: Updated Variable definition with all details.
         """
-        file_path = file_path or _find_latest_file_for_id(self.id)
+        file_path = (
+            file_path or self.get_file_path() or _find_latest_file_for_id(self.id)
+        )
         update_draft = UpdateDraft.from_dict(
             _read_variable_definition_file(
                 file_path,

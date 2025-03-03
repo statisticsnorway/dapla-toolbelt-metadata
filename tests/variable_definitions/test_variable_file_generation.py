@@ -5,10 +5,6 @@ from dapla_metadata.variable_definitions.utils.template import _get_workspace_di
 
 yaml = ruamel.yaml.YAML()
 
-from dapla_metadata.variable_definitions._client import VardefClient
-from dapla_metadata.variable_definitions.generated.vardef_client.configuration import (
-    Configuration,
-)
 from dapla_metadata.variable_definitions.vardef import Vardef
 from tests.utils.constants import VARDEF_EXAMPLE_DEFINITION_ID
 
@@ -16,10 +12,7 @@ PATCH_ID = 2
 
 
 @pytest.mark.usefixtures("set_temp_workspace")
-def test_write_existing_variable_to_file(
-    client_configuration: Configuration,
-):
-    VardefClient.set_config(client_configuration)
+def test_write_existing_variable_to_file():
     file_name = Vardef.write_variable_to_file(
         variable_definition_id=VARDEF_EXAMPLE_DEFINITION_ID,
     ).get_file_path()
@@ -34,10 +27,7 @@ def test_write_existing_variable_to_file(
 
 
 @pytest.mark.usefixtures("set_temp_workspace")
-def test_shortname_and_id_in_filename(
-    client_configuration: Configuration,
-):
-    VardefClient.set_config(client_configuration)
+def test_shortname_and_id_in_filename():
     file_name = Vardef.write_variable_to_file(
         variable_definition_id=VARDEF_EXAMPLE_DEFINITION_ID,
     ).get_file_path()
@@ -46,10 +36,7 @@ def test_shortname_and_id_in_filename(
 
 
 @pytest.mark.usefixtures("set_temp_workspace")
-def test_shortname_and_id_not_in_filename(
-    client_configuration: Configuration,
-):
-    VardefClient.set_config(client_configuration)
+def test_shortname_and_id_not_in_filename():
     file_name = Vardef.write_variable_to_file(
         variable_definition_id=VARDEF_EXAMPLE_DEFINITION_ID,
     ).get_file_path()

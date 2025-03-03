@@ -48,7 +48,14 @@ from tests.utils.constants import VARDEF_EXAMPLE_INVALID_ID
 from tests.utils.microcks_testcontainer import MicrocksContainer
 
 
-@pytest.fixture
+@pytest.fixture(autouse=True)
+def _set_dapla_group_context(
+    monkeypatch: pytest.MonkeyPatch,
+):
+    monkeypatch.setenv(DAPLA_GROUP_CONTEXT, VARDEF_EXAMPLE_ACTIVE_GROUP)
+
+
+@pytest.fixture(scope="session")
 def client_configuration(vardef_mock_service) -> Configuration:
     return vardef_client.Configuration(
         host=vardef_mock_service.get_mock_url(),
@@ -56,7 +63,7 @@ def client_configuration(vardef_mock_service) -> Configuration:
     )
 
 
-@pytest.fixture
+@pytest.fixture(autouse=True, scope="session")
 def _configure_vardef_client(client_configuration):
     VardefClient.set_config(client_configuration)
 
@@ -304,10 +311,3 @@ def _delete_workspace_dir_env_var():
         os.environ["WORKSPACE_DIR"] = original_workspace_dir
     else:
         pass
-
-
-@pytest.fixture
-def _set_dapla_group_context(
-    monkeypatch: pytest.MonkeyPatch,
-):
-    monkeypatch.setenv(DAPLA_GROUP_CONTEXT, VARDEF_EXAMPLE_ACTIVE_GROUP)

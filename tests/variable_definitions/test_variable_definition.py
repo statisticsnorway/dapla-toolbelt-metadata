@@ -1,4 +1,5 @@
 import pytest
+from pytest_mock import MockerFixture
 
 from dapla_metadata.variable_definitions.generated.vardef_client.models.patch import (
     Patch,
@@ -17,7 +18,6 @@ from tests.utils.constants import VARDEF_EXAMPLE_DEFINITION_ID
 from tests.variable_definitions.test_vardef import PATCH_ID
 
 
-@pytest.mark.usefixtures("_configure_vardef_client", "_set_dapla_group_context")
 def test_list_patches():
     landbak = Vardef.get_variable_definition_by_id(
         variable_definition_id=VARDEF_EXAMPLE_DEFINITION_ID,
@@ -89,6 +89,22 @@ def test_create_validity_period(
         my_variable.create_validity_period(validity_period),
         CompletePatchOutput,
     )
+
+
+@pytest.mark.usefixtures(
+    "_configure_vardef_client",
+    "_set_dapla_group_context",
+    "set_temp_workspace",
+)
+def test_update_draft_from_file(update_draft: UpdateDraft, mocker: MockerFixture):
+    my_draft = Vardef.write_variable_to_file(
+        variable_definition_id=VARDEF_EXAMPLE_DEFINITION_ID,
+    )
+    mocker.patch(
+        "dapla_metadata.variable_definitions.variable_definition._read_variable_definition_file",
+        return_value=update_draft.to_dict(),
+    )
+    assert isinstance(my_draft.update_draft_from_file(), CompletePatchOutput)
 
 
 def test_str(variable_definition):
