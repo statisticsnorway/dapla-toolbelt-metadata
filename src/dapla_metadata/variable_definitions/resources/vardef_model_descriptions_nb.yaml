@@ -44,7 +44,7 @@ contact: |
 variable_status: |
   Livssyklus for variabelen. Denne har tre kategorier: Utkast, Publisert internt og Publisert eksternt.
 id: |
-  Unique identifier for the variable definition.
+  Unik SSB identifikator for variabeldefinisjonen. Denne blir maskingenerert.
 patch_id: |
   Integer identifying a patch of a variable definition.
 owner: |
