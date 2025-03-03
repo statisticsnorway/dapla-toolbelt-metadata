@@ -1,4 +1,5 @@
 """Utilities for dynamically adding extra fields to Pydantic models, specifically Norwegian descriptions."""
+import logging
 from pathlib import Path
 from typing import cast
 
@@ -11,6 +12,8 @@ from dapla_metadata.variable_definitions.utils.constants import (
 )
 from dapla_metadata.variable_definitions.variable_definition import CompletePatchOutput
 from dapla_metadata.variable_definitions.variable_definition import VariableDefinition
+
+logger = logging.getLogger(__name__)
 
 
 def load_descriptions(file_path_str: str) -> dict:
@@ -36,8 +39,8 @@ def apply_norwegian_descriptions_to_model(
 ) -> None:
     """Add Norwegian descriptions to the fields of a Pydantic model.
 
-    This function updates the model fields by inserting a Norwegian description
-    from a predefined dictionary (DESCRIPTIONS). If a field does not have a corresponding
+    This function globally modifies the model fields by inserting a Norwegian description
+    from a predefined dictionary. If a field does not have a corresponding
     Norwegian description, a default message is used.
 
     Args:
@@ -53,6 +56,10 @@ def apply_norwegian_descriptions_to_model(
             field_name,
             f"No description in norwegian found for {field_name}",
         )
+        if new_description == "No description in norwegian found":
+            logger.warning("Missing description for %s", field_name)
+        else:
+            logger.info("Field %s: %s", field_name, new_description)
 
         new_fields[field_name] = Field(  # type: ignore[call-overload]
             default=field_info.default,
