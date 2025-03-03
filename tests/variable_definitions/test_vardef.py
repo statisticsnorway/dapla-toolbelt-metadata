@@ -3,9 +3,6 @@ from collections.abc import Callable
 from unittest.mock import patch
 
 import pytest
-import ruamel.yaml
-
-yaml = ruamel.yaml.YAML()
 
 from dapla_metadata._shared.config import DAPLA_GROUP_CONTEXT
 from dapla_metadata.variable_definitions._client import VardefClient
