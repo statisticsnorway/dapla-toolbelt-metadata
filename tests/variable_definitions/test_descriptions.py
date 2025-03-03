@@ -17,9 +17,8 @@ def test_descriptions_complete_patch_output(
     descriptions = get_norwegian_descriptions_from_file
     apply_norwegian_descriptions_to_model(CompletePatchOutput)
     field_metadata = CompletePatchOutput.model_fields["name"]
-    if field_metadata is not None:
-        field_value: JsonDict = cast(JsonDict, field_metadata.json_schema_extra["norwegian_description"])  # type: ignore[index]
-        assert descriptions.get("name") == field_value
+    field_value: JsonDict = cast(JsonDict, field_metadata.json_schema_extra["norwegian_description"])  # type: ignore[index]
+    assert descriptions.get("name") == field_value
 
 
 def test_descriptions_variable_definition(
@@ -27,7 +26,6 @@ def test_descriptions_variable_definition(
 ):
     descriptions = get_norwegian_descriptions_from_file
     apply_norwegian_descriptions_to_model(VariableDefinition)
-    field_metadata = VariableDefinition.model_fields["short_name"]
-    if field_metadata is not None:
-        field_value: JsonDict = cast(JsonDict, field_metadata.json_schema_extra["norwegian_description"])  # type: ignore[index]
-        assert descriptions["short_name"] == field_value
+    field_metadata = VariableDefinition.model_fields["definition"]
+    field_value: JsonDict = cast(JsonDict, field_metadata.json_schema_extra["norwegian_description"])  # type: ignore[index]
+    assert descriptions.get("definition") == field_value
