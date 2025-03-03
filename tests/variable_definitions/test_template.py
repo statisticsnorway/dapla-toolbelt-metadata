@@ -5,6 +5,16 @@ from pathlib import Path
 import pytest
 import ruamel.yaml
 
+from dapla_metadata.variable_definitions.utils.constants import TEMPLATE_HEADER
+from dapla_metadata.variable_definitions.utils.constants import (
+    TEMPLATE_SECTION_HEADER_MACHINE_GENERATED,
+)
+from dapla_metadata.variable_definitions.utils.constants import (
+    TEMPLATE_SECTION_HEADER_OWNER,
+)
+from dapla_metadata.variable_definitions.utils.constants import (
+    TEMPLATE_SECTION_HEADER_STATUS,
+)
 from dapla_metadata.variable_definitions.utils.variable_definitions_files import (
     _get_workspace_dir,
 )
@@ -41,10 +51,10 @@ def test_yaml_comments(work_folder_defaults: Path):
     with work_folder_defaults.open(encoding="utf-8") as f:
         content = f.read()
 
-    assert "--- Variable definition template ---" in content
-    assert "--- Status field" in content
-    assert "--- Owner team" in content
-    assert "--- Machine generated fields" in content
+    assert TEMPLATE_HEADER in content
+    assert TEMPLATE_SECTION_HEADER_STATUS.strip() in content.strip()
+    assert TEMPLATE_SECTION_HEADER_OWNER.strip() in content.strip()
+    assert TEMPLATE_SECTION_HEADER_MACHINE_GENERATED.strip() in content.strip()
 
 
 def test_file_name(work_folder_defaults: Path):
