@@ -41,7 +41,6 @@ class CompletePatchOutput(CompleteResponse):
     model_config = ConfigDict(
         use_enum_values=True,
         str_strip_whitespace=True,
-        extra="allow",
     )
 
     def to_dict(self) -> dict:
