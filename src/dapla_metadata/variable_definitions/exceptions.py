@@ -134,15 +134,13 @@ def vardef_file_error_handler(method):  # noqa: ANN201, ANN001
             msg = "Not possible to serialize yaml"
             raise VardefFileError(msg) from e
         except AttributeError as e:
-            msg = "There is no such attribute"
             msg = f"There is no such attribute. Original error: {e!s}"
             raise VardefFileError(msg) from e
         except EOFError as e:
             msg = "Unexpected end of file"
             raise VardefFileError(msg) from e
         except NotADirectoryError as e:
-            path = method_kwargs.get("file_path", "unknown path")
-            msg = f"Path is not a directory: {path}. Original error: {e!s}"
+            msg = f"Path is not a directory: {method_kwargs.get('file_path', 'unknown file path')}. Original error: {e!s}"
             raise VardefFileError(msg) from e
 
     return _impl
