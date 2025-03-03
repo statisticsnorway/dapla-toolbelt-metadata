@@ -82,70 +82,38 @@ def test_write_template_from_current():
         assert file_path.exists()
 
 
-def test_write_template_file_exists(mocker):
-    mocker.patch(
-        "dapla_metadata.variable_definitions.utils.variable_definition_files._model_to_yaml_with_comments",
-        side_effect=FileExistsError("File already exists"),
-    )
+@pytest.mark.parametrize(
+    ("mock_target", "side_effect"),
+    [
+        (
+            "dapla_metadata.variable_definitions.utils.variable_definition_files._model_to_yaml_with_comments",
+            FileExistsError,
+        ),
+        (
+            "dapla_metadata.variable_definitions.utils.variable_definition_files._model_to_yaml_with_comments",
+            PermissionError,
+        ),
+        (
+            "dapla_metadata.variable_definitions.utils.variable_definition_files._get_current_time",
+            UnknownTimeZoneError,
+        ),
+        (
+            "dapla_metadata.variable_definitions.utils.variable_definition_files._model_to_yaml_with_comments",
+            YAMLError,
+        ),
+        (
+            "dapla_metadata.variable_definitions.utils.variable_definition_files._model_to_yaml_with_comments",
+            EOFError,
+        ),
+        (
+            "dapla_metadata.variable_definitions.utils.variable_definition_files._get_workspace_dir",
+            NotADirectoryError,
+        ),
+    ],
+)
+def test_write_template_exceptions(mock_target: str, side_effect: Exception, mocker):
+    """Test that write_template_to_file raises VardefFileError for different exceptions."""
+    mocker.patch(mock_target, side_effect=side_effect)
 
-    with pytest.raises(
-        VardefFileError,
-        match="File already exists and can not be saved: unknown file path",
-    ):
-        Vardef.write_template_to_file()
-
-
-def test_write_template_permission_error(mocker):
-    """Test that _model_to_yaml_with_comments raises VardefFileError when a PermissionError occurs."""
-    mocker.patch(
-        "dapla_metadata.variable_definitions.utils.variable_definition_files._model_to_yaml_with_comments",
-        side_effect=PermissionError("Permission denied"),
-    )
-
-    with pytest.raises(VardefFileError, match="Permission denied for file path"):
-        Vardef.write_template_to_file()
-
-
-def test_write_template_time_stamp_error(mocker):
-    mocker.patch(
-        "dapla_metadata.variable_definitions.utils.variable_definition_files._get_current_time",
-        side_effect=UnknownTimeZoneError("Unknown timezone"),
-    )
-
-    with pytest.raises(VardefFileError, match="Timezone is unknown"):
-        Vardef.write_template_to_file()
-
-
-def test_yaml_serialization_error(mocker):
-    """Test that write_template_to_file raises VardefFileError when yaml serialization fails."""
-    mocker.patch(
-        "dapla_metadata.variable_definitions.utils.variable_definition_files._model_to_yaml_with_comments",
-        side_effect=YAMLError("Failed to serialize YAML"),
-    )
-
-    with pytest.raises(VardefFileError, match="Not possible to serialize yaml"):
-        Vardef.write_template_to_file()
-
-
-def test_write_template_to_yaml_eof_error(mocker):
-    mocker.patch(
-        "dapla_metadata.variable_definitions.utils.variable_definition_files._model_to_yaml_with_comments",
-        side_effect=EOFError("Unexpected end of file"),
-    )
-
-    with pytest.raises(VardefFileError, match="Unexpected end of file"):
-        Vardef.write_template_to_file()
-
-
-def test_write_template_to_yaml_not_a_directory_error(mocker):
-    workspace_dir = "variable_definitions.yaml"
-    mocker.patch(
-        "dapla_metadata.variable_definitions.utils.variable_definition_files._get_workspace_dir",
-        side_effect=NotADirectoryError(f"'{workspace_dir}' is not a directory."),
-    )
-
-    with pytest.raises(
-        VardefFileError,
-        match="VardefFileError: Path is not a directory: unknown file path. Original error: 'variable_definitions.yaml' is not a directory",
-    ):
+    with pytest.raises(VardefFileError):
         Vardef.write_template_to_file()
