@@ -7,9 +7,7 @@ import yaml
 from pydantic import Field
 from pydantic.config import JsonDict
 
-from dapla_metadata.variable_definitions.utils.constants import (
-    VARDEF_DESCRIPTIONS_FILE_PATH,
-)
+from dapla_metadata.variable_definitions.config import get_descriptions_path
 from dapla_metadata.variable_definitions.variable_definition import CompletePatchOutput
 from dapla_metadata.variable_definitions.variable_definition import VariableDefinition
 
@@ -31,7 +29,7 @@ def load_descriptions(file_path_str: str) -> dict:
 
 
 # Loads when module is imported
-DESCRIPTIONS = load_descriptions(VARDEF_DESCRIPTIONS_FILE_PATH)
+DESCRIPTIONS = load_descriptions(get_descriptions_path())
 
 
 def apply_norwegian_descriptions_to_model(
@@ -56,7 +54,7 @@ def apply_norwegian_descriptions_to_model(
             field_name,
             f"No description in norwegian found for {field_name}",
         )
-        if new_description == "No description in norwegian found":
+        if "No description in norwegian found" in new_description:
             logger.warning("Missing description for %s", field_name)
         else:
             logger.info("Field %s: %s", field_name, new_description)
