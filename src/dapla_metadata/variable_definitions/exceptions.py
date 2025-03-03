@@ -119,7 +119,7 @@ def vardef_file_error_handler(method):  # noqa: ANN201, ANN001
                 **method_kwargs,
             )
         except FileNotFoundError as e:
-            msg = f"File not found at file path: {method_kwargs.get('file_path', 'unknown file path')}"
+            msg = f"File not found at file path: {method_kwargs.get('file_path', 'unknown file path')}. Original error: {e!s}"
             raise VardefFileError(msg) from e
         except FileExistsError as e:
             msg = f"File already exists and can not be saved: {method_kwargs.get('file_path', 'unknown file path')}"
@@ -135,8 +135,14 @@ def vardef_file_error_handler(method):  # noqa: ANN201, ANN001
             raise VardefFileError(msg) from e
         except AttributeError as e:
             msg = "There is no such attribute"
+            msg = f"There is no such attribute. Original error: {e!s}"
             raise VardefFileError(msg) from e
-        #  EOF error
-        #  NotADirectoryError
+        except EOFError as e:
+            msg = "Unexpected end of file"
+            raise VardefFileError(msg) from e
+        except NotADirectoryError as e:
+            path = method_kwargs.get("file_path", "unknown path")
+            msg = f"Path is not a directory: {path}. Original error: {e!s}"
+            raise VardefFileError(msg) from e
 
     return _impl
