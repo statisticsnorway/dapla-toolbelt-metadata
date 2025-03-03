@@ -44,8 +44,6 @@ from tests.utils.constants import VARDEF_EXAMPLE_SHORT_NAME
 from tests.variable_definitions.conftest import sample_variable_definition
 from tests.variable_definitions.conftest import unknown_variable_definition
 
-yaml = ruamel.yaml.YAML()
-
 PATCH_ID = 2
 
 
