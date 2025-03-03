@@ -5,6 +5,7 @@ from unittest.mock import patch
 
 import pytest
 import ruamel.yaml
+from pytz import UnknownTimeZoneError
 
 yaml = ruamel.yaml.YAML()
 
@@ -349,7 +350,7 @@ def test_write_template_permission_denied():
 
 
 @pytest.mark.usefixtures("set_temp_workspace")
-def test_write_template_to_file_exists(mocker):
+def test_write_template_file_exists(mocker):
     mocker.patch(
         "dapla_metadata.variable_definitions.utils.variable_definition_files._model_to_yaml_with_comments",
         side_effect=FileExistsError("File already exists"),
@@ -363,7 +364,7 @@ def test_write_template_to_file_exists(mocker):
 
 
 @pytest.mark.usefixtures("set_temp_workspace")
-def test_model_to_yaml_permission_error(mocker):
+def test_write_template_permission_error(mocker):
     """Test that _model_to_yaml_with_comments raises VardefFileError when a PermissionError occurs."""
     mocker.patch(
         "dapla_metadata.variable_definitions.utils.variable_definition_files._model_to_yaml_with_comments",
@@ -371,4 +372,15 @@ def test_model_to_yaml_permission_error(mocker):
     )
 
     with pytest.raises(VardefFileError, match="Permission denied for file path"):
+        Vardef.write_template_to_file()
+
+
+@pytest.mark.usefixtures("set_temp_workspace")
+def test_write_template_time_stamp_error(mocker):
+    mocker.patch(
+        "dapla_metadata.variable_definitions.utils.variable_definition_files._get_current_time",
+        side_effect=UnknownTimeZoneError("Unknown timezone"),
+    )
+
+    with pytest.raises(VardefFileError, match="Timezone is unknown"):
         Vardef.write_template_to_file()
