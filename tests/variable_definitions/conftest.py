@@ -57,7 +57,7 @@ def client_configuration(vardef_mock_service) -> Configuration:
 
 
 @pytest.fixture
-def configure_vardef_client(client_configuration):
+def _configure_vardef_client(client_configuration):
     VardefClient.set_config(client_configuration)
 
 
@@ -292,7 +292,7 @@ def work_folder_saved_variable(set_temp_workspace: Path):
 
 
 @pytest.fixture
-def _delete_workspace_dir():
+def _delete_workspace_dir_env_var():
     original_workspace_dir = os.environ.get("WORKSPACE_DIR")
 
     if "WORKSPACE_DIR" in os.environ:
@@ -307,7 +307,7 @@ def _delete_workspace_dir():
 
 
 @pytest.fixture
-def set_dapla_group_context(
+def _set_dapla_group_context(
     monkeypatch: pytest.MonkeyPatch,
 ):
     monkeypatch.setenv(DAPLA_GROUP_CONTEXT, VARDEF_EXAMPLE_ACTIVE_GROUP)

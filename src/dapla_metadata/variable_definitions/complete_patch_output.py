@@ -25,7 +25,7 @@ class CompletePatchOutput(CompleteResponse):
     def from_model(
         model: CompleteResponse,
     ) -> "CompletePatchOutput":
-        """Create a CompletePatchOutput instance from a CompletePatchOutput."""
+        """Create a CompletePatchOutput instance from a CompleteResponse."""
         return CompletePatchOutput.model_construct(**model.model_dump())
 
     model_config = ConfigDict(use_enum_values=True, str_strip_whitespace=True)

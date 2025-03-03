@@ -167,10 +167,10 @@ def test_migrate_from_vardok(
 def test_write_template(tmp_path: Path):
     with patch.object(Path, "cwd", return_value=tmp_path):
         result = Vardef.write_template_to_file()
-        assert result.split(".yaml", 1)[1] == " Successfully written to file"
+        assert tmp_path in result.parents
 
 
-@pytest.mark.usefixtures("_delete_workspace_dir")
+@pytest.mark.usefixtures("_delete_workspace_dir_env_var")
 def test_write_template_no_workspace(tmp_path: Path):
     with patch.object(Path, "cwd", return_value=tmp_path):
         with pytest.raises(FileNotFoundError) as exc_info:
@@ -181,14 +181,10 @@ def test_write_template_no_workspace(tmp_path: Path):
         )
 
 
-@pytest.mark.usefixtures("_delete_workspace_dir")
+@pytest.mark.usefixtures("_delete_workspace_dir_env_var")
 def test_write_template_path_no_env_value(tmp_path: Path):
     workspace_dir = tmp_path / "work"
     workspace_dir.mkdir(parents=True, exist_ok=True)
     with patch.object(Path, "cwd", return_value=workspace_dir):
         result = Vardef.write_template_to_file()
-    # remove time stamp result
-    result_without_timestamp = result.rsplit("_", 1)[0] + ".yaml"
-    result_without_timestamp += result.split(".yaml", 1)[1]
-    expected_result = f"File path {workspace_dir}/variable_definitions/variable_definition_template.yaml Successfully written to file"
-    assert result_without_timestamp == expected_result
+    assert workspace_dir in result.parents

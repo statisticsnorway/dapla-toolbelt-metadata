@@ -1,5 +1,8 @@
 from datetime import date
 from os import PathLike
+from pathlib import Path
+
+from pydantic import PrivateAttr
 
 from dapla_metadata.variable_definitions import config
 from dapla_metadata.variable_definitions._client import VardefClient
@@ -44,6 +47,16 @@ class VariableDefinition(CompletePatchOutput):
     Args:
         CompletePatchOutput: The Pydantic model superclass, representing a Variable Definition.
     """
+
+    _file_path: Path | None = PrivateAttr()
+
+    def get_file_path(self) -> Path | None:
+        """Get the file path where the variable definition has been written to for editing."""
+        return self._file_path
+
+    def set_file_path(self, file_path: Path | None) -> None:
+        """Set the file path where the variable definition has been written to for editing."""
+        self._file_path = file_path
 
     @staticmethod
     def from_model(
@@ -105,6 +118,20 @@ class VariableDefinition(CompletePatchOutput):
         self,
         file_path: PathLike | None = None,
     ) -> CompletePatchOutput:
+        """Update this Variable Definition.
+
+        Will automatically read the latest file pertaining to this variable definition. Can
+        be overridden by specifying the file_path parameter.
+
+        - Variable definition must have status 'DRAFT'.
+        - Supply only the fields to be changed. Other fields will retain their current values.
+
+        Args:
+            file_path: Optionally specify the path to read from.
+
+        Returns:
+            CompletePatchOutput: Updated Variable definition with all details.
+        """
         file_path = file_path or _find_latest_file_for_id(self.id)
         update_draft = UpdateDraft.from_dict(
             _read_variable_definition_file(
@@ -116,15 +143,7 @@ class VariableDefinition(CompletePatchOutput):
             msg = f"Could not read data from {file_path}"
             raise FileNotFoundError(msg)
 
-        return CompletePatchOutput.from_model(
-            DraftVariableDefinitionsApi(
-                VardefClient.get_client(),
-            ).update_variable_definition_by_id(
-                variable_definition_id=self.id,
-                active_group=config.get_active_group(),
-                update_draft=update_draft,
-            ),
-        )
+        return self.update_draft(update_draft)
 
     @vardef_exception_handler
     def delete_draft(

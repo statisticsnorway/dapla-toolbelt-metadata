@@ -22,7 +22,7 @@ def test_write_existing_variable_to_file(
     VardefClient.set_config(client_configuration)
     file_name = Vardef.write_variable_to_file(
         variable_definition_id=VARDEF_EXAMPLE_DEFINITION_ID,
-    )
+    ).get_file_path()
 
     target_path = _get_workspace_dir() / file_name
 
@@ -40,7 +40,7 @@ def test_shortname_and_id_in_filename(
     VardefClient.set_config(client_configuration)
     file_name = Vardef.write_variable_to_file(
         variable_definition_id=VARDEF_EXAMPLE_DEFINITION_ID,
-    )
+    ).get_file_path()
 
     assert "variable_definition_landbak_wypvb3wd_" in str(file_name)
 
@@ -52,6 +52,6 @@ def test_shortname_and_id_not_in_filename(
     VardefClient.set_config(client_configuration)
     file_name = Vardef.write_variable_to_file(
         variable_definition_id=VARDEF_EXAMPLE_DEFINITION_ID,
-    )
+    ).get_file_path()
 
     assert "variable_definition_" in str(file_name)
