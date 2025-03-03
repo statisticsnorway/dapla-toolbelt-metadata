@@ -45,8 +45,9 @@ variable_status: |
   Livssyklus for variabelen. Denne har tre kategorier: Utkast, Publisert internt og Publisert eksternt.
 id: |
   Unik SSB identifikator for variabeldefinisjonen. Denne blir maskingenerert.
+  Variabeldefinisjoner med ulike gyldighetsperioder har samme ID (og samme kortnavn).
 patch_id: |
-  Integer identifying a patch of a variable definition.
+  Løpenummer som identifiserer en patch, endring, for en variabeldefinisjon.
 owner: |
   Eier av variabelen dvs. ansvarlig Dapla-team (statistikk-team) og informasjon om tilgangsstyringsgrupper. Team-tilhørighet settes automatisk til det samme som teamtilhørigheten til den som oppretter variabelen.
   Eksempel:
