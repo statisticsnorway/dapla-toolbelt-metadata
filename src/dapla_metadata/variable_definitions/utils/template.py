@@ -6,10 +6,13 @@ import pytz
 from ruamel.yaml import YAML
 from ruamel.yaml import CommentedMap
 
+from dapla_metadata.variable_definitions.complete_patch_output import DEFAULT_TEMPLATE
+from dapla_metadata.variable_definitions.generated.vardef_client.models.complete_response import (
+    CompleteResponse,
+)
 from dapla_metadata.variable_definitions.generated.vardef_client.models.variable_status import (
     VariableStatus,
 )
-from dapla_metadata.variable_definitions.utils.constants import DEFAULT_TEMPLATE
 from dapla_metadata.variable_definitions.utils.constants import HEADER
 from dapla_metadata.variable_definitions.utils.constants import MACHINE_GENERATED_FIELDS
 from dapla_metadata.variable_definitions.utils.constants import OWNER_FIELD_NAME
@@ -27,20 +30,18 @@ from dapla_metadata.variable_definitions.utils.constants import VARIABLE_DEFINIT
 from dapla_metadata.variable_definitions.utils.constants import (
     VARIABLE_STATUS_FIELD_NAME,
 )
-from dapla_metadata.variable_definitions.variable_definition import CompletePatchOutput
-from dapla_metadata.variable_definitions.variable_definition import VariableDefinition
 
 
 def _model_to_yaml_with_comments(
-    model_instance: CompletePatchOutput | VariableDefinition,
+    model_instance: CompleteResponse,
     file_name: str,
     start_comment: str,
     custom_directory: Path | None = None,
 ) -> Path:
-    """Convert a CompletePatchOutput instance into a structured YAML file with comments.
+    """Convert a model instance into a structured YAML file with comments.
 
     This function:
-    - Extracts data from a `CompletePatchOutput` instance.
+    - Extracts data from a model instance.
     - Adds descriptive comments above each field.
     - Organizes the YAML output into logical sections with meaningful headers.
     - Saves the YAML content to a file, ensuring a predictable structure.
@@ -117,15 +118,15 @@ def _model_to_yaml_with_comments(
 
 
 def create_variable_yaml(
-    model_instance: VariableDefinition,
+    model_instance: CompleteResponse,
     custom_directory: Path | None = None,
 ) -> Path:
     """Creates a yaml file for an existing variable definition."""
     file_name = _create_file_name(
         "variable_definition",
         _get_current_time(),
-        _get_shortname(model_instance),
-        _get_variable_definition_id(model_instance),
+        model_instance.short_name,
+        model_instance.id,
     )
 
     return _model_to_yaml_with_comments(
@@ -136,8 +137,16 @@ def create_variable_yaml(
     )
 
 
+def _read_variable_definition_file(file_path: os.PathLike) -> dict:
+    raise NotImplementedError
+
+
+def _find_latest_file_for_id(variable_definition_id: str) -> Path:
+    raise NotImplementedError
+
+
 def create_template_yaml(
-    model_instance: CompletePatchOutput = DEFAULT_TEMPLATE,
+    model_instance: CompleteResponse = DEFAULT_TEMPLATE,
     custom_directory: Path | None = None,
 ) -> Path:
     """Creates a template yaml file for a new variable definition."""
@@ -158,7 +167,7 @@ def _populate_commented_map(
     field_name: str,
     value: str,
     commented_map: CommentedMap,
-    model_instance: CompletePatchOutput,
+    model_instance: CompleteResponse,
 ) -> None:
     """Add data to a CommentedMap."""
     commented_map[field_name] = value
@@ -252,15 +261,3 @@ def _configure_yaml() -> YAML:
     )
 
     return yaml
-
-
-def _get_shortname(
-    model_instance: CompletePatchOutput | VariableDefinition,
-) -> str | None:
-    return model_instance.short_name
-
-
-def _get_variable_definition_id(
-    model_instance: CompletePatchOutput | VariableDefinition,
-) -> str | None:
-    return model_instance.id

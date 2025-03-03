@@ -228,6 +228,8 @@ class Vardef:
         variable_definition = cls.get_variable_definition_by_id(
             variable_definition_id=variable_definition_id,
         )
-        return create_variable_yaml(
+        path = create_variable_yaml(
             model_instance=variable_definition,
         )
+        print(f"Created editable variable definition file at {path}")
+        return variable_definition

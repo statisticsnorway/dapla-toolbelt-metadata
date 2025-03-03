@@ -1,9 +1,11 @@
 from datetime import date
-
-from pydantic import ConfigDict
+from os import PathLike
 
 from dapla_metadata.variable_definitions import config
 from dapla_metadata.variable_definitions._client import VardefClient
+from dapla_metadata.variable_definitions.complete_patch_output import (
+    CompletePatchOutput,
+)
 from dapla_metadata.variable_definitions.exceptions import vardef_exception_handler
 from dapla_metadata.variable_definitions.generated.vardef_client.api.draft_variable_definitions_api import (
     DraftVariableDefinitionsApi,
@@ -26,27 +28,10 @@ from dapla_metadata.variable_definitions.generated.vardef_client.models.update_d
 from dapla_metadata.variable_definitions.generated.vardef_client.models.validity_period import (
     ValidityPeriod,
 )
-
-
-class CompletePatchOutput(CompleteResponse):
-    """Complete response For internal users who need all details while maintaining variable definitions."""
-
-    @staticmethod
-    def from_model(
-        model: CompleteResponse,
-    ) -> "CompletePatchOutput":
-        """Create a CompletePatchOutput instance from a CompletePatchOutput."""
-        return CompletePatchOutput.model_construct(**model.model_dump())
-
-    model_config = ConfigDict(use_enum_values=True, str_strip_whitespace=True)
-
-    def to_dict(self) -> dict:
-        """Return as dictionary."""
-        return super().to_dict()
-
-    def __str__(self) -> str:
-        """Format as indented JSON."""
-        return self.model_dump_json(indent=2, warnings=False)
+from dapla_metadata.variable_definitions.utils.template import _find_latest_file_for_id
+from dapla_metadata.variable_definitions.utils.template import (
+    _read_variable_definition_file,
+)
 
 
 class VariableDefinition(CompletePatchOutput):
@@ -105,6 +90,32 @@ class VariableDefinition(CompletePatchOutput):
         Returns:
             CompletePatchOutput: Updated Variable definition with all details.
         """
+        return CompletePatchOutput.from_model(
+            DraftVariableDefinitionsApi(
+                VardefClient.get_client(),
+            ).update_variable_definition_by_id(
+                variable_definition_id=self.id,
+                active_group=config.get_active_group(),
+                update_draft=update_draft,
+            ),
+        )
+
+    @vardef_exception_handler
+    def update_draft_from_file(
+        self,
+        file_path: PathLike | None = None,
+    ) -> CompletePatchOutput:
+        file_path = file_path or _find_latest_file_for_id(self.id)
+        update_draft = UpdateDraft.from_dict(
+            _read_variable_definition_file(
+                file_path,
+            ),
+        )
+
+        if update_draft is None:
+            msg = f"Could not read data from {file_path}"
+            raise FileNotFoundError(msg)
+
         return CompletePatchOutput.from_model(
             DraftVariableDefinitionsApi(
                 VardefClient.get_client(),

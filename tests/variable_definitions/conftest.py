@@ -5,6 +5,8 @@ from pathlib import Path
 
 import pytest
 
+from dapla_metadata.variable_definitions._client import VardefClient
+from dapla_metadata.variable_definitions.complete_patch_output import DEFAULT_TEMPLATE
 from dapla_metadata.variable_definitions.generated import vardef_client
 from dapla_metadata.variable_definitions.generated.vardef_client.api_client import (
     ApiClient,
@@ -36,10 +38,11 @@ from dapla_metadata.variable_definitions.generated.vardef_client.models.validity
 from dapla_metadata.variable_definitions.generated.vardef_client.models.variable_status import (
     VariableStatus,
 )
-from dapla_metadata.variable_definitions.utils.constants import DEFAULT_TEMPLATE
 from dapla_metadata.variable_definitions.utils.template import create_template_yaml
 from dapla_metadata.variable_definitions.variable_definition import CompletePatchOutput
 from dapla_metadata.variable_definitions.variable_definition import VariableDefinition
+from tests.utils.constants import DAPLA_GROUP_CONTEXT
+from tests.utils.constants import VARDEF_EXAMPLE_ACTIVE_GROUP
 from tests.utils.constants import VARDEF_EXAMPLE_DEFINITION_ID
 from tests.utils.constants import VARDEF_EXAMPLE_INVALID_ID
 from tests.utils.microcks_testcontainer import MicrocksContainer
@@ -51,6 +54,11 @@ def client_configuration(vardef_mock_service) -> Configuration:
         host=vardef_mock_service.get_mock_url(),
         access_token="test_dummy",  # noqa: S106
     )
+
+
+@pytest.fixture
+def configure_vardef_client(client_configuration):
+    VardefClient.set_config(client_configuration)
 
 
 @pytest.fixture
@@ -296,3 +304,10 @@ def _delete_workspace_dir():
         os.environ["WORKSPACE_DIR"] = original_workspace_dir
     else:
         pass
+
+
+@pytest.fixture
+def set_dapla_group_context(
+    monkeypatch: pytest.MonkeyPatch,
+):
+    monkeypatch.setenv(DAPLA_GROUP_CONTEXT, VARDEF_EXAMPLE_ACTIVE_GROUP)
