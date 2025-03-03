@@ -346,3 +346,29 @@ def test_write_template_permission_denied():
     with patch.object(Path, "cwd", return_value=Path("./")):
         file_path = Vardef.write_template_to_file()
         assert file_path.exists()
+
+
+@pytest.mark.usefixtures("set_temp_workspace")
+def test_write_template_to_file_exists(mocker):
+    mocker.patch(
+        "dapla_metadata.variable_definitions.utils.variable_definition_files._model_to_yaml_with_comments",
+        side_effect=FileExistsError("File already exists"),
+    )
+
+    with pytest.raises(
+        VardefFileError,
+        match="File already exists and can not be saved: unknown file path",
+    ):
+        Vardef.write_template_to_file()
+
+
+@pytest.mark.usefixtures("set_temp_workspace")
+def test_model_to_yaml_permission_error(mocker):
+    """Test that _model_to_yaml_with_comments raises VardefFileError when a PermissionError occurs."""
+    mocker.patch(
+        "dapla_metadata.variable_definitions.utils.variable_definition_files._model_to_yaml_with_comments",
+        side_effect=PermissionError("Permission denied"),
+    )
+
+    with pytest.raises(VardefFileError, match="Permission denied for file path"):
+        Vardef.write_template_to_file()
