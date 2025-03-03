@@ -5,6 +5,7 @@ from pathlib import Path
 
 import pytest
 
+from dapla_metadata.variable_definitions.config import get_descriptions_path
 from dapla_metadata.variable_definitions.generated import vardef_client
 from dapla_metadata.variable_definitions.generated.vardef_client.api_client import (
     ApiClient,
@@ -37,9 +38,6 @@ from dapla_metadata.variable_definitions.generated.vardef_client.models.variable
     VariableStatus,
 )
 from dapla_metadata.variable_definitions.utils.constants import DEFAULT_TEMPLATE
-from dapla_metadata.variable_definitions.utils.constants import (
-    VARDEF_DESCRIPTIONS_FILE_PATH,
-)
 from dapla_metadata.variable_definitions.utils.descriptions import load_descriptions
 from dapla_metadata.variable_definitions.utils.variable_definitions_files import (
     create_template_yaml,
@@ -307,4 +305,4 @@ def _delete_workspace_dir():
 @pytest.fixture
 def get_norwegian_descriptions_from_file():
     """Return dict representation of model field descriptions."""
-    return load_descriptions(VARDEF_DESCRIPTIONS_FILE_PATH)
+    return load_descriptions(get_descriptions_path())
