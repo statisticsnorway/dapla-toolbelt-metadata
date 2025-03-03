@@ -146,6 +146,6 @@ def test_write_template_to_yaml_not_a_directory_error(mocker):
 
     with pytest.raises(
         VardefFileError,
-        match="VardefFileError: Path is not a directory: unknown path. Original error: 'variable_definitions.yaml' is not a directory",
+        match="VardefFileError: Path is not a directory: unknown file path. Original error: 'variable_definitions.yaml' is not a directory",
     ):
         Vardef.write_template_to_file()
