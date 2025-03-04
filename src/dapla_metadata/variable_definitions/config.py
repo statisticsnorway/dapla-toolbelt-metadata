@@ -10,6 +10,20 @@ from dapla_metadata.variable_definitions.generated.vardef_client.configuration i
 VARDEF_HOST_TEST = "https://metadata.intern.test.ssb.no"
 
 
+def get_descriptions_path() -> str:
+    """Get the file path to the Norwegian descriptions.
+
+    First checks the `VARDEF_DESCRIPTIONS_FILE_PATH` environment variable; if not set, returns a default path.
+
+    Returns:
+        str: The file path to the descriptions.
+    """
+    return (
+        get_config_item("VARDEF_DESCRIPTIONS_FILE_PATH")
+        or "src/dapla_metadata/variable_definitions/resources/vardef_model_descriptions_nb.yaml"
+    )
+
+
 def get_active_group() -> str:
     """Get the group the user currently represents.
 

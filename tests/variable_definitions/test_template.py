@@ -5,13 +5,23 @@ from pathlib import Path
 import pytest
 import ruamel.yaml
 
+from dapla_metadata.variable_definitions.utils.constants import TEMPLATE_HEADER
+from dapla_metadata.variable_definitions.utils.constants import (
+    TEMPLATE_SECTION_HEADER_MACHINE_GENERATED,
+)
+from dapla_metadata.variable_definitions.utils.constants import (
+    TEMPLATE_SECTION_HEADER_OWNER,
+)
+from dapla_metadata.variable_definitions.utils.constants import (
+    TEMPLATE_SECTION_HEADER_STATUS,
+)
 from dapla_metadata.variable_definitions.utils.variable_definition_files import (
     _get_workspace_dir,
 )
 from dapla_metadata.variable_definitions.utils.variable_definition_files import (
     create_template_yaml,
 )
-from tests.variable_definitions.conftest import get_variable_definition_as_dict
+from tests.variable_definitions.conftest import VARIABLE_DEFINITION_DICT
 
 yaml = ruamel.yaml.YAML()
 
@@ -56,10 +66,10 @@ def test_yaml_comments(work_folder_defaults: Path):
     with work_folder_defaults.open(encoding="utf-8") as f:
         content = f.read()
 
-    assert "--- Variable definition template ---" in content
-    assert "--- Status field" in content
-    assert "--- Owner team" in content
-    assert "--- Machine generated fields" in content
+    assert TEMPLATE_HEADER in content
+    assert TEMPLATE_SECTION_HEADER_STATUS.strip() in content.strip()
+    assert TEMPLATE_SECTION_HEADER_OWNER.strip() in content.strip()
+    assert TEMPLATE_SECTION_HEADER_MACHINE_GENERATED.strip() in content.strip()
 
 
 def test_file_name(work_folder_defaults: Path):
@@ -84,7 +94,7 @@ def test_generate_yaml_from_dict() -> None:
     """Check if the generated YAML file with saved values contains the expected data."""
     with pytest.raises(AttributeError) as exc_info:
         create_template_yaml(
-            get_variable_definition_as_dict(),  # type: ignore [incompatible type]
+            VARIABLE_DEFINITION_DICT,  # type: ignore[arg-type]
             custom_directory=None,
         )
     assert str(exc_info.value) == "'dict' object has no attribute 'model_dump'"

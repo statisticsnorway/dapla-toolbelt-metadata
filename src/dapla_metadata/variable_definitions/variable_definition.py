@@ -38,7 +38,10 @@ class CompletePatchOutput(CompleteResponse):
         """Create a CompletePatchOutput instance from a CompletePatchOutput."""
         return CompletePatchOutput.model_construct(**model.model_dump())
 
-    model_config = ConfigDict(use_enum_values=True, str_strip_whitespace=True)
+    model_config = ConfigDict(
+        use_enum_values=True,
+        str_strip_whitespace=True,
+    )
 
     def to_dict(self) -> dict:
         """Return as dictionary."""
