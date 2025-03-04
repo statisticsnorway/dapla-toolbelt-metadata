@@ -10,7 +10,7 @@ yaml = ruamel.yaml.YAML()
 
 from dapla_metadata._shared.config import DAPLA_GROUP_CONTEXT
 from dapla_metadata.variable_definitions._client import VardefClient
-from dapla_metadata.variable_definitions.exceptions import VardefClientException
+from dapla_metadata.variable_definitions.exceptions import VardefClientError
 from dapla_metadata.variable_definitions.exceptions import VariableNotFoundError
 from dapla_metadata.variable_definitions.generated.vardef_client.api.variable_definitions_api import (
     VariableDefinitionsApi,
@@ -125,7 +125,7 @@ def test_not_found(
 ):
     monkeypatch.setenv(DAPLA_GROUP_CONTEXT, VARDEF_EXAMPLE_ACTIVE_GROUP)
     VardefClient.set_config(client_configuration)
-    with pytest.raises(VardefClientException) as e:
+    with pytest.raises(VardefClientError) as e:
         method()
     assert e.value.status == NOT_FOUND_STATUS
     assert e.value.detail == "Not found"

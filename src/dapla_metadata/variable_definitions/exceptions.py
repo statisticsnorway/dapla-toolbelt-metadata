@@ -8,7 +8,7 @@ from dapla_metadata.variable_definitions.generated.vardef_client.exceptions impo
 )
 
 
-class VardefClientException(OpenApiException):
+class VardefClientError(Exception):
     """Custom exception to represent errors encountered in the Vardef client.
 
     This exception extracts and formats error details from a JSON response body
@@ -61,7 +61,7 @@ def vardef_exception_handler(method):  # noqa: ANN201, ANN001
         try:
             return method(self, *method_args, **method_kwargs)
         except OpenApiException as e:
-            raise VardefClientException(e.body) from e
+            raise VardefClientError(e.body) from e
 
     return _impl
 
