@@ -44,7 +44,7 @@ def _model_to_yaml_with_comments(
     model_instance: CompletePatchOutput | VariableDefinition,
     file_name: str,
     start_comment: str,
-    custom_directory: str | Path | None = None,
+    custom_directory: Path | None = None,
 ) -> Path:
     """Convert a model instance to a structured YAML file with Norwegian descriptions as comments.
 
