@@ -1,13 +1,8 @@
 import functools
-import logging
 from collections.abc import Callable
-from pathlib import Path
 from unittest.mock import patch
 
 import pytest
-import ruamel.yaml
-
-yaml = ruamel.yaml.YAML()
 
 from dapla_metadata._shared.config import DAPLA_GROUP_CONTEXT
 from dapla_metadata.variable_definitions._client import VardefClient
@@ -45,8 +40,6 @@ from tests.utils.constants import VARDEF_EXAMPLE_INVALID_ID
 from tests.utils.constants import VARDEF_EXAMPLE_SHORT_NAME
 from tests.variable_definitions.conftest import sample_variable_definition
 from tests.variable_definitions.conftest import unknown_variable_definition
-
-LOGGER = logging.getLogger(__name__)
 
 PATCH_ID = 2
 
@@ -260,37 +253,3 @@ def test_create_validity_period(
         my_variable.create_validity_period(validity_period),
         CompletePatchOutput,
     )
-
-
-@pytest.mark.usefixtures("set_temp_workspace")
-def test_write_template(tmp_path: Path, caplog):
-    with patch.object(Path, "cwd", return_value=tmp_path):
-        caplog.set_level(logging.INFO)
-        Vardef.write_template_to_file()
-        assert "Successfully written to file" in caplog.text
-
-
-@pytest.mark.usefixtures("_delete_workspace_dir")
-def test_write_template_no_workspace(tmp_path: Path):
-    with patch.object(Path, "cwd", return_value=tmp_path):
-        with pytest.raises(FileNotFoundError) as exc_info:
-            Vardef.write_template_to_file()
-        assert (
-            str(exc_info.value)
-            == "'work' directory not found and env WORKSPACE_DIR is not set."
-        )
-
-
-@pytest.mark.usefixtures("_delete_workspace_dir")
-def test_write_template_path_no_env_value(tmp_path: Path):
-    workspace_dir = tmp_path / "work"
-    workspace_dir.mkdir(parents=True, exist_ok=True)
-    with patch.object(Path, "cwd", return_value=workspace_dir):
-        result = Vardef.write_template_to_file()
-    result = str(result)
-    # remove time stamp result
-    result_without_timestamp = result.rsplit("_", 1)[0] + ".yaml"
-    expected_result = str(
-        workspace_dir / "variable_definitions/variable_definition_template.yaml",
-    )
-    assert result_without_timestamp == expected_result

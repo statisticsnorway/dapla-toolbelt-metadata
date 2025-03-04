@@ -37,7 +37,9 @@ from dapla_metadata.variable_definitions.generated.vardef_client.models.variable
     VariableStatus,
 )
 from dapla_metadata.variable_definitions.utils.constants import DEFAULT_TEMPLATE
-from dapla_metadata.variable_definitions.utils.template import create_template_yaml
+from dapla_metadata.variable_definitions.utils.variable_definition_files import (
+    create_template_yaml,
+)
 from dapla_metadata.variable_definitions.variable_definition import CompletePatchOutput
 from dapla_metadata.variable_definitions.variable_definition import VariableDefinition
 from tests.utils.constants import VARDEF_EXAMPLE_DEFINITION_ID
@@ -254,6 +256,22 @@ def set_temp_workspace(tmp_path: Path):
 
 
 @pytest.fixture
+def set_env_work_dir(tmp_path: Path):
+    """Fixture which set env WORKSPACE_DIR to tmp path/work."""
+    workspace_dir = tmp_path / "work"
+    os.environ["WORKSPACE_DIR"] = str(workspace_dir)
+    return workspace_dir
+
+
+@pytest.fixture
+def set_temp_workspace_invalid(tmp_path: Path, _delete_workspace_dir):
+    """Fixture which set env WORKSPACE_DIR to tmp path/work."""
+    workspace_dir = tmp_path / "statistics"
+    workspace_dir.mkdir(parents=True, exist_ok=True)
+    return workspace_dir
+
+
+@pytest.fixture
 def work_folder_defaults(set_temp_workspace: Path):
     """Fixture that ensures a work folder exists for template with default values."""
     base_path = set_temp_workspace
@@ -270,11 +288,28 @@ def work_folder_defaults(set_temp_workspace: Path):
 
 
 @pytest.fixture
-def work_folder_saved_variable(set_temp_workspace: Path):
+def work_folder_complete_patch_output(set_temp_workspace: Path):
     """Fixture that ensures a work folder exists for template with saved variable definition values."""
     base_path = set_temp_workspace
     file_name = create_template_yaml(
         sample_complete_patch_output(),
+        custom_directory=base_path,
+    )
+    target_path = base_path / file_name
+    yield target_path
+
+    _clean_up_after_test(target_path, base_path)
+
+
+@pytest.fixture
+def work_folder_saved_variable(
+    set_temp_workspace: Path,
+    sample_variable_definition: VariableDefinition,
+):
+    """Fixture that ensures a work folder exists for template with saved variable definition values."""
+    base_path = set_temp_workspace
+    file_name = create_template_yaml(
+        sample_variable_definition,
         custom_directory=base_path,
     )
     target_path = base_path / file_name
@@ -296,3 +331,54 @@ def _delete_workspace_dir():
         os.environ["WORKSPACE_DIR"] = original_workspace_dir
     else:
         pass
+
+
+@pytest.fixture
+def work_folder_variable_definition(set_temp_workspace: Path):
+    """Fixture that ensures a work folder exists for template with saved variable definition values."""
+    base_path = set_temp_workspace
+    file_name = create_template_yaml(
+        sample_variable_definition(),
+        custom_directory=base_path,
+    )
+    target_path = base_path / file_name
+    yield target_path
+
+    _clean_up_after_test(target_path, base_path)
+
+
+def get_variable_definition_as_dict():
+    return {
+        "name": {
+            "en": "Country Background",
+            "nb": "Landbakgrunn",
+            "nn": "Landbakgrunn",
+        },
+        "short_name": "new_short_name1",
+        "definition": {
+            "en": "Country background is the person's own, the mother's or possibly the father's country of birth. Persons without an immigrant background always have Norway as country background. In cases where the parents have different countries of birth the mother's country of birth is chosen. If neither the person nor the parents are born abroad, country background is chosen from the first person born abroad in the order mother's mother, mother's father, father's mother, father's father.",
+            "nb": "For personer født i utlandet, er dette (med noen få unntak) eget fødeland. For personer født i Norge er det foreldrenes fødeland. I de tilfeller der foreldrene har ulikt fødeland, er det morens fødeland som blir valgt. Hvis ikke personen selv eller noen av foreldrene er utenlandsfødt, hentes landbakgrunn fra de første utenlandsfødte en treffer på i rekkefølgen mormor, morfar, farmor eller farfar.",
+            "nn": "For personar fødd i utlandet, er dette (med nokre få unntak) eige fødeland. For personar fødd i Noreg er det fødelandet til foreldra. I dei tilfella der foreldra har ulikt fødeland, er det fødelandet til mora som blir valt. Viss ikkje personen sjølv eller nokon av foreldra er utenlandsfødt, blir henta landsbakgrunn frå dei første utenlandsfødte ein treffar på i rekkjefølgja mormor, morfar, farmor eller farfar.",
+        },
+        "classification_reference": "91",
+        "unit_types": ["01", "02"],
+        "subject_fields": ["he04"],
+        "contains_special_categories_of_personal_data": True,
+        "measurement_type": None,
+        "valid_from": "2003-01-01",
+        "external_reference_uri": "https://www.ssb.no/a/metadata/conceptvariable/vardok/1919/nb",
+        "comment": {
+            "nb": "Fra og med 1.1.2003 ble definisjon endret til også å trekke inn besteforeldrenes fødeland.",
+            "nn": "Fra og med 1.1.2003 ble definisjon endret til også å trekke inn besteforeldrenes fødeland.",
+            "en": "As of 1 January 2003, the definition was changed to also include the grandparents' country of birth.",
+        },
+        "related_variable_definition_uris": ["https://example.com/"],
+        "contact": {
+            "title": {
+                "en": "Division for population statistics",
+                "nb": "Seksjon for befolkningsstatistikk",
+                "nn": "Seksjon for befolkningsstatistikk",
+            },
+            "email": "s320@ssb.no",
+        },
+    }
