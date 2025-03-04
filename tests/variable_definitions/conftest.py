@@ -214,7 +214,7 @@ def patch(language_string_type, contact, owner) -> Patch:
 
 @pytest.fixture(scope="session")
 def vardef_mock_service(
-    openapi_definition: str = "tests/variable_definitions/resources/variable-definitions-0.1.yml",
+    openapi_definition: str = "tests/variable_definitions/resources/openapi/variable-definitions-internal.yml",
 ):
     with MicrocksContainer() as container:
         container.upload_primary_artifact(openapi_definition)
