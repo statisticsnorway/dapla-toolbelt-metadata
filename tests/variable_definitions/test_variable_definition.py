@@ -15,6 +15,7 @@ from dapla_metadata.variable_definitions.variable_definition import CompletePatc
 from dapla_metadata.variable_definitions.variable_definition import VariableDefinition
 from tests.utils.constants import VARDEF_EXAMPLE_DATE
 from tests.utils.constants import VARDEF_EXAMPLE_DEFINITION_ID
+from tests.variable_definitions.constants import VARIABLE_DEFINITION_EDITING_FILES_DIR
 from tests.variable_definitions.test_vardef import PATCH_ID
 
 
@@ -25,7 +26,6 @@ def test_list_patches():
     assert isinstance(landbak.list_patches()[0], CompletePatchOutput)
 
 
-@pytest.mark.usefixtures("_configure_vardef_client", "_set_dapla_group_context")
 def test_get_patch():
     landbak = Vardef.get_variable_definition_by_id(
         variable_definition_id=VARDEF_EXAMPLE_DEFINITION_ID,
@@ -33,7 +33,6 @@ def test_get_patch():
     assert isinstance(landbak.get_patch(1), CompletePatchOutput)
 
 
-@pytest.mark.usefixtures("_configure_vardef_client", "_set_dapla_group_context")
 def test_list_validity_periods():
     landbak = Vardef.get_variable_definition_by_id(
         variable_definition_id=VARDEF_EXAMPLE_DEFINITION_ID,
@@ -41,7 +40,6 @@ def test_list_validity_periods():
     assert isinstance(landbak.list_validity_periods()[0], CompletePatchOutput)
 
 
-@pytest.mark.usefixtures("_configure_vardef_client", "_set_dapla_group_context")
 def test_update_draft(
     update_draft: UpdateDraft,
 ):
@@ -51,7 +49,6 @@ def test_update_draft(
     assert isinstance(my_draft.update_draft(update_draft), CompletePatchOutput)
 
 
-@pytest.mark.usefixtures("_configure_vardef_client", "_set_dapla_group_context")
 def test_delete_draft():
     my_draft = Vardef.get_variable_definition_by_id(
         variable_definition_id=VARDEF_EXAMPLE_DEFINITION_ID,
@@ -61,7 +58,6 @@ def test_delete_draft():
     assert result == f"Variable {VARDEF_EXAMPLE_DEFINITION_ID} safely deleted"
 
 
-@pytest.mark.usefixtures("_configure_vardef_client", "_set_dapla_group_context")
 def test_create_patch(
     patch: Patch,
     variable_definition: VariableDefinition,
@@ -79,7 +75,6 @@ def test_create_patch(
     assert created_patch.patch_id == PATCH_ID
 
 
-@pytest.mark.usefixtures("_configure_vardef_client", "_set_dapla_group_context")
 def test_create_validity_period(
     validity_period: ValidityPeriod,
     variable_definition: VariableDefinition,
@@ -91,11 +86,6 @@ def test_create_validity_period(
     )
 
 
-@pytest.mark.usefixtures(
-    "_configure_vardef_client",
-    "_set_dapla_group_context",
-    "set_temp_workspace",
-)
 def test_update_draft_from_file():
     my_draft = Vardef.write_variable_to_file(
         variable_definition_id=VARDEF_EXAMPLE_DEFINITION_ID,
@@ -103,11 +93,6 @@ def test_update_draft_from_file():
     assert isinstance(my_draft.update_draft_from_file(), CompletePatchOutput)
 
 
-@pytest.mark.usefixtures(
-    "_configure_vardef_client",
-    "_set_dapla_group_context",
-    "set_temp_workspace",
-)
 def test_update_draft_from_file_no_known_file():
     with pytest.raises(ValueError, match="Could not deduce a path to the file"):
         Vardef.get_variable_definition_by_id(
@@ -115,16 +100,24 @@ def test_update_draft_from_file_no_known_file():
         ).update_draft_from_file()
 
 
-@pytest.mark.usefixtures(
-    "_configure_vardef_client",
-    "_set_dapla_group_context",
-    "set_temp_workspace",
-)
 def test_update_draft_from_file_file_non_existent():
     with pytest.raises(VardefFileError):
         Vardef.get_variable_definition_by_id(
             VARDEF_EXAMPLE_DEFINITION_ID,
         ).update_draft_from_file("my_cool_file.yaml")
+
+
+def test_update_draft_from_file_specify_file():
+    assert (
+        Vardef.get_variable_definition_by_id(
+            VARDEF_EXAMPLE_DEFINITION_ID,
+        )
+        .update_draft_from_file(
+            VARIABLE_DEFINITION_EDITING_FILES_DIR / "classification_reference.yaml",
+        )
+        .short_name
+        == "landbak"
+    )
 
 
 def test_str(variable_definition):

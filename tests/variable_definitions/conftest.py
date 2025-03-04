@@ -50,6 +50,7 @@ from tests.utils.constants import VARDEF_EXAMPLE_ACTIVE_GROUP
 from tests.utils.constants import VARDEF_EXAMPLE_DEFINITION_ID
 from tests.utils.constants import VARDEF_EXAMPLE_INVALID_ID
 from tests.utils.microcks_testcontainer import MicrocksContainer
+from tests.variable_definitions.constants import OPENAPI_DIR
 
 
 @pytest.fixture(autouse=True)
@@ -70,6 +71,15 @@ def client_configuration(vardef_mock_service) -> Configuration:
 @pytest.fixture(autouse=True, scope="session")
 def _configure_vardef_client(client_configuration):
     VardefClient.set_config(client_configuration)
+
+
+@pytest.fixture(autouse=True)
+def set_temp_workspace(tmp_path: Path):
+    """Fixture which set env WORKSPACE_DIR to tmp path/work."""
+    workspace_dir = tmp_path / "work"
+    workspace_dir.mkdir(parents=True, exist_ok=True)
+    os.environ["WORKSPACE_DIR"] = str(workspace_dir)
+    return workspace_dir
 
 
 @pytest.fixture
@@ -213,11 +223,11 @@ def patch(language_string_type, contact, owner) -> Patch:
 
 
 @pytest.fixture(scope="session")
-def vardef_mock_service(
-    openapi_definition: str = "tests/variable_definitions/resources/openapi/variable-definitions-internal.yml",
-):
+def vardef_mock_service():
     with MicrocksContainer() as container:
-        container.upload_primary_artifact(openapi_definition)
+        container.upload_primary_artifact(
+            str(OPENAPI_DIR / "variable-definitions-internal.yml"),
+        )
         yield container
 
 
@@ -261,23 +271,6 @@ def _clean_up_after_test(target_path: Path, base_path: Path):
         target_path.unlink()
     if base_path.exists():
         base_path.rmdir()
-
-
-@pytest.fixture
-def set_temp_workspace(tmp_path: Path):
-    """Fixture which set env WORKSPACE_DIR to tmp path/work."""
-    workspace_dir = tmp_path / "work"
-    workspace_dir.mkdir(parents=True, exist_ok=True)
-    os.environ["WORKSPACE_DIR"] = str(workspace_dir)
-    return workspace_dir
-
-
-@pytest.fixture
-def set_env_work_dir(tmp_path: Path):
-    """Fixture which set env WORKSPACE_DIR to tmp path/work."""
-    workspace_dir = tmp_path / "work"
-    os.environ["WORKSPACE_DIR"] = str(workspace_dir)
-    return workspace_dir
 
 
 @pytest.fixture
@@ -336,7 +329,7 @@ def work_folder_saved_variable_2(
 
 
 @pytest.fixture
-def _delete_workspace_dir_env_var():
+def _delete_workspace_dir_env_var(set_temp_workspace):  # noqa: ARG001
     original_workspace_dir = os.environ.get("WORKSPACE_DIR")
 
     if "WORKSPACE_DIR" in os.environ:
