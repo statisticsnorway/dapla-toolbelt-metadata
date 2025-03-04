@@ -139,7 +139,7 @@ def create_variable_yaml(
 
 def create_template_yaml(
     model_instance: CompletePatchOutput = DEFAULT_TEMPLATE,
-    custom_directory: str | Path | None = None,
+    custom_directory: Path | None = None,
 ) -> Path:
     """Creates a template yaml file for a new variable definition."""
     file_name = _create_file_name(
@@ -232,7 +232,7 @@ def _get_workspace_dir() -> Path:
     return workspace_dir
 
 
-def _get_custom_directory(custom_directory: str) -> Path:
+def _get_custom_directory(custom_directory: Path) -> Path:
     custom_directory = Path(custom_directory).resolve()
 
     if custom_directory.suffix:

@@ -226,7 +226,7 @@ class Vardef:
     def write_template_to_file(cls, custom_file_path: str | None = None) -> Path:
         """Write template with default values to a yaml file."""
         file_path = create_template_yaml(
-            custom_directory=custom_file_path if custom_file_path else None,
+            custom_directory=Path(custom_file_path) if custom_file_path else None,
         )
         logger.info("Successfully written to file %s", file_path)
         return file_path
