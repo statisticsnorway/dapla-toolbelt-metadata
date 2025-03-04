@@ -20,6 +20,15 @@ def test_write_template(tmp_path: Path):
 
 
 @pytest.mark.usefixtures("_delete_workspace_dir")
+def test_write_template_no_workspace(tmp_path: Path):
+    with patch.object(Path, "cwd", return_value=tmp_path), pytest.raises(
+        VardefFileError,
+        match="VardefFileError: File not found at file path: unknown file path",
+    ):
+        Vardef.write_template_to_file()
+
+
+@pytest.mark.usefixtures("_delete_workspace_dir")
 def test_write_template_path_no_env_value(tmp_path: Path):
     workspace_dir = tmp_path / "work"
     workspace_dir.mkdir(parents=True, exist_ok=True)
@@ -40,14 +49,6 @@ def test_write_template_logger(tmp_path: Path, caplog):
         caplog.set_level(logging.INFO)
         Vardef.write_template_to_file()
         assert "Successfully written to file" in caplog.text
-
-
-@pytest.mark.usefixtures("_delete_workspace_dir")
-def test_write_template_no_workspace(tmp_path: Path):
-    with patch.object(Path, "cwd", return_value=tmp_path), pytest.raises(
-        VardefFileError,
-    ):
-        Vardef.write_template_to_file()
 
 
 def test_write_template_from_tmp_path():
