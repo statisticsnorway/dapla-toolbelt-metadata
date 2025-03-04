@@ -101,7 +101,7 @@ def test_get_owner(
 )
 def test_get_owner_errors(
     monkeypatch: pytest.MonkeyPatch,
-    environment_variable_value: str,
+    environment_variable_value: str | None,
 ):
     if environment_variable_value is None:
         monkeypatch.delenv(DAPLA_GROUP_CONTEXT)

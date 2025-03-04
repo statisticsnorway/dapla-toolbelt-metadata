@@ -144,7 +144,7 @@ class VariableDefinition(CompletePatchOutput):
         """
         try:
             file_path = Path(
-                file_path or self.get_file_path(),
+                file_path or self.get_file_path(),  # type: ignore [arg-type]
             )
         except TypeError as e:
             msg = "Could not deduce a path to the file. Please supply a path to the yaml file you wish to submit with the `file_path` parameter."
