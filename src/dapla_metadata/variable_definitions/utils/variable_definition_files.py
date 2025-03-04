@@ -236,14 +236,12 @@ def _get_custom_directory(custom_directory: Path) -> Path:
     custom_directory = Path(custom_directory).resolve()
 
     if custom_directory.suffix:
-        exception_message = (
-            f"Expected a directory but got a file name: %{custom_directory.name}",
-        )
-        raise ValueError(exception_message)
+        msg = f"Expected a directory but got a file name: %{custom_directory.name}"
+        raise ValueError(msg)
 
     if custom_directory.exists() and not custom_directory.is_dir():
-        exception_message = (f"Path exists but is not a directory: {custom_directory}",)
-        raise NotADirectoryError(exception_message)
+        msg = f"Path exists but is not a directory: {custom_directory}"
+        raise NotADirectoryError(msg)
 
     dir_name = custom_directory.name
     # Windows-specific checks
@@ -275,24 +273,22 @@ def _get_custom_directory(custom_directory: Path) -> Path:
         }
 
         if any(char in dir_name for char in invalid_chars):
-            exception_message = f"Invalid character in directory name: {dir_name}"
-            raise ValueError(exception_message)
+            msg = f"Invalid character in directory name: {dir_name}"
+            raise ValueError(msg)
 
         if dir_name.upper() in reserved_names:
-            exception_message = (
-                f"Directory name '{dir_name}' is a reserved system name."
-            )
-            raise ValueError(exception_message)
+            msg = f"Directory name '{dir_name}' is a reserved system name."
+            raise ValueError(msg)
 
         if dir_name.endswith((" ", ".")):
-            exception_message = "Windows directory error."
-            raise ValueError(exception_message)
+            msg = "Windows directory error."
+            raise ValueError(msg)
 
     # Linux/macOS checks
     elif sys.platform.startswith("linux") or sys.platform.startswith("darwin"):
         if "/" in dir_name or "\0" in dir_name:
-            exception_message = f"Invalid character in directory name: {dir_name}"
-            raise ValueError(exception_message)
+            msg = f"Invalid character in directory name: {dir_name}"
+            raise ValueError(msg)
     max_length = 255
     if len(dir_name) > max_length:
         msg = "Directory name exceeds the maximum length of 255 characters."
@@ -301,13 +297,11 @@ def _get_custom_directory(custom_directory: Path) -> Path:
     try:
         custom_directory.mkdir(parents=True, exist_ok=True)
     except PermissionError as e:
-        exception_message = (
-            f"Insufficient permissions to create directory: {custom_directory}",
-        )
-        raise PermissionError(exception_message) from e
+        msg = f"Insufficient permissions to create directory: {custom_directory}"
+        raise PermissionError(msg) from e
     except OSError as e:
-        exception_message = f"Failed to create directory {custom_directory}: {e!s}"
-        raise OSError(exception_message) from e
+        msg = f"Failed to create directory {custom_directory}: {e!s}"
+        raise OSError(msg) from e
 
     return custom_directory
 
