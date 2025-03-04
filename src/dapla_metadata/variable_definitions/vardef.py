@@ -5,6 +5,7 @@ from dapla_metadata.variable_definitions import config
 from dapla_metadata.variable_definitions._client import VardefClient
 from dapla_metadata.variable_definitions.exceptions import VariableNotFoundError
 from dapla_metadata.variable_definitions.exceptions import vardef_exception_handler
+from dapla_metadata.variable_definitions.exceptions import vardef_file_error_handler
 from dapla_metadata.variable_definitions.generated.vardef_client.api.data_migration_api import (
     DataMigrationApi,
 )
@@ -17,8 +18,12 @@ from dapla_metadata.variable_definitions.generated.vardef_client.api.variable_de
 from dapla_metadata.variable_definitions.generated.vardef_client.models.draft import (
     Draft,
 )
-from dapla_metadata.variable_definitions.utils.template import create_template_yaml
-from dapla_metadata.variable_definitions.utils.template import create_variable_yaml
+from dapla_metadata.variable_definitions.utils.variable_definition_files import (
+    create_template_yaml,
+)
+from dapla_metadata.variable_definitions.utils.variable_definition_files import (
+    create_variable_yaml,
+)
 from dapla_metadata.variable_definitions.variable_definition import VariableDefinition
 
 
@@ -214,12 +219,15 @@ class Vardef:
         return VariableDefinition.from_model(variable_definitions[0])
 
     @classmethod
-    def write_template_to_file(cls) -> str:
+    @vardef_file_error_handler
+    def write_template_to_file(cls) -> Path:
         """Write template with default values to a yaml file."""
         file_path = create_template_yaml()
-        return f"File path {file_path} Successfully written to file"
+        print("Successfully written to file")  # noqa: T201
+        return file_path
 
     @classmethod
+    @vardef_file_error_handler
     def write_variable_to_file(
         cls,
         variable_definition_id: str,
@@ -228,6 +236,7 @@ class Vardef:
         variable_definition = cls.get_variable_definition_by_id(
             variable_definition_id=variable_definition_id,
         )
+        print("Successfully written to file")  # noqa: T201
         return create_variable_yaml(
             model_instance=variable_definition,
         )

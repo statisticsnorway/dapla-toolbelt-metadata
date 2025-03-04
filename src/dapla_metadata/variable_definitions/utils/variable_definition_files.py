@@ -208,10 +208,10 @@ def _get_workspace_dir() -> Path:
 
         # Check if the directory exists and is actually a directory
         if not workspace_dir.exists():
-            msg = f"WORKSPACE_DIR '{workspace_dir}' does not exist."
+            msg = f"Directory '{workspace_dir}' does not exist."
             raise FileNotFoundError(msg)
         if not workspace_dir.is_dir():
-            msg = f"WORKSPACE_DIR '{workspace_dir}' is not a directory."
+            msg = f"'{workspace_dir}' is not a directory."
             raise NotADirectoryError(msg)
 
     except KeyError:
