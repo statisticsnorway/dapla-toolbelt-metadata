@@ -44,13 +44,10 @@ def test_write_template_logger(tmp_path: Path, caplog):
 
 @pytest.mark.usefixtures("_delete_workspace_dir")
 def test_write_template_no_workspace(tmp_path: Path):
-    with patch.object(Path, "cwd", return_value=tmp_path):
-        with pytest.raises(FileNotFoundError) as exc_info:
-            Vardef.write_template_to_file()
-        assert (
-            str(exc_info.value)
-            == "'work' directory not found and env WORKSPACE_DIR is not set."
-        )
+    with patch.object(Path, "cwd", return_value=tmp_path), pytest.raises(
+        VardefFileError,
+    ):
+        Vardef.write_template_to_file()
 
 
 def test_write_template_from_tmp_path():

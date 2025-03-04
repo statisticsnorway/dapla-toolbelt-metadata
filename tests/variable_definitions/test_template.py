@@ -36,7 +36,7 @@ def test_yaml_content_saved_values(work_folder_saved_variable: Path) -> None:
     with work_folder_saved_variable.open(encoding="utf-8") as f:
         parsed_yaml = yaml.load(f)
 
-    assert parsed_yaml["variable_status"] == "PUBLISHED_INTERNAL"
+    assert parsed_yaml["variable_status"] == "PUBLISHED_EXTERNAL"
     assert parsed_yaml["last_updated_by"] == "ano@ssb.no"
 
 

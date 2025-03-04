@@ -304,12 +304,11 @@ def work_folder_complete_patch_output(set_temp_workspace: Path):
 @pytest.fixture
 def work_folder_saved_variable(
     set_temp_workspace: Path,
-    sample_variable_definition: VariableDefinition,
 ):
     """Fixture that ensures a work folder exists for template with saved variable definition values."""
     base_path = set_temp_workspace
     file_name = create_template_yaml(
-        sample_variable_definition,
+        sample_variable_definition(),
         custom_directory=base_path,
     )
     target_path = base_path / file_name

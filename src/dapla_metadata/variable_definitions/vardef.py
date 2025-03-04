@@ -222,6 +222,7 @@ class Vardef:
         return VariableDefinition.from_model(variable_definitions[0])
 
     @classmethod
+    @vardef_file_error_handler
     def write_template_to_file(cls, custom_file_path: str | None = None) -> str:
         """Write template with default values to a yaml file."""
         file_path = create_template_yaml(custom_directory=custom_file_path)
