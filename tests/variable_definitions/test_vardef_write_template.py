@@ -99,6 +99,15 @@ def test_write_template_from_current():
         assert file_path.exists()
 
 
+@pytest.mark.usefixtures("set_temp_workspace")
+def test_write_template_to_custom_path(tmp_path: Path):
+    with patch.object(Path, "cwd", return_value=Path("./")):
+        file_path = Vardef.write_template_to_file(custom_file_path=tmp_path)
+    assert file_path.exists()
+    assert "work" not in str(file_path)
+    assert "variable-definitions" not in str(file_path)
+
+
 @pytest.mark.parametrize(
     ("mock_target", "side_effect"),
     [
