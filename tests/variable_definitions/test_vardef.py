@@ -1,6 +1,5 @@
 import functools
 from collections.abc import Callable
-from pathlib import Path
 from unittest.mock import patch
 
 import pytest
@@ -158,19 +157,3 @@ def test_migrate_from_vardok(
     assert my_draft.id is not None
     assert my_draft.patch_id == 1
     assert my_draft.variable_status == VariableStatus.DRAFT
-
-
-@pytest.mark.usefixtures("set_temp_workspace")
-def test_write_template(tmp_path: Path):
-    with patch.object(Path, "cwd", return_value=tmp_path):
-        result = Vardef.write_template_to_file()
-        assert tmp_path in result.parents
-
-
-@pytest.mark.usefixtures("_delete_workspace_dir_env_var")
-def test_write_template_path_no_env_value(tmp_path: Path):
-    workspace_dir = tmp_path / "work"
-    workspace_dir.mkdir(parents=True, exist_ok=True)
-    with patch.object(Path, "cwd", return_value=workspace_dir):
-        result = Vardef.write_template_to_file()
-    assert workspace_dir in result.parents

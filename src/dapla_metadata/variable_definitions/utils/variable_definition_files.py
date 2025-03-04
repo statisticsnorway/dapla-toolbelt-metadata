@@ -237,19 +237,11 @@ def _get_workspace_dir() -> Path:
             msg = f"'{workspace_dir}' is not a directory."
             raise NotADirectoryError(msg)
 
-    except KeyError:
-        # Fallback: search for a directory called 'work' starting from the current directory
-        current_dir = Path.cwd()
-        while current_dir != current_dir.parent:
-            potential_workspace = current_dir / "work"
-            if potential_workspace.exists() and potential_workspace.is_dir():
-                workspace_dir = potential_workspace
-                break
-            current_dir = current_dir.parent
-        else:
-            # Raise an error if 'work' directory is not found
-            msg = "'work' directory not found and env WORKSPACE_DIR is not set."
-            raise FileNotFoundError(msg)
+    except KeyError as e:
+        msg = (
+            "Could not deduce location to save files at since WORKSPACE_DIR is not set."
+        )
+        raise FileNotFoundError(msg) from e
 
     return workspace_dir
 
