@@ -1,5 +1,4 @@
 import pytest
-from pytest_mock import MockerFixture
 
 from dapla_metadata.variable_definitions.generated.vardef_client.models.patch import (
     Patch,
@@ -96,13 +95,9 @@ def test_create_validity_period(
     "_set_dapla_group_context",
     "set_temp_workspace",
 )
-def test_update_draft_from_file(update_draft: UpdateDraft, mocker: MockerFixture):
+def test_update_draft_from_file():
     my_draft = Vardef.write_variable_to_file(
         variable_definition_id=VARDEF_EXAMPLE_DEFINITION_ID,
-    )
-    mocker.patch(
-        "dapla_metadata.variable_definitions.variable_definition._read_variable_definition_file",
-        return_value=update_draft.to_dict(),
     )
     assert isinstance(my_draft.update_draft_from_file(), CompletePatchOutput)
 

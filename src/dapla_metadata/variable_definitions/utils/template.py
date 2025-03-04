@@ -137,12 +137,15 @@ def create_variable_yaml(
     )
 
 
-def _read_variable_definition_file(file_path: os.PathLike) -> dict:
-    raise NotImplementedError
+def _read_variable_definition_file(file_path: Path) -> dict:
+    yaml = YAML()
+    with file_path.open(encoding="utf-8") as f:
+        return yaml.load(f)
 
 
 def _find_latest_file_for_id(variable_definition_id: str) -> Path:
     raise NotImplementedError
+    return Path(variable_definition_id)
 
 
 def create_template_yaml(
