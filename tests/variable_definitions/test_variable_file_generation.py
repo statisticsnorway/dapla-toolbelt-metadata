@@ -1,7 +1,7 @@
 import pytest
 import ruamel.yaml
 
-from dapla_metadata.variable_definitions.utils.variable_definitions_files import (
+from dapla_metadata.variable_definitions.utils.variable_definition_files import (
     _get_workspace_dir,
 )
 
