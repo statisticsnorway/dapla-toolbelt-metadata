@@ -1,5 +1,6 @@
 import pytest
 
+from dapla_metadata.variable_definitions.exceptions import VardefFileError
 from dapla_metadata.variable_definitions.generated.vardef_client.models.patch import (
     Patch,
 )
@@ -100,6 +101,30 @@ def test_update_draft_from_file():
         variable_definition_id=VARDEF_EXAMPLE_DEFINITION_ID,
     )
     assert isinstance(my_draft.update_draft_from_file(), CompletePatchOutput)
+
+
+@pytest.mark.usefixtures(
+    "_configure_vardef_client",
+    "_set_dapla_group_context",
+    "set_temp_workspace",
+)
+def test_update_draft_from_file_no_known_file():
+    with pytest.raises(ValueError, match="Could not deduce a path to the file"):
+        Vardef.get_variable_definition_by_id(
+            VARDEF_EXAMPLE_DEFINITION_ID,
+        ).update_draft_from_file()
+
+
+@pytest.mark.usefixtures(
+    "_configure_vardef_client",
+    "_set_dapla_group_context",
+    "set_temp_workspace",
+)
+def test_update_draft_from_file_file_non_existent():
+    with pytest.raises(VardefFileError):
+        Vardef.get_variable_definition_by_id(
+            VARDEF_EXAMPLE_DEFINITION_ID,
+        ).update_draft_from_file("my_cool_file.yaml")
 
 
 def test_str(variable_definition):
