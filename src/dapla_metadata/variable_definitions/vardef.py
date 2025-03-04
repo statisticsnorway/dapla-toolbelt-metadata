@@ -1,3 +1,4 @@
+import logging
 from datetime import date
 from pathlib import Path
 
@@ -20,6 +21,8 @@ from dapla_metadata.variable_definitions.generated.vardef_client.models.draft im
 from dapla_metadata.variable_definitions.utils.template import create_template_yaml
 from dapla_metadata.variable_definitions.utils.template import create_variable_yaml
 from dapla_metadata.variable_definitions.variable_definition import VariableDefinition
+
+logger = logging.getLogger(__name__)
 
 
 class Vardef:
@@ -214,10 +217,11 @@ class Vardef:
         return VariableDefinition.from_model(variable_definitions[0])
 
     @classmethod
-    def write_template_to_file(cls) -> str:
+    def write_template_to_file(cls, custom_file_path: str | None = None) -> str:
         """Write template with default values to a yaml file."""
-        file_path = create_template_yaml()
-        return f"File path {file_path} Successfully written to file"
+        file_path = create_template_yaml(custom_directory=custom_file_path)
+        logger.info("Successfully written to file %s", file_path)
+        return file_path
 
     @classmethod
     def write_variable_to_file(
