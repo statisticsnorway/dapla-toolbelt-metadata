@@ -223,7 +223,7 @@ class Vardef:
 
     @classmethod
     @vardef_file_error_handler
-    def write_template_to_file(cls, custom_file_path: str | None = None) -> str:
+    def write_template_to_file(cls, custom_file_path: str | None = None) -> Path:
         """Write template with default values to a yaml file."""
         file_path = create_template_yaml(custom_directory=Path(custom_file_path))
         logger.info("Successfully written to file %s", file_path)
