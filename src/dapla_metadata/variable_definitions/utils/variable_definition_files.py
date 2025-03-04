@@ -295,11 +295,8 @@ def _get_custom_directory(custom_directory: Path) -> Path:
             raise ValueError(exception_message)
     max_length = 255
     if len(dir_name) > max_length:
-        exception_message = (
-            "Directory name exceeds the maximum length of 255 characters."
-        )
-
-        raise ValueError(exception_message)
+        msg = "Directory name exceeds the maximum length of 255 characters."
+        raise ValueError(msg)
 
     try:
         custom_directory.mkdir(parents=True, exist_ok=True)
