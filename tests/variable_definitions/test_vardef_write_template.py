@@ -17,7 +17,7 @@ def test_write_template(tmp_path: Path):
 
 
 def test_write_template_no_workspace(monkeypatch: pytest.MonkeyPatch):
-    monkeypatch.delenv("WORKSPACE_DIR")
+    monkeypatch.delenv("WORKSPACE_DIR", raising=False)
     with pytest.raises(
         VardefFileError,
         match="VardefFileError: File not found at file path: unknown file path",
