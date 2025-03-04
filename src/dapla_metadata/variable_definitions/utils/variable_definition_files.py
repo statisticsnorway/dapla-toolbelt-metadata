@@ -298,6 +298,7 @@ def _get_custom_directory(custom_directory: Path) -> Path:
         exception_message = (
             "Directory name exceeds the maximum length of 255 characters."
         )
+
         raise ValueError(exception_message)
 
     try:
