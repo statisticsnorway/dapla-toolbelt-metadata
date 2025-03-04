@@ -1,4 +1,5 @@
 import functools
+import logging
 from collections.abc import Callable
 from pathlib import Path
 from unittest.mock import patch
@@ -44,6 +45,8 @@ from tests.utils.constants import VARDEF_EXAMPLE_INVALID_ID
 from tests.utils.constants import VARDEF_EXAMPLE_SHORT_NAME
 from tests.variable_definitions.conftest import sample_variable_definition
 from tests.variable_definitions.conftest import unknown_variable_definition
+
+LOGGER = logging.getLogger(__name__)
 
 PATCH_ID = 2
 
@@ -260,10 +263,11 @@ def test_create_validity_period(
 
 
 @pytest.mark.usefixtures("set_temp_workspace")
-def test_write_template(tmp_path: Path):
+def test_write_template(tmp_path: Path, caplog):
     with patch.object(Path, "cwd", return_value=tmp_path):
-        result = Vardef.write_template_to_file()
-        assert result.split(".yaml", 1)[1] == " Successfully written to file"
+        caplog.set_level(logging.INFO)
+        Vardef.write_template_to_file()
+        assert "Successfully written to file" in caplog.text
 
 
 @pytest.mark.usefixtures("_delete_workspace_dir")
@@ -283,8 +287,10 @@ def test_write_template_path_no_env_value(tmp_path: Path):
     workspace_dir.mkdir(parents=True, exist_ok=True)
     with patch.object(Path, "cwd", return_value=workspace_dir):
         result = Vardef.write_template_to_file()
+    result = str(result)
     # remove time stamp result
     result_without_timestamp = result.rsplit("_", 1)[0] + ".yaml"
-    result_without_timestamp += result.split(".yaml", 1)[1]
-    expected_result = f"File path {workspace_dir}/variable_definitions/variable_definition_template.yaml Successfully written to file"
+    expected_result = str(
+        workspace_dir / "variable_definitions/variable_definition_template.yaml",
+    )
     assert result_without_timestamp == expected_result
