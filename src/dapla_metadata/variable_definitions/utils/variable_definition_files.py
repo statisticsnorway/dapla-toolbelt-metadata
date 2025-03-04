@@ -139,7 +139,7 @@ def create_variable_yaml(
 
 def create_template_yaml(
     model_instance: CompletePatchOutput = DEFAULT_TEMPLATE,
-    custom_directory: Path | None = None,
+    custom_directory: str | Path | None = None,
 ) -> Path:
     """Creates a template yaml file for a new variable definition."""
     file_name = _create_file_name(
