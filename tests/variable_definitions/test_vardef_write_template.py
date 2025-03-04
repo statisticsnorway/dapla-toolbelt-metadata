@@ -41,6 +41,7 @@ def test_write_template_from_tmp_path():
         assert file_path.exists()
 
 
+@pytest.mark.usefixtures("_delete_workspace_dir")
 @pytest.mark.usefixtures("set_temp_workspace_invalid")
 def test_write_template_invalid():
     """Env 'WORKSPACE_DIR' not present and 'work' not on path."""
@@ -54,9 +55,9 @@ def test_write_template_invalid():
         Vardef.write_template_to_file()
 
 
-@pytest.mark.usefixtures("set_env_work_dir")
+@pytest.mark.usefixtures("_delete_workspace_dir")
 def test_write_template_no_work_folder(tmp_path: Path):
-    base_path = tmp_path / "statistics/a/work"
+    base_path = tmp_path / "statistics/a/"
     base_path.mkdir(parents=True, exist_ok=True)
 
     with patch.object(Path, "cwd", return_value=base_path), pytest.raises(

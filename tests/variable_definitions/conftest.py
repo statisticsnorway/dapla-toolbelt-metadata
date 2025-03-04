@@ -5,7 +5,7 @@ from pathlib import Path
 
 import pytest
 
-from dapla_metadata.variable_definitions.config import get_descriptions_path
+from dapla_metadata.variable_definitions import config
 from dapla_metadata.variable_definitions.generated import vardef_client
 from dapla_metadata.variable_definitions.generated.vardef_client.api_client import (
     ApiClient,
@@ -258,16 +258,7 @@ def set_temp_workspace(tmp_path: Path):
 
 
 @pytest.fixture
-def set_env_work_dir(tmp_path: Path):
-    """Fixture which set env WORKSPACE_DIR to tmp path/work."""
-    workspace_dir = tmp_path / "work"
-    os.environ["WORKSPACE_DIR"] = str(workspace_dir)
-    return workspace_dir
-
-
-@pytest.fixture
-def set_temp_workspace_invalid(tmp_path: Path, _delete_workspace_dir):
-    """Fixture which set env WORKSPACE_DIR to tmp path/work."""
+def set_temp_workspace_invalid(tmp_path: Path):
     workspace_dir = tmp_path / "statistics"
     workspace_dir.mkdir(parents=True, exist_ok=True)
     return workspace_dir
@@ -290,7 +281,7 @@ def work_folder_defaults(set_temp_workspace: Path):
 
 
 @pytest.fixture
-def work_folder_saved_variable(set_temp_workspace: Path):
+def work_folder_complete_patch_output(set_temp_workspace: Path):
     """Fixture that ensures a work folder exists for template with saved variable definition values."""
     base_path = set_temp_workspace
     file_name = create_template_yaml(
@@ -304,26 +295,8 @@ def work_folder_saved_variable(set_temp_workspace: Path):
 
 
 @pytest.fixture
-def work_folder_saved_variable_2(
-    set_temp_workspace: Path,
-    sample_variable_definition: VariableDefinition,
-):
-    """Fixture that ensures a work folder exists for template with saved variable definition values."""
-    base_path = set_temp_workspace
-    file_name = create_template_yaml(
-        sample_variable_definition,
-        custom_directory=base_path,
-    )
-    target_path = base_path / file_name
-    yield target_path
-
-    _clean_up_after_test(target_path, base_path)
-
-
-@pytest.fixture
 def _delete_workspace_dir():
-    original_workspace_dir = os.environ.get("WORKSPACE_DIR")
-
+    original_workspace_dir = config.get_workspace_dir()
     if "WORKSPACE_DIR" in os.environ:
         del os.environ["WORKSPACE_DIR"]
 
@@ -388,4 +361,4 @@ VARIABLE_DEFINITION_DICT = {
 @pytest.fixture
 def get_norwegian_descriptions_from_file():
     """Return dict representation of model field descriptions."""
-    return load_descriptions(get_descriptions_path())
+    return load_descriptions(config.get_descriptions_path())
