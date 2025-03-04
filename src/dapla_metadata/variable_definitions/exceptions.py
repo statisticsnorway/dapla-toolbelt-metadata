@@ -3,6 +3,9 @@
 import json
 from functools import wraps
 
+from pytz import UnknownTimeZoneError
+from yaml import YAMLError
+
 from dapla_metadata.variable_definitions.generated.vardef_client.exceptions import (
     OpenApiException,
 )
@@ -85,3 +88,59 @@ class VariableNotFoundError(Exception):
     def __str__(self) -> str:
         """Return the string representation of the exception."""
         return f" {self.message}"
+
+
+class VardefFileError(Exception):
+    """Custom exception for catching errors related to variable definition file handling.
+
+    Attributes:
+        message (str): Message describing the error.
+    """
+
+    def __init__(self, message: str, *args) -> None:  # noqa: ANN002
+        """Accepting the message and any additional arguments."""
+        super().__init__(message, *args)
+        self.message = message
+        self.args = args
+
+    def __str__(self) -> str:
+        """Returning a custom string representation of the exception."""
+        return f"VardefFileError: {self.message}"
+
+
+def vardef_file_error_handler(method):  # noqa: ANN201, ANN001
+    """Decorator for handling exceptions when generating yaml files for variable definitions."""
+
+    @wraps(method)
+    def _impl(*method_args, **method_kwargs):  # noqa: ANN002, ANN003
+        try:
+            return method(
+                *method_args,
+                **method_kwargs,
+            )
+        except FileNotFoundError as e:
+            msg = f"File not found at file path: {method_kwargs.get('file_path', 'unknown file path')}. Original error: {e!s}"
+            raise VardefFileError(msg) from e
+        except FileExistsError as e:
+            msg = f"File already exists and can not be saved: {method_kwargs.get('file_path', 'unknown file path')}"
+            raise VardefFileError(msg) from e
+        except PermissionError as e:
+            msg = f"Permission denied for file path: {method_kwargs.get('file_path', 'unknown file path')} when accessing the file"
+            raise VardefFileError(msg) from e
+        except UnknownTimeZoneError as e:
+            msg = f"Timezone is unknown: {method_kwargs.get('time_zone', 'unknown')}"
+            raise VardefFileError(msg) from e
+        except YAMLError as e:
+            msg = "Not possible to serialize yaml"
+            raise VardefFileError(msg) from e
+        except AttributeError as e:
+            msg = f"There is no such attribute. Original error: {e!s}"
+            raise VardefFileError(msg) from e
+        except EOFError as e:
+            msg = "Unexpected end of file"
+            raise VardefFileError(msg) from e
+        except NotADirectoryError as e:
+            msg = f"Path is not a directory: {method_kwargs.get('file_path', 'unknown file path')}. Original error: {e!s}"
+            raise VardefFileError(msg) from e
+
+    return _impl

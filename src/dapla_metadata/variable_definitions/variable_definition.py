@@ -31,8 +31,10 @@ from dapla_metadata.variable_definitions.generated.vardef_client.models.update_d
 from dapla_metadata.variable_definitions.generated.vardef_client.models.validity_period import (
     ValidityPeriod,
 )
-from dapla_metadata.variable_definitions.utils.template import _find_latest_file_for_id
-from dapla_metadata.variable_definitions.utils.template import (
+from dapla_metadata.variable_definitions.utils.variable_definition_files import (
+    _find_latest_file_for_id,
+)
+from dapla_metadata.variable_definitions.utils.variable_definition_files import (
     _read_variable_definition_file,
 )
 

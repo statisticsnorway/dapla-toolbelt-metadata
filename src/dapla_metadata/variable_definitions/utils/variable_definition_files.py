@@ -1,8 +1,12 @@
+"""Generate structured YAML files from Pydantic models with Norwegian descriptions as comments."""
+
 import os
 from datetime import datetime
 from pathlib import Path
+from typing import cast
 
 import pytz
+from pydantic.config import JsonDict
 from ruamel.yaml import YAML
 from ruamel.yaml import CommentedMap
 
@@ -15,6 +19,7 @@ from dapla_metadata.variable_definitions.generated.vardef_client.models.variable
 )
 from dapla_metadata.variable_definitions.utils.constants import HEADER
 from dapla_metadata.variable_definitions.utils.constants import MACHINE_GENERATED_FIELDS
+from dapla_metadata.variable_definitions.utils.constants import NORWEGIAN_DESCRIPTIONS
 from dapla_metadata.variable_definitions.utils.constants import OWNER_FIELD_NAME
 from dapla_metadata.variable_definitions.utils.constants import TEMPLATE_HEADER
 from dapla_metadata.variable_definitions.utils.constants import (
@@ -30,6 +35,9 @@ from dapla_metadata.variable_definitions.utils.constants import VARIABLE_DEFINIT
 from dapla_metadata.variable_definitions.utils.constants import (
     VARIABLE_STATUS_FIELD_NAME,
 )
+from dapla_metadata.variable_definitions.utils.descriptions import (
+    apply_norwegian_descriptions_to_model,
+)
 
 
 def _model_to_yaml_with_comments(
@@ -38,30 +46,32 @@ def _model_to_yaml_with_comments(
     start_comment: str,
     custom_directory: Path | None = None,
 ) -> Path:
-    """Convert a model instance into a structured YAML file with comments.
+    """Convert a model instance to a structured YAML file with Norwegian descriptions as comments.
 
-    This function:
-    - Extracts data from a model instance.
-    - Adds descriptive comments above each field.
-    - Organizes the YAML output into logical sections with meaningful headers.
-    - Saves the YAML content to a file, ensuring a predictable structure.
-
-    The resulting file is named with a fixed filename and a timestamp to avoid overwriting previous templates.
+    Adds Norwegian descriptions to the model, organizes fields into sections, and saves
+    the YAML file with a structured format and timestamped filename.
 
     Args:
-        model_instance:
-            The instance to convert. Defaults to `DEFAULT_TEMPLATE`.
-        file_name:
-            The file name that the yaml file will get.
-        start_comment:
-            The comment at the top of the generated yaml file.
-        custom_directory:
-            Optional directory where to save the template. defaults to None
+        model_instance: The model instance to convert.
+        file_name: Name of the generated YAML file.
+        start_comment: Comment at the top of the file.
+        custom_directory: Optional directory to save the file.
 
     Returns:
         Path: The file path of the generated YAML file.
     """
     yaml = _configure_yaml()
+
+    from dapla_metadata.variable_definitions.variable_definition import (
+        CompletePatchOutput,
+    )
+    from dapla_metadata.variable_definitions.variable_definition import (
+        VariableDefinition,
+    )
+
+    # Apply new fields to model
+    apply_norwegian_descriptions_to_model(CompletePatchOutput)
+    apply_norwegian_descriptions_to_model(VariableDefinition)
 
     data = model_instance.model_dump()  # Convert Pydantic model instance to dictionary
 
@@ -174,8 +184,8 @@ def _populate_commented_map(
 ) -> None:
     """Add data to a CommentedMap."""
     commented_map[field_name] = value
-    description = model_instance.model_fields[field_name].description
-    if description:
+    description: JsonDict = cast(JsonDict, model_instance.model_fields[field_name].json_schema_extra[NORWEGIAN_DESCRIPTIONS])  # type: ignore[index]
+    if description is not None:
         commented_map.yaml_set_comment_before_after_key(
             field_name,
             before=description,
@@ -220,10 +230,10 @@ def _get_workspace_dir() -> Path:
 
         # Check if the directory exists and is actually a directory
         if not workspace_dir.exists():
-            msg = f"WORKSPACE_DIR '{workspace_dir}' does not exist."
+            msg = f"Directory '{workspace_dir}' does not exist."
             raise FileNotFoundError(msg)
         if not workspace_dir.is_dir():
-            msg = f"WORKSPACE_DIR '{workspace_dir}' is not a directory."
+            msg = f"'{workspace_dir}' is not a directory."
             raise NotADirectoryError(msg)
 
     except KeyError:

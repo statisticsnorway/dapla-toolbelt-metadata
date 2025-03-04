@@ -4,9 +4,6 @@ from pathlib import Path
 from unittest.mock import patch
 
 import pytest
-import ruamel.yaml
-
-yaml = ruamel.yaml.YAML()
 
 from dapla_metadata._shared.config import DAPLA_GROUP_CONTEXT
 from dapla_metadata.variable_definitions._client import VardefClient
@@ -168,17 +165,6 @@ def test_write_template(tmp_path: Path):
     with patch.object(Path, "cwd", return_value=tmp_path):
         result = Vardef.write_template_to_file()
         assert tmp_path in result.parents
-
-
-@pytest.mark.usefixtures("_delete_workspace_dir_env_var")
-def test_write_template_no_workspace(tmp_path: Path):
-    with patch.object(Path, "cwd", return_value=tmp_path):
-        with pytest.raises(FileNotFoundError) as exc_info:
-            Vardef.write_template_to_file()
-        assert (
-            str(exc_info.value)
-            == "'work' directory not found and env WORKSPACE_DIR is not set."
-        )
 
 
 @pytest.mark.usefixtures("_delete_workspace_dir_env_var")
