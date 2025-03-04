@@ -1,5 +1,6 @@
 """Generate structured YAML files from Pydantic models with Norwegian descriptions as comments."""
 
+import logging
 import os
 from datetime import datetime
 from pathlib import Path
@@ -38,6 +39,8 @@ from dapla_metadata.variable_definitions.utils.constants import (
 from dapla_metadata.variable_definitions.utils.descriptions import (
     apply_norwegian_descriptions_to_model,
 )
+
+logger = logging.getLogger(__name__)
 
 
 def _model_to_yaml_with_comments(
@@ -149,13 +152,11 @@ def create_variable_yaml(
 
 def _read_variable_definition_file(file_path: Path) -> dict:
     yaml = YAML()
+
+    logger.debug("Full path to variable definition file %s", file_path)
+    logger.info("Reading from '%s'", file_path.name)
     with file_path.open(encoding="utf-8") as f:
         return yaml.load(f)
-
-
-def _find_latest_file_for_id(variable_definition_id: str) -> Path:
-    raise NotImplementedError
-    return Path(variable_definition_id)
 
 
 def create_template_yaml(

@@ -1,3 +1,4 @@
+import logging
 from datetime import date
 from os import PathLike
 from pathlib import Path
@@ -10,6 +11,7 @@ from dapla_metadata.variable_definitions.complete_patch_output import (
     CompletePatchOutput,
 )
 from dapla_metadata.variable_definitions.exceptions import vardef_exception_handler
+from dapla_metadata.variable_definitions.exceptions import vardef_file_error_handler
 from dapla_metadata.variable_definitions.generated.vardef_client.api.draft_variable_definitions_api import (
     DraftVariableDefinitionsApi,
 )
@@ -32,11 +34,10 @@ from dapla_metadata.variable_definitions.generated.vardef_client.models.validity
     ValidityPeriod,
 )
 from dapla_metadata.variable_definitions.utils.variable_definition_files import (
-    _find_latest_file_for_id,
-)
-from dapla_metadata.variable_definitions.utils.variable_definition_files import (
     _read_variable_definition_file,
 )
+
+logger = logging.getLogger(__name__)
 
 
 class VariableDefinition(CompletePatchOutput):
@@ -50,7 +51,7 @@ class VariableDefinition(CompletePatchOutput):
         CompletePatchOutput: The Pydantic model superclass, representing a Variable Definition.
     """
 
-    _file_path: Path | None = PrivateAttr()
+    _file_path: Path | None = PrivateAttr(None)
 
     def get_file_path(self) -> Path | None:
         """Get the file path where the variable definition has been written to for editing."""
@@ -105,7 +106,7 @@ class VariableDefinition(CompletePatchOutput):
         Returns:
             VariableDefinition: Updated Variable definition with all details.
         """
-        return VariableDefinition.from_model(
+        updated = VariableDefinition.from_model(
             DraftVariableDefinitionsApi(
                 VardefClient.get_client(),
             ).update_variable_definition_by_id(
@@ -114,7 +115,14 @@ class VariableDefinition(CompletePatchOutput):
                 update_draft=update_draft,
             ),
         )
+        logger.info(
+            "Successfully updated variable definition '%s' with ID '%s'",
+            updated.short_name,
+            updated.id,
+        )
+        return updated
 
+    @vardef_file_error_handler
     @vardef_exception_handler
     def update_draft_from_file(
         self,
@@ -122,7 +130,7 @@ class VariableDefinition(CompletePatchOutput):
     ) -> "VariableDefinition":
         """Update this Variable Definition.
 
-        Will automatically read the latest file pertaining to this variable definition. Can
+        Will automatically read the relevant file pertaining to this variable definition. Can
         be overridden by specifying the file_path parameter.
 
         - Variable definition must have status 'DRAFT'.
@@ -134,9 +142,15 @@ class VariableDefinition(CompletePatchOutput):
         Returns:
             VariableDefinition: Updated Variable definition with all details.
         """
-        file_path = Path(
-            file_path or self.get_file_path() or _find_latest_file_for_id(self.id),
-        )
+        try:
+            file_path = Path(
+                file_path or self.get_file_path(),
+            )
+        except TypeError as e:
+            msg = "Could not deduce a path to the file. Please supply a path to the yaml file you wish to submit with the `file_path` parameter."
+            raise ValueError(
+                msg,
+            ) from e
         update_draft = UpdateDraft.from_dict(
             _read_variable_definition_file(
                 file_path,
