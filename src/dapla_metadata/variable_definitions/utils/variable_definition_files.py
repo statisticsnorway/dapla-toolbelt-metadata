@@ -1,6 +1,7 @@
 """Generate structured YAML files from Pydantic models with Norwegian descriptions as comments."""
 
 import os
+import sys
 from datetime import datetime
 from pathlib import Path
 from typing import cast
@@ -43,7 +44,7 @@ def _model_to_yaml_with_comments(
     model_instance: CompletePatchOutput | VariableDefinition,
     file_name: str,
     start_comment: str,
-    custom_directory: Path | None = None,
+    custom_directory: str | Path | None = None,
 ) -> Path:
     """Convert a model instance to a structured YAML file with Norwegian descriptions as comments.
 
@@ -92,11 +93,8 @@ def _model_to_yaml_with_comments(
     base_path = (
         _get_variable_definitions_dir()
         if custom_directory is None
-        else custom_directory
+        else _get_custom_directory(custom_directory)
     )
-
-    if custom_directory is not None:
-        base_path.mkdir(parents=True, exist_ok=True)
 
     file_path = base_path / file_name
 
@@ -232,6 +230,88 @@ def _get_workspace_dir() -> Path:
             raise FileNotFoundError(msg)
 
     return workspace_dir
+
+
+def _get_custom_directory(custom_directory: str) -> Path:
+    custom_directory = Path(custom_directory).resolve()
+
+    if custom_directory.suffix:
+        exception_message = (
+            f"Expected a directory but got a file name: %{custom_directory.name}",
+        )
+        raise ValueError(exception_message)
+
+    if custom_directory.exists() and not custom_directory.is_dir():
+        exception_message = (f"Path exists but is not a directory: {custom_directory}",)
+        raise NotADirectoryError(exception_message)
+
+    dir_name = custom_directory.name
+    # Windows-specific checks
+    if sys.platform.startswith("win"):
+        invalid_chars = r'[<>:"/\\|?*]'
+        reserved_names = {
+            "CON",
+            "PRN",
+            "AUX",
+            "NUL",
+            "COM1",
+            "COM2",
+            "COM3",
+            "COM4",
+            "COM5",
+            "COM6",
+            "COM7",
+            "COM8",
+            "COM9",
+            "LPT1",
+            "LPT2",
+            "LPT3",
+            "LPT4",
+            "LPT5",
+            "LPT6",
+            "LPT7",
+            "LPT8",
+            "LPT9",
+        }
+
+        if any(char in dir_name for char in invalid_chars):
+            exception_message = f"Invalid character in directory name: {dir_name}"
+            raise ValueError(exception_message)
+
+        if dir_name.upper() in reserved_names:
+            exception_message = (
+                f"Directory name '{dir_name}' is a reserved system name."
+            )
+            raise ValueError(exception_message)
+
+        if dir_name.endswith((" ", ".")):
+            exception_message = "Windows directory error."
+            raise ValueError(exception_message)
+
+    # Linux/macOS checks
+    elif sys.platform.startswith("linux") or sys.platform.startswith("darwin"):
+        if "/" in dir_name or "\0" in dir_name:
+            exception_message = f"Invalid character in directory name: {dir_name}"
+            raise ValueError(exception_message)
+    max_length = 255
+    if len(dir_name) > max_length:
+        exception_message = (
+            "Directory name exceeds the maximum length of 255 characters."
+        )
+        raise ValueError(exception_message)
+
+    try:
+        custom_directory.mkdir(parents=True, exist_ok=True)
+    except PermissionError as e:
+        exception_message = (
+            f"Insufficient permissions to create directory: {custom_directory}",
+        )
+        raise PermissionError(exception_message) from e
+    except OSError as e:
+        exception_message = f"Failed to create directory {custom_directory}: {e!s}"
+        raise OSError(exception_message) from e
+
+    return custom_directory
 
 
 def _get_variable_definitions_dir():
