@@ -8,6 +8,9 @@ from dapla_metadata.variable_definitions.generated.vardef_client.configuration i
 )
 
 VARDEF_HOST_TEST = "https://metadata.intern.test.ssb.no"
+WORKSPACE_DIR = "WORKSPACE_DIR"
+VARDEF_DESCRIPTIONS_FILE_PATH = "VARDEF_DESCRIPTIONS_FILE_PATH"
+VARDEF_DEFAULT_DESCRIPTION_PATH = "src/dapla_metadata/variable_definitions/resources/vardef_model_descriptions_nb.yaml"
 
 
 def get_descriptions_path() -> str:
@@ -19,9 +22,14 @@ def get_descriptions_path() -> str:
         str: The file path to the descriptions.
     """
     return (
-        get_config_item("VARDEF_DESCRIPTIONS_FILE_PATH")
-        or "src/dapla_metadata/variable_definitions/resources/vardef_model_descriptions_nb.yaml"
+        get_config_item(VARDEF_DESCRIPTIONS_FILE_PATH)
+        or VARDEF_DEFAULT_DESCRIPTION_PATH
     )
+
+
+def get_workspace_dir() -> str:
+    """Get the path to work directory from workspace environment variable."""
+    return get_config_item("WORKSPACE_DIR")
 
 
 def get_active_group() -> str:
