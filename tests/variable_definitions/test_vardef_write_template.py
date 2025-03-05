@@ -4,7 +4,7 @@ from unittest.mock import patch
 
 import pytest
 from pytz import UnknownTimeZoneError
-from yaml import YAMLError
+from ruamel.yaml import YAMLError
 
 from dapla_metadata.variable_definitions.exceptions import VardefFileError
 from dapla_metadata.variable_definitions.vardef import Vardef
@@ -18,27 +18,20 @@ def test_write_template():
     assert file_path.exists()
 
 
-@pytest.mark.usefixtures("_delete_workspace_dir")
-def test_write_template_path_no_env_value(tmp_path: Path):
-    """No value for 'WORKSPACE_DIR', but folder 'work' exists."""
-    workspace_dir = tmp_path / "work"
-    workspace_dir.mkdir(parents=True, exist_ok=True)
-    with patch.object(Path, "cwd", return_value=workspace_dir):
-        result = Vardef.write_template_to_file()
-    result = str(result)
-    # remove time stamp result
-    result_without_timestamp = result.rsplit("_", 1)[0] + ".yaml"
-    expected_result = str(
-        workspace_dir / "variable_definitions/variable_definition_template.yaml",
-    )
-    assert result_without_timestamp == expected_result
+def test_write_template_no_workspace(monkeypatch: pytest.MonkeyPatch):
+    monkeypatch.delenv("WORKSPACE_DIR", raising=False)
+    with pytest.raises(
+        VardefFileError,
+        match="VardefFileError: File not found at file path: unknown file path",
+    ):
+        Vardef.write_template_to_file()
 
 
-@pytest.mark.usefixtures("set_temp_workspace")
-def test_write_template_logger(caplog):
-    caplog.set_level(logging.INFO)
-    Vardef.write_template_to_file()
-    assert "Successfully written to file" in caplog.text
+def test_write_template_from_tmp_path():
+    base_path = Path("../")
+    with patch.object(Path, "cwd", return_value=base_path):
+        file_path = Vardef.write_template_to_file()
+        assert file_path.exists()
 
 
 @pytest.mark.usefixtures("set_temp_workspace_invalid")
@@ -46,7 +39,17 @@ def test_write_template_invalid():
     """Env 'WORKSPACE_DIR' not present and 'work' not on path."""
     with pytest.raises(
         VardefFileError,
-        match="VardefFileError: File not found at file path: unknown file path. Original error: 'work' directory not found and env WORKSPACE_DIR is not set.",
+        match="VardefFileError: File not found at file path: unknown file path.",
+    ):
+        Vardef.write_template_to_file()
+
+
+def test_write_template_no_work_folder(monkeypatch: pytest.MonkeyPatch):
+    monkeypatch.setenv("WORKSPACE_DIR", "statistics/a/work")
+
+    with pytest.raises(
+        VardefFileError,
+        match="VardefFileError: File not found at file path: unknown file path",
     ):
         Vardef.write_template_to_file()
 

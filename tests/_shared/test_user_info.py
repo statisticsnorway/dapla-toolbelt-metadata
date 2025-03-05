@@ -47,7 +47,10 @@ def test_dapla_lab_user_info_short_email(
     assert DaplaLabUserInfo().short_email == raw_jwt_payload["email"]
 
 
-def test_dapla_lab_user_info_short_email_no_jwt_available():
+def test_dapla_lab_user_info_short_email_no_jwt_available(
+    monkeypatch: pytest.MonkeyPatch,
+):
+    monkeypatch.delenv("OIDC_TOKEN", raising=False)
     assert DaplaLabUserInfo().short_email is None
 
 
@@ -90,19 +93,20 @@ def test_get_owner(
 
 
 @pytest.mark.parametrize(
-    ("environment_variable_name", "environment_variable_value"),
+    ("environment_variable_value"),
     [
-        (None, None),
-        (DAPLA_GROUP_CONTEXT, ""),
+        None,
+        "",
     ],
 )
 def test_get_owner_errors(
     monkeypatch: pytest.MonkeyPatch,
-    environment_variable_name: str,
-    environment_variable_value: str,
+    environment_variable_value: str | None,
 ):
-    if environment_variable_name:
-        monkeypatch.setenv(environment_variable_name, environment_variable_value)
+    if environment_variable_value is None:
+        monkeypatch.delenv(DAPLA_GROUP_CONTEXT, raising=False)
+    else:
+        monkeypatch.setenv(DAPLA_GROUP_CONTEXT, environment_variable_value)
 
     with pytest.raises(
         OSError,

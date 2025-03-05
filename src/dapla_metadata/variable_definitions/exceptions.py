@@ -4,14 +4,14 @@ import json
 from functools import wraps
 
 from pytz import UnknownTimeZoneError
-from yaml import YAMLError
+from ruamel.yaml.error import YAMLError
 
 from dapla_metadata.variable_definitions.generated.vardef_client.exceptions import (
     OpenApiException,
 )
 
 
-class VardefClientException(OpenApiException):
+class VardefClientError(Exception):
     """Custom exception to represent errors encountered in the Vardef client.
 
     This exception extracts and formats error details from a JSON response body
@@ -64,7 +64,7 @@ def vardef_exception_handler(method):  # noqa: ANN201, ANN001
         try:
             return method(self, *method_args, **method_kwargs)
         except OpenApiException as e:
-            raise VardefClientException(e.body) from e
+            raise VardefClientError(e.body) from e
 
     return _impl
 
@@ -119,7 +119,7 @@ def vardef_file_error_handler(method):  # noqa: ANN201, ANN001
                 **method_kwargs,
             )
         except FileNotFoundError as e:
-            msg = f"File not found at file path: {method_kwargs.get('file_path', 'unknown file path')}. Original error: {e!s}"
+            msg = f"File not found at file path: {method_kwargs.get('file_path', 'unknown file path')}.\nOriginal error:\n{e!s}"
             raise VardefFileError(msg) from e
         except FileExistsError as e:
             msg = f"File already exists and can not be saved: {method_kwargs.get('file_path', 'unknown file path')}"
@@ -131,7 +131,7 @@ def vardef_file_error_handler(method):  # noqa: ANN201, ANN001
             msg = f"Timezone is unknown: {method_kwargs.get('time_zone', 'unknown')}"
             raise VardefFileError(msg) from e
         except YAMLError as e:
-            msg = "Not possible to serialize yaml"
+            msg = f"Invalid yaml. Please fix the formatting in your yaml file.\nOriginal error:\n{e!s}"
             raise VardefFileError(msg) from e
         except AttributeError as e:
             msg = f"There is no such attribute. Original error: {e!s}"

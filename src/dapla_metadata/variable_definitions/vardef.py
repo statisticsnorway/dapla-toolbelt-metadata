@@ -29,6 +29,8 @@ from dapla_metadata.variable_definitions.variable_definition import VariableDefi
 
 logger = logging.getLogger(__name__)
 
+logger = logging.getLogger(__name__)
+
 
 class Vardef:
     """Create, maintain and read Variable Definitions.
@@ -228,20 +230,43 @@ class Vardef:
         file_path = create_template_yaml(
             custom_directory=Path(custom_file_path) if custom_file_path else None,
         )
-        logger.info("Successfully written to file %s", file_path)
+        logger.info(
+            f"Created editable variable definition template file at {file_path}",  # noqa: G004
+        )
         return file_path
 
     @classmethod
     @vardef_file_error_handler
     def write_variable_to_file(
         cls,
-        variable_definition_id: str,
-    ) -> Path:
+        variable_definition_id: str | None = None,
+        short_name: str | None = None,
+    ) -> VariableDefinition:
         """Write template with default values to a yaml file."""
-        variable_definition = cls.get_variable_definition_by_id(
-            variable_definition_id=variable_definition_id,
-        )
-        print("Successfully written to file")  # noqa: T201
-        return create_variable_yaml(
+        if variable_definition_id is not None and short_name is not None:
+            msg = "Only one of variable_definition_id or short_name may be specified"
+            raise ValueError(
+                msg,
+            )
+        if variable_definition_id is not None:
+            variable_definition = cls.get_variable_definition_by_id(
+                variable_definition_id=variable_definition_id,
+            )
+        elif short_name is not None:
+            variable_definition = cls.get_variable_definition_by_shortname(
+                short_name=short_name,
+            )
+        else:
+            msg = "One of variable_definition_id or short_name must be specified"
+            raise ValueError(
+                msg,
+            )
+
+        file_path = create_variable_yaml(
             model_instance=variable_definition,
         )
+        variable_definition.set_file_path(file_path)
+        logger.info(
+            f"Created editable variable definition file at {file_path}",  # noqa: G004
+        )
+        return variable_definition
