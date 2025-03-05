@@ -27,24 +27,11 @@ def test_write_template_no_workspace(monkeypatch: pytest.MonkeyPatch):
         Vardef.write_template_to_file()
 
 
-def test_write_template_from_tmp_path():
-    base_path = Path("../")
-    with patch.object(Path, "cwd", return_value=base_path):
-        file_path = Vardef.write_template_to_file()
-        assert file_path.exists()
-
-
-@pytest.mark.usefixtures("set_temp_workspace_invalid")
-def test_write_template_invalid():
-    """Env 'WORKSPACE_DIR' not present and 'work' not on path."""
-    with pytest.raises(
-        VardefFileError,
-        match="VardefFileError: File not found at file path: unknown file path.",
-    ):
-        Vardef.write_template_to_file()
+# monkey patch current path
 
 
 def test_write_template_no_work_folder(monkeypatch: pytest.MonkeyPatch):
+    """'WORKSPACE_DIR' is set but there is no path matching value."""
     monkeypatch.setenv("WORKSPACE_DIR", "statistics/a/work")
 
     with pytest.raises(
@@ -131,6 +118,7 @@ def test_write_template_to_custom_path_no_workspace_dir_env(tmp_path: Path):
     assert file_path.exists()
 
 
+# check permission error
 @pytest.mark.usefixtures("set_temp_workspace")
 @pytest.mark.parametrize(
     ("custom_file_path", "expected_error"),

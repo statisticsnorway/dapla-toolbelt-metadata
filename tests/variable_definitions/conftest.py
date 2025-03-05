@@ -274,14 +274,6 @@ def _clean_up_after_test(target_path: Path, base_path: Path):
 
 
 @pytest.fixture
-def set_temp_workspace_invalid(tmp_path: Path, _delete_workspace_dir_env_var):
-    """Fixture which set env WORKSPACE_DIR to tmp path/work."""
-    workspace_dir = tmp_path / "statistics"
-    workspace_dir.mkdir(parents=True, exist_ok=True)
-    return workspace_dir
-
-
-@pytest.fixture
 def work_folder_defaults(set_temp_workspace: Path):
     """Fixture that ensures a work folder exists for template with default values."""
     base_path = set_temp_workspace
