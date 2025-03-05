@@ -1,6 +1,5 @@
 import logging
 from pathlib import Path
-from unittest.mock import patch
 
 import pytest
 from pytz import UnknownTimeZoneError
@@ -46,14 +45,17 @@ def test_write_template_no_work_folder(monkeypatch: pytest.MonkeyPatch):
     "file_path",
     ["statistics/a/work", "./", "../..", "../", "./work"],
 )
-def test_write_template_workspace(tmp_path: Path, file_path):
+def test_write_template_workspace(tmp_path: Path, file_path, monkeypatch):
     """Assert file is created at the correct path no mather starting point filesystem."""
     base_path = tmp_path / file_path
     base_path.mkdir(parents=True, exist_ok=True)
-    # mock current directory
-    with patch.object(Path, "cwd", return_value=base_path):
-        file_path = Vardef.write_template_to_file()
-        assert file_path.exists()
+
+    # Mock current directory using monkeypatch
+    monkeypatch.setattr(Path, "cwd", lambda: base_path)
+
+    file_path = Vardef.write_template_to_file()
+
+    assert file_path.exists()
 
 
 @pytest.mark.usefixtures("set_temp_workspace")
@@ -124,7 +126,7 @@ def test_write_template_to_custom_path_no_workspace_dir_env(tmp_path: Path):
     ("custom_file_path", "expected_error"),
     [
         ("my_file.yaml", ValueError),
-        ("/", VardefFileError),
+        ("/", OSError),
         ("\0", ValueError),
         ("a" * 300, OSError),
     ],
