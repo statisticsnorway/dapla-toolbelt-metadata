@@ -12,6 +12,7 @@ from ruamel.yaml import CommentedMap
 
 from dapla_metadata.variable_definitions import config
 from dapla_metadata.variable_definitions.complete_patch_output import DEFAULT_TEMPLATE
+from dapla_metadata.variable_definitions.exceptions import VardefFileError
 from dapla_metadata.variable_definitions.generated.vardef_client.models.complete_response import (
     CompleteResponse,
 )
@@ -226,7 +227,7 @@ def _get_workspace_dir() -> Path:
 
     if workspace_dir is None:
         msg = "WORKSPACE_DIR is not set in the configuration."
-        raise ValueError(msg)
+        raise VardefFileError(msg)
 
     if not isinstance(workspace_dir, str | Path):
         msg = f"Expected WORKSPACE_DIR to be a string or Path, but got {type(workspace_dir).__name__}"
