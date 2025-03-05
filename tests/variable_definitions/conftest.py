@@ -372,3 +372,10 @@ VARIABLE_DEFINITION_DICT = {
 def get_norwegian_descriptions_from_file():
     """Return dict representation of model field descriptions."""
     return load_descriptions(config.get_descriptions_path())
+
+
+@pytest.fixture
+def set_workspace_not_dir(tmp_path: Path):
+    file_path = tmp_path / "funnyfiles.txt"
+    file_path.write_text("This is a text file.")
+    return file_path

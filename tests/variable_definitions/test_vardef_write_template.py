@@ -170,3 +170,10 @@ def test_write_template_exceptions(mock_target: str, side_effect: Exception, moc
 
     with pytest.raises(VardefFileError):
         Vardef.write_template_to_file()
+
+
+def test_logging_workspace_dir(caplog):
+    """Test logging intended for user."""
+    caplog.set_level(logging.INFO)
+    Vardef.write_template_to_file()
+    assert "Created editable variable definition template file" in caplog.text
