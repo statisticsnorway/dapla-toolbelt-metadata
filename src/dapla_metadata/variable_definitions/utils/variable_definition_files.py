@@ -92,7 +92,7 @@ def _model_to_yaml_with_comments(
     base_path = (
         _get_variable_definitions_dir()
         if custom_directory is None
-        else _get_custom_directory(custom_directory)
+        else _validate_and_create_directory(custom_directory)
     )
 
     file_path = base_path / file_name
@@ -231,7 +231,7 @@ def _get_workspace_dir() -> Path:
     return workspace_dir
 
 
-def _get_custom_directory(custom_directory: Path) -> Path:
+def _validate_and_create_directory(custom_directory: Path) -> Path:
     """Get or create a given path.
 
     Ensure that the given path is a valid directory, creating it if necessary.
