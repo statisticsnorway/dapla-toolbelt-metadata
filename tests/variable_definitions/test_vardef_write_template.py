@@ -157,18 +157,16 @@ def test_write_template_to_custom_path_exists(tmp_path: Path, custom_path: str):
 
 @pytest.mark.usefixtures("set_temp_workspace")
 @pytest.mark.parametrize(
-    "custom_file_path",
+    ("custom_file_path", "expected_error"),
     [
-        "my_file.yaml",
-        "/",
-        "ooohsoooolooooooongcaaaanaaaaanamebeeeeethiiiisdaaaaayissooooooooloooooooongandiwaaaaanttoooswim"
-        "ooohsoooolooooooongcaaaanaaaaanamebeeeeethiiiisdaaaaayissooooooooloooooooongandiwaaaaanttoooswim"
-        "ooohsoooolooooooongcaaaanaaaaanamebeeeeethiiiisdaaaaayissooooooooloooooooongandiwaaaaanttoooswim",
-        "\0",
+        ("my_file.yaml", ValueError),
+        ("/", OSError),
+        ("\0", ValueError),
+        ("a" * 300, OSError),
     ],
 )
-def test_write_template_to_invalid_custom_directory(custom_file_path):
-    with pytest.raises(VardefFileError):
+def test_write_template_to_invalid_custom_directory(custom_file_path, expected_error):
+    with pytest.raises(expected_error):
         Vardef.write_template_to_file(custom_file_path=custom_file_path)
 
 
