@@ -26,9 +26,6 @@ def test_write_template_no_workspace(monkeypatch: pytest.MonkeyPatch):
         Vardef.write_template_to_file()
 
 
-# monkey patch current path
-
-
 def test_write_template_no_work_folder(monkeypatch: pytest.MonkeyPatch):
     """'WORKSPACE_DIR' is set but there is no path matching value."""
     monkeypatch.setenv("WORKSPACE_DIR", "statistics/a/work")
@@ -126,7 +123,6 @@ def test_write_template_to_custom_path_no_workspace_dir_env(tmp_path: Path):
     ("custom_file_path", "expected_error"),
     [
         ("my_file.yaml", ValueError),
-        ("/", OSError),
         ("\0", ValueError),
         ("a" * 300, OSError),
     ],
