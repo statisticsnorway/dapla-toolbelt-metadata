@@ -141,10 +141,9 @@ def test_write_template_to_custom_path_no_workspace_dir_env(tmp_path: Path):
 def test_write_template_to_invalid_custom_directory(
     custom_file_path,
     expected_error,
-    tmp_path: Path,
 ):
     with pytest.raises(expected_error):
-        Vardef.write_template_to_file(custom_file_path=tmp_path / custom_file_path)
+        Vardef.write_template_to_file(custom_file_path=custom_file_path)
 
 
 @pytest.mark.parametrize(
