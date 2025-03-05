@@ -244,9 +244,7 @@ def _get_workspace_dir() -> Path:
 
 
 def _validate_and_create_directory(custom_directory: Path) -> Path:
-    """Get or create a given path.
-
-    Ensure that the given path is a valid directory, creating it if necessary.
+    """Ensure that the given path is a valid directory, creating it if necessary.
 
     Args:
         custom_directory (Path): The target directory path.
