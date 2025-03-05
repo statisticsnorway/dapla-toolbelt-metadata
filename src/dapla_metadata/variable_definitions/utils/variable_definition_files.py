@@ -1,5 +1,6 @@
 """Generate structured YAML files from Pydantic models with Norwegian descriptions as comments."""
 
+import logging
 from datetime import datetime
 from pathlib import Path
 from typing import cast
@@ -10,10 +11,13 @@ from ruamel.yaml import YAML
 from ruamel.yaml import CommentedMap
 
 from dapla_metadata.variable_definitions import config
+from dapla_metadata.variable_definitions.complete_patch_output import DEFAULT_TEMPLATE
+from dapla_metadata.variable_definitions.generated.vardef_client.models.complete_response import (
+    CompleteResponse,
+)
 from dapla_metadata.variable_definitions.generated.vardef_client.models.variable_status import (
     VariableStatus,
 )
-from dapla_metadata.variable_definitions.utils.constants import DEFAULT_TEMPLATE
 from dapla_metadata.variable_definitions.utils.constants import HEADER
 from dapla_metadata.variable_definitions.utils.constants import MACHINE_GENERATED_FIELDS
 from dapla_metadata.variable_definitions.utils.constants import NORWEGIAN_DESCRIPTIONS
@@ -35,12 +39,12 @@ from dapla_metadata.variable_definitions.utils.constants import (
 from dapla_metadata.variable_definitions.utils.descriptions import (
     apply_norwegian_descriptions_to_model,
 )
-from dapla_metadata.variable_definitions.variable_definition import CompletePatchOutput
-from dapla_metadata.variable_definitions.variable_definition import VariableDefinition
+
+logger = logging.getLogger(__name__)
 
 
 def _model_to_yaml_with_comments(
-    model_instance: CompletePatchOutput | VariableDefinition,
+    model_instance: CompleteResponse,
     file_name: str,
     start_comment: str,
     custom_directory: Path | None = None,
@@ -57,9 +61,16 @@ def _model_to_yaml_with_comments(
         custom_directory: Optional directory to save the file.
 
     Returns:
-        Path: File path of the generated YAML file.
+        Path: The file path of the generated YAML file.
     """
     yaml = _configure_yaml()
+
+    from dapla_metadata.variable_definitions.variable_definition import (
+        CompletePatchOutput,
+    )
+    from dapla_metadata.variable_definitions.variable_definition import (
+        VariableDefinition,
+    )
 
     # Apply new fields to model
     apply_norwegian_descriptions_to_model(CompletePatchOutput)
@@ -92,11 +103,8 @@ def _model_to_yaml_with_comments(
     base_path = (
         _get_variable_definitions_dir()
         if custom_directory is None
-        else custom_directory
+        else _validate_and_create_directory(custom_directory)
     )
-
-    if custom_directory is not None:
-        base_path.mkdir(parents=True, exist_ok=True)
 
     file_path = base_path / file_name
 
@@ -120,15 +128,15 @@ def _model_to_yaml_with_comments(
 
 
 def create_variable_yaml(
-    model_instance: VariableDefinition,
+    model_instance: CompleteResponse,
     custom_directory: Path | None = None,
 ) -> Path:
     """Creates a yaml file for an existing variable definition."""
     file_name = _create_file_name(
         "variable_definition",
         _get_current_time(),
-        _get_shortname(model_instance),
-        _get_variable_definition_id(model_instance),
+        model_instance.short_name,
+        model_instance.id,
     )
 
     return _model_to_yaml_with_comments(
@@ -139,8 +147,17 @@ def create_variable_yaml(
     )
 
 
+def _read_variable_definition_file(file_path: Path) -> dict:
+    yaml = YAML()
+
+    logger.debug("Full path to variable definition file %s", file_path)
+    logger.info("Reading from '%s'", file_path.name)
+    with file_path.open(encoding="utf-8") as f:
+        return yaml.load(f)
+
+
 def create_template_yaml(
-    model_instance: CompletePatchOutput = DEFAULT_TEMPLATE,
+    model_instance: CompleteResponse = DEFAULT_TEMPLATE,
     custom_directory: Path | None = None,
 ) -> Path:
     """Creates a template yaml file for a new variable definition."""
@@ -161,7 +178,7 @@ def _populate_commented_map(
     field_name: str,
     value: str,
     commented_map: CommentedMap,
-    model_instance: CompletePatchOutput | VariableDefinition,
+    model_instance: CompleteResponse,
 ) -> None:
     """Add data to a CommentedMap."""
     commented_map[field_name] = value
@@ -228,6 +245,43 @@ def _get_workspace_dir() -> Path:
     return workspace_dir
 
 
+def _validate_and_create_directory(custom_directory: Path) -> Path:
+    """Ensure that the given path is a valid directory, creating it if necessary.
+
+    Args:
+        custom_directory (Path): The target directory path.
+
+    Returns:
+        Path: The resolved absolute path of the directory.
+
+    Raises:
+        ValueError: If the provided path has a file suffix, indicating a file name instead of a directory.
+        NotADirectoryError: If the path exists but is not a directory.
+        PermissionError: If there are insufficient permissions to create the directory.
+        OSError: If an OS-related error occurs while creating the directory.
+    """
+    custom_directory = Path(custom_directory).resolve()
+
+    if custom_directory.suffix:
+        msg = f"Expected a directory but got a file name: %{custom_directory.name}"
+        raise ValueError(msg)
+
+    if custom_directory.exists() and not custom_directory.is_dir():
+        msg = f"Path exists but is not a directory: {custom_directory}"
+        raise NotADirectoryError(msg)
+
+    try:
+        custom_directory.mkdir(parents=True, exist_ok=True)
+    except PermissionError as e:
+        msg = f"Insufficient permissions to create directory: {custom_directory}"
+        raise PermissionError(msg) from e
+    except OSError as e:
+        msg = f"Failed to create directory {custom_directory}: {e!s}"
+        raise OSError(msg) from e
+
+    return custom_directory
+
+
 def _get_variable_definitions_dir():
     """Get or create the variable definitions directory inside the workspace."""
     workspace_dir = _get_workspace_dir()
@@ -249,15 +303,3 @@ def _configure_yaml() -> YAML:
     )
 
     return yaml
-
-
-def _get_shortname(
-    model_instance: CompletePatchOutput | VariableDefinition,
-) -> str | None:
-    return model_instance.short_name
-
-
-def _get_variable_definition_id(
-    model_instance: CompletePatchOutput | VariableDefinition,
-) -> str | None:
-    return model_instance.id

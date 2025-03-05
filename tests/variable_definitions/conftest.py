@@ -6,6 +6,8 @@ from pathlib import Path
 import pytest
 
 from dapla_metadata.variable_definitions import config
+from dapla_metadata.variable_definitions._client import VardefClient
+from dapla_metadata.variable_definitions.complete_patch_output import DEFAULT_TEMPLATE
 from dapla_metadata.variable_definitions.generated import vardef_client
 from dapla_metadata.variable_definitions.generated.vardef_client.api_client import (
     ApiClient,
@@ -37,24 +39,47 @@ from dapla_metadata.variable_definitions.generated.vardef_client.models.validity
 from dapla_metadata.variable_definitions.generated.vardef_client.models.variable_status import (
     VariableStatus,
 )
-from dapla_metadata.variable_definitions.utils.constants import DEFAULT_TEMPLATE
 from dapla_metadata.variable_definitions.utils.descriptions import load_descriptions
 from dapla_metadata.variable_definitions.utils.variable_definition_files import (
     create_template_yaml,
 )
 from dapla_metadata.variable_definitions.variable_definition import CompletePatchOutput
 from dapla_metadata.variable_definitions.variable_definition import VariableDefinition
+from tests.utils.constants import DAPLA_GROUP_CONTEXT
+from tests.utils.constants import VARDEF_EXAMPLE_ACTIVE_GROUP
 from tests.utils.constants import VARDEF_EXAMPLE_DEFINITION_ID
 from tests.utils.constants import VARDEF_EXAMPLE_INVALID_ID
 from tests.utils.microcks_testcontainer import MicrocksContainer
+from tests.variable_definitions.constants import OPENAPI_DIR
 
 
-@pytest.fixture
+@pytest.fixture(autouse=True)
+def _set_dapla_group_context(
+    monkeypatch: pytest.MonkeyPatch,
+):
+    monkeypatch.setenv(DAPLA_GROUP_CONTEXT, VARDEF_EXAMPLE_ACTIVE_GROUP)
+
+
+@pytest.fixture(scope="session")
 def client_configuration(vardef_mock_service) -> Configuration:
     return vardef_client.Configuration(
         host=vardef_mock_service.get_mock_url(),
         access_token="test_dummy",  # noqa: S106
     )
+
+
+@pytest.fixture(autouse=True, scope="session")
+def _configure_vardef_client(client_configuration):
+    VardefClient.set_config(client_configuration)
+
+
+@pytest.fixture(autouse=True)
+def set_temp_workspace(tmp_path: Path):
+    """Fixture which set env WORKSPACE_DIR to tmp path/work."""
+    workspace_dir = tmp_path / "work"
+    workspace_dir.mkdir(parents=True, exist_ok=True)
+    os.environ["WORKSPACE_DIR"] = str(workspace_dir)
+    return workspace_dir
 
 
 @pytest.fixture
@@ -198,11 +223,11 @@ def patch(language_string_type, contact, owner) -> Patch:
 
 
 @pytest.fixture(scope="session")
-def vardef_mock_service(
-    openapi_definition: str = "tests/variable_definitions/resources/variable-definitions-0.1.yml",
-):
+def vardef_mock_service():
     with MicrocksContainer() as container:
-        container.upload_primary_artifact(openapi_definition)
+        container.upload_primary_artifact(
+            str(OPENAPI_DIR / "variable-definitions-internal.yml"),
+        )
         yield container
 
 
@@ -249,22 +274,6 @@ def _clean_up_after_test(target_path: Path, base_path: Path):
 
 
 @pytest.fixture
-def set_temp_workspace(tmp_path: Path):
-    """Fixture which set env WORKSPACE_DIR to tmp path/work."""
-    workspace_dir = tmp_path / "work"
-    workspace_dir.mkdir(parents=True, exist_ok=True)
-    os.environ["WORKSPACE_DIR"] = str(workspace_dir)
-    return workspace_dir
-
-
-@pytest.fixture
-def set_temp_workspace_invalid(tmp_path: Path):
-    workspace_dir = tmp_path / "statistics"
-    workspace_dir.mkdir(parents=True, exist_ok=True)
-    return workspace_dir
-
-
-@pytest.fixture
 def work_folder_defaults(set_temp_workspace: Path):
     """Fixture that ensures a work folder exists for template with default values."""
     base_path = set_temp_workspace
@@ -295,8 +304,9 @@ def work_folder_complete_patch_output(set_temp_workspace: Path):
 
 
 @pytest.fixture
-def _delete_workspace_dir():
-    original_workspace_dir = config.get_workspace_dir()
+def _delete_workspace_dir_env_var(set_temp_workspace):  # noqa: ARG001
+    original_workspace_dir = os.environ.get("WORKSPACE_DIR")
+
     if "WORKSPACE_DIR" in os.environ:
         del os.environ["WORKSPACE_DIR"]
 
