@@ -125,7 +125,7 @@ def test_write_template_to_custom_path_directory_exist(
     assert file_name_minus_timestamp == "variable_definition_template.yaml"
 
 
-@pytest.mark.usefixtures("_delete_workspace_dir")
+@pytest.mark.usefixtures("_delete_workspace_dir_env_var")
 def test_write_template_to_custom_path_no_workspace_dir_env(tmp_path: Path):
     file_path = Vardef.write_template_to_file(custom_file_path=tmp_path / "cki/job")
     assert file_path.exists()
