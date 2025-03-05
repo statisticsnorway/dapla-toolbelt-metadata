@@ -11,7 +11,7 @@ VARDEF_HOST_TEST = "https://metadata.intern.test.ssb.no"
 
 
 def get_descriptions_path() -> str:
-    """Get the file path to the Norwegian descriptions.
+    """Get the relative file path from the repo root to the Norwegian descriptions.
 
     First checks the `VARDEF_DESCRIPTIONS_FILE_PATH` environment variable; if not set, returns a default path.
 

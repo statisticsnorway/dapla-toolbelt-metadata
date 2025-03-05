@@ -14,16 +14,25 @@ from dapla_metadata.variable_definitions.config import get_descriptions_path
 logger = logging.getLogger(__name__)
 
 
-def load_descriptions(file_path_str: str) -> dict:
+def get_repo_root() -> Path:
+    """Get an absolute Path to the root of the repo."""
+    number_of_directories_up_from_descriptions_file = 4
+    return (
+        Path(__file__)
+        .resolve()
+        .parents[number_of_directories_up_from_descriptions_file]
+    )
+
+
+def load_descriptions(file_path: Path) -> dict:
     """Load and return the contents of a YAML file as a dictionary.
 
     Args:
-        file_path_str (str): Path to the YAML file.
+        file_path (Path): Path to the YAML file.
 
     Returns:
     dict: Parsed contents of the YAML file.
     """
-    file_path = Path(file_path_str)
     with Path.open(file_path, encoding="utf-8") as f:
         return yaml.safe_load(f)
 
@@ -45,7 +54,9 @@ def apply_norwegian_descriptions_to_model(
     """
     new_fields = {}
 
-    descriptions = load_descriptions(get_descriptions_path())
+    descriptions = load_descriptions(
+        get_repo_root() / get_descriptions_path(),
+    )
 
     for field_name, field_info in model.model_fields.items():
         new_description: str = descriptions.get(
@@ -55,17 +66,19 @@ def apply_norwegian_descriptions_to_model(
         if "No description in norwegian found" in new_description:
             logger.warning("Missing description for %s", field_name)
         else:
-            logger.info("Field %s: %s", field_name, new_description)
+            logger.debug("Field %s: %s", field_name, new_description)
 
         new_fields[field_name] = Field(  # type: ignore[call-overload]
             default=field_info.default,
             alias=field_info.alias,
             title=field_info.title,
             description=field_info.description,
-            annotation=field_info.annotation,
             json_schema_extra=cast(
                 JsonDict,
-                {"norwegian_description": new_description},
+                {
+                    "norwegian_description": new_description,
+                    "annotation": field_info.annotation,
+                },
             ),
         )
 
