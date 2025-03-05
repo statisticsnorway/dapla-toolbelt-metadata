@@ -1,6 +1,5 @@
 """Generate structured YAML files from Pydantic models with Norwegian descriptions as comments."""
 
-import os
 from datetime import datetime
 from pathlib import Path
 from typing import cast
@@ -10,6 +9,7 @@ from pydantic.config import JsonDict
 from ruamel.yaml import YAML
 from ruamel.yaml import CommentedMap
 
+from dapla_metadata.variable_definitions import config
 from dapla_metadata.variable_definitions.generated.vardef_client.models.variable_status import (
     VariableStatus,
 )
@@ -205,31 +205,25 @@ def _get_current_time() -> str:
 
 def _get_workspace_dir() -> Path:
     """Determine the workspace directory."""
-    try:
-        # Attempt to get the directory from the environment variable
-        workspace_dir = Path(os.environ["WORKSPACE_DIR"])
+    workspace_dir = config.get_workspace_dir()
 
-        # Check if the directory exists and is actually a directory
-        if not workspace_dir.exists():
-            msg = f"Directory '{workspace_dir}' does not exist."
-            raise FileNotFoundError(msg)
-        if not workspace_dir.is_dir():
-            msg = f"'{workspace_dir}' is not a directory."
-            raise NotADirectoryError(msg)
+    if workspace_dir is None:
+        msg = "WORKSPACE_DIR is not set in the configuration."
+        raise ValueError(msg)
 
-    except KeyError:
-        # Fallback: search for a directory called 'work' starting from the current directory
-        current_dir = Path.cwd()
-        while current_dir != current_dir.parent:
-            potential_workspace = current_dir / "work"
-            if potential_workspace.exists() and potential_workspace.is_dir():
-                workspace_dir = potential_workspace
-                break
-            current_dir = current_dir.parent
-        else:
-            # Raise an error if 'work' directory is not found
-            msg = "'work' directory not found and env WORKSPACE_DIR is not set."
-            raise FileNotFoundError(msg)
+    if not isinstance(workspace_dir, str | Path):
+        msg = f"Expected WORKSPACE_DIR to be a string or Path, but got {type(workspace_dir).__name__}"
+        raise TypeError
+
+    workspace_dir = Path(workspace_dir).resolve()
+
+    if not workspace_dir.exists():
+        msg = f"Directory '{workspace_dir}' does not exist."
+        raise FileNotFoundError(msg)
+
+    if not workspace_dir.is_dir():
+        msg = f"'{workspace_dir}' is not a directory."
+        raise NotADirectoryError(msg)
 
     return workspace_dir
 
