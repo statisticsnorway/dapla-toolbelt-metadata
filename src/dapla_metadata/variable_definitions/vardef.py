@@ -1,5 +1,6 @@
 import logging
 from datetime import date
+from os import PathLike
 from pathlib import Path
 
 from dapla_metadata.variable_definitions import config
@@ -18,6 +19,12 @@ from dapla_metadata.variable_definitions.generated.vardef_client.api.variable_de
 )
 from dapla_metadata.variable_definitions.generated.vardef_client.models.draft import (
     Draft,
+)
+from dapla_metadata.variable_definitions.utils.variable_definition_files import (
+    _find_latest_template_file,
+)
+from dapla_metadata.variable_definitions.utils.variable_definition_files import (
+    _read_variable_definition_file,
 )
 from dapla_metadata.variable_definitions.utils.variable_definition_files import (
     create_template_yaml,
@@ -94,7 +101,7 @@ class Vardef:
     @vardef_exception_handler
     def create_draft(cls, draft: Draft) -> VariableDefinition:
         """Create a Draft Variable Definition."""
-        return VariableDefinition.from_model(
+        new_variable = VariableDefinition.from_model(
             DraftVariableDefinitionsApi(
                 VardefClient.get_client(),
             ).create_variable_definition(
@@ -102,6 +109,41 @@ class Vardef:
                 draft=draft,
             ),
         )
+
+        logger.info(
+            "Successfully created variable definition '%s' with ID '%s'",
+            new_variable.short_name,
+            new_variable.id,
+        )
+        return new_variable
+
+    @classmethod
+    @vardef_file_error_handler
+    def create_draft_from_file(
+        cls,
+        file_path: PathLike[str] | None = None,
+    ) -> VariableDefinition:
+        """Create a Draft Variable Definition."""
+        try:
+            file_path = Path(
+                file_path or _find_latest_template_file(),
+            )
+        except TypeError as e:
+            msg = "Could not deduce a path to the file. Please supply a path to the yaml file you wish to submit with the `file_path` parameter."
+            raise ValueError(
+                msg,
+            ) from e
+        draft = Draft.from_dict(
+            _read_variable_definition_file(
+                file_path,
+            ),
+        )
+
+        if draft is None:
+            msg = f"Could not read data from {file_path}"
+            raise FileNotFoundError(msg)
+
+        return cls.create_draft(draft)
 
     @classmethod
     @vardef_exception_handler
