@@ -29,9 +29,6 @@ from dapla_metadata.variable_definitions.utils.variable_definition_files import 
 from dapla_metadata.variable_definitions.utils.variable_definition_files import (
     create_template_yaml,
 )
-from dapla_metadata.variable_definitions.utils.variable_definition_files import (
-    create_variable_yaml,
-)
 from dapla_metadata.variable_definitions.variable_definition import VariableDefinition
 
 logger = logging.getLogger(__name__)
@@ -126,7 +123,9 @@ class Vardef:
         """Create a Draft Variable Definition."""
         try:
             file_path = Path(
-                file_path or _find_latest_template_file(),
+                # type incongruence (i.e. None) is handled by catching the exception
+                file_path
+                or _find_latest_template_file(),  # type: ignore [arg-type]
             )
         except TypeError as e:
             msg = "Could not deduce a path to the file. Please supply a path to the yaml file you wish to submit with the `file_path` parameter."
@@ -280,7 +279,7 @@ class Vardef:
         variable_definition_id: str | None = None,
         short_name: str | None = None,
     ) -> VariableDefinition:
-        """Write template with default values to a yaml file."""
+        """Retrieve a variable definition and write it to a yaml file."""
         if variable_definition_id is not None and short_name is not None:
             msg = "Only one of variable_definition_id or short_name may be specified"
             raise ValueError(
@@ -300,11 +299,4 @@ class Vardef:
                 msg,
             )
 
-        file_path = create_variable_yaml(
-            model_instance=variable_definition,
-        )
-        variable_definition.set_file_path(file_path)
-        logger.info(
-            f"Created editable variable definition file at {file_path}",  # noqa: G004
-        )
-        return variable_definition
+        return variable_definition.to_file()
