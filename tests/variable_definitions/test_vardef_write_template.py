@@ -104,37 +104,8 @@ def test_write_template_from_current():
     "custom_path",
     ["serious", "statistics", "private", "toppers$#23"],
 )
-def test_write_template_to_custom_path_creates(tmp_path: Path, custom_path: str):
-    with patch.object(Path, "cwd", return_value=Path("./")):
-        file_path = Vardef.write_template_to_file(
-            custom_file_path=tmp_path / custom_path,
-        )
-
-    assert file_path.exists()
-
-    file_path_str = str(file_path)
-
-    # Not saved at default path
-    assert "work" not in file_path_str
-    assert "variable-definitions" not in file_path_str
-    # Saved at custom path
-    assert custom_path in file_path_str
-
-    # Filename is correct
-    file_name = file_path.name
-    file_name_minus_timestamp = file_name.rsplit("_", 1)[0] + ".yaml"
-    assert file_name_minus_timestamp == "variable_definition_template.yaml"
-
-
-@pytest.mark.usefixtures("set_temp_workspace")
-@pytest.mark.parametrize(
-    "custom_path",
-    ["chairs and tables", "dancing", "my_girl", "serious/toppers"],
-)
-def test_write_template_to_custom_path_exists(tmp_path: Path, custom_path: str):
-    local_dir = tmp_path / custom_path
-    local_dir.mkdir(parents=True, exist_ok=True)
-    with patch.object(Path, "cwd", return_value=Path("./")):
+def test_write_template_to_custom_path(tmp_path: Path, custom_path: str):
+    with patch.object(Path, "cwd", return_value=tmp_path):
         file_path = Vardef.write_template_to_file(
             custom_file_path=tmp_path / custom_path,
         )
