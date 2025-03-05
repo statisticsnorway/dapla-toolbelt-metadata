@@ -19,7 +19,7 @@ def test_workspace_dir_not_set(monkeypatch: pytest.MonkeyPatch):
     monkeypatch.delenv("WORKSPACE_DIR", raising=False)
     with pytest.raises(
         VardefFileError,
-        match="VardefFileError: WORKSPACE_DIR is not set in the configuration.",
+        match="VardefFileError: WORKSPACE_DIR is not set",
     ):
         _get_workspace_dir()
 

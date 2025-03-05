@@ -226,7 +226,7 @@ def _get_workspace_dir() -> Path:
     workspace_dir = config.get_workspace_dir()
 
     if workspace_dir is None:
-        msg = "WORKSPACE_DIR is not set in the configuration."
+        msg = "WORKSPACE_DIR is not set. Check your configuration or provide a custom directory."
         raise VardefFileError(msg)
     workspace_dir_path: Path
     if workspace_dir is not None:
