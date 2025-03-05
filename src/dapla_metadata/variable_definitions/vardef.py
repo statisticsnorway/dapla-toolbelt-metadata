@@ -258,11 +258,11 @@ class Vardef:
                 msg,
             )
 
-        path = create_variable_yaml(
+        file_path = create_variable_yaml(
             model_instance=variable_definition,
         )
-        variable_definition.set_file_path(path)
+        variable_definition.set_file_path(file_path)
         logger.info(
-            f"Created editable variable definition file at {path}",  # noqa: G004
+            f"Created editable variable definition file at {file_path}",  # noqa: G004
         )
         return variable_definition
