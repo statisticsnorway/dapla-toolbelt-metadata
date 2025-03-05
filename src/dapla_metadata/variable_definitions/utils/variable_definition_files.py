@@ -229,11 +229,12 @@ def _get_workspace_dir() -> Path:
         msg = "WORKSPACE_DIR is not set in the configuration."
         raise VardefFileError(msg)
 
-    if not isinstance(workspace_dir, str | Path):
+    if not isinstance(workspace_dir, (str | None)):
         msg = f"Expected WORKSPACE_DIR to be a string or Path, but got {type(workspace_dir).__name__}"
         raise TypeError
 
-    workspace_dir = Path(workspace_dir).resolve()
+    workspace_dir = Path(workspace_dir)
+    workspace_dir.resolve()
 
     if not workspace_dir.exists():
         msg = f"Directory '{workspace_dir}' does not exist."
