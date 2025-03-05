@@ -1,42 +1,58 @@
 openapi: 3.0.1
 info:
-  title: Variable Definitions
-  description: "## Introduction\n\nVariable Definitions are centralized definitions\
-    \ of concrete variables which are typically present in multiple datasets. Variable\
-    \ Definitions support standardization of data and metadata and facilitate sharing\
-    \ and joining of data by clarifying when variables have an identical definition.\n\
-    \n## Maintenance of Variable Definitions\nThis API allows for creation, maintenance\
-    \ and access of Variable Definitions.\n\n### Ownership\nCreation and maintenance\
-    \ of variables may only be performed by Statistics Norway employees representing\
-    \ a specific Dapla team, who are defined as the owners of a given Variable Definition.\
-    \ The team an owner represents must be specified when making a request through\
-    \ the `active_group` query parameter. All maintenance is to be performed by the\
-    \ owners, with no intervention from administrators.\n\n### Status\nAll Variable\
-    \ Definitions have an associated status. The possible values for status are `DRAFT`,\
-    \ `PUBLISHED_INTERNAL` and `PUBLISHED_EXTERNAL`.\n \n#### Draft\nWhen a Variable\
-    \ Definition is created it is assigned the status `DRAFT`. Under this status the\
-    \ Variable Definition is:\n\n- Only visible to Statistics Norway employees.\n\
-    - Mutable (it may be changed directly without need for versioning).\n- Not suitable\
-    \ to refer to from other systems.\n\nThis status may be changed to `PUBLISHED_INTERNAL`\
-    \ or `PUBLISHED_EXTERNAL` with a direct update.\n\n#### Published Internal\nUnder\
-    \ this status the Variable Definition is:\n\n- Only visible to Statistics Norway\
-    \ employees.\n- Immutable (all changes are versioned).\n- Suitable to refer to\
-    \ in internal systems for statistics production.\n- Not suitable to refer to for\
-    \ external use (for example in Statistikkbanken).\n\nThis status may be changed\
-    \ to `PUBLISHED_EXTERNAL` by creating a Patch version.\n\n#### Published External\n\
-    Under this status the Variable Definition is:\n\n- Visible to the general public.\n\
-    - Immutable (all changes are versioned).\n- Suitable to refer to from any system.\n\
-    \nThis status may not be changed as it would break immutability. If a Variable\
-    \ Definition is no longer relevant then its period of validity should be ended\
-    \ by specifying a `valid_until` date in a Patch version.\n\n### Immutability\n\
-    Variable Definitions are immutable. This means that any changes must be performed\
-    \ in a strict versioning system. Consumers can avoid being exposed to breaking\
-    \ changes by specifying a `date_of_validity` when they request a Variable Definition.\n\
-    \n#### Patches\nPatches are for changes which do not affect the fundamental meaning\
-    \ of the Variable Definition.\n\n#### Validity Periods\nValidity Periods are versions\
-    \ with a period defined by a `valid_from` date and optionally a `valid_until`\
-    \ date. If the fundamental meaning of a Variable Definition is to be changed,\
-    \ it should be done by creating a new Validity Period.\n\n"
+  title: Internal Variable Definitions Administration API
+  description: |2+
+
+    ## Introduction
+
+    Variable Definitions are centralized definitions of concrete variables which are typically present in multiple datasets. Variable Definitions support standardization of data and metadata and facilitate sharing and joining of data by clarifying when variables have an identical definition.
+
+    ## Maintenance of Variable Definitions
+    This API allows for creation, maintenance and access of Variable Definitions.
+
+    ### Ownership
+    Creation and maintenance of variables may only be performed by Statistics Norway employees representing a specific Dapla team, who are defined as the owners of a given Variable Definition. The team an owner represents must be specified when making a request through the `active_group` query parameter. All maintenance is to be performed by the owners, with no intervention from administrators.
+
+    ### Status
+    All Variable Definitions have an associated status. The possible values for status are `DRAFT`, `PUBLISHED_INTERNAL` and `PUBLISHED_EXTERNAL`.
+
+    #### Draft
+    When a Variable Definition is created it is assigned the status `DRAFT`. Under this status the Variable Definition is:
+
+    - Only visible to Statistics Norway employees.
+    - Mutable (it may be changed directly without need for versioning).
+    - Not suitable to refer to from other systems.
+
+    This status may be changed to `PUBLISHED_INTERNAL` or `PUBLISHED_EXTERNAL` with a direct update.
+
+    #### Published Internal
+    Under this status the Variable Definition is:
+
+    - Only visible to Statistics Norway employees.
+    - Immutable (all changes are versioned).
+    - Suitable to refer to in internal systems for statistics production.
+    - Not suitable to refer to for external use (for example in Statistikkbanken).
+
+    This status may be changed to `PUBLISHED_EXTERNAL` by creating a Patch version.
+
+    #### Published External
+    Under this status the Variable Definition is:
+
+    - Visible to the general public.
+    - Immutable (all changes are versioned).
+    - Suitable to refer to from any system.
+
+    This status may not be changed as it would break immutability. If a Variable Definition is no longer relevant then its period of validity should be ended by specifying a `valid_until` date in a Patch version.
+
+    ### Immutability
+    Variable Definitions are immutable. This means that any changes must be performed in a strict versioning system. Consumers can avoid being exposed to breaking changes by specifying a `date_of_validity` when they request a Variable Definition.
+
+    #### Patches
+    Patches are for changes which do not affect the fundamental meaning of the Variable Definition.
+
+    #### Validity Periods
+    Validity Periods are versions with a period defined by a `valid_from` date and optionally a `valid_until` date. If the fundamental meaning of a Variable Definition is to be changed, it should be done by creating a new Validity Period.
+
   contact:
     name: Team Metadata
     email: metadata@ssb.no
@@ -45,11 +61,14 @@ info:
     url: https://creativecommons.org/licenses/by/4.0/deed.no
   version: "0.1"
 servers:
+- url: https://metadata.intern.ssb.no
+  description: Internal server
 - url: https://metadata.intern.test.ssb.no
   description: Internal test server
+- url: http://localhost:8080
+  description: Local development
+security: []
 tags:
-- name: Public
-  description: Operations which are available to the general public without authentication.
 - name: Validity Periods
   description: Create and access Validity Periods.
 - name: Patches
@@ -62,290 +81,6 @@ tags:
 - name: Draft Variable Definitions
   description: "Create, update and delete variable definitions with DRAFT status."
 paths:
-  /public/variable-definitions:
-    get:
-      tags:
-      - Public
-      - Variable Definitions
-      summary: List all variable definitions.
-      description: "List all variable definitions. These are rendered in the given\
-        \ language, with the default being Norwegian Bokmål."
-      operationId: listPublicVariableDefinitions
-      parameters:
-      - name: Accept-Language
-        in: header
-        description: Render the variable definition in the given language.
-        required: true
-        schema:
-          $ref: "#/components/schemas/SupportedLanguages"
-        example: nb
-      - name: date_of_validity
-        in: query
-        description: List only variable definitions which are valid on this date.
-        schema:
-          type: string
-          format: date
-          nullable: true
-        examples:
-          Specific date:
-            value: 1970-01-01
-      responses:
-        "200":
-          description: OK response
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/RenderedVariableDefinition"
-              examples:
-                Specific date:
-                  value: |-
-                    [
-                        {
-                        "id": "wypvb3wd",
-                        "name": "Landbakgrunn",
-                        "short_name": "string",
-                        "definition": "For personer født i utlandet, er dette (med noen få unntak) eget fødeland. For personer født i Norge er det foreldrenes fødeland. I de tilfeller der foreldrene har ulikt fødeland, er det morens fødeland som blir valgt. Hvis ikke personen selv eller noen av foreldrene er utenlandsfødt, hentes landbakgrunn fra de første utenlandsfødte en treffer på i rekkefølgen mormor, morfar, farmor eller farfar.",
-                        "classification_uri": "https://www.ssb.no/en/klass/klassifikasjoner/91",
-                        "unit_types": [{
-                                "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/702",
-                                "code": "20",
-                                "title": "Person"
-                            }
-                        ],
-                        "subject_fields": [
-                        {
-                                "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/618",
-                                "code": "be07",
-                                "title": "Innvandrere"
-                            }
-                        ],
-                        "contains_special_categories_of_personal_data": true,
-                        "measurement_type": null,
-                        "valid_from": "2003-01-01",
-                        "valid_until": null,
-                        "external_reference_uri": "https://www.ssb.no/a/metadata/conceptvariable/vardok/1919/nb",
-                        "comment": "Fra og med 1.1.2003 ble definisjon endret til også å trekke inn besteforeldrenes fødeland.",
-                        "related_variable_definition_uris": [
-                            "https://example.com/"
-                        ],
-                        "contact": {
-                            "title": "Seksjon for befolkningsstatistikk",
-                            "email": "s320@ssb.no"
-                        },
-                        "last_updated_at": "2024-06-12T10:39:41.038Z"
-                    }
-                    ]
-                Date not specified:
-                  value: "[]"
-  /public/variable-definitions/{variable-definition-id}:
-    get:
-      tags:
-      - Public
-      - Variable Definitions
-      summary: Get one variable definition.
-      description: "Get one variable definition. This is rendered in the given language,\
-        \ with the default being Norwegian Bokmål."
-      operationId: getPublicVariableDefinitionById
-      parameters:
-      - name: variable-definition-id
-        in: path
-        description: Unique identifier for the variable definition.
-        required: true
-        schema:
-          type: string
-        examples:
-          Date not specified:
-            value: wypvb3wd
-          Specific date:
-            value: wypvb3wd
-          Not found:
-            value: invalid id
-      - name: Accept-Language
-        in: header
-        description: Render the variable definition in the given language.
-        required: true
-        schema:
-          $ref: "#/components/schemas/SupportedLanguages"
-        examples:
-          Date not specified:
-            value: nb
-          Specific date:
-            value: nb
-      - name: date_of_validity
-        in: query
-        description: List only variable definitions which are valid on this date.
-        schema:
-          type: string
-          format: date
-          nullable: true
-        examples:
-          Specific date:
-            value: 1970-01-01
-      responses:
-        "200":
-          description: Ok
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/RenderedVariableDefinition"
-              examples:
-                Date not specified:
-                  value:
-                    id: wypvb3wd
-                    name: Landbakgrunn
-                    short_name: string
-                    definition: "For personer født i utlandet, er dette (med noen\
-                      \ få unntak) eget fødeland. For personer født i Norge er det\
-                      \ foreldrenes fødeland. I de tilfeller der foreldrene har ulikt\
-                      \ fødeland, er det morens fødeland som blir valgt. Hvis ikke\
-                      \ personen selv eller noen av foreldrene er utenlandsfødt, hentes\
-                      \ landbakgrunn fra de første utenlandsfødte en treffer på i\
-                      \ rekkefølgen mormor, morfar, farmor eller farfar."
-                    classification_uri: https://www.ssb.no/en/klass/klassifikasjoner/91
-                    unit_types:
-                    - reference_uri: https://www.ssb.no/klass/klassifikasjoner/702
-                      code: "20"
-                      title: Person
-                    subject_fields:
-                    - reference_uri: https://www.ssb.no/klass/klassifikasjoner/618
-                      code: be07
-                      title: Innvandrere
-                    contains_special_categories_of_personal_data: true
-                    valid_from: 2003-01-01
-                    external_reference_uri: https://www.ssb.no/a/metadata/conceptvariable/vardok/1919/nb
-                    comment: Fra og med 1.1.2003 ble definisjon endret til også å
-                      trekke inn besteforeldrenes fødeland.
-                    related_variable_definition_uris:
-                    - https://example.com/
-                    contact:
-                      title: Seksjon for befolkningsstatistikk
-                      email: s320@ssb.no
-                    last_updated_at: 2024-06-12T10:39:41.038Z
-                Specific date:
-                  value:
-                    id: wypvb3wd
-                    name: Landbakgrunn
-                    short_name: string
-                    definition: "For personer født i utlandet, er dette (med noen\
-                      \ få unntak) eget fødeland. For personer født i Norge er det\
-                      \ foreldrenes fødeland. I de tilfeller der foreldrene har ulikt\
-                      \ fødeland, er det morens fødeland som blir valgt. Hvis ikke\
-                      \ personen selv eller noen av foreldrene er utenlandsfødt, hentes\
-                      \ landbakgrunn fra de første utenlandsfødte en treffer på i\
-                      \ rekkefølgen mormor, morfar, farmor eller farfar."
-                    classification_uri: https://www.ssb.no/en/klass/klassifikasjoner/91
-                    unit_types:
-                    - reference_uri: https://www.ssb.no/klass/klassifikasjoner/702
-                      code: "20"
-                      title: Person
-                    subject_fields:
-                    - reference_uri: https://www.ssb.no/klass/klassifikasjoner/618
-                      code: be07
-                      title: Innvandrere
-                    contains_special_categories_of_personal_data: true
-                    valid_from: 2003-01-01
-                    external_reference_uri: https://www.ssb.no/a/metadata/conceptvariable/vardok/1919/nb
-                    comment: Fra og med 1.1.2003 ble definisjon endret til også å
-                      trekke inn besteforeldrenes fødeland.
-                    related_variable_definition_uris:
-                    - https://example.com/
-                    contact:
-                      title: Seksjon for befolkningsstatistikk
-                      email: s320@ssb.no
-                    last_updated_at: 2024-06-12T10:39:41.038Z
-        "404":
-          description: Not found
-          content:
-            application/problem+json:
-              schema:
-                $ref: https://opensource.zalando.com/restful-api-guidelines/models/problem-1.0.1.yaml#/Problem
-              examples:
-                Not found:
-                  value:
-                    type: about:blank
-                    status: 404
-                    detail: Not found
-                    parameters: {}
-  /public/variable-definitions/{variable-definition-id}/validity-periods:
-    get:
-      tags:
-      - Public
-      - Validity Periods
-      summary: List all validity periods.
-      description: "List all validity periods. These are rendered in the given language,\
-        \ with the default being Norwegian Bokmål."
-      operationId: listPublicValidityPeriods
-      parameters:
-      - name: variable-definition-id
-        in: path
-        description: Unique identifier for the variable definition.
-        required: true
-        schema:
-          type: string
-        examples:
-          Validity periods:
-            value: wypvb3wd
-          Not found:
-            value: invalid id
-      - name: Accept-Language
-        in: header
-        description: Render the variable definition in the given language.
-        required: true
-        schema:
-          $ref: "#/components/schemas/SupportedLanguages"
-        examples:
-          Validity periods:
-            value: nb
-      responses:
-        "200":
-          description: Ok
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/RenderedVariableDefinition"
-              examples:
-                Validity periods:
-                  value: |-
-                    [
-                        {
-                        "id": "wypvb3wd",
-                        "name": "Landbakgrunn",
-                        "short_name": "string",
-                        "definition": "For personer født i utlandet, er dette (med noen få unntak) eget fødeland. For personer født i Norge er det foreldrenes fødeland. I de tilfeller der foreldrene har ulikt fødeland, er det morens fødeland som blir valgt. Hvis ikke personen selv eller noen av foreldrene er utenlandsfødt, hentes landbakgrunn fra de første utenlandsfødte en treffer på i rekkefølgen mormor, morfar, farmor eller farfar.",
-                        "classification_uri": "https://www.ssb.no/en/klass/klassifikasjoner/91",
-                        "unit_types": [{
-                                "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/702",
-                                "code": "20",
-                                "title": "Person"
-                            }
-                        ],
-                        "subject_fields": [
-                        {
-                                "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/618",
-                                "code": "be07",
-                                "title": "Innvandrere"
-                            }
-                        ],
-                        "contains_special_categories_of_personal_data": true,
-                        "measurement_type": null,
-                        "valid_from": "2003-01-01",
-                        "valid_until": null,
-                        "external_reference_uri": "https://www.ssb.no/a/metadata/conceptvariable/vardok/1919/nb",
-                        "comment": "Fra og med 1.1.2003 ble definisjon endret til også å trekke inn besteforeldrenes fødeland.",
-                        "related_variable_definition_uris": [
-                            "https://example.com/"
-                        ],
-                        "contact": {
-                            "title": "Seksjon for befolkningsstatistikk",
-                            "email": "s320@ssb.no"
-                        },
-                        "last_updated_at": "2024-06-12T10:39:41.038Z"
-                    }
-                    ]
   /vardok-migration/{vardok-id}:
     post:
       tags:
@@ -1991,6 +1726,7 @@ components:
             and Owner combination.
           allOf:
           - $ref: "#/components/schemas/LanguageStringType"
+          - {}
         short_name:
           type: string
           description: Recommended short name. Must be unique within an organization.
@@ -1998,6 +1734,7 @@ components:
           description: Definition of the variable.
           allOf:
           - $ref: "#/components/schemas/LanguageStringType"
+          - {}
         classification_reference:
           type: string
           description: ID of a classification or code list from Klass. The given classification
@@ -2028,6 +1765,7 @@ components:
           nullable: true
           allOf:
           - $ref: "#/components/schemas/VariableStatus"
+          - {}
         measurement_type:
           type: string
           description: "Type of measurement for the variable, e.g. length, volume,\
@@ -2053,6 +1791,7 @@ components:
           nullable: true
           allOf:
           - $ref: "#/components/schemas/LanguageStringType"
+          - {}
         related_variable_definition_uris:
           type: array
           description: "Link(s) to related definitions of variables - a list of one\
@@ -2068,10 +1807,12 @@ components:
             \ team) and information about access management groups."
           allOf:
           - $ref: "#/components/schemas/Owner"
+          - {}
         contact:
           description: Contact details
           allOf:
           - $ref: "#/components/schemas/Contact"
+          - {}
         created_at:
           type: string
           description: The timestamp at which this variable definition was first created.
@@ -2116,6 +1857,7 @@ components:
             and Owner combination.
           allOf:
           - $ref: "#/components/schemas/LanguageStringType"
+          - {}
         short_name:
           pattern: "^[a-z0-9_]{2,}$"
           type: string
@@ -2124,6 +1866,7 @@ components:
           description: Definition of the variable.
           allOf:
           - $ref: "#/components/schemas/LanguageStringType"
+          - {}
         classification_reference:
           type: string
           description: ID of a classification or code list from Klass. The given classification
@@ -2177,6 +1920,7 @@ components:
           nullable: true
           allOf:
           - $ref: "#/components/schemas/LanguageStringType"
+          - {}
         related_variable_definition_uris:
           type: array
           description: "Link(s) to related definitions of variables - a list of one\
@@ -2191,6 +1935,7 @@ components:
           description: Contact details
           allOf:
           - $ref: "#/components/schemas/Contact"
+          - {}
       description: Create a Draft Variable Definition
       example:
         name:
@@ -2243,19 +1988,6 @@ components:
             nb: Seksjon for befolkningsstatistikk
             nn: Seksjon for befolkningsstatistikk
           email: s320@ssb.no
-    KlassReference:
-      required:
-      - reference_uri
-      type: object
-      properties:
-        reference_uri:
-          type: string
-        code:
-          type: string
-          nullable: true
-        title:
-          type: string
-          nullable: true
     LanguageStringType:
       type: object
       properties:
@@ -2303,11 +2035,13 @@ components:
           nullable: true
           allOf:
           - $ref: "#/components/schemas/LanguageStringType"
+          - {}
         definition:
           description: Definition of the variable.
           nullable: true
           allOf:
           - $ref: "#/components/schemas/LanguageStringType"
+          - {}
         classification_reference:
           type: string
           description: ID of a classification or code list from Klass. The given classification
@@ -2344,6 +2078,7 @@ components:
           readOnly: true
           allOf:
           - $ref: "#/components/schemas/VariableStatus"
+          - {}
         measurement_type:
           type: string
           description: "Type of measurement for the variable, e.g. length, volume,\
@@ -2365,6 +2100,7 @@ components:
           nullable: true
           allOf:
           - $ref: "#/components/schemas/LanguageStringType"
+          - {}
         related_variable_definition_uris:
           type: array
           description: "Link(s) to related definitions of variables - a list of one\
@@ -2381,11 +2117,13 @@ components:
           nullable: true
           allOf:
           - $ref: "#/components/schemas/Owner"
+          - {}
         contact:
           description: Contact details
           nullable: true
           allOf:
           - $ref: "#/components/schemas/Contact"
+          - {}
       description: Create a new Patch version on a Published Variable Definition.
       example:
         name:
@@ -2434,137 +2172,6 @@ components:
             nb: Seksjon for befolkningsstatistikk
             nn: Seksjon for befolkningsstatistikk
           email: s320@ssb.no
-    RenderedContact:
-      required:
-      - email
-      - title
-      type: object
-      properties:
-        title:
-          type: string
-        email:
-          type: string
-      example:
-        title: Seksjon for befolkningsstatistikk
-        email: s320@ssb.no
-    RenderedVariableDefinition:
-      required:
-      - contains_special_categories_of_personal_data
-      - id
-      - last_updated_at
-      - patch_id
-      - short_name
-      - subject_fields
-      - unit_types
-      - valid_from
-      type: object
-      properties:
-        id:
-          type: string
-        patch_id:
-          type: integer
-          format: int32
-        name:
-          type: string
-          nullable: true
-        short_name:
-          type: string
-        definition:
-          type: string
-          nullable: true
-        classification_uri:
-          type: string
-          nullable: true
-        unit_types:
-          type: array
-          items:
-            nullable: true
-            allOf:
-            - $ref: "#/components/schemas/KlassReference"
-        subject_fields:
-          type: array
-          items:
-            nullable: true
-            allOf:
-            - $ref: "#/components/schemas/KlassReference"
-        contains_special_categories_of_personal_data:
-          type: boolean
-        measurement_type:
-          nullable: true
-          allOf:
-          - $ref: "#/components/schemas/KlassReference"
-        valid_from:
-          type: string
-          format: date
-        valid_until:
-          type: string
-          format: date
-          nullable: true
-        external_reference_uri:
-          type: string
-          format: url
-          nullable: true
-        comment:
-          type: string
-          nullable: true
-        related_variable_definition_uris:
-          type: array
-          nullable: true
-          items:
-            type: string
-            format: url
-        contact:
-          nullable: true
-          allOf:
-          - $ref: "#/components/schemas/RenderedContact"
-        last_updated_at:
-          type: string
-          format: date-time
-      description: "Render a Variable Definition in a specific language, for display\
-        \ to end users."
-      example:
-        id: wypvb3wd
-        name: Landbakgrunn
-        short_name: string
-        definition: "For personer født i utlandet, er dette (med noen få unntak) eget\
-          \ fødeland. For personer født i Norge er det foreldrenes fødeland. I de\
-          \ tilfeller der foreldrene har ulikt fødeland, er det morens fødeland som\
-          \ blir valgt. Hvis ikke personen selv eller noen av foreldrene er utenlandsfø\
-          dt, hentes landbakgrunn fra de første utenlandsfødte en treffer på i rekkefø\
-          lgen mormor, morfar, farmor eller farfar."
-        classification_uri: https://www.ssb.no/en/klass/klassifikasjoner/91
-        unit_types:
-        - reference_uri: https://www.ssb.no/klass/klassifikasjoner/702
-          code: "20"
-          title: Person
-        subject_fields:
-        - reference_uri: https://www.ssb.no/klass/klassifikasjoner/618
-          code: be07
-          title: Innvandrere
-        contains_special_categories_of_personal_data: true
-        measurement_type: null
-        valid_from: 2003-01-01
-        valid_until: null
-        external_reference_uri: https://www.ssb.no/a/metadata/conceptvariable/vardok/1919/nb
-        comment: Fra og med 1.1.2003 ble definisjon endret til også å trekke inn besteforeldrenes
-          fødeland.
-        related_variable_definition_uris:
-        - https://example.com/
-        contact:
-          title: Seksjon for befolkningsstatistikk
-          email: s320@ssb.no
-        last_updated_at: 2024-06-12T10:39:41.038Z
-    SupportedLanguages:
-      type: string
-      description: Languages the application supports.
-      enum:
-      - nb
-      - nn
-      - en
-      x-enum-descriptions:
-      - Norwegian Bokmål
-      - Norwegian Nynorsk
-      - English
     UpdateDraft:
       type: object
       properties:
@@ -2574,6 +2181,7 @@ components:
           nullable: true
           allOf:
           - $ref: "#/components/schemas/LanguageStringType"
+          - {}
         short_name:
           pattern: "^[a-z0-9_]{2,}$"
           type: string
@@ -2584,6 +2192,7 @@ components:
           nullable: true
           allOf:
           - $ref: "#/components/schemas/LanguageStringType"
+          - {}
         classification_reference:
           type: string
           description: ID of a classification or code list from Klass. The given classification
@@ -2619,6 +2228,7 @@ components:
           nullable: true
           allOf:
           - $ref: "#/components/schemas/VariableStatus"
+          - {}
         measurement_type:
           type: string
           description: "Type of measurement for the variable, e.g. length, volume,\
@@ -2644,6 +2254,7 @@ components:
           nullable: true
           allOf:
           - $ref: "#/components/schemas/LanguageStringType"
+          - {}
         related_variable_definition_uris:
           type: array
           description: "Link(s) to related definitions of variables - a list of one\
@@ -2660,11 +2271,13 @@ components:
           nullable: true
           allOf:
           - $ref: "#/components/schemas/Owner"
+          - {}
         contact:
           description: Contact details
           nullable: true
           allOf:
           - $ref: "#/components/schemas/Contact"
+          - {}
       description: Update variable definition Data structure with all fields optional
         for updating a Draft Variable Definition.
       example:
@@ -2730,10 +2343,12 @@ components:
           nullable: true
           allOf:
           - $ref: "#/components/schemas/LanguageStringType"
+          - {}
         definition:
           description: Definition of the variable.
           allOf:
           - $ref: "#/components/schemas/LanguageStringType"
+          - {}
         classification_reference:
           type: string
           description: ID of a classification or code list from Klass. The given classification
@@ -2784,6 +2399,7 @@ components:
           nullable: true
           allOf:
           - $ref: "#/components/schemas/LanguageStringType"
+          - {}
         related_variable_definition_uris:
           type: array
           description: "Link(s) to related definitions of variables - a list of one\
@@ -2799,6 +2415,7 @@ components:
           nullable: true
           allOf:
           - $ref: "#/components/schemas/Contact"
+          - {}
       description: Create a new Validity Period on a Published Variable Definition.
       example:
         name:

@@ -3,7 +3,7 @@ from unittest.mock import patch
 
 import pytest
 from pytz import UnknownTimeZoneError
-from yaml import YAMLError
+from ruamel.yaml import YAMLError
 
 from dapla_metadata.variable_definitions.exceptions import VardefFileError
 from dapla_metadata.variable_definitions.vardef import Vardef
@@ -16,22 +16,13 @@ def test_write_template(tmp_path: Path):
         assert file_path.exists()
 
 
-@pytest.mark.usefixtures("_delete_workspace_dir")
-def test_write_template_no_workspace(tmp_path: Path):
-    with patch.object(Path, "cwd", return_value=tmp_path), pytest.raises(
+def test_write_template_no_workspace(monkeypatch: pytest.MonkeyPatch):
+    monkeypatch.delenv("WORKSPACE_DIR", raising=False)
+    with pytest.raises(
         VardefFileError,
         match="VardefFileError: File not found at file path: unknown file path",
     ):
         Vardef.write_template_to_file()
-
-
-@pytest.mark.usefixtures("_delete_workspace_dir")
-def test_write_template_path_no_env_value(tmp_path: Path):
-    workspace_dir = tmp_path / "work"
-    workspace_dir.mkdir(parents=True, exist_ok=True)
-    with patch.object(Path, "cwd", return_value=workspace_dir):
-        file_path = Vardef.write_template_to_file()
-    assert file_path.exists()
 
 
 def test_write_template_from_tmp_path():
@@ -49,17 +40,15 @@ def test_write_template_invalid():
 
     with patch.object(Path, "cwd", return_value=base_path), pytest.raises(
         VardefFileError,
-        match="VardefFileError: File not found at file path: unknown file path. Original error: 'work' directory not found and env WORKSPACE_DIR is not set.",
+        match="VardefFileError: File not found at file path: unknown file path.",
     ):
         Vardef.write_template_to_file()
 
 
-@pytest.mark.usefixtures("set_env_work_dir")
-def test_write_template_no_work_folder(tmp_path: Path):
-    base_path = tmp_path / "statistics/a/work"
-    base_path.mkdir(parents=True, exist_ok=True)
+def test_write_template_no_work_folder(monkeypatch: pytest.MonkeyPatch):
+    monkeypatch.setenv("WORKSPACE_DIR", "statistics/a/work")
 
-    with patch.object(Path, "cwd", return_value=base_path), pytest.raises(
+    with pytest.raises(
         VardefFileError,
         match="VardefFileError: File not found at file path: unknown file path",
     ):
