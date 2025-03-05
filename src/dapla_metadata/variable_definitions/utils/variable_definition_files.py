@@ -228,23 +228,20 @@ def _get_workspace_dir() -> Path:
     if workspace_dir is None:
         msg = "WORKSPACE_DIR is not set in the configuration."
         raise VardefFileError(msg)
+    workspace_dir_path: Path
+    if workspace_dir is not None:
+        logger.info("'WORKSPACE_DIR' value: %s", workspace_dir)
+        workspace_dir_path = Path(workspace_dir)
+        workspace_dir_path.resolve()
 
-    if not isinstance(workspace_dir, (str | None)):
-        msg = f"Expected WORKSPACE_DIR to be a string or Path, but got {type(workspace_dir).__name__}"
-        raise TypeError
+        if not workspace_dir_path.exists():
+            msg = f"Directory '{workspace_dir_path}' does not exist."
+            raise FileNotFoundError(msg)
 
-    workspace_dir = Path(workspace_dir)
-    workspace_dir.resolve()
-
-    if not workspace_dir.exists():
-        msg = f"Directory '{workspace_dir}' does not exist."
-        raise FileNotFoundError(msg)
-
-    if not workspace_dir.is_dir():
-        msg = f"'{workspace_dir}' is not a directory."
-        raise NotADirectoryError(msg)
-
-    return workspace_dir
+        if not workspace_dir_path.is_dir():
+            msg = f"'{workspace_dir_path}' is not a directory."
+            raise NotADirectoryError(msg)
+    return workspace_dir_path
 
 
 def _validate_and_create_directory(custom_directory: Path) -> Path:
