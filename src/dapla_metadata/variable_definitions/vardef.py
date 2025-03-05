@@ -120,7 +120,19 @@ class Vardef:
         cls,
         file_path: PathLike[str] | None = None,
     ) -> VariableDefinition:
-        """Create a Draft Variable Definition."""
+        """Create a Draft Variable Definition from a stored yaml file.
+
+        By default the latest template file in the default directory is chosen, this may be overridden by providing a value for the optional `file_path` parameter.
+
+        Args:
+            file_path (PathLike[str], optional): Supply a file path to override the automatic one. Defaults to None.
+
+        Raises:
+            FileNotFoundError: When a file can't be found.
+
+        Returns:
+            VariableDefinition: The created draft variable definition.
+        """
         try:
             file_path = Path(
                 # type incongruence (i.e. None) is handled by catching the exception
@@ -129,7 +141,7 @@ class Vardef:
             )
         except TypeError as e:
             msg = "Could not deduce a path to the file. Please supply a path to the yaml file you wish to submit with the `file_path` parameter."
-            raise ValueError(
+            raise FileNotFoundError(
                 msg,
             ) from e
         draft = Draft.from_dict(

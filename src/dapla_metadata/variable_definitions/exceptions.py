@@ -131,9 +131,6 @@ def vardef_file_error_handler(method):  # noqa: ANN201, ANN001
                 *method_args,
                 **method_kwargs,
             )
-        except FileNotFoundError as e:
-            msg = f"File not found at file path: {method_kwargs.get('file_path', 'unknown file path')}.\nOriginal error:\n{e!s}"
-            raise VardefFileError(msg) from e
         except FileExistsError as e:
             msg = f"File already exists and can not be saved: {method_kwargs.get('file_path', 'unknown file path')}"
             raise VardefFileError(msg) from e
