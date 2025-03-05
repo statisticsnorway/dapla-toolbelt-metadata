@@ -230,7 +230,6 @@ def _get_workspace_dir() -> Path:
         raise VardefFileError(msg)
     workspace_dir_path: Path
     if workspace_dir is not None:
-        logger.info("'WORKSPACE_DIR' value: %s", workspace_dir)
         workspace_dir_path = Path(workspace_dir)
         workspace_dir_path.resolve()
 
@@ -241,6 +240,7 @@ def _get_workspace_dir() -> Path:
         if not workspace_dir_path.is_dir():
             msg = f"'{workspace_dir_path}' is not a directory."
             raise NotADirectoryError(msg)
+        logger.debug("'WORKSPACE_DIR' value: %s", workspace_dir)
     return workspace_dir_path
 
 
