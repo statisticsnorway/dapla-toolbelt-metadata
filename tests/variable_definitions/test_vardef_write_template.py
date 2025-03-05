@@ -124,7 +124,7 @@ def test_write_template_to_custom_path_no_workspace_dir_env(tmp_path: Path):
     ("custom_file_path", "expected_error"),
     [
         ("my_file.yaml", ValueError),
-        ("/", OSError),
+        ("/", VardefFileError),
         ("\0", ValueError),
         ("a" * 300, OSError),
     ],
