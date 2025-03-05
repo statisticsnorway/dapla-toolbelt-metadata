@@ -9,6 +9,9 @@ from ruamel.yaml.error import YAMLError
 from dapla_metadata.variable_definitions.generated.vardef_client.exceptions import (
     OpenApiException,
 )
+from dapla_metadata.variable_definitions.generated.vardef_client.exceptions import (
+    UnauthorizedException,
+)
 
 
 class VardefClientError(Exception):
@@ -63,6 +66,16 @@ def vardef_exception_handler(method):  # noqa: ANN201, ANN001
     def _impl(self, *method_args, **method_kwargs):  # noqa: ANN001, ANN002, ANN003
         try:
             return method(self, *method_args, **method_kwargs)
+        except UnauthorizedException as e:
+            raise VardefClientError(
+                json.dumps(
+                    {
+                        "status": e.status,
+                        "title": "Unauthorized",
+                        "detail": "Unauthorized",
+                    },
+                ),
+            ) from e
         except OpenApiException as e:
             raise VardefClientError(e.body) from e
 
