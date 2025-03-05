@@ -13,23 +13,14 @@ LOGGER = logging.getLogger(__name__)
 
 
 @pytest.mark.usefixtures("set_temp_workspace")
-def test_write_template(tmp_path: Path):
-    with patch.object(Path, "cwd", return_value=tmp_path):
-        file_path = Vardef.write_template_to_file()
-        assert file_path.exists()
-
-
-@pytest.mark.usefixtures("_delete_workspace_dir")
-def test_write_template_no_workspace(tmp_path: Path):
-    with patch.object(Path, "cwd", return_value=tmp_path), pytest.raises(
-        VardefFileError,
-        match="VardefFileError: File not found at file path: unknown file path",
-    ):
-        Vardef.write_template_to_file()
+def test_write_template():
+    file_path = Vardef.write_template_to_file()
+    assert file_path.exists()
 
 
 @pytest.mark.usefixtures("_delete_workspace_dir")
 def test_write_template_path_no_env_value(tmp_path: Path):
+    """No value for 'WORKSPACE_DIR', but folder 'work' exists."""
     workspace_dir = tmp_path / "work"
     workspace_dir.mkdir(parents=True, exist_ok=True)
     with patch.object(Path, "cwd", return_value=workspace_dir):
@@ -44,57 +35,33 @@ def test_write_template_path_no_env_value(tmp_path: Path):
 
 
 @pytest.mark.usefixtures("set_temp_workspace")
-def test_write_template_logger(tmp_path: Path, caplog):
-    with patch.object(Path, "cwd", return_value=tmp_path):
-        caplog.set_level(logging.INFO)
-        Vardef.write_template_to_file()
-        assert "Successfully written to file" in caplog.text
-
-
-def test_write_template_from_tmp_path():
-    base_path = Path("../")
-    with patch.object(Path, "cwd", return_value=base_path):
-        file_path = Vardef.write_template_to_file()
-        assert file_path.exists()
+def test_write_template_logger(caplog):
+    caplog.set_level(logging.INFO)
+    Vardef.write_template_to_file()
+    assert "Successfully written to file" in caplog.text
 
 
 @pytest.mark.usefixtures("set_temp_workspace_invalid")
 def test_write_template_invalid():
     """Env 'WORKSPACE_DIR' not present and 'work' not on path."""
-    base_path = Path("../")
-    base_path.mkdir(parents=True, exist_ok=True)
-
-    with patch.object(Path, "cwd", return_value=base_path), pytest.raises(
+    with pytest.raises(
         VardefFileError,
         match="VardefFileError: File not found at file path: unknown file path. Original error: 'work' directory not found and env WORKSPACE_DIR is not set.",
     ):
         Vardef.write_template_to_file()
 
 
-@pytest.mark.usefixtures("set_env_work_dir")
-def test_write_template_no_work_folder(tmp_path: Path):
-    base_path = tmp_path / "statistics/a/work"
-    base_path.mkdir(parents=True, exist_ok=True)
-
-    with patch.object(Path, "cwd", return_value=base_path), pytest.raises(
-        VardefFileError,
-        match="VardefFileError: File not found at file path: unknown file path",
-    ):
-        Vardef.write_template_to_file()
-
-
 @pytest.mark.usefixtures("set_temp_workspace")
-def test_write_template_random_dir_work_dir(tmp_path: Path):
-    base_path = tmp_path / "statistics/a/work"
+@pytest.mark.parametrize(
+    "file_path",
+    ["statistics/a/work", "./", "../..", "../", "./work"],
+)
+def test_write_template_workspace(tmp_path: Path, file_path):
+    """Assert file is created at the correct path no mather starting point filesystem."""
+    base_path = tmp_path / file_path
     base_path.mkdir(parents=True, exist_ok=True)
+    # mock current directory
     with patch.object(Path, "cwd", return_value=base_path):
-        file_path = Vardef.write_template_to_file()
-        assert file_path.exists()
-
-
-@pytest.mark.usefixtures("set_temp_workspace")
-def test_write_template_from_current():
-    with patch.object(Path, "cwd", return_value=Path("./")):
         file_path = Vardef.write_template_to_file()
         assert file_path.exists()
 
@@ -102,13 +69,13 @@ def test_write_template_from_current():
 @pytest.mark.usefixtures("set_temp_workspace")
 @pytest.mark.parametrize(
     "custom_path",
-    ["serious", "statistics", "private", "toppers$#23"],
+    ["serious", "statistics/april", "private", "toppers$#23"],
 )
-def test_write_template_to_custom_path(tmp_path: Path, custom_path: str):
-    with patch.object(Path, "cwd", return_value=tmp_path):
-        file_path = Vardef.write_template_to_file(
-            custom_file_path=tmp_path / custom_path,
-        )
+def test_write_template_to_custom_path_directory_doesnt_exist(
+    tmp_path: Path,
+    custom_path: str,
+):
+    file_path = Vardef.write_template_to_file(custom_file_path=tmp_path / custom_path)
 
     assert file_path.exists()
 
@@ -128,6 +95,41 @@ def test_write_template_to_custom_path(tmp_path: Path, custom_path: str):
 
 @pytest.mark.usefixtures("set_temp_workspace")
 @pytest.mark.parametrize(
+    "custom_path",
+    ["problems", "statistics", "private", "toppers$#23"],
+)
+def test_write_template_to_custom_path_directory_exist(
+    tmp_path: Path,
+    custom_path: str,
+):
+    local_dir = tmp_path / custom_path
+    local_dir.mkdir(parents=True, exist_ok=True)
+    file_path = Vardef.write_template_to_file(custom_file_path=local_dir)
+
+    assert file_path.exists()
+
+    file_path_str = str(file_path)
+
+    # Not saved at default path
+    assert "work" not in file_path_str
+    assert "variable-definitions" not in file_path_str
+    # Saved at custom path
+    assert custom_path in file_path_str
+
+    # Filename is correct
+    file_name = file_path.name
+    file_name_minus_timestamp = file_name.rsplit("_", 1)[0] + ".yaml"
+    assert file_name_minus_timestamp == "variable_definition_template.yaml"
+
+
+@pytest.mark.usefixtures("_delete_workspace_dir")
+def test_write_template_to_custom_path_no_workspace_dir_env(tmp_path: Path):
+    file_path = Vardef.write_template_to_file(custom_file_path=tmp_path / "cki/job")
+    assert file_path.exists()
+
+
+@pytest.mark.usefixtures("set_temp_workspace")
+@pytest.mark.parametrize(
     ("custom_file_path", "expected_error"),
     [
         ("my_file.yaml", ValueError),
@@ -136,9 +138,13 @@ def test_write_template_to_custom_path(tmp_path: Path, custom_path: str):
         ("a" * 300, OSError),
     ],
 )
-def test_write_template_to_invalid_custom_directory(custom_file_path, expected_error):
+def test_write_template_to_invalid_custom_directory(
+    custom_file_path,
+    expected_error,
+    tmp_path: Path,
+):
     with pytest.raises(expected_error):
-        Vardef.write_template_to_file(custom_file_path=custom_file_path)
+        Vardef.write_template_to_file(custom_file_path=tmp_path / custom_file_path)
 
 
 @pytest.mark.parametrize(
