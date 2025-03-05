@@ -41,12 +41,12 @@ def test_yaml_content_default_values(work_folder_defaults: Path):
     assert parsed_yaml["owner"]["team"] == "default team"
 
 
-def test_yaml_content_saved_values(work_folder_saved_variable: Path) -> None:
+def test_yaml_content_saved_values(work_folder_variable_definition: Path) -> None:
     """Check if the generated YAML file with saved values contains the expected data."""
-    with work_folder_saved_variable.open(encoding="utf-8") as f:
+    with work_folder_variable_definition.open(encoding="utf-8") as f:
         parsed_yaml = yaml.load(f)
 
-    assert parsed_yaml["variable_status"] == "PUBLISHED_INTERNAL"
+    assert parsed_yaml["variable_status"] == "PUBLISHED_EXTERNAL"
     assert parsed_yaml["last_updated_by"] == "ano@ssb.no"
 
 

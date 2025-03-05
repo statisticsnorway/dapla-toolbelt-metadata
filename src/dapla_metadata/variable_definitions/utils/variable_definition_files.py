@@ -103,11 +103,8 @@ def _model_to_yaml_with_comments(
     base_path = (
         _get_variable_definitions_dir()
         if custom_directory is None
-        else custom_directory
+        else _validate_and_create_directory(custom_directory)
     )
-
-    if custom_directory is not None:
-        base_path.mkdir(parents=True, exist_ok=True)
 
     file_path = base_path / file_name
 
@@ -244,6 +241,43 @@ def _get_workspace_dir() -> Path:
         raise FileNotFoundError(msg) from e
 
     return workspace_dir
+
+
+def _validate_and_create_directory(custom_directory: Path) -> Path:
+    """Ensure that the given path is a valid directory, creating it if necessary.
+
+    Args:
+        custom_directory (Path): The target directory path.
+
+    Returns:
+        Path: The resolved absolute path of the directory.
+
+    Raises:
+        ValueError: If the provided path has a file suffix, indicating a file name instead of a directory.
+        NotADirectoryError: If the path exists but is not a directory.
+        PermissionError: If there are insufficient permissions to create the directory.
+        OSError: If an OS-related error occurs while creating the directory.
+    """
+    custom_directory = Path(custom_directory).resolve()
+
+    if custom_directory.suffix:
+        msg = f"Expected a directory but got a file name: %{custom_directory.name}"
+        raise ValueError(msg)
+
+    if custom_directory.exists() and not custom_directory.is_dir():
+        msg = f"Path exists but is not a directory: {custom_directory}"
+        raise NotADirectoryError(msg)
+
+    try:
+        custom_directory.mkdir(parents=True, exist_ok=True)
+    except PermissionError as e:
+        msg = f"Insufficient permissions to create directory: {custom_directory}"
+        raise PermissionError(msg) from e
+    except OSError as e:
+        msg = f"Failed to create directory {custom_directory}: {e!s}"
+        raise OSError(msg) from e
+
+    return custom_directory
 
 
 def _get_variable_definitions_dir():

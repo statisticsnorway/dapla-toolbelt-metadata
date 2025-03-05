@@ -274,14 +274,6 @@ def _clean_up_after_test(target_path: Path, base_path: Path):
 
 
 @pytest.fixture
-def set_temp_workspace_invalid(tmp_path: Path, _delete_workspace_dir_env_var):
-    """Fixture which set env WORKSPACE_DIR to tmp path/work."""
-    workspace_dir = tmp_path / "statistics"
-    workspace_dir.mkdir(parents=True, exist_ok=True)
-    return workspace_dir
-
-
-@pytest.fixture
 def work_folder_defaults(set_temp_workspace: Path):
     """Fixture that ensures a work folder exists for template with default values."""
     base_path = set_temp_workspace
@@ -298,28 +290,11 @@ def work_folder_defaults(set_temp_workspace: Path):
 
 
 @pytest.fixture
-def work_folder_saved_variable(set_temp_workspace: Path):
+def work_folder_complete_patch_output(set_temp_workspace: Path):
     """Fixture that ensures a work folder exists for template with saved variable definition values."""
     base_path = set_temp_workspace
     file_name = create_template_yaml(
         sample_complete_patch_output(),
-        custom_directory=base_path,
-    )
-    target_path = base_path / file_name
-    yield target_path
-
-    _clean_up_after_test(target_path, base_path)
-
-
-@pytest.fixture
-def work_folder_saved_variable_2(
-    set_temp_workspace: Path,
-    sample_variable_definition: VariableDefinition,
-):
-    """Fixture that ensures a work folder exists for template with saved variable definition values."""
-    base_path = set_temp_workspace
-    file_name = create_template_yaml(
-        sample_variable_definition,
         custom_directory=base_path,
     )
     target_path = base_path / file_name

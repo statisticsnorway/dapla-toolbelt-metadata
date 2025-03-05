@@ -125,7 +125,7 @@ def vardef_file_error_handler(method):  # noqa: ANN201, ANN001
             msg = f"File already exists and can not be saved: {method_kwargs.get('file_path', 'unknown file path')}"
             raise VardefFileError(msg) from e
         except PermissionError as e:
-            msg = f"Permission denied for file path: {method_kwargs.get('file_path', 'unknown file path')} when accessing the file"
+            msg = f"Permission denied for file path when accessing the file. Original error: {e!s}"
             raise VardefFileError(msg) from e
         except UnknownTimeZoneError as e:
             msg = f"Timezone is unknown: {method_kwargs.get('time_zone', 'unknown')}"
