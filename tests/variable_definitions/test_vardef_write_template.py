@@ -21,7 +21,7 @@ def test_write_template_no_workspace(monkeypatch: pytest.MonkeyPatch):
     monkeypatch.delenv("WORKSPACE_DIR", raising=False)
     with pytest.raises(
         VardefFileError,
-        match="VardefFileError: File not found at file path: unknown file path",
+        match="VardefFileError: WORKSPACE_DIR is not set",
     ):
         Vardef.write_template_to_file()
 
@@ -170,3 +170,10 @@ def test_write_template_exceptions(mock_target: str, side_effect: Exception, moc
 
     with pytest.raises(VardefFileError):
         Vardef.write_template_to_file()
+
+
+def test_logging_workspace_dir(caplog):
+    """Test logging intended for user."""
+    caplog.set_level(logging.INFO)
+    Vardef.write_template_to_file()
+    assert "Created editable variable definition template file" in caplog.text

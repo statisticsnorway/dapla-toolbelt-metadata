@@ -29,8 +29,6 @@ from dapla_metadata.variable_definitions.variable_definition import VariableDefi
 
 logger = logging.getLogger(__name__)
 
-logger = logging.getLogger(__name__)
-
 
 class Vardef:
     """Create, maintain and read Variable Definitions.

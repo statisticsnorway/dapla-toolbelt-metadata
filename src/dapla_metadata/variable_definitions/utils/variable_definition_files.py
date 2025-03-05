@@ -1,7 +1,6 @@
 """Generate structured YAML files from Pydantic models with Norwegian descriptions as comments."""
 
 import logging
-import os
 from datetime import datetime
 from pathlib import Path
 from typing import cast
@@ -11,7 +10,9 @@ from pydantic.config import JsonDict
 from ruamel.yaml import YAML
 from ruamel.yaml import CommentedMap
 
+from dapla_metadata.variable_definitions import config
 from dapla_metadata.variable_definitions.complete_patch_output import DEFAULT_TEMPLATE
+from dapla_metadata.variable_definitions.exceptions import VardefFileError
 from dapla_metadata.variable_definitions.generated.vardef_client.models.complete_response import (
     CompleteResponse,
 )
@@ -222,25 +223,25 @@ def _get_current_time() -> str:
 
 def _get_workspace_dir() -> Path:
     """Determine the workspace directory."""
-    try:
-        # Attempt to get the directory from the environment variable
-        workspace_dir = Path(os.environ["WORKSPACE_DIR"])
+    workspace_dir = config.get_workspace_dir()
 
-        # Check if the directory exists and is actually a directory
-        if not workspace_dir.exists():
-            msg = f"Directory '{workspace_dir}' does not exist."
+    if workspace_dir is None:
+        msg = "WORKSPACE_DIR is not set. Check your configuration or provide a custom directory."
+        raise VardefFileError(msg)
+    workspace_dir_path: Path
+    if workspace_dir is not None:
+        workspace_dir_path = Path(workspace_dir)
+        workspace_dir_path.resolve()
+
+        if not workspace_dir_path.exists():
+            msg = f"Directory '{workspace_dir_path}' does not exist."
             raise FileNotFoundError(msg)
-        if not workspace_dir.is_dir():
-            msg = f"'{workspace_dir}' is not a directory."
+
+        if not workspace_dir_path.is_dir():
+            msg = f"'{workspace_dir_path}' is not a directory."
             raise NotADirectoryError(msg)
-
-    except KeyError as e:
-        msg = (
-            "Could not deduce location to save files at since WORKSPACE_DIR is not set."
-        )
-        raise FileNotFoundError(msg) from e
-
-    return workspace_dir
+        logger.debug("'WORKSPACE_DIR' value: %s", workspace_dir)
+    return workspace_dir_path
 
 
 def _validate_and_create_directory(custom_directory: Path) -> Path:
