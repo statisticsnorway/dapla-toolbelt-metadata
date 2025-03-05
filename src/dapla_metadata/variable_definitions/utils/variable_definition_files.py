@@ -1,7 +1,6 @@
 """Generate structured YAML files from Pydantic models with Norwegian descriptions as comments."""
 
 import os
-import sys
 from datetime import datetime
 from pathlib import Path
 from typing import cast
@@ -233,6 +232,22 @@ def _get_workspace_dir() -> Path:
 
 
 def _get_custom_directory(custom_directory: Path) -> Path:
+    """Get or create a given path.
+
+    Ensure that the given path is a valid directory, creating it if necessary.
+
+    Args:
+        custom_directory (Path): The target directory path.
+
+    Returns:
+        Path: The resolved absolute path of the directory.
+
+    Raises:
+        ValueError: If the provided path has a file suffix, indicating a file name instead of a directory.
+        NotADirectoryError: If the path exists but is not a directory.
+        PermissionError: If there are insufficient permissions to create the directory.
+        OSError: If an OS-related error occurs while creating the directory.
+    """
     custom_directory = Path(custom_directory).resolve()
 
     if custom_directory.suffix:
@@ -242,57 +257,6 @@ def _get_custom_directory(custom_directory: Path) -> Path:
     if custom_directory.exists() and not custom_directory.is_dir():
         msg = f"Path exists but is not a directory: {custom_directory}"
         raise NotADirectoryError(msg)
-
-    dir_name = custom_directory.name
-    # Windows-specific checks
-    if sys.platform.startswith("win"):
-        invalid_chars = r'[<>:"/\\|?*]'
-        reserved_names = {
-            "CON",
-            "PRN",
-            "AUX",
-            "NUL",
-            "COM1",
-            "COM2",
-            "COM3",
-            "COM4",
-            "COM5",
-            "COM6",
-            "COM7",
-            "COM8",
-            "COM9",
-            "LPT1",
-            "LPT2",
-            "LPT3",
-            "LPT4",
-            "LPT5",
-            "LPT6",
-            "LPT7",
-            "LPT8",
-            "LPT9",
-        }
-
-        if any(char in dir_name for char in invalid_chars):
-            msg = f"Invalid character in directory name: {dir_name}"
-            raise ValueError(msg)
-
-        if dir_name.upper() in reserved_names:
-            msg = f"Directory name '{dir_name}' is a reserved system name."
-            raise ValueError(msg)
-
-        if dir_name.endswith((" ", ".")):
-            msg = "Windows directory error."
-            raise ValueError(msg)
-
-    # Linux/macOS checks
-    elif sys.platform.startswith("linux") or sys.platform.startswith("darwin"):
-        if "/" in dir_name or "\0" in dir_name:
-            msg = f"Invalid character in directory name: {dir_name}"
-            raise ValueError(msg)
-    max_length = 255
-    if len(dir_name) > max_length:
-        msg = "Directory name exceeds the maximum length of 255 characters."
-        raise ValueError(msg)
 
     try:
         custom_directory.mkdir(parents=True, exist_ok=True)
