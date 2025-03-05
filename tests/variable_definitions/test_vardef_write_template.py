@@ -3,7 +3,7 @@ from unittest.mock import patch
 
 import pytest
 from pytz import UnknownTimeZoneError
-from yaml import YAMLError
+from ruamel.yaml import YAMLError
 
 from dapla_metadata.variable_definitions.exceptions import VardefFileError
 from dapla_metadata.variable_definitions.vardef import Vardef

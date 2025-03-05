@@ -1,4 +1,7 @@
+from pathlib import Path
+
 import pytest
+from pydantic import ValidationError
 
 from dapla_metadata.variable_definitions.exceptions import VardefFileError
 from dapla_metadata.variable_definitions.generated.vardef_client.models.patch import (
@@ -105,6 +108,35 @@ def test_update_draft_from_file_file_non_existent():
         Vardef.get_variable_definition_by_id(
             VARDEF_EXAMPLE_DEFINITION_ID,
         ).update_draft_from_file("my_cool_file.yaml")
+
+
+def test_update_draft_from_file_invalid_yaml(tmp_path: Path):
+    invalid = tmp_path / "invalid_yaml.yaml"
+    invalid.write_text(
+        """--- invalid yaml ---
+not allowed:
+:why
+""",
+    )
+    with pytest.raises(VardefFileError):
+        Vardef.get_variable_definition_by_id(
+            VARDEF_EXAMPLE_DEFINITION_ID,
+        ).update_draft_from_file(
+            invalid,
+        )
+
+
+def test_update_draft_from_file_validation_fails(tmp_path: Path):
+    invalid = tmp_path / "fails_validation.yaml"
+    invalid.write_text(
+        """fails validation""",
+    )
+    with pytest.raises(ValidationError):
+        Vardef.get_variable_definition_by_id(
+            VARDEF_EXAMPLE_DEFINITION_ID,
+        ).update_draft_from_file(
+            invalid,
+        )
 
 
 def test_update_draft_from_file_specify_file():

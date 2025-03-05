@@ -123,7 +123,6 @@ class VariableDefinition(CompletePatchOutput):
         return updated
 
     @vardef_file_error_handler
-    @vardef_exception_handler
     def update_draft_from_file(
         self,
         file_path: PathLike | None = None,
