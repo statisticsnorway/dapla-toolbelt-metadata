@@ -142,11 +142,5 @@ def vardef_file_error_handler(method):  # noqa: ANN201, ANN001
         except NotADirectoryError as e:
             msg = f"Path is not a directory: {method_kwargs.get('file_path', 'unknown file path')}. Original error: {e!s}"
             raise VardefFileError(msg) from e
-        except ValueError as e:
-            msg = f"Invalid value: {method_kwargs.get('file_path', 'unknown file path')}. Original error: {e!s}"
-            raise VardefFileError(msg) from e
-        except OSError as e:
-            msg = f"Operating system error.Original error: {e!s}"
-            raise VardefFileError(msg) from e
 
     return _impl
