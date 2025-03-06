@@ -5,9 +5,9 @@ from pathlib import Path
 
 import pytest
 
+from dapla_metadata.variable_definitions import config
 from dapla_metadata.variable_definitions._client import VardefClient
 from dapla_metadata.variable_definitions.complete_patch_output import DEFAULT_TEMPLATE
-from dapla_metadata.variable_definitions.config import get_descriptions_path
 from dapla_metadata.variable_definitions.generated import vardef_client
 from dapla_metadata.variable_definitions.generated.vardef_client.api_client import (
     ApiClient,
@@ -268,14 +268,6 @@ def complete_patch_output() -> CompletePatchOutput:
 
 
 @pytest.fixture
-def set_temp_workspace_invalid(tmp_path: Path, _delete_workspace_dir_env_var):
-    """Fixture which set env WORKSPACE_DIR to tmp path/work."""
-    workspace_dir = tmp_path / "statistics"
-    workspace_dir.mkdir(parents=True, exist_ok=True)
-    return workspace_dir
-
-
-@pytest.fixture
 def work_folder_defaults(set_temp_workspace: Path):
     """Fixture that ensures a work folder exists for template with default values."""
     base_path = set_temp_workspace
@@ -288,25 +280,11 @@ def work_folder_defaults(set_temp_workspace: Path):
 
 
 @pytest.fixture
-def work_folder_saved_variable(set_temp_workspace: Path):
+def work_folder_complete_patch_output(set_temp_workspace: Path):
     """Fixture that ensures a work folder exists for template with saved variable definition values."""
     base_path = set_temp_workspace / VARIABLE_DEFINITIONS_DIR
     file_name = create_template_yaml(
         sample_complete_patch_output(),
-        custom_directory=base_path,
-    )
-    return base_path / file_name
-
-
-@pytest.fixture
-def work_folder_saved_variable_2(
-    set_temp_workspace: Path,
-    sample_variable_definition: VariableDefinition,
-):
-    """Fixture that ensures a work folder exists for template with saved variable definition values."""
-    base_path = set_temp_workspace
-    file_name = create_template_yaml(
-        sample_variable_definition,
         custom_directory=base_path,
     )
     return base_path / file_name
@@ -377,4 +355,11 @@ VARIABLE_DEFINITION_DICT = {
 @pytest.fixture
 def get_norwegian_descriptions_from_file():
     """Return dict representation of model field descriptions."""
-    return load_descriptions(get_descriptions_path())
+    return load_descriptions(config.get_descriptions_path())
+
+
+@pytest.fixture
+def set_workspace_not_dir(tmp_path: Path):
+    file_path = tmp_path / "funnyfiles.txt"
+    file_path.write_text("This is a text file.")
+    return file_path

@@ -1,5 +1,6 @@
-"""Test class for creating a yaml template."""
+"""Tests for variable definition files."""
 
+import logging
 from datetime import datetime
 from datetime import timedelta
 from pathlib import Path
@@ -9,6 +10,7 @@ import pytz
 import ruamel.yaml
 from pytest_mock import MockerFixture
 
+from dapla_metadata.variable_definitions.exceptions import VardefFileError
 from dapla_metadata.variable_definitions.utils.constants import TEMPLATE_HEADER
 from dapla_metadata.variable_definitions.utils.constants import (
     TEMPLATE_SECTION_HEADER_MACHINE_GENERATED,
@@ -48,12 +50,12 @@ def test_yaml_content_default_values(work_folder_defaults: Path):
     assert parsed_yaml["owner"]["team"] == "default team"
 
 
-def test_yaml_content_saved_values(work_folder_saved_variable: Path) -> None:
+def test_yaml_content_saved_values(work_folder_variable_definition: Path) -> None:
     """Check if the generated YAML file with saved values contains the expected data."""
-    with work_folder_saved_variable.open(encoding="utf-8") as f:
+    with work_folder_variable_definition.open(encoding="utf-8") as f:
         parsed_yaml = yaml.load(f)
 
-    assert parsed_yaml["variable_status"] == "PUBLISHED_INTERNAL"
+    assert parsed_yaml["variable_status"] == "PUBLISHED_EXTERNAL"
     assert parsed_yaml["last_updated_by"] == "ano@ssb.no"
 
 
@@ -132,3 +134,31 @@ def test_find_latest_template_file(mocker: MockerFixture, tmp_path: Path):
 
 def test_find_latest_template_file_none_exist(tmp_path: Path):
     assert _find_latest_template_file(directory=tmp_path) is None
+
+
+def test_logging_workspace_dir(caplog):
+    """Test logging intended for debugging."""
+    caplog.set_level(logging.DEBUG)
+    _get_workspace_dir()
+    assert "WORKSPACE_DIR' value:" in caplog.text
+
+
+def test_workspace_dir_not_set(monkeypatch: pytest.MonkeyPatch):
+    monkeypatch.delenv("WORKSPACE_DIR", raising=False)
+    with pytest.raises(
+        VardefFileError,
+        match="VardefFileError: WORKSPACE_DIR is not set",
+    ):
+        _get_workspace_dir()
+
+
+def test_workspace_dir_doesnt_exist(monkeypatch: pytest.MonkeyPatch):
+    monkeypatch.setenv("WORKSPACE_DIR", "funnypath/haha")
+    with pytest.raises(FileNotFoundError):
+        _get_workspace_dir()
+
+
+def test_workspace_is_not_dir(monkeypatch: pytest.MonkeyPatch, set_workspace_not_dir):
+    monkeypatch.setenv("WORKSPACE_DIR", str(set_workspace_not_dir))
+    with pytest.raises(NotADirectoryError):
+        _get_workspace_dir()

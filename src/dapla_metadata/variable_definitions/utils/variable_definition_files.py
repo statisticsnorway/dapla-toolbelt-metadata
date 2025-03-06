@@ -1,7 +1,6 @@
 """Generate structured YAML files from Pydantic models with Norwegian descriptions as comments."""
 
 import logging
-import os
 from datetime import datetime
 from pathlib import Path
 from typing import cast
@@ -11,7 +10,9 @@ from pydantic.config import JsonDict
 from ruamel.yaml import YAML
 from ruamel.yaml import CommentedMap
 
+from dapla_metadata.variable_definitions import config
 from dapla_metadata.variable_definitions.complete_patch_output import DEFAULT_TEMPLATE
+from dapla_metadata.variable_definitions.exceptions import VardefFileError
 from dapla_metadata.variable_definitions.generated.vardef_client.models.complete_response import (
     CompleteResponse,
 )
@@ -103,11 +104,8 @@ def _model_to_yaml_with_comments(
     base_path = (
         _get_variable_definitions_dir()
         if custom_directory is None
-        else custom_directory
+        else _validate_and_create_directory(custom_directory)
     )
-
-    if custom_directory is not None:
-        base_path.mkdir(parents=True, exist_ok=True)
 
     file_path = base_path / file_name
 
@@ -242,25 +240,62 @@ def _get_current_time() -> str:
 
 def _get_workspace_dir() -> Path:
     """Determine the workspace directory."""
-    try:
-        # Attempt to get the directory from the environment variable
-        workspace_dir = Path(os.environ["WORKSPACE_DIR"])
+    workspace_dir = config.get_workspace_dir()
 
-        # Check if the directory exists and is actually a directory
-        if not workspace_dir.exists():
-            msg = f"Directory '{workspace_dir}' does not exist."
+    if workspace_dir is None:
+        msg = "WORKSPACE_DIR is not set. Check your configuration or provide a custom directory."
+        raise VardefFileError(msg)
+    workspace_dir_path: Path
+    if workspace_dir is not None:
+        workspace_dir_path = Path(workspace_dir)
+        workspace_dir_path.resolve()
+
+        if not workspace_dir_path.exists():
+            msg = f"Directory '{workspace_dir_path}' does not exist."
             raise FileNotFoundError(msg)
-        if not workspace_dir.is_dir():
-            msg = f"'{workspace_dir}' is not a directory."
+
+        if not workspace_dir_path.is_dir():
+            msg = f"'{workspace_dir_path}' is not a directory."
             raise NotADirectoryError(msg)
+        logger.debug("'WORKSPACE_DIR' value: %s", workspace_dir)
+    return workspace_dir_path
 
-    except KeyError as e:
-        msg = (
-            "Could not deduce location to save files at since WORKSPACE_DIR is not set."
-        )
-        raise FileNotFoundError(msg) from e
 
-    return workspace_dir
+def _validate_and_create_directory(custom_directory: Path) -> Path:
+    """Ensure that the given path is a valid directory, creating it if necessary.
+
+    Args:
+        custom_directory (Path): The target directory path.
+
+    Returns:
+        Path: The resolved absolute path of the directory.
+
+    Raises:
+        ValueError: If the provided path has a file suffix, indicating a file name instead of a directory.
+        NotADirectoryError: If the path exists but is not a directory.
+        PermissionError: If there are insufficient permissions to create the directory.
+        OSError: If an OS-related error occurs while creating the directory.
+    """
+    custom_directory = Path(custom_directory).resolve()
+
+    if custom_directory.suffix:
+        msg = f"Expected a directory but got a file name: %{custom_directory.name}"
+        raise ValueError(msg)
+
+    if custom_directory.exists() and not custom_directory.is_dir():
+        msg = f"Path exists but is not a directory: {custom_directory}"
+        raise NotADirectoryError(msg)
+
+    try:
+        custom_directory.mkdir(parents=True, exist_ok=True)
+    except PermissionError as e:
+        msg = f"Insufficient permissions to create directory: {custom_directory}"
+        raise PermissionError(msg) from e
+    except OSError as e:
+        msg = f"Failed to create directory {custom_directory}: {e!s}"
+        raise OSError(msg) from e
+
+    return custom_directory
 
 
 def _get_variable_definitions_dir():
