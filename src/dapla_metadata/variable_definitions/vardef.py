@@ -1,5 +1,6 @@
 import logging
 from datetime import date
+from os import PathLike
 from pathlib import Path
 
 from dapla_metadata.variable_definitions import config
@@ -20,10 +21,13 @@ from dapla_metadata.variable_definitions.generated.vardef_client.models.draft im
     Draft,
 )
 from dapla_metadata.variable_definitions.utils.variable_definition_files import (
-    create_template_yaml,
+    _find_latest_template_file,
 )
 from dapla_metadata.variable_definitions.utils.variable_definition_files import (
-    create_variable_yaml,
+    _read_variable_definition_file,
+)
+from dapla_metadata.variable_definitions.utils.variable_definition_files import (
+    create_template_yaml,
 )
 from dapla_metadata.variable_definitions.variable_definition import VariableDefinition
 
@@ -94,7 +98,7 @@ class Vardef:
     @vardef_exception_handler
     def create_draft(cls, draft: Draft) -> VariableDefinition:
         """Create a Draft Variable Definition."""
-        return VariableDefinition.from_model(
+        new_variable = VariableDefinition.from_model(
             DraftVariableDefinitionsApi(
                 VardefClient.get_client(),
             ).create_variable_definition(
@@ -102,6 +106,55 @@ class Vardef:
                 draft=draft,
             ),
         )
+
+        logger.info(
+            "Successfully created variable definition '%s' with ID '%s'",
+            new_variable.short_name,
+            new_variable.id,
+        )
+        return new_variable
+
+    @classmethod
+    @vardef_file_error_handler
+    def create_draft_from_file(
+        cls,
+        file_path: PathLike[str] | None = None,
+    ) -> VariableDefinition:
+        """Create a Draft Variable Definition from a stored yaml file.
+
+        By default the latest template file in the default directory is chosen, this may be overridden by providing a value for the optional `file_path` parameter.
+
+        Args:
+            file_path (PathLike[str], optional): Supply a file path to override the automatic one. Defaults to None.
+
+        Raises:
+            FileNotFoundError: When a file can't be found.
+
+        Returns:
+            VariableDefinition: The created draft variable definition.
+        """
+        try:
+            file_path = Path(
+                # type incongruence (i.e. None) is handled by catching the exception
+                file_path
+                or _find_latest_template_file(),  # type: ignore [arg-type]
+            )
+        except TypeError as e:
+            msg = "Could not deduce a path to the file. Please supply a path to the yaml file you wish to submit with the `file_path` parameter."
+            raise FileNotFoundError(
+                msg,
+            ) from e
+        draft = Draft.from_dict(
+            _read_variable_definition_file(
+                file_path,
+            ),
+        )
+
+        if draft is None:
+            msg = f"Could not read data from {file_path}"
+            raise FileNotFoundError(msg)
+
+        return cls.create_draft(draft)
 
     @classmethod
     @vardef_exception_handler
@@ -240,7 +293,7 @@ class Vardef:
         variable_definition_id: str | None = None,
         short_name: str | None = None,
     ) -> VariableDefinition:
-        """Write template with default values to a yaml file."""
+        """Retrieve a variable definition and write it to a yaml file."""
         if variable_definition_id is not None and short_name is not None:
             msg = "Only one of variable_definition_id or short_name may be specified"
             raise ValueError(
@@ -260,11 +313,4 @@ class Vardef:
                 msg,
             )
 
-        file_path = create_variable_yaml(
-            model_instance=variable_definition,
-        )
-        variable_definition.set_file_path(file_path)
-        logger.info(
-            f"Created editable variable definition file at {file_path}",  # noqa: G004
-        )
-        return variable_definition
+        return variable_definition.to_file()

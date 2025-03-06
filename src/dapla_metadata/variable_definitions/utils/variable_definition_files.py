@@ -167,12 +167,29 @@ def create_template_yaml(
         _get_current_time(),
     )
 
-    return _model_to_yaml_with_comments(
+    file_path = _model_to_yaml_with_comments(
         model_instance,
         file_name,
         TEMPLATE_HEADER,
         custom_directory=custom_directory,
     )
+    logger.debug("Created %s", file_path)
+    return file_path
+
+
+def _find_latest_template_file(directory: Path | None = None) -> Path | None:
+    def _filter_template_file(path: Path) -> bool:
+        return "variable_definition_template" in path.stem and path.suffix == ".yaml"
+
+    try:
+        return sorted(
+            filter(
+                _filter_template_file,
+                (directory or _get_variable_definitions_dir()).iterdir(),
+            ),
+        )[-1]
+    except IndexError:
+        return None
 
 
 def _populate_commented_map(
