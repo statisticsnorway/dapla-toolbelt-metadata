@@ -5,9 +5,9 @@ from pathlib import Path
 
 import pytest
 
+from dapla_metadata.variable_definitions import config
 from dapla_metadata.variable_definitions._client import VardefClient
 from dapla_metadata.variable_definitions.complete_patch_output import DEFAULT_TEMPLATE
-from dapla_metadata.variable_definitions.config import get_descriptions_path
 from dapla_metadata.variable_definitions.generated import vardef_client
 from dapla_metadata.variable_definitions.generated.vardef_client.api_client import (
     ApiClient,
@@ -39,6 +39,8 @@ from dapla_metadata.variable_definitions.generated.vardef_client.models.validity
 from dapla_metadata.variable_definitions.generated.vardef_client.models.variable_status import (
     VariableStatus,
 )
+from dapla_metadata.variable_definitions.utils.constants import VARIABLE_DEFINITIONS_DIR
+from dapla_metadata.variable_definitions.utils.descriptions import get_package_root
 from dapla_metadata.variable_definitions.utils.descriptions import load_descriptions
 from dapla_metadata.variable_definitions.utils.variable_definition_files import (
     create_template_yaml,
@@ -74,11 +76,11 @@ def _configure_vardef_client(client_configuration):
 
 
 @pytest.fixture(autouse=True)
-def set_temp_workspace(tmp_path: Path):
+def set_temp_workspace(tmp_path: Path, monkeypatch: pytest.MonkeyPatch):
     """Fixture which set env WORKSPACE_DIR to tmp path/work."""
     workspace_dir = tmp_path / "work"
     workspace_dir.mkdir(parents=True, exist_ok=True)
-    os.environ["WORKSPACE_DIR"] = str(workspace_dir)
+    monkeypatch.setenv("WORKSPACE_DIR", str(workspace_dir))
     return workspace_dir
 
 
@@ -266,13 +268,6 @@ def complete_patch_output() -> CompletePatchOutput:
     return sample_complete_patch_output()
 
 
-def _clean_up_after_test(target_path: Path, base_path: Path):
-    if target_path.exists():
-        target_path.unlink()
-    if base_path.exists():
-        base_path.rmdir()
-
-
 @pytest.fixture
 def work_folder_defaults(set_temp_workspace: Path):
     """Fixture that ensures a work folder exists for template with default values."""
@@ -282,25 +277,18 @@ def work_folder_defaults(set_temp_workspace: Path):
         custom_directory=base_path,
     )
 
-    target_path = base_path / file_name
-
-    yield target_path
-
-    _clean_up_after_test(target_path, base_path)
+    return base_path / file_name
 
 
 @pytest.fixture
 def work_folder_complete_patch_output(set_temp_workspace: Path):
     """Fixture that ensures a work folder exists for template with saved variable definition values."""
-    base_path = set_temp_workspace
+    base_path = set_temp_workspace / VARIABLE_DEFINITIONS_DIR
     file_name = create_template_yaml(
         sample_complete_patch_output(),
         custom_directory=base_path,
     )
-    target_path = base_path / file_name
-    yield target_path
-
-    _clean_up_after_test(target_path, base_path)
+    return base_path / file_name
 
 
 @pytest.fixture
@@ -326,10 +314,7 @@ def work_folder_variable_definition(set_temp_workspace: Path):
         sample_variable_definition(),
         custom_directory=base_path,
     )
-    target_path = base_path / file_name
-    yield target_path
-
-    _clean_up_after_test(target_path, base_path)
+    return base_path / file_name
 
 
 VARIABLE_DEFINITION_DICT = {
@@ -371,4 +356,11 @@ VARIABLE_DEFINITION_DICT = {
 @pytest.fixture
 def get_norwegian_descriptions_from_file():
     """Return dict representation of model field descriptions."""
-    return load_descriptions(get_descriptions_path())
+    return load_descriptions(get_package_root() / config.get_descriptions_path())
+
+
+@pytest.fixture
+def set_workspace_not_dir(tmp_path: Path):
+    file_path = tmp_path / "funnyfiles.txt"
+    file_path.write_text("This is a text file.")
+    return file_path

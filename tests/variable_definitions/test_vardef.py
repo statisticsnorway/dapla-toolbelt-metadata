@@ -1,5 +1,6 @@
 import functools
 from collections.abc import Callable
+from pathlib import Path
 from unittest.mock import patch
 
 import pytest
@@ -138,6 +139,23 @@ def test_create_draft(
     my_draft = Vardef.create_draft(
         draft=draft,
     )
+    assert isinstance(my_draft, CompletePatchOutput)
+    assert my_draft.id is not None
+    assert my_draft.patch_id == 1
+    assert my_draft.variable_status == VariableStatus.DRAFT
+
+
+@pytest.mark.usefixtures("work_folder_complete_patch_output")
+def test_create_draft_from_file():
+    my_draft = Vardef.create_draft_from_file()
+    assert isinstance(my_draft, CompletePatchOutput)
+    assert my_draft.id is not None
+    assert my_draft.patch_id == 1
+    assert my_draft.variable_status == VariableStatus.DRAFT
+
+
+def test_create_draft_from_file_specify_path(work_folder_complete_patch_output: Path):
+    my_draft = Vardef.create_draft_from_file(work_folder_complete_patch_output)
     assert isinstance(my_draft, CompletePatchOutput)
     assert my_draft.id is not None
     assert my_draft.patch_id == 1

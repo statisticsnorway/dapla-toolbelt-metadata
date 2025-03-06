@@ -104,7 +104,7 @@ def test_update_draft_from_file_no_known_file():
 
 
 def test_update_draft_from_file_file_non_existent():
-    with pytest.raises(VardefFileError):
+    with pytest.raises(FileNotFoundError):
         Vardef.get_variable_definition_by_id(
             VARDEF_EXAMPLE_DEFINITION_ID,
         ).update_draft_from_file("my_cool_file.yaml")

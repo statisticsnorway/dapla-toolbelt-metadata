@@ -36,6 +36,9 @@ from dapla_metadata.variable_definitions.generated.vardef_client.models.validity
 from dapla_metadata.variable_definitions.utils.variable_definition_files import (
     _read_variable_definition_file,
 )
+from dapla_metadata.variable_definitions.utils.variable_definition_files import (
+    create_variable_yaml,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -265,3 +268,14 @@ class VariableDefinition(CompletePatchOutput):
                 validity_period=validity_period,
             ),
         )
+
+    def to_file(self) -> "VariableDefinition":
+        """Write this variable definition to file."""
+        file_path = create_variable_yaml(
+            model_instance=self,
+        )
+        self.set_file_path(file_path)
+        logger.info(
+            f"Created editable variable definition file at {file_path}",  # noqa: G004
+        )
+        return self

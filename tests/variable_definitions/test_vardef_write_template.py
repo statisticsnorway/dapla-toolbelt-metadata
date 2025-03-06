@@ -21,7 +21,7 @@ def test_write_template_no_workspace(monkeypatch: pytest.MonkeyPatch):
     monkeypatch.delenv("WORKSPACE_DIR", raising=False)
     with pytest.raises(
         VardefFileError,
-        match="VardefFileError: File not found at file path: unknown file path",
+        match="WORKSPACE_DIR is not set",
     ):
         Vardef.write_template_to_file()
 
@@ -31,8 +31,7 @@ def test_write_template_no_work_folder(monkeypatch: pytest.MonkeyPatch):
     monkeypatch.setenv("WORKSPACE_DIR", "statistics/a/work")
 
     with pytest.raises(
-        VardefFileError,
-        match="VardefFileError: File not found at file path: unknown file path",
+        FileNotFoundError,
     ):
         Vardef.write_template_to_file()
 
@@ -43,8 +42,8 @@ def test_write_template_no_work_folder(monkeypatch: pytest.MonkeyPatch):
     ["statistics/a/work", "./", "../..", "../", "./work"],
 )
 def test_write_template_workspace(tmp_path: Path, file_path, monkeypatch):
-    """Assert file is created at the correct path no mather starting point filesystem."""
-    base_path = tmp_path / file_path
+    """Assert file is created at the correct path no matter starting point filesystem."""
+    base_path = (tmp_path / file_path).resolve()
     base_path.mkdir(parents=True, exist_ok=True)
 
     # Mock current directory using monkeypatch
@@ -170,3 +169,10 @@ def test_write_template_exceptions(mock_target: str, side_effect: Exception, moc
 
     with pytest.raises(VardefFileError):
         Vardef.write_template_to_file()
+
+
+def test_logging_workspace_dir(caplog):
+    """Test logging intended for user."""
+    caplog.set_level(logging.INFO)
+    Vardef.write_template_to_file()
+    assert "Created editable variable definition template file" in caplog.text
