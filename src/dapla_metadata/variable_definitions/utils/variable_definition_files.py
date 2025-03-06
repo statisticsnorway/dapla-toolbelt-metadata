@@ -77,7 +77,11 @@ def _model_to_yaml_with_comments(
     apply_norwegian_descriptions_to_model(CompletePatchOutput)
     apply_norwegian_descriptions_to_model(VariableDefinition)
 
-    data = model_instance.model_dump()  # Convert Pydantic model instance to dictionary
+    # Convert Pydantic model instance to dictionary
+    data = model_instance.model_dump(
+        serialize_as_any=True,
+        warnings="error",
+    )
 
     # One CommentMap for each section in the yaml file
     machine_generated_map = CommentedMap()
