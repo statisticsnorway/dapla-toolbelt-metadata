@@ -22,7 +22,9 @@ from dapla_metadata.variable_definitions.generated.vardef_client.models.variable
 from dapla_metadata.variable_definitions.utils.constants import HEADER
 from dapla_metadata.variable_definitions.utils.constants import MACHINE_GENERATED_FIELDS
 from dapla_metadata.variable_definitions.utils.constants import NORWEGIAN_DESCRIPTIONS
+from dapla_metadata.variable_definitions.utils.constants import OPTIONAL_FIELD
 from dapla_metadata.variable_definitions.utils.constants import OWNER_FIELD_NAME
+from dapla_metadata.variable_definitions.utils.constants import REQUIRED_FIELD
 from dapla_metadata.variable_definitions.utils.constants import TEMPLATE_HEADER
 from dapla_metadata.variable_definitions.utils.constants import (
     TEMPLATE_SECTION_HEADER_MACHINE_GENERATED,
@@ -204,11 +206,19 @@ def _populate_commented_map(
 ) -> None:
     """Add data to a CommentedMap."""
     commented_map[field_name] = value
-    description: JsonDict = cast(JsonDict, model_instance.model_fields[field_name].json_schema_extra[NORWEGIAN_DESCRIPTIONS])  # type: ignore[index]
+    field = model_instance.model_fields[field_name]
+    description: JsonDict = cast(JsonDict, field.json_schema_extra[NORWEGIAN_DESCRIPTIONS])  # type: ignore[index]
     if description is not None:
+        new_description = (
+            (OPTIONAL_FIELD + "\n" + description)
+            if not field.is_required()
+            else (REQUIRED_FIELD + "\n" + description)
+            if field.is_required()
+            else description
+        )
         commented_map.yaml_set_comment_before_after_key(
             field_name,
-            before=description,
+            before=new_description,
         )
 
 
