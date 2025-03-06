@@ -14,9 +14,9 @@ from dapla_metadata.variable_definitions.config import get_descriptions_path
 logger = logging.getLogger(__name__)
 
 
-def get_repo_root() -> Path:
-    """Get an absolute Path to the root of the repo."""
-    number_of_directories_up_from_descriptions_file = 4
+def get_package_root() -> Path:
+    """Get an absolute Path to the root of the package (dapla_metadata)."""
+    number_of_directories_up_from_descriptions_file = 2
     return (
         Path(__file__)
         .resolve()
@@ -55,7 +55,7 @@ def apply_norwegian_descriptions_to_model(
     new_fields = {}
 
     descriptions = load_descriptions(
-        get_repo_root() / get_descriptions_path(),
+        get_package_root() / get_descriptions_path(),
     )
 
     for field_name, field_info in model.model_fields.items():

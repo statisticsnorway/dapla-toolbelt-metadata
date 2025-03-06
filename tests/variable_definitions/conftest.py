@@ -40,6 +40,7 @@ from dapla_metadata.variable_definitions.generated.vardef_client.models.variable
     VariableStatus,
 )
 from dapla_metadata.variable_definitions.utils.constants import VARIABLE_DEFINITIONS_DIR
+from dapla_metadata.variable_definitions.utils.descriptions import get_package_root
 from dapla_metadata.variable_definitions.utils.descriptions import load_descriptions
 from dapla_metadata.variable_definitions.utils.variable_definition_files import (
     create_template_yaml,
@@ -355,7 +356,7 @@ VARIABLE_DEFINITION_DICT = {
 @pytest.fixture
 def get_norwegian_descriptions_from_file():
     """Return dict representation of model field descriptions."""
-    return load_descriptions(config.get_descriptions_path())
+    return load_descriptions(get_package_root() / config.get_descriptions_path())
 
 
 @pytest.fixture
