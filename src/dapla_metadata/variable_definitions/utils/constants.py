@@ -36,3 +36,6 @@ MACHINE_GENERATED_FIELDS = [
     "last_updated_at",
     "last_updated_by",
 ]
+
+OPTIONAL_FIELD = "~ Valgfritt felt ~"
+REQUIRED_FIELD = "! Obligatorisk felt !"
