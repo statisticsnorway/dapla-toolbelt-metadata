@@ -210,9 +210,9 @@ def _populate_commented_map(
     description: JsonDict = cast(JsonDict, field.json_schema_extra[NORWEGIAN_DESCRIPTIONS])  # type: ignore[index]
     if description is not None:
         new_description = (
-            (OPTIONAL_FIELD + "\n" + description)
+            (OPTIONAL_FIELD + "\n" + str(description))
             if not field.is_required()
-            else (REQUIRED_FIELD + "\n" + description)
+            else (REQUIRED_FIELD + "\n" + str(description))
             if field.is_required()
             else description
         )
