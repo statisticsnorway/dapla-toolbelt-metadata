@@ -16,7 +16,7 @@ packages = [{ include = "dapla_metadata", from = "src" }]
 Changelog = "https://github.com/statisticsnorway/dapla-toolbelt-metadata/releases"
 
 [tool.poetry.dependencies]
-python = ">=3.10,<4.0"
+python = ">=3.11,<4.0"
 pyarrow = ">=8.0.0"
 pydantic = ">=2.5.2"
 pandas = ">=1.4.2"
