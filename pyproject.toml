@@ -33,7 +33,6 @@ typing-extensions = ">=4.12.2"
 ruamel-yaml = "^0.18.10"
 
 [tool.poetry.group.dev.dependencies]
-black = ">=24.8.0"
 pygments = ">=2.18.0"
 coverage = { extras = ["toml"], version = ">=6.2" }
 faker = ">=26.1.0"
@@ -87,11 +86,6 @@ relative_files = true
 show_missing = true
 fail_under = 80
 omit = ["*/dapla_metadata/variable_definitions/generated/*"]
-
-[tool.black]
-# We don't want to format generated files because it creates large diffs
-# when generated code is updated.
-extend-exclude = "/generated/"
 
 [tool.mypy]
 plugins = ["pydantic.mypy"]
@@ -150,6 +144,7 @@ extend-exclude = [
     ".ipynb_checkpoints",
     "noxfile.py",
     "docs/conf.py",
+    "generated/",
 ]
 
 # Ruff rules may be customized as desired: https://docs.astral.sh/ruff/rules/
