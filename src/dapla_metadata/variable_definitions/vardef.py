@@ -136,8 +136,7 @@ class Vardef:
         try:
             file_path = Path(
                 # type incongruence (i.e. None) is handled by catching the exception
-                file_path
-                or _find_latest_template_file(),  # type: ignore [arg-type]
+                file_path or _find_latest_template_file(),  # type: ignore [arg-type]
             )
         except TypeError as e:
             msg = "Could not deduce a path to the file. Please supply a path to the yaml file you wish to submit with the `file_path` parameter."
