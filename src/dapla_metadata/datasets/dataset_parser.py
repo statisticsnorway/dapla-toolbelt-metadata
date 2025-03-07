@@ -5,7 +5,7 @@ Handles reading in the data and transforming data types to generic metadata type
 
 from __future__ import annotations
 
-import pathlib  # noqa: TCH003 import is needed for docs build
+import pathlib  # noqa: TC003 import is needed for docs build
 import re
 import typing as t
 from abc import ABC

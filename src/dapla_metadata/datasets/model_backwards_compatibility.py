@@ -15,8 +15,8 @@ from __future__ import annotations
 
 from collections import OrderedDict
 from dataclasses import dataclass
+from datetime import UTC
 from datetime import datetime
-from datetime import timezone
 from typing import TYPE_CHECKING
 from typing import Any
 
@@ -305,10 +305,10 @@ def handle_version_2_2_0(supplied_metadata: dict[str, Any]) -> dict[str, Any]:
         )
         supplied_metadata["datadoc"]["variables"][i]["special_value"] = None
         supplied_metadata["datadoc"]["variables"][i]["custom_type"] = None
-        supplied_metadata["datadoc"]["variables"][
-            i
-        ] = _find_and_update_language_strings(
-            supplied_metadata["datadoc"]["variables"][i],
+        supplied_metadata["datadoc"]["variables"][i] = (
+            _find_and_update_language_strings(
+                supplied_metadata["datadoc"]["variables"][i],
+            )
         )
     supplied_metadata["datadoc"]["dataset"]["custom_type"] = None
     supplied_metadata["datadoc"]["dataset"] = _find_and_update_language_strings(
@@ -384,7 +384,7 @@ def handle_version_1_0_0(supplied_metadata: dict[str, Any]) -> dict[str, Any]:
         if supplied_metadata["dataset"][field]:
             supplied_metadata["dataset"][field] = datetime.isoformat(
                 datetime.fromisoformat(supplied_metadata["dataset"][field]).astimezone(
-                    tz=timezone.utc,
+                    tz=UTC,
                 ),
                 timespec="seconds",
             )

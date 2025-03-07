@@ -5,11 +5,11 @@ from __future__ import annotations
 import logging
 import warnings
 from typing import TYPE_CHECKING
+from typing import Self
 from typing import TextIO
 
 from datadoc_model import model
 from pydantic import model_validator
-from typing_extensions import Self
 
 from dapla_metadata.datasets.utility.constants import DATE_VALIDATION_MESSAGE
 from dapla_metadata.datasets.utility.constants import NUM_OBLIGATORY_DATASET_FIELDS
@@ -176,7 +176,7 @@ class ObligatoryVariableWarning(UserWarning):
     """Custom warning for checking obligatory metadata for variables."""
 
 
-def custom_warning_handler(  # noqa: PLR0913 remove fields causes incompatible types
+def custom_warning_handler(
     message: Warning | str,
     category: type[Warning],
     filename: str,
