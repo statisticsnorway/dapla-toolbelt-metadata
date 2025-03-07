@@ -228,7 +228,7 @@ class VariableDefinition(CompletePatchOutput):
             VariableDefinition: Variable Definition with all details.
 
         """
-        return VariableDefinition.from_model(
+        new_patch = VariableDefinition.from_model(
             PatchesApi(
                 VardefClient.get_client(),
             ).create_patch(
@@ -238,6 +238,40 @@ class VariableDefinition(CompletePatchOutput):
                 valid_from=valid_from,
             ),
         )
+        logger.info(
+            "Successfully created patch with patch ID '%s' for variable definition '%s' with ID '%s'",
+            new_patch.patch_id,
+            new_patch.short_name,
+            new_patch.id,
+        )
+        return new_patch
+
+    @vardef_file_error_handler
+    def create_patch_from_file(
+        self,
+        file_path: PathLike | None = None,
+        valid_from: date | None = None,
+    ) -> "VariableDefinition":
+        """Method create patch from file."""
+        try:
+            file_path = Path(
+                file_path or self.get_file_path(),  # type: ignore [arg-type]
+            )
+        except TypeError as e:
+            msg = "Could not deduce a path to the file. Please supply a path to the yaml file you wish to submit with the `file_path` parameter."
+            raise ValueError(
+                msg,
+            ) from e
+        create_patch = Patch.from_dict(
+            _read_variable_definition_file(
+                file_path,
+            ),
+        )
+
+        if create_patch is None:
+            msg = f"Could not read data from {file_path}"
+            raise FileNotFoundError(msg)
+        return self.create_patch(patch=create_patch, valid_from=valid_from)
 
     @vardef_exception_handler
     def create_validity_period(
