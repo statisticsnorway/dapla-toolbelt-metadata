@@ -3,6 +3,7 @@
 import json
 from functools import wraps
 
+import urllib3
 from pytz import UnknownTimeZoneError
 from ruamel.yaml.error import YAMLError
 
@@ -41,7 +42,7 @@ class VardefClientError(Exception):
         """
         try:
             data = json.loads(response_body)
-            self.status = data.get("status", "Unknown status")
+            self.status = data.get("status", None)
             if data.get("title") == "Constraint Violation":
                 violations = data.get("violations", [])
                 self.detail = "".join(
@@ -53,10 +54,12 @@ class VardefClientError(Exception):
                 self.detail = data.get("detail", "No detail provided")
             self.response_body = response_body
         except (json.JSONDecodeError, TypeError):
-            self.status = "Unknown"
+            self.status = None
             self.detail = "Could not decode error response from API"
             data = None
-        super().__init__(f"Status {self.status}: {self.detail}")
+        super().__init__(
+            (f"Status {self.status}: " if self.status else "") + f"{self.detail}",
+        )
 
 
 def vardef_exception_handler(method):  # noqa: ANN201, ANN001
@@ -66,6 +69,20 @@ def vardef_exception_handler(method):  # noqa: ANN201, ANN001
     def _impl(self, *method_args, **method_kwargs):  # noqa: ANN001, ANN002, ANN003
         try:
             return method(self, *method_args, **method_kwargs)
+        except urllib3.exceptions.HTTPError as e:
+            # Catch all urllib3 exceptions by catching the base class.
+            # These exceptions typically arise from lower level network problems.
+            raise VardefClientError(
+                json.dumps(
+                    {
+                        "status": None,
+                        "title": "Network problems",
+                        "detail": f"""There was a network problem when sending the request to the server. Try again shortly.
+Original exception:
+{getattr(e, "message", repr(e))}""",
+                    },
+                ),
+            ) from e
         except UnauthorizedException as e:
             raise VardefClientError(
                 json.dumps(
