@@ -157,7 +157,7 @@ ignore = [
     "FBT001",  # Allow boolean positional arguments in a function.
     "FBT002",  # Allow boolean default positional arguments in a function.
     "E402",    # Supress module-import-not-at-top-of-file, needed in jupyter notebooks.
-    "E501",    # Supress line-too-long warnings
+    "E501",    # Supress line-too-long warnings: trust black's judgement on this one.
     "PLR2004", # Allow to compare with unnamed numerical constants.
 ]
 
