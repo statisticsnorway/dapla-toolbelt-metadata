@@ -126,7 +126,7 @@ def insert_header_in_hook(header: dict[str, str], lines: list[str]) -> str:
     return "\n".join(lines)
 
 
-@session(name="pre-commit", python=python_versions[-1])
+@session(name="pre-commit", python="3.12")
 def precommit(session: Session) -> None:
     """Lint using pre-commit."""
     args = session.posargs or [
@@ -201,7 +201,7 @@ def coverage(session: Session) -> None:
     session.run("coverage", *args)
 
 
-@session(python=python_versions[-1])
+@session(python="3.12")
 def typeguard(session: Session) -> None:
     """Runtime type checking using Typeguard."""
     session.install(".")
@@ -209,7 +209,7 @@ def typeguard(session: Session) -> None:
     session.run("pytest", f"--typeguard-packages={package}.datasets", *session.posargs)
 
 
-@session(python=python_versions[-1])
+@session(python="3.12")
 def xdoctest(session: Session) -> None:
     """Run examples with xdoctest."""
     if session.posargs:
@@ -224,7 +224,7 @@ def xdoctest(session: Session) -> None:
     session.run("python", "-m", "xdoctest", *args)
 
 
-@session(name="docs-build", python=python_versions[-1])
+@session(name="docs-build", python="3.12")
 def docs_build(session: Session) -> None:
     """Build the documentation."""
     args = session.posargs or ["docs", "docs/_build"]
