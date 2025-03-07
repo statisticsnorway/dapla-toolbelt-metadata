@@ -40,7 +40,7 @@ def test_normalize_path(
 
 
 def test_calculate_percentage():
-    assert calculate_percentage(1, 3) == 33  # noqa: PLR2004
+    assert calculate_percentage(1, 3) == 33
 
 
 @pytest.mark.parametrize(

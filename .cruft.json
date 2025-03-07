@@ -1,7 +1,7 @@
 {
   "template": "https://github.com/statisticsnorway/ssb-pypitemplate.git",
-  "commit": "f7f5ee76f498f10dd72f7f263516aeaff20b0b3a",
-  "checkout": "2024.4.9",
+  "commit": "0d33fca0d1c29c79aef9c7053e36d9e7cdd2bd20",
+  "checkout": null,
   "context": {
     "cookiecutter": {
       "project_name": "dapla-toolbelt-metadata",
