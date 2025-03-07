@@ -8,8 +8,8 @@ import os
 import pathlib
 import shutil
 from concurrent.futures import ThreadPoolExecutor
+from datetime import UTC
 from datetime import datetime
-from datetime import timezone
 from pathlib import Path
 from typing import TYPE_CHECKING
 
@@ -54,7 +54,7 @@ def faker_session_locale():
 
 @pytest.fixture
 def dummy_timestamp() -> datetime:
-    return datetime(2022, 1, 1, tzinfo=timezone.utc)
+    return datetime(2022, 1, 1, tzinfo=UTC)
 
 
 @pytest.fixture
@@ -128,7 +128,7 @@ def english_name() -> str:
 
 
 @pytest.fixture
-def bokmål_name() -> str:
+def bokmål_name() -> str:  # noqa: PLC2401 the listed problems do not apply in this case
     return "Bokmål navn"
 
 

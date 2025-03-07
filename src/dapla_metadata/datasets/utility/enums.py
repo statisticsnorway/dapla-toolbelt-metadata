@@ -11,6 +11,6 @@ class SupportedLanguages(str, Enum):
     Reference: https://www.iana.org/assignments/language-subtag-registry/language-subtag-registry
     """
 
-    NORSK_BOKMÅL = "nb"
+    NORSK_BOKMÅL = "nb"  # noqa: PLC2401 the listed problems do not apply in this case
     NORSK_NYNORSK = "nn"
     ENGLISH = "en"
