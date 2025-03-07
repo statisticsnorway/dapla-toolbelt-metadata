@@ -79,7 +79,7 @@ def derive_assessment_from_state(state: DataSetState) -> Assessment:
     Returns:
         The derived assessment of the dataset.
     """
-    match (state):
+    match state:
         case (
             DataSetState.INPUT_DATA
             | DataSetState.PROCESSED_DATA

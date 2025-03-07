@@ -11,7 +11,6 @@
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=statisticsnorway_dapla-toolbelt-metadata&metric=alert_status&token=ee0a4d273db2bf811222fca5dffccd4592e3d536)][sonarquality]
 
 [![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)][pre-commit]
-[![Black](https://img.shields.io/badge/code%20style-black-000000.svg)][black]
 [![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
 [![Poetry](https://img.shields.io/endpoint?url=https://python-poetry.org/badge/v0.json)][poetry]
 
@@ -22,7 +21,6 @@
 [sonarcov]: https://sonarcloud.io/summary/overall?id=statisticsnorway_dapla-toolbelt-metadata
 [sonarquality]: https://sonarcloud.io/summary/overall?id=statisticsnorway_dapla-toolbelt-metadata
 [pre-commit]: https://github.com/pre-commit/pre-commit
-[black]: https://github.com/psf/black
 [poetry]: https://python-poetry.org/
 
 Tools and clients for working with the Dapla Metadata system.
