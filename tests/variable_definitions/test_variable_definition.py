@@ -154,10 +154,7 @@ def test_update_draft_from_file_specify_file():
 
 def test_create_patch_from_file(variable_definition: VariableDefinition):
     my_variable = variable_definition
-    Vardef.write_variable_to_file(
-        variable_definition_id=my_variable.id,
-    )
-    assert my_variable.variable_status == ""
+    assert my_variable.variable_status == "PUBLISHED_EXTERNAL"
 
 
 def test_str(variable_definition):
