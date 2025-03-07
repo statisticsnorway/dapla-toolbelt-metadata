@@ -87,7 +87,7 @@ DATASET_FIELDS_FROM_EXISTING_METADATA = [
     "use_restriction_date",
     "custom_type",
     "owner",
-    "version_description"
+    "version_description",
 ]
 
 METADATA_DOCUMENT_FILE_SUFFIX = "__DOC.json"
