@@ -3,6 +3,7 @@
 import logging
 from datetime import datetime
 from pathlib import Path
+from typing import TYPE_CHECKING
 from typing import cast
 
 import pytz
@@ -22,7 +23,9 @@ from dapla_metadata.variable_definitions.generated.vardef_client.models.variable
 from dapla_metadata.variable_definitions.utils.constants import HEADER
 from dapla_metadata.variable_definitions.utils.constants import MACHINE_GENERATED_FIELDS
 from dapla_metadata.variable_definitions.utils.constants import NORWEGIAN_DESCRIPTIONS
+from dapla_metadata.variable_definitions.utils.constants import OPTIONAL_FIELD
 from dapla_metadata.variable_definitions.utils.constants import OWNER_FIELD_NAME
+from dapla_metadata.variable_definitions.utils.constants import REQUIRED_FIELD
 from dapla_metadata.variable_definitions.utils.constants import TEMPLATE_HEADER
 from dapla_metadata.variable_definitions.utils.constants import (
     TEMPLATE_SECTION_HEADER_MACHINE_GENERATED,
@@ -40,6 +43,9 @@ from dapla_metadata.variable_definitions.utils.constants import (
 from dapla_metadata.variable_definitions.utils.descriptions import (
     apply_norwegian_descriptions_to_model,
 )
+
+if TYPE_CHECKING:
+    from pydantic import JsonValue
 
 logger = logging.getLogger(__name__)
 
@@ -77,7 +83,11 @@ def _model_to_yaml_with_comments(
     apply_norwegian_descriptions_to_model(CompletePatchOutput)
     apply_norwegian_descriptions_to_model(VariableDefinition)
 
-    data = model_instance.model_dump()  # Convert Pydantic model instance to dictionary
+    # Convert Pydantic model instance to dictionary
+    data = model_instance.model_dump(
+        serialize_as_any=True,
+        warnings="error",
+    )
 
     # One CommentMap for each section in the yaml file
     machine_generated_map = CommentedMap()
@@ -200,11 +210,20 @@ def _populate_commented_map(
 ) -> None:
     """Add data to a CommentedMap."""
     commented_map[field_name] = value
-    description: JsonDict = cast(JsonDict, model_instance.model_fields[field_name].json_schema_extra[NORWEGIAN_DESCRIPTIONS])  # type: ignore[index]
+    field = model_instance.model_fields[field_name]
+    description: JsonValue = cast(
+        JsonDict,
+        field.json_schema_extra,
+    )[NORWEGIAN_DESCRIPTIONS]
     if description is not None:
+        new_description = (
+            (REQUIRED_FIELD if field.is_required() else OPTIONAL_FIELD)
+            + "\n"
+            + str(description)
+        )
         commented_map.yaml_set_comment_before_after_key(
             field_name,
-            before=description,
+            before=new_description,
         )
 
 

@@ -89,7 +89,7 @@ def test_metadata_document_percent_complete(metadata: Datadoc):
     metadata.dataset = document.dataset  # type: ignore [assignment]
     metadata.variables = document.variables  # type: ignore [assignment]
 
-    assert metadata.percent_complete == 12  # noqa: PLR2004
+    assert metadata.percent_complete == 12
 
 
 def test_write_metadata_document(
@@ -364,7 +364,7 @@ def test_existing_pseudo_metadata_file(
     metadata.write_metadata_document()
     post_open_metadata = json.loads(existing_metadata_file.read_text())
 
-    assert len(metadata.variables) == 8  # noqa: PLR2004
+    assert len(metadata.variables) == 8
     assert (
         pre_open_metadata["pseudonymization"] == post_open_metadata["pseudonymization"]
     )
@@ -602,7 +602,7 @@ def test_merge_with_fewer_variables_in_existing_metadata(tmp_path):
 def test_check_ready_to_merge_consistent_paths(
     new_dataset_path: str,
     existing_dataset_path: str,
-    errors_as_warnings: bool,  # noqa: FBT001
+    errors_as_warnings: bool,
 ):
     with warnings.catch_warnings() if errors_as_warnings else contextlib.nullcontext():  # type: ignore [attr-defined]
         if errors_as_warnings:
@@ -652,7 +652,7 @@ def test_check_ready_to_merge_consistent_paths(
 def test_check_ready_to_merge_inconsistent_paths(
     new_dataset_path: str,
     existing_dataset_path: str,
-    errors_as_warnings: bool,  # noqa: FBT001
+    errors_as_warnings: bool,
 ):
     with contextlib.ExitStack() as stack:
         if errors_as_warnings:
@@ -705,7 +705,7 @@ VARIABLE_DATA_TYPES = [
 def test_check_ready_to_merge_inconsistent_variable_names(
     extracted_variables: list[str],
     existing_variables: list[str],
-    errors_as_warnings: bool,  # noqa: FBT001
+    errors_as_warnings: bool,
 ):
     with contextlib.ExitStack() as stack:
         if errors_as_warnings:
@@ -731,7 +731,7 @@ def test_check_ready_to_merge_inconsistent_variable_names(
     ids=["warnings", "errors"],
 )
 def test_check_ready_to_merge_consistent_variables(
-    errors_as_warnings: bool,  # noqa: FBT001
+    errors_as_warnings: bool,
 ):
     with warnings.catch_warnings() if errors_as_warnings else contextlib.nullcontext():  # type: ignore [attr-defined]
         if errors_as_warnings:
@@ -769,7 +769,7 @@ def test_check_ready_to_merge_consistent_variables(
     ids=["warnings", "errors"],
 )
 def test_check_ready_to_merge_inconsistent_variable_data_types(
-    errors_as_warnings: bool,  # noqa: FBT001
+    errors_as_warnings: bool,
 ):
     with contextlib.ExitStack() as stack:
         if errors_as_warnings:

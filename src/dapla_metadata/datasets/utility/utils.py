@@ -37,7 +37,7 @@ logger = logging.getLogger(__name__)
 
 def get_timestamp_now() -> datetime.datetime:
     """Return a timestamp for the current moment."""
-    return datetime.datetime.now(tz=datetime.timezone.utc)
+    return datetime.datetime.now(tz=datetime.UTC)
 
 
 def normalize_path(path: str) -> pathlib.Path | CloudPath:
@@ -79,7 +79,7 @@ def derive_assessment_from_state(state: DataSetState) -> Assessment:
     Returns:
         The derived assessment of the dataset.
     """
-    match (state):
+    match state:
         case (
             DataSetState.INPUT_DATA
             | DataSetState.PROCESSED_DATA
@@ -245,10 +245,7 @@ def _is_missing_multilanguage_value(
             len(field_value[0]) > 0
             and not field_value[0]["languageText"]
             and (len(field_value) <= 1 or not field_value[1]["languageText"])
-            and (
-                len(field_value) <= 2  # noqa: PLR2004 approve magic value
-                or not field_value[2]["languageText"]
-            )
+            and (len(field_value) <= 2 or not field_value[2]["languageText"])
         ),
     )
 
@@ -277,8 +274,7 @@ def _is_missing_metadata(
         True if the field doesn't have a value, False otherwise.
     """
     return bool(
-        field_name in obligatory_list
-        and field_value is None
+        (field_name in obligatory_list and field_value is None)
         or _is_missing_multilanguage_value(
             field_name,
             field_value,

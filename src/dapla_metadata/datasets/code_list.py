@@ -127,7 +127,7 @@ class CodeList(GetExternalSource):
                     .get_codes()
                     .data
                 )
-            except Exception:  # noqa: PERF203
+            except Exception:
                 logger.exception(
                     "Exception while getting classifications from Klass",
                 )
