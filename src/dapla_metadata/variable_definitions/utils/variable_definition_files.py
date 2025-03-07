@@ -3,6 +3,7 @@
 import logging
 from datetime import datetime
 from pathlib import Path
+from typing import TYPE_CHECKING
 from typing import cast
 
 import pytz
@@ -42,6 +43,9 @@ from dapla_metadata.variable_definitions.utils.constants import (
 from dapla_metadata.variable_definitions.utils.descriptions import (
     apply_norwegian_descriptions_to_model,
 )
+
+if TYPE_CHECKING:
+    from pydantic import JsonValue
 
 logger = logging.getLogger(__name__)
 
@@ -207,10 +211,10 @@ def _populate_commented_map(
     """Add data to a CommentedMap."""
     commented_map[field_name] = value
     field = model_instance.model_fields[field_name]
-    description: JsonDict = cast(
+    description: JsonValue = cast(
         JsonDict,
-        field.json_schema_extra[NORWEGIAN_DESCRIPTIONS],
-    )  # type: ignore[index]
+        field.json_schema_extra,
+    )[NORWEGIAN_DESCRIPTIONS]
     if description is not None:
         new_description = (
             (REQUIRED_FIELD if field.is_required() else OPTIONAL_FIELD)

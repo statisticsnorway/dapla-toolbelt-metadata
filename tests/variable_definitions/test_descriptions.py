@@ -1,5 +1,6 @@
 """Test class for applying norwegian descriptions to model."""
 
+from typing import TYPE_CHECKING
 from typing import cast
 
 from pydantic.config import JsonDict
@@ -10,6 +11,9 @@ from dapla_metadata.variable_definitions.utils.descriptions import (
 from dapla_metadata.variable_definitions.variable_definition import CompletePatchOutput
 from dapla_metadata.variable_definitions.variable_definition import VariableDefinition
 
+if TYPE_CHECKING:
+    from pydantic import JsonValue
+
 
 def test_descriptions_complete_patch_output(
     get_norwegian_descriptions_from_file: dict,
@@ -17,10 +21,10 @@ def test_descriptions_complete_patch_output(
     descriptions = get_norwegian_descriptions_from_file
     apply_norwegian_descriptions_to_model(CompletePatchOutput)
     field_metadata = CompletePatchOutput.model_fields["name"]
-    field_value: JsonDict = cast(
+    field_value: JsonValue = cast(
         JsonDict,
-        field_metadata.json_schema_extra["norwegian_description"],
-    )  # type: ignore[index]
+        field_metadata.json_schema_extra,
+    )["norwegian_description"]
     assert descriptions.get("name") == field_value
 
 
@@ -30,8 +34,8 @@ def test_descriptions_variable_definition(
     descriptions = get_norwegian_descriptions_from_file
     apply_norwegian_descriptions_to_model(VariableDefinition)
     field_metadata = VariableDefinition.model_fields["definition"]
-    field_value: JsonDict = cast(
+    field_value: JsonValue = cast(
         JsonDict,
-        field_metadata.json_schema_extra["norwegian_description"],
-    )  # type: ignore[index]
+        field_metadata.json_schema_extra,
+    )["norwegian_description"]
     assert descriptions.get("definition") == field_value
