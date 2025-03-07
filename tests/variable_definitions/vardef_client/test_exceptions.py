@@ -20,22 +20,22 @@ def test_valid_response_body():
 def test_respons_empty_status():
     response_body = '{"status": , "detail": "Bad Request"}'
     exc = VardefClientError(response_body)
-    assert exc.status == "Unknown"
+    assert exc.status is None
 
 
 def tests_no_status():
     response_body = '{"detail": "Bad Request"}'
     exc = VardefClientError(response_body)
-    assert exc.status == "Unknown status"
+    assert exc.status is None
     assert exc.detail == "Bad Request"
 
 
 def test_invalid_json():
     response_body = "Not a JSON string"
     exc = VardefClientError(response_body)
-    assert exc.status == "Unknown"
+    assert exc.status is None
     assert exc.detail == "Could not decode error response from API"
-    assert str(exc) == "Status Unknown: Could not decode error response from API"
+    assert str(exc) == "Could not decode error response from API"
 
 
 def test_missing_keys():
