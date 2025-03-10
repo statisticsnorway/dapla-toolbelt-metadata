@@ -252,7 +252,28 @@ class VariableDefinition(CompletePatchOutput):
         file_path: PathLike | None = None,
         valid_from: date | None = None,
     ) -> "VariableDefinition":
-        """Method create patch from file."""
+        """Create a new Patch for this Variable Definition from a file.
+
+        Will automatically read the relevant file pertaining to this variable definition. Can
+        be overridden by specifying the file_path parameter.
+
+        Patches are to be used for minor changes which don't require a new Validity Period.
+        Examples of reasons for creating a new Patch:
+          - Correcting a typo
+          - Adding a translation
+          - Adding a subject field
+
+        Supply only the fields to be changed. Other fields will retain their current values.
+
+        Args:
+            file_path: Optionally specify the path to read from.
+            valid_from: Optional date for selecting a Validity Period to create patch in. The date must
+                        exactly match the Validity Period `valid_from`. If value is None the patch is
+                        created in the last validity period.
+
+        Returns:
+            VariableDefinition: Variable Definition with all details.
+        """
         try:
             file_path = Path(
                 file_path or self.get_file_path(),  # type: ignore [arg-type]
