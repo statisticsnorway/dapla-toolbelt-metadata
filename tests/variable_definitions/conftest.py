@@ -5,9 +5,11 @@ from pathlib import Path
 
 import pytest
 
-from dapla_metadata.variable_definitions import config
+from dapla_metadata._shared.config import DAPLA_GROUP_CONTEXT
 from dapla_metadata.variable_definitions._client import VardefClient
 from dapla_metadata.variable_definitions.complete_patch_output import DEFAULT_TEMPLATE
+from dapla_metadata.variable_definitions.config import WORKSPACE_DIR
+from dapla_metadata.variable_definitions.config import get_descriptions_path
 from dapla_metadata.variable_definitions.generated import vardef_client
 from dapla_metadata.variable_definitions.generated.vardef_client.api_client import (
     ApiClient,
@@ -47,7 +49,6 @@ from dapla_metadata.variable_definitions.utils.variable_definition_files import 
 )
 from dapla_metadata.variable_definitions.variable_definition import CompletePatchOutput
 from dapla_metadata.variable_definitions.variable_definition import VariableDefinition
-from tests.utils.constants import DAPLA_GROUP_CONTEXT
 from tests.utils.constants import VARDEF_EXAMPLE_ACTIVE_GROUP
 from tests.utils.constants import VARDEF_EXAMPLE_DEFINITION_ID
 from tests.utils.constants import VARDEF_EXAMPLE_INVALID_ID
@@ -80,7 +81,7 @@ def set_temp_workspace(tmp_path: Path, monkeypatch: pytest.MonkeyPatch):
     """Fixture which set env WORKSPACE_DIR to tmp path/work."""
     workspace_dir = tmp_path / "work"
     workspace_dir.mkdir(parents=True, exist_ok=True)
-    monkeypatch.setenv("WORKSPACE_DIR", str(workspace_dir))
+    monkeypatch.setenv(WORKSPACE_DIR, str(workspace_dir))
     return workspace_dir
 
 
@@ -293,15 +294,15 @@ def work_folder_complete_patch_output(set_temp_workspace: Path):
 
 @pytest.fixture
 def _delete_workspace_dir_env_var(set_temp_workspace):  # noqa: ARG001
-    original_workspace_dir = os.environ.get("WORKSPACE_DIR")
+    original_workspace_dir = os.environ.get(WORKSPACE_DIR)
 
-    if "WORKSPACE_DIR" in os.environ:
-        del os.environ["WORKSPACE_DIR"]
+    if WORKSPACE_DIR in os.environ:
+        del os.environ[WORKSPACE_DIR]
 
     yield
 
     if original_workspace_dir is not None:
-        os.environ["WORKSPACE_DIR"] = original_workspace_dir
+        os.environ[WORKSPACE_DIR] = original_workspace_dir
     else:
         pass
 
@@ -356,7 +357,7 @@ VARIABLE_DEFINITION_DICT = {
 @pytest.fixture
 def get_norwegian_descriptions_from_file():
     """Return dict representation of model field descriptions."""
-    return load_descriptions(get_package_root() / config.get_descriptions_path())
+    return load_descriptions(get_package_root() / get_descriptions_path())
 
 
 @pytest.fixture
