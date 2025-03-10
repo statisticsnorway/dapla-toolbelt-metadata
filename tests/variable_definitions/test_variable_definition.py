@@ -1,4 +1,6 @@
 from pathlib import Path
+from unittest.mock import MagicMock
+from unittest.mock import patch
 
 import pytest
 from pydantic import ValidationError
@@ -90,9 +92,9 @@ def test_create_validity_period(
 
 
 def test_update_draft_from_file():
-    my_draft = Vardef.write_variable_to_file(
+    my_draft = Vardef.get_variable_definition_by_id(
         variable_definition_id=VARDEF_EXAMPLE_DEFINITION_ID,
-    )
+    ).to_file()
     assert isinstance(my_draft.update_draft_from_file(), CompletePatchOutput)
 
 
@@ -150,6 +152,39 @@ def test_update_draft_from_file_specify_file():
         .short_name
         == "landbak"
     )
+
+
+def test_create_patch_from_file(variable_definition: VariableDefinition):
+    mock_api_response = MagicMock(name="VariableDefinition")
+    mock_api_response.classification_reference = "702"
+    with patch.object(
+        VariableDefinition,
+        "create_patch",
+        return_value=mock_api_response,
+    ) as mock_create_patch:
+        my_patch = variable_definition
+        result = my_patch.create_patch_from_file(
+            file_path=VARIABLE_DEFINITION_EDITING_FILES_DIR
+            / "classification_reference.yaml",
+        )
+
+    assert my_patch.classification_reference != result.classification_reference
+    mock_create_patch.assert_called_once()
+
+
+def test_create_patch_from_file_path_not_set(variable_definition: VariableDefinition):
+    my_patch = variable_definition
+    my_patch.set_file_path(file_path=None)
+    with pytest.raises(ValueError, match="Could not deduce a path to the file"):
+        my_patch.create_patch_from_file()
+
+
+def test_create_patch_from_file_path_non_existing(
+    variable_definition: VariableDefinition,
+):
+    my_patch = variable_definition
+    with pytest.raises(FileNotFoundError):
+        my_patch.create_patch_from_file("some_file.yaml")
 
 
 def test_str(variable_definition):
