@@ -18,17 +18,29 @@ def test_valid_response_body():
     assert str(exc) == STATUS_EXPLANATIONS[HTTPStatus.BAD_REQUEST] + exc.detail
 
 
-def test_respons_empty_status():
+def test_response_empty_status():
     response_body = '{"status": , "detail": "Bad Request"}'
     exc = VardefClientError(response_body)
     assert exc.status is None
+    assert str(exc) == "Could not decode error response from API"
 
 
-def tests_no_status():
+def test_no_status():
     response_body = '{"detail": "Bad Request"}'
     exc = VardefClientError(response_body)
     assert exc.status is None
     assert exc.detail == "\nDetail: Bad Request"
+
+
+def test_no_explanation_for_status():
+    assert (
+        str(
+            VardefClientError(
+                f'{{"status": {HTTPStatus.IM_A_TEAPOT}, "detail": "{HTTPStatus.IM_A_TEAPOT.phrase}"}}',
+            ),
+        )
+        == f"Status {HTTPStatus.IM_A_TEAPOT}:\nDetail: {HTTPStatus.IM_A_TEAPOT.phrase}"
+    )
 
 
 def test_invalid_json():
