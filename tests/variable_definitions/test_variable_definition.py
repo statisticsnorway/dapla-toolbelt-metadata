@@ -90,9 +90,9 @@ def test_create_validity_period(
 
 
 def test_update_draft_from_file():
-    my_draft = Vardef.write_variable_to_file(
+    my_draft = Vardef.get_variable_definition_by_id(
         variable_definition_id=VARDEF_EXAMPLE_DEFINITION_ID,
-    )
+    ).to_file()
     assert isinstance(my_draft.update_draft_from_file(), CompletePatchOutput)
 
 
