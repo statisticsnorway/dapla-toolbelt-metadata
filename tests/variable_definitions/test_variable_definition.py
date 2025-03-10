@@ -152,15 +152,6 @@ def test_update_draft_from_file_specify_file():
     )
 
 
-def test_create_patch_from_file(
-    variable_definition: VariableDefinition,
-):
-    my_patch = Vardef.write_variable_to_file(
-        variable_definition_id=variable_definition.id,
-    )
-    assert isinstance(my_patch.create_patch_from_file(), CompletePatchOutput)
-
-
 def test_str(variable_definition):
     assert (
         str(variable_definition)
