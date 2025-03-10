@@ -5,6 +5,7 @@ import pytest
 from pytz import UnknownTimeZoneError
 from ruamel.yaml import YAMLError
 
+from dapla_metadata.variable_definitions.config import WORKSPACE_DIR
 from dapla_metadata.variable_definitions.exceptions import VardefFileError
 from dapla_metadata.variable_definitions.vardef import Vardef
 
@@ -18,7 +19,7 @@ def test_write_template():
 
 
 def test_write_template_no_workspace(monkeypatch: pytest.MonkeyPatch):
-    monkeypatch.delenv("WORKSPACE_DIR", raising=False)
+    monkeypatch.delenv(WORKSPACE_DIR, raising=False)
     with pytest.raises(
         VardefFileError,
         match="WORKSPACE_DIR is not set",
@@ -28,7 +29,7 @@ def test_write_template_no_workspace(monkeypatch: pytest.MonkeyPatch):
 
 def test_write_template_no_work_folder(monkeypatch: pytest.MonkeyPatch):
     """'WORKSPACE_DIR' is set but there is no path matching value."""
-    monkeypatch.setenv("WORKSPACE_DIR", "statistics/a/work")
+    monkeypatch.setenv(WORKSPACE_DIR, "statistics/a/work")
 
     with pytest.raises(
         FileNotFoundError,

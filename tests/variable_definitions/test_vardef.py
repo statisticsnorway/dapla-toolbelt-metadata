@@ -1,5 +1,6 @@
 import functools
 from collections.abc import Callable
+from http import HTTPStatus
 from pathlib import Path
 from unittest.mock import Mock
 from unittest.mock import patch
@@ -9,6 +10,7 @@ import urllib3
 
 from dapla_metadata._shared.config import DAPLA_GROUP_CONTEXT
 from dapla_metadata.variable_definitions._client import VardefClient
+from dapla_metadata.variable_definitions.exceptions import STATUS_EXPLANATIONS
 from dapla_metadata.variable_definitions.exceptions import VardefClientError
 from dapla_metadata.variable_definitions.exceptions import VariableNotFoundError
 from dapla_metadata.variable_definitions.generated.vardef_client.api.variable_definitions_api import (
@@ -29,7 +31,6 @@ from dapla_metadata.variable_definitions.generated.vardef_client.models.variable
 from dapla_metadata.variable_definitions.vardef import Vardef
 from dapla_metadata.variable_definitions.variable_definition import CompletePatchOutput
 from dapla_metadata.variable_definitions.variable_definition import VariableDefinition
-from tests.utils.constants import NOT_FOUND_STATUS
 from tests.utils.constants import VARDEF_EXAMPLE_ACTIVE_GROUP
 from tests.utils.constants import VARDEF_EXAMPLE_DATE
 from tests.utils.constants import VARDEF_EXAMPLE_DEFINITION_ID
@@ -158,9 +159,10 @@ def test_not_found(
     VardefClient.set_config(client_configuration)
     with pytest.raises(VardefClientError) as e:
         method()
-    assert e.value.status == NOT_FOUND_STATUS
-    assert e.value.detail == "Not found"
-    assert str(e.value) == "Status 404: Not found"
+    assert e.value.status == HTTPStatus.NOT_FOUND
+    assert str(e.value) == (
+        STATUS_EXPLANATIONS[HTTPStatus.NOT_FOUND] + "\nDetail: Not found"
+    )
 
 
 def test_create_draft(

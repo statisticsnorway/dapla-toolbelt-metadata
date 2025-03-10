@@ -2,6 +2,8 @@
 
 import json
 from functools import wraps
+from http import HTTPStatus
+from types import MappingProxyType
 
 import urllib3
 from pytz import UnknownTimeZoneError
@@ -12,6 +14,19 @@ from dapla_metadata.variable_definitions.generated.vardef_client.exceptions impo
 )
 from dapla_metadata.variable_definitions.generated.vardef_client.exceptions import (
     UnauthorizedException,
+)
+
+# Use MappingProxyType so the dict is immutable
+STATUS_EXPLANATIONS: MappingProxyType[HTTPStatus | None, str] = MappingProxyType(
+    {
+        HTTPStatus.BAD_REQUEST: "There was a problem with the supplied data. Please review the data you supplied based on the details below.",
+        HTTPStatus.UNAUTHORIZED: "There is a problem with your token, it may have expired. Try logging out, logging in and trying again.",
+        HTTPStatus.FORBIDDEN: "Forbidden. You don't have access to this, possibly because your team is not an owner of this variable definition.",
+        HTTPStatus.NOT_FOUND: "The variable definition was not found, check that the `short_name` or `id` is correct and that the variable exists.",
+        HTTPStatus.METHOD_NOT_ALLOWED: "That won't work here. The status of your variable definition likely doesn't allow for this to happen.",
+        HTTPStatus.CONFLICT: "There was a conflict with existing data. Please change your data and try again.",
+        None: "",
+    },
 )
 
 
@@ -40,25 +55,36 @@ class VardefClientError(Exception):
             response_body (str): The raw response body string, stored for
                                 debugging purposes.
         """
+        self.status: int | None = None
+        self.detail: str = ""
         try:
             data = json.loads(response_body)
-            self.status = data.get("status", None)
+            self.status = data.get("status")
             if data.get("title") == "Constraint Violation":
                 violations = data.get("violations", [])
-                self.detail = "".join(
-                    f"\n{violation.get('field', 'Unknown field')}: {violation.get('message', 'No message provided')}"
+                self.detail = "\n" + "\n".join(
+                    f"{violation.get('field', 'Unknown field')}: {violation.get('message', 'No message provided')}"
                     for violation in violations
                 )
-
             else:
-                self.detail = data.get("detail", "No detail provided")
+                self.detail = data.get("detail")
+
+            if self.detail:
+                self.detail = f"\nDetail: {self.detail}"
             self.response_body = response_body
         except (json.JSONDecodeError, TypeError):
-            self.status = None
             self.detail = "Could not decode error response from API"
-            data = None
+
         super().__init__(
-            (f"Status {self.status}: " if self.status else "") + f"{self.detail}",
+            f"{self._get_status_explanation(self.status)}{self.detail if self.detail else ''}",
+        )
+
+    @staticmethod
+    def _get_status_explanation(status: int | None) -> str:
+        return (
+            ""
+            if not status
+            else (STATUS_EXPLANATIONS.get(HTTPStatus(status)) or f"Status {status}:")
         )
 
 
