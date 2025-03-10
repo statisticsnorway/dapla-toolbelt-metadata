@@ -1,9 +1,11 @@
 import functools
 from collections.abc import Callable
 from pathlib import Path
+from unittest.mock import Mock
 from unittest.mock import patch
 
 import pytest
+import urllib3
 
 from dapla_metadata._shared.config import DAPLA_GROUP_CONTEXT
 from dapla_metadata.variable_definitions._client import VardefClient
@@ -11,6 +13,9 @@ from dapla_metadata.variable_definitions.exceptions import VardefClientError
 from dapla_metadata.variable_definitions.exceptions import VariableNotFoundError
 from dapla_metadata.variable_definitions.generated.vardef_client.api.variable_definitions_api import (
     VariableDefinitionsApi,
+)
+from dapla_metadata.variable_definitions.generated.vardef_client.api_client import (
+    ApiClient,
 )
 from dapla_metadata.variable_definitions.generated.vardef_client.configuration import (
     Configuration,
@@ -107,6 +112,29 @@ def test_get_variable_definition_multiple_variables_returned(
         ),
     ):
         Vardef.get_variable_definition_by_shortname(short_name=short_name)
+
+
+@patch.object(
+    ApiClient,
+    "call_api",
+)
+@pytest.mark.parametrize(
+    ("exception"),
+    [
+        urllib3.exceptions.ProtocolError(),
+        urllib3.exceptions.MaxRetryError(
+            pool=urllib3.connectionpool.HTTPConnectionPool(host="example.com"),
+            url="http://www.example.com",
+        ),
+    ],
+)
+def test_urllib_exceptions(
+    mock_call_api: Mock,
+    exception: urllib3.exceptions.HTTPError,
+):
+    mock_call_api.side_effect = exception
+    with pytest.raises(VardefClientError):
+        Vardef.get_variable_definition_by_id(VARDEF_EXAMPLE_DEFINITION_ID)
 
 
 @pytest.mark.parametrize(
