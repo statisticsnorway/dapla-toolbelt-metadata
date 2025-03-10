@@ -31,7 +31,7 @@ def get_descriptions_path() -> str:
 
 def get_workspace_dir() -> str | None:
     """Get the path to work directory from workspace environment variable."""
-    return get_config_item("WORKSPACE_DIR")
+    return get_config_item(WORKSPACE_DIR)
 
 
 def get_active_group() -> str:
