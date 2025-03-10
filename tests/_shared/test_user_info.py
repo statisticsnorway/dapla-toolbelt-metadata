@@ -1,6 +1,11 @@
 import pytest
 
 from dapla_metadata._shared import user_info
+from dapla_metadata._shared.config import DAPLA_GROUP_CONTEXT
+from dapla_metadata._shared.config import DAPLA_REGION
+from dapla_metadata._shared.config import DAPLA_SERVICE
+from dapla_metadata._shared.config import JUPYTERHUB_USER
+from dapla_metadata._shared.config import OIDC_TOKEN
 from dapla_metadata._shared.enums import DaplaRegion
 from dapla_metadata._shared.enums import DaplaService
 from dapla_metadata._shared.user_info import PLACEHOLDER_EMAIL_ADDRESS
@@ -8,10 +13,6 @@ from dapla_metadata._shared.user_info import DaplaLabUserInfo
 from dapla_metadata._shared.user_info import JupyterHubUserInfo
 from dapla_metadata._shared.user_info import UnknownUserInfo
 from dapla_metadata._shared.user_info import UserInfo
-from tests.utils.constants import DAPLA_GROUP_CONTEXT
-from tests.utils.constants import DAPLA_REGION
-from tests.utils.constants import DAPLA_SERVICE
-from tests.utils.constants import JUPYTERHUB_USER
 
 
 @pytest.mark.parametrize(
@@ -43,14 +44,14 @@ def test_dapla_lab_user_info_short_email(
     raw_jwt_payload: dict[str, object],
     monkeypatch: pytest.MonkeyPatch,
 ):
-    monkeypatch.setenv("OIDC_TOKEN", fake_jwt)
+    monkeypatch.setenv(OIDC_TOKEN, fake_jwt)
     assert DaplaLabUserInfo().short_email == raw_jwt_payload["email"]
 
 
 def test_dapla_lab_user_info_short_email_no_jwt_available(
     monkeypatch: pytest.MonkeyPatch,
 ):
-    monkeypatch.delenv("OIDC_TOKEN", raising=False)
+    monkeypatch.delenv(OIDC_TOKEN, raising=False)
     assert DaplaLabUserInfo().short_email is None
 
 
@@ -59,7 +60,7 @@ def test_dapla_lab_user_info_short_email_no_email_in_jwt(
     fake_jwt: str,
     monkeypatch: pytest.MonkeyPatch,
 ):
-    monkeypatch.setenv("OIDC_TOKEN", fake_jwt)
+    monkeypatch.setenv(OIDC_TOKEN, fake_jwt)
     assert DaplaLabUserInfo().short_email is None
 
 
