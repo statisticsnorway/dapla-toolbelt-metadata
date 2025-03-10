@@ -164,9 +164,7 @@ def test_create_patch_from_file(variable_definition: VariableDefinition):
     ) as mock_create_patch:
         my_patch = variable_definition
         result = my_patch.create_patch_from_file(
-            file_path=Path(
-                VARIABLE_DEFINITION_EDITING_FILES_DIR / "classification_reference.yaml",
-            ),
+            file_path=VARIABLE_DEFINITION_EDITING_FILES_DIR / "classification_reference.yaml",
         )
 
     assert my_patch.classification_reference != result.classification_reference
