@@ -5,6 +5,7 @@ from pathlib import Path
 
 import pytest
 
+from dapla_metadata._shared.config import DAPLA_GROUP_CONTEXT
 from dapla_metadata.variable_definitions import config
 from dapla_metadata.variable_definitions._client import VardefClient
 from dapla_metadata.variable_definitions.complete_patch_output import DEFAULT_TEMPLATE
@@ -47,7 +48,6 @@ from dapla_metadata.variable_definitions.utils.variable_definition_files import 
 )
 from dapla_metadata.variable_definitions.variable_definition import CompletePatchOutput
 from dapla_metadata.variable_definitions.variable_definition import VariableDefinition
-from tests.utils.constants import DAPLA_GROUP_CONTEXT
 from tests.utils.constants import VARDEF_EXAMPLE_ACTIVE_GROUP
 from tests.utils.constants import VARDEF_EXAMPLE_DEFINITION_ID
 from tests.utils.constants import VARDEF_EXAMPLE_INVALID_ID
