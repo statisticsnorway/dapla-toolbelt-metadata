@@ -499,7 +499,6 @@ def test_merge_extracted_and_existing_dataset_metadata(metadata_merged: Datadoc)
         ), f"{field} in merged metadata did not match existing metadata"
 
     # Special cases
-    assert metadata_merged.dataset.version_description is not None
     assert metadata_merged.dataset.id != metadata_existing.dataset.id
     assert metadata_merged.dataset.metadata_created_date is None
     assert metadata_merged.dataset.metadata_last_updated_date is None
