@@ -10,6 +10,7 @@ import pytz
 import ruamel.yaml
 from pytest_mock import MockerFixture
 
+from dapla_metadata.variable_definitions.config import WORKSPACE_DIR
 from dapla_metadata.variable_definitions.exceptions import VardefFileError
 from dapla_metadata.variable_definitions.utils.constants import TEMPLATE_HEADER
 from dapla_metadata.variable_definitions.utils.constants import (
@@ -144,7 +145,7 @@ def test_logging_workspace_dir(caplog):
 
 
 def test_workspace_dir_not_set(monkeypatch: pytest.MonkeyPatch):
-    monkeypatch.delenv("WORKSPACE_DIR", raising=False)
+    monkeypatch.delenv(WORKSPACE_DIR, raising=False)
     with pytest.raises(
         VardefFileError,
         match="VardefFileError: WORKSPACE_DIR is not set",
@@ -153,12 +154,12 @@ def test_workspace_dir_not_set(monkeypatch: pytest.MonkeyPatch):
 
 
 def test_workspace_dir_doesnt_exist(monkeypatch: pytest.MonkeyPatch):
-    monkeypatch.setenv("WORKSPACE_DIR", "funnypath/haha")
+    monkeypatch.setenv(WORKSPACE_DIR, "funnypath/haha")
     with pytest.raises(FileNotFoundError):
         _get_workspace_dir()
 
 
 def test_workspace_is_not_dir(monkeypatch: pytest.MonkeyPatch, set_workspace_not_dir):
-    monkeypatch.setenv("WORKSPACE_DIR", str(set_workspace_not_dir))
+    monkeypatch.setenv(WORKSPACE_DIR, str(set_workspace_not_dir))
     with pytest.raises(NotADirectoryError):
         _get_workspace_dir()
