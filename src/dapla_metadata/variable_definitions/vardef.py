@@ -157,7 +157,7 @@ class Vardef:
 
     @classmethod
     @vardef_exception_handler
-    def migrate_from_vardok(cls, vardok_id: str) -> Path:
+    def migrate_from_vardok(cls, vardok_id: str) -> VariableDefinition:
         """Migrate a Variable Definition from Vardok to Vardef.
 
         - Each Vardok Variable Definition may only be migrated once.
