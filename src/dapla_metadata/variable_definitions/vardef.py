@@ -273,32 +273,3 @@ class Vardef:
             f"Created editable variable definition template file at {file_path}",  # noqa: G004
         )
         return file_path
-
-    @classmethod
-    @vardef_file_error_handler
-    def write_variable_to_file(
-        cls,
-        variable_definition_id: str | None = None,
-        short_name: str | None = None,
-    ) -> VariableDefinition:
-        """Retrieve a variable definition and write it to a yaml file."""
-        if variable_definition_id is not None and short_name is not None:
-            msg = "Only one of variable_definition_id or short_name may be specified"
-            raise ValueError(
-                msg,
-            )
-        if variable_definition_id is not None:
-            variable_definition = cls.get_variable_definition_by_id(
-                variable_definition_id=variable_definition_id,
-            )
-        elif short_name is not None:
-            variable_definition = cls.get_variable_definition_by_shortname(
-                short_name=short_name,
-            )
-        else:
-            msg = "One of variable_definition_id or short_name must be specified"
-            raise ValueError(
-                msg,
-            )
-
-        return variable_definition.to_file()

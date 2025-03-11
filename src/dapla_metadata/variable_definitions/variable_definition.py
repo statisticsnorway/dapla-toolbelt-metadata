@@ -211,7 +211,7 @@ class VariableDefinition(CompletePatchOutput):
             VariableDefinition: Variable Definition with all details.
 
         """
-        return VariableDefinition.from_model(
+        new_patch = VariableDefinition.from_model(
             PatchesApi(
                 VardefClient.get_client(),
             ).create_patch(
@@ -220,6 +220,46 @@ class VariableDefinition(CompletePatchOutput):
                 patch=patch,
                 valid_from=valid_from,
             ),
+        )
+        logger.info(
+            "Successfully created patch with patch ID '%s' for variable definition '%s' with ID '%s'",
+            new_patch.patch_id,
+            new_patch.short_name,
+            new_patch.id,
+        )
+        return new_patch
+
+    @vardef_file_error_handler
+    def create_patch_from_file(
+        self,
+        file_path: PathLike | None = None,
+        valid_from: date | None = None,
+    ) -> "VariableDefinition":
+        """Create a new Patch for this Variable Definition from a file.
+
+        Will automatically read the relevant file pertaining to this variable definition. Can
+        be overridden by specifying the file_path parameter.
+
+        Patches are to be used for minor changes which don't require a new Validity Period.
+        Examples of reasons for creating a new Patch:
+          - Correcting a typo
+          - Adding a translation
+          - Adding a subject field
+
+        Supply only the fields to be changed. Other fields will retain their current values.
+
+        Args:
+            file_path: Optionally specify the path to read from.
+            valid_from: Optional date for selecting a Validity Period to create patch in. The date must
+                        exactly match the Validity Period `valid_from`. If value is None the patch is
+                        created in the last validity period.
+
+        Returns:
+            VariableDefinition: Variable Definition with all details.
+        """
+        return self.create_patch(
+            patch=read_file_to_model(file_path or self.get_file_path()),
+            valid_from=valid_from,
         )
 
     @vardef_exception_handler
