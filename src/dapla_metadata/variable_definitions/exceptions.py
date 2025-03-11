@@ -3,6 +3,7 @@
 import json
 from functools import wraps
 from http import HTTPStatus
+from pathlib import Path
 from types import MappingProxyType
 
 import urllib3
@@ -195,5 +196,20 @@ def vardef_file_error_handler(method):  # noqa: ANN201, ANN001
         except NotADirectoryError as e:
             msg = f"Path is not a directory: {method_kwargs.get('file_path', 'unknown file path')}. Original error: {e!s}"
             raise VardefFileError(msg) from e
+
+    return _impl
+
+
+def resolve_file_path(method) -> None:  # noqa: ANN001
+    """Decorator for handling exceptions when resolving the filepath."""
+
+    @wraps(method)
+    def _impl(self, file_path=None, *args, **kwargs):  # noqa: ANN001, ANN002, ANN003
+        try:
+            file_path = Path(file_path or self.get_file_path())  # type: ignore [arg-type]
+        except TypeError as e:
+            msg = "Could not deduce a path to the file. Please supply a path to the yaml file you wish to submit with the `file_path` parameter."
+            raise ValueError(msg) from e
+        return method(self, file_path, *args, **kwargs)
 
     return _impl

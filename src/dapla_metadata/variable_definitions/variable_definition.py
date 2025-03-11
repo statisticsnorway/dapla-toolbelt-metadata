@@ -10,6 +10,7 @@ from dapla_metadata.variable_definitions._client import VardefClient
 from dapla_metadata.variable_definitions.complete_patch_output import (
     CompletePatchOutput,
 )
+from dapla_metadata.variable_definitions.exceptions import resolve_file_path
 from dapla_metadata.variable_definitions.exceptions import vardef_exception_handler
 from dapla_metadata.variable_definitions.exceptions import vardef_file_error_handler
 from dapla_metadata.variable_definitions.generated.vardef_client.api.draft_variable_definitions_api import (
@@ -125,6 +126,7 @@ class VariableDefinition(CompletePatchOutput):
         )
         return updated
 
+    @resolve_file_path
     @vardef_file_error_handler
     def update_draft_from_file(
         self,
@@ -144,15 +146,6 @@ class VariableDefinition(CompletePatchOutput):
         Returns:
             VariableDefinition: Updated Variable definition with all details.
         """
-        try:
-            file_path = Path(
-                file_path or self.get_file_path(),  # type: ignore [arg-type]
-            )
-        except TypeError as e:
-            msg = "Could not deduce a path to the file. Please supply a path to the yaml file you wish to submit with the `file_path` parameter."
-            raise ValueError(
-                msg,
-            ) from e
         update_draft = UpdateDraft.from_dict(
             _read_variable_definition_file(
                 file_path,
@@ -246,6 +239,7 @@ class VariableDefinition(CompletePatchOutput):
         )
         return new_patch
 
+    @resolve_file_path
     @vardef_file_error_handler
     def create_patch_from_file(
         self,
@@ -274,15 +268,6 @@ class VariableDefinition(CompletePatchOutput):
         Returns:
             VariableDefinition: Variable Definition with all details.
         """
-        try:
-            file_path = Path(
-                file_path or self.get_file_path(),  # type: ignore [arg-type]
-            )
-        except TypeError as e:
-            msg = "Could not deduce a path to the file. Please supply a path to the yaml file you wish to submit with the `file_path` parameter."
-            raise ValueError(
-                msg,
-            ) from e
         create_patch = Patch.from_dict(
             _read_variable_definition_file(
                 file_path,
@@ -314,7 +299,7 @@ class VariableDefinition(CompletePatchOutput):
         Returns:
             VariableDefinition: Variable Definition with all details.
         """
-        return VariableDefinition.from_model(
+        new_validity_period = VariableDefinition.from_model(
             ValidityPeriodsApi(
                 VardefClient.get_client(),
             ).create_validity_period(
@@ -322,6 +307,44 @@ class VariableDefinition(CompletePatchOutput):
                 active_group=config.get_active_group(),
                 validity_period=validity_period,
             ),
+        )
+
+        logger.info(
+            "Successfully created validity period that is valid from '%s' for variable definition '%s' with ID '%s'",
+            new_validity_period.valid_from,
+            new_validity_period.short_name,
+            new_validity_period.id,
+        )
+        return new_validity_period
+
+    @resolve_file_path
+    @vardef_file_error_handler
+    def create_validity_period_from_file(
+        self,
+        file_path: PathLike | None = None,
+    ) -> "VariableDefinition":
+        """Create a new ValidityPeriod for this Variable Definition from a file.
+
+        In order to create a new Validity Period the input file must contain updated
+        'definition' text for all present languages and a new valid from.
+
+        Args:
+            file_path: Optionally specify the path to read from.
+
+        Returns:
+            VariableDefinition: Variable Definition with all details.
+        """
+        create_validity_period = ValidityPeriod.from_dict(
+            _read_variable_definition_file(
+                file_path,
+            ),
+        )
+
+        if create_validity_period is None:
+            msg = f"Could not read data from {file_path}"
+            raise FileNotFoundError(msg)
+        return self.create_validity_period(
+            validity_period=create_validity_period,
         )
 
     def to_file(self) -> "VariableDefinition":
