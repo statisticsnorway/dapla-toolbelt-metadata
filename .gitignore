@@ -14,10 +14,12 @@
 *.xls
 *.xlsx
 *.zip
+!tests/datasets/resources/**
 
 # Notebooks shall be stored in .py or .R-format.
 # See https://adr.ssb.no/0020-lagringsformat-for-jupyter-notebooks/
 *.ipynb
+!demo/**
 
 
 # The section below is from the GitHub .gitignore template for Python:
