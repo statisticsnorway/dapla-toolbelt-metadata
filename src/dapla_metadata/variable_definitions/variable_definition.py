@@ -282,13 +282,44 @@ class VariableDefinition(CompletePatchOutput):
         Returns:
             VariableDefinition: Variable Definition with all details.
         """
-        return VariableDefinition.from_model(
+        new_validity_period = VariableDefinition.from_model(
             ValidityPeriodsApi(
                 VardefClient.get_client(),
             ).create_validity_period(
                 variable_definition_id=self.id,
                 active_group=config.get_active_group(),
                 validity_period=validity_period,
+            ),
+        )
+
+        logger.info(
+            "Successfully created validity period that is valid from '%s' for variable definition '%s' with ID '%s'",
+            new_validity_period.valid_from,
+            new_validity_period.short_name,
+            new_validity_period.id,
+        )
+        return new_validity_period
+
+    @vardef_file_error_handler
+    def create_validity_period_from_file(
+        self,
+        file_path: PathLike | None = None,
+    ) -> "VariableDefinition":
+        """Create a new ValidityPeriod for this Variable Definition from a file.
+
+        In order to create a new Validity Period the input file must contain updated
+        'definition' text for all present languages and a new valid from.
+
+        Args:
+            file_path: Optionally specify the path to read from.
+
+        Returns:
+            VariableDefinition: Variable Definition with all details.
+        """
+        return self.create_validity_period(
+            validity_period=read_file_to_model(
+                file_path or self.get_file_path(),
+                ValidityPeriod,
             ),
         )
 
