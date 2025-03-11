@@ -95,11 +95,12 @@ def test_update_draft_from_file():
     my_draft = Vardef.get_variable_definition_by_id(
         variable_definition_id=VARDEF_EXAMPLE_DEFINITION_ID,
     ).to_file()
+    assert my_draft.get_file_path().exists()
     assert isinstance(my_draft.update_draft_from_file(), CompletePatchOutput)
 
 
 def test_update_draft_from_file_no_known_file():
-    with pytest.raises(ValueError, match="Could not deduce a path to the file"):
+    with pytest.raises(FileNotFoundError, match="Could not deduce a path to the file"):
         Vardef.get_variable_definition_by_id(
             VARDEF_EXAMPLE_DEFINITION_ID,
         ).update_draft_from_file()
@@ -175,7 +176,7 @@ def test_create_patch_from_file(variable_definition: VariableDefinition):
 def test_create_patch_from_file_path_not_set(variable_definition: VariableDefinition):
     my_patch = variable_definition
     my_patch.set_file_path(file_path=None)
-    with pytest.raises(ValueError, match="Could not deduce a path to the file"):
+    with pytest.raises(FileNotFoundError, match="Could not deduce a path to the file"):
         my_patch.create_patch_from_file()
 
 
@@ -185,6 +186,45 @@ def test_create_patch_from_file_path_non_existing(
     my_patch = variable_definition
     with pytest.raises(FileNotFoundError):
         my_patch.create_patch_from_file("some_file.yaml")
+
+
+def test_create_validity_period_from_file(variable_definition: VariableDefinition):
+    mock_api_response = MagicMock(name="VariableDefinition")
+    mock_api_response.valid_from = "2025-01-01"
+    mock_api_response.definition = {
+        "nb": "Ny definition",
+        "nn": "Ny definition",
+        "en": "New definition",
+    }
+
+    with patch.object(
+        VariableDefinition,
+        "create_validity_period",
+        return_value=mock_api_response,
+    ) as mock_create_validity_period:
+        prev_variable_definition = variable_definition
+        result = prev_variable_definition.create_validity_period_from_file(
+            file_path=VARIABLE_DEFINITION_EDITING_FILES_DIR
+            / "date_and_definition.yaml",
+        )
+    assert result.definition != prev_variable_definition.definition
+    assert result.valid_from != prev_variable_definition.valid_from
+    mock_create_validity_period.assert_called_once()
+
+
+def test_create_validity_period_from_file_path_not_set(
+    variable_definition: VariableDefinition,
+):
+    variable_definition.set_file_path(file_path=None)
+    with pytest.raises(FileNotFoundError, match="Could not deduce a path to the file"):
+        variable_definition.create_patch_from_file()
+
+
+def test_create_validity_period_from_file_path_non_existing(
+    variable_definition: VariableDefinition,
+):
+    with pytest.raises(FileNotFoundError):
+        variable_definition.create_validity_period_from_file("some_file.yaml")
 
 
 def test_str(variable_definition):

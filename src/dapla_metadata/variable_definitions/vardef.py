@@ -24,10 +24,10 @@ from dapla_metadata.variable_definitions.utils.variable_definition_files import 
     _find_latest_template_file,
 )
 from dapla_metadata.variable_definitions.utils.variable_definition_files import (
-    _read_variable_definition_file,
+    create_template_yaml,
 )
 from dapla_metadata.variable_definitions.utils.variable_definition_files import (
-    create_template_yaml,
+    read_file_to_model,
 )
 from dapla_metadata.variable_definitions.variable_definition import VariableDefinition
 
@@ -133,27 +133,9 @@ class Vardef:
         Returns:
             VariableDefinition: The created draft variable definition.
         """
-        try:
-            file_path = Path(
-                # type incongruence (i.e. None) is handled by catching the exception
-                file_path or _find_latest_template_file(),  # type: ignore [arg-type]
-            )
-        except TypeError as e:
-            msg = "Could not deduce a path to the file. Please supply a path to the yaml file you wish to submit with the `file_path` parameter."
-            raise FileNotFoundError(
-                msg,
-            ) from e
-        draft = Draft.from_dict(
-            _read_variable_definition_file(
-                file_path,
-            ),
+        return cls.create_draft(
+            read_file_to_model(file_path or _find_latest_template_file(), Draft),
         )
-
-        if draft is None:
-            msg = f"Could not read data from {file_path}"
-            raise FileNotFoundError(msg)
-
-        return cls.create_draft(draft)
 
     @classmethod
     @vardef_exception_handler

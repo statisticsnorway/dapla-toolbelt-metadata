@@ -35,42 +35,51 @@ Request features on the [Issue Tracker].
 You need Python 3.10+ and the following tools:
 
 - [Poetry]
+- poetry-plugin-export
 - [Nox]
 - [nox-poetry]
+- nbstripout
 
-Install [pipx]:
+### Install [pipx]
 
 ```console
 python -m pip install --user pipx
 python -m pipx ensurepath
 ```
 
-Install [Poetry]:
+### Install [Poetry] and poetry-plugin-export
 
 ```console
 pipx install poetry
+pipx inject poetry poetry-plugin-export
 ```
 
-Install [Nox] and [nox-poetry]:
+### Install [Nox] and [nox-poetry]
 
 ```console
 pipx install nox
 pipx inject nox nox-poetry
 ```
 
-Install the pre-commit hooks
+### Install nbstripout
+
+```console
+pipx install nbstripout
+```
+
+### Install the pre-commit hooks
 
 ```console
 nox --session=pre-commit -- install
 ```
 
-Install the package with development requirements:
+### Install the package with development requirements
 
 ```console
 poetry install
 ```
 
-You can now run an interactive Python session, or your app:
+### Run python or your app
 
 ```console
 poetry run python
