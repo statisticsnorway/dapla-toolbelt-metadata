@@ -35,10 +35,10 @@ from dapla_metadata.variable_definitions.generated.vardef_client.models.validity
     ValidityPeriod,
 )
 from dapla_metadata.variable_definitions.utils.variable_definition_files import (
-    _read_variable_definition_file,
+    create_variable_yaml,
 )
 from dapla_metadata.variable_definitions.utils.variable_definition_files import (
-    create_variable_yaml,
+    read_file_to_model,
 )
 
 logger = logging.getLogger(__name__)
@@ -146,17 +146,9 @@ class VariableDefinition(CompletePatchOutput):
         Returns:
             VariableDefinition: Updated Variable definition with all details.
         """
-        update_draft = UpdateDraft.from_dict(
-            _read_variable_definition_file(
-                file_path,
-            ),
+        return self.update_draft(
+            read_file_to_model(file_path or self.get_file_path(), UpdateDraft),
         )
-
-        if update_draft is None:
-            msg = f"Could not read data from {file_path}"
-            raise FileNotFoundError(msg)
-
-        return self.update_draft(update_draft)
 
     @vardef_exception_handler
     def delete_draft(
@@ -268,16 +260,10 @@ class VariableDefinition(CompletePatchOutput):
         Returns:
             VariableDefinition: Variable Definition with all details.
         """
-        create_patch = Patch.from_dict(
-            _read_variable_definition_file(
-                file_path,
-            ),
+        return self.create_patch(
+            patch=read_file_to_model(file_path or self.get_file_path(), Patch),
+            valid_from=valid_from,
         )
-
-        if create_patch is None:
-            msg = f"Could not read data from {file_path}"
-            raise FileNotFoundError(msg)
-        return self.create_patch(patch=create_patch, valid_from=valid_from)
 
     @vardef_exception_handler
     def create_validity_period(
@@ -334,17 +320,8 @@ class VariableDefinition(CompletePatchOutput):
         Returns:
             VariableDefinition: Variable Definition with all details.
         """
-        create_validity_period = ValidityPeriod.from_dict(
-            _read_variable_definition_file(
-                file_path,
-            ),
-        )
-
-        if create_validity_period is None:
-            msg = f"Could not read data from {file_path}"
-            raise FileNotFoundError(msg)
         return self.create_validity_period(
-            validity_period=create_validity_period,
+            patch=read_file_to_model(file_path or self.get_file_path(), ValidityPeriod),
         )
 
     def to_file(self) -> "VariableDefinition":
