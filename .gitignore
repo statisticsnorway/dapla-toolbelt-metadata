@@ -1,7 +1,33 @@
+# This .gitignore file is based on SSB's recommended gitignore template stored
+# in: https://github.com/statisticsnorway/kvakk-git-tools
+# It contains three sections: SSB specific ignores, GitHub's Python-ignore
+# template and GitHub's R-ignore template.
+
+
+# The section below contains SSB specific ignores, not included in the Python-
+# and R-ignores from GitHub.
+*.csv
+*.db
+*.feather
+*.parquet
+*.sas7bdat
+*.xls
+*.xlsx
+*.zip
+
+# Notebooks shall be stored in .py or .R-format.
+# See https://adr.ssb.no/0020-lagringsformat-for-jupyter-notebooks/
+*.ipynb
+
+
+# The section below is from the GitHub .gitignore template for Python:
+# https://raw.githubusercontent.com/github/gitignore/main/Python.gitignore
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
 *$py.class
+.poetry/cache/
 
 # C extensions
 *.so
