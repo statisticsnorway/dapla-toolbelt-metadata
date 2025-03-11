@@ -176,7 +176,7 @@ def test_create_patch_from_file(variable_definition: VariableDefinition):
 def test_create_patch_from_file_path_not_set(variable_definition: VariableDefinition):
     my_patch = variable_definition
     my_patch.set_file_path(file_path=None)
-    with pytest.raises(ValueError, match="Could not deduce a path to the file"):
+    with pytest.raises(FileNotFoundError, match="Could not deduce a path to the file"):
         my_patch.create_patch_from_file()
 
 

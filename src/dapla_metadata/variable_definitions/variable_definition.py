@@ -258,7 +258,7 @@ class VariableDefinition(CompletePatchOutput):
             VariableDefinition: Variable Definition with all details.
         """
         return self.create_patch(
-            patch=read_file_to_model(file_path or self.get_file_path()),
+            patch=read_file_to_model(file_path or self.get_file_path(), Patch),
             valid_from=valid_from,
         )
 
