@@ -15,6 +15,9 @@ from dapla_metadata.variable_definitions.generated.vardef_client.models.update_d
 from dapla_metadata.variable_definitions.generated.vardef_client.models.validity_period import (
     ValidityPeriod,
 )
+from dapla_metadata.variable_definitions.generated.vardef_client.models.variable_status import (
+    VariableStatus,
+)
 from dapla_metadata.variable_definitions.vardef import Vardef
 from dapla_metadata.variable_definitions.variable_definition import CompletePatchOutput
 from dapla_metadata.variable_definitions.variable_definition import VariableDefinition
@@ -225,6 +228,27 @@ def test_create_validity_period_from_file_path_non_existing(
 ):
     with pytest.raises(FileNotFoundError):
         variable_definition.create_validity_period_from_file("some_file.yaml")
+
+
+@patch.object(VariableDefinition, "update_draft")
+@pytest.mark.parametrize(
+    ("method_to_call", "expected_status"),
+    [
+        ("publish_internal", VariableStatus.PUBLISHED_INTERNAL),
+        ("publish_external", VariableStatus.PUBLISHED_EXTERNAL),
+    ],
+)
+def test_publish_methods(
+    mock_update_draft: MagicMock,
+    variable_definition: VariableDefinition,
+    method_to_call: str,
+    expected_status: VariableStatus,
+):
+    variable_definition.variable_status = VariableStatus.DRAFT
+    getattr(variable_definition, method_to_call)()
+    mock_update_draft.assert_called_once_with(
+        UpdateDraft(variable_status=expected_status),
+    )
 
 
 def test_str(variable_definition):

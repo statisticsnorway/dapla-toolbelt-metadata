@@ -33,6 +33,9 @@ from dapla_metadata.variable_definitions.generated.vardef_client.models.update_d
 from dapla_metadata.variable_definitions.generated.vardef_client.models.validity_period import (
     ValidityPeriod,
 )
+from dapla_metadata.variable_definitions.generated.vardef_client.models.variable_status import (
+    VariableStatus,
+)
 from dapla_metadata.variable_definitions.utils.variable_definition_files import (
     create_variable_yaml,
 )
@@ -322,6 +325,32 @@ class VariableDefinition(CompletePatchOutput):
                 ValidityPeriod,
             ),
         )
+
+    def publish_internal(self) -> "VariableDefinition":
+        """Publish this variable definition internally."""
+        update = self.update_draft(
+            UpdateDraft(variable_status=VariableStatus.PUBLISHED_INTERNAL),
+        )
+        logger.info(
+            "Variable definition '%s' with ID '%s' successfully published, new status: %s",
+            update.short_name,
+            update.id,
+            update.variable_status,
+        )
+        return update
+
+    def publish_external(self) -> "VariableDefinition":
+        """Publish this variable definition externally."""
+        update = self.update_draft(
+            UpdateDraft(variable_status=VariableStatus.PUBLISHED_EXTERNAL),
+        )
+        logger.info(
+            "Variable definition '%s' with ID '%s' successfully published, new status: %s",
+            update.short_name,
+            update.id,
+            update.variable_status,
+        )
+        return update
 
     def to_file(self) -> "VariableDefinition":
         """Write this variable definition to file."""
