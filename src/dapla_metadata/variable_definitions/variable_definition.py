@@ -328,6 +328,11 @@ class VariableDefinition(CompletePatchOutput):
 
     def publish_internal(self) -> "VariableDefinition":
         """Publish this variable definition internally."""
+        if self.variable_status != VariableStatus.DRAFT.name:
+            msg = "That won't work here. Only variable definitions with status DRAFT may be published internally."
+            raise ValueError(
+                msg,
+            )
         update = self.update_draft(
             UpdateDraft(variable_status=VariableStatus.PUBLISHED_INTERNAL),
         )
@@ -341,9 +346,14 @@ class VariableDefinition(CompletePatchOutput):
 
     def publish_external(self) -> "VariableDefinition":
         """Publish this variable definition externally."""
-        update = self.update_draft(
-            UpdateDraft(variable_status=VariableStatus.PUBLISHED_EXTERNAL),
-        )
+        if self.variable_status is VariableStatus.DRAFT:
+            update = self.update_draft(
+                UpdateDraft(variable_status=VariableStatus.PUBLISHED_EXTERNAL),
+            )
+        else:
+            update = self.create_patch(
+                Patch(variable_status=VariableStatus.PUBLISHED_EXTERNAL),
+            )
         logger.info(
             "Variable definition '%s' with ID '%s' successfully published, new status: %s",
             update.short_name,

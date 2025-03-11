@@ -231,24 +231,45 @@ def test_create_validity_period_from_file_path_non_existing(
 
 
 @patch.object(VariableDefinition, "update_draft")
+@patch.object(VariableDefinition, "create_patch")
+@pytest.mark.parametrize(("initial_status"), list(VariableStatus))
 @pytest.mark.parametrize(
-    ("method_to_call", "expected_status"),
+    ("method_name", "expected_status"),
     [
         ("publish_internal", VariableStatus.PUBLISHED_INTERNAL),
         ("publish_external", VariableStatus.PUBLISHED_EXTERNAL),
     ],
 )
 def test_publish_methods(
+    mock_create_patch: MagicMock,
     mock_update_draft: MagicMock,
     variable_definition: VariableDefinition,
-    method_to_call: str,
+    initial_status: VariableStatus,
+    method_name: str,
     expected_status: VariableStatus,
 ):
-    variable_definition.variable_status = VariableStatus.DRAFT
-    getattr(variable_definition, method_to_call)()
-    mock_update_draft.assert_called_once_with(
-        UpdateDraft(variable_status=expected_status),
-    )
+    variable_definition.variable_status = initial_status
+    method_to_call = getattr(variable_definition, method_name)
+    if method_name == "publish_internal":
+        if initial_status is VariableStatus.DRAFT:
+            # Normal publishing flow
+            method_to_call()
+            mock_update_draft.assert_called_once_with(
+                UpdateDraft(variable_status=expected_status),
+            )
+            mock_create_patch.assert_not_called()
+        else:
+            # It doesn't make sense to publish other statuses internally
+            with pytest.raises(ValueError, match="That won't work here."):
+                method_to_call()
+    else:
+        # For external publishing, we don't worry about the status and let
+        # Vardef do the validation.
+        method_to_call()
+        mock_update_draft.assert_not_called()
+        mock_create_patch.assert_called_once_with(
+            Patch(variable_status=VariableStatus.PUBLISHED_EXTERNAL),
+        )
 
 
 def test_str(variable_definition):
