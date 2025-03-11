@@ -5,6 +5,7 @@ from datetime import datetime
 from os import PathLike
 from pathlib import Path
 from typing import TYPE_CHECKING
+from typing import TypeVar
 from typing import cast
 
 import pytz
@@ -169,7 +170,10 @@ def _read_variable_definition_file(file_path: Path) -> dict:
         return yaml.load(f)
 
 
-def read_file_to_model[T: BaseModel](
+T = TypeVar("T", bound=BaseModel)
+
+
+def read_file_to_model(
     file_path: PathLike[str] | None,
     model_class: type[T],
 ) -> T:
