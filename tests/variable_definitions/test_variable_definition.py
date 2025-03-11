@@ -97,7 +97,7 @@ def test_update_draft_from_file():
 
 
 def test_update_draft_from_file_no_known_file():
-    with pytest.raises(ValueError, match="Could not deduce a path to the file"):
+    with pytest.raises(FileNotFoundError, match="Could not deduce a path to the file"):
         Vardef.get_variable_definition_by_id(
             VARDEF_EXAMPLE_DEFINITION_ID,
         ).update_draft_from_file()

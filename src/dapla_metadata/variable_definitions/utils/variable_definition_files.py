@@ -2,11 +2,13 @@
 
 import logging
 from datetime import datetime
+from os import PathLike
 from pathlib import Path
 from typing import TYPE_CHECKING
 from typing import cast
 
 import pytz
+from pydantic import BaseModel
 from pydantic.config import JsonDict
 from ruamel.yaml import YAML
 from ruamel.yaml import CommentedMap
@@ -165,6 +167,46 @@ def _read_variable_definition_file(file_path: Path) -> dict:
     logger.info("Reading from '%s'", file_path.name)
     with file_path.open(encoding="utf-8") as f:
         return yaml.load(f)
+
+
+def read_file_to_model[T: BaseModel](
+    file_path: PathLike[str] | None,
+    model_class: type[T],
+) -> T:
+    """Read from a variable definition file into the given Pydantic model.
+
+    Args:
+        file_path (PathLike[str]): Supply a file path to override the automatic one. Defaults to None.
+        model_class (type[T]): The model to instantiate. Must inherit from Pydantic's BaseModel.
+
+    Raises:
+        FileNotFoundError: If we could not instantiate the model.
+        TypeError: If no file path could be deduced.
+
+    Returns:
+        T: BaseModel: The instantiated Pydantic model
+    """
+    try:
+        file_path = Path(
+            # type incongruence (i.e. None) is handled by catching the exception
+            file_path or _find_latest_template_file(),  # type: ignore [arg-type]
+        )
+    except TypeError as e:
+        msg = "Could not deduce a path to the file. Please supply a path to the yaml file you wish to submit with the `file_path` parameter."
+        raise FileNotFoundError(
+            msg,
+        ) from e
+    model = model_class.from_dict(  # type:ignore [attr-defined]
+        _read_variable_definition_file(
+            file_path,
+        ),
+    )
+
+    if model is None:
+        msg = f"Could not read data from {file_path}"
+        raise FileNotFoundError(msg)
+
+    return model
 
 
 def create_template_yaml(
