@@ -144,7 +144,9 @@ class VariableDefinition(CompletePatchOutput):
         Returns:
             VariableDefinition: Updated Variable definition with all details.
         """
-        return self.update_draft(read_file_to_model(file_path, UpdateDraft))
+        return self.update_draft(
+            read_file_to_model(file_path or self.get_file_path(), UpdateDraft),
+        )
 
     @vardef_exception_handler
     def delete_draft(

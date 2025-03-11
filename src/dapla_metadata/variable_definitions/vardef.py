@@ -21,6 +21,9 @@ from dapla_metadata.variable_definitions.generated.vardef_client.models.draft im
     Draft,
 )
 from dapla_metadata.variable_definitions.utils.variable_definition_files import (
+    _find_latest_template_file,
+)
+from dapla_metadata.variable_definitions.utils.variable_definition_files import (
     create_template_yaml,
 )
 from dapla_metadata.variable_definitions.utils.variable_definition_files import (
@@ -130,7 +133,9 @@ class Vardef:
         Returns:
             VariableDefinition: The created draft variable definition.
         """
-        return cls.create_draft(read_file_to_model(file_path, Draft))
+        return cls.create_draft(
+            read_file_to_model(file_path or _find_latest_template_file(), Draft),
+        )
 
     @classmethod
     @vardef_exception_handler

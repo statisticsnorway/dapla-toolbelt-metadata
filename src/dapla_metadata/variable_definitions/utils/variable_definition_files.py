@@ -176,12 +176,12 @@ def read_file_to_model[T: BaseModel](
     """Read from a variable definition file into the given Pydantic model.
 
     Args:
-        file_path (PathLike[str]): Supply a file path to override the automatic one. Defaults to None.
+        file_path (PathLike[str]): The path to the file to read in.
         model_class (type[T]): The model to instantiate. Must inherit from Pydantic's BaseModel.
 
     Raises:
-        FileNotFoundError: If we could not instantiate the model.
         TypeError: If no file path could be deduced.
+        FileNotFoundError: If we could not instantiate the model.
 
     Returns:
         T: BaseModel: The instantiated Pydantic model
@@ -189,7 +189,7 @@ def read_file_to_model[T: BaseModel](
     try:
         file_path = Path(
             # type incongruence (i.e. None) is handled by catching the exception
-            file_path or _find_latest_template_file(),  # type: ignore [arg-type]
+            file_path,  # type: ignore [arg-type]
         )
     except TypeError as e:
         msg = "Could not deduce a path to the file. Please supply a path to the yaml file you wish to submit with the `file_path` parameter."
