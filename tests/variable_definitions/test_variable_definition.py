@@ -216,7 +216,7 @@ def test_create_validity_period_from_file_path_not_set(
     variable_definition: VariableDefinition,
 ):
     variable_definition.set_file_path(file_path=None)
-    with pytest.raises(ValueError, match="Could not deduce a path to the file"):
+    with pytest.raises(FileNotFoundError, match="Could not deduce a path to the file"):
         variable_definition.create_patch_from_file()
 
 

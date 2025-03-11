@@ -10,7 +10,6 @@ from dapla_metadata.variable_definitions._client import VardefClient
 from dapla_metadata.variable_definitions.complete_patch_output import (
     CompletePatchOutput,
 )
-from dapla_metadata.variable_definitions.exceptions import resolve_file_path
 from dapla_metadata.variable_definitions.exceptions import vardef_exception_handler
 from dapla_metadata.variable_definitions.exceptions import vardef_file_error_handler
 from dapla_metadata.variable_definitions.generated.vardef_client.api.draft_variable_definitions_api import (
@@ -126,7 +125,6 @@ class VariableDefinition(CompletePatchOutput):
         )
         return updated
 
-    @resolve_file_path
     @vardef_file_error_handler
     def update_draft_from_file(
         self,
@@ -231,7 +229,6 @@ class VariableDefinition(CompletePatchOutput):
         )
         return new_patch
 
-    @resolve_file_path
     @vardef_file_error_handler
     def create_patch_from_file(
         self,
@@ -303,7 +300,6 @@ class VariableDefinition(CompletePatchOutput):
         )
         return new_validity_period
 
-    @resolve_file_path
     @vardef_file_error_handler
     def create_validity_period_from_file(
         self,
@@ -321,7 +317,10 @@ class VariableDefinition(CompletePatchOutput):
             VariableDefinition: Variable Definition with all details.
         """
         return self.create_validity_period(
-            patch=read_file_to_model(file_path or self.get_file_path(), ValidityPeriod),
+            validity_period=read_file_to_model(
+                file_path or self.get_file_path(),
+                ValidityPeriod,
+            ),
         )
 
     def to_file(self) -> "VariableDefinition":
