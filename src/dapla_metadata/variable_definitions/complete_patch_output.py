@@ -44,12 +44,11 @@ class CompletePatchOutput(CompleteResponse):
 
         import yaml
 
-        yaml_str = yaml.dump(
+        return yaml.dump(
             i,
             allow_unicode=True,
             default_flow_style=False,
         )
-        return yaml_str  # self.model_dump_json(indent=2, warnings=False)
 
 
 DEFAULT_TEMPLATE = CompletePatchOutput(
