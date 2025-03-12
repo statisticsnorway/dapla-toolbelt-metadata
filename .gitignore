@@ -1,7 +1,46 @@
+# This .gitignore file is based on SSB's recommended gitignore template stored
+# in: https://github.com/statisticsnorway/kvakk-git-tools
+# It contains three sections: SSB specific ignores, GitHub's Python-ignore
+# template and GitHub's R-ignore template.
+
+
+# The section below contains SSB specific ignores, not included in the Python-
+# and R-ignores from GitHub.
+
+*.csv
+# Unignore all CSV files under `tests/datasets/resources/`
+!tests/datasets/resources/**/*.csv
+
+*.db
+*.feather
+
+*.parquet
+# Unignore all parquet files under `tests/datasets/resources/`
+!tests/datasets/resources/**/*.parquet
+
+*.sas7bdat
+# Unignore all sas7bdat files under `tests/datasets/resources/`
+!tests/datasets/resources/**/*.sas7bdat
+
+*.xls
+*.xlsx
+*.zip
+
+# Notebooks shall be stored in .py or .R-format.
+# See https://adr.ssb.no/0020-lagringsformat-for-jupyter-notebooks/
+*.ipynb
+# Unignore all ipynb files under `demo/`
+!demo/**/*.ipynb
+
+
+# The section below is from the GitHub .gitignore template for Python:
+# https://raw.githubusercontent.com/github/gitignore/main/Python.gitignore
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
 *$py.class
+.poetry/cache/
 
 # C extensions
 *.so
@@ -148,7 +187,8 @@ dmypy.json
 
 # Generated template Yaml files
 **/variable_definition_*.yaml
-!tests/variable_definitions/resources/variable_definition_editing_files/**
+# Unignore all yaml files under `tests/variable_definitions/resources/variable_definition_editing_files/`
+!tests/variable_definitions/resources/variable_definition_editing_files/**.yaml
 
 # MacOS
 .DS_Store
