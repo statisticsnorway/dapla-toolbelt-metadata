@@ -346,6 +346,11 @@ class VariableDefinition(CompletePatchOutput):
 
     def publish_external(self) -> "VariableDefinition":
         """Publish this variable definition externally."""
+        if self.variable_status == VariableStatus.PUBLISHED_EXTERNAL.name:
+            msg = "That won't work here. The variable definition is already published."
+            raise ValueError(
+                msg,
+            )
         if self.variable_status is VariableStatus.DRAFT:
             update = self.update_draft(
                 UpdateDraft(variable_status=VariableStatus.PUBLISHED_EXTERNAL),

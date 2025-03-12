@@ -250,7 +250,11 @@ def test_publish_methods(
 ):
     variable_definition.variable_status = initial_status
     method_to_call = getattr(variable_definition, method_name)
-    if method_name == "publish_internal":
+    if initial_status is VariableStatus.PUBLISHED_EXTERNAL:
+        # It doesn't make sense to publish other statuses internally
+        with pytest.raises(ValueError, match="That won't work here."):
+            method_to_call()
+    elif method_name == "publish_internal":
         if initial_status is VariableStatus.DRAFT:
             # Normal publishing flow
             method_to_call()
@@ -263,8 +267,6 @@ def test_publish_methods(
             with pytest.raises(ValueError, match="That won't work here."):
                 method_to_call()
     else:
-        # For external publishing, we don't worry about the status and let
-        # Vardef do the validation.
         method_to_call()
         mock_update_draft.assert_not_called()
         mock_create_patch.assert_called_once_with(
