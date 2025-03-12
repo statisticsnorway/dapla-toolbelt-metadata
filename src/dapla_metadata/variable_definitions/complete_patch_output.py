@@ -37,19 +37,13 @@ class CompletePatchOutput(CompleteResponse):
 
     def __str__(self) -> str:
         """Format as indented YAML."""
-        return yaml.dump(
-            self.model_dump(
-                mode="json",
-                serialize_as_any=True,
-                warnings="error",
-            ),
-            allow_unicode=True,
-            default_flow_style=False,
-            sort_keys=False,
-        )
+        return self._convert_to_yaml_output()
 
     def __repr__(self) -> str:
         """Format as indented YAML."""
+        return self._convert_to_yaml_output()
+
+    def _convert_to_yaml_output(self) -> str:
         return yaml.dump(
             self.model_dump(
                 mode="json",
