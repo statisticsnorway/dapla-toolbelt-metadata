@@ -36,7 +36,20 @@ class CompletePatchOutput(CompleteResponse):
 
     def __str__(self) -> str:
         """Format as indented JSON."""
-        return self.model_dump_json(indent=2, warnings=False)
+        i = self.model_dump(
+            mode="json",
+            serialize_as_any=True,
+            warnings="error",
+        )
+
+        import yaml
+
+        yaml_str = yaml.dump(
+            i,
+            allow_unicode=True,
+            default_flow_style=False,
+        )
+        return yaml_str  # self.model_dump_json(indent=2, warnings=False)
 
 
 DEFAULT_TEMPLATE = CompletePatchOutput(
