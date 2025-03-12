@@ -1,3 +1,4 @@
+import yaml
 from pydantic import ConfigDict
 
 from dapla_metadata.variable_definitions.generated.vardef_client.models.complete_response import (
@@ -35,8 +36,24 @@ class CompletePatchOutput(CompleteResponse):
         return super().to_dict()
 
     def __str__(self) -> str:
-        """Format as indented JSON."""
-        return self.model_dump_json(indent=2, warnings=False)
+        """Format as indented YAML."""
+        return self._convert_to_yaml_output()
+
+    def __repr__(self) -> str:
+        """Format as indented YAML."""
+        return self._convert_to_yaml_output()
+
+    def _convert_to_yaml_output(self) -> str:
+        return yaml.dump(
+            self.model_dump(
+                mode="json",
+                serialize_as_any=True,
+                warnings="error",
+            ),
+            allow_unicode=True,
+            default_flow_style=False,
+            sort_keys=False,
+        )
 
 
 DEFAULT_TEMPLATE = CompletePatchOutput(
