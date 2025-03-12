@@ -1,5 +1,3 @@
-import requests
-
 raw_names = [
     "Funksjoner for bydelene i Oslo",
     "Fylkeskommunale funksjoner",
@@ -57,6 +55,7 @@ add_suffix = [
     "Uttrekk for Kommuner 2020-2023",
 ]
 
+# map directly
 special_cases = {
     "Uttrekk for Kommuner -2019": "uttrekk_for_kommuner_-2019_kladd",
     "Uttrekk for Kommuner 2020-2023 (uten aggregerte regioner)": "uttrekk_for_kommuner_2020-2023_uten_aggregerte_regioner",
@@ -66,51 +65,3 @@ special_cases = {
     "Kommunale funksjoner": "uttrekk_for_detaljerte_regnskapstall_driftsregnskapet_kommuner_funksjoner",
     "Uttrekk for Landet": "uttrekk_for_landet_kommuner_kladd",
 }
-
-
-def transform_subset_name(name: str) -> str:
-    """Transform name to id."""
-    prefix = "uttrekk_for_"
-    suffix = "_kladd"
-    new_str = name.lower()
-    new_str = new_str.replace(" ", "_")
-    new_str = new_str.replace(",", "")
-    new_str = new_str.replace("(", "")
-    new_str = new_str.replace(")", "")
-    new_str = new_str.replace("ø", "o")
-    new_str = new_str.replace("å", "a")
-    if prefix not in new_str:
-        new_str = prefix + new_str
-    if name in add_suffix:
-        new_str = new_str + suffix
-    if name in special_cases:
-        new_str = special_cases.get(name)
-    return new_str
-
-
-def transform_subset_migrations() -> list:
-    """Perform transformations."""
-    return_list = []
-    for name in raw_names:
-        transformed_name = transform_subset_name(name)
-        return_list.append(transformed_name)
-    return return_list
-
-
-subsets_migrations = transform_subset_migrations()
-
-bad_request = []
-not_found = []
-data_list = []
-for subset in subsets_migrations:
-    result = requests.get(
-        f"https://subsets-api.prod-bip-app.ssb.no/v2/subsets/{subset}",
-        timeout=5,
-    )
-    if result.status_code == 400:
-        bad_request.append(subset)
-    if result.status_code == 404:
-        not_found.append(subset)
-    else:
-        data = result.json()
-        data_list.append(data)
