@@ -431,7 +431,6 @@ paths:
                       nb: Seksjon for befolkningsstatistikk
                       nn: Seksjon for befolkningsstatistikk
                     email: s320@ssb.no
-        required: true
       responses:
         "201":
           description: Successfully created.
@@ -831,7 +830,6 @@ paths:
               Constraint violation:
                 value:
                   classification_reference: incorrect
-        required: true
       responses:
         "200":
           description: Successfully updated
@@ -1159,7 +1157,6 @@ paths:
                       nb: Seksjon for befolkningsstatistikk
                       nn: Seksjon for befolkningsstatistikk
                     email: s320@ssb.no
-        required: true
       responses:
         "201":
           description: Successfully created.
@@ -1566,7 +1563,6 @@ paths:
                       nb: Seksjon for befolkningsstatistikk
                       nn: Seksjon for befolkningsstatistikk
                     email: s320@ssb.no
-        required: true
       responses:
         "201":
           description: Successfully created.
@@ -1724,17 +1720,13 @@ components:
         name:
           description: Name of the variable. Must be unique for a given Unit Type
             and Owner combination.
-          allOf:
-          - $ref: "#/components/schemas/LanguageStringType"
-          - {}
+          $ref: "#/components/schemas/LanguageStringType"
         short_name:
           type: string
           description: Recommended short name. Must be unique within an organization.
         definition:
           description: Definition of the variable.
-          allOf:
-          - $ref: "#/components/schemas/LanguageStringType"
-          - {}
+          $ref: "#/components/schemas/LanguageStringType"
         classification_reference:
           type: string
           description: ID of a classification or code list from Klass. The given classification
@@ -1763,9 +1755,7 @@ components:
         variable_status:
           description: Status of the life cycle of the variable
           nullable: true
-          allOf:
-          - $ref: "#/components/schemas/VariableStatus"
-          - {}
+          $ref: "#/components/schemas/VariableStatus"
         measurement_type:
           type: string
           description: "Type of measurement for the variable, e.g. length, volume,\
@@ -1789,9 +1779,7 @@ components:
           description: Optional comment to explain the definition or communicate potential
             changes.
           nullable: true
-          allOf:
-          - $ref: "#/components/schemas/LanguageStringType"
-          - {}
+          $ref: "#/components/schemas/LanguageStringType"
         related_variable_definition_uris:
           type: array
           description: "Link(s) to related definitions of variables - a list of one\
@@ -1805,14 +1793,10 @@ components:
         owner:
           description: "Owner of the definition, i.e. responsible Dapla team (statistics\
             \ team) and information about access management groups."
-          allOf:
-          - $ref: "#/components/schemas/Owner"
-          - {}
+          $ref: "#/components/schemas/Owner"
         contact:
           description: Contact details
-          allOf:
-          - $ref: "#/components/schemas/Contact"
-          - {}
+          $ref: "#/components/schemas/Contact"
         created_at:
           type: string
           description: The timestamp at which this variable definition was first created.
@@ -1855,18 +1839,14 @@ components:
         name:
           description: Name of the variable. Must be unique for a given Unit Type
             and Owner combination.
-          allOf:
-          - $ref: "#/components/schemas/LanguageStringType"
-          - {}
+          $ref: "#/components/schemas/LanguageStringType"
         short_name:
           pattern: "^[a-z0-9_]{2,}$"
           type: string
           description: Recommended short name. Must be unique within an organization.
         definition:
           description: Definition of the variable.
-          allOf:
-          - $ref: "#/components/schemas/LanguageStringType"
-          - {}
+          $ref: "#/components/schemas/LanguageStringType"
         classification_reference:
           type: string
           description: ID of a classification or code list from Klass. The given classification
@@ -1918,9 +1898,7 @@ components:
           description: Optional comment to explain the definition or communicate potential
             changes.
           nullable: true
-          allOf:
-          - $ref: "#/components/schemas/LanguageStringType"
-          - {}
+          $ref: "#/components/schemas/LanguageStringType"
         related_variable_definition_uris:
           type: array
           description: "Link(s) to related definitions of variables - a list of one\
@@ -1933,9 +1911,7 @@ components:
             format: url
         contact:
           description: Contact details
-          allOf:
-          - $ref: "#/components/schemas/Contact"
-          - {}
+          $ref: "#/components/schemas/Contact"
       description: Create a Draft Variable Definition
       example:
         name:
@@ -2033,15 +2009,11 @@ components:
           description: Name of the variable. Must be unique for a given Unit Type
             and Owner combination.
           nullable: true
-          allOf:
-          - $ref: "#/components/schemas/LanguageStringType"
-          - {}
+          $ref: "#/components/schemas/LanguageStringType"
         definition:
           description: Definition of the variable.
           nullable: true
-          allOf:
-          - $ref: "#/components/schemas/LanguageStringType"
-          - {}
+          $ref: "#/components/schemas/LanguageStringType"
         classification_reference:
           type: string
           description: ID of a classification or code list from Klass. The given classification
@@ -2075,10 +2047,7 @@ components:
         variable_status:
           description: Status of the life cycle of the variable
           nullable: true
-          readOnly: true
-          allOf:
-          - $ref: "#/components/schemas/VariableStatus"
-          - {}
+          $ref: "#/components/schemas/VariableStatus"
         measurement_type:
           type: string
           description: "Type of measurement for the variable, e.g. length, volume,\
@@ -2098,9 +2067,7 @@ components:
           description: Optional comment to explain the definition or communicate potential
             changes.
           nullable: true
-          allOf:
-          - $ref: "#/components/schemas/LanguageStringType"
-          - {}
+          $ref: "#/components/schemas/LanguageStringType"
         related_variable_definition_uris:
           type: array
           description: "Link(s) to related definitions of variables - a list of one\
@@ -2115,15 +2082,11 @@ components:
           description: "Owner of the definition, i.e. responsible Dapla team (statistics\
             \ team) and information about access management groups."
           nullable: true
-          allOf:
-          - $ref: "#/components/schemas/Owner"
-          - {}
+          $ref: "#/components/schemas/Owner"
         contact:
           description: Contact details
           nullable: true
-          allOf:
-          - $ref: "#/components/schemas/Contact"
-          - {}
+          $ref: "#/components/schemas/Contact"
       description: Create a new Patch version on a Published Variable Definition.
       example:
         name:
@@ -2179,9 +2142,7 @@ components:
           description: Name of the variable. Must be unique for a given Unit Type
             and Owner combination.
           nullable: true
-          allOf:
-          - $ref: "#/components/schemas/LanguageStringType"
-          - {}
+          $ref: "#/components/schemas/LanguageStringType"
         short_name:
           pattern: "^[a-z0-9_]{2,}$"
           type: string
@@ -2190,9 +2151,7 @@ components:
         definition:
           description: Definition of the variable.
           nullable: true
-          allOf:
-          - $ref: "#/components/schemas/LanguageStringType"
-          - {}
+          $ref: "#/components/schemas/LanguageStringType"
         classification_reference:
           type: string
           description: ID of a classification or code list from Klass. The given classification
@@ -2226,9 +2185,7 @@ components:
         variable_status:
           description: Status of the life cycle of the variable
           nullable: true
-          allOf:
-          - $ref: "#/components/schemas/VariableStatus"
-          - {}
+          $ref: "#/components/schemas/VariableStatus"
         measurement_type:
           type: string
           description: "Type of measurement for the variable, e.g. length, volume,\
@@ -2252,9 +2209,7 @@ components:
           description: Optional comment to explain the definition or communicate potential
             changes.
           nullable: true
-          allOf:
-          - $ref: "#/components/schemas/LanguageStringType"
-          - {}
+          $ref: "#/components/schemas/LanguageStringType"
         related_variable_definition_uris:
           type: array
           description: "Link(s) to related definitions of variables - a list of one\
@@ -2269,15 +2224,11 @@ components:
           description: "Owner of the definition, i.e. responsible Dapla team (statistics\
             \ team) and information about access management groups."
           nullable: true
-          allOf:
-          - $ref: "#/components/schemas/Owner"
-          - {}
+          $ref: "#/components/schemas/Owner"
         contact:
           description: Contact details
           nullable: true
-          allOf:
-          - $ref: "#/components/schemas/Contact"
-          - {}
+          $ref: "#/components/schemas/Contact"
       description: Update variable definition Data structure with all fields optional
         for updating a Draft Variable Definition.
       example:
@@ -2341,14 +2292,10 @@ components:
           description: Name of the variable. Must be unique for a given Unit Type
             and Owner combination.
           nullable: true
-          allOf:
-          - $ref: "#/components/schemas/LanguageStringType"
-          - {}
+          $ref: "#/components/schemas/LanguageStringType"
         definition:
           description: Definition of the variable.
-          allOf:
-          - $ref: "#/components/schemas/LanguageStringType"
-          - {}
+          $ref: "#/components/schemas/LanguageStringType"
         classification_reference:
           type: string
           description: ID of a classification or code list from Klass. The given classification
@@ -2397,9 +2344,7 @@ components:
           description: Optional comment to explain the definition or communicate potential
             changes.
           nullable: true
-          allOf:
-          - $ref: "#/components/schemas/LanguageStringType"
-          - {}
+          $ref: "#/components/schemas/LanguageStringType"
         related_variable_definition_uris:
           type: array
           description: "Link(s) to related definitions of variables - a list of one\
@@ -2413,9 +2358,7 @@ components:
         contact:
           description: Contact details
           nullable: true
-          allOf:
-          - $ref: "#/components/schemas/Contact"
-          - {}
+          $ref: "#/components/schemas/Contact"
       description: Create a new Validity Period on a Published Variable Definition.
       example:
         name:

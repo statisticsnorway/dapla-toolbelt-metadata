@@ -20,7 +20,6 @@ __version__ = "1.0.0"
 from .api.data_migration_api import DataMigrationApi
 from .api.draft_variable_definitions_api import DraftVariableDefinitionsApi
 from .api.patches_api import PatchesApi
-from .api.public_api import PublicApi
 from .api.validity_periods_api import ValidityPeriodsApi
 from .api.variable_definitions_api import VariableDefinitionsApi
 
@@ -39,14 +38,10 @@ from .exceptions import ApiException
 from .models.complete_response import CompleteResponse
 from .models.contact import Contact
 from .models.draft import Draft
-from .models.klass_reference import KlassReference
 from .models.language_string_type import LanguageStringType
 from .models.owner import Owner
 from .models.patch import Patch
 from .models.problem import Problem
-from .models.rendered_contact import RenderedContact
-from .models.rendered_variable_definition import RenderedVariableDefinition
-from .models.supported_languages import SupportedLanguages
 from .models.update_draft import UpdateDraft
 from .models.validity_period import ValidityPeriod
 from .models.variable_status import VariableStatus

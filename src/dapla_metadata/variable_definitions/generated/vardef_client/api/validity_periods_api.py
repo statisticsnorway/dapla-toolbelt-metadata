@@ -1,6 +1,6 @@
-"""Variable Definitions
+"""Internal Variable Definitions Administration API
 
-## Introduction  Variable Definitions are centralized definitions of concrete variables which are typically present in multiple datasets. Variable Definitions support standardization of data and metadata and facilitate sharing and joining of data by clarifying when variables have an identical definition.  ## Maintenance of Variable Definitions This API allows for creation, maintenance and access of Variable Definitions.  ### Ownership Creation and maintenance of variables may only be performed by Statistics Norway employees representing a specific Dapla team, who are defined as the owners of a given Variable Definition. The team an owner represents must be specified when making a request through the `active_group` query parameter. All maintenance is to be performed by the owners, with no intervention from administrators.  ### Status All Variable Definitions have an associated status. The possible values for status are `DRAFT`, `PUBLISHED_INTERNAL` and `PUBLISHED_EXTERNAL`.   #### Draft When a Variable Definition is created it is assigned the status `DRAFT`. Under this status the Variable Definition is:  - Only visible to Statistics Norway employees. - Mutable (it may be changed directly without need for versioning). - Not suitable to refer to from other systems.  This status may be changed to `PUBLISHED_INTERNAL` or `PUBLISHED_EXTERNAL` with a direct update.  #### Published Internal Under this status the Variable Definition is:  - Only visible to Statistics Norway employees. - Immutable (all changes are versioned). - Suitable to refer to in internal systems for statistics production. - Not suitable to refer to for external use (for example in Statistikkbanken).  This status may be changed to `PUBLISHED_EXTERNAL` by creating a Patch version.  #### Published External Under this status the Variable Definition is:  - Visible to the general public. - Immutable (all changes are versioned). - Suitable to refer to from any system.  This status may not be changed as it would break immutability. If a Variable Definition is no longer relevant then its period of validity should be ended by specifying a `valid_until` date in a Patch version.  ### Immutability Variable Definitions are immutable. This means that any changes must be performed in a strict versioning system. Consumers can avoid being exposed to breaking changes by specifying a `date_of_validity` when they request a Variable Definition.  #### Patches Patches are for changes which do not affect the fundamental meaning of the Variable Definition.  #### Validity Periods Validity Periods are versions with a period defined by a `valid_from` date and optionally a `valid_until` date. If the fundamental meaning of a Variable Definition is to be changed, it should be done by creating a new Validity Period.
+## Introduction  Variable Definitions are centralized definitions of concrete variables which are typically present in multiple datasets. Variable Definitions support standardization of data and metadata and facilitate sharing and joining of data by clarifying when variables have an identical definition.  ## Maintenance of Variable Definitions This API allows for creation, maintenance and access of Variable Definitions.  ### Ownership Creation and maintenance of variables may only be performed by Statistics Norway employees representing a specific Dapla team, who are defined as the owners of a given Variable Definition. The team an owner represents must be specified when making a request through the `active_group` query parameter. All maintenance is to be performed by the owners, with no intervention from administrators.  ### Status All Variable Definitions have an associated status. The possible values for status are `DRAFT`, `PUBLISHED_INTERNAL` and `PUBLISHED_EXTERNAL`.  #### Draft When a Variable Definition is created it is assigned the status `DRAFT`. Under this status the Variable Definition is:  - Only visible to Statistics Norway employees. - Mutable (it may be changed directly without need for versioning). - Not suitable to refer to from other systems.  This status may be changed to `PUBLISHED_INTERNAL` or `PUBLISHED_EXTERNAL` with a direct update.  #### Published Internal Under this status the Variable Definition is:  - Only visible to Statistics Norway employees. - Immutable (all changes are versioned). - Suitable to refer to in internal systems for statistics production. - Not suitable to refer to for external use (for example in Statistikkbanken).  This status may be changed to `PUBLISHED_EXTERNAL` by creating a Patch version.  #### Published External Under this status the Variable Definition is:  - Visible to the general public. - Immutable (all changes are versioned). - Suitable to refer to from any system.  This status may not be changed as it would break immutability. If a Variable Definition is no longer relevant then its period of validity should be ended by specifying a `valid_until` date in a Patch version.  ### Immutability Variable Definitions are immutable. This means that any changes must be performed in a strict versioning system. Consumers can avoid being exposed to breaking changes by specifying a `date_of_validity` when they request a Variable Definition.  #### Patches Patches are for changes which do not affect the fundamental meaning of the Variable Definition.  #### Validity Periods Validity Periods are versions with a period defined by a `valid_from` date and optionally a `valid_until` date. If the fundamental meaning of a Variable Definition is to be changed, it should be done by creating a new Validity Period.
 
 The version of the OpenAPI document: 0.1
 Contact: metadata@ssb.no
@@ -22,8 +22,6 @@ from ..api_client import ApiClient
 from ..api_client import RequestSerialized
 from ..api_response import ApiResponse
 from ..models.complete_response import CompleteResponse
-from ..models.rendered_variable_definition import RenderedVariableDefinition
-from ..models.supported_languages import SupportedLanguages
 from ..models.validity_period import ValidityPeriod
 from ..rest import RESTResponseType
 
@@ -51,7 +49,7 @@ class ValidityPeriodsApi:
             StrictStr,
             Field(description="The group which the user currently represents."),
         ],
-        validity_period: ValidityPeriod,
+        validity_period: ValidityPeriod | None = None,
         _request_timeout: None
         | Annotated[StrictFloat, Field(gt=0)]
         | tuple[
@@ -70,7 +68,7 @@ class ValidityPeriodsApi:
         :type variable_definition_id: str
         :param active_group: The group which the user currently represents. (required)
         :type active_group: str
-        :param validity_period: (required)
+        :param validity_period:
         :type validity_period: ValidityPeriod
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -130,7 +128,7 @@ class ValidityPeriodsApi:
             StrictStr,
             Field(description="The group which the user currently represents."),
         ],
-        validity_period: ValidityPeriod,
+        validity_period: ValidityPeriod | None = None,
         _request_timeout: None
         | Annotated[StrictFloat, Field(gt=0)]
         | tuple[
@@ -149,7 +147,7 @@ class ValidityPeriodsApi:
         :type variable_definition_id: str
         :param active_group: The group which the user currently represents. (required)
         :type active_group: str
-        :param validity_period: (required)
+        :param validity_period:
         :type validity_period: ValidityPeriod
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -209,7 +207,7 @@ class ValidityPeriodsApi:
             StrictStr,
             Field(description="The group which the user currently represents."),
         ],
-        validity_period: ValidityPeriod,
+        validity_period: ValidityPeriod | None = None,
         _request_timeout: None
         | Annotated[StrictFloat, Field(gt=0)]
         | tuple[
@@ -228,7 +226,7 @@ class ValidityPeriodsApi:
         :type variable_definition_id: str
         :param active_group: The group which the user currently represents. (required)
         :type active_group: str
-        :param validity_period: (required)
+        :param validity_period:
         :type validity_period: ValidityPeriod
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -339,277 +337,6 @@ class ValidityPeriodsApi:
         return self.api_client.param_serialize(
             method="POST",
             resource_path="/variable-definitions/{variable-definition-id}/validity-periods",
-            path_params=_path_params,
-            query_params=_query_params,
-            header_params=_header_params,
-            body=_body_params,
-            post_params=_form_params,
-            files=_files,
-            auth_settings=_auth_settings,
-            collection_formats=_collection_formats,
-            _host=_host,
-            _request_auth=_request_auth,
-        )
-
-    @validate_call
-    def list_public_validity_periods(
-        self,
-        variable_definition_id: Annotated[
-            StrictStr,
-            Field(description="Unique identifier for the variable definition."),
-        ],
-        accept_language: Annotated[
-            SupportedLanguages,
-            Field(description="Render the variable definition in the given language."),
-        ],
-        _request_timeout: None
-        | Annotated[StrictFloat, Field(gt=0)]
-        | tuple[
-            Annotated[StrictFloat, Field(gt=0)], Annotated[StrictFloat, Field(gt=0)]
-        ] = None,
-        _request_auth: dict[StrictStr, Any] | None = None,
-        _content_type: StrictStr | None = None,
-        _headers: dict[StrictStr, Any] | None = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> list[RenderedVariableDefinition]:
-        """List all validity periods.
-
-        List all validity periods. These are rendered in the given language, with the default being Norwegian Bokmål.
-
-        :param variable_definition_id: Unique identifier for the variable definition. (required)
-        :type variable_definition_id: str
-        :param accept_language: Render the variable definition in the given language. (required)
-        :type accept_language: SupportedLanguages
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """
-        _param = self._list_public_validity_periods_serialize(
-            variable_definition_id=variable_definition_id,
-            accept_language=accept_language,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index,
-        )
-
-        _response_types_map: dict[str, str | None] = {
-            "200": "List[RenderedVariableDefinition]",
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout,
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        ).data
-
-    @validate_call
-    def list_public_validity_periods_with_http_info(
-        self,
-        variable_definition_id: Annotated[
-            StrictStr,
-            Field(description="Unique identifier for the variable definition."),
-        ],
-        accept_language: Annotated[
-            SupportedLanguages,
-            Field(description="Render the variable definition in the given language."),
-        ],
-        _request_timeout: None
-        | Annotated[StrictFloat, Field(gt=0)]
-        | tuple[
-            Annotated[StrictFloat, Field(gt=0)], Annotated[StrictFloat, Field(gt=0)]
-        ] = None,
-        _request_auth: dict[StrictStr, Any] | None = None,
-        _content_type: StrictStr | None = None,
-        _headers: dict[StrictStr, Any] | None = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[list[RenderedVariableDefinition]]:
-        """List all validity periods.
-
-        List all validity periods. These are rendered in the given language, with the default being Norwegian Bokmål.
-
-        :param variable_definition_id: Unique identifier for the variable definition. (required)
-        :type variable_definition_id: str
-        :param accept_language: Render the variable definition in the given language. (required)
-        :type accept_language: SupportedLanguages
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """
-        _param = self._list_public_validity_periods_serialize(
-            variable_definition_id=variable_definition_id,
-            accept_language=accept_language,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index,
-        )
-
-        _response_types_map: dict[str, str | None] = {
-            "200": "List[RenderedVariableDefinition]",
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout,
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        )
-
-    @validate_call
-    def list_public_validity_periods_without_preload_content(
-        self,
-        variable_definition_id: Annotated[
-            StrictStr,
-            Field(description="Unique identifier for the variable definition."),
-        ],
-        accept_language: Annotated[
-            SupportedLanguages,
-            Field(description="Render the variable definition in the given language."),
-        ],
-        _request_timeout: None
-        | Annotated[StrictFloat, Field(gt=0)]
-        | tuple[
-            Annotated[StrictFloat, Field(gt=0)], Annotated[StrictFloat, Field(gt=0)]
-        ] = None,
-        _request_auth: dict[StrictStr, Any] | None = None,
-        _content_type: StrictStr | None = None,
-        _headers: dict[StrictStr, Any] | None = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RESTResponseType:
-        """List all validity periods.
-
-        List all validity periods. These are rendered in the given language, with the default being Norwegian Bokmål.
-
-        :param variable_definition_id: Unique identifier for the variable definition. (required)
-        :type variable_definition_id: str
-        :param accept_language: Render the variable definition in the given language. (required)
-        :type accept_language: SupportedLanguages
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """
-        _param = self._list_public_validity_periods_serialize(
-            variable_definition_id=variable_definition_id,
-            accept_language=accept_language,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index,
-        )
-
-        _response_types_map: dict[str, str | None] = {
-            "200": "List[RenderedVariableDefinition]",
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout,
-        )
-        return response_data.response
-
-    def _list_public_validity_periods_serialize(
-        self,
-        variable_definition_id,
-        accept_language,
-        _request_auth,
-        _content_type,
-        _headers,
-        _host_index,
-    ) -> RequestSerialized:
-        _host = None
-
-        _collection_formats: dict[str, str] = {}
-
-        _path_params: dict[str, str] = {}
-        _query_params: list[tuple[str, str]] = []
-        _header_params: dict[str, str | None] = _headers or {}
-        _form_params: list[tuple[str, str]] = []
-        _files: dict[
-            str,
-            str | bytes | list[str] | list[bytes] | list[tuple[str, bytes]],
-        ] = {}
-        _body_params: bytes | None = None
-
-        # process the path parameters
-        if variable_definition_id is not None:
-            _path_params["variable-definition-id"] = variable_definition_id
-        # process the query parameters
-        # process the header parameters
-        if accept_language is not None:
-            _header_params["Accept-Language"] = accept_language
-        # process the form parameters
-        # process the body parameter
-
-        # set the HTTP header `Accept`
-        if "Accept" not in _header_params:
-            _header_params["Accept"] = self.api_client.select_header_accept(
-                [
-                    "application/json",
-                ],
-            )
-
-        # authentication setting
-        _auth_settings: list[str] = []
-
-        return self.api_client.param_serialize(
-            method="GET",
-            resource_path="/public/variable-definitions/{variable-definition-id}/validity-periods",
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
