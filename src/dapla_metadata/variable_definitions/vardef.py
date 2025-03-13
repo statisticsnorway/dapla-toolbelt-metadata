@@ -273,3 +273,19 @@ class Vardef:
             f"Created editable variable definition template file at {file_path}",  # noqa: G004
         )
         return file_path
+
+    @classmethod
+    @vardef_exception_handler
+    def does_short_name_exist(
+        cls,
+        short_name: str,
+    ) -> bool:
+        """Return True if the short name exists in Vardef, otherwise False."""
+        variable_definitions = Vardef.list_variable_definitions()
+        for variable in variable_definitions:
+            if short_name == variable.short_name:
+                logger.info(
+                    f"Found duplicate short name {short_name}",  # noqa: G004
+                )
+                return True
+        return False

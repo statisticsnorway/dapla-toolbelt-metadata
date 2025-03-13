@@ -2,6 +2,7 @@ import functools
 from collections.abc import Callable
 from http import HTTPStatus
 from pathlib import Path
+from unittest.mock import MagicMock
 from unittest.mock import Mock
 from unittest.mock import patch
 
@@ -211,3 +212,38 @@ def test_migrate_from_vardok(
     assert my_draft.id is not None
     assert my_draft.patch_id == 1
     assert my_draft.variable_status == VariableStatus.DRAFT
+
+
+def test_short_name_exist():
+    mock_variable = MagicMock()
+    mock_variable.short_name = "test_name"
+
+    mock_variable1 = MagicMock()
+    mock_variable1.short_name = "random_name"
+
+    mock_variable2 = MagicMock()
+    mock_variable2.short_name = "pluu_h"
+
+    mock_variable3 = MagicMock()
+    mock_variable3.short_name = "another_name"
+
+    with patch(
+        "dapla_metadata.variable_definitions.vardef.Vardef.list_variable_definitions",
+        return_value=[mock_variable, mock_variable1, mock_variable2, mock_variable3],
+    ):
+        result = Vardef.does_short_name_exist("test_name")
+        assert result is True
+
+
+def test_short_name_does_not_exist():
+    mock_variable = MagicMock()
+    mock_variable.short_name = "test_name"
+
+    mock_variable1 = MagicMock()
+    mock_variable1.short_name = "random_name"
+    with patch(
+        "dapla_metadata.variable_definitions.vardef.Vardef.list_variable_definitions",
+        return_value=[mock_variable, mock_variable1],
+    ):
+        result = Vardef.does_short_name_exist("org_name")
+        assert result is False
