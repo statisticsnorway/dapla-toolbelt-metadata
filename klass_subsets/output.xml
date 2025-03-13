@@ -1,0 +1,1293 @@
+<?xml version='1.0' encoding='utf-8'?>
+<versjon xmlns="http://klass.ssb.no/version" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://klass.ssb.no/version https://i.ssb.no/klass/admin/schemas/version.xsd">
+  <element>
+    <kode>400</kode>
+    <forelder />
+    <navn_bokmål>Politisk styring</navn_bokmål>
+    <navn_nynorsk>Politisk styring</navn_nynorsk>
+    <navn_engelsk>Political management</navn_engelsk>
+    <kortnavn_bokmål />
+    <kortnavn_nynorsk />
+    <kortnavn_engelsk />
+    <noter_bokmål />
+    <noter_nynorsk />
+    <noter_engelsk />
+    <gyldig_til />
+    <gyldig_fra>2023-01-01</gyldig_fra>
+  </element>
+  <element>
+    <kode>410</kode>
+    <forelder />
+    <navn_bokmål>Kontroll og revisjon</navn_bokmål>
+    <navn_nynorsk>Kontroll og revisjon</navn_nynorsk>
+    <navn_engelsk>Regulation and control</navn_engelsk>
+    <kortnavn_bokmål />
+    <kortnavn_nynorsk />
+    <kortnavn_engelsk />
+    <noter_bokmål />
+    <noter_nynorsk />
+    <noter_engelsk />
+    <gyldig_til />
+    <gyldig_fra>2023-01-01</gyldig_fra>
+  </element>
+  <element>
+    <kode>420</kode>
+    <forelder />
+    <navn_bokmål>Administrasjon</navn_bokmål>
+    <navn_nynorsk>Administrasjon</navn_nynorsk>
+    <navn_engelsk>Administration</navn_engelsk>
+    <kortnavn_bokmål />
+    <kortnavn_nynorsk />
+    <kortnavn_engelsk />
+    <noter_bokmål />
+    <noter_nynorsk />
+    <noter_engelsk />
+    <gyldig_til />
+    <gyldig_fra>2023-01-01</gyldig_fra>
+  </element>
+  <element>
+    <kode>421</kode>
+    <forelder />
+    <navn_bokmål>Forvaltningsutgifter i eiendomsforvaltningen</navn_bokmål>
+    <navn_nynorsk>Forvaltningsutgifter i eigedomsforvaltninga</navn_nynorsk>
+    <navn_engelsk>Administration expenses of managing property/property management</navn_engelsk>
+    <kortnavn_bokmål />
+    <kortnavn_nynorsk />
+    <kortnavn_engelsk />
+    <noter_bokmål />
+    <noter_nynorsk />
+    <noter_engelsk />
+    <gyldig_til />
+    <gyldig_fra>2023-01-01</gyldig_fra>
+  </element>
+  <element>
+    <kode>430</kode>
+    <forelder />
+    <navn_bokmål>Administrasjonslokaler</navn_bokmål>
+    <navn_nynorsk>Administrasjonslokale</navn_nynorsk>
+    <navn_engelsk>Administration buildings</navn_engelsk>
+    <kortnavn_bokmål />
+    <kortnavn_nynorsk />
+    <kortnavn_engelsk />
+    <noter_bokmål />
+    <noter_nynorsk />
+    <noter_engelsk />
+    <gyldig_til />
+    <gyldig_fra>2023-01-01</gyldig_fra>
+  </element>
+  <element>
+    <kode>460</kode>
+    <forelder />
+    <navn_bokmål>Tjenester utenfor ordinært fylkeskommunalt ansvarsområde</navn_bokmål>
+    <navn_nynorsk>Tenester utanfor ordinært fylkeskommunalt ansvarsområde</navn_nynorsk>
+    <navn_engelsk>Services other than ordinary county municipal obligations</navn_engelsk>
+    <kortnavn_bokmål />
+    <kortnavn_nynorsk />
+    <kortnavn_engelsk />
+    <noter_bokmål />
+    <noter_nynorsk />
+    <noter_engelsk />
+    <gyldig_til />
+    <gyldig_fra>2023-01-01</gyldig_fra>
+  </element>
+  <element>
+    <kode>465</kode>
+    <forelder />
+    <navn_bokmål>Interfylkeskommunale samarbeid (§§ 27/28a-samarbeid)</navn_bokmål>
+    <navn_nynorsk>Interfylkeskommunale samarbeid (§§ 27/28a-samarbeid)</navn_nynorsk>
+    <navn_engelsk>Inter-county municipal cooperation (§ 27- cooperation)</navn_engelsk>
+    <kortnavn_bokmål />
+    <kortnavn_nynorsk />
+    <kortnavn_engelsk />
+    <noter_bokmål />
+    <noter_nynorsk />
+    <noter_engelsk />
+    <gyldig_til>2020-01-01</gyldig_til>
+    <gyldig_fra>2015-01-01</gyldig_fra>
+  </element>
+  <element>
+    <kode>465</kode>
+    <forelder />
+    <navn_bokmål>Interfylkeskommunale samarbeid </navn_bokmål>
+    <navn_nynorsk>Interfylkeskommunale samarbeid </navn_nynorsk>
+    <navn_engelsk>Inter-county municipal cooperation (§ 27- cooperation)</navn_engelsk>
+    <kortnavn_bokmål />
+    <kortnavn_nynorsk />
+    <kortnavn_engelsk />
+    <noter_bokmål />
+    <noter_nynorsk />
+    <noter_engelsk />
+    <gyldig_til />
+    <gyldig_fra>2023-01-01</gyldig_fra>
+  </element>
+  <element>
+    <kode>470</kode>
+    <forelder />
+    <navn_bokmål>Årets premieavvik</navn_bokmål>
+    <navn_nynorsk>Premieavvik i år</navn_nynorsk>
+    <navn_engelsk>This years' pension premium deviation</navn_engelsk>
+    <kortnavn_bokmål />
+    <kortnavn_nynorsk />
+    <kortnavn_engelsk />
+    <noter_bokmål />
+    <noter_nynorsk />
+    <noter_engelsk />
+    <gyldig_til />
+    <gyldig_fra>2023-01-01</gyldig_fra>
+  </element>
+  <element>
+    <kode>471</kode>
+    <forelder />
+    <navn_bokmål>Amortisering av tidligere års premieavvik</navn_bokmål>
+    <navn_nynorsk>Amortisering av tidlegare år sine premieavvik</navn_nynorsk>
+    <navn_engelsk>Amortisation of previous years pension premium deviation</navn_engelsk>
+    <kortnavn_bokmål />
+    <kortnavn_nynorsk />
+    <kortnavn_engelsk />
+    <noter_bokmål />
+    <noter_nynorsk />
+    <noter_engelsk />
+    <gyldig_til />
+    <gyldig_fra>2023-01-01</gyldig_fra>
+  </element>
+  <element>
+    <kode>472</kode>
+    <forelder />
+    <navn_bokmål>Pensjon</navn_bokmål>
+    <navn_nynorsk>Pensjon</navn_nynorsk>
+    <navn_engelsk>Pension</navn_engelsk>
+    <kortnavn_bokmål />
+    <kortnavn_nynorsk />
+    <kortnavn_engelsk />
+    <noter_bokmål />
+    <noter_nynorsk />
+    <noter_engelsk />
+    <gyldig_til />
+    <gyldig_fra>2023-01-01</gyldig_fra>
+  </element>
+  <element>
+    <kode>473</kode>
+    <forelder />
+    <navn_bokmål>Premiefond</navn_bokmål>
+    <navn_nynorsk>Premiefond</navn_nynorsk>
+    <navn_engelsk>Premium fund</navn_engelsk>
+    <kortnavn_bokmål />
+    <kortnavn_nynorsk />
+    <kortnavn_engelsk />
+    <noter_bokmål />
+    <noter_nynorsk />
+    <noter_engelsk />
+    <gyldig_til />
+    <gyldig_fra>2023-01-01</gyldig_fra>
+  </element>
+  <element>
+    <kode>480</kode>
+    <forelder />
+    <navn_bokmål>Diverse fellesutgifter</navn_bokmål>
+    <navn_nynorsk>Diverse fellesutgifter</navn_nynorsk>
+    <navn_engelsk>Various joint expenditures</navn_engelsk>
+    <kortnavn_bokmål />
+    <kortnavn_nynorsk />
+    <kortnavn_engelsk />
+    <noter_bokmål />
+    <noter_nynorsk />
+    <noter_engelsk />
+    <gyldig_til />
+    <gyldig_fra>2023-01-01</gyldig_fra>
+  </element>
+  <element>
+    <kode>490</kode>
+    <forelder />
+    <navn_bokmål>Interne serviceenheter</navn_bokmål>
+    <navn_nynorsk>Interne serviceeiningar</navn_nynorsk>
+    <navn_engelsk>Internal service units</navn_engelsk>
+    <kortnavn_bokmål />
+    <kortnavn_nynorsk />
+    <kortnavn_engelsk />
+    <noter_bokmål />
+    <noter_nynorsk />
+    <noter_engelsk />
+    <gyldig_til>2020-01-01</gyldig_til>
+    <gyldig_fra>2015-01-01</gyldig_fra>
+  </element>
+  <element>
+    <kode>510</kode>
+    <forelder />
+    <navn_bokmål>Skolelokaler og internatbygninger</navn_bokmål>
+    <navn_nynorsk>Skulelokale og internatbygningar</navn_nynorsk>
+    <navn_engelsk>School buildings and dormitories</navn_engelsk>
+    <kortnavn_bokmål />
+    <kortnavn_nynorsk />
+    <kortnavn_engelsk />
+    <noter_bokmål />
+    <noter_nynorsk />
+    <noter_engelsk />
+    <gyldig_til />
+    <gyldig_fra>2023-01-01</gyldig_fra>
+  </element>
+  <element>
+    <kode>515</kode>
+    <forelder />
+    <navn_bokmål>Fellesutgifter og støttefunksjoner knyttet til videregående opplæring</navn_bokmål>
+    <navn_nynorsk>Fellesutgifter og støttefunksjonar knytt til vidaregåande opplæring</navn_nynorsk>
+    <navn_engelsk>Joint expenditures and support services associated to secondary education</navn_engelsk>
+    <kortnavn_bokmål />
+    <kortnavn_nynorsk />
+    <kortnavn_engelsk />
+    <noter_bokmål />
+    <noter_nynorsk />
+    <noter_engelsk />
+    <gyldig_til>2020-01-01</gyldig_til>
+    <gyldig_fra>2015-01-01</gyldig_fra>
+  </element>
+  <element>
+    <kode>515</kode>
+    <forelder />
+    <navn_bokmål>Fellesutgifter og støttefunksjoner for videregående opplæring</navn_bokmål>
+    <navn_nynorsk>Fellesutgifter og støttefunksjonar for vidaregåande opplæring</navn_nynorsk>
+    <navn_engelsk>Joint expenditures and support services associated to secondary education</navn_engelsk>
+    <kortnavn_bokmål />
+    <kortnavn_nynorsk />
+    <kortnavn_engelsk />
+    <noter_bokmål />
+    <noter_nynorsk />
+    <noter_engelsk />
+    <gyldig_til />
+    <gyldig_fra>2023-01-01</gyldig_fra>
+  </element>
+  <element>
+    <kode>520</kode>
+    <forelder />
+    <navn_bokmål>Pedagogisk ledelse, pedagogiske fellesutgifter og gjesteelevsoppgjør</navn_bokmål>
+    <navn_nynorsk>Pedagogisk leiing, pedagogiske fellesutgifter og gjesteelevoppgjer</navn_nynorsk>
+    <navn_engelsk>Educational management, educational joint expenditures and payment for spare pupil places</navn_engelsk>
+    <kortnavn_bokmål />
+    <kortnavn_nynorsk />
+    <kortnavn_engelsk />
+    <noter_bokmål />
+    <noter_nynorsk />
+    <noter_engelsk />
+    <gyldig_til />
+    <gyldig_fra>2023-01-01</gyldig_fra>
+  </element>
+  <element>
+    <kode>521</kode>
+    <forelder />
+    <navn_bokmål>Studiespesialisering</navn_bokmål>
+    <navn_nynorsk>Studiespesialisering</navn_nynorsk>
+    <navn_engelsk>Study specialisation</navn_engelsk>
+    <kortnavn_bokmål />
+    <kortnavn_nynorsk />
+    <kortnavn_engelsk />
+    <noter_bokmål />
+    <noter_nynorsk />
+    <noter_engelsk />
+    <gyldig_til />
+    <gyldig_fra>2023-01-01</gyldig_fra>
+  </element>
+  <element>
+    <kode>522</kode>
+    <forelder />
+    <navn_bokmål>Bygg- og anleggsteknikk</navn_bokmål>
+    <navn_nynorsk>Bygg- og anleggsteknikk</navn_nynorsk>
+    <navn_engelsk>Building and construction engineering</navn_engelsk>
+    <kortnavn_bokmål />
+    <kortnavn_nynorsk />
+    <kortnavn_engelsk />
+    <noter_bokmål />
+    <noter_nynorsk />
+    <noter_engelsk />
+    <gyldig_til />
+    <gyldig_fra>2023-01-01</gyldig_fra>
+  </element>
+  <element>
+    <kode>523</kode>
+    <forelder />
+    <navn_bokmål>Elektro og datateknologi</navn_bokmål>
+    <navn_nynorsk>Elektro- og datateknologi</navn_nynorsk>
+    <navn_engelsk>Electrical engineering and computer technology</navn_engelsk>
+    <kortnavn_bokmål />
+    <kortnavn_nynorsk />
+    <kortnavn_engelsk />
+    <noter_bokmål />
+    <noter_nynorsk />
+    <noter_engelsk />
+    <gyldig_til />
+    <gyldig_fra>2023-01-01</gyldig_fra>
+  </element>
+  <element>
+    <kode>523</kode>
+    <forelder />
+    <navn_bokmål>Elektrofag</navn_bokmål>
+    <navn_nynorsk>Elektrofag</navn_nynorsk>
+    <navn_engelsk>Electrical trades</navn_engelsk>
+    <kortnavn_bokmål />
+    <kortnavn_nynorsk />
+    <kortnavn_engelsk />
+    <noter_bokmål />
+    <noter_nynorsk />
+    <noter_engelsk />
+    <gyldig_til>2020-01-01</gyldig_til>
+    <gyldig_fra>2015-01-01</gyldig_fra>
+  </element>
+  <element>
+    <kode>524</kode>
+    <forelder />
+    <navn_bokmål>Design og håndverk</navn_bokmål>
+    <navn_nynorsk>Design og handverk</navn_nynorsk>
+    <navn_engelsk>Arts, crafts and design</navn_engelsk>
+    <kortnavn_bokmål />
+    <kortnavn_nynorsk />
+    <kortnavn_engelsk />
+    <noter_bokmål />
+    <noter_nynorsk />
+    <noter_engelsk />
+    <gyldig_til />
+    <gyldig_fra>2023-01-01</gyldig_fra>
+  </element>
+  <element>
+    <kode>525</kode>
+    <forelder />
+    <navn_bokmål>Restaurant- og matfag</navn_bokmål>
+    <navn_nynorsk>Restaurant- og matfag</navn_nynorsk>
+    <navn_engelsk>Restaurant and food processing studies</navn_engelsk>
+    <kortnavn_bokmål />
+    <kortnavn_nynorsk />
+    <kortnavn_engelsk />
+    <noter_bokmål />
+    <noter_nynorsk />
+    <noter_engelsk />
+    <gyldig_til />
+    <gyldig_fra>2023-01-01</gyldig_fra>
+  </element>
+  <element>
+    <kode>526</kode>
+    <forelder />
+    <navn_bokmål>Helse- og oppvekstfag</navn_bokmål>
+    <navn_nynorsk>Helse- og oppvekstfag</navn_nynorsk>
+    <navn_engelsk>Health and social studies</navn_engelsk>
+    <kortnavn_bokmål />
+    <kortnavn_nynorsk />
+    <kortnavn_engelsk />
+    <noter_bokmål />
+    <noter_nynorsk />
+    <noter_engelsk />
+    <gyldig_til />
+    <gyldig_fra>2023-01-01</gyldig_fra>
+  </element>
+  <element>
+    <kode>527</kode>
+    <forelder />
+    <navn_bokmål>Idrettsfag</navn_bokmål>
+    <navn_nynorsk>Idrettsfag</navn_nynorsk>
+    <navn_engelsk>Sports and physical education</navn_engelsk>
+    <kortnavn_bokmål />
+    <kortnavn_nynorsk />
+    <kortnavn_engelsk />
+    <noter_bokmål />
+    <noter_nynorsk />
+    <noter_engelsk />
+    <gyldig_til />
+    <gyldig_fra>2023-01-01</gyldig_fra>
+  </element>
+  <element>
+    <kode>528</kode>
+    <forelder />
+    <navn_bokmål>Teknologi- og industrifag</navn_bokmål>
+    <navn_nynorsk>Teknologi- og industrifag </navn_nynorsk>
+    <navn_engelsk>Technical and  industrial production</navn_engelsk>
+    <kortnavn_bokmål />
+    <kortnavn_nynorsk />
+    <kortnavn_engelsk />
+    <noter_bokmål />
+    <noter_nynorsk />
+    <noter_engelsk />
+    <gyldig_til />
+    <gyldig_fra>2023-01-01</gyldig_fra>
+  </element>
+  <element>
+    <kode>528</kode>
+    <forelder />
+    <navn_bokmål>Teknikk og industriell produksjon</navn_bokmål>
+    <navn_nynorsk>Teknikk og industriell produksjon</navn_nynorsk>
+    <navn_engelsk>Technical and  industrial production</navn_engelsk>
+    <kortnavn_bokmål />
+    <kortnavn_nynorsk />
+    <kortnavn_engelsk />
+    <noter_bokmål />
+    <noter_nynorsk />
+    <noter_engelsk />
+    <gyldig_til>2020-01-01</gyldig_til>
+    <gyldig_fra>2015-01-01</gyldig_fra>
+  </element>
+  <element>
+    <kode>529</kode>
+    <forelder />
+    <navn_bokmål>Musikk, dans og drama</navn_bokmål>
+    <navn_nynorsk>Musikk, dans og drama</navn_nynorsk>
+    <navn_engelsk>Music, dance and drama studies</navn_engelsk>
+    <kortnavn_bokmål />
+    <kortnavn_nynorsk />
+    <kortnavn_engelsk />
+    <noter_bokmål />
+    <noter_nynorsk />
+    <noter_engelsk />
+    <gyldig_til />
+    <gyldig_fra>2023-01-01</gyldig_fra>
+  </element>
+  <element>
+    <kode>530</kode>
+    <forelder />
+    <navn_bokmål>Medier og kommunikasjon</navn_bokmål>
+    <navn_nynorsk>Medium og kommunikasjon</navn_nynorsk>
+    <navn_engelsk>Media and communication</navn_engelsk>
+    <kortnavn_bokmål />
+    <kortnavn_nynorsk />
+    <kortnavn_engelsk />
+    <noter_bokmål />
+    <noter_nynorsk />
+    <noter_engelsk />
+    <gyldig_til />
+    <gyldig_fra>2023-01-01</gyldig_fra>
+  </element>
+  <element>
+    <kode>531</kode>
+    <forelder />
+    <navn_bokmål>Naturbruk</navn_bokmål>
+    <navn_nynorsk>Naturbruk</navn_nynorsk>
+    <navn_engelsk>Agriculture, fishing and forestry studies</navn_engelsk>
+    <kortnavn_bokmål />
+    <kortnavn_nynorsk />
+    <kortnavn_engelsk />
+    <noter_bokmål />
+    <noter_nynorsk />
+    <noter_engelsk />
+    <gyldig_til />
+    <gyldig_fra>2023-01-01</gyldig_fra>
+  </element>
+  <element>
+    <kode>532</kode>
+    <forelder />
+    <navn_bokmål>Service og samferdsel</navn_bokmål>
+    <navn_nynorsk>Service og samferdsle</navn_nynorsk>
+    <navn_engelsk>Service, transport and communication</navn_engelsk>
+    <kortnavn_bokmål />
+    <kortnavn_nynorsk />
+    <kortnavn_engelsk />
+    <noter_bokmål />
+    <noter_nynorsk />
+    <noter_engelsk />
+    <gyldig_til />
+    <gyldig_fra>2023-01-01</gyldig_fra>
+  </element>
+  <element>
+    <kode>533</kode>
+    <forelder />
+    <navn_bokmål>Kunst, design og arkitektur (f.o.m. høst 2016)</navn_bokmål>
+    <navn_nynorsk>Kunst, design og arkitektur (f.o.m. haust 2016)</navn_nynorsk>
+    <navn_engelsk>Art, design and architecture (as of autumn 2016)</navn_engelsk>
+    <kortnavn_bokmål />
+    <kortnavn_nynorsk />
+    <kortnavn_engelsk />
+    <noter_bokmål />
+    <noter_nynorsk />
+    <noter_engelsk />
+    <gyldig_til />
+    <gyldig_fra>2023-01-01</gyldig_fra>
+  </element>
+  <element>
+    <kode>534</kode>
+    <forelder />
+    <navn_bokmål>Håndverk, design og produktutvikling (f.o.m. høst 2020)</navn_bokmål>
+    <navn_nynorsk>Design og tradisjonshandverk</navn_nynorsk>
+    <navn_engelsk>Crafts, design and product development (as of autumn 2020)</navn_engelsk>
+    <kortnavn_bokmål />
+    <kortnavn_nynorsk />
+    <kortnavn_engelsk />
+    <noter_bokmål />
+    <noter_nynorsk />
+    <noter_engelsk />
+    <gyldig_til />
+    <gyldig_fra>2023-01-01</gyldig_fra>
+  </element>
+  <element>
+    <kode>535</kode>
+    <forelder />
+    <navn_bokmål>Informasjonsteknologi og medieproduksjon (f.o.m. høst 2020)</navn_bokmål>
+    <navn_nynorsk>IKT og medieproduksjon</navn_nynorsk>
+    <navn_engelsk>Information technology and media production</navn_engelsk>
+    <kortnavn_bokmål />
+    <kortnavn_nynorsk />
+    <kortnavn_engelsk />
+    <noter_bokmål />
+    <noter_nynorsk />
+    <noter_engelsk />
+    <gyldig_til />
+    <gyldig_fra>2023-01-01</gyldig_fra>
+  </element>
+  <element>
+    <kode>536</kode>
+    <forelder />
+    <navn_bokmål>Salg, service og reiseliv (f.o.m. høst 2020)</navn_bokmål>
+    <navn_nynorsk>Salg, service og reiseliv</navn_nynorsk>
+    <navn_engelsk>Sales, service and tourism</navn_engelsk>
+    <kortnavn_bokmål />
+    <kortnavn_nynorsk />
+    <kortnavn_engelsk />
+    <noter_bokmål />
+    <noter_nynorsk />
+    <noter_engelsk />
+    <gyldig_til />
+    <gyldig_fra>2023-01-01</gyldig_fra>
+  </element>
+  <element>
+    <kode>537</kode>
+    <forelder />
+    <navn_bokmål>Frisør, blomster, interiør og eksponeringsdesign (f.o.m. høst 2020)</navn_bokmål>
+    <navn_nynorsk>Frisør, blomster og interiørdesign</navn_nynorsk>
+    <navn_engelsk>Hairdressing, floral,  interior and retail design (as of autumn 2020)</navn_engelsk>
+    <kortnavn_bokmål />
+    <kortnavn_nynorsk />
+    <kortnavn_engelsk />
+    <noter_bokmål />
+    <noter_nynorsk />
+    <noter_engelsk />
+    <gyldig_til />
+    <gyldig_fra>2023-01-01</gyldig_fra>
+  </element>
+  <element>
+    <kode>554</kode>
+    <forelder />
+    <navn_bokmål>Fagskole</navn_bokmål>
+    <navn_nynorsk>Fagskule</navn_nynorsk>
+    <navn_engelsk>Technical vocation schools/colleges</navn_engelsk>
+    <kortnavn_bokmål />
+    <kortnavn_nynorsk />
+    <kortnavn_engelsk />
+    <noter_bokmål />
+    <noter_nynorsk />
+    <noter_engelsk />
+    <gyldig_til />
+    <gyldig_fra>2023-01-01</gyldig_fra>
+  </element>
+  <element>
+    <kode>559</kode>
+    <forelder />
+    <navn_bokmål>Landslinjer</navn_bokmål>
+    <navn_nynorsk>Landsliner</navn_nynorsk>
+    <navn_engelsk>National level courses</navn_engelsk>
+    <kortnavn_bokmål />
+    <kortnavn_nynorsk />
+    <kortnavn_engelsk />
+    <noter_bokmål />
+    <noter_nynorsk />
+    <noter_engelsk />
+    <gyldig_til />
+    <gyldig_fra>2023-01-01</gyldig_fra>
+  </element>
+  <element>
+    <kode>561</kode>
+    <forelder />
+    <navn_bokmål>Oppfølgingstjenesten og Pedagogisk psykologisk tjeneste</navn_bokmål>
+    <navn_nynorsk>Oppfølgingstenesta og Pedagogisk psykologisk teneste</navn_nynorsk>
+    <navn_engelsk>Follow- up services and educational and  psychological counselling services</navn_engelsk>
+    <kortnavn_bokmål />
+    <kortnavn_nynorsk />
+    <kortnavn_engelsk />
+    <noter_bokmål />
+    <noter_nynorsk />
+    <noter_engelsk />
+    <gyldig_til />
+    <gyldig_fra>2023-01-01</gyldig_fra>
+  </element>
+  <element>
+    <kode>562</kode>
+    <forelder />
+    <navn_bokmål>Spesialundervisning og særskilt tilpasset opplæring</navn_bokmål>
+    <navn_nynorsk>Spesialundervisning og særskilt tilpassa opplæring</navn_nynorsk>
+    <navn_engelsk>Adapted tuition and special needs education</navn_engelsk>
+    <kortnavn_bokmål />
+    <kortnavn_nynorsk />
+    <kortnavn_engelsk />
+    <noter_bokmål />
+    <noter_nynorsk />
+    <noter_engelsk />
+    <gyldig_til />
+    <gyldig_fra>2023-01-01</gyldig_fra>
+  </element>
+  <element>
+    <kode>570</kode>
+    <forelder />
+    <navn_bokmål>Fagopplæring i arbeidslivet</navn_bokmål>
+    <navn_nynorsk>Fagopplæring i arbeidslivet</navn_nynorsk>
+    <navn_engelsk>Apprenticeships</navn_engelsk>
+    <kortnavn_bokmål />
+    <kortnavn_nynorsk />
+    <kortnavn_engelsk />
+    <noter_bokmål />
+    <noter_nynorsk />
+    <noter_engelsk />
+    <gyldig_til>2018-01-01</gyldig_til>
+    <gyldig_fra>2015-01-01</gyldig_fra>
+  </element>
+  <element>
+    <kode>570</kode>
+    <forelder />
+    <navn_bokmål>Fagopplæring</navn_bokmål>
+    <navn_nynorsk>Fagopplæring</navn_nynorsk>
+    <navn_engelsk>Apprenticeships</navn_engelsk>
+    <kortnavn_bokmål />
+    <kortnavn_nynorsk />
+    <kortnavn_engelsk />
+    <noter_bokmål />
+    <noter_nynorsk />
+    <noter_engelsk />
+    <gyldig_til />
+    <gyldig_fra>2023-01-01</gyldig_fra>
+  </element>
+  <element>
+    <kode>581</kode>
+    <forelder />
+    <navn_bokmål>Voksenopplæring etter opplæringsloven</navn_bokmål>
+    <navn_nynorsk>Vaksenopplæring etter opplæringslova</navn_nynorsk>
+    <navn_engelsk>Adult education </navn_engelsk>
+    <kortnavn_bokmål />
+    <kortnavn_nynorsk />
+    <kortnavn_engelsk />
+    <noter_bokmål />
+    <noter_nynorsk />
+    <noter_engelsk />
+    <gyldig_til />
+    <gyldig_fra>2023-01-01</gyldig_fra>
+  </element>
+  <element>
+    <kode>590</kode>
+    <forelder />
+    <navn_bokmål>Andre formål</navn_bokmål>
+    <navn_nynorsk>Andre føremål</navn_nynorsk>
+    <navn_engelsk>Other purposes besides ordinary secondary education </navn_engelsk>
+    <kortnavn_bokmål />
+    <kortnavn_nynorsk />
+    <kortnavn_engelsk />
+    <noter_bokmål />
+    <noter_nynorsk />
+    <noter_engelsk />
+    <gyldig_til />
+    <gyldig_fra>2023-01-01</gyldig_fra>
+  </element>
+  <element>
+    <kode>660</kode>
+    <forelder />
+    <navn_bokmål>Tannhelsetjeneste - Fellesfunksjoner</navn_bokmål>
+    <navn_nynorsk>Tannhelseteneste - Fellesfunksjonar</navn_nynorsk>
+    <navn_engelsk>Dental health care - joint functions</navn_engelsk>
+    <kortnavn_bokmål />
+    <kortnavn_nynorsk />
+    <kortnavn_engelsk />
+    <noter_bokmål />
+    <noter_nynorsk />
+    <noter_engelsk />
+    <gyldig_til />
+    <gyldig_fra>2023-01-01</gyldig_fra>
+  </element>
+  <element>
+    <kode>665</kode>
+    <forelder />
+    <navn_bokmål>Tannhelsetjeneste - Pasientbehandling</navn_bokmål>
+    <navn_nynorsk>Tannhelseteneste - Pasientbehandling</navn_nynorsk>
+    <navn_engelsk>Dental health care - treatment of patients</navn_engelsk>
+    <kortnavn_bokmål />
+    <kortnavn_nynorsk />
+    <kortnavn_engelsk />
+    <noter_bokmål />
+    <noter_nynorsk />
+    <noter_engelsk />
+    <gyldig_til />
+    <gyldig_fra>2023-01-01</gyldig_fra>
+  </element>
+  <element>
+    <kode>701</kode>
+    <forelder />
+    <navn_bokmål>Tilrettelegging, støttefunksjoner og finansieringsbistand for næringslivet</navn_bokmål>
+    <navn_nynorsk>Tilrettelegging, støttefunksjonar og finansieringsbistand for næringslivet</navn_nynorsk>
+    <navn_engelsk>Arrangements, assistance and financial assistance to trade and industry</navn_engelsk>
+    <kortnavn_bokmål />
+    <kortnavn_nynorsk />
+    <kortnavn_engelsk />
+    <noter_bokmål />
+    <noter_nynorsk />
+    <noter_engelsk />
+    <gyldig_til />
+    <gyldig_fra>2023-01-01</gyldig_fra>
+  </element>
+  <element>
+    <kode>710</kode>
+    <forelder />
+    <navn_bokmål>Fylkeskommunal næringsvirksomhet</navn_bokmål>
+    <navn_nynorsk>Fylkeskommunal næringsverksemd</navn_nynorsk>
+    <navn_engelsk>County authority business developments</navn_engelsk>
+    <kortnavn_bokmål />
+    <kortnavn_nynorsk />
+    <kortnavn_engelsk />
+    <noter_bokmål />
+    <noter_nynorsk />
+    <noter_engelsk />
+    <gyldig_til />
+    <gyldig_fra>2023-01-01</gyldig_fra>
+  </element>
+  <element>
+    <kode>711</kode>
+    <forelder />
+    <navn_bokmål>Konsesjonskraft, kraftrettigheter og annen kraft for videresalg</navn_bokmål>
+    <navn_nynorsk>Konsesjonskraft, kraftrettar og anna kraft for videresal</navn_nynorsk>
+    <navn_engelsk>Energy concessions, energy/power licence and other energy for resale</navn_engelsk>
+    <kortnavn_bokmål />
+    <kortnavn_nynorsk />
+    <kortnavn_engelsk />
+    <noter_bokmål />
+    <noter_nynorsk />
+    <noter_engelsk />
+    <gyldig_til />
+    <gyldig_fra>2023-01-01</gyldig_fra>
+  </element>
+  <element>
+    <kode>713</kode>
+    <forelder />
+    <navn_bokmål>Regional planlegging og planveiledning</navn_bokmål>
+    <navn_nynorsk>Regional planlegging og planrettleiing</navn_nynorsk>
+    <navn_engelsk>Regional planning and planning guidance</navn_engelsk>
+    <kortnavn_bokmål />
+    <kortnavn_nynorsk />
+    <kortnavn_engelsk />
+    <noter_bokmål />
+    <noter_nynorsk />
+    <noter_engelsk />
+    <gyldig_til />
+    <gyldig_fra>2023-01-01</gyldig_fra>
+  </element>
+  <element>
+    <kode>714</kode>
+    <forelder />
+    <navn_bokmål>Regionale forsknings- og utviklingsprosjekter</navn_bokmål>
+    <navn_nynorsk>Regionale forskings- og utviklingsprosjekt</navn_nynorsk>
+    <navn_engelsk>Regional research and development projects</navn_engelsk>
+    <kortnavn_bokmål />
+    <kortnavn_nynorsk />
+    <kortnavn_engelsk />
+    <noter_bokmål />
+    <noter_nynorsk />
+    <noter_engelsk />
+    <gyldig_til />
+    <gyldig_fra>2023-01-01</gyldig_fra>
+  </element>
+  <element>
+    <kode>715</kode>
+    <forelder />
+    <navn_bokmål>Lokal og regional utvikling</navn_bokmål>
+    <navn_nynorsk>Lokal og regional utvikling</navn_nynorsk>
+    <navn_engelsk>Local and regional development</navn_engelsk>
+    <kortnavn_bokmål />
+    <kortnavn_nynorsk />
+    <kortnavn_engelsk />
+    <noter_bokmål />
+    <noter_nynorsk />
+    <noter_engelsk />
+    <gyldig_til />
+    <gyldig_fra>2015-01-01</gyldig_fra>
+  </element>
+  <element>
+    <kode>716</kode>
+    <forelder />
+    <navn_bokmål>Naturforvaltning, friluftsliv, vannregionmyndighet og forvaltning av vilt og innlandsfisk</navn_bokmål>
+    <navn_nynorsk>Naturforvaltning, friluftsliv, vassregionmyndigheit og forvaltning av vilt og innlandsfisk</navn_nynorsk>
+    <navn_engelsk>Natur management, outdoor activities, regional water authority and management of wild and inland fish</navn_engelsk>
+    <kortnavn_bokmål />
+    <kortnavn_nynorsk />
+    <kortnavn_engelsk />
+    <noter_bokmål />
+    <noter_nynorsk />
+    <noter_engelsk />
+    <gyldig_til />
+    <gyldig_fra>2023-01-01</gyldig_fra>
+  </element>
+  <element>
+    <kode>716</kode>
+    <forelder />
+    <navn_bokmål>Friluftsliv, vannregionmyndighet og forvaltning av vilt og innlandsfisk</navn_bokmål>
+    <navn_nynorsk>Friluftsliv, vassregionmyndigheit og forvaltning av vilt og innlandsfisk</navn_nynorsk>
+    <navn_engelsk>The outdoors and environment</navn_engelsk>
+    <kortnavn_bokmål />
+    <kortnavn_nynorsk />
+    <kortnavn_engelsk />
+    <noter_bokmål />
+    <noter_nynorsk />
+    <noter_engelsk />
+    <gyldig_til>2021-01-01</gyldig_til>
+    <gyldig_fra>2015-01-01</gyldig_fra>
+  </element>
+  <element>
+    <kode>722</kode>
+    <forelder />
+    <navn_bokmål>Fylkesveier, miljø- og trafikksikkerhetstiltak</navn_bokmål>
+    <navn_nynorsk>Fylkesvegar, miljø- og trafikktryggleikstiltak</navn_nynorsk>
+    <navn_engelsk>County authority roads, enviromental and traffic safety measures</navn_engelsk>
+    <kortnavn_bokmål />
+    <kortnavn_nynorsk />
+    <kortnavn_engelsk />
+    <noter_bokmål />
+    <noter_nynorsk />
+    <noter_engelsk />
+    <gyldig_til />
+    <gyldig_fra>2023-01-01</gyldig_fra>
+  </element>
+  <element>
+    <kode>730</kode>
+    <forelder />
+    <navn_bokmål>Bilruter</navn_bokmål>
+    <navn_nynorsk>Bilruter</navn_nynorsk>
+    <navn_engelsk>Transport routes</navn_engelsk>
+    <kortnavn_bokmål />
+    <kortnavn_nynorsk />
+    <kortnavn_engelsk />
+    <noter_bokmål />
+    <noter_nynorsk />
+    <noter_engelsk />
+    <gyldig_til>2018-01-01</gyldig_til>
+    <gyldig_fra>2015-01-01</gyldig_fra>
+  </element>
+  <element>
+    <kode>730</kode>
+    <forelder />
+    <navn_bokmål>Buss</navn_bokmål>
+    <navn_nynorsk>Buss</navn_nynorsk>
+    <navn_engelsk>Bus routes</navn_engelsk>
+    <kortnavn_bokmål />
+    <kortnavn_nynorsk />
+    <kortnavn_engelsk />
+    <noter_bokmål />
+    <noter_nynorsk />
+    <noter_engelsk />
+    <gyldig_til />
+    <gyldig_fra>2023-01-01</gyldig_fra>
+  </element>
+  <element>
+    <kode>731</kode>
+    <forelder />
+    <navn_bokmål>Fylkesveiferjer</navn_bokmål>
+    <navn_nynorsk>Fylkesvegferjer</navn_nynorsk>
+    <navn_engelsk>Ferry connections for county roads</navn_engelsk>
+    <kortnavn_bokmål />
+    <kortnavn_nynorsk />
+    <kortnavn_engelsk />
+    <noter_bokmål />
+    <noter_nynorsk />
+    <noter_engelsk />
+    <gyldig_til />
+    <gyldig_fra>2023-01-01</gyldig_fra>
+  </element>
+  <element>
+    <kode>732</kode>
+    <forelder />
+    <navn_bokmål>Båtruter</navn_bokmål>
+    <navn_nynorsk>Båtruter</navn_nynorsk>
+    <navn_engelsk>Regular costal routes</navn_engelsk>
+    <kortnavn_bokmål />
+    <kortnavn_nynorsk />
+    <kortnavn_engelsk />
+    <noter_bokmål />
+    <noter_nynorsk />
+    <noter_engelsk />
+    <gyldig_til />
+    <gyldig_fra>2023-01-01</gyldig_fra>
+  </element>
+  <element>
+    <kode>733</kode>
+    <forelder />
+    <navn_bokmål>Transport (ordninger) for funksjonshemmede</navn_bokmål>
+    <navn_nynorsk>Transport (ordningar) for funksjonshemma</navn_nynorsk>
+    <navn_engelsk>Transport (arrangements) for disabled</navn_engelsk>
+    <kortnavn_bokmål />
+    <kortnavn_nynorsk />
+    <kortnavn_engelsk />
+    <noter_bokmål />
+    <noter_nynorsk />
+    <noter_engelsk />
+    <gyldig_til>2020-01-01</gyldig_til>
+    <gyldig_fra>2015-01-01</gyldig_fra>
+  </element>
+  <element>
+    <kode>733</kode>
+    <forelder />
+    <navn_bokmål>Transportordninger for funksjonshemmede</navn_bokmål>
+    <navn_nynorsk>Transportordningar for funksjonshemma</navn_nynorsk>
+    <navn_engelsk>Transport (arrangements) for disabled</navn_engelsk>
+    <kortnavn_bokmål />
+    <kortnavn_nynorsk />
+    <kortnavn_engelsk />
+    <noter_bokmål />
+    <noter_nynorsk />
+    <noter_engelsk />
+    <gyldig_til />
+    <gyldig_fra>2023-01-01</gyldig_fra>
+  </element>
+  <element>
+    <kode>734</kode>
+    <forelder />
+    <navn_bokmål>Sporveier og forstadsbaner</navn_bokmål>
+    <navn_nynorsk>Sporvegar og forstadsbanar</navn_nynorsk>
+    <navn_engelsk>Tramways and suburban railways</navn_engelsk>
+    <kortnavn_bokmål />
+    <kortnavn_nynorsk />
+    <kortnavn_engelsk />
+    <noter_bokmål />
+    <noter_nynorsk />
+    <noter_engelsk />
+    <gyldig_til>2018-01-01</gyldig_til>
+    <gyldig_fra>2015-01-01</gyldig_fra>
+  </element>
+  <element>
+    <kode>734</kode>
+    <forelder />
+    <navn_bokmål>T-bane og trikk/bybane</navn_bokmål>
+    <navn_nynorsk>T-bane og trikk/bybane</navn_nynorsk>
+    <navn_engelsk>Tramways and suburban railways</navn_engelsk>
+    <kortnavn_bokmål />
+    <kortnavn_nynorsk />
+    <kortnavn_engelsk />
+    <noter_bokmål />
+    <noter_nynorsk />
+    <noter_engelsk />
+    <gyldig_til>2020-01-01</gyldig_til>
+    <gyldig_fra>2018-01-01</gyldig_fra>
+  </element>
+  <element>
+    <kode>734</kode>
+    <forelder />
+    <navn_bokmål>Trikk, bybane og T-bane </navn_bokmål>
+    <navn_nynorsk>Trikk, bybane og T-bane</navn_nynorsk>
+    <navn_engelsk>Tramways and suburban railways</navn_engelsk>
+    <kortnavn_bokmål />
+    <kortnavn_nynorsk />
+    <kortnavn_engelsk />
+    <noter_bokmål />
+    <noter_nynorsk />
+    <noter_engelsk />
+    <gyldig_til />
+    <gyldig_fra>2023-01-01</gyldig_fra>
+  </element>
+  <element>
+    <kode>735</kode>
+    <forelder />
+    <navn_bokmål>Lufttransport</navn_bokmål>
+    <navn_nynorsk>Lufttransport</navn_nynorsk>
+    <navn_engelsk>Aviation</navn_engelsk>
+    <kortnavn_bokmål />
+    <kortnavn_nynorsk />
+    <kortnavn_engelsk />
+    <noter_bokmål />
+    <noter_nynorsk />
+    <noter_engelsk />
+    <gyldig_til>2021-01-01</gyldig_til>
+    <gyldig_fra>2020-01-01</gyldig_fra>
+  </element>
+  <element>
+    <kode>735</kode>
+    <forelder />
+    <navn_bokmål>Luftfart</navn_bokmål>
+    <navn_nynorsk>Luftfart</navn_nynorsk>
+    <navn_engelsk>Aviation</navn_engelsk>
+    <kortnavn_bokmål />
+    <kortnavn_nynorsk />
+    <kortnavn_engelsk />
+    <noter_bokmål />
+    <noter_nynorsk />
+    <noter_engelsk />
+    <gyldig_til />
+    <gyldig_fra>2023-01-01</gyldig_fra>
+  </element>
+  <element>
+    <kode>740</kode>
+    <forelder />
+    <navn_bokmål>Bibliotek</navn_bokmål>
+    <navn_nynorsk>Bibliotek</navn_nynorsk>
+    <navn_engelsk>Libraries</navn_engelsk>
+    <kortnavn_bokmål />
+    <kortnavn_nynorsk />
+    <kortnavn_engelsk />
+    <noter_bokmål />
+    <noter_nynorsk />
+    <noter_engelsk />
+    <gyldig_til />
+    <gyldig_fra>2023-01-01</gyldig_fra>
+  </element>
+  <element>
+    <kode>750</kode>
+    <forelder />
+    <navn_bokmål>Kulturminneforvaltning</navn_bokmål>
+    <navn_nynorsk>Kulturminneforvaltning</navn_nynorsk>
+    <navn_engelsk>Cultural heritage protection</navn_engelsk>
+    <kortnavn_bokmål />
+    <kortnavn_nynorsk />
+    <kortnavn_engelsk />
+    <noter_bokmål />
+    <noter_nynorsk />
+    <noter_engelsk />
+    <gyldig_til />
+    <gyldig_fra>2023-01-01</gyldig_fra>
+  </element>
+  <element>
+    <kode>760</kode>
+    <forelder />
+    <navn_bokmål>Muséer</navn_bokmål>
+    <navn_nynorsk>Museum</navn_nynorsk>
+    <navn_engelsk>Museums</navn_engelsk>
+    <kortnavn_bokmål />
+    <kortnavn_nynorsk />
+    <kortnavn_engelsk />
+    <noter_bokmål />
+    <noter_nynorsk />
+    <noter_engelsk />
+    <gyldig_til />
+    <gyldig_fra>2023-01-01</gyldig_fra>
+  </element>
+  <element>
+    <kode>771</kode>
+    <forelder />
+    <navn_bokmål>Kunstformidling</navn_bokmål>
+    <navn_nynorsk>Kunstformidling</navn_nynorsk>
+    <navn_engelsk>Cultural arrangements</navn_engelsk>
+    <kortnavn_bokmål />
+    <kortnavn_nynorsk />
+    <kortnavn_engelsk />
+    <noter_bokmål />
+    <noter_nynorsk />
+    <noter_engelsk />
+    <gyldig_til />
+    <gyldig_fra>2023-01-01</gyldig_fra>
+  </element>
+  <element>
+    <kode>772</kode>
+    <forelder />
+    <navn_bokmål>Kunstproduksjon</navn_bokmål>
+    <navn_nynorsk>Kunstproduksjon</navn_nynorsk>
+    <navn_engelsk>Art production</navn_engelsk>
+    <kortnavn_bokmål />
+    <kortnavn_nynorsk />
+    <kortnavn_engelsk />
+    <noter_bokmål />
+    <noter_nynorsk />
+    <noter_engelsk />
+    <gyldig_til />
+    <gyldig_fra>2023-01-01</gyldig_fra>
+  </element>
+  <element>
+    <kode>775</kode>
+    <forelder />
+    <navn_bokmål>Idrett</navn_bokmål>
+    <navn_nynorsk>Idrett</navn_nynorsk>
+    <navn_engelsk>Sports</navn_engelsk>
+    <kortnavn_bokmål />
+    <kortnavn_nynorsk />
+    <kortnavn_engelsk />
+    <noter_bokmål />
+    <noter_nynorsk />
+    <noter_engelsk />
+    <gyldig_til />
+    <gyldig_fra>2023-01-01</gyldig_fra>
+  </element>
+  <element>
+    <kode>790</kode>
+    <forelder />
+    <navn_bokmål>Andre kulturaktiviteter</navn_bokmål>
+    <navn_nynorsk>Andre kulturaktivitetar</navn_nynorsk>
+    <navn_engelsk>Other cultural activities</navn_engelsk>
+    <kortnavn_bokmål />
+    <kortnavn_nynorsk />
+    <kortnavn_engelsk />
+    <noter_bokmål />
+    <noter_nynorsk />
+    <noter_engelsk />
+    <gyldig_til />
+    <gyldig_fra>2023-01-01</gyldig_fra>
+  </element>
+  <element>
+    <kode>FGF1b</kode>
+    <forelder />
+    <navn_bokmål>Administrasjon, fylkeskommune</navn_bokmål>
+    <navn_nynorsk>Administrasjon, fylkeskommune</navn_nynorsk>
+    <navn_engelsk>Administration, county authority</navn_engelsk>
+    <kortnavn_bokmål />
+    <kortnavn_nynorsk />
+    <kortnavn_engelsk />
+    <noter_bokmål />
+    <noter_nynorsk />
+    <noter_engelsk />
+    <gyldig_til />
+    <gyldig_fra>2023-01-01</gyldig_fra>
+  </element>
+  <element>
+    <kode>FGF1c</kode>
+    <forelder />
+    <navn_bokmål>Fellesutgifter, fylkeskommune</navn_bokmål>
+    <navn_nynorsk>Fellesutgifter, fylkeskommune</navn_nynorsk>
+    <navn_engelsk>Variuos joint expenditures, county authority</navn_engelsk>
+    <kortnavn_bokmål />
+    <kortnavn_nynorsk />
+    <kortnavn_engelsk />
+    <noter_bokmål />
+    <noter_nynorsk />
+    <noter_engelsk />
+    <gyldig_til />
+    <gyldig_fra>2023-01-01</gyldig_fra>
+  </element>
+  <element>
+    <kode>FGF2</kode>
+    <forelder />
+    <navn_bokmål>Plan, byggesak og miljø, fylkeskommune</navn_bokmål>
+    <navn_nynorsk>Plan, byggesak og miljø, fylkeskommune</navn_nynorsk>
+    <navn_engelsk>County municipal management of planning, building applications and environment</navn_engelsk>
+    <kortnavn_bokmål />
+    <kortnavn_nynorsk />
+    <kortnavn_engelsk />
+    <noter_bokmål />
+    <noter_nynorsk />
+    <noter_engelsk />
+    <gyldig_til />
+    <gyldig_fra>2023-01-01</gyldig_fra>
+  </element>
+  <element>
+    <kode>FGF3</kode>
+    <forelder />
+    <navn_bokmål>Kultur, fylkeskommune</navn_bokmål>
+    <navn_nynorsk>Kultur, fylkeskommune</navn_nynorsk>
+    <navn_engelsk>Cultural services,  county authority</navn_engelsk>
+    <kortnavn_bokmål />
+    <kortnavn_nynorsk />
+    <kortnavn_engelsk />
+    <noter_bokmål />
+    <noter_nynorsk />
+    <noter_engelsk />
+    <gyldig_til />
+    <gyldig_fra>2023-01-01</gyldig_fra>
+  </element>
+  <element>
+    <kode>FGF4</kode>
+    <forelder />
+    <navn_bokmål>Samferdsel, fylkeskommune</navn_bokmål>
+    <navn_nynorsk>Samferdsle, fylkeskommune</navn_nynorsk>
+    <navn_engelsk>Transport affairs, county authority</navn_engelsk>
+    <kortnavn_bokmål />
+    <kortnavn_nynorsk />
+    <kortnavn_engelsk />
+    <noter_bokmål />
+    <noter_nynorsk />
+    <noter_engelsk />
+    <gyldig_til />
+    <gyldig_fra>2023-01-01</gyldig_fra>
+  </element>
+  <element>
+    <kode>FGF5</kode>
+    <forelder />
+    <navn_bokmål>Næringsforvaltning, fylkeskommune</navn_bokmål>
+    <navn_nynorsk>Næringsforvaltning, fylkeskommune</navn_nynorsk>
+    <navn_engelsk>Trade and industry management, county authority</navn_engelsk>
+    <kortnavn_bokmål />
+    <kortnavn_nynorsk />
+    <kortnavn_engelsk />
+    <noter_bokmål />
+    <noter_nynorsk />
+    <noter_engelsk />
+    <gyldig_til />
+    <gyldig_fra>2023-01-01</gyldig_fra>
+  </element>
+  <element>
+    <kode>FGF6a</kode>
+    <forelder />
+    <navn_bokmål>Eiendomsforvaltning, fylkeskommune</navn_bokmål>
+    <navn_nynorsk>Eigedomsforvaltning, fylkeskommune</navn_nynorsk>
+    <navn_engelsk>Property management,  county authority</navn_engelsk>
+    <kortnavn_bokmål />
+    <kortnavn_nynorsk />
+    <kortnavn_engelsk />
+    <noter_bokmål />
+    <noter_nynorsk />
+    <noter_engelsk />
+    <gyldig_til />
+    <gyldig_fra>2023-01-01</gyldig_fra>
+  </element>
+  <element>
+    <kode>FGF7</kode>
+    <forelder />
+    <navn_bokmål>Videregående opplæring samlet, inkl. fagskoler</navn_bokmål>
+    <navn_nynorsk>Vidaregåande opplæring samla, inkl. fagskolar</navn_nynorsk>
+    <navn_engelsk>Secondary education, incl. vocational schools</navn_engelsk>
+    <kortnavn_bokmål />
+    <kortnavn_nynorsk />
+    <kortnavn_engelsk />
+    <noter_bokmål />
+    <noter_nynorsk />
+    <noter_engelsk />
+    <gyldig_til />
+    <gyldig_fra>2023-01-01</gyldig_fra>
+  </element>
+  <element>
+    <kode>FGF7</kode>
+    <forelder />
+    <navn_bokmål>Videregående opplæring samlet</navn_bokmål>
+    <navn_nynorsk>Vidaregåande opplæring samla</navn_nynorsk>
+    <navn_engelsk>Secondary education</navn_engelsk>
+    <kortnavn_bokmål />
+    <kortnavn_nynorsk />
+    <kortnavn_engelsk />
+    <noter_bokmål />
+    <noter_nynorsk />
+    <noter_engelsk />
+    <gyldig_til>2018-01-01</gyldig_til>
+    <gyldig_fra>2015-01-01</gyldig_fra>
+  </element>
+  <element>
+    <kode>FGF1a</kode>
+    <forelder />
+    <navn_bokmål>Politisk styring og kontrollvirksomhet, fylkeskommune</navn_bokmål>
+    <navn_nynorsk>Politisk styring og kontrollverksemd, fylkeskommune</navn_nynorsk>
+    <navn_engelsk>Regulations and controls, county authority</navn_engelsk>
+    <kortnavn_bokmål />
+    <kortnavn_nynorsk />
+    <kortnavn_engelsk />
+    <noter_bokmål />
+    <noter_nynorsk />
+    <noter_engelsk />
+    <gyldig_til />
+    <gyldig_fra>2023-01-01</gyldig_fra>
+  </element>
+  <element>
+    <kode>FGF2</kode>
+    <forelder />
+    <navn_bokmål>Fysisk planlegging, kulturminner, natur, nærmiljø, fylkeskommune</navn_bokmål>
+    <navn_nynorsk>Fysisk planlegging, kulturminner, natur, nærmiljø, fylkeskommune</navn_nynorsk>
+    <navn_engelsk>Planning, cultural heritage protection and community management</navn_engelsk>
+    <kortnavn_bokmål />
+    <kortnavn_nynorsk />
+    <kortnavn_engelsk />
+    <noter_bokmål />
+    <noter_nynorsk />
+    <noter_engelsk />
+    <gyldig_til>2018-01-01</gyldig_til>
+    <gyldig_fra>2015-01-01</gyldig_fra>
+  </element>
+  <element>
+    <kode>FGF8</kode>
+    <forelder />
+    <navn_bokmål>Tannhelse</navn_bokmål>
+    <navn_nynorsk>Tannhelse</navn_nynorsk>
+    <navn_engelsk>Dental health care</navn_engelsk>
+    <kortnavn_bokmål />
+    <kortnavn_nynorsk />
+    <kortnavn_engelsk />
+    <noter_bokmål />
+    <noter_nynorsk />
+    <noter_engelsk />
+    <gyldig_til />
+    <gyldig_fra>2023-01-01</gyldig_fra>
+  </element>
+</versjon>

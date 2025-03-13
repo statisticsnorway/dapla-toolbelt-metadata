@@ -1,0 +1,3413 @@
+{
+    "codes": [
+        {
+            "code": "400",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Politisk styring"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Politisk styring"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Political management"
+                }
+            ],
+            "rank": 1,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2311"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2023-01-01"
+        },
+        {
+            "code": "410",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Kontroll og revisjon"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Kontroll og revisjon"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Regulation and control"
+                }
+            ],
+            "rank": 2,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2311"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2023-01-01"
+        },
+        {
+            "code": "420",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Administrasjon"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Administrasjon"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Administration"
+                }
+            ],
+            "rank": 3,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2311"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2023-01-01"
+        },
+        {
+            "code": "421",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Forvaltningsutgifter i eiendomsforvaltningen"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Forvaltningsutgifter i eigedomsforvaltninga"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Administration expenses of managing property/property management"
+                }
+            ],
+            "rank": 4,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2311"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2023-01-01"
+        },
+        {
+            "code": "430",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Administrasjonslokaler"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Administrasjonslokale"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Administration buildings"
+                }
+            ],
+            "rank": 5,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2311"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2023-01-01"
+        },
+        {
+            "code": "460",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Tjenester utenfor ordin\u00e6rt fylkeskommunalt ansvarsomr\u00e5de"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Tenester utanfor ordin\u00e6rt fylkeskommunalt ansvarsomr\u00e5de"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Services other than ordinary county municipal obligations"
+                }
+            ],
+            "rank": 6,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2311"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2023-01-01"
+        },
+        {
+            "code": "465",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Interfylkeskommunale samarbeid (\u00a7\u00a7 27/28a-samarbeid)"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Interfylkeskommunale samarbeid (\u00a7\u00a7 27/28a-samarbeid)"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Inter-county municipal cooperation (\u00a7 27- cooperation)"
+                }
+            ],
+            "rank": 7,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/831",
+                "https://data.ssb.no/api/klass/v1/versions/832",
+                "https://data.ssb.no/api/klass/v1/versions/1068",
+                "https://data.ssb.no/api/klass/v1/versions/1204"
+            ],
+            "validToInRequestedRange": "2020-01-01",
+            "validFromInRequestedRange": "2015-01-01"
+        },
+        {
+            "code": "465",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Interfylkeskommunale samarbeid "
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Interfylkeskommunale samarbeid "
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Inter-county municipal cooperation (\u00a7 27- cooperation)"
+                }
+            ],
+            "rank": 8,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2311"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2023-01-01"
+        },
+        {
+            "code": "470",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "\u00c5rets premieavvik"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Premieavvik i \u00e5r"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "This years' pension premium deviation"
+                }
+            ],
+            "rank": 9,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2311"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2023-01-01"
+        },
+        {
+            "code": "471",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Amortisering av tidligere \u00e5rs premieavvik"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Amortisering av tidlegare \u00e5r sine premieavvik"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Amortisation of previous years pension premium deviation"
+                }
+            ],
+            "rank": 10,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2311"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2023-01-01"
+        },
+        {
+            "code": "472",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Pensjon"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Pensjon"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Pension"
+                }
+            ],
+            "rank": 11,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2311"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2023-01-01"
+        },
+        {
+            "code": "473",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Premiefond"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Premiefond"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Premium fund"
+                }
+            ],
+            "rank": 12,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2311"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2023-01-01"
+        },
+        {
+            "code": "480",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Diverse fellesutgifter"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Diverse fellesutgifter"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Various joint expenditures"
+                }
+            ],
+            "rank": 13,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2311"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2023-01-01"
+        },
+        {
+            "code": "490",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Interne serviceenheter"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Interne serviceeiningar"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Internal service units"
+                }
+            ],
+            "rank": 14,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/831",
+                "https://data.ssb.no/api/klass/v1/versions/832",
+                "https://data.ssb.no/api/klass/v1/versions/1068",
+                "https://data.ssb.no/api/klass/v1/versions/1204"
+            ],
+            "validToInRequestedRange": "2020-01-01",
+            "validFromInRequestedRange": "2015-01-01"
+        },
+        {
+            "code": "510",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Skolelokaler og internatbygninger"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Skulelokale og internatbygningar"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "School buildings and dormitories"
+                }
+            ],
+            "rank": 15,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2311"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2023-01-01"
+        },
+        {
+            "code": "515",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Fellesutgifter og st\u00f8ttefunksjoner knyttet til videreg\u00e5ende oppl\u00e6ring"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Fellesutgifter og st\u00f8ttefunksjonar knytt til vidareg\u00e5ande oppl\u00e6ring"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Joint expenditures and support services associated to secondary education"
+                }
+            ],
+            "rank": 16,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/831",
+                "https://data.ssb.no/api/klass/v1/versions/832",
+                "https://data.ssb.no/api/klass/v1/versions/1068",
+                "https://data.ssb.no/api/klass/v1/versions/1204"
+            ],
+            "validToInRequestedRange": "2020-01-01",
+            "validFromInRequestedRange": "2015-01-01"
+        },
+        {
+            "code": "515",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Fellesutgifter og st\u00f8ttefunksjoner for videreg\u00e5ende oppl\u00e6ring"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Fellesutgifter og st\u00f8ttefunksjonar for vidareg\u00e5ande oppl\u00e6ring"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Joint expenditures and support services associated to secondary education"
+                }
+            ],
+            "rank": 17,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2311"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2023-01-01"
+        },
+        {
+            "code": "520",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Pedagogisk ledelse, pedagogiske fellesutgifter og gjesteelevsoppgj\u00f8r"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Pedagogisk leiing, pedagogiske fellesutgifter og gjesteelevoppgjer"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Educational management, educational joint expenditures and payment for spare pupil places"
+                }
+            ],
+            "rank": 18,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2311"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2023-01-01"
+        },
+        {
+            "code": "521",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Studiespesialisering"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Studiespesialisering"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Study specialisation"
+                }
+            ],
+            "rank": 19,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2311"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2023-01-01"
+        },
+        {
+            "code": "522",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Bygg- og anleggsteknikk"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Bygg- og anleggsteknikk"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Building and construction engineering"
+                }
+            ],
+            "rank": 20,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2311"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2023-01-01"
+        },
+        {
+            "code": "523",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Elektro og datateknologi"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Elektro- og datateknologi"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Electrical engineering and computer technology"
+                }
+            ],
+            "rank": 21,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2311"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2023-01-01"
+        },
+        {
+            "code": "523",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Elektrofag"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Elektrofag"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Electrical trades"
+                }
+            ],
+            "rank": 22,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/831",
+                "https://data.ssb.no/api/klass/v1/versions/832",
+                "https://data.ssb.no/api/klass/v1/versions/1068",
+                "https://data.ssb.no/api/klass/v1/versions/1204"
+            ],
+            "validToInRequestedRange": "2020-01-01",
+            "validFromInRequestedRange": "2015-01-01"
+        },
+        {
+            "code": "524",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Design og h\u00e5ndverk"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Design og handverk"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Arts, crafts and design"
+                }
+            ],
+            "rank": 23,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2311"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2023-01-01"
+        },
+        {
+            "code": "525",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Restaurant- og matfag"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Restaurant- og matfag"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Restaurant and food processing studies"
+                }
+            ],
+            "rank": 24,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2311"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2023-01-01"
+        },
+        {
+            "code": "526",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Helse- og oppvekstfag"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Helse- og oppvekstfag"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Health and social studies"
+                }
+            ],
+            "rank": 25,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2311"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2023-01-01"
+        },
+        {
+            "code": "527",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Idrettsfag"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Idrettsfag"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Sports and physical education"
+                }
+            ],
+            "rank": 26,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2311"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2023-01-01"
+        },
+        {
+            "code": "528",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Teknologi- og industrifag"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Teknologi- og industrifag "
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Technical and  industrial production"
+                }
+            ],
+            "rank": 27,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2311"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2023-01-01"
+        },
+        {
+            "code": "528",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Teknikk og industriell produksjon"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Teknikk og industriell produksjon"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Technical and  industrial production"
+                }
+            ],
+            "rank": 28,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/831",
+                "https://data.ssb.no/api/klass/v1/versions/832",
+                "https://data.ssb.no/api/klass/v1/versions/1068",
+                "https://data.ssb.no/api/klass/v1/versions/1204"
+            ],
+            "validToInRequestedRange": "2020-01-01",
+            "validFromInRequestedRange": "2015-01-01"
+        },
+        {
+            "code": "529",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Musikk, dans og drama"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Musikk, dans og drama"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Music, dance and drama studies"
+                }
+            ],
+            "rank": 29,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2311"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2023-01-01"
+        },
+        {
+            "code": "530",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Medier og kommunikasjon"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Medium og kommunikasjon"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Media and communication"
+                }
+            ],
+            "rank": 30,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2311"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2023-01-01"
+        },
+        {
+            "code": "531",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Naturbruk"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Naturbruk"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Agriculture, fishing and forestry studies"
+                }
+            ],
+            "rank": 31,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2311"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2023-01-01"
+        },
+        {
+            "code": "532",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Service og samferdsel"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Service og samferdsle"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Service, transport and communication"
+                }
+            ],
+            "rank": 32,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2311"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2023-01-01"
+        },
+        {
+            "code": "533",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Kunst, design og arkitektur (f.o.m. h\u00f8st 2016)"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Kunst, design og arkitektur (f.o.m. haust 2016)"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Art, design and architecture (as of autumn 2016)"
+                }
+            ],
+            "rank": 33,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2311"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2023-01-01"
+        },
+        {
+            "code": "534",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "H\u00e5ndverk, design og produktutvikling (f.o.m. h\u00f8st 2020)"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Design og tradisjonshandverk"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Crafts, design and product development (as of autumn 2020)"
+                }
+            ],
+            "rank": 34,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2311"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2023-01-01"
+        },
+        {
+            "code": "535",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Informasjonsteknologi og medieproduksjon (f.o.m. h\u00f8st 2020)"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "IKT og medieproduksjon"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Information technology and media production"
+                }
+            ],
+            "rank": 35,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2311"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2023-01-01"
+        },
+        {
+            "code": "536",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Salg, service og reiseliv (f.o.m. h\u00f8st 2020)"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Salg, service og reiseliv"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Sales, service and tourism"
+                }
+            ],
+            "rank": 36,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2311"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2023-01-01"
+        },
+        {
+            "code": "537",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Fris\u00f8r, blomster, interi\u00f8r og eksponeringsdesign (f.o.m. h\u00f8st 2020)"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Fris\u00f8r, blomster og interi\u00f8rdesign"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Hairdressing, floral,  interior and retail design (as of autumn 2020)"
+                }
+            ],
+            "rank": 37,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2311"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2023-01-01"
+        },
+        {
+            "code": "554",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Fagskole"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Fagskule"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Technical vocation schools/colleges"
+                }
+            ],
+            "rank": 38,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2311"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2023-01-01"
+        },
+        {
+            "code": "559",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Landslinjer"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Landsliner"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "National level courses"
+                }
+            ],
+            "rank": 39,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2311"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2023-01-01"
+        },
+        {
+            "code": "561",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Oppf\u00f8lgingstjenesten og Pedagogisk psykologisk tjeneste"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Oppf\u00f8lgingstenesta og Pedagogisk psykologisk teneste"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Follow- up services and educational and  psychological counselling services"
+                }
+            ],
+            "rank": 40,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2311"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2023-01-01"
+        },
+        {
+            "code": "562",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Spesialundervisning og s\u00e6rskilt tilpasset oppl\u00e6ring"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Spesialundervisning og s\u00e6rskilt tilpassa oppl\u00e6ring"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Adapted tuition and special needs education"
+                }
+            ],
+            "rank": 41,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2311"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2023-01-01"
+        },
+        {
+            "code": "570",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Fagoppl\u00e6ring i arbeidslivet"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Fagoppl\u00e6ring i arbeidslivet"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Apprenticeships"
+                }
+            ],
+            "rank": 42,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/831",
+                "https://data.ssb.no/api/klass/v1/versions/832"
+            ],
+            "validToInRequestedRange": "2018-01-01",
+            "validFromInRequestedRange": "2015-01-01"
+        },
+        {
+            "code": "570",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Fagoppl\u00e6ring"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Fagoppl\u00e6ring"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Apprenticeships"
+                }
+            ],
+            "rank": 43,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2311"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2023-01-01"
+        },
+        {
+            "code": "581",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Voksenoppl\u00e6ring etter oppl\u00e6ringsloven"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Vaksenoppl\u00e6ring etter oppl\u00e6ringslova"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Adult education "
+                }
+            ],
+            "rank": 44,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2311"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2023-01-01"
+        },
+        {
+            "code": "590",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Andre form\u00e5l"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Andre f\u00f8rem\u00e5l"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Other purposes besides ordinary secondary education "
+                }
+            ],
+            "rank": 45,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2311"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2023-01-01"
+        },
+        {
+            "code": "660",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Tannhelsetjeneste - Fellesfunksjoner"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Tannhelseteneste - Fellesfunksjonar"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Dental health care - joint functions"
+                }
+            ],
+            "rank": 46,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2311"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2023-01-01"
+        },
+        {
+            "code": "665",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Tannhelsetjeneste - Pasientbehandling"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Tannhelseteneste - Pasientbehandling"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Dental health care - treatment of patients"
+                }
+            ],
+            "rank": 47,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2311"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2023-01-01"
+        },
+        {
+            "code": "701",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Tilrettelegging, st\u00f8ttefunksjoner og finansieringsbistand for n\u00e6ringslivet"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Tilrettelegging, st\u00f8ttefunksjonar og finansieringsbistand for n\u00e6ringslivet"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Arrangements, assistance and financial assistance to trade and industry"
+                }
+            ],
+            "rank": 48,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2311"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2023-01-01"
+        },
+        {
+            "code": "710",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Fylkeskommunal n\u00e6ringsvirksomhet"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Fylkeskommunal n\u00e6ringsverksemd"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "County authority business developments"
+                }
+            ],
+            "rank": 49,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2311"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2023-01-01"
+        },
+        {
+            "code": "711",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Konsesjonskraft, kraftrettigheter og annen kraft for videresalg"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Konsesjonskraft, kraftrettar og anna kraft for videresal"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Energy concessions, energy/power licence and other energy for resale"
+                }
+            ],
+            "rank": 50,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2311"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2023-01-01"
+        },
+        {
+            "code": "713",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Regional planlegging og planveiledning"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Regional planlegging og planrettleiing"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Regional planning and planning guidance"
+                }
+            ],
+            "rank": 51,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2311"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2023-01-01"
+        },
+        {
+            "code": "714",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Regionale forsknings- og utviklingsprosjekter"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Regionale forskings- og utviklingsprosjekt"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Regional research and development projects"
+                }
+            ],
+            "rank": 52,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2311"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2023-01-01"
+        },
+        {
+            "code": "715",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Lokal og regional utvikling"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Lokal og regional utvikling"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Local and regional development"
+                }
+            ],
+            "rank": 53,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/831",
+                "https://data.ssb.no/api/klass/v1/versions/832",
+                "https://data.ssb.no/api/klass/v1/versions/1068",
+                "https://data.ssb.no/api/klass/v1/versions/1204",
+                "https://data.ssb.no/api/klass/v1/versions/1366",
+                "https://data.ssb.no/api/klass/v1/versions/1618",
+                "https://data.ssb.no/api/klass/v1/versions/1777",
+                "https://data.ssb.no/api/klass/v1/versions/2311"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2015-01-01"
+        },
+        {
+            "code": "716",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Naturforvaltning, friluftsliv, vannregionmyndighet og forvaltning av vilt og innlandsfisk"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Naturforvaltning, friluftsliv, vassregionmyndigheit og forvaltning av vilt og innlandsfisk"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Natur management, outdoor activities, regional water authority and management of wild and inland fish"
+                }
+            ],
+            "rank": 54,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2311"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2023-01-01"
+        },
+        {
+            "code": "716",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Friluftsliv, vannregionmyndighet og forvaltning av vilt og innlandsfisk"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Friluftsliv, vassregionmyndigheit og forvaltning av vilt og innlandsfisk"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "The outdoors and environment"
+                }
+            ],
+            "rank": 55,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/831",
+                "https://data.ssb.no/api/klass/v1/versions/832",
+                "https://data.ssb.no/api/klass/v1/versions/1068",
+                "https://data.ssb.no/api/klass/v1/versions/1204",
+                "https://data.ssb.no/api/klass/v1/versions/1366"
+            ],
+            "validToInRequestedRange": "2021-01-01",
+            "validFromInRequestedRange": "2015-01-01"
+        },
+        {
+            "code": "722",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Fylkesveier, milj\u00f8- og trafikksikkerhetstiltak"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Fylkesvegar, milj\u00f8- og trafikktryggleikstiltak"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "County authority roads, enviromental and traffic safety measures"
+                }
+            ],
+            "rank": 56,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2311"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2023-01-01"
+        },
+        {
+            "code": "730",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Bilruter"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Bilruter"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Transport routes"
+                }
+            ],
+            "rank": 57,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/831",
+                "https://data.ssb.no/api/klass/v1/versions/832"
+            ],
+            "validToInRequestedRange": "2018-01-01",
+            "validFromInRequestedRange": "2015-01-01"
+        },
+        {
+            "code": "730",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Buss"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Buss"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Bus routes"
+                }
+            ],
+            "rank": 58,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2311"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2023-01-01"
+        },
+        {
+            "code": "731",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Fylkesveiferjer"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Fylkesvegferjer"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Ferry connections for county roads"
+                }
+            ],
+            "rank": 59,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2311"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2023-01-01"
+        },
+        {
+            "code": "732",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "B\u00e5truter"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "B\u00e5truter"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Regular costal routes"
+                }
+            ],
+            "rank": 60,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2311"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2023-01-01"
+        },
+        {
+            "code": "733",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Transport (ordninger) for funksjonshemmede"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Transport (ordningar) for funksjonshemma"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Transport (arrangements) for disabled"
+                }
+            ],
+            "rank": 61,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/831",
+                "https://data.ssb.no/api/klass/v1/versions/832",
+                "https://data.ssb.no/api/klass/v1/versions/1068",
+                "https://data.ssb.no/api/klass/v1/versions/1204"
+            ],
+            "validToInRequestedRange": "2020-01-01",
+            "validFromInRequestedRange": "2015-01-01"
+        },
+        {
+            "code": "733",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Transportordninger for funksjonshemmede"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Transportordningar for funksjonshemma"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Transport (arrangements) for disabled"
+                }
+            ],
+            "rank": 62,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2311"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2023-01-01"
+        },
+        {
+            "code": "734",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Sporveier og forstadsbaner"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Sporvegar og forstadsbanar"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Tramways and suburban railways"
+                }
+            ],
+            "rank": 63,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/831",
+                "https://data.ssb.no/api/klass/v1/versions/832"
+            ],
+            "validToInRequestedRange": "2018-01-01",
+            "validFromInRequestedRange": "2015-01-01"
+        },
+        {
+            "code": "734",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "T-bane og trikk/bybane"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "T-bane og trikk/bybane"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Tramways and suburban railways"
+                }
+            ],
+            "rank": 64,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/1068",
+                "https://data.ssb.no/api/klass/v1/versions/1204"
+            ],
+            "validToInRequestedRange": "2020-01-01",
+            "validFromInRequestedRange": "2018-01-01"
+        },
+        {
+            "code": "734",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Trikk, bybane og T-bane "
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Trikk, bybane og T-bane"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Tramways and suburban railways"
+                }
+            ],
+            "rank": 65,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2311"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2023-01-01"
+        },
+        {
+            "code": "735",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Lufttransport"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Lufttransport"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Aviation"
+                }
+            ],
+            "rank": 66,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/1366"
+            ],
+            "validToInRequestedRange": "2021-01-01",
+            "validFromInRequestedRange": "2020-01-01"
+        },
+        {
+            "code": "735",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Luftfart"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Luftfart"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Aviation"
+                }
+            ],
+            "rank": 67,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2311"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2023-01-01"
+        },
+        {
+            "code": "740",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Bibliotek"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Bibliotek"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Libraries"
+                }
+            ],
+            "rank": 68,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2311"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2023-01-01"
+        },
+        {
+            "code": "750",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Kulturminneforvaltning"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Kulturminneforvaltning"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Cultural heritage protection"
+                }
+            ],
+            "rank": 69,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2311"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2023-01-01"
+        },
+        {
+            "code": "760",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Mus\u00e9er"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Museum"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Museums"
+                }
+            ],
+            "rank": 70,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2311"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2023-01-01"
+        },
+        {
+            "code": "771",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Kunstformidling"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Kunstformidling"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Cultural arrangements"
+                }
+            ],
+            "rank": 71,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2311"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2023-01-01"
+        },
+        {
+            "code": "772",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Kunstproduksjon"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Kunstproduksjon"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Art production"
+                }
+            ],
+            "rank": 72,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2311"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2023-01-01"
+        },
+        {
+            "code": "775",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Idrett"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Idrett"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Sports"
+                }
+            ],
+            "rank": 73,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2311"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2023-01-01"
+        },
+        {
+            "code": "790",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Andre kulturaktiviteter"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Andre kulturaktivitetar"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Other cultural activities"
+                }
+            ],
+            "rank": 74,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2311"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2023-01-01"
+        },
+        {
+            "code": "FGF1b",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Administrasjon, fylkeskommune"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Administrasjon, fylkeskommune"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Administration, county authority"
+                }
+            ],
+            "rank": 75,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Grupperingen omfatter funksjonene 420, 421 og 430 innen administrasjon."
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2311"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2023-01-01"
+        },
+        {
+            "code": "FGF1c",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Fellesutgifter, fylkeskommune"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Fellesutgifter, fylkeskommune"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Variuos joint expenditures, county authority"
+                }
+            ],
+            "rank": 76,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Grupperingen omfatter funksjonene 470, 471, 472, 473 og 480 innen fellesutgifter."
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2311"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2023-01-01"
+        },
+        {
+            "code": "FGF2",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Plan, byggesak og milj\u00f8, fylkeskommune"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Plan, byggesak og milj\u00f8, fylkeskommune"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "County municipal management of planning, building applications and environment"
+                }
+            ],
+            "rank": 77,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Grupperingen omfatter funksjonene 713, 714, 716 og 750 innen fysisk planlegging, kulturminner, natur og n\u00e6rmilj\u00f8."
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2311"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2023-01-01"
+        },
+        {
+            "code": "FGF3",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Kultur, fylkeskommune"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Kultur, fylkeskommune"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Cultural services,  county authority"
+                }
+            ],
+            "rank": 78,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Grupperingen omfatter funksjonene 740, 760, 771, 772, 775 og 790 innen kultur."
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2311"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2023-01-01"
+        },
+        {
+            "code": "FGF4",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Samferdsel, fylkeskommune"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Samferdsle, fylkeskommune"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Transport affairs, county authority"
+                }
+            ],
+            "rank": 79,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Grupperingen omfatter funksjonene 722, 730, 731, 732, 733, 734 og 735 innen samferdsel."
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2311"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2023-01-01"
+        },
+        {
+            "code": "FGF5",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "N\u00e6ringsforvaltning, fylkeskommune"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "N\u00e6ringsforvaltning, fylkeskommune"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Trade and industry management, county authority"
+                }
+            ],
+            "rank": 80,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Grupperingen omfatter funksjonene 701, 710 og 711 innen n\u00e6ringsforvaltning."
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2311"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2023-01-01"
+        },
+        {
+            "code": "FGF6a",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Eiendomsforvaltning, fylkeskommune"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Eigedomsforvaltning, fylkeskommune"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Property management,  county authority"
+                }
+            ],
+            "rank": 81,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Grupperingen omfatter funksjonene 421, 430 og 510 innen eiendomsforvaltning."
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2311"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2023-01-01"
+        },
+        {
+            "code": "FGF7",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Videreg\u00e5ende oppl\u00e6ring samlet, inkl. fagskoler"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Vidareg\u00e5ande oppl\u00e6ring samla, inkl. fagskolar"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Secondary education, incl. vocational schools"
+                }
+            ],
+            "rank": 82,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Grupperingen omfatter alle funksjonene 510..590 innen videreg\u00e5ende oppl\u00e6ring."
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2311"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2023-01-01"
+        },
+        {
+            "code": "FGF7",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Videreg\u00e5ende oppl\u00e6ring samlet"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Vidareg\u00e5ande oppl\u00e6ring samla"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Secondary education"
+                }
+            ],
+            "rank": 83,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Grupperingen omfatter alle funksjonene 510..590 innen videreg\u00e5ende oppl\u00e6ring."
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/831",
+                "https://data.ssb.no/api/klass/v1/versions/832"
+            ],
+            "validToInRequestedRange": "2018-01-01",
+            "validFromInRequestedRange": "2015-01-01"
+        },
+        {
+            "code": "FGF1a",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Politisk styring og kontrollvirksomhet, fylkeskommune"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Politisk styring og kontrollverksemd, fylkeskommune"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Regulations and controls, county authority"
+                }
+            ],
+            "rank": 84,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Grupperingen omfatter funksjonene 400 og 410 innen politisk styring og kontrollvirksomhet."
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2311"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2023-01-01"
+        },
+        {
+            "code": "FGF2",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Fysisk planlegging, kulturminner, natur, n\u00e6rmilj\u00f8, fylkeskommune"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Fysisk planlegging, kulturminner, natur, n\u00e6rmilj\u00f8, fylkeskommune"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Planning, cultural heritage protection and community management"
+                }
+            ],
+            "rank": 85,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Grupperingen omfatter funksjonene 715, 716 og 750 innen fysisk planlegging, kulturminner, natur og n\u00e6rmilj\u00f8."
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/831",
+                "https://data.ssb.no/api/klass/v1/versions/832"
+            ],
+            "validToInRequestedRange": "2018-01-01",
+            "validFromInRequestedRange": "2015-01-01"
+        },
+        {
+            "code": "FGF8",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Tannhelse"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Tannhelse"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Dental health care"
+                }
+            ],
+            "rank": 86,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Grupperingen omfatter funksjonene 660 og 665 innen tannhelse."
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2311"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2023-01-01"
+        }
+    ],
+    "subsetId": "uttrekk_for_fylkeskommunale_funksjoner",
+    "validFrom": "2023-01-01",
+    "versionId": "2c5f0adf-0c39-4b9a-8651-700d9ad3c337",
+    "createdDate": "2023-11-20",
+    "lastModified": "2023-11-20T10:05:18Z",
+    "versionRationale": [
+        {
+            "languageCode": "nb",
+            "languageText": "oppdatert med endringer i kodeverket. F715 utg\u00e5r f.o.m. 2022 og erstattes av F713 og 714"
+        }
+    ],
+    "administrativeStatus": "OPEN",
+    "_links": {
+        "self": {
+            "href": "/v2/subsets/uttrekk_for_fylkeskommunale_funksjoner/versions/2c5f0adf-0c39-4b9a-8651-700d9ad3c337"
+        },
+        "series": {
+            "href": "/v2/subsets/uttrekk_for_fylkeskommunale_funksjoner"
+        }
+    }
+}
