@@ -18,7 +18,7 @@ import pytest
 from bs4 import BeautifulSoup
 from bs4 import ResultSet
 
-from dapla_metadata._shared.user_info import TestUserInfo
+from dapla_metadata.dapla.user_info import TestUserInfo
 from dapla_metadata.datasets import Datadoc
 from dapla_metadata.datasets.code_list import CodeList
 from dapla_metadata.datasets.statistic_subject_mapping import StatisticSubjectMapping
@@ -68,7 +68,7 @@ def _mock_timestamp(mocker: MockerFixture, dummy_timestamp: datetime) -> None:
 @pytest.fixture
 def _mock_user_info(mocker: MockerFixture) -> None:
     mocker.patch(
-        "dapla_metadata._shared.user_info.get_user_info_for_current_platform",
+        "dapla_metadata.dapla.user_info.get_user_info_for_current_platform",
         return_value=TestUserInfo(),
     )
 

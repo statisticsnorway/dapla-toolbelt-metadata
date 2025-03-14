@@ -8,13 +8,13 @@ import uuid
 from cloudpathlib import CloudPath
 from cloudpathlib import GSClient
 from cloudpathlib import GSPath
-from dapla import AuthClient
 from datadoc_model import model
 from datadoc_model.model import Assessment
 from datadoc_model.model import DataSetState
 from datadoc_model.model import VariableRole
 
-from dapla_metadata._shared import user_info
+from dapla import AuthClient
+from dapla_metadata.dapla import user_info
 from dapla_metadata.datasets.utility.constants import (
     DATASET_FIELDS_FROM_EXISTING_METADATA,
 )
@@ -147,7 +147,7 @@ def set_dataset_owner(dataset: model.Dataset) -> None:
         dataset: The dataset object to set default values on.
     """
     try:
-        dataset.owner = user_info.get_owner()
+        dataset.owner = user_info.get_user_info_for_current_platform().current_team
     except OSError:
         logger.exception("Failed to find environment variable DAPLA_GROUP_CONTEXT")
 
