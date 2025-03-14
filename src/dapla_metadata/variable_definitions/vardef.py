@@ -5,6 +5,15 @@ from pathlib import Path
 
 from dapla_metadata.variable_definitions import config
 from dapla_metadata.variable_definitions._client import VardefClient
+from dapla_metadata.variable_definitions._utils.variable_definition_files import (
+    _find_latest_template_file,
+)
+from dapla_metadata.variable_definitions._utils.variable_definition_files import (
+    create_template_yaml,
+)
+from dapla_metadata.variable_definitions._utils.variable_definition_files import (
+    read_file_to_model,
+)
 from dapla_metadata.variable_definitions.exceptions import VariableNotFoundError
 from dapla_metadata.variable_definitions.exceptions import vardef_exception_handler
 from dapla_metadata.variable_definitions.exceptions import vardef_file_error_handler
@@ -19,15 +28,6 @@ from dapla_metadata.variable_definitions.generated.vardef_client.api.variable_de
 )
 from dapla_metadata.variable_definitions.generated.vardef_client.models.draft import (
     Draft,
-)
-from dapla_metadata.variable_definitions.utils.variable_definition_files import (
-    _find_latest_template_file,
-)
-from dapla_metadata.variable_definitions.utils.variable_definition_files import (
-    create_template_yaml,
-)
-from dapla_metadata.variable_definitions.utils.variable_definition_files import (
-    read_file_to_model,
 )
 from dapla_metadata.variable_definitions.variable_definition import VariableDefinition
 

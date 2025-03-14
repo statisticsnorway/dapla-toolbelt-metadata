@@ -10,27 +10,27 @@ import pytz
 import ruamel.yaml
 from pytest_mock import MockerFixture
 
-from dapla_metadata.variable_definitions.config import WORKSPACE_DIR
-from dapla_metadata.variable_definitions.exceptions import VardefFileError
-from dapla_metadata.variable_definitions.utils.constants import TEMPLATE_HEADER
-from dapla_metadata.variable_definitions.utils.constants import (
+from dapla_metadata.variable_definitions._utils.constants import TEMPLATE_HEADER
+from dapla_metadata.variable_definitions._utils.constants import (
     TEMPLATE_SECTION_HEADER_MACHINE_GENERATED,
 )
-from dapla_metadata.variable_definitions.utils.constants import (
+from dapla_metadata.variable_definitions._utils.constants import (
     TEMPLATE_SECTION_HEADER_OWNER,
 )
-from dapla_metadata.variable_definitions.utils.constants import (
+from dapla_metadata.variable_definitions._utils.constants import (
     TEMPLATE_SECTION_HEADER_STATUS,
 )
-from dapla_metadata.variable_definitions.utils.variable_definition_files import (
+from dapla_metadata.variable_definitions._utils.variable_definition_files import (
     _find_latest_template_file,
 )
-from dapla_metadata.variable_definitions.utils.variable_definition_files import (
+from dapla_metadata.variable_definitions._utils.variable_definition_files import (
     _get_workspace_dir,
 )
-from dapla_metadata.variable_definitions.utils.variable_definition_files import (
+from dapla_metadata.variable_definitions._utils.variable_definition_files import (
     create_template_yaml,
 )
+from dapla_metadata.variable_definitions.config import WORKSPACE_DIR
+from dapla_metadata.variable_definitions.exceptions import VardefFileError
 from tests.variable_definitions.conftest import VARIABLE_DEFINITION_DICT
 
 yaml = ruamel.yaml.YAML()
@@ -112,7 +112,7 @@ def test_generate_yaml_from_dict() -> None:
 
 def test_find_latest_template_file(mocker: MockerFixture, tmp_path: Path):
     mock_time = mocker.patch(
-        "dapla_metadata.variable_definitions.utils.variable_definition_files._get_current_time",
+        "dapla_metadata.variable_definitions._utils.variable_definition_files._get_current_time",
     )
 
     def fast_forward(seconds: int) -> str:

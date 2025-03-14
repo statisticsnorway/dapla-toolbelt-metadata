@@ -5,7 +5,7 @@ from typing import cast
 
 from pydantic.config import JsonDict
 
-from dapla_metadata.variable_definitions.utils.descriptions import (
+from dapla_metadata.variable_definitions._utils.descriptions import (
     apply_norwegian_descriptions_to_model,
 )
 from dapla_metadata.variable_definitions.variable_definition import CompletePatchOutput

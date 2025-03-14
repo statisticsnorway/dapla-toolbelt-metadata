@@ -7,6 +7,12 @@ from pydantic import PrivateAttr
 
 from dapla_metadata.variable_definitions import config
 from dapla_metadata.variable_definitions._client import VardefClient
+from dapla_metadata.variable_definitions._utils.variable_definition_files import (
+    create_variable_yaml,
+)
+from dapla_metadata.variable_definitions._utils.variable_definition_files import (
+    read_file_to_model,
+)
 from dapla_metadata.variable_definitions.complete_patch_output import (
     CompletePatchOutput,
 )
@@ -35,12 +41,6 @@ from dapla_metadata.variable_definitions.generated.vardef_client.models.validity
 )
 from dapla_metadata.variable_definitions.generated.vardef_client.models.variable_status import (
     VariableStatus,
-)
-from dapla_metadata.variable_definitions.utils.variable_definition_files import (
-    create_variable_yaml,
-)
-from dapla_metadata.variable_definitions.utils.variable_definition_files import (
-    read_file_to_model,
 )
 
 logger = logging.getLogger(__name__)

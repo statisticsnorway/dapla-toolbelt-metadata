@@ -15,6 +15,33 @@ from ruamel.yaml import YAML
 from ruamel.yaml import CommentedMap
 
 from dapla_metadata.variable_definitions import config
+from dapla_metadata.variable_definitions._utils.constants import HEADER
+from dapla_metadata.variable_definitions._utils.constants import (
+    MACHINE_GENERATED_FIELDS,
+)
+from dapla_metadata.variable_definitions._utils.constants import NORWEGIAN_DESCRIPTIONS
+from dapla_metadata.variable_definitions._utils.constants import OPTIONAL_FIELD
+from dapla_metadata.variable_definitions._utils.constants import OWNER_FIELD_NAME
+from dapla_metadata.variable_definitions._utils.constants import REQUIRED_FIELD
+from dapla_metadata.variable_definitions._utils.constants import TEMPLATE_HEADER
+from dapla_metadata.variable_definitions._utils.constants import (
+    TEMPLATE_SECTION_HEADER_MACHINE_GENERATED,
+)
+from dapla_metadata.variable_definitions._utils.constants import (
+    TEMPLATE_SECTION_HEADER_OWNER,
+)
+from dapla_metadata.variable_definitions._utils.constants import (
+    TEMPLATE_SECTION_HEADER_STATUS,
+)
+from dapla_metadata.variable_definitions._utils.constants import (
+    VARIABLE_DEFINITIONS_DIR,
+)
+from dapla_metadata.variable_definitions._utils.constants import (
+    VARIABLE_STATUS_FIELD_NAME,
+)
+from dapla_metadata.variable_definitions._utils.descriptions import (
+    apply_norwegian_descriptions_to_model,
+)
 from dapla_metadata.variable_definitions.complete_patch_output import DEFAULT_TEMPLATE
 from dapla_metadata.variable_definitions.exceptions import VardefFileError
 from dapla_metadata.variable_definitions.generated.vardef_client.models.complete_response import (
@@ -22,29 +49,6 @@ from dapla_metadata.variable_definitions.generated.vardef_client.models.complete
 )
 from dapla_metadata.variable_definitions.generated.vardef_client.models.variable_status import (
     VariableStatus,
-)
-from dapla_metadata.variable_definitions.utils.constants import HEADER
-from dapla_metadata.variable_definitions.utils.constants import MACHINE_GENERATED_FIELDS
-from dapla_metadata.variable_definitions.utils.constants import NORWEGIAN_DESCRIPTIONS
-from dapla_metadata.variable_definitions.utils.constants import OPTIONAL_FIELD
-from dapla_metadata.variable_definitions.utils.constants import OWNER_FIELD_NAME
-from dapla_metadata.variable_definitions.utils.constants import REQUIRED_FIELD
-from dapla_metadata.variable_definitions.utils.constants import TEMPLATE_HEADER
-from dapla_metadata.variable_definitions.utils.constants import (
-    TEMPLATE_SECTION_HEADER_MACHINE_GENERATED,
-)
-from dapla_metadata.variable_definitions.utils.constants import (
-    TEMPLATE_SECTION_HEADER_OWNER,
-)
-from dapla_metadata.variable_definitions.utils.constants import (
-    TEMPLATE_SECTION_HEADER_STATUS,
-)
-from dapla_metadata.variable_definitions.utils.constants import VARIABLE_DEFINITIONS_DIR
-from dapla_metadata.variable_definitions.utils.constants import (
-    VARIABLE_STATUS_FIELD_NAME,
-)
-from dapla_metadata.variable_definitions.utils.descriptions import (
-    apply_norwegian_descriptions_to_model,
 )
 
 if TYPE_CHECKING:

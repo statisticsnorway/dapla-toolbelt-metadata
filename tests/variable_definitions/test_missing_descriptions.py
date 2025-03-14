@@ -1,14 +1,14 @@
 from unittest.mock import MagicMock
 from unittest.mock import patch
 
-from dapla_metadata.variable_definitions.utils.descriptions import (
+from dapla_metadata.variable_definitions._utils.descriptions import (
     apply_norwegian_descriptions_to_model,
 )
 
 
-@patch("dapla_metadata.variable_definitions.utils.descriptions.logger")
+@patch("dapla_metadata.variable_definitions._utils.descriptions.logger")
 @patch(
-    "dapla_metadata.variable_definitions.utils.descriptions.load_descriptions",
+    "dapla_metadata.variable_definitions._utils.descriptions.load_descriptions",
     lambda _: {},
 )
 def test_apply_descriptions_logs_missing_description(

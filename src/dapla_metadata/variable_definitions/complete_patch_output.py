@@ -1,6 +1,7 @@
 import yaml
 from pydantic import ConfigDict
 
+from dapla_metadata.variable_definitions._utils.constants import DEFAULT_DATE
 from dapla_metadata.variable_definitions.generated.vardef_client.models.complete_response import (
     CompleteResponse,
 )
@@ -16,7 +17,6 @@ from dapla_metadata.variable_definitions.generated.vardef_client.models.owner im
 from dapla_metadata.variable_definitions.generated.vardef_client.models.variable_status import (
     VariableStatus,
 )
-from dapla_metadata.variable_definitions.utils.constants import DEFAULT_DATE
 
 
 class CompletePatchOutput(CompleteResponse):
