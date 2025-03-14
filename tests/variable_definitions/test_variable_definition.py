@@ -5,19 +5,19 @@ from unittest.mock import patch
 import pytest
 from pydantic import ValidationError
 
-from dapla_metadata.variable_definitions.exceptions import VardefFileError
-from dapla_metadata.variable_definitions.generated.vardef_client.models.patch import (
+from dapla_metadata.variable_definitions._generated.vardef_client.models.patch import (
     Patch,
 )
-from dapla_metadata.variable_definitions.generated.vardef_client.models.update_draft import (
+from dapla_metadata.variable_definitions._generated.vardef_client.models.update_draft import (
     UpdateDraft,
 )
-from dapla_metadata.variable_definitions.generated.vardef_client.models.validity_period import (
+from dapla_metadata.variable_definitions._generated.vardef_client.models.validity_period import (
     ValidityPeriod,
 )
-from dapla_metadata.variable_definitions.generated.vardef_client.models.variable_status import (
+from dapla_metadata.variable_definitions._generated.vardef_client.models.variable_status import (
     VariableStatus,
 )
+from dapla_metadata.variable_definitions.exceptions import VardefFileError
 from dapla_metadata.variable_definitions.vardef import Vardef
 from dapla_metadata.variable_definitions.variable_definition import CompletePatchOutput
 from dapla_metadata.variable_definitions.variable_definition import VariableDefinition

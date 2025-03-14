@@ -5,6 +5,30 @@ from pathlib import Path
 
 from pydantic import PrivateAttr
 
+from dapla_metadata.variable_definitions._generated.vardef_client.api.draft_variable_definitions_api import (
+    DraftVariableDefinitionsApi,
+)
+from dapla_metadata.variable_definitions._generated.vardef_client.api.patches_api import (
+    PatchesApi,
+)
+from dapla_metadata.variable_definitions._generated.vardef_client.api.validity_periods_api import (
+    ValidityPeriodsApi,
+)
+from dapla_metadata.variable_definitions._generated.vardef_client.models.complete_response import (
+    CompleteResponse,
+)
+from dapla_metadata.variable_definitions._generated.vardef_client.models.patch import (
+    Patch,
+)
+from dapla_metadata.variable_definitions._generated.vardef_client.models.update_draft import (
+    UpdateDraft,
+)
+from dapla_metadata.variable_definitions._generated.vardef_client.models.validity_period import (
+    ValidityPeriod,
+)
+from dapla_metadata.variable_definitions._generated.vardef_client.models.variable_status import (
+    VariableStatus,
+)
 from dapla_metadata.variable_definitions._utils import config
 from dapla_metadata.variable_definitions._utils._client import VardefClient
 from dapla_metadata.variable_definitions._utils.variable_definition_files import (
@@ -18,30 +42,6 @@ from dapla_metadata.variable_definitions.complete_patch_output import (
 )
 from dapla_metadata.variable_definitions.exceptions import vardef_exception_handler
 from dapla_metadata.variable_definitions.exceptions import vardef_file_error_handler
-from dapla_metadata.variable_definitions.generated.vardef_client.api.draft_variable_definitions_api import (
-    DraftVariableDefinitionsApi,
-)
-from dapla_metadata.variable_definitions.generated.vardef_client.api.patches_api import (
-    PatchesApi,
-)
-from dapla_metadata.variable_definitions.generated.vardef_client.api.validity_periods_api import (
-    ValidityPeriodsApi,
-)
-from dapla_metadata.variable_definitions.generated.vardef_client.models.complete_response import (
-    CompleteResponse,
-)
-from dapla_metadata.variable_definitions.generated.vardef_client.models.patch import (
-    Patch,
-)
-from dapla_metadata.variable_definitions.generated.vardef_client.models.update_draft import (
-    UpdateDraft,
-)
-from dapla_metadata.variable_definitions.generated.vardef_client.models.validity_period import (
-    ValidityPeriod,
-)
-from dapla_metadata.variable_definitions.generated.vardef_client.models.variable_status import (
-    VariableStatus,
-)
 
 logger = logging.getLogger(__name__)
 

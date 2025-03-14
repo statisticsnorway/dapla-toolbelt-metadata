@@ -9,10 +9,10 @@ import urllib3
 from pytz import UnknownTimeZoneError
 from ruamel.yaml.error import YAMLError
 
-from dapla_metadata.variable_definitions.generated.vardef_client.exceptions import (
+from dapla_metadata.variable_definitions._generated.vardef_client.exceptions import (
     OpenApiException,
 )
-from dapla_metadata.variable_definitions.generated.vardef_client.exceptions import (
+from dapla_metadata.variable_definitions._generated.vardef_client.exceptions import (
     UnauthorizedException,
 )
 

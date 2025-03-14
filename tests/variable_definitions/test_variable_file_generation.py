@@ -1,6 +1,6 @@
 import ruamel.yaml
 
-from dapla_metadata.variable_definitions.generated.vardef_client.models.variable_status import (
+from dapla_metadata.variable_definitions._generated.vardef_client.models.variable_status import (
     VariableStatus,
 )
 

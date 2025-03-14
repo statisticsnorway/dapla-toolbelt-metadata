@@ -9,25 +9,25 @@ import pytest
 import urllib3
 
 from dapla_metadata._shared.config import DAPLA_GROUP_CONTEXT
+from dapla_metadata.variable_definitions._generated.vardef_client.api.variable_definitions_api import (
+    VariableDefinitionsApi,
+)
+from dapla_metadata.variable_definitions._generated.vardef_client.api_client import (
+    ApiClient,
+)
+from dapla_metadata.variable_definitions._generated.vardef_client.configuration import (
+    Configuration,
+)
+from dapla_metadata.variable_definitions._generated.vardef_client.models.draft import (
+    Draft,
+)
+from dapla_metadata.variable_definitions._generated.vardef_client.models.variable_status import (
+    VariableStatus,
+)
 from dapla_metadata.variable_definitions._utils._client import VardefClient
 from dapla_metadata.variable_definitions.exceptions import STATUS_EXPLANATIONS
 from dapla_metadata.variable_definitions.exceptions import VardefClientError
 from dapla_metadata.variable_definitions.exceptions import VariableNotFoundError
-from dapla_metadata.variable_definitions.generated.vardef_client.api.variable_definitions_api import (
-    VariableDefinitionsApi,
-)
-from dapla_metadata.variable_definitions.generated.vardef_client.api_client import (
-    ApiClient,
-)
-from dapla_metadata.variable_definitions.generated.vardef_client.configuration import (
-    Configuration,
-)
-from dapla_metadata.variable_definitions.generated.vardef_client.models.draft import (
-    Draft,
-)
-from dapla_metadata.variable_definitions.generated.vardef_client.models.variable_status import (
-    VariableStatus,
-)
 from dapla_metadata.variable_definitions.vardef import Vardef
 from dapla_metadata.variable_definitions.variable_definition import CompletePatchOutput
 from dapla_metadata.variable_definitions.variable_definition import VariableDefinition

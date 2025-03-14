@@ -14,6 +14,12 @@ from pydantic.config import JsonDict
 from ruamel.yaml import YAML
 from ruamel.yaml import CommentedMap
 
+from dapla_metadata.variable_definitions._generated.vardef_client.models.complete_response import (
+    CompleteResponse,
+)
+from dapla_metadata.variable_definitions._generated.vardef_client.models.variable_status import (
+    VariableStatus,
+)
 from dapla_metadata.variable_definitions._utils import config
 from dapla_metadata.variable_definitions._utils.constants import HEADER
 from dapla_metadata.variable_definitions._utils.constants import (
@@ -44,12 +50,6 @@ from dapla_metadata.variable_definitions._utils.descriptions import (
 )
 from dapla_metadata.variable_definitions.complete_patch_output import DEFAULT_TEMPLATE
 from dapla_metadata.variable_definitions.exceptions import VardefFileError
-from dapla_metadata.variable_definitions.generated.vardef_client.models.complete_response import (
-    CompleteResponse,
-)
-from dapla_metadata.variable_definitions.generated.vardef_client.models.variable_status import (
-    VariableStatus,
-)
 
 if TYPE_CHECKING:
     from pydantic import JsonValue

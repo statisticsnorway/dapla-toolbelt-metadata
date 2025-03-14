@@ -6,6 +6,37 @@ from pathlib import Path
 import pytest
 
 from dapla_metadata._shared.config import DAPLA_GROUP_CONTEXT
+from dapla_metadata.variable_definitions._generated import vardef_client
+from dapla_metadata.variable_definitions._generated.vardef_client.api_client import (
+    ApiClient,
+)
+from dapla_metadata.variable_definitions._generated.vardef_client.configuration import (
+    Configuration,
+)
+from dapla_metadata.variable_definitions._generated.vardef_client.models.contact import (
+    Contact,
+)
+from dapla_metadata.variable_definitions._generated.vardef_client.models.draft import (
+    Draft,
+)
+from dapla_metadata.variable_definitions._generated.vardef_client.models.language_string_type import (
+    LanguageStringType,
+)
+from dapla_metadata.variable_definitions._generated.vardef_client.models.owner import (
+    Owner,
+)
+from dapla_metadata.variable_definitions._generated.vardef_client.models.patch import (
+    Patch,
+)
+from dapla_metadata.variable_definitions._generated.vardef_client.models.update_draft import (
+    UpdateDraft,
+)
+from dapla_metadata.variable_definitions._generated.vardef_client.models.validity_period import (
+    ValidityPeriod,
+)
+from dapla_metadata.variable_definitions._generated.vardef_client.models.variable_status import (
+    VariableStatus,
+)
 from dapla_metadata.variable_definitions._utils._client import VardefClient
 from dapla_metadata.variable_definitions._utils.config import WORKSPACE_DIR
 from dapla_metadata.variable_definitions._utils.config import get_descriptions_path
@@ -18,37 +49,6 @@ from dapla_metadata.variable_definitions._utils.variable_definition_files import
     create_template_yaml,
 )
 from dapla_metadata.variable_definitions.complete_patch_output import DEFAULT_TEMPLATE
-from dapla_metadata.variable_definitions.generated import vardef_client
-from dapla_metadata.variable_definitions.generated.vardef_client.api_client import (
-    ApiClient,
-)
-from dapla_metadata.variable_definitions.generated.vardef_client.configuration import (
-    Configuration,
-)
-from dapla_metadata.variable_definitions.generated.vardef_client.models.contact import (
-    Contact,
-)
-from dapla_metadata.variable_definitions.generated.vardef_client.models.draft import (
-    Draft,
-)
-from dapla_metadata.variable_definitions.generated.vardef_client.models.language_string_type import (
-    LanguageStringType,
-)
-from dapla_metadata.variable_definitions.generated.vardef_client.models.owner import (
-    Owner,
-)
-from dapla_metadata.variable_definitions.generated.vardef_client.models.patch import (
-    Patch,
-)
-from dapla_metadata.variable_definitions.generated.vardef_client.models.update_draft import (
-    UpdateDraft,
-)
-from dapla_metadata.variable_definitions.generated.vardef_client.models.validity_period import (
-    ValidityPeriod,
-)
-from dapla_metadata.variable_definitions.generated.vardef_client.models.variable_status import (
-    VariableStatus,
-)
 from dapla_metadata.variable_definitions.variable_definition import CompletePatchOutput
 from dapla_metadata.variable_definitions.variable_definition import VariableDefinition
 from tests.utils.constants import VARDEF_EXAMPLE_ACTIVE_GROUP
