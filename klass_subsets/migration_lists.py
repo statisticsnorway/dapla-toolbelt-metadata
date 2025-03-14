@@ -1,8 +1,3 @@
-import requests
-from generate_xml import generate_xml
-from read_json_codes import find_duplicate_codes
-from read_json_codes import read_json_codes
-
 raw_names = [
     "Funksjoner for bydelene i Oslo",
     "Fylkeskommunale funksjoner",
@@ -60,6 +55,7 @@ add_suffix = [
     "Uttrekk for Kommuner 2020-2023",
 ]
 
+# map directly
 special_cases = {
     "Uttrekk for Kommuner -2019": "uttrekk_for_kommuner_-2019_kladd",
     "Uttrekk for Kommuner 2020-2023 (uten aggregerte regioner)": "uttrekk_for_kommuner_2020-2023_uten_aggregerte_regioner",
@@ -69,108 +65,3 @@ special_cases = {
     "Kommunale funksjoner": "uttrekk_for_detaljerte_regnskapstall_driftsregnskapet_kommuner_funksjoner",
     "Uttrekk for Landet": "uttrekk_for_landet_kommuner_kladd",
 }
-
-
-def transform_subset_name(name: str) -> str:
-    """Transform name to id."""
-    prefix = "uttrekk_for_"
-    suffix = "_kladd"
-    new_str = name.lower()
-    new_str = new_str.replace(" ", "_")
-    new_str = new_str.replace(",", "")
-    new_str = new_str.replace("(", "")
-    new_str = new_str.replace(")", "")
-    new_str = new_str.replace("ø", "o")
-    new_str = new_str.replace("å", "a")
-    if prefix not in new_str:
-        new_str = prefix + new_str
-    if name in add_suffix:
-        new_str = new_str + suffix
-    if name in special_cases:
-        new_str = special_cases.get(name)
-    return new_str
-
-
-def transform_subset_migrations() -> list:
-    """Perform transformations."""
-    return_list = []
-    for name in raw_names:
-        transformed_name = transform_subset_name(name)
-        return_list.append(transformed_name)
-    return return_list
-
-
-subsets_migrations = transform_subset_migrations()
-
-bad_request = []
-not_found = []
-data_list = []
-for subset in subsets_migrations:
-    result = requests.get(
-        f"https://subsets-api.prod-bip-app.ssb.no/v2/subsets/{subset}",
-        timeout=5,
-    )
-    if result.status_code == 400:
-        bad_request.append(subset)
-    if result.status_code == 404:
-        not_found.append(subset)
-    else:
-        data = result.json()
-        data_list.append(data)
-
-
-### Jørgen sin test kode ###
-
-subset_index = 34
-print(subsets_migrations[subset_index])
-
-one_subset = requests.get(
-    f"https://subsets-api.prod-bip-app.ssb.no/v2/subsets/{subsets_migrations[subset_index]}",
-    timeout=5,
-).json()
-
-
-print(one_subset)
-
-import json
-
-with open("parent.json", "w") as file:
-    json.dump(one_subset, file, indent=4)  # Saving the parent doc
-
-
-## Antar vi vil ha en kodeliste per vesjon fra subsets (må kanskje sjekkes ut)
-for j, i in enumerate(one_subset["versions"]):
-    version_url = i
-
-    # print(version_url)
-
-    # url = "/v2/subsets/uttrekk_for_fylkeskommunale_funksjoner/versions/uttrekk_for_fylkeskommunale_funksjoner_2c5f0adf-0c39-4b9a-8651-700d9ad3c337"
-
-    # one_subset = requests.get(
-    #     f"https://subsets-api.prod-bip-app.ssb.no/{url}",
-    #     timeout=5,
-    # )
-
-    version_json = requests.get(
-        f"https://subsets-api.prod-bip-app.ssb.no/{version_url}",
-        timeout=5,
-    ).json()
-
-    vf = {version_json["validFrom"]}
-    vu = None
-    try:
-        vu = {version_json["validUntil"]}
-    except:
-        ValueError
-
-    print(
-        f"Found subset that is valid from {vf} and valid until {vu} ",
-    )
-
-    with open(f"version_{j}_json.json", "w") as file:
-        json.dump(version_json, file, indent=4)
-
-    find_duplicate_codes(version_json)
-    codes = read_json_codes(version_json)
-    output_file = "output.xml"
-    generate_xml(codes, output_file)
