@@ -121,7 +121,7 @@ for subset in subsets_migrations:
 
 ### Jørgen sin test kode ###
 
-subset_index = 1
+subset_index = 34
 print(subsets_migrations[subset_index])
 
 one_subset = requests.get(
