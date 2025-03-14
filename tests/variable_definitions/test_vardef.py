@@ -9,7 +9,7 @@ import pytest
 import urllib3
 
 from dapla_metadata._shared.config import DAPLA_GROUP_CONTEXT
-from dapla_metadata.variable_definitions._client import VardefClient
+from dapla_metadata.variable_definitions._utils._client import VardefClient
 from dapla_metadata.variable_definitions.exceptions import STATUS_EXPLANATIONS
 from dapla_metadata.variable_definitions.exceptions import VardefClientError
 from dapla_metadata.variable_definitions.exceptions import VariableNotFoundError

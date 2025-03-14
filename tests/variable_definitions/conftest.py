@@ -6,7 +6,7 @@ from pathlib import Path
 import pytest
 
 from dapla_metadata._shared.config import DAPLA_GROUP_CONTEXT
-from dapla_metadata.variable_definitions._client import VardefClient
+from dapla_metadata.variable_definitions._utils._client import VardefClient
 from dapla_metadata.variable_definitions._utils.constants import (
     VARIABLE_DEFINITIONS_DIR,
 )
