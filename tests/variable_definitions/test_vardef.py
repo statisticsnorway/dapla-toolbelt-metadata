@@ -247,3 +247,17 @@ def test_short_name_does_not_exist():
     ):
         result = Vardef.does_short_name_exist("org_name")
         assert result is False
+
+
+def test_short_name_with_whitespace():
+    mock_variable = MagicMock()
+    mock_variable.short_name = "test_name"
+
+    mock_variable1 = MagicMock()
+    mock_variable1.short_name = "random_name"
+    with patch(
+        "dapla_metadata.variable_definitions.vardef.Vardef.list_variable_definitions",
+        return_value=[mock_variable, mock_variable1],
+    ):
+        result = Vardef.does_short_name_exist("test_name  ")
+        assert result is True
