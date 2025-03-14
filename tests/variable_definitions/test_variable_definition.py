@@ -5,21 +5,20 @@ from unittest.mock import patch
 import pytest
 from pydantic import ValidationError
 
-from dapla_metadata.variable_definitions.exceptions import VardefFileError
-from dapla_metadata.variable_definitions.generated.vardef_client.models.patch import (
+from dapla_metadata.variable_definitions._generated.vardef_client.models.patch import (
     Patch,
 )
-from dapla_metadata.variable_definitions.generated.vardef_client.models.update_draft import (
+from dapla_metadata.variable_definitions._generated.vardef_client.models.update_draft import (
     UpdateDraft,
 )
-from dapla_metadata.variable_definitions.generated.vardef_client.models.validity_period import (
+from dapla_metadata.variable_definitions._generated.vardef_client.models.validity_period import (
     ValidityPeriod,
 )
-from dapla_metadata.variable_definitions.generated.vardef_client.models.variable_status import (
+from dapla_metadata.variable_definitions._generated.vardef_client.models.variable_status import (
     VariableStatus,
 )
+from dapla_metadata.variable_definitions.exceptions import VardefFileError
 from dapla_metadata.variable_definitions.vardef import Vardef
-from dapla_metadata.variable_definitions.variable_definition import CompletePatchOutput
 from dapla_metadata.variable_definitions.variable_definition import VariableDefinition
 from tests.utils.constants import VARDEF_EXAMPLE_DATE
 from tests.utils.constants import VARDEF_EXAMPLE_DEFINITION_ID
@@ -31,21 +30,21 @@ def test_list_patches():
     landbak = Vardef.get_variable_definition_by_id(
         variable_definition_id=VARDEF_EXAMPLE_DEFINITION_ID,
     )
-    assert isinstance(landbak.list_patches()[0], CompletePatchOutput)
+    assert isinstance(landbak.list_patches()[0], VariableDefinition)
 
 
 def test_get_patch():
     landbak = Vardef.get_variable_definition_by_id(
         variable_definition_id=VARDEF_EXAMPLE_DEFINITION_ID,
     )
-    assert isinstance(landbak.get_patch(1), CompletePatchOutput)
+    assert isinstance(landbak.get_patch(1), VariableDefinition)
 
 
 def test_list_validity_periods():
     landbak = Vardef.get_variable_definition_by_id(
         variable_definition_id=VARDEF_EXAMPLE_DEFINITION_ID,
     )
-    assert isinstance(landbak.list_validity_periods()[0], CompletePatchOutput)
+    assert isinstance(landbak.list_validity_periods()[0], VariableDefinition)
 
 
 def test_update_draft(
@@ -54,7 +53,7 @@ def test_update_draft(
     my_draft = Vardef.get_variable_definition_by_id(
         variable_definition_id=VARDEF_EXAMPLE_DEFINITION_ID,
     )
-    assert isinstance(my_draft.update_draft(update_draft), CompletePatchOutput)
+    assert isinstance(my_draft.update_draft(update_draft), VariableDefinition)
 
 
 def test_delete_draft():
@@ -78,7 +77,7 @@ def test_create_patch(
     )
     assert isinstance(
         created_patch,
-        CompletePatchOutput,
+        VariableDefinition,
     )
     assert created_patch.patch_id == PATCH_ID
 
@@ -90,7 +89,7 @@ def test_create_validity_period(
     my_variable = variable_definition
     assert isinstance(
         my_variable.create_validity_period(validity_period),
-        CompletePatchOutput,
+        VariableDefinition,
     )
 
 
@@ -99,7 +98,7 @@ def test_update_draft_from_file():
         variable_definition_id=VARDEF_EXAMPLE_DEFINITION_ID,
     ).to_file()
     assert my_draft.get_file_path().exists()
-    assert isinstance(my_draft.update_draft_from_file(), CompletePatchOutput)
+    assert isinstance(my_draft.update_draft_from_file(), VariableDefinition)
 
 
 def test_update_draft_from_file_no_known_file():

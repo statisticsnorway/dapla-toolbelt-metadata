@@ -25,8 +25,8 @@ from datadoc_model.model import IsPersonalData
 from datadoc_model.model import Variable
 from datadoc_model.model import VariableRole
 
-from dapla_metadata._shared.user_info import PLACEHOLDER_EMAIL_ADDRESS
-from dapla_metadata._shared.user_info import TestUserInfo
+from dapla_metadata.dapla.user_info import PLACEHOLDER_EMAIL_ADDRESS
+from dapla_metadata.dapla.user_info import TestUserInfo
 from dapla_metadata.datasets.core import Datadoc
 from dapla_metadata.datasets.core import InconsistentDatasetsError
 from dapla_metadata.datasets.core import InconsistentDatasetsWarning

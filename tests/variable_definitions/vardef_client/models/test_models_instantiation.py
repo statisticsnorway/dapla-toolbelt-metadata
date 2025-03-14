@@ -4,31 +4,31 @@ import pytest
 from pydantic import BaseModel
 from pydantic import ValidationError
 
-from dapla_metadata.variable_definitions.generated.vardef_client.models.complete_response import (
+from dapla_metadata.variable_definitions._generated.vardef_client.models.complete_response import (
     CompleteResponse,
 )
-from dapla_metadata.variable_definitions.generated.vardef_client.models.contact import (
+from dapla_metadata.variable_definitions._generated.vardef_client.models.contact import (
     Contact,
 )
-from dapla_metadata.variable_definitions.generated.vardef_client.models.draft import (
+from dapla_metadata.variable_definitions._generated.vardef_client.models.draft import (
     Draft,
 )
-from dapla_metadata.variable_definitions.generated.vardef_client.models.language_string_type import (
+from dapla_metadata.variable_definitions._generated.vardef_client.models.language_string_type import (
     LanguageStringType,
 )
-from dapla_metadata.variable_definitions.generated.vardef_client.models.owner import (
+from dapla_metadata.variable_definitions._generated.vardef_client.models.owner import (
     Owner,
 )
-from dapla_metadata.variable_definitions.generated.vardef_client.models.patch import (
+from dapla_metadata.variable_definitions._generated.vardef_client.models.patch import (
     Patch,
 )
-from dapla_metadata.variable_definitions.generated.vardef_client.models.update_draft import (
+from dapla_metadata.variable_definitions._generated.vardef_client.models.update_draft import (
     UpdateDraft,
 )
-from dapla_metadata.variable_definitions.generated.vardef_client.models.validity_period import (
+from dapla_metadata.variable_definitions._generated.vardef_client.models.validity_period import (
     ValidityPeriod,
 )
-from dapla_metadata.variable_definitions.generated.vardef_client.models.variable_status import (
+from dapla_metadata.variable_definitions._generated.vardef_client.models.variable_status import (
     VariableStatus,
 )
 

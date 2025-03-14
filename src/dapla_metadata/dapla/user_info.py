@@ -14,6 +14,8 @@ logger = logging.getLogger(__name__)
 
 
 PLACEHOLDER_EMAIL_ADDRESS = "default_user@ssb.no"
+PLACEHOLDER_GROUP = "default-team-developers"
+PLACEHOLDER_TEAM = "default-team"
 
 
 class UserInfo(Protocol):
@@ -27,6 +29,16 @@ class UserInfo(Protocol):
         """Get the short email address."""
         ...
 
+    @property
+    def current_group(self) -> str:
+        """Get the group which the user is currently representing."""
+        ...
+
+    @property
+    def current_team(self) -> str:
+        """Get the team which the user is currently representing."""
+        ...
+
 
 class UnknownUserInfo:
     """Fallback when no implementation is found."""
@@ -36,6 +48,16 @@ class UnknownUserInfo:
         """Unknown email address."""
         return None
 
+    @property
+    def current_group(self) -> str:
+        """Get the group which the user is currently representing."""
+        return ""
+
+    @property
+    def current_team(self) -> str:
+        """Get the team which the user is currently representing."""
+        return ""
+
 
 class TestUserInfo:
     """Information about the current user for local development and testing."""
@@ -44,6 +66,16 @@ class TestUserInfo:
     def short_email(self) -> str | None:
         """Get the short email address."""
         return PLACEHOLDER_EMAIL_ADDRESS
+
+    @property
+    def current_group(self) -> str | None:
+        """Get the group which the user is currently representing."""
+        return PLACEHOLDER_GROUP
+
+    @property
+    def current_team(self) -> str | None:
+        """Get the team which the user is currently representing."""
+        return PLACEHOLDER_TEAM
 
 
 class DaplaLabUserInfo:
@@ -65,6 +97,19 @@ class DaplaLabUserInfo:
         )
         return None
 
+    @property
+    def current_group(self) -> str:
+        """Get the group which the user is currently representing."""
+        if group := config.get_dapla_group_context():
+            return group
+        msg = "DAPLA_GROUP_CONTEXT environment variable not found"
+        raise OSError(msg)
+
+    @property
+    def current_team(self) -> str:
+        """Get the team which the user is currently representing."""
+        return parse_team_name(self.current_group)
+
 
 class JupyterHubUserInfo:
     """Information about the current user when running on JupyterHub."""
@@ -73,6 +118,16 @@ class JupyterHubUserInfo:
     def short_email(self) -> str | None:
         """Get the short email address."""
         return config.get_jupyterhub_user()
+
+    @property
+    def current_group(self) -> str:
+        """Get the group which the user is currently representing."""
+        raise NotImplementedError
+
+    @property
+    def current_team(self) -> str:
+        """Get the team which the user is currently representing."""
+        raise NotImplementedError
 
 
 def get_user_info_for_current_platform() -> UserInfo:
@@ -86,14 +141,6 @@ def get_user_info_for_current_platform() -> UserInfo:
             "Was not possible to retrieve user information! Some fields may not be set.",
         )
         return UnknownUserInfo()
-
-
-def get_owner() -> str:
-    """Returns the owner read from the GROUP_CONTEXT environment variable."""
-    if group := config.get_dapla_group_context():
-        return parse_team_name(group)
-    msg = "DAPLA_GROUP_CONTEXT environment variable not found"
-    raise OSError(msg)
 
 
 def parse_team_name(group: str) -> str:

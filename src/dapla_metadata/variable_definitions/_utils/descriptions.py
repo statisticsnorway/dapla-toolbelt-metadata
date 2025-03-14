@@ -9,7 +9,7 @@ from pydantic import BaseModel
 from pydantic import Field
 from pydantic.config import JsonDict
 
-from dapla_metadata.variable_definitions.config import get_descriptions_path
+from dapla_metadata.variable_definitions._utils.config import get_descriptions_path
 
 logger = logging.getLogger(__name__)
 

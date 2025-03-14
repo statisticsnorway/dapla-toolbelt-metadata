@@ -14,7 +14,7 @@ from datadoc_model import model
 from datadoc_model.model import DataSetStatus
 
 from dapla_metadata._shared import config
-from dapla_metadata._shared import user_info
+from dapla_metadata.dapla import user_info
 from dapla_metadata.datasets.dapla_dataset_path_info import DaplaDatasetPathInfo
 from dapla_metadata.datasets.dataset_parser import DatasetParser
 from dapla_metadata.datasets.model_backwards_compatibility import (
