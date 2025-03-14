@@ -15,6 +15,6 @@ generate-vardef-client:
 		--enable-post-process-file \
 		-i tests/variable_definitions/resources/openapi/variable-definitions-internal.yml \
 		-g python \
-		-o src/dapla_metadata/variable_definitions/generated \
+		-o src/dapla_metadata/variable_definitions/_generated \
 		--additional-properties=packageName=vardef_client \
 		--skip-validate-spec

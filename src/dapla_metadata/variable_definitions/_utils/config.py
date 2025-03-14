@@ -3,7 +3,7 @@ from dapla_metadata._shared.config import get_dapla_environment
 from dapla_metadata._shared.config import get_dapla_group_context
 from dapla_metadata._shared.config import get_oidc_token
 from dapla_metadata._shared.enums import DaplaEnvironment
-from dapla_metadata.variable_definitions.generated.vardef_client.configuration import (
+from dapla_metadata.variable_definitions._generated.vardef_client.configuration import (
     Configuration,
 )
 

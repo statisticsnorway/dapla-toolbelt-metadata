@@ -9,10 +9,10 @@ import urllib3
 from pytz import UnknownTimeZoneError
 from ruamel.yaml.error import YAMLError
 
-from dapla_metadata.variable_definitions.generated.vardef_client.exceptions import (
+from dapla_metadata.variable_definitions._generated.vardef_client.exceptions import (
     OpenApiException,
 )
-from dapla_metadata.variable_definitions.generated.vardef_client.exceptions import (
+from dapla_metadata.variable_definitions._generated.vardef_client.exceptions import (
     UnauthorizedException,
 )
 
@@ -185,9 +185,6 @@ def vardef_file_error_handler(method):  # noqa: ANN201, ANN001
             raise VardefFileError(msg) from e
         except YAMLError as e:
             msg = f"Invalid yaml. Please fix the formatting in your yaml file.\nOriginal error:\n{e!s}"
-            raise VardefFileError(msg) from e
-        except AttributeError as e:
-            msg = f"There is no such attribute. Original error: {e!s}"
             raise VardefFileError(msg) from e
         except EOFError as e:
             msg = "Unexpected end of file"

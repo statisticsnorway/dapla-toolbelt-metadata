@@ -6,48 +6,48 @@ from pathlib import Path
 import pytest
 
 from dapla_metadata._shared.config import DAPLA_GROUP_CONTEXT
-from dapla_metadata.variable_definitions._client import VardefClient
-from dapla_metadata.variable_definitions.complete_patch_output import DEFAULT_TEMPLATE
-from dapla_metadata.variable_definitions.config import WORKSPACE_DIR
-from dapla_metadata.variable_definitions.config import get_descriptions_path
-from dapla_metadata.variable_definitions.generated import vardef_client
-from dapla_metadata.variable_definitions.generated.vardef_client.api_client import (
+from dapla_metadata.variable_definitions._generated import vardef_client
+from dapla_metadata.variable_definitions._generated.vardef_client.api_client import (
     ApiClient,
 )
-from dapla_metadata.variable_definitions.generated.vardef_client.configuration import (
+from dapla_metadata.variable_definitions._generated.vardef_client.configuration import (
     Configuration,
 )
-from dapla_metadata.variable_definitions.generated.vardef_client.models.contact import (
+from dapla_metadata.variable_definitions._generated.vardef_client.models.contact import (
     Contact,
 )
-from dapla_metadata.variable_definitions.generated.vardef_client.models.draft import (
+from dapla_metadata.variable_definitions._generated.vardef_client.models.draft import (
     Draft,
 )
-from dapla_metadata.variable_definitions.generated.vardef_client.models.language_string_type import (
+from dapla_metadata.variable_definitions._generated.vardef_client.models.language_string_type import (
     LanguageStringType,
 )
-from dapla_metadata.variable_definitions.generated.vardef_client.models.owner import (
+from dapla_metadata.variable_definitions._generated.vardef_client.models.owner import (
     Owner,
 )
-from dapla_metadata.variable_definitions.generated.vardef_client.models.patch import (
+from dapla_metadata.variable_definitions._generated.vardef_client.models.patch import (
     Patch,
 )
-from dapla_metadata.variable_definitions.generated.vardef_client.models.update_draft import (
+from dapla_metadata.variable_definitions._generated.vardef_client.models.update_draft import (
     UpdateDraft,
 )
-from dapla_metadata.variable_definitions.generated.vardef_client.models.validity_period import (
+from dapla_metadata.variable_definitions._generated.vardef_client.models.validity_period import (
     ValidityPeriod,
 )
-from dapla_metadata.variable_definitions.generated.vardef_client.models.variable_status import (
+from dapla_metadata.variable_definitions._generated.vardef_client.models.variable_status import (
     VariableStatus,
 )
-from dapla_metadata.variable_definitions.utils.constants import VARIABLE_DEFINITIONS_DIR
-from dapla_metadata.variable_definitions.utils.descriptions import get_package_root
-from dapla_metadata.variable_definitions.utils.descriptions import load_descriptions
-from dapla_metadata.variable_definitions.utils.variable_definition_files import (
+from dapla_metadata.variable_definitions._utils._client import VardefClient
+from dapla_metadata.variable_definitions._utils.config import WORKSPACE_DIR
+from dapla_metadata.variable_definitions._utils.config import get_descriptions_path
+from dapla_metadata.variable_definitions._utils.constants import (
+    VARIABLE_DEFINITIONS_DIR,
+)
+from dapla_metadata.variable_definitions._utils.descriptions import get_package_root
+from dapla_metadata.variable_definitions._utils.descriptions import load_descriptions
+from dapla_metadata.variable_definitions._utils.template_files import (
     create_template_yaml,
 )
-from dapla_metadata.variable_definitions.variable_definition import CompletePatchOutput
 from dapla_metadata.variable_definitions.variable_definition import VariableDefinition
 from tests.utils.constants import VARDEF_EXAMPLE_ACTIVE_GROUP
 from tests.utils.constants import VARDEF_EXAMPLE_DEFINITION_ID
@@ -234,8 +234,8 @@ def vardef_mock_service():
         yield container
 
 
-def sample_complete_patch_output() -> CompletePatchOutput:
-    return CompletePatchOutput(
+def sample_complete_patch_output() -> VariableDefinition:
+    return VariableDefinition(
         id=VARDEF_EXAMPLE_DEFINITION_ID,
         patch_id=1,
         name=LanguageStringType(nb="test", nn="test", en="test"),
@@ -265,7 +265,7 @@ def sample_complete_patch_output() -> CompletePatchOutput:
 
 
 @pytest.fixture
-def complete_patch_output() -> CompletePatchOutput:
+def complete_patch_output() -> VariableDefinition:
     return sample_complete_patch_output()
 
 
@@ -274,7 +274,6 @@ def work_folder_defaults(set_temp_workspace: Path):
     """Fixture that ensures a work folder exists for template with default values."""
     base_path = set_temp_workspace
     file_name = create_template_yaml(
-        DEFAULT_TEMPLATE,
         custom_directory=base_path,
     )
 

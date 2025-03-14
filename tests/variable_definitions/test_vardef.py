@@ -10,27 +10,26 @@ import pytest
 import urllib3
 
 from dapla_metadata._shared.config import DAPLA_GROUP_CONTEXT
-from dapla_metadata.variable_definitions._client import VardefClient
+from dapla_metadata.variable_definitions._generated.vardef_client.api.variable_definitions_api import (
+    VariableDefinitionsApi,
+)
+from dapla_metadata.variable_definitions._generated.vardef_client.api_client import (
+    ApiClient,
+)
+from dapla_metadata.variable_definitions._generated.vardef_client.configuration import (
+    Configuration,
+)
+from dapla_metadata.variable_definitions._generated.vardef_client.models.draft import (
+    Draft,
+)
+from dapla_metadata.variable_definitions._generated.vardef_client.models.variable_status import (
+    VariableStatus,
+)
+from dapla_metadata.variable_definitions._utils._client import VardefClient
 from dapla_metadata.variable_definitions.exceptions import STATUS_EXPLANATIONS
 from dapla_metadata.variable_definitions.exceptions import VardefClientError
 from dapla_metadata.variable_definitions.exceptions import VariableNotFoundError
-from dapla_metadata.variable_definitions.generated.vardef_client.api.variable_definitions_api import (
-    VariableDefinitionsApi,
-)
-from dapla_metadata.variable_definitions.generated.vardef_client.api_client import (
-    ApiClient,
-)
-from dapla_metadata.variable_definitions.generated.vardef_client.configuration import (
-    Configuration,
-)
-from dapla_metadata.variable_definitions.generated.vardef_client.models.draft import (
-    Draft,
-)
-from dapla_metadata.variable_definitions.generated.vardef_client.models.variable_status import (
-    VariableStatus,
-)
 from dapla_metadata.variable_definitions.vardef import Vardef
-from dapla_metadata.variable_definitions.variable_definition import CompletePatchOutput
 from dapla_metadata.variable_definitions.variable_definition import VariableDefinition
 from tests.utils.constants import VARDEF_EXAMPLE_ACTIVE_GROUP
 from tests.utils.constants import VARDEF_EXAMPLE_DATE
@@ -54,7 +53,7 @@ def test_list_variable_definitions_with_date_of_validity(
     VardefClient.set_config(client_configuration)
     assert isinstance(
         Vardef.list_variable_definitions(date_of_validity=VARDEF_EXAMPLE_DATE)[0],
-        CompletePatchOutput,
+        VariableDefinition,
     )
 
 
@@ -176,7 +175,7 @@ def test_create_draft(
     my_draft = Vardef.create_draft(
         draft=draft,
     )
-    assert isinstance(my_draft, CompletePatchOutput)
+    assert isinstance(my_draft, VariableDefinition)
     assert my_draft.id is not None
     assert my_draft.patch_id == 1
     assert my_draft.variable_status == VariableStatus.DRAFT
@@ -185,7 +184,7 @@ def test_create_draft(
 @pytest.mark.usefixtures("work_folder_complete_patch_output")
 def test_create_draft_from_file():
     my_draft = Vardef.create_draft_from_file()
-    assert isinstance(my_draft, CompletePatchOutput)
+    assert isinstance(my_draft, VariableDefinition)
     assert my_draft.id is not None
     assert my_draft.patch_id == 1
     assert my_draft.variable_status == VariableStatus.DRAFT
@@ -193,7 +192,7 @@ def test_create_draft_from_file():
 
 def test_create_draft_from_file_specify_path(work_folder_complete_patch_output: Path):
     my_draft = Vardef.create_draft_from_file(work_folder_complete_patch_output)
-    assert isinstance(my_draft, CompletePatchOutput)
+    assert isinstance(my_draft, VariableDefinition)
     assert my_draft.id is not None
     assert my_draft.patch_id == 1
     assert my_draft.variable_status == VariableStatus.DRAFT
@@ -208,7 +207,7 @@ def test_migrate_from_vardok(
     my_draft = Vardef.migrate_from_vardok(
         vardok_id="1607",
     )
-    assert isinstance(my_draft, CompletePatchOutput)
+    assert isinstance(my_draft, VariableDefinition)
     assert my_draft.id is not None
     assert my_draft.patch_id == 1
     assert my_draft.variable_status == VariableStatus.DRAFT
