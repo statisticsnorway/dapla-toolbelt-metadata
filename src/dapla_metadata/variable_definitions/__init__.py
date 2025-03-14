@@ -6,5 +6,4 @@ from .exceptions import VardefClientError
 from .exceptions import VardefFileError
 from .exceptions import VariableNotFoundError
 from .vardef import Vardef
-from .variable_definition import CompletePatchOutput
 from .variable_definition import VariableDefinition

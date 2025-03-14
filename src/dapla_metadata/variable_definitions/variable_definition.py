@@ -3,6 +3,8 @@ from datetime import date
 from os import PathLike
 from pathlib import Path
 
+import yaml
+from pydantic import ConfigDict
 from pydantic import PrivateAttr
 
 from dapla_metadata.variable_definitions._generated.vardef_client.api.draft_variable_definitions_api import (
@@ -32,13 +34,10 @@ from dapla_metadata.variable_definitions._generated.vardef_client.models.variabl
 from dapla_metadata.variable_definitions._utils import config
 from dapla_metadata.variable_definitions._utils._client import VardefClient
 from dapla_metadata.variable_definitions._utils.variable_definition_files import (
-    create_variable_yaml,
+    _read_file_to_model,
 )
 from dapla_metadata.variable_definitions._utils.variable_definition_files import (
-    read_file_to_model,
-)
-from dapla_metadata.variable_definitions.complete_patch_output import (
-    CompletePatchOutput,
+    create_variable_yaml,
 )
 from dapla_metadata.variable_definitions.exceptions import vardef_exception_handler
 from dapla_metadata.variable_definitions.exceptions import vardef_file_error_handler
@@ -46,7 +45,7 @@ from dapla_metadata.variable_definitions.exceptions import vardef_file_error_han
 logger = logging.getLogger(__name__)
 
 
-class VariableDefinition(CompletePatchOutput):
+class VariableDefinition(CompleteResponse):
     """A Variable Definition.
 
     - Provides access to the fields of the specific Variable Definition.
@@ -54,10 +53,12 @@ class VariableDefinition(CompletePatchOutput):
     - Provides methods allowing maintenance of this Variable Definition.
 
     Args:
-        CompletePatchOutput: The Pydantic model superclass, representing a Variable Definition.
+        CompleteResponse: The Pydantic model superclass, representing a Variable Definition.
     """
 
     _file_path: Path | None = PrivateAttr(None)
+
+    model_config = ConfigDict(use_enum_values=True, str_strip_whitespace=True)
 
     def get_file_path(self) -> Path | None:
         """Get the file path where the variable definition has been written to for editing."""
@@ -71,7 +72,7 @@ class VariableDefinition(CompletePatchOutput):
     def from_model(
         model: CompleteResponse,
     ) -> "VariableDefinition":
-        """Create a VariableDefinition instance from a CompleteResponse or CompletePatchOutput."""
+        """Create a VariableDefinition instance from a CompleteResponse."""
         return VariableDefinition.model_construct(**model.model_dump())
 
     @vardef_exception_handler
@@ -148,7 +149,10 @@ class VariableDefinition(CompletePatchOutput):
             VariableDefinition: Updated Variable definition with all details.
         """
         return self.update_draft(
-            read_file_to_model(file_path or self.get_file_path(), UpdateDraft),
+            _read_file_to_model(
+                file_path or self.get_file_path(),
+                UpdateDraft,
+            ),
         )
 
     @vardef_exception_handler
@@ -261,7 +265,10 @@ class VariableDefinition(CompletePatchOutput):
             VariableDefinition: Variable Definition with all details.
         """
         return self.create_patch(
-            patch=read_file_to_model(file_path or self.get_file_path(), Patch),
+            patch=_read_file_to_model(
+                file_path or self.get_file_path(),
+                Patch,
+            ),
             valid_from=valid_from,
         )
 
@@ -320,7 +327,7 @@ class VariableDefinition(CompletePatchOutput):
             VariableDefinition: Variable Definition with all details.
         """
         return self.create_validity_period(
-            validity_period=read_file_to_model(
+            validity_period=_read_file_to_model(
                 file_path or self.get_file_path(),
                 ValidityPeriod,
             ),
@@ -377,3 +384,27 @@ class VariableDefinition(CompletePatchOutput):
             f"Created editable variable definition file at {file_path}",  # noqa: G004
         )
         return self
+
+    def to_dict(self) -> dict:
+        """Return as dictionary."""
+        return super().to_dict()
+
+    def __str__(self) -> str:
+        """Format as indented YAML."""
+        return self._convert_to_yaml_output()
+
+    def __repr__(self) -> str:
+        """Format as indented YAML."""
+        return self._convert_to_yaml_output()
+
+    def _convert_to_yaml_output(self) -> str:
+        return yaml.dump(
+            self.model_dump(
+                mode="json",
+                serialize_as_any=True,
+                warnings="error",
+            ),
+            allow_unicode=True,
+            default_flow_style=False,
+            sort_keys=False,
+        )

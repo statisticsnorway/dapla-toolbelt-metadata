@@ -45,11 +45,9 @@ from dapla_metadata.variable_definitions._utils.constants import (
 )
 from dapla_metadata.variable_definitions._utils.descriptions import get_package_root
 from dapla_metadata.variable_definitions._utils.descriptions import load_descriptions
-from dapla_metadata.variable_definitions._utils.variable_definition_files import (
+from dapla_metadata.variable_definitions._utils.template_files import (
     create_template_yaml,
 )
-from dapla_metadata.variable_definitions.complete_patch_output import DEFAULT_TEMPLATE
-from dapla_metadata.variable_definitions.variable_definition import CompletePatchOutput
 from dapla_metadata.variable_definitions.variable_definition import VariableDefinition
 from tests.utils.constants import VARDEF_EXAMPLE_ACTIVE_GROUP
 from tests.utils.constants import VARDEF_EXAMPLE_DEFINITION_ID
@@ -236,8 +234,8 @@ def vardef_mock_service():
         yield container
 
 
-def sample_complete_patch_output() -> CompletePatchOutput:
-    return CompletePatchOutput(
+def sample_complete_patch_output() -> VariableDefinition:
+    return VariableDefinition(
         id=VARDEF_EXAMPLE_DEFINITION_ID,
         patch_id=1,
         name=LanguageStringType(nb="test", nn="test", en="test"),
@@ -267,7 +265,7 @@ def sample_complete_patch_output() -> CompletePatchOutput:
 
 
 @pytest.fixture
-def complete_patch_output() -> CompletePatchOutput:
+def complete_patch_output() -> VariableDefinition:
     return sample_complete_patch_output()
 
 
@@ -276,7 +274,6 @@ def work_folder_defaults(set_temp_workspace: Path):
     """Fixture that ensures a work folder exists for template with default values."""
     base_path = set_temp_workspace
     file_name = create_template_yaml(
-        DEFAULT_TEMPLATE,
         custom_directory=base_path,
     )
 

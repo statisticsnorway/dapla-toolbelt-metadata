@@ -139,27 +139,27 @@ def test_write_template_to_invalid_custom_directory(
     ("mock_target", "side_effect"),
     [
         (
-            "dapla_metadata.variable_definitions._utils.variable_definition_files._model_to_yaml_with_comments",
+            "dapla_metadata.variable_definitions._utils.template_files._model_to_yaml_with_comments",
             FileExistsError,
         ),
         (
-            "dapla_metadata.variable_definitions._utils.variable_definition_files._model_to_yaml_with_comments",
+            "dapla_metadata.variable_definitions._utils.template_files._model_to_yaml_with_comments",
             PermissionError,
         ),
         (
-            "dapla_metadata.variable_definitions._utils.variable_definition_files._get_current_time",
+            "dapla_metadata.variable_definitions._utils.template_files._get_current_time",
             UnknownTimeZoneError,
         ),
         (
-            "dapla_metadata.variable_definitions._utils.variable_definition_files._model_to_yaml_with_comments",
+            "dapla_metadata.variable_definitions._utils.template_files._model_to_yaml_with_comments",
             YAMLError,
         ),
         (
-            "dapla_metadata.variable_definitions._utils.variable_definition_files._model_to_yaml_with_comments",
+            "dapla_metadata.variable_definitions._utils.template_files._model_to_yaml_with_comments",
             EOFError,
         ),
         (
-            "dapla_metadata.variable_definitions._utils.variable_definition_files._get_workspace_dir",
+            "dapla_metadata.variable_definitions._utils.files._get_workspace_dir",
             NotADirectoryError,
         ),
     ],
