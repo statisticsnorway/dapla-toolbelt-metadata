@@ -5,7 +5,7 @@ import pytest
 from pytz import UnknownTimeZoneError
 from ruamel.yaml import YAMLError
 
-from dapla_metadata.variable_definitions.config import WORKSPACE_DIR
+from dapla_metadata.variable_definitions._utils.config import WORKSPACE_DIR
 from dapla_metadata.variable_definitions.exceptions import VardefFileError
 from dapla_metadata.variable_definitions.vardef import Vardef
 

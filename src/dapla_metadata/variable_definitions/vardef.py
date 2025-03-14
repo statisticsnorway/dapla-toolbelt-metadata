@@ -3,7 +3,7 @@ from datetime import date
 from os import PathLike
 from pathlib import Path
 
-from dapla_metadata.variable_definitions import config
+from dapla_metadata.variable_definitions._utils import config
 from dapla_metadata.variable_definitions._utils._client import VardefClient
 from dapla_metadata.variable_definitions._utils.variable_definition_files import (
     _find_latest_template_file,

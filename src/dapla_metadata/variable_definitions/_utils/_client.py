@@ -1,4 +1,6 @@
-from dapla_metadata.variable_definitions.config import get_vardef_client_configuration
+from dapla_metadata.variable_definitions._utils.config import (
+    get_vardef_client_configuration,
+)
 from dapla_metadata.variable_definitions.generated.vardef_client.api_client import (
     ApiClient,
 )

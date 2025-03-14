@@ -14,7 +14,7 @@ from pydantic.config import JsonDict
 from ruamel.yaml import YAML
 from ruamel.yaml import CommentedMap
 
-from dapla_metadata.variable_definitions import config
+from dapla_metadata.variable_definitions._utils import config
 from dapla_metadata.variable_definitions._utils.constants import HEADER
 from dapla_metadata.variable_definitions._utils.constants import (
     MACHINE_GENERATED_FIELDS,

@@ -10,6 +10,7 @@ import pytz
 import ruamel.yaml
 from pytest_mock import MockerFixture
 
+from dapla_metadata.variable_definitions._utils.config import WORKSPACE_DIR
 from dapla_metadata.variable_definitions._utils.constants import TEMPLATE_HEADER
 from dapla_metadata.variable_definitions._utils.constants import (
     TEMPLATE_SECTION_HEADER_MACHINE_GENERATED,
@@ -29,7 +30,6 @@ from dapla_metadata.variable_definitions._utils.variable_definition_files import
 from dapla_metadata.variable_definitions._utils.variable_definition_files import (
     create_template_yaml,
 )
-from dapla_metadata.variable_definitions.config import WORKSPACE_DIR
 from dapla_metadata.variable_definitions.exceptions import VardefFileError
 from tests.variable_definitions.conftest import VARIABLE_DEFINITION_DICT
 

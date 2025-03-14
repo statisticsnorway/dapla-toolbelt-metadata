@@ -7,6 +7,8 @@ import pytest
 
 from dapla_metadata._shared.config import DAPLA_GROUP_CONTEXT
 from dapla_metadata.variable_definitions._utils._client import VardefClient
+from dapla_metadata.variable_definitions._utils.config import WORKSPACE_DIR
+from dapla_metadata.variable_definitions._utils.config import get_descriptions_path
 from dapla_metadata.variable_definitions._utils.constants import (
     VARIABLE_DEFINITIONS_DIR,
 )
@@ -16,8 +18,6 @@ from dapla_metadata.variable_definitions._utils.variable_definition_files import
     create_template_yaml,
 )
 from dapla_metadata.variable_definitions.complete_patch_output import DEFAULT_TEMPLATE
-from dapla_metadata.variable_definitions.config import WORKSPACE_DIR
-from dapla_metadata.variable_definitions.config import get_descriptions_path
 from dapla_metadata.variable_definitions.generated import vardef_client
 from dapla_metadata.variable_definitions.generated.vardef_client.api_client import (
     ApiClient,
