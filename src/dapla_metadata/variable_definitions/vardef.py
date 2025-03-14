@@ -283,7 +283,7 @@ class Vardef:
         """Return True if the short name exists in Vardef, otherwise False."""
         variable_definitions = Vardef.list_variable_definitions()
         for variable in variable_definitions:
-            if short_name == variable.short_name:
+            if short_name.strip() == variable.short_name:
                 logger.info(
                     f"Found duplicate short name {short_name}",  # noqa: G004
                 )
