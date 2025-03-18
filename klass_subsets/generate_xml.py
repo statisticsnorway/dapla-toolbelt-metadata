@@ -1,7 +1,8 @@
 import xml.etree.ElementTree as ET
 
 
-def generate_xml(elements, filename):
+def generate_xml(elements: list[dict], filename: str) -> None:
+    """Generates the xml file for input to kalss."""
     # Define namespace
     ns = {
         "": "http://klass.ssb.no/version",
@@ -37,13 +38,11 @@ def generate_xml(elements, filename):
         ET.SubElement(element, "noter_nynorsk").text = ""
         ET.SubElement(element, "noter_engelsk").text = ""
 
-        # if elem["valid_until"] is not None:
-        #    ET.SubElement(element, "gyldig_til").text = elem["valid_until"]
-        # else:
-        ET.SubElement(element, "gyldig_til").text = ""
-        ET.SubElement(element, "gyldig_fra").text = ""
-
-        # ET.SubElement(element, "gyldig_fra").text = elem["valid_from"]
+        if elem["valid_until"] is not None:
+            ET.SubElement(element, "gyldig_til").text = elem["valid_until"]
+        else:
+            ET.SubElement(element, "gyldig_til").text = ""
+        ET.SubElement(element, "gyldig_fra").text = elem["valid_from"]
 
     # Write XML to file with proper indentation
     tree = ET.ElementTree(root)

@@ -1,7 +1,6 @@
 from pathlib import Path
 
 from migration_lists import add_suffix
-from migration_lists import raw_names
 from migration_lists import special_cases
 
 
@@ -37,4 +36,4 @@ def write_subset_id_to_file(name_list: list) -> None:
 
 
 # write to file
-write_subset_id_to_file(raw_names)
+# write_subset_id_to_file(raw_names)
