@@ -1,6 +1,5 @@
 from os import PathLike
 from pathlib import Path
-from typing import Literal
 from cloudpathlib import CloudPath
 from dapla_metadata.dapla.name_validator import NameStandardValidator
 
