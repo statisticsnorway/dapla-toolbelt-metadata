@@ -1,11 +1,7 @@
-
 from pathlib import Path
 from cloudpathlib import CloudPath
-from dapla_metadata.datasets.dapla_dataset_path_info import DaplaDatasetPathInfo
+from dapla_metadata.dapla.name_validator import NameStandardValidator
 
-def check_naming_standard(file_path: Path | CloudPath)-> bool:
+def check_naming_standard(file_path: Path | CloudPath):
     """Check a given path."""
-    dataset_path = DaplaDatasetPathInfo(file_path)
-    if dataset_path.path_complies_with_naming_standard():
-        return True
-    return False
+    return NameStandardValidator(file_path).validate()
