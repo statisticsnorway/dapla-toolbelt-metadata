@@ -7,17 +7,15 @@ from dapla_metadata.datasets.dapla_dataset_path_info import DaplaDatasetPathInfo
 
 
 def test_file_path_does_not_follow_naming_standard():
-    result = check_naming_standard(
+    assert  check_naming_standard(
         "tests/dataset/klargjorte_data/arbmark/resources/person_data_v1.parquet",
-    )
-    assert result == ["Missing valid from"]
+    ) == ["Missing valid from"]
 
 
 def test_file_path_follow_naming_standard():
-    result = check_naming_standard(
+    assert check_naming_standard(
         "buckets/dataset/klargjorte_data/arbmark/resources/person_data_p2021-12-31_p2021-12-31_v1.parquet",
-    )
-    assert result == "Your files comply to SSB naming standard"
+    ) == "Your files comply to SSB naming standard"
 
 
 def test_dapla_dataset_path():
