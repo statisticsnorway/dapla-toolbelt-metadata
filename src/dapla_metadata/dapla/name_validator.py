@@ -1,4 +1,5 @@
 import os
+
 from dapla_metadata.datasets.dapla_dataset_path_info import DaplaDatasetPathInfo
 
 
@@ -21,6 +22,4 @@ class NameStandardValidator:
 
         violations = [message for message, value in checks.items() if not value]
 
-        return (
-            violations if violations else "Your files comply to SSB naming standard"
-        )
+        return violations if violations else "Your files comply to SSB naming standard"

@@ -8,21 +8,21 @@ from dapla_metadata.datasets.dapla_dataset_path_info import DaplaDatasetPathInfo
 
 def test_file_path_does_not_follow_naming_standard():
     result = check_naming_standard(
-        "tests/dataset/klargjorte_data/arbmark/resources/person_data_v1.parquet"
+        "tests/dataset/klargjorte_data/arbmark/resources/person_data_v1.parquet",
     )
     assert result == ["Missing valid from"]
 
 
 def test_file_path_follow_naming_standard():
     result = check_naming_standard(
-        "buckets/dataset/klargjorte_data/arbmark/resources/person_data_p2021-12-31_p2021-12-31_v1.parquet"
+        "buckets/dataset/klargjorte_data/arbmark/resources/person_data_p2021-12-31_p2021-12-31_v1.parquet",
     )
     assert result == "Your files comply to SSB naming standard"
 
 
 def test_dapla_dataset_path():
     dataset_path = DaplaDatasetPathInfo(
-        "buckets/dataset/klargjorte_data/arbmark/resources/person_data_p2021-12-31_p2021-12-31_v1.parquet"
+        "buckets/dataset/klargjorte_data/arbmark/resources/person_data_p2021-12-31_p2021-12-31_v1.parquet",
     )
     assert dataset_path.bucket_name is None
     assert dataset_path.contains_data_from == datetime.date(2021, 12, 31)
@@ -31,7 +31,7 @@ def test_dapla_dataset_path():
 
 def test_dapla_dataset_path_not():
     dataset_path = DaplaDatasetPathInfo(
-        "tests/dataset/klargjorte_data/arbmark/resources/person_data_v1.parquet"
+        "tests/dataset/klargjorte_data/arbmark/resources/person_data_v1.parquet",
     )
     assert dataset_path.path_complies_with_naming_standard() is False
 
@@ -59,6 +59,7 @@ def test_invalid_directory(data: str):
 )
 def test_invalid_date(data: str):
     assert check_naming_standard(data) == ["Missing valid from"]
+
 
 @pytest.mark.parametrize(
     ("data"),
