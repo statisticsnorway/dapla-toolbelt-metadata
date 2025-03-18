@@ -105,8 +105,8 @@ def test_names_optional_dir(data: str):
 @pytest.mark.parametrize(
     ("data"),
     [
-        Path("ssb-dapla-example-data-produkt-prod/ledstill/temp/skjema_p2018_p2020_v1")
+        "ssb-dapla-example-data-produkt-prod/ledstill/temp/skjema_p2018_p2020_v1"
     ],
 )
 def test_names_temp_dir(data: str):
-    assert check_naming_standard(data) == ['Missing folder for data', 'Missing folder short name',]
+    assert check_naming_standard(data) == ['Missing folder for data', 'Missing folder short name']
