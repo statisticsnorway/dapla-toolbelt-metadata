@@ -1,5 +1,6 @@
 
 import datetime
+from pathlib import Path
 
 import pytest
 from dapla_metadata.dapla.standards import check_naming_standard
@@ -104,7 +105,7 @@ def test_names_optional_dir(data: str):
 @pytest.mark.parametrize(
     ("data"),
     [
-        "ssb-dapla-example-data-produkt-prod/ledstill/temp/skjema_p2018_p2020_v1"
+        Path("ssb-dapla-example-data-produkt-prod/ledstill/temp/skjema_p2018_p2020_v1")
     ],
 )
 def test_names_temp_dir(data: str):
