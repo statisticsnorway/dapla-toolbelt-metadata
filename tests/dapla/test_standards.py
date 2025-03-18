@@ -60,10 +60,6 @@ def test_invalid_directory(data: str):
 def test_invalid_date(data: str):
     assert check_naming_standard(data) == ["Missing valid from"]
 
-
-# "gs://ssb-staging-dapla-felles-data-delt/datadoc/utdata/person_data_p2021.parquet",
-
-
 @pytest.mark.parametrize(
     ("data"),
     [
