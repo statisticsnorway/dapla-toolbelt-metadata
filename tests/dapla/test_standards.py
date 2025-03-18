@@ -62,7 +62,7 @@ def test_valid_names(data: str):
 )
 def test_names_buckets(data: str):
     assert check_naming_standard(data) is True
- 
+
 @pytest.mark.parametrize(
     ("data"),
     [
@@ -71,3 +71,21 @@ def test_names_buckets(data: str):
 )
 def test_names_partioned(data: str):
     assert check_naming_standard(data) is True
+    
+@pytest.mark.parametrize(
+    ("data"),
+    [
+        "ssb-dapla-example-data-produkt-prod/ledstill/oppdrag/skjema_p2018_p2020_v1"
+    ],
+)
+def test_names_optional_dir(data: str):
+    assert check_naming_standard(data) is False
+    
+@pytest.mark.parametrize(
+    ("data"),
+    [
+        "ssb-dapla-example-data-produkt-prod/ledstill/temp/skjema_p2018_p2020_v1"
+    ],
+)
+def test_names_temp_dir(data: str):
+    assert check_naming_standard(data) is False
