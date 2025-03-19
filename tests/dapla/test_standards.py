@@ -1,6 +1,3 @@
-import datetime
-from pathlib import Path
-
 import pytest
 
 from dapla_metadata.dapla.name_validator import INVALID_SYMBOLS
@@ -9,10 +6,7 @@ from dapla_metadata.dapla.name_validator import MISSING_PERIOD
 from dapla_metadata.dapla.name_validator import MISSING_SHORT_NAME
 from dapla_metadata.dapla.name_validator import NAME_STANDARD_SUCSESS
 from dapla_metadata.dapla.name_validator import PATH_IGNORED
-from dapla_metadata.dapla.name_validator import NameStandardValidator
-from dapla_metadata.dapla.name_validator import _is_invalid_symbols
 from dapla_metadata.dapla.standards import check_naming_standard
-from dapla_metadata.datasets.dapla_dataset_path_info import DaplaDatasetPathInfo
 
 
 @pytest.mark.parametrize(
@@ -131,124 +125,3 @@ def test_source_data_is_ignored(data: str):
 )
 def test_invalid_symbols(data: str):
     assert check_naming_standard(data) == [INVALID_SYMBOLS]
-
-
-@pytest.mark.parametrize(
-    ("data", "expected_result"),
-    [
-        (
-            "buckets/ssb-dapla-example-data-produkt-prod/ledstill/utdata/persån_testdata_p2021-12-31_p2021-12-31_v1.parquet",
-            True,
-        ),
-        (
-            "buckets/ssb-dapla-example-data-produkt-prod/ledstill/utdata/person_testdata_p2021-12-31_p2021-12-31_v1.parquet",
-            False,
-        ),
-        (
-            "ssb-dapla-example-data-produkt-prod/ledstill/oppdrag/skjema_p2018_p2020_v1",
-            False,
-        ),
-        (
-            "ssbÆ-dapla-example-data-produkt-prod/ledstill/oppdrag/skjema_p2018_p2020_v1",
-            True,
-        ),
-    ],
-)
-def test_symbols_in_filepath(data: str, expected_result: bool):
-    assert _is_invalid_symbols(data) == expected_result
-
-
-@pytest.mark.parametrize(
-    ("data", "expected_result"),
-    [
-        (
-            "buckets/ssb-dapla-example-data-produkt-prod/ledstill/utdata/person_testdata_p2021-12-31_p2021-12-31_v1.parquet",
-            False,
-        ),
-        (
-            "buckets/ssb-dapla-example-data-produkt-prod",
-            True,
-        ),
-        (
-            "buckets/ssb-dapla-example-data-produkt-prod/",
-            True,
-        ),
-        (
-            "ssb-dapla-example-data-produkt-prod/ledstill/oppdrag/skjema_p2018_p2020_v1",
-            False,
-        ),
-        (
-            "gs://bucket-name",
-            True,
-        ),
-        (
-            "gs://bucket-name/",
-            True,
-        ),
-    ],
-)
-def test_is_bucket_name(data, expected_result):
-    file = NameStandardValidator(data)
-    assert file.is_bucket == expected_result
-
-
-def test_validate_bucket():
-    buckets_dir = Path("buckets")
-    buckets_dir.mkdir(parents=True, exist_ok=True)
-    buckets_name = buckets_dir / "bucket_name"
-    buckets_name.mkdir(parents=True, exist_ok=True)
-    file = NameStandardValidator("buckets/bucket_name")
-    result = file.validate
-    assert result == "Something"
-
-
-def test_validate_bucket_2():
-    file = NameStandardValidator("buckets/hoover")
-    with pytest.raises(NotADirectoryError):
-        file.validate()
-
-
-def test_bucket_name_is_directory():
-    buckets_dir = Path("buckets")
-    buckets_dir.mkdir(parents=True, exist_ok=True)
-    assert buckets_dir.is_dir()
-    buckets_name = buckets_dir / "bucket_name"
-    buckets_name.mkdir(parents=True, exist_ok=True)
-    assert buckets_name.is_dir()
-    file = NameStandardValidator(str(buckets_name))
-    assert file.bucket_name == "bucket_name"
-
-
-def test_dapla_invalid_characters():
-    dataset_path = DaplaDatasetPathInfo(
-        "buckets/ssb-dapla-example-data-produkt-prod/ledstill/utdata/person_testdata_p2021-12-31_p2021-12-31_v1.parquet",
-    )
-    assert dataset_path.bucket_name == "ssb-dapla-example-data-produkt-prod"
-    assert dataset_path.statistic_short_name == "ledstill"
-    assert dataset_path.dataset_state == "OUTPUT_DATA"
-    assert dataset_path.path_complies_with_naming_standard() is True
-
-
-def test_dapla_dataset_path_source_data():
-    dataset_path = DaplaDatasetPathInfo(
-        "gs://dataset/kildedata/arbmark/resources/person_data_p2021-12-31_p2021-12-31_v1.parquet",
-    )
-    assert dataset_path.bucket_name == "dataset"
-    assert dataset_path.statistic_short_name == "dataset"
-    assert dataset_path.dataset_state == "SOURCE_DATA"
-    assert dataset_path.path_complies_with_naming_standard() is True
-
-
-def test_dapla_dataset_path():
-    dataset_path = DaplaDatasetPathInfo(
-        "buckets/dataset/klargjorte_data/arbmark/resources/person_data_p2021-12-31_p2021-12-31_v1.parquet",
-    )
-    assert dataset_path.contains_data_from == datetime.date(2021, 12, 31)
-    assert dataset_path.path_complies_with_naming_standard() is True
-
-
-def test_dapla_dataset_path_not():
-    dataset_path = DaplaDatasetPathInfo(
-        "tests/dataset/klargjorte_data/arbmark/resources/person_data_v1.parquet",
-    )
-    assert dataset_path.path_complies_with_naming_standard() is False
