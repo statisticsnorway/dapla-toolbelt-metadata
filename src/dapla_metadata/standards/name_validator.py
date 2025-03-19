@@ -1,4 +1,3 @@
-import os
 import re
 
 from dapla_metadata.datasets.dapla_dataset_path_info import DaplaDatasetPathInfo
@@ -24,7 +23,7 @@ class NameStandardValidator:
     IGNORED_DATA_STATE_FOLDER = "SOURCE_DATA"
     IGNORED_FOLDER = "temp"
 
-    def __init__(self, file_path: str | os.PathLike[str]) -> None:
+    def __init__(self, file_path: str) -> None:
         """Initialize the validator with file path information."""
         self.file_path = file_path
         self.path_info = DaplaDatasetPathInfo(file_path)
