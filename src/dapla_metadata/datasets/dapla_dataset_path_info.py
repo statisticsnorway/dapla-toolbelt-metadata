@@ -478,7 +478,7 @@ class DaplaDatasetPathInfo:
         """Extract the bucket name from the dataset path.
 
         Returns:
-            The bucket name or None if the dataset path is not a GCS path.
+            The bucket name or None if the dataset path is not a GCS path nor ssb bucketeer path.
 
         Examples:
             >>> DaplaDatasetPathInfo('gs://ssb-staging-dapla-felles-data-delt/datadoc/utdata/person_data_p2021_v2.parquet').bucket_name
@@ -492,6 +492,9 @@ class DaplaDatasetPathInfo:
 
             >>> DaplaDatasetPathInfo('ssb-staging-dapla-felles-data-delt/datadoc/utdata/person_data_p2021_v2.parquet').bucket_name
             None
+
+            >>> DaplaDatasetPathInfo('buckets/ssb-staging-dapla-felles-data-delt/stat/utdata/person_data_p2021_v2.parquet').bucket_name
+            ssb-staging-dapla-felles-data-delt
         """
         prefix: str | None = None
         if self.dataset_string.startswith(GSPath.cloud_prefix):
