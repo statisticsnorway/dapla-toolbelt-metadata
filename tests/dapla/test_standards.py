@@ -1,4 +1,5 @@
 import datetime
+from pathlib import Path
 
 import pytest
 
@@ -189,6 +190,33 @@ def test_symbols_in_filepath(data: str, expected_result: bool):
 def test_is_bucket_name(data, expected_result):
     file = NameStandardValidator(data)
     assert file.is_bucket == expected_result
+
+
+def test_validate_bucket():
+    buckets_dir = Path("buckets")
+    buckets_dir.mkdir(parents=True, exist_ok=True)
+    buckets_name = buckets_dir / "bucket_name"
+    buckets_name.mkdir(parents=True, exist_ok=True)
+    file = NameStandardValidator("buckets/bucket_name")
+    result = file.validate
+    assert result == "Something"
+
+
+def test_validate_bucket_2():
+    file = NameStandardValidator("buckets/hoover")
+    with pytest.raises(NotADirectoryError):
+        file.validate()
+
+
+def test_bucket_name_is_directory():
+    buckets_dir = Path("buckets")
+    buckets_dir.mkdir(parents=True, exist_ok=True)
+    assert buckets_dir.is_dir()
+    buckets_name = buckets_dir / "bucket_name"
+    buckets_name.mkdir(parents=True, exist_ok=True)
+    assert buckets_name.is_dir()
+    file = NameStandardValidator(str(buckets_name))
+    assert file.bucket_name == "bucket_name"
 
 
 def test_dapla_invalid_characters():
