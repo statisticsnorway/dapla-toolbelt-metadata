@@ -15,12 +15,9 @@ from dapla_metadata.dapla.standards import check_naming_standard
         "gs://ssb-staging-dapla-felles-data-delt/datadoc/utdata/person_data_p2021_v2.parquet",
         "gs://ssb-staging-dapla-felles-data-delt/datadoc/utdata/person_data_p2021_p2022_v2.parquet",
         "gs://ssb-staging-dapla-felles-data-delt/datadoc/utdata/undermappe/person_data_p2021_v2.parquet",
-        "buckets/dataset/klargjorte_data/arbmark/resources/person_data_p2021-12-31_p2021-12-31_v1.parquet",
-        "buckets/inndata/person_testdata_p2021-12-31_p2021-12-31_v1.parquet",
-        "buckets/klargjorte-data/person_testdata_p2021-12-31_p2021-12-31_v1.parquet",
-        "buckets/utdata/person_testdata_p2021-12-31_p2021-12-31_v1.parquet",
-        "buckets/utdata/person_testdata_p2021-12-31_p2021-12-31_v1",
-        "buckets/utdata/dapla/person_testdata_p2021-12-31_p2021-12-31_v1",
+        "buckets/bucket_name/dataset/klargjorte_data/arbmark/resources/person_data_p2021-12-31_p2021-12-31_v1.parquet",
+        "stat/inndata/person_testdata_p2021-12-31_p2021-12-31_v1.parquet",
+        "bucket_name/stat/klargjorte-data/person_testdata_p2021-12-31_p2021-12-31_v1.parquet",
         "ssb-dapla-example-data-produkt-prod/ledstill/inndata/skjema_p2018_p2020_v1",
         "/buckets/produkt/datadoc/brukertest/1/sykefratot/klargjorte_data/person_testdata_p2021-12-31_p2021-12-31_v1.parquet",
         "buckets/produkt/datadoc/brukertest/1/sykefratot/klargjorte_data/person_testdata_p2021-12-31_p2021-12-31_v1.json",
@@ -59,10 +56,11 @@ def test_missing_required_data_state_folder(data: str):
         "gs://ssb-staging-dapla-felles-data-delt/inndata/person_data_p2022_v1.parquet",
         "gs://ssb-staging-dapla-felles-data-delt/klargjorte-data/person_data_p2021_v3.parquet",
         "buckets/produkt/utdata/person_testdata_p2021-12-31_p2021-12-31_v1.parquet",
+        "utdata/person_testdata_p2021-12-31_p2021-12-31_v1.parquet",
     ],
 )
 def test_missing_shortname_folder(data: str):
-    assert check_naming_standard(data) == NAME_STANDARD_SUCSESS
+    assert check_naming_standard(data) == [MISSING_SHORT_NAME]
 
 
 @pytest.mark.parametrize(
