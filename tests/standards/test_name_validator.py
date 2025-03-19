@@ -1,6 +1,6 @@
 import pytest
 
-from dapla_metadata.dapla.name_validator import _is_invalid_symbols
+from dapla_metadata.standards.name_validator import _is_invalid_symbols
 
 
 @pytest.mark.parametrize(

@@ -1,6 +1,6 @@
 import os
 
-from dapla_metadata.dapla.name_validator import NameStandardValidator
+from dapla_metadata.standards.name_validator import NameStandardValidator
 
 
 def check_naming_standard(file_path: str | os.PathLike[str]) -> str | list:

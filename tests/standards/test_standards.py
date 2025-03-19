@@ -1,12 +1,12 @@
 import pytest
 
-from dapla_metadata.dapla.name_validator import INVALID_SYMBOLS
-from dapla_metadata.dapla.name_validator import MISSING_DATA_STATE
-from dapla_metadata.dapla.name_validator import MISSING_PERIOD
-from dapla_metadata.dapla.name_validator import MISSING_SHORT_NAME
-from dapla_metadata.dapla.name_validator import NAME_STANDARD_SUCSESS
-from dapla_metadata.dapla.name_validator import PATH_IGNORED
-from dapla_metadata.dapla.standards import check_naming_standard
+from dapla_metadata.standards.name_validator import INVALID_SYMBOLS
+from dapla_metadata.standards.name_validator import MISSING_DATA_STATE
+from dapla_metadata.standards.name_validator import MISSING_PERIOD
+from dapla_metadata.standards.name_validator import MISSING_SHORT_NAME
+from dapla_metadata.standards.name_validator import NAME_STANDARD_SUCSESS
+from dapla_metadata.standards.name_validator import PATH_IGNORED
+from dapla_metadata.standards.standard_validators import check_naming_standard
 
 
 @pytest.mark.parametrize(
