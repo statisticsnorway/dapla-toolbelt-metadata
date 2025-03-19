@@ -1,5 +1,6 @@
 import os
 import re
+from pathlib import Path
 
 from dapla_metadata.datasets.dapla_dataset_path_info import DaplaDatasetPathInfo
 
@@ -18,6 +19,24 @@ def _is_invalid_symbols(s: str) -> bool:
     return bool(re.search(INVALID_PATTERN, s))
 
 
+def _is_bucket(file_path: str):
+    """Check if the path is just a bucket name.
+
+    Returns:
+        True if the path bucket name, False otherwise.
+    """
+    file_path = file_path.rstrip("/")
+    if file_path.startswith("gs://"):
+        path_parts = Path(file_path.removeprefix("gs://")).parts
+        return len(path_parts) == 1
+
+    if file_path.startswith("buckets/"):
+        path_parts = file_path.split("/")
+        return len(path_parts) == 2
+
+    return False
+
+
 class NameStandardValidator:
     """Validator for ensuring file names adhere to naming standards."""
 
@@ -28,6 +47,7 @@ class NameStandardValidator:
         """Initialize the validator with file path information."""
         self.file_path = file_path
         self.path_info = DaplaDatasetPathInfo(file_path)
+        self.is_bucket = _is_bucket(self.file_path)
 
     @property
     def validate(self) -> str | list:

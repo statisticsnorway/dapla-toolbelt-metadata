@@ -498,6 +498,8 @@ class DaplaDatasetPathInfo:
             prefix = GSPath.cloud_prefix
         elif self.dataset_string.startswith(GS_PREFIX_FROM_PATHLIB):
             prefix = GS_PREFIX_FROM_PATHLIB
+        elif self.dataset_string.startswith("buckets"):
+            prefix = "buckets/"
         else:
             return None
 
