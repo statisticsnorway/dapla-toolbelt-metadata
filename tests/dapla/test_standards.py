@@ -2,6 +2,9 @@ import datetime
 
 import pytest
 
+from dapla_metadata.dapla.name_validator import MISSING_PERIOD
+from dapla_metadata.dapla.name_validator import MISSING_SHORT_NAME
+from dapla_metadata.dapla.name_validator import NAME_STANDARD_SUCSESS
 from dapla_metadata.dapla.standards import check_naming_standard
 from dapla_metadata.datasets.dapla_dataset_path_info import DaplaDatasetPathInfo
 
@@ -9,7 +12,7 @@ from dapla_metadata.datasets.dapla_dataset_path_info import DaplaDatasetPathInfo
 def test_file_path_does_not_follow_naming_standard():
     assert check_naming_standard(
         "tests/dataset/klargjorte_data/arbmark/resources/person_data_v1.parquet",
-    ) == ["Missing valid from"]
+    ) == [MISSING_PERIOD]
 
 
 def test_file_path_follow_naming_standard():
@@ -17,7 +20,7 @@ def test_file_path_follow_naming_standard():
         check_naming_standard(
             "buckets/dataset/klargjorte_data/arbmark/resources/person_data_p2021-12-31_p2021-12-31_v1.parquet",
         )
-        == "Your files comply to SSB naming standard"
+        == NAME_STANDARD_SUCSESS
     )
 
 
@@ -48,7 +51,7 @@ def test_dapla_dataset_path_not():
 def test_invalid_directory(data: str):
     assert check_naming_standard(data) == [
         "Missing folder for data",
-        "Missing folder short name",
+        MISSING_SHORT_NAME,
     ]
 
 
@@ -59,7 +62,7 @@ def test_invalid_directory(data: str):
     ],
 )
 def test_invalid_date(data: str):
-    assert check_naming_standard(data) == ["Missing valid from"]
+    assert check_naming_standard(data) == [MISSING_PERIOD]
 
 
 @pytest.mark.parametrize(
@@ -71,8 +74,8 @@ def test_invalid_date(data: str):
 def test_invalid_date_and_dir(data: str):
     assert check_naming_standard(data) == [
         "Missing folder for data",
-        "Missing folder short name",
-        "Missing valid from",
+        MISSING_SHORT_NAME,
+        MISSING_PERIOD,
     ]
 
 
@@ -85,7 +88,7 @@ def test_invalid_date_and_dir(data: str):
     ],
 )
 def test_valid_names(data: str):
-    assert check_naming_standard(data) == "Your files comply to SSB naming standard"
+    assert check_naming_standard(data) == NAME_STANDARD_SUCSESS
 
 
 @pytest.mark.parametrize(
@@ -97,7 +100,7 @@ def test_valid_names(data: str):
     ],
 )
 def test_names_buckets(data: str):
-    assert check_naming_standard(data) == "Your files comply to SSB naming standard"
+    assert check_naming_standard(data) == NAME_STANDARD_SUCSESS
 
 
 @pytest.mark.parametrize(
@@ -107,7 +110,7 @@ def test_names_buckets(data: str):
     ],
 )
 def test_names_partioned(data: str):
-    assert check_naming_standard(data) == "Your files comply to SSB naming standard"
+    assert check_naming_standard(data) == NAME_STANDARD_SUCSESS
 
 
 @pytest.mark.parametrize(
@@ -119,7 +122,7 @@ def test_names_partioned(data: str):
 def test_names_optional_dir(data: str):
     assert check_naming_standard(data) == [
         "Missing folder for data",
-        "Missing folder short name",
+        MISSING_SHORT_NAME,
     ]
 
 
@@ -132,5 +135,5 @@ def test_names_optional_dir(data: str):
 def test_names_temp_dir(data: str):
     assert check_naming_standard(data) == [
         "Missing folder for data",
-        "Missing folder short name",
+        MISSING_SHORT_NAME,
     ]
