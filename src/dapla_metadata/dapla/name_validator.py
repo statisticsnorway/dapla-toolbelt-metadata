@@ -8,12 +8,14 @@ MISSING_PERIOD = "Filnavn mangler gyldighetsperiode ref: https://manual.dapla.ss
 MISSING_SHORT_NAME = "Kortnavn for statistikk mangler"
 MISSING_DATA_STATE = "Mappe for datatilstand mangler ref: https://manual.dapla.ssb.no/statistikkere/navnestandard.html#obligatoriske-mapper"
 NAME_STANDARD_SUCSESS = "Filene dine er i samsvar med SSB-navnestandarden"
+INVALID_SYMBOLS = "Filnavn inneholder ulovlige tegn ref:"
 PATH_IGNORED = "Mappen er ikke underlagt krav til navnestandard"
-VALID_PATTERN = r"^[a-zA-Z0-9_-]+$"
+INVALID_PATTERN = r"[^a-zA-Z0-9\./:_-]"
 
 
-def _is_valid_symbols(s: str) -> bool:
-    return bool(re.match(VALID_PATTERN, s))
+def _is_invalid_symbols(s: str) -> bool:
+    s = s.strip()
+    return bool(re.search(INVALID_PATTERN, s))
 
 
 class NameStandardValidator:
@@ -50,6 +52,6 @@ class NameStandardValidator:
             or self.IGNORED_FOLDER in self.file_path
         ):
             return PATH_IGNORED
-        if not _is_valid_symbols(self.file_path):
-            return ""
+        if _is_invalid_symbols(self.file_path):
+            violations.append(INVALID_SYMBOLS)
         return violations if violations else NAME_STANDARD_SUCSESS
