@@ -2,6 +2,7 @@ import pytest
 
 from dapla_metadata.standards.name_validator import INVALID_SYMBOLS
 from dapla_metadata.standards.name_validator import MISSING_DATA_STATE
+from dapla_metadata.standards.name_validator import MISSING_DATASET_SHORT_NAME
 from dapla_metadata.standards.name_validator import MISSING_PERIOD
 from dapla_metadata.standards.name_validator import MISSING_SHORT_NAME
 from dapla_metadata.standards.name_validator import NAME_STANDARD_SUCSESS
@@ -113,3 +114,43 @@ def test_source_data_is_ignored(data: str):
 )
 def test_invalid_symbols(data: str):
     assert check_naming_standard(data) == [INVALID_SYMBOLS]
+
+
+@pytest.mark.parametrize(
+    ("data"),
+    [
+        "gs://ssb-staging-dapla-felles-data-delt/datadoc/utdata/p2021_v2.parquet",
+        "buckets/produkt/datadoc/brukertest/1/sykefratot/klargjorte_data/_p2021-12-31_p2021-12-31_v1.json",
+    ],
+)
+def test_missing_dataset_shortname(data: str):
+    assert check_naming_standard(data) == [MISSING_DATASET_SHORT_NAME]
+
+
+@pytest.mark.parametrize(
+    ("data", "violations"),
+    [
+        (
+            "gs://ssb-dapla-example-data-produkt-prod/inndata/skjema_v1.parquet",
+            [MISSING_SHORT_NAME, MISSING_PERIOD],
+        ),
+        (
+            "klargjorte_data/_p2021-12-31_p2021-12-31_v1.parquet",
+            [MISSING_SHORT_NAME, MISSING_DATASET_SHORT_NAME],
+        ),
+        (
+            "/klargjorte_data/_p2021-12-31_p2021-12-31_v1.parquet",
+            [MISSING_SHORT_NAME, MISSING_DATASET_SHORT_NAME],
+        ),
+        (
+            "person_data_p2021-12-31_p2021-12-31_v1.parquet",
+            [MISSING_DATA_STATE, MISSING_SHORT_NAME],
+        ),
+        (
+            "buckets/datadoc/brukertest/1/sykefratot/person_testdata_p2021-12-31_p2021-12-31_v1.json",
+            [MISSING_DATA_STATE, MISSING_SHORT_NAME],
+        ),
+    ],
+)
+def test_missing_multiple(data: str, violations: list):
+    assert check_naming_standard(data) == violations
