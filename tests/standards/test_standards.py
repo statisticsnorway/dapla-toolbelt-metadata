@@ -47,8 +47,8 @@ def test_missing_date_period(data: str):
         "buckets/produkt/test-2/person_testdata_p2021-12-31_p2021-12-31_v1.parquet",
     ],
 )
-def test_missing_required_data_state_folder(data: str):
-    assert check_naming_standard(data) == [MISSING_DATA_STATE, MISSING_SHORT_NAME]
+def test_missing_required_data_state(data: str):
+    assert check_naming_standard(data) == MISSING_DATA_STATE
 
 
 @pytest.mark.parametrize(
@@ -62,20 +62,6 @@ def test_missing_required_data_state_folder(data: str):
 )
 def test_missing_shortname_folder(data: str):
     assert check_naming_standard(data) == [MISSING_SHORT_NAME]
-
-
-@pytest.mark.parametrize(
-    ("data"),
-    [
-        "gs://ssb-staging-dapla-felles-data-delt/datadoc/person_data_v1.parquet",
-    ],
-)
-def test_invalid_date_and_dir(data: str):
-    assert check_naming_standard(data) == [
-        MISSING_DATA_STATE,
-        MISSING_SHORT_NAME,
-        MISSING_PERIOD,
-    ]
 
 
 @pytest.mark.parametrize(
@@ -141,14 +127,6 @@ def test_missing_dataset_shortname(data: str):
         (
             "/klargjorte_data/_p2021-12-31_p2021-12-31_v1.parquet",
             [MISSING_SHORT_NAME, MISSING_DATASET_SHORT_NAME],
-        ),
-        (
-            "person_data_p2021-12-31_p2021-12-31_v1.parquet",
-            [MISSING_DATA_STATE, MISSING_SHORT_NAME],
-        ),
-        (
-            "buckets/datadoc/brukertest/1/sykefratot/person_testdata_p2021-12-31_p2021-12-31_v1.json",
-            [MISSING_DATA_STATE, MISSING_SHORT_NAME],
         ),
     ],
 )

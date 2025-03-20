@@ -64,6 +64,8 @@ class NameStandardValidator:
         for i in self.IGNORED_FOLDERS:
             if i in self.file_path.lower():
                 return PATH_IGNORED
+        if not dataset_state:
+            return MISSING_DATA_STATE
         if _is_invalid_symbols(self.file_path):
             violations.append(INVALID_SYMBOLS)
         return violations if violations else NAME_STANDARD_SUCSESS
