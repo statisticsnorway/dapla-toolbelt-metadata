@@ -1,6 +1,5 @@
 import re
 from pathlib import Path
-from typing import ClassVar
 
 from cloudpathlib import CloudPath
 
@@ -14,32 +13,32 @@ MISSING_DATASET_SHORT_NAME = "Filnavn mangler beskrivelse."
 NAME_STANDARD_SUCSESS = "Filene dine er i samsvar med SSB-navnestandarden"
 INVALID_SYMBOLS = "Filnavn inneholder ulovlige tegn ref:"
 PATH_IGNORED = "Mappen er ikke underlagt krav til navnestandard"
-INVALID_PATTERN = r"[^a-zA-Z0-9\./:_-]"
-
-
-def _is_invalid_symbols(s: str) -> bool:
-    s = s.strip()
-    return bool(re.search(INVALID_PATTERN, s))
+IGNORED_FOLDERS = [
+    "temp",
+    "oppdrag",
+    "konfigurasjon",
+    "logg",
+    "tidsserier",
+    "migrert",
+]
 
 
 class NameStandardValidator:
     """Validator for ensuring file names adhere to naming standards."""
 
-    IGNORED_DATA_STATE_FOLDER = "SOURCE_DATA"
+    INVALID_PATTERN = r"[^a-zA-Z0-9\./:_-]"
 
-    IGNORED_FOLDERS: ClassVar[list[str]] = [
-        "temp",
-        "oppdrag",
-        "konfigurasjon",
-        "logg",
-        "tidsserier",
-        "migrert",
-    ]
+    IGNORED_DATA_STATE_FOLDER = "SOURCE_DATA"
 
     def __init__(self, file_path: Path | CloudPath) -> None:
         """Initialize the validator with file path information."""
         self.file_path = str(file_path)
         self.path_info = DaplaDatasetPathInfo(file_path)
+
+    @staticmethod
+    def is_invalid_symbols(s: str) -> bool:
+        """Return True if string contains illegal symbols."""
+        return bool(re.search(NameStandardValidator.INVALID_PATTERN, s.strip()))
 
     @property
     def validate(self) -> str | list:
@@ -61,11 +60,11 @@ class NameStandardValidator:
         violations = [message for message, value in checks.items() if not value]
         if dataset_state == self.IGNORED_DATA_STATE_FOLDER:
             return PATH_IGNORED
-        for i in self.IGNORED_FOLDERS:
+        for i in IGNORED_FOLDERS:
             if i in self.file_path.lower():
                 return PATH_IGNORED
         if not dataset_state:
             return MISSING_DATA_STATE
-        if _is_invalid_symbols(self.file_path):
+        if self.is_invalid_symbols(self.file_path):
             violations.append(INVALID_SYMBOLS)
         return violations if violations else NAME_STANDARD_SUCSESS

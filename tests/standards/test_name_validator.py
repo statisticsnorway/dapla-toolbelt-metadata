@@ -1,6 +1,6 @@
 import pytest
 
-from dapla_metadata.standards.name_validator import _is_invalid_symbols
+from dapla_metadata.standards.name_validator import NameStandardValidator
 
 
 @pytest.mark.parametrize(
@@ -25,4 +25,4 @@ from dapla_metadata.standards.name_validator import _is_invalid_symbols
     ],
 )
 def test_symbols_in_filepath(data: str, expected_result: bool):
-    assert _is_invalid_symbols(data) == expected_result
+    assert NameStandardValidator.is_invalid_symbols(data) == expected_result
