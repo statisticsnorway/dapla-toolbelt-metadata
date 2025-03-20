@@ -19,4 +19,5 @@ spec:
     - component:ssb-datadoc-model
   consumesApis:
     - klass-api
+    - vardef-internal-api
   system: metadata
