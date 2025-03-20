@@ -10,6 +10,7 @@ MISSING_VERSION = "Filnavn mangler versjonsnummer ref: https://manual.dapla.ssb.
 MISSING_PERIOD = "Filnavn mangler gyldighetsperiode ref: https://manual.dapla.ssb.no/statistikkere/navnestandard.html#filnavn"
 MISSING_SHORT_NAME = "Kortnavn for statistikk mangler"
 MISSING_DATA_STATE = "Mappe for datatilstand mangler ref: https://manual.dapla.ssb.no/statistikkere/navnestandard.html#obligatoriske-mapper"
+MISSING_DATASET_SHORT_NAME = "Filnavn mangler beskrivelse."
 NAME_STANDARD_SUCSESS = "Filene dine er i samsvar med SSB-navnestandarden"
 INVALID_SYMBOLS = "Filnavn inneholder ulovlige tegn ref:"
 PATH_IGNORED = "Mappen er ikke underlagt krav til navnestandard"
@@ -54,6 +55,7 @@ class NameStandardValidator:
             MISSING_DATA_STATE: dataset_state,
             MISSING_SHORT_NAME: self.path_info.statistic_short_name,
             MISSING_PERIOD: self.path_info.contains_data_from,
+            MISSING_DATASET_SHORT_NAME: self.path_info.dataset_short_name,
         }
 
         violations = [message for message, value in checks.items() if not value]
