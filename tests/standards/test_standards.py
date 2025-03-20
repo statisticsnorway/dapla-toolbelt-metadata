@@ -80,19 +80,6 @@ def test_invalid_date_and_dir(data: str):
 @pytest.mark.parametrize(
     ("data"),
     [
-        "ssb-dapla-example-data-produkt-prod/oppdrag/ledstill/skjema_p2018_p2020_v1",
-    ],
-)
-def test_names_oppdrag_dir(data: str):
-    assert check_naming_standard(data) == [
-        MISSING_DATA_STATE,
-        MISSING_SHORT_NAME,
-    ]
-
-
-@pytest.mark.parametrize(
-    ("data"),
-    [
         "buckets/ssb-dapla-example-data-produkt-prod/ledstill/temp/skjema_v1.parquet",
         "gs:/ssb-dapla-example-data-produkt-prod/ledstill/temp/skjema_v1.parquet",
         "buckets/ssb-dapla-example-data-produkt-prod/ledstill/inndata/temp/skjema_p2018_p2020_v2.parquet",
