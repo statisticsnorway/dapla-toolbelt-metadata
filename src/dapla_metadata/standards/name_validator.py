@@ -1,5 +1,8 @@
 import re
+from pathlib import Path
 from typing import ClassVar
+
+from cloudpathlib import CloudPath
 
 from dapla_metadata.datasets.dapla_dataset_path_info import DaplaDatasetPathInfo
 
@@ -32,9 +35,9 @@ class NameStandardValidator:
         "migrert",
     ]
 
-    def __init__(self, file_path: str) -> None:
+    def __init__(self, file_path: Path | CloudPath) -> None:
         """Initialize the validator with file path information."""
-        self.file_path = file_path
+        self.file_path = str(file_path)
         self.path_info = DaplaDatasetPathInfo(file_path)
 
     @property
