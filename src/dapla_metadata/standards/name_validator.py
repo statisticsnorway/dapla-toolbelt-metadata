@@ -1,4 +1,5 @@
 import re
+from typing import ClassVar
 
 from dapla_metadata.datasets.dapla_dataset_path_info import DaplaDatasetPathInfo
 
@@ -21,7 +22,15 @@ class NameStandardValidator:
     """Validator for ensuring file names adhere to naming standards."""
 
     IGNORED_DATA_STATE_FOLDER = "SOURCE_DATA"
-    IGNORED_FOLDER = "temp"
+
+    IGNORED_FOLDERS: ClassVar[list[str]] = [
+        "temp",
+        "oppdrag",
+        "konfigurasjon",
+        "logg",
+        "tidsserier",
+        "migrert",
+    ]
 
     def __init__(self, file_path: str) -> None:
         """Initialize the validator with file path information."""
@@ -42,15 +51,14 @@ class NameStandardValidator:
             MISSING_DATA_STATE: dataset_state,
             MISSING_SHORT_NAME: self.path_info.statistic_short_name,
             MISSING_PERIOD: self.path_info.contains_data_from,
-            MISSING_VERSION: self.path_info.dataset_version,
         }
 
         violations = [message for message, value in checks.items() if not value]
-        if (
-            dataset_state == self.IGNORED_DATA_STATE_FOLDER
-            or self.IGNORED_FOLDER in self.file_path
-        ):
+        if dataset_state == self.IGNORED_DATA_STATE_FOLDER:
             return PATH_IGNORED
+        for i in self.IGNORED_FOLDERS:
+            if i in self.file_path.lower():
+                return PATH_IGNORED
         if _is_invalid_symbols(self.file_path):
             violations.append(INVALID_SYMBOLS)
         return violations if violations else NAME_STANDARD_SUCSESS

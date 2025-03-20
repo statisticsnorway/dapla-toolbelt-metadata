@@ -94,11 +94,14 @@ def test_names_oppdrag_dir(data: str):
     ("data"),
     [
         "buckets/ssb-dapla-example-data-produkt-prod/ledstill/temp/skjema_v1.parquet",
+        "gs:/ssb-dapla-example-data-produkt-prod/ledstill/temp/skjema_v1.parquet",
         "buckets/ssb-dapla-example-data-produkt-prod/ledstill/inndata/temp/skjema_p2018_p2020_v2.parquet",
         "gs://ssb-dapla-example-data-produkt-prod/temp/ledstill/inndata/temp/skjema_p2018_p2020",
+        "gs://ssb-dapla-example-data-produkt-prod/konfigurasjon/ledstill/inndata/skjema_p2018_p2020",
+        "gs://ssb-dapla-example-data-produkt-prod/Konfigurasjon/ledstill/inndata/skjema_p2018_p2020",
     ],
 )
-def test_temp_dir(data: str):
+def test_inored_paths(data: str):
     assert check_naming_standard(data) == PATH_IGNORED
 
 
