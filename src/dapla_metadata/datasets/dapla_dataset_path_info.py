@@ -707,21 +707,28 @@ class DaplaDatasetPathInfo:
         )
         bucket_prefix = {"gs:", "buckets"}
         dataset_path_parts = list(self.dataset_path.parts)
-        for i in dataset_state_names:
-            if i in dataset_path_parts and dataset_path_parts.index(i) != 0:
-                index = dataset_path_parts.index(i)
+
+        for state in dataset_state_names:
+            if state in dataset_path_parts:
+                index = dataset_path_parts.index(state)
+                if index == 0:
+                    continue  # Skip if state is the first element
+
                 left_parts = dataset_path_parts[:index]
-                # when there is bucket prefix there is a bucketname
-                if len(left_parts) == 1 and left_parts[0] == "/":
-                    left_parts.pop(0)
-                if len(left_parts) != 0:
-                    if left_parts[0] in bucket_prefix and len(left_parts) <= 2:
-                        return None
-                    if left_parts[0] not in bucket_prefix and len(left_parts) == 1:
-                        return dataset_path_parts[dataset_path_parts.index(i) - 1]
-                elif len(left_parts) == 0:
+
+                # Handle cases where the path starts with "/"
+                if left_parts == ["/"]:
+                    left_parts = []
+
+                if not left_parts or (
+                    left_parts[0] in bucket_prefix and len(left_parts) <= 2
+                ):
                     return None
-                return dataset_path_parts[dataset_path_parts.index(i) - 1]
+
+                if left_parts[0] not in bucket_prefix and len(left_parts) == 1:
+                    return left_parts[0]
+
+                return dataset_path_parts[index - 1]
 
         return None
 
