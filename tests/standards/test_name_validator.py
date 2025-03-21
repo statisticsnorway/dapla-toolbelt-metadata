@@ -1,5 +1,6 @@
 import pytest
 
+from dapla_metadata.standards.name_validator import NAME_STANDARD_SUCSESS
 from dapla_metadata.standards.name_validator import NameStandardValidator
 
 
@@ -26,3 +27,13 @@ from dapla_metadata.standards.name_validator import NameStandardValidator
 )
 def test_symbols_in_filepath(data: str, expected_result: bool):
     assert NameStandardValidator.is_invalid_symbols(data) == expected_result
+
+
+def test_validate_directory():
+    """Test recursive directory validation."""
+    validator = NameStandardValidator(
+        file_path=None,
+        bucket_name="tests/standards/buckets/ssb-staging",
+    )
+    results = validator.validate_bucket()
+    assert results[0][1] == NAME_STANDARD_SUCSESS

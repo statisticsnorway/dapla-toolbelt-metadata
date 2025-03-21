@@ -25,7 +25,7 @@ from dapla_metadata.standards.standard_validators import check_naming_standard
     ],
 )
 def test_valid_names(data: str):
-    assert check_naming_standard(data) == NAME_STANDARD_SUCSESS
+    assert check_naming_standard(file_path=data) == NAME_STANDARD_SUCSESS
 
 
 @pytest.mark.parametrize(
@@ -36,7 +36,7 @@ def test_valid_names(data: str):
     ],
 )
 def test_missing_date_period(data: str):
-    assert check_naming_standard(data) == [MISSING_PERIOD]
+    assert check_naming_standard(file_path=data) == [MISSING_PERIOD]
 
 
 @pytest.mark.parametrize(
@@ -48,7 +48,7 @@ def test_missing_date_period(data: str):
     ],
 )
 def test_missing_required_data_state(data: str):
-    assert check_naming_standard(data) == MISSING_DATA_STATE
+    assert check_naming_standard(file_path=data) == MISSING_DATA_STATE
 
 
 @pytest.mark.parametrize(
@@ -61,7 +61,7 @@ def test_missing_required_data_state(data: str):
     ],
 )
 def test_missing_shortname_folder(data: str):
-    assert check_naming_standard(data) == [MISSING_SHORT_NAME]
+    assert check_naming_standard(file_path=data) == [MISSING_SHORT_NAME]
 
 
 @pytest.mark.parametrize(
@@ -76,7 +76,7 @@ def test_missing_shortname_folder(data: str):
     ],
 )
 def test_inored_paths(data: str):
-    assert check_naming_standard(data) == PATH_IGNORED
+    assert check_naming_standard(file_path=data) == PATH_IGNORED
 
 
 @pytest.mark.parametrize(
@@ -88,7 +88,7 @@ def test_inored_paths(data: str):
     ],
 )
 def test_source_data_is_ignored(data: str):
-    assert check_naming_standard(data) == PATH_IGNORED
+    assert check_naming_standard(file_path=data) == PATH_IGNORED
 
 
 @pytest.mark.parametrize(
@@ -99,7 +99,7 @@ def test_source_data_is_ignored(data: str):
     ],
 )
 def test_invalid_symbols(data: str):
-    assert check_naming_standard(data) == [INVALID_SYMBOLS]
+    assert check_naming_standard(file_path=data) == [INVALID_SYMBOLS]
 
 
 @pytest.mark.parametrize(
@@ -110,7 +110,7 @@ def test_invalid_symbols(data: str):
     ],
 )
 def test_missing_dataset_shortname(data: str):
-    assert check_naming_standard(data) == [MISSING_DATASET_SHORT_NAME]
+    assert check_naming_standard(file_path=data) == [MISSING_DATASET_SHORT_NAME]
 
 
 @pytest.mark.parametrize(
@@ -131,4 +131,4 @@ def test_missing_dataset_shortname(data: str):
     ],
 )
 def test_missing_multiple(data: str, violations: list):
-    assert check_naming_standard(data) == violations
+    assert check_naming_standard(file_path=data) == violations

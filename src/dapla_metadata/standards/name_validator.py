@@ -1,3 +1,4 @@
+import os
 import re
 from pathlib import Path
 
@@ -30,10 +31,24 @@ class NameStandardValidator:
 
     IGNORED_DATA_STATE_FOLDER = "SOURCE_DATA"
 
-    def __init__(self, file_path: Path | CloudPath) -> None:
+    ROOT_DIR = Path("buckets")
+
+    def __init__(
+        self,
+        file_path: Path | CloudPath | None,
+        bucket_name: Path | str | None,
+    ) -> None:
         """Initialize the validator with file path information."""
-        self.file_path = str(file_path)
-        self.path_info = DaplaDatasetPathInfo(file_path)
+        self.file_path = str(file_path) if file_path else None
+        self.bucket_name = bucket_name if bucket_name else None
+        self.base_path = Path("/buckets")
+        self.path_info = DaplaDatasetPathInfo(file_path) if self.file_path else None
+
+        if self.bucket_name:
+            # Assuming the root directory is `/buckets`
+            self.bucket_directory = Path.cwd() / self.bucket_name
+        else:
+            self.bucket_directory = None
 
     @staticmethod
     def is_invalid_symbols(s: str) -> bool:
@@ -49,22 +64,48 @@ class NameStandardValidator:
             - A success message if no violations are found.
             - A message if the file path is in an ignored folder.
         """
-        dataset_state = self.path_info.dataset_state
-        checks = {
-            MISSING_DATA_STATE: dataset_state,
-            MISSING_SHORT_NAME: self.path_info.statistic_short_name,
-            MISSING_PERIOD: self.path_info.contains_data_from,
-            MISSING_DATASET_SHORT_NAME: self.path_info.dataset_short_name,
-        }
+        if self.path_info:
+            dataset_state = self.path_info.dataset_state
+            checks = {
+                MISSING_DATA_STATE: dataset_state,
+                MISSING_SHORT_NAME: self.path_info.statistic_short_name,
+                MISSING_PERIOD: self.path_info.contains_data_from,
+                MISSING_DATASET_SHORT_NAME: self.path_info.dataset_short_name,
+            }
 
-        violations = [message for message, value in checks.items() if not value]
-        if dataset_state == self.IGNORED_DATA_STATE_FOLDER:
-            return PATH_IGNORED
-        for i in IGNORED_FOLDERS:
-            if i in self.file_path.lower():
+            violations = [message for message, value in checks.items() if not value]
+            if dataset_state == self.IGNORED_DATA_STATE_FOLDER:
                 return PATH_IGNORED
-        if not dataset_state:
-            return MISSING_DATA_STATE
-        if self.is_invalid_symbols(self.file_path):
-            violations.append(INVALID_SYMBOLS)
-        return violations if violations else NAME_STANDARD_SUCSESS
+            for i in IGNORED_FOLDERS:
+                if i in self.file_path.lower():
+                    return PATH_IGNORED
+            if not dataset_state:
+                return MISSING_DATA_STATE
+            if self.is_invalid_symbols(self.file_path):
+                violations.append(INVALID_SYMBOLS)
+            return violations if violations else NAME_STANDARD_SUCSESS
+        return None
+
+    def validate_bucket(self) -> list | str:
+        """Recursively validate all files in a directory."""
+        bucket_directory = Path(self.bucket_name)
+        # Ensure the directory exists before processing
+        if not self.bucket_directory.is_dir() or not self.bucket_directory.exists():
+            return f"Invalid directory: {bucket_directory}"
+        result_list = []
+        for entry in os.scandir(self.bucket_directory):
+            if entry.is_file():
+                file_path = entry.path
+                validator = NameStandardValidator(
+                    file_path=file_path,
+                    bucket_name=self.bucket_name,
+                )
+                result = validator.validate
+                result_list.append((file_path, result))
+            elif entry.is_dir():
+                sub_validator = NameStandardValidator(
+                    file_path=None,
+                    bucket_name=entry.path,
+                )
+                result_list.extend(sub_validator.validate_bucket())
+        return result_list

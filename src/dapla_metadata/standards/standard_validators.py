@@ -5,7 +5,15 @@ from cloudpathlib import CloudPath
 from dapla_metadata.standards.name_validator import NameStandardValidator
 
 
-def check_naming_standard(file_path: Path | CloudPath) -> str | list:
+def check_naming_standard(
+    file_path: Path | CloudPath | None,
+    bucket_name: str | None = None,
+) -> str | list:
     """Check a given path following ssb name standard."""
-    naming_validator = NameStandardValidator(file_path)
+    naming_validator = NameStandardValidator(
+        file_path=file_path,
+        bucket_name=bucket_name,
+    )
+    if not file_path:
+        return naming_validator.validate_bucket()
     return naming_validator.validate
