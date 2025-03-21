@@ -16,4 +16,4 @@ def check_naming_standard(
     )
     if not file_path:
         return naming_validator.validate_bucket()
-    return naming_validator.validate
+    return naming_validator.validate()
