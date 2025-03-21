@@ -31,21 +31,17 @@ class NameStandardValidator:
 
     IGNORED_DATA_STATE_FOLDER = "SOURCE_DATA"
 
-    ROOT_DIR = Path("buckets")
-
     def __init__(
         self,
         file_path: Path | CloudPath | None,
         bucket_name: Path | str | None,
     ) -> None:
         """Initialize the validator with file path information."""
-        self.file_path = str(file_path) if file_path else None
+        self.file_path = file_path if file_path else None
         self.bucket_name = bucket_name if bucket_name else None
-        self.base_path = Path("/buckets")
         self.path_info = DaplaDatasetPathInfo(file_path) if self.file_path else None
 
         if self.bucket_name:
-            # Assuming the root directory is `/buckets`
             self.bucket_directory = Path.cwd() / self.bucket_name
         else:
             self.bucket_directory = None
@@ -55,7 +51,6 @@ class NameStandardValidator:
         """Return True if string contains illegal symbols."""
         return bool(re.search(NameStandardValidator.INVALID_PATTERN, s.strip()))
 
-    @property
     def validate(self) -> str | list:
         """Check for naming standard violations.
 
@@ -88,10 +83,6 @@ class NameStandardValidator:
 
     def validate_bucket(self) -> list | str:
         """Recursively validate all files in a directory."""
-        bucket_directory = Path(self.bucket_name)
-        # Ensure the directory exists before processing
-        if not self.bucket_directory.is_dir() or not self.bucket_directory.exists():
-            return f"Invalid directory: {bucket_directory}"
         result_list = []
         for entry in os.scandir(self.bucket_directory):
             if entry.is_file():
@@ -100,7 +91,7 @@ class NameStandardValidator:
                     file_path=file_path,
                     bucket_name=self.bucket_name,
                 )
-                result = validator.validate
+                result = validator.validate()
                 result_list.append((file_path, result))
             elif entry.is_dir():
                 sub_validator = NameStandardValidator(
