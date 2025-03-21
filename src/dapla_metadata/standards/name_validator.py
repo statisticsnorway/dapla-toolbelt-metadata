@@ -37,7 +37,7 @@ class NameStandardValidator:
         bucket_name: Path | str | None,
     ) -> None:
         """Initialize the validator with file path information."""
-        self.file_path = file_path if file_path else None
+        self.file_path = Path(file_path).resolve() if file_path else None
         self.bucket_name = bucket_name if bucket_name else None
         self.path_info = DaplaDatasetPathInfo(file_path) if self.file_path else None
 
@@ -59,6 +59,7 @@ class NameStandardValidator:
             - A success message if no violations are found.
             - A message if the file path is in an ignored folder.
         """
+        # and self.file_path.exists()
         if self.path_info:
             dataset_state = self.path_info.dataset_state
             checks = {
@@ -72,11 +73,11 @@ class NameStandardValidator:
             if dataset_state == self.IGNORED_DATA_STATE_FOLDER:
                 return PATH_IGNORED
             for i in IGNORED_FOLDERS:
-                if i in self.file_path.lower():
+                if i in self.file_path.as_posix().lower():
                     return PATH_IGNORED
             if not dataset_state:
                 return MISSING_DATA_STATE
-            if self.is_invalid_symbols(self.file_path):
+            if self.is_invalid_symbols(self.file_path.as_posix()):
                 violations.append(INVALID_SYMBOLS)
             return violations if violations else NAME_STANDARD_SUCSESS
         return None
