@@ -716,10 +716,18 @@ class DaplaDatasetPathInfo:
 
                 left_parts = dataset_path_parts[:index]
 
+                if bucket_prefix & set(left_parts):
+                    matching_element = next(
+                        (item for item in bucket_prefix if item in left_parts),
+                        None,
+                    )
+                    buckets_index = left_parts.index(matching_element)
+                    if buckets_index > 0:
+                        left_parts = left_parts[buckets_index:]
+
                 # Handle cases where the path starts with "/"
                 if left_parts == ["/"]:
                     left_parts = []
-
                 if not left_parts or (
                     left_parts[0] in bucket_prefix and len(left_parts) <= 2
                 ):
@@ -727,7 +735,6 @@ class DaplaDatasetPathInfo:
 
                 if left_parts[0] not in bucket_prefix and len(left_parts) == 1:
                     return left_parts[0]
-
                 return dataset_path_parts[index - 1]
 
         return None
