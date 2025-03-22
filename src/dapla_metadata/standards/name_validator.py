@@ -88,7 +88,7 @@ class NameStandardValidator:
             return violations if violations else NAME_STANDARD_SUCSESS
         return "Filen eksisterer ikke"
 
-    def validate_bucket(self) -> list | str | None:
+    def validate_bucket(self) -> list | str:
         """Recursively validate all files in a directory."""
         result_list = []
         if self.bucket_directory:
@@ -108,4 +108,4 @@ class NameStandardValidator:
                     )
                     result_list.extend(sub_validator.validate_bucket())
             return result_list
-        return None
+        return "Kan ikke validere bøtte navn"
