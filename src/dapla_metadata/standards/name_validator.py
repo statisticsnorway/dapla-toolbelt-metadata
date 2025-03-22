@@ -42,7 +42,7 @@ class NameStandardValidator:
             self.path_info = DaplaDatasetPathInfo(file_path)
 
         if self.bucket_name:
-            self.bucket_directory = Path.cwd() / self.bucket_name
+            self.bucket_directory: Path | None = Path.cwd() / self.bucket_name
         else:
             self.bucket_directory = None
 
