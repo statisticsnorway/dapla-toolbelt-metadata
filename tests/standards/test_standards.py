@@ -13,7 +13,7 @@ from dapla_metadata.standards.standard_validators import check_naming_standard
 @pytest.mark.parametrize(
     ("file_path"),
     [
-        "datadoc/utdata/person_data_p2021_v2.parquet",
+        "buckets/produkt/datadoc/utdata/person_data_p2021_v2.parquet",
         "datadoc/utdata/person_data_p2021_p2022_v2.parquet",
         "datadoc/utdata/undermappe/person_data_p2021_v2.parquet",
         "dataset/klargjorte_data/arbmark/resources/person_data_p2021-12-31_p2021-12-31_v1.parquet",
