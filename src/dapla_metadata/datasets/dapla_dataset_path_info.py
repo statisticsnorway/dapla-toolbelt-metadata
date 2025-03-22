@@ -720,16 +720,19 @@ class DaplaDatasetPathInfo:
                 if index == 0:
                     continue  # Skip if state is the first element
 
+                # Check parts from state forward
                 left_parts = dataset_path_parts[:index]
 
+                # If there is bucket we dont want to check path beyond this
                 if bucket_prefix & set(left_parts):
                     matching_element = next(
                         (item for item in bucket_prefix if item in left_parts),
                         None,
                     )
-                    buckets_index = left_parts.index(matching_element)
-                    if buckets_index > 0:
-                        left_parts = left_parts[buckets_index:]
+                    if matching_element:
+                        buckets_index = left_parts.index(matching_element)
+                        if buckets_index > 0:
+                            left_parts = left_parts[buckets_index:]
 
                 # Handle cases where the path starts with "/"
                 if left_parts == ["/"]:
