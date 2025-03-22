@@ -696,6 +696,12 @@ class DaplaDatasetPathInfo:
 
             >>> DaplaDatasetPathInfo('befolkning/person_data.parquet').statistic_short_name
             None
+
+            >>> DaplaDatasetPathInfo('buckets/produkt/befolkning/utdata/person_data.parquet').statistic_short_name
+            befolkning
+
+            >>> DaplaDatasetPathInfo('resources/buckets/produkt/befolkning/utdata/person_data.parquet').statistic_short_name
+            befolkning
         """
         dataset_state = self.dataset_state
         # Not possible to retrieve short name when dataset state folder is not present
