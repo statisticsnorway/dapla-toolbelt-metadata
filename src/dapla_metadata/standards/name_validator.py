@@ -38,7 +38,8 @@ class NameStandardValidator:
         """Initialize the validator with file path information."""
         self.file_path = Path(file_path).resolve() if file_path else None
         self.bucket_name = bucket_name if bucket_name else None
-        self.path_info = DaplaDatasetPathInfo(file_path) if self.file_path else None
+        if self.file_path:
+            self.path_info = DaplaDatasetPathInfo(file_path)
 
         if self.bucket_name:
             self.bucket_directory = Path.cwd() / self.bucket_name
