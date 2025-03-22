@@ -126,6 +126,7 @@ def setup_test_files_state(tmp_path):
 def setup_test_files_shortname(tmp_path):
     """Fixture to create test files with correct names in a temp directory."""
     test_files = [
+        "buckets/stat/inndata/person_data",
         "gs://ssb-staging-dapla-felles-data-delt/inndata/person_data_p2022_v1.parquet",
         "gs://ssb-staging-dapla-felles-data-delt/klargjorte-data/person_data_p2021_v3.parquet",
         "buckets/produkt/utdata/person_testdata_p2021-12-31_p2021-12-31_v1.parquet",
