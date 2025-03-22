@@ -6,6 +6,7 @@ from cloudpathlib import CloudPath
 
 from dapla_metadata.datasets.dapla_dataset_path_info import DaplaDatasetPathInfo
 
+MISSING_BUCKET_NAME = "Bøttenavn"
 MISSING_VERSION = "Filnavn mangler versjonsnummer ref: https://manual.dapla.ssb.no/statistikkere/navnestandard.html#filnavn"
 MISSING_PERIOD = "Filnavn mangler gyldighetsperiode ref: https://manual.dapla.ssb.no/statistikkere/navnestandard.html#filnavn"
 MISSING_SHORT_NAME = "Kortnavn for statistikk mangler"
@@ -59,16 +60,14 @@ class NameStandardValidator:
             - A success message if no violations are found.
             - A message if the file path is in an ignored folder.
         """
-        # and self.file_path.exists()
-        if self.path_info:
+        if self.path_info and self.file_path.exists():
             dataset_state = self.path_info.dataset_state
             checks = {
-                MISSING_DATA_STATE: dataset_state,
                 MISSING_SHORT_NAME: self.path_info.statistic_short_name,
+                MISSING_DATA_STATE: dataset_state,
                 MISSING_PERIOD: self.path_info.contains_data_from,
                 MISSING_DATASET_SHORT_NAME: self.path_info.dataset_short_name,
             }
-
             violations = [message for message, value in checks.items() if not value]
             if dataset_state == self.IGNORED_DATA_STATE_FOLDER:
                 return PATH_IGNORED
@@ -80,7 +79,7 @@ class NameStandardValidator:
             if self.is_invalid_symbols(self.file_path.as_posix()):
                 violations.append(INVALID_SYMBOLS)
             return violations if violations else NAME_STANDARD_SUCSESS
-        return None
+        return "Filen eksisterer ikke"
 
     def validate_bucket(self) -> list | str:
         """Recursively validate all files in a directory."""
