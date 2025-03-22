@@ -90,19 +90,21 @@ class NameStandardValidator:
     def validate_bucket(self) -> list | str:
         """Recursively validate all files in a directory."""
         result_list = []
-        for entry in os.scandir(self.bucket_directory):
-            if entry.is_file():
-                file_path = entry.path
-                validator = NameStandardValidator(
-                    file_path=file_path,
-                    bucket_name=self.bucket_name,
-                )
-                result = validator.validate()
-                result_list.append((file_path, result))
-            elif entry.is_dir():
-                sub_validator = NameStandardValidator(
-                    file_path=None,
-                    bucket_name=entry.path,
-                )
-                result_list.extend(sub_validator.validate_bucket())
-        return result_list
+        if self.bucket_directory:
+            for entry in os.scandir(self.bucket_directory):
+                if entry.is_file():
+                    file_path = entry.path
+                    validator = NameStandardValidator(
+                        file_path=file_path,
+                        bucket_name=self.bucket_name,
+                    )
+                    result = validator.validate()
+                    result_list.append((file_path, result))
+                elif entry.is_dir():
+                    sub_validator = NameStandardValidator(
+                        file_path=None,
+                        bucket_name=entry.path,
+                    )
+                    result_list.extend(sub_validator.validate_bucket())
+            return result_list
+        return None
