@@ -2,8 +2,6 @@ import os
 import re
 from pathlib import Path
 
-from cloudpathlib import CloudPath
-
 from dapla_metadata.datasets.dapla_dataset_path_info import DaplaDatasetPathInfo
 
 MISSING_BUCKET_NAME = "Bøttenavn"
@@ -34,7 +32,7 @@ class NameStandardValidator:
 
     def __init__(
         self,
-        file_path: Path | CloudPath | None,
+        file_path: str | os.PathLike[str] | None,
         bucket_name: Path | str | None,
     ) -> None:
         """Initialize the validator with file path information."""
@@ -49,7 +47,15 @@ class NameStandardValidator:
 
     @staticmethod
     def is_invalid_symbols(s: str) -> bool:
-        """Return True if string contains illegal symbols."""
+        """Return True if string contains illegal symbols.
+
+        Examples:
+            >>> NameStandardValidator.is_invalid_symbols("åregang-øre")
+            True
+
+            >>> NameStandardValidator.is_invalid_symbols("Azor89")
+            False
+        """
         return bool(re.search(NameStandardValidator.INVALID_PATTERN, s.strip()))
 
     def validate(self) -> str | list:

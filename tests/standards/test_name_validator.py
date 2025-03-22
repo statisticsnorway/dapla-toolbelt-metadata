@@ -44,8 +44,9 @@ def test_validate_directory():
 
 
 def test_validate_directory_2():
+    os.chdir("tests/standards")
     validator = NameStandardValidator(
-        file_path="tests/standards/resources/buckets/produkt/stat/inndata/person_data_p2021_v2.parquet",
+        file_path="./resources/buckets/produkt/stat/inndata/person_data_p2021_v2.parquet",
         bucket_name=None,
     )
     results = validator.validate()
@@ -53,8 +54,9 @@ def test_validate_directory_2():
 
 
 def test_validate_directory_3():
+    os.chdir("tests/")
     validator = NameStandardValidator(
-        file_path="tests/standards/resources/buckets/produkt/stat/inndata/p2021_v2.parquet",
+        file_path="./standards/resources/buckets/produkt/stat/inndata/p2021_v2.parquet",
         bucket_name=None,
     )
     results = validator.validate()
