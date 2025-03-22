@@ -66,7 +66,7 @@ class NameStandardValidator:
             - A success message if no violations are found.
             - A message if the file path is in an ignored folder.
         """
-        if self.path_info and self.file_path.exists():
+        if self.path_info and self.file_path and self.file_path.exists():
             dataset_state = self.path_info.dataset_state
             checks = {
                 MISSING_SHORT_NAME: self.path_info.statistic_short_name,
