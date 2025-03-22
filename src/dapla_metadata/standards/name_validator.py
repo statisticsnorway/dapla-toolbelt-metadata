@@ -56,6 +56,12 @@ class NameStandardValidator:
 
             >>> NameStandardValidator.is_invalid_symbols("Azor89")
             False
+
+            >>> NameStandardValidator.is_invalid_symbols("ssbÆ-dapla-example-data-produkt-prod/ledstill/oppdrag/skjema_p2018_p2020_v1")
+            True
+
+            >>> NameStandardValidator.is_invalid_symbols("ssb-dapla-example-data-produkt-prod/ledstill/oppdrag/skjema_p2018_p2020_v1")
+            False
         """
         return bool(re.search(NameStandardValidator.INVALID_PATTERN, s.strip()))
 
