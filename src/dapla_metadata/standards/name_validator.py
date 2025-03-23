@@ -34,7 +34,6 @@ class ValidationResult:
         self.messages: list = []
         self.violations: list = []
         self.file_exists = None  # Will be set to True or False later
-        self.file_check_status: str = (None,)
 
     def add_message(self, message: str) -> None:
         """Add message to list."""
@@ -44,11 +43,6 @@ class ValidationResult:
         """Add violation to list."""
         self.violations.append(violation)
         self.success = False  # If there's any violation, success becomes False
-
-    def set_file_check_status(self, status_message: str | None) -> None:
-        """Set."""
-        self.file_check_status = status_message
-        self.add_message(status_message)
 
     def __str__(self) -> str:
         """Something."""
