@@ -151,6 +151,6 @@ def test_missing_multiple(file_path: str, violations: list, tmp_path):
     full_path = tmp_path / file_path
     full_path.parent.mkdir(parents=True, exist_ok=True)
     full_path.touch()
-    result = check_naming_standard(file_path=full_path).violations
+    result = check_naming_standard(file_path=full_path)
     if isinstance(result, ValidationResult):
         assert result.violations == violations
