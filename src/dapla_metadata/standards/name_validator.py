@@ -33,7 +33,7 @@ class ValidationResult:
         self.success: bool = True
         self.messages: list = []
         self.violations: list = []
-        self.file_exists = None  # Will be set to True or False later
+        self.file_exists = None
 
     def add_message(self, message: str) -> None:
         """Add message to list."""
@@ -127,9 +127,8 @@ class NameStandardValidator:
             if self.is_invalid_symbols(self.file_path.as_posix()):
                 violations.append(INVALID_SYMBOLS)
             self.result.violations = violations
-            if not violations:
+            if self.result.success:
                 self.result.add_message(NAME_STANDARD_SUCSESS)
-
             return self.result
         return "Filen eksisterer ikke"
 
