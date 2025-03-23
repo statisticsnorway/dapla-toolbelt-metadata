@@ -100,7 +100,7 @@ class NameStandardValidator:
         """
         return bool(re.search(NameStandardValidator.INVALID_PATTERN, s.strip()))
 
-    def validate(self) -> ValidationResult | str:
+    def validate(self) -> ValidationResult | str | list:
         """Check for naming standard violations.
 
         Returns:
