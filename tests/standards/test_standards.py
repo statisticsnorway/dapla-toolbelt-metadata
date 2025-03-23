@@ -28,7 +28,9 @@ def test_valid_path(file_path, tmp_path):
     full_path = tmp_path / file_path
     full_path.parent.mkdir(parents=True, exist_ok=True)
     full_path.touch()
-    assert check_naming_standard(file_path=full_path) == NAME_STANDARD_SUCSESS
+    assert (
+        check_naming_standard(file_path=full_path).messages[0] == NAME_STANDARD_SUCSESS
+    )
 
 
 @pytest.mark.parametrize(
@@ -42,7 +44,7 @@ def test_missing_date_period(file_path, tmp_path):
     full_path = tmp_path / file_path
     full_path.parent.mkdir(parents=True, exist_ok=True)
     full_path.touch()
-    assert check_naming_standard(file_path=full_path) == [MISSING_PERIOD]
+    assert check_naming_standard(file_path=full_path).violations == [MISSING_PERIOD]
 
 
 @pytest.mark.parametrize(
@@ -57,7 +59,7 @@ def test_missing_data_state(file_path, tmp_path):
     full_path = tmp_path / file_path
     full_path.parent.mkdir(parents=True, exist_ok=True)
     full_path.touch()
-    assert check_naming_standard(file_path=full_path) == MISSING_DATA_STATE
+    assert check_naming_standard(file_path=full_path).messages[0] == MISSING_DATA_STATE
 
 
 @pytest.mark.parametrize(
@@ -73,7 +75,7 @@ def test_missing_shortname(file_path, tmp_path):
     test_file = tmp_path / file_path
     test_file.parent.mkdir(parents=True, exist_ok=True)
     test_file.touch()
-    assert check_naming_standard(file_path=test_file) == [MISSING_SHORT_NAME]
+    assert check_naming_standard(file_path=test_file).violations == [MISSING_SHORT_NAME]
 
 
 @pytest.mark.parametrize(
@@ -94,7 +96,7 @@ def test_inored_paths(file_path, tmp_path):
     full_path = tmp_path / file_path
     full_path.parent.mkdir(parents=True, exist_ok=True)
     full_path.touch()
-    assert check_naming_standard(file_path=full_path) == PATH_IGNORED
+    assert check_naming_standard(file_path=full_path).messages[0] == PATH_IGNORED
 
 
 @pytest.mark.parametrize(
@@ -108,7 +110,7 @@ def test_invalid_symbols(file_path, tmp_path):
     full_path = tmp_path / file_path
     full_path.parent.mkdir(parents=True, exist_ok=True)
     full_path.touch()
-    assert check_naming_standard(file_path=full_path) == [INVALID_SYMBOLS]
+    assert check_naming_standard(file_path=full_path).violations == [INVALID_SYMBOLS]
 
 
 @pytest.mark.parametrize(
@@ -122,7 +124,7 @@ def test_missing_dataset_shortname(file_path, tmp_path):
     full_path = tmp_path / file_path
     full_path.parent.mkdir(parents=True, exist_ok=True)
     full_path.touch()
-    assert check_naming_standard(file_path=full_path) == [
+    assert check_naming_standard(file_path=full_path).violations == [
         MISSING_DATASET_SHORT_NAME,
     ]
 
@@ -148,4 +150,4 @@ def test_missing_multiple(file_path: str, violations: list, tmp_path):
     full_path = tmp_path / file_path
     full_path.parent.mkdir(parents=True, exist_ok=True)
     full_path.touch()
-    assert check_naming_standard(file_path=full_path) == violations
+    assert check_naming_standard(file_path=full_path).violations == violations

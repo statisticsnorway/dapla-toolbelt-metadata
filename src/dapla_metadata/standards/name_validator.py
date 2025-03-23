@@ -11,8 +11,10 @@ MISSING_SHORT_NAME = "Kortnavn for statistikk mangler"
 MISSING_DATA_STATE = "Mappe for datatilstand mangler ref: https://manual.dapla.ssb.no/statistikkere/navnestandard.html#obligatoriske-mapper"
 MISSING_DATASET_SHORT_NAME = "Filnavn mangler beskrivelse."
 NAME_STANDARD_SUCSESS = "Filene dine er i samsvar med SSB-navnestandarden"
+NAME_STANDARD_VIOLATION = "Det er oppdaget brudd på SSB-navnestandard:"
 INVALID_SYMBOLS = "Filnavn inneholder ulovlige tegn ref:"
 PATH_IGNORED = "Mappen er ikke underlagt krav til navnestandard"
+FILE_PATH_NOT_CONFIRMED = "Det var ikke mulig å bekrefte at filstien eksisterer. Validering ble utført uten å kunne bekrefte filens eksistens."
 IGNORED_FOLDERS = [
     "temp",
     "oppdrag",
@@ -21,6 +23,40 @@ IGNORED_FOLDERS = [
     "tidsserier",
     "migrert",
 ]
+
+
+class ValidationResult:
+    """Result object for name standard validation."""
+
+    def __init__(self) -> None:
+        """Initialize the validatation result."""
+        self.success = True
+        self.messages = []
+        self.violations = []
+        self.file_exists = None  # Will be set to True or False later
+        self.file_check_status = (
+            None  # Will hold a status message related to file existence check
+        )
+
+    def add_message(self, message: str) -> None:
+        """Add message to list."""
+        self.messages.append(message)
+
+    def add_violation(self, violation: str) -> None:
+        """Add violation to list."""
+        self.violations.append(violation)
+        self.success = False  # If there's any violation, success becomes False
+
+    def set_file_check_status(self, status_message: str) -> None:
+        """Set."""
+        self.file_check_status = status_message
+        self.add_message(status_message)
+
+    def __str__(self) -> str:
+        """Something."""
+        if self.success:
+            return f"Success: {', '.join(self.messages)}"
+        return f"Violations: {', '.join(self.violations)}"
 
 
 class NameStandardValidator:
@@ -38,6 +74,7 @@ class NameStandardValidator:
         """Initialize the validator with file path information."""
         self.file_path = Path(file_path).resolve() if file_path else None
         self.bucket_name = bucket_name if bucket_name else None
+        self.result: ValidationResult = ValidationResult()
         if self.file_path:
             self.path_info = DaplaDatasetPathInfo(str(file_path))
 
@@ -65,7 +102,7 @@ class NameStandardValidator:
         """
         return bool(re.search(NameStandardValidator.INVALID_PATTERN, s.strip()))
 
-    def validate(self) -> str | list:
+    def validate(self) -> ValidationResult | str:
         """Check for naming standard violations.
 
         Returns:
@@ -83,15 +120,25 @@ class NameStandardValidator:
             }
             violations = [message for message, value in checks.items() if not value]
             if dataset_state == self.IGNORED_DATA_STATE_FOLDER:
-                return PATH_IGNORED
+                self.result.add_message(PATH_IGNORED)
+
+                return self.result
             for i in IGNORED_FOLDERS:
                 if i in self.file_path.as_posix().lower():
-                    return PATH_IGNORED
+                    self.result.add_message(PATH_IGNORED)
+                    return self.result
+
             if not dataset_state:
-                return MISSING_DATA_STATE
+                self.result.add_message(MISSING_DATA_STATE)
+                return self.result
+
             if self.is_invalid_symbols(self.file_path.as_posix()):
                 violations.append(INVALID_SYMBOLS)
-            return violations if violations else NAME_STANDARD_SUCSESS
+            self.result.violations = violations
+            if not violations:
+                self.result.add_message(NAME_STANDARD_SUCSESS)
+
+            return self.result
         return "Filen eksisterer ikke"
 
     def validate_bucket(self) -> list:
