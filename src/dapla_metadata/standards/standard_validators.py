@@ -6,7 +6,6 @@ from dapla_metadata.standards.name_validator import NameStandardValidator
 from dapla_metadata.standards.name_validator import ValidationResult
 
 
-# -> str | list:
 def check_naming_standard(
     file_path: Path | CloudPath | None,
     bucket_name: str | None = None,
