@@ -101,9 +101,9 @@ class NameStandardValidator:
         Returns:
             A ValidationResult object containing messages and violations
         """
-        if not self.file_path.exists():
+        if self.file_path and not self.file_path.exists():
             self.result.add_message(FILE_PATH_NOT_CONFIRMED)
-        if self.path_info and self.file_path:
+        if self.path_info:
             dataset_state = self.path_info.dataset_state
             checks = {
                 MISSING_SHORT_NAME: self.path_info.statistic_short_name,
