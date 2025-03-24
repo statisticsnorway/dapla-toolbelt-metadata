@@ -1,6 +1,7 @@
 from collections import Counter
 from datetime import datetime
 from pathlib import Path
+from typing import Any
 
 
 def read_json_codes(code_file: dict) -> list[dict]:
@@ -37,46 +38,31 @@ def get_language_str(lang_code: str, name: str) -> str:
     return "Language not found"
 
 
-def find_duplicate_codes(
-    code_file: dict,
-    subset_id: str,
-    version: str,
-    path: str,
-) -> None:
-    """Finds duplicate codes in the subset file."""
-    codes = code_file["codes"]
-
-    list_of_all_codes = [i["code"] for i in codes]
-
-    counter = Counter(list_of_all_codes)
-
-    duplicates = []
-    for string, count in counter.items():
-        if count > 1:
-            duplicates.append(string)
-            print(f"'{string}' appears {count} times")  # noqa: T201
-
-    if len(duplicates) > 0:
-        with open(f"{path}/{subset_id}_duplicates_version_{version}.txt", "w") as f:  # noqa: PTH123
-            for i in duplicates:
-                f.write(f"{i}\n")
-
-
-def create_subset_dir(subset_id: str) -> str:  # noqa: D103
+def create_subset_dir(subset_id: str) -> str:
+    """This creates the directory for the generated files."""
     parent_folder = Path("converted_subsets")
     new_directory = parent_folder / subset_id
     new_directory.mkdir(parents=True, exist_ok=True)
     return str(new_directory)
 
 
-def get_validity_periods(version_json: dict):  # noqa: ANN201, D103
-    vf = version_json["validFrom"]
-    vu = None
-    try:
-        vu = version_json["validUntil"]
-    except:  # noqa: E722
-        ValueError  # noqa: B018
-    print(  # noqa: T201
-        f"Found subset that is valid from {vf} and valid until {vu} ",
-    )
-    return vf, vu
+def list_duplicates(code_file: dict) -> list:  # noqa: D103
+    counter = Counter(i["code"] for i in code_file["codes"])
+    return [code for code, count in counter.items() if count > 1]
+
+
+def convert_to_the_nice_structure(
+    code_file: dict,
+) -> list[dict[str, Any]] | None:
+    """This converts the codes to a format that is easier to work with."""
+    codes = code_file["codes"]
+
+    # Find all duplicates
+    return [
+        {
+            "code": i["code"],
+            "valid_from": i["validFromInRequestedRange"],
+            "valid_until": i["validToInRequestedRange"],
+        }
+        for i in codes
+    ]

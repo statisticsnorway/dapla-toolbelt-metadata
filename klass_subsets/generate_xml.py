@@ -2,7 +2,7 @@ import xml.etree.ElementTree as ET
 
 
 def generate_xml(elements: list[dict], filename: str) -> None:
-    """Generates the xml file for input to kalss."""
+    """Generates the xml file for input to klass."""
     # Define namespace
     ns = {
         "": "http://klass.ssb.no/version",
@@ -34,9 +34,12 @@ def generate_xml(elements: list[dict], filename: str) -> None:
         ET.SubElement(element, "kortnavn_bokmål").text = ""
         ET.SubElement(element, "kortnavn_nynorsk").text = ""
         ET.SubElement(element, "kortnavn_engelsk").text = ""
-        ET.SubElement(element, "noter_bokmål").text = ""
-        ET.SubElement(element, "noter_nynorsk").text = ""
-        ET.SubElement(element, "noter_engelsk").text = ""
+        ET.SubElement(element, "noter_bokmål").text = elem["notes_nb"]
+        ET.SubElement(element, "noter_nynorsk").text = elem["notes_nn"]
+        ET.SubElement(element, "noter_engelsk").text = elem["notes_en"]
+        # ET.SubElement(element, "noter_bokmål").text = ""
+        # ET.SubElement(element, "noter_nynorsk").text = ""
+        # ET.SubElement(element, "noter_engelsk").text = ""
 
         if elem["valid_until"] is not None:
             ET.SubElement(element, "gyldig_til").text = elem["valid_until"]

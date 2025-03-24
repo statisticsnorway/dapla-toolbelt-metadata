@@ -22,6 +22,9 @@
 # Unignore all sas7bdat files under `tests/datasets/resources/`
 !tests/datasets/resources/**/*.sas7bdat
 
+# Generated klass subsets migration files
+klass_subsets/converted_subsets/*
+
 *.xls
 *.xlsx
 *.zip
