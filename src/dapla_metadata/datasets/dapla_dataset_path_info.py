@@ -678,6 +678,30 @@ class DaplaDatasetPathInfo:
                 return last_filename_element[1:]
         return None
 
+    def _get_left_parts(
+        self,
+        dataset_path_parts: list[str],
+        state_index: int,
+    ) -> list[str]:
+        """Retrieve the path parts before the dataset state, considering bucket prefixes."""
+        bucket_prefix = {"gs:", "buckets"}
+        left_parts = dataset_path_parts[:state_index]
+
+        # Stop checking beyond the bucket prefix
+        prefix_intersection = bucket_prefix & set(left_parts)
+        if prefix_intersection:
+            first_prefix = min(
+                left_parts.index(prefix) for prefix in prefix_intersection
+            )
+            left_parts = left_parts[first_prefix:]
+
+        return (
+            []
+            if left_parts == ["/"]
+            or (left_parts[0] in bucket_prefix and len(left_parts) <= 2)
+            else left_parts
+        )
+
     @property
     def statistic_short_name(
         self,
@@ -721,7 +745,6 @@ class DaplaDatasetPathInfo:
         dataset_state_names = self._extract_norwegian_dataset_state_path_part(
             dataset_state,
         )
-        bucket_prefix = {"gs:", "buckets"}
         dataset_path_parts = list(self.dataset_path.parts)
 
         for state in dataset_state_names:
@@ -732,28 +755,10 @@ class DaplaDatasetPathInfo:
 
                 # Check parts from state forward
                 left_parts = dataset_path_parts[:index]
-
-                # If there is bucket we dont want to check path beyond this
-                if bucket_prefix & set(left_parts):
-                    matching_element = next(
-                        (item for item in bucket_prefix if item in left_parts),
-                        None,
-                    )
-                    if matching_element:
-                        buckets_index = left_parts.index(matching_element)
-                        if buckets_index > 0:
-                            left_parts = left_parts[buckets_index:]
-
-                # Handle cases where the path starts with "/"
-                if left_parts == ["/"]:
-                    left_parts = []
-                if not left_parts or (
-                    left_parts[0] in bucket_prefix and len(left_parts) <= 2
-                ):
+                left_parts = self._get_left_parts(dataset_path_parts, index)
+                if not left_parts:
                     return None
 
-                if left_parts[0] not in bucket_prefix and len(left_parts) == 1:
-                    return left_parts[0]
                 return dataset_path_parts[index - 1]
 
         return None
