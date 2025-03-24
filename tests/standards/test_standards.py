@@ -100,7 +100,7 @@ def test_missing_data_state(file_path, tmp_path):
     full_path = tmp_path / file_path
     full_path.parent.mkdir(parents=True, exist_ok=True)
     full_path.touch()
-    assert check_naming_standard(file_path=full_path).messages[0] == MISSING_DATA_STATE
+    assert MISSING_DATA_STATE in check_naming_standard(file_path=full_path).violations
 
 
 @pytest.mark.parametrize(
