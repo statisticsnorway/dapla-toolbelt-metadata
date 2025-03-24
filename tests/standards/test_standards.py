@@ -5,6 +5,7 @@ import pytest
 
 from dapla_metadata.standards.name_validator import ValidationResult
 from dapla_metadata.standards.standard_validators import check_naming_standard
+from dapla_metadata.standards.utils.constants import BUCKET_NAME_UNKNOWN
 from dapla_metadata.standards.utils.constants import FILE_PATH_NOT_CONFIRMED
 from dapla_metadata.standards.utils.constants import INVALID_SYMBOLS
 from dapla_metadata.standards.utils.constants import MISSING_DATA_STATE
@@ -196,3 +197,20 @@ def test_bucket_validation(file_path, bucket_name, tmp_path):
             file_path=None,
             bucket_name=bucket_name,
         ).messages == [NAME_STANDARD_SUCSESS]
+
+
+@pytest.mark.parametrize(
+    ("bucket_name"),
+    [
+        "ssb-staging-dapla-felles-data-delt",
+        "ssb-dapla-example-data-produkt-prod",
+    ],
+)
+def test_bucket_validation_unknown(bucket_name):
+    assert (
+        BUCKET_NAME_UNKNOWN
+        in check_naming_standard(
+            file_path=None,
+            bucket_name=bucket_name,
+        ).messages
+    )

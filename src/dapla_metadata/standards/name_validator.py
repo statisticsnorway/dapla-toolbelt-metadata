@@ -3,6 +3,7 @@ import re
 from pathlib import Path
 
 from dapla_metadata.datasets.dapla_dataset_path_info import DaplaDatasetPathInfo
+from dapla_metadata.standards.utils.constants import BUCKET_NAME_UNKNOWN
 from dapla_metadata.standards.utils.constants import FILE_PATH_NOT_CONFIRMED
 from dapla_metadata.standards.utils.constants import IGNORED_FOLDERS
 from dapla_metadata.standards.utils.constants import INVALID_SYMBOLS
@@ -132,7 +133,7 @@ class NameStandardValidator:
         """Recursively validate all files in a directory."""
         final_result = ValidationResult()
         if not self.bucket_directory.exists() or not self.bucket_directory:
-            final_result.add_message("Kan ikke validere bøtte navn")
+            final_result.add_message(BUCKET_NAME_UNKNOWN)
             return final_result
         if self.bucket_directory:
             for entry in os.scandir(self.bucket_directory):

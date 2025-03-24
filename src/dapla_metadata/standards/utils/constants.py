@@ -12,6 +12,7 @@ NAME_STANDARD_VIOLATION = "Det er oppdaget brudd på SSB-navnestandard:"
 INVALID_SYMBOLS = "Filnavn inneholder ulovlige tegn ref:"
 PATH_IGNORED = "Mappen er ikke underlagt krav til navnestandard"
 FILE_PATH_NOT_CONFIRMED = "Det var ikke mulig å bekrefte at filstien eksisterer. Validering ble utført uten å kunne bekrefte filens eksistens."
+BUCKET_NAME_UNKNOWN = "Kan ikke validere bøttenavn"
 IGNORED_FOLDERS = [
     "temp",
     "oppdrag",
