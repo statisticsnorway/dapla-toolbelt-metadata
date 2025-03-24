@@ -5,6 +5,7 @@ on:
     branches:
       - "**"
     paths:
+      - "sonar-project.properties"
       - "src/**"
       - "tests/**"
       - "docs/**"
