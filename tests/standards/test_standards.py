@@ -133,7 +133,7 @@ def test_missing_shortname(file_path, tmp_path):
         "gs://ssb-dapla-example-data-produkt-prod/ledstill/kildedata/skjema_p2018_p2020_v1",
     ],
 )
-def test_inored_paths(file_path, tmp_path):
+def test_ignored_paths(file_path, tmp_path):
     full_path = tmp_path / file_path
     full_path.parent.mkdir(parents=True, exist_ok=True)
     full_path.touch()

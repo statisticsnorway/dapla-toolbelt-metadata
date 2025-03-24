@@ -118,16 +118,16 @@ class NameStandardValidator:
         if self.file_path and not self.file_path.exists():
             self.result.add_message(FILE_PATH_NOT_CONFIRMED)
 
-    def _handle_ignored_folders_and_state(
+    def _handle_ignored_folders(
         self,
-        dataset_state: DaplaDatasetPathInfo.dataset_state | None,
     ) -> bool:
         """Check dataset state and handle ignored cases.
 
         Returns:
             bool: True if validation should stop due to ignored dataset state.
         """
-        if str(dataset_state) == self.IGNORED_DATA_STATE_FOLDER:
+        dataset_state = self.path_info.dataset_state
+        if dataset_state == self.IGNORED_DATA_STATE_FOLDER:
             self.result.add_message(PATH_IGNORED)
             return True
 
@@ -137,20 +137,15 @@ class NameStandardValidator:
             self.result.add_message(PATH_IGNORED)
             return True
 
-        if not dataset_state:
-            self.result.add_violation(MISSING_DATA_STATE)
-            return True
-
         return False
 
     def _check_violations(
         self,
-        dataset_state: DaplaDatasetPathInfo.dataset_state,
     ) -> None:
         """Check for missing attributes and invalid symbols."""
         checks = {
             MISSING_SHORT_NAME: self.path_info.statistic_short_name,
-            MISSING_DATA_STATE: dataset_state,
+            MISSING_DATA_STATE: self.path_info.dataset_state,
             MISSING_PERIOD: self.path_info.contains_data_from,
             MISSING_DATASET_SHORT_NAME: self.path_info.dataset_short_name,
         }
@@ -173,12 +168,10 @@ class NameStandardValidator:
         if self.path_info and not self.file_path:
             return self.result
 
-        dataset_state = self.path_info.dataset_state
+        if self._handle_ignored_folders():
+            return self.result
 
-        if self._handle_ignored_folders_and_state(dataset_state):
-            return self.result  # Early return if dataset state is ignored or missing
-
-        self._check_violations(dataset_state)
+        self._check_violations()
 
         if self.result.success:
             self.result.add_message(NAME_STANDARD_SUCSESS)
