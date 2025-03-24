@@ -14,6 +14,7 @@ from dapla_metadata.standards.utils.constants import MISSING_PERIOD
 from dapla_metadata.standards.utils.constants import MISSING_SHORT_NAME
 from dapla_metadata.standards.utils.constants import NAME_STANDARD_SUCSESS
 from dapla_metadata.standards.utils.constants import PATH_IGNORED
+from dapla_metadata.standards.utils.constants import SUCCESS
 
 
 @pytest.mark.parametrize(
@@ -37,6 +38,28 @@ def test_valid_path(file_path, tmp_path):
     assert (
         check_naming_standard(file_path=full_path).messages[0] == NAME_STANDARD_SUCSESS
     )
+
+
+@pytest.mark.parametrize(
+    ("file_path"),
+    [
+        "buckets/produkt/datadoc/utdata/person_data_p2021_v2.parquet",
+        "datadoc/utdata/person_data_p2021_p2022_v2.parquet",
+        "datadoc/utdata/undermappe/person_data_p2021_v2.parquet",
+        "dataset/klargjorte_data/arbmark/resources/person_data_p2021-12-31_p2021-12-31_v1.parquet",
+        "stat/inndata/person_testdata_p2021-12-31_p2021-12-31_v1.parquet",
+        "stat/klargjorte-data/person_testdata_p2021-12-31_p2021-12-31_v1.parquet",
+        "ledstill/inndata/skjema_p2018_p2020_v1",
+        "datadoc/brukertest/1/sykefratot/klargjorte_data/person_testdata_p2021-12-31_p2021-12-31_v1.parquet",
+        "datadoc/brukertest/1/sykefratot/klargjorte_data/person_testdata_p2021-12-31_p2021-12-31_v1.json",
+    ],
+)
+def test_valid_path_string_result(file_path, tmp_path):
+    full_path = tmp_path / file_path
+    full_path.parent.mkdir(parents=True, exist_ok=True)
+    full_path.touch()
+    result = check_naming_standard(file_path=full_path)
+    assert str(result) == f"{SUCCESS}: {NAME_STANDARD_SUCSESS}"
 
 
 @pytest.mark.parametrize(
@@ -145,6 +168,25 @@ def test_missing_dataset_shortname(file_path, tmp_path):
     assert check_naming_standard(file_path=full_path).violations == [
         MISSING_DATASET_SHORT_NAME,
     ]
+
+
+@pytest.mark.parametrize(
+    ("file_path"),
+    [
+        "gs://ssb-staging-dapla-felles-data-delt/datadoc/utdata/p2021_v2.parquet",
+        "buckets/produkt/datadoc/brukertest/1/sykefratot/klargjorte_data/_p2021-12-31_p2021-12-31_v1.json",
+    ],
+)
+def test_missing_dataset_shortname_as_dict(file_path, tmp_path):
+    full_path = tmp_path / file_path
+    full_path.parent.mkdir(parents=True, exist_ok=True)
+    full_path.touch()
+    result = check_naming_standard(file_path=full_path)
+    assert result.as_dict() == {
+        "success": False,
+        "messages": [],
+        "violations": [MISSING_DATASET_SHORT_NAME],
+    }
 
 
 @pytest.mark.parametrize(

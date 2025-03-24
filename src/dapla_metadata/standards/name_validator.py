@@ -14,6 +14,7 @@ from dapla_metadata.standards.utils.constants import MISSING_SHORT_NAME
 from dapla_metadata.standards.utils.constants import NAME_STANDARD_SUCSESS
 from dapla_metadata.standards.utils.constants import NAME_STANDARD_VIOLATION
 from dapla_metadata.standards.utils.constants import PATH_IGNORED
+from dapla_metadata.standards.utils.constants import SUCCESS
 
 
 class ValidationResult:
@@ -45,8 +46,20 @@ class ValidationResult:
     def __str__(self) -> str:
         """String result of validation."""
         if self.success:
-            return f"Suksess: {', '.join(self.messages)}"
+            return f"{SUCCESS}: {', '.join(self.messages)}"
         return f"{NAME_STANDARD_VIOLATION}: {', '.join(self.violations)}"
+
+    def __repr__(self) -> str:
+        """Representation for debugging."""
+        return f"ValidationResult(success={self.success}, messages={self.messages}, violations={self.violations})"
+
+    def as_dict(self) -> dict:
+        """Return result as a dictionary."""
+        return {
+            "success": self.success,
+            "messages": self.messages,
+            "violations": self.violations,
+        }
 
 
 class NameStandardValidator:
@@ -124,7 +137,9 @@ class NameStandardValidator:
 
             if self.is_invalid_symbols(self.file_path.as_posix()):
                 violations.append(INVALID_SYMBOLS)
-            self.result.violations = violations
+            if violations:
+                for violation in violations:
+                    self.result.add_violation(violation)
             if self.result.success:
                 self.result.add_message(NAME_STANDARD_SUCSESS)
         return self.result
