@@ -754,7 +754,6 @@ class DaplaDatasetPathInfo:
                     continue  # Skip if state is the first element
 
                 # Check parts from state forward
-                left_parts = dataset_path_parts[:index]
                 left_parts = self._get_left_parts(dataset_path_parts, index)
                 if not left_parts:
                     return None
