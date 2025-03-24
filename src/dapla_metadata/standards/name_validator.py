@@ -142,7 +142,7 @@ class NameStandardValidator:
                     return self.result
 
             if not dataset_state:
-                self.result.add_message(MISSING_DATA_STATE)
+                self.result.add_violation(MISSING_DATA_STATE)
                 return self.result
 
             if self.is_invalid_symbols(self.file_path.as_posix()):
