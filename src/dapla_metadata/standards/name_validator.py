@@ -158,21 +158,17 @@ class NameStandardValidator:
         if self.bucket_directory and not self.bucket_directory.exists():
             final_result.add_message(BUCKET_NAME_UNKNOWN)
             return final_result
-        if self.bucket_directory:
-            for entry in os.scandir(self.bucket_directory):
-                if entry.is_file():
-                    file_path = entry.path
-                    validator = NameStandardValidator(
-                        file_path=file_path,
-                        bucket_name=self.bucket_name,
-                    )
-                    result = validator.validate()
-                    final_result.merge_result(result)
-                elif entry.is_dir():
-                    sub_validator = NameStandardValidator(
-                        file_path=None,
-                        bucket_name=entry.path,
-                    )
-                    sub_result = sub_validator.validate_bucket()
-                    final_result.merge_result(sub_result)
+        for entry in os.scandir(self.bucket_directory):
+            if entry.is_file():
+                result = NameStandardValidator(
+                    file_path=entry.path,
+                    bucket_name=self.bucket_name,
+                ).validate()
+                final_result.merge_result(result)
+            elif entry.is_dir():
+                sub_result = NameStandardValidator(
+                    file_path=None,
+                    bucket_name=entry.path,
+                ).validate_bucket()
+                final_result.merge_result(sub_result)
         return final_result
