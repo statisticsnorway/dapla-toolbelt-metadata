@@ -140,7 +140,10 @@ class NameStandardValidator:
 
         return False
 
-    def _check_violations(self, dataset_state: str) -> None:
+    def _check_violations(
+        self,
+        dataset_state: DaplaDatasetPathInfo.dataset_state,
+    ) -> None:
         """Check for missing attributes and invalid symbols."""
         checks = {
             MISSING_SHORT_NAME: self.path_info.statistic_short_name,
