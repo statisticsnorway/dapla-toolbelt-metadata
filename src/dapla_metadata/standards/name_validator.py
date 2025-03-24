@@ -154,7 +154,9 @@ class NameStandardValidator:
 
         violations = [message for message, value in checks.items() if not value]
 
-        if self.is_invalid_symbols(self.file_path.as_posix()):
+        if self.file_path is not None and self.is_invalid_symbols(
+            self.file_path.as_posix(),
+        ):
             violations.append(INVALID_SYMBOLS)
 
         for violation in violations:
