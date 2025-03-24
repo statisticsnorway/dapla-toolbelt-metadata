@@ -21,14 +21,14 @@ from dapla_metadata.standards.utils.constants import SUCCESS
     ("file_path"),
     [
         "buckets/produkt/datadoc/utdata/person_data_p2021_v2.parquet",
-        "datadoc/utdata/person_data_p2021_p2022_v2.parquet",
+        "produkt/datadoc/utdata/person_data_p2021_p2022_v2.parquet",
         "datadoc/utdata/undermappe/person_data_p2021_v2.parquet",
-        "dataset/klargjorte_data/arbmark/resources/person_data_p2021-12-31_p2021-12-31_v1.parquet",
+        "delt-data/dataset/klargjorte_data/arbmark/resources/person_data_p2021-12-31_p2021-12-31_v1.parquet",
         "stat/inndata/person_testdata_p2021-12-31_p2021-12-31_v1.parquet",
-        "stat/klargjorte-data/person_testdata_p2021-12-31_p2021-12-31_v1.parquet",
-        "ledstill/inndata/skjema_p2018_p2020_v1",
-        "datadoc/brukertest/1/sykefratot/klargjorte_data/person_testdata_p2021-12-31_p2021-12-31_v1.parquet",
-        "datadoc/brukertest/1/sykefratot/klargjorte_data/person_testdata_p2021-12-31_p2021-12-31_v1.json",
+        "ssb-delt/stat/klargjorte-data/person_testdata_p2021-12-31_p2021-12-31_v1.parquet",
+        "ssb-test/ledstill/inndata/skjema_p2018_p2020_v1",
+        "produkt-delt/datadoc/brukertest/1/sykefratot/klargjorte_data/person_testdata_p2021-12-31_p2021-12-31_v1.parquet",
+        "samfunns-produkt/datadoc/brukertest/1/sykefratot/klargjorte_data/person_testdata_p2021-12-31_p2021-12-31_v1.json",
     ],
 )
 def test_valid_path(file_path, tmp_path):
@@ -194,6 +194,10 @@ def test_missing_dataset_shortname_as_dict(file_path, tmp_path):
     [
         (
             "gs://ssb-dapla-example-data-produkt-prod/inndata/skjema_v1.parquet",
+            [MISSING_SHORT_NAME, MISSING_PERIOD],
+        ),
+        (
+            "gs://inndata/skjema_v1.parquet",
             [MISSING_SHORT_NAME, MISSING_PERIOD],
         ),
         (
