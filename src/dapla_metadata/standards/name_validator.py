@@ -23,9 +23,8 @@ class ValidationResult:
     def __init__(self) -> None:
         """Initialize the validatation result."""
         self.success: bool = True
-        self.messages: list = []
-        self.violations: list = []
-        self.file_exists = None
+        self.messages: list[str] = []
+        self.violations: list[str] = []
 
     def add_message(self, message: str) -> None:
         """Add message to list."""
@@ -34,10 +33,19 @@ class ValidationResult:
     def add_violation(self, violation: str) -> None:
         """Add violation to list."""
         self.violations.append(violation)
-        self.success = False  # If there's any violation, success becomes False
+        if self.success:
+            self.success = False
 
     def merge_result(self, other: "ValidationResult") -> None:
-        """Merge another ValidationResult into this one."""
+        """Merge another ValidationResult into this one.
+
+        This method appends the messages and violations from another `ValidationResult`
+        to the current instance. If the other result has a failure (success is False),
+        the current instance's success status will be updated to False.
+
+        Args:
+            other (ValidationResult): Another validation result to merge into this one.
+        """
         self.messages.extend(other.messages)
         self.violations.extend(other.violations)
         if not other.success:
