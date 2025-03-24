@@ -121,6 +121,7 @@ class NameStandardValidator:
         """
         if self.file_path and not self.file_path.exists():
             self.result.add_message(FILE_PATH_NOT_CONFIRMED)
+
         if self.path_info and self.file_path:
             dataset_state = self.path_info.dataset_state
             checks = {
@@ -130,10 +131,11 @@ class NameStandardValidator:
                 MISSING_DATASET_SHORT_NAME: self.path_info.dataset_short_name,
             }
             violations = [message for message, value in checks.items() if not value]
+
             if dataset_state == self.IGNORED_DATA_STATE_FOLDER:
                 self.result.add_message(PATH_IGNORED)
-
                 return self.result
+
             for i in IGNORED_FOLDERS:
                 if i in self.file_path.as_posix().lower():
                     self.result.add_message(PATH_IGNORED)
@@ -145,11 +147,14 @@ class NameStandardValidator:
 
             if self.is_invalid_symbols(self.file_path.as_posix()):
                 violations.append(INVALID_SYMBOLS)
+
             if violations:
                 for violation in violations:
                     self.result.add_violation(violation)
+
             if self.result.success:
                 self.result.add_message(NAME_STANDARD_SUCSESS)
+
         return self.result
 
     def validate_bucket(self) -> ValidationResult:
