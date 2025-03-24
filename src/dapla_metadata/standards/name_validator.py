@@ -118,13 +118,16 @@ class NameStandardValidator:
         if self.file_path and not self.file_path.exists():
             self.result.add_message(FILE_PATH_NOT_CONFIRMED)
 
-    def _handle_ignored_folders_and_state(self, dataset_state: str | None) -> bool:
+    def _handle_ignored_folders_and_state(
+        self,
+        dataset_state: DaplaDatasetPathInfo.dataset_state | None,
+    ) -> bool:
         """Check dataset state and handle ignored cases.
 
         Returns:
             bool: True if validation should stop due to ignored dataset state.
         """
-        if dataset_state == self.IGNORED_DATA_STATE_FOLDER:
+        if str(dataset_state) == self.IGNORED_DATA_STATE_FOLDER:
             self.result.add_message(PATH_IGNORED)
             return True
 
