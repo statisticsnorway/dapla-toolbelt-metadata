@@ -118,8 +118,8 @@ class NameStandardValidator:
         if self.file_path and not self.file_path.exists():
             self.result.add_message(FILE_PATH_NOT_CONFIRMED)
 
-    def _check_dataset_state(self, dataset_state: str | None) -> bool:
-        """Check dataset state validity and handle ignored cases.
+    def _handle_ignored_folders_and_state(self, dataset_state: str | None) -> bool:
+        """Check dataset state and handle ignored cases.
 
         Returns:
             bool: True if validation should stop due to ignored dataset state.
@@ -172,7 +172,7 @@ class NameStandardValidator:
 
         dataset_state = self.path_info.dataset_state
 
-        if self._check_dataset_state(dataset_state):
+        if self._handle_ignored_folders_and_state(dataset_state):
             return self.result  # Early return if dataset state is ignored or missing
 
         self._check_violations(dataset_state)
