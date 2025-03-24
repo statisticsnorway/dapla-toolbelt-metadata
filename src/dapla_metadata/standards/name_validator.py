@@ -113,47 +113,69 @@ class NameStandardValidator:
         """
         return bool(re.search(NameStandardValidator.INVALID_PATTERN, s.strip()))
 
+    def _check_path_existence(self) -> None:
+        """Check if the file path exists and add a message if not."""
+        if self.file_path and not self.file_path.exists():
+            self.result.add_message(FILE_PATH_NOT_CONFIRMED)
+
+    def _check_dataset_state(self, dataset_state: str | None) -> bool:
+        """Check dataset state validity and handle ignored cases.
+
+        Returns:
+            bool: True if validation should stop due to ignored dataset state.
+        """
+        if dataset_state == self.IGNORED_DATA_STATE_FOLDER:
+            self.result.add_message(PATH_IGNORED)
+            return True
+
+        if any(
+            folder in self.file_path.as_posix().lower() for folder in IGNORED_FOLDERS
+        ):
+            self.result.add_message(PATH_IGNORED)
+            return True
+
+        if not dataset_state:
+            self.result.add_violation(MISSING_DATA_STATE)
+            return True
+
+        return False
+
+    def _check_violations(self, dataset_state: str) -> None:
+        """Check for missing attributes and invalid symbols."""
+        checks = {
+            MISSING_SHORT_NAME: self.path_info.statistic_short_name,
+            MISSING_DATA_STATE: dataset_state,
+            MISSING_PERIOD: self.path_info.contains_data_from,
+            MISSING_DATASET_SHORT_NAME: self.path_info.dataset_short_name,
+        }
+
+        violations = [message for message, value in checks.items() if not value]
+
+        if self.is_invalid_symbols(self.file_path.as_posix()):
+            violations.append(INVALID_SYMBOLS)
+
+        for violation in violations:
+            self.result.add_violation(violation)
+
     def validate(self) -> ValidationResult:
         """Check for naming standard violations.
 
         Returns:
             A ValidationResult object containing messages and violations
         """
-        if self.file_path and not self.file_path.exists():
-            self.result.add_message(FILE_PATH_NOT_CONFIRMED)
+        self._check_path_existence()
+        if self.path_info and not self.file_path:
+            return self.result
 
-        if self.path_info and self.file_path:
-            dataset_state = self.path_info.dataset_state
-            checks = {
-                MISSING_SHORT_NAME: self.path_info.statistic_short_name,
-                MISSING_DATA_STATE: dataset_state,
-                MISSING_PERIOD: self.path_info.contains_data_from,
-                MISSING_DATASET_SHORT_NAME: self.path_info.dataset_short_name,
-            }
-            violations = [message for message, value in checks.items() if not value]
+        dataset_state = self.path_info.dataset_state
 
-            if dataset_state == self.IGNORED_DATA_STATE_FOLDER:
-                self.result.add_message(PATH_IGNORED)
-                return self.result
+        if self._check_dataset_state(dataset_state):
+            return self.result  # Early return if dataset state is ignored or missing
 
-            for i in IGNORED_FOLDERS:
-                if i in self.file_path.as_posix().lower():
-                    self.result.add_message(PATH_IGNORED)
-                    return self.result
+        self._check_violations(dataset_state)
 
-            if not dataset_state:
-                self.result.add_violation(MISSING_DATA_STATE)
-                return self.result
-
-            if self.is_invalid_symbols(self.file_path.as_posix()):
-                violations.append(INVALID_SYMBOLS)
-
-            if violations:
-                for violation in violations:
-                    self.result.add_violation(violation)
-
-            if self.result.success:
-                self.result.add_message(NAME_STANDARD_SUCSESS)
+        if self.result.success:
+            self.result.add_message(NAME_STANDARD_SUCSESS)
 
         return self.result
 
