@@ -155,9 +155,11 @@ class NameStandardValidator:
     def validate_bucket(self) -> ValidationResult:
         """Recursively validate all files in a directory."""
         final_result = ValidationResult()
+
         if self.bucket_directory and not self.bucket_directory.exists():
             final_result.add_message(BUCKET_NAME_UNKNOWN)
             return final_result
+
         for entry in os.scandir(self.bucket_directory):
             if entry.is_file():
                 result = NameStandardValidator(
