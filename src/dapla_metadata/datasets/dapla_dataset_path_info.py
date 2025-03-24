@@ -493,21 +493,31 @@ class DaplaDatasetPathInfo:
             >>> DaplaDatasetPathInfo('ssb-staging-dapla-felles-data-delt/datadoc/utdata/person_data_p2021_v2.parquet').bucket_name
             None
 
+            >>> DaplaDatasetPathInfo('ssb-staging-dapla-felles-data-delt/datadoc/utdata/person_data_p2021_v2.parquet').bucket_name
+            None
+
             >>> DaplaDatasetPathInfo('buckets/ssb-staging-dapla-felles-data-delt/stat/utdata/person_data_p2021_v2.parquet').bucket_name
             ssb-staging-dapla-felles-data-delt
+
+            >>> DaplaDatasetPathInfo('home/work/buckets/ssb-staging-dapla-felles-produkt/stat/utdata/person_data_p2021_v2.parquet').bucket_name
+            ssb-staging-dapla-felles-produkt
         """
         prefix: str | None = None
-        if self.dataset_string.startswith(GSPath.cloud_prefix):
+        dataset_string = str(self.dataset_string)
+        if GSPath.cloud_prefix in self.dataset_string:
             prefix = GSPath.cloud_prefix
-        elif self.dataset_string.startswith(GS_PREFIX_FROM_PATHLIB):
+            _, bucket_and_rest = dataset_string.split(prefix, 1)
+        elif GS_PREFIX_FROM_PATHLIB in self.dataset_string:
             prefix = GS_PREFIX_FROM_PATHLIB
-        elif self.dataset_string.startswith("buckets"):
+            _, bucket_and_rest = self.dataset_string.split(prefix, 1)
+        elif "buckets/" in self.dataset_string:
             prefix = "buckets/"
+            _, bucket_and_rest = self.dataset_string.split(prefix, 1)
         else:
             return None
 
         return pathlib.Path(
-            self.dataset_string.removeprefix(prefix),
+            bucket_and_rest,
         ).parts[0]
 
     @property
