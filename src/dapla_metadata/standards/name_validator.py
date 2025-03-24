@@ -11,6 +11,7 @@ MISSING_SHORT_NAME = "Kortnavn for statistikk mangler"
 MISSING_DATA_STATE = "Mappe for datatilstand mangler ref: https://manual.dapla.ssb.no/statistikkere/navnestandard.html#obligatoriske-mapper"
 MISSING_DATASET_SHORT_NAME = "Filnavn mangler beskrivelse."
 NAME_STANDARD_SUCSESS = "Filene dine er i samsvar med SSB-navnestandarden"
+SUKSESS = "Suksess"
 NAME_STANDARD_VIOLATION = "Det er oppdaget brudd på SSB-navnestandard:"
 INVALID_SYMBOLS = "Filnavn inneholder ulovlige tegn ref:"
 PATH_IGNORED = "Mappen er ikke underlagt krav til navnestandard"
@@ -47,8 +48,8 @@ class ValidationResult:
     def __str__(self) -> str:
         """Something."""
         if self.success:
-            return f"Success: {', '.join(self.messages)}"
-        return f"Violations: {', '.join(self.violations)}"
+            return f"Suksess: {', '.join(self.messages)}"
+        return f"{NAME_STANDARD_VIOLATION}: {', '.join(self.violations)}"
 
 
 class NameStandardValidator:
@@ -102,7 +103,9 @@ class NameStandardValidator:
             - A success message if no violations are found.
             - A message if the file path is in an ignored folder.
         """
-        if self.path_info and self.file_path and self.file_path.exists():
+        if not self.file_path.exists():
+            self.result.add_message(FILE_PATH_NOT_CONFIRMED)
+        if self.path_info and self.file_path:
             dataset_state = self.path_info.dataset_state
             checks = {
                 MISSING_SHORT_NAME: self.path_info.statistic_short_name,
@@ -129,8 +132,7 @@ class NameStandardValidator:
             self.result.violations = violations
             if self.result.success:
                 self.result.add_message(NAME_STANDARD_SUCSESS)
-            return self.result
-        return "Filen eksisterer ikke"
+        return self.result
 
     def validate_bucket(self) -> list:
         """Recursively validate all files in a directory."""

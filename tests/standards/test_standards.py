@@ -1,5 +1,6 @@
 import pytest
 
+from dapla_metadata.standards.name_validator import FILE_PATH_NOT_CONFIRMED
 from dapla_metadata.standards.name_validator import INVALID_SYMBOLS
 from dapla_metadata.standards.name_validator import MISSING_DATA_STATE
 from dapla_metadata.standards.name_validator import MISSING_DATASET_SHORT_NAME
@@ -31,6 +32,18 @@ def test_valid_path(file_path, tmp_path):
     full_path.touch()
     assert (
         check_naming_standard(file_path=full_path).messages[0] == NAME_STANDARD_SUCSESS
+    )
+
+
+@pytest.mark.parametrize(
+    ("file_path"),
+    [
+        "buckets/data/sirkus/utdata/person_data_p2021_v2.parquet",
+    ],
+)
+def test_path_not_confirmed(file_path):
+    assert (
+        FILE_PATH_NOT_CONFIRMED in check_naming_standard(file_path=file_path).messages
     )
 
 
