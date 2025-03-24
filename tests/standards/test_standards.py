@@ -1,15 +1,18 @@
+from pathlib import Path
+from unittest.mock import patch
+
 import pytest
 
-from dapla_metadata.standards.name_validator import FILE_PATH_NOT_CONFIRMED
-from dapla_metadata.standards.name_validator import INVALID_SYMBOLS
-from dapla_metadata.standards.name_validator import MISSING_DATA_STATE
-from dapla_metadata.standards.name_validator import MISSING_DATASET_SHORT_NAME
-from dapla_metadata.standards.name_validator import MISSING_PERIOD
-from dapla_metadata.standards.name_validator import MISSING_SHORT_NAME
-from dapla_metadata.standards.name_validator import NAME_STANDARD_SUCSESS
-from dapla_metadata.standards.name_validator import PATH_IGNORED
 from dapla_metadata.standards.name_validator import ValidationResult
 from dapla_metadata.standards.standard_validators import check_naming_standard
+from dapla_metadata.standards.utils.constants import FILE_PATH_NOT_CONFIRMED
+from dapla_metadata.standards.utils.constants import INVALID_SYMBOLS
+from dapla_metadata.standards.utils.constants import MISSING_DATA_STATE
+from dapla_metadata.standards.utils.constants import MISSING_DATASET_SHORT_NAME
+from dapla_metadata.standards.utils.constants import MISSING_PERIOD
+from dapla_metadata.standards.utils.constants import MISSING_SHORT_NAME
+from dapla_metadata.standards.utils.constants import NAME_STANDARD_SUCSESS
+from dapla_metadata.standards.utils.constants import PATH_IGNORED
 
 
 @pytest.mark.parametrize(
@@ -167,3 +170,29 @@ def test_missing_multiple(file_path: str, violations: list, tmp_path):
     result = check_naming_standard(file_path=full_path)
     if isinstance(result, ValidationResult):
         assert result.violations == violations
+
+
+@pytest.mark.parametrize(
+    ("file_path", "bucket_name"),
+    [
+        (
+            "ssb-staging-dapla-felles-data-delt/stat_reg/utdata/person_data_p2022_v1.parquet",
+            "ssb-staging-dapla-felles-data-delt",
+        ),
+        (
+            "ssb-dapla-example-data-produkt-prod/ledstill/inndata/person_testdata_p2021-12-31_p2021-12-31_v1.parquet",
+            "ssb-dapla-example-data-produkt-prod",
+        ),
+    ],
+)
+def test_bucket_validation(file_path, bucket_name, tmp_path):
+    full_path = tmp_path / file_path
+    full_path.parent.mkdir(parents=True, exist_ok=True)
+    full_path.touch()
+    with patch.object(Path, "cwd", return_value=tmp_path):
+        assert full_path.exists()
+        assert Path.cwd() == tmp_path
+        assert check_naming_standard(
+            file_path=None,
+            bucket_name=bucket_name,
+        ).messages == [NAME_STANDARD_SUCSESS]

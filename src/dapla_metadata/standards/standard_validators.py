@@ -9,7 +9,7 @@ from dapla_metadata.standards.name_validator import ValidationResult
 def check_naming_standard(
     file_path: Path | CloudPath | None,
     bucket_name: str | None = None,
-) -> ValidationResult | str | list:
+) -> ValidationResult:
     """Check a given path following ssb name standard."""
     naming_validator = NameStandardValidator(
         file_path=file_path,

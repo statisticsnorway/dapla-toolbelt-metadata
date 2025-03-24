@@ -3,27 +3,16 @@ import re
 from pathlib import Path
 
 from dapla_metadata.datasets.dapla_dataset_path_info import DaplaDatasetPathInfo
-
-MISSING_BUCKET_NAME = "Bøttenavn"
-MISSING_VERSION = "Filnavn mangler versjonsnummer ref: https://manual.dapla.ssb.no/statistikkere/navnestandard.html#filnavn"
-MISSING_PERIOD = "Filnavn mangler gyldighetsperiode ref: https://manual.dapla.ssb.no/statistikkere/navnestandard.html#filnavn"
-MISSING_SHORT_NAME = "Kortnavn for statistikk mangler"
-MISSING_DATA_STATE = "Mappe for datatilstand mangler ref: https://manual.dapla.ssb.no/statistikkere/navnestandard.html#obligatoriske-mapper"
-MISSING_DATASET_SHORT_NAME = "Filnavn mangler beskrivelse."
-NAME_STANDARD_SUCSESS = "Filene dine er i samsvar med SSB-navnestandarden"
-SUKSESS = "Suksess"
-NAME_STANDARD_VIOLATION = "Det er oppdaget brudd på SSB-navnestandard:"
-INVALID_SYMBOLS = "Filnavn inneholder ulovlige tegn ref:"
-PATH_IGNORED = "Mappen er ikke underlagt krav til navnestandard"
-FILE_PATH_NOT_CONFIRMED = "Det var ikke mulig å bekrefte at filstien eksisterer. Validering ble utført uten å kunne bekrefte filens eksistens."
-IGNORED_FOLDERS = [
-    "temp",
-    "oppdrag",
-    "konfigurasjon",
-    "logg",
-    "tidsserier",
-    "migrert",
-]
+from dapla_metadata.standards.utils.constants import FILE_PATH_NOT_CONFIRMED
+from dapla_metadata.standards.utils.constants import IGNORED_FOLDERS
+from dapla_metadata.standards.utils.constants import INVALID_SYMBOLS
+from dapla_metadata.standards.utils.constants import MISSING_DATA_STATE
+from dapla_metadata.standards.utils.constants import MISSING_DATASET_SHORT_NAME
+from dapla_metadata.standards.utils.constants import MISSING_PERIOD
+from dapla_metadata.standards.utils.constants import MISSING_SHORT_NAME
+from dapla_metadata.standards.utils.constants import NAME_STANDARD_SUCSESS
+from dapla_metadata.standards.utils.constants import NAME_STANDARD_VIOLATION
+from dapla_metadata.standards.utils.constants import PATH_IGNORED
 
 
 class ValidationResult:
@@ -45,8 +34,15 @@ class ValidationResult:
         self.violations.append(violation)
         self.success = False  # If there's any violation, success becomes False
 
+    def merge_result(self, other: "ValidationResult") -> None:
+        """Merge another ValidationResult into this one."""
+        self.messages.extend(other.messages)
+        self.violations.extend(other.violations)
+        if not other.success:
+            self.success = False
+
     def __str__(self) -> str:
-        """Something."""
+        """String result of validation."""
         if self.success:
             return f"Suksess: {', '.join(self.messages)}"
         return f"{NAME_STANDARD_VIOLATION}: {', '.join(self.violations)}"
@@ -95,7 +91,7 @@ class NameStandardValidator:
         """
         return bool(re.search(NameStandardValidator.INVALID_PATTERN, s.strip()))
 
-    def validate(self) -> ValidationResult | str | list:
+    def validate(self) -> ValidationResult:
         """Check for naming standard violations.
 
         Returns:
@@ -132,9 +128,12 @@ class NameStandardValidator:
                 self.result.add_message(NAME_STANDARD_SUCSESS)
         return self.result
 
-    def validate_bucket(self) -> list:
+    def validate_bucket(self) -> ValidationResult:
         """Recursively validate all files in a directory."""
-        result_list = []
+        final_result = ValidationResult()
+        if not self.bucket_directory.exists() or not self.bucket_directory:
+            final_result.add_message("Kan ikke validere bøtte navn")
+            return final_result
         if self.bucket_directory:
             for entry in os.scandir(self.bucket_directory):
                 if entry.is_file():
@@ -144,12 +143,12 @@ class NameStandardValidator:
                         bucket_name=self.bucket_name,
                     )
                     result = validator.validate()
-                    result_list.append((file_path, result))
+                    final_result.merge_result(result)
                 elif entry.is_dir():
                     sub_validator = NameStandardValidator(
                         file_path=None,
                         bucket_name=entry.path,
                     )
-                    result_list.extend(sub_validator.validate_bucket())
-            return result_list
-        return ["Kan ikke validere bøtte navn"]
+                    sub_result = sub_validator.validate_bucket()
+                    final_result.merge_result(sub_result)
+        return final_result
