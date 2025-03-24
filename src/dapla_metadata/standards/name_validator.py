@@ -99,9 +99,7 @@ class NameStandardValidator:
         """Check for naming standard violations.
 
         Returns:
-            - A list of violation messages if any naming standards are violated.
-            - A success message if no violations are found.
-            - A message if the file path is in an ignored folder.
+            A ValidationResult object containing messages and violations
         """
         if not self.file_path.exists():
             self.result.add_message(FILE_PATH_NOT_CONFIRMED)
