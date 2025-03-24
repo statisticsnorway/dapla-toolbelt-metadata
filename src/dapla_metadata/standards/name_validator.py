@@ -132,7 +132,9 @@ class NameStandardValidator:
             return True
 
         if any(
-            folder in self.file_path.as_posix().lower() for folder in IGNORED_FOLDERS
+            folder in self.file_path.as_posix().lower()
+            for folder in IGNORED_FOLDERS
+            if self.file_path is not None
         ):
             self.result.add_message(PATH_IGNORED)
             return True
