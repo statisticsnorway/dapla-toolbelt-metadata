@@ -1,6 +1,6 @@
 """Constants used in validate ssb name standard."""
 
-MISSING_BUCKET_NAME = "Bøttenavn"
+MISSING_BUCKET_NAME = "Filnavn mangler bøttenavn"
 MISSING_VERSION = "Filnavn mangler versjonsnummer ref: https://manual.dapla.ssb.no/statistikkere/navnestandard.html#filnavn"
 MISSING_PERIOD = "Filnavn mangler gyldighetsperiode ref: https://manual.dapla.ssb.no/statistikkere/navnestandard.html#filnavn"
 MISSING_SHORT_NAME = "Kortnavn for statistikk mangler"
