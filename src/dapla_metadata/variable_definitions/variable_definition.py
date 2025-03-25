@@ -127,6 +127,7 @@ class VariableDefinition(CompleteResponse):
             updated.short_name,
             updated.id,
         )
+        VariableDefinition.model_construct(**updated.model_dump())
         print(self.definition)
         return updated
 
