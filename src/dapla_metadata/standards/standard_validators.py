@@ -9,7 +9,7 @@ from dapla_metadata.standards.name_validator import ValidationResult
 def check_naming_standard(
     file_path: Path | CloudPath | None,
     bucket_name: str | None = None,
-) -> ValidationResult:
+) -> ValidationResult | list[ValidationResult]:
     """Check a given path following ssb name standard.
 
     This function checks whether the provided `file_path` or all files within
@@ -20,8 +20,8 @@ def check_naming_standard(
         bucket_name: The name of the bucket containing files to be validated.
 
     Returns:
-        ValidationResult: An object containing validation results, including success status,
-        messages, and any detected violations.
+        ValidationResult(s): An object or list of objects containing validation results,
+        including success status, checked file path, messages, and any detected violations.
 
     Examples:
         >>> check_naming_standard(file_path=Path("/data/example_file.parquet")).success

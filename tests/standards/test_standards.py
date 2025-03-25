@@ -33,9 +33,11 @@ def test_valid_path(file_path, tmp_path):
     full_path = tmp_path / file_path
     full_path.parent.mkdir(parents=True, exist_ok=True)
     full_path.touch()
-    assert check_naming_standard(file_path=full_path).messages == [
+    result = check_naming_standard(file_path=full_path)
+    assert result.messages == [
         NAME_STANDARD_SUCSESS,
     ]
+    assert isinstance(result, ValidationResult)
 
 
 @pytest.mark.parametrize(
@@ -248,13 +250,12 @@ def test_bucket_validation(file_path, bucket_name, tmp_path):
 
 
 def test_bucket_violations(tmp_path):
-    file_paths = [
-        "buckets/ssb-staging-dapla-felles-data-delt/stat_reg/inndata/_p2022_v1.parquet",
-    ]
-    for file_path in file_paths:
-        full_path = tmp_path / file_path
-        full_path.parent.mkdir(parents=True, exist_ok=True)
-        full_path.touch()
+    file_path = (
+        "buckets/ssb-staging-dapla-felles-data-delt/stat_reg/inndata/_p2022_v1.parquet"
+    )
+    full_path = tmp_path / file_path
+    full_path.parent.mkdir(parents=True, exist_ok=True)
+    full_path.touch()
     with patch.object(Path, "cwd", return_value=tmp_path / "buckets"):
         assert full_path.exists()
         assert Path.cwd() == tmp_path / "buckets"

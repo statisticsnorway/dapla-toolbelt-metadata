@@ -14,7 +14,6 @@ from dapla_metadata.standards.utils.constants import MISSING_SHORT_NAME
 from dapla_metadata.standards.utils.constants import NAME_STANDARD_SUCSESS
 from dapla_metadata.standards.utils.constants import PATH_IGNORED
 
-# Set up logging
 logging.basicConfig(
     level=logging.DEBUG,
     format="%(asctime)s - %(levelname)s - %(message)s",
@@ -28,12 +27,10 @@ class ValidationResult:
     def __init__(
         self,
         success: bool = True,
-        is_bucket: bool = False,
     ) -> None:
         """Initialize the validatation result."""
         self.success: bool = success
         self.file_path: str = None
-        self.is_bucket: bool = is_bucket
         self.messages: list[str] = []
         self.violations: list[str] = []
 
@@ -59,14 +56,7 @@ class ValidationResult:
             "file_path": self.file_path,
             "success": self.success,
             "messages": self.messages,
-            "violations": [
-                {"file_path": file_path, "violation": violation}
-                if self.is_bucket
-                else violation
-                for file_path, violation in self.violations
-            ]
-            if self.is_bucket
-            else self.violations,
+            "violations": self.violations,
         }
 
 
@@ -171,13 +161,14 @@ class NameStandardValidator:
             A ValidationResult object containing messages and violations
         """
         self.result.file_path = self.file_path
-        self._check_path_existence()
+
         if self.path_info and not self.file_path:
             return self.result
 
         if self._handle_ignored_folders():
             return self.result
 
+        self._check_path_existence()
         self._check_violations()
 
         if self.result.success:
