@@ -30,7 +30,7 @@ class ValidationResult:
     ) -> None:
         """Initialize the validatation result."""
         self.success: bool = success
-        self.file_path: str = None
+        self.file_path: str = ""
         self.messages: list[str] = []
         self.violations: list[str] = []
 
@@ -160,7 +160,7 @@ class NameStandardValidator:
         Returns:
             A ValidationResult object containing messages and violations
         """
-        self.result.file_path = self.file_path
+        self.result.file_path = str(self.file_path)
 
         if self.path_info and not self.file_path:
             return self.result
