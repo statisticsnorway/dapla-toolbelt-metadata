@@ -127,6 +127,7 @@ class VariableDefinition(CompleteResponse):
             updated.short_name,
             updated.id,
         )
+        print(self.definition)
         return updated
 
     @vardef_file_error_handler
