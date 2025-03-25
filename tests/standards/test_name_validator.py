@@ -24,4 +24,4 @@ def test_validate_sucsess(file_path, tmp_path):
     full_path.touch()
     path_to_check = NameStandardValidator(file_path=full_path, bucket_name=None)
     result = path_to_check.validate()
-    assert result.messages[0] == NAME_STANDARD_SUCSESS
+    assert NAME_STANDARD_SUCSESS in result.messages[0]

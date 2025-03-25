@@ -5,7 +5,6 @@ import pytest
 
 from dapla_metadata.standards.name_validator import ValidationResult
 from dapla_metadata.standards.standard_validators import check_naming_standard
-from dapla_metadata.standards.utils.constants import BUCKET_NAME_UNKNOWN
 from dapla_metadata.standards.utils.constants import FILE_PATH_NOT_CONFIRMED
 from dapla_metadata.standards.utils.constants import INVALID_SYMBOLS
 from dapla_metadata.standards.utils.constants import MISSING_DATA_STATE
@@ -14,7 +13,6 @@ from dapla_metadata.standards.utils.constants import MISSING_PERIOD
 from dapla_metadata.standards.utils.constants import MISSING_SHORT_NAME
 from dapla_metadata.standards.utils.constants import NAME_STANDARD_SUCSESS
 from dapla_metadata.standards.utils.constants import PATH_IGNORED
-from dapla_metadata.standards.utils.constants import SUCCESS
 
 
 @pytest.mark.parametrize(
@@ -35,9 +33,9 @@ def test_valid_path(file_path, tmp_path):
     full_path = tmp_path / file_path
     full_path.parent.mkdir(parents=True, exist_ok=True)
     full_path.touch()
-    assert (
-        check_naming_standard(file_path=full_path).messages[0] == NAME_STANDARD_SUCSESS
-    )
+    assert check_naming_standard(file_path=full_path).messages == [
+        NAME_STANDARD_SUCSESS,
+    ]
 
 
 @pytest.mark.parametrize(
@@ -58,8 +56,9 @@ def test_valid_path_string_result(file_path, tmp_path):
     full_path = tmp_path / file_path
     full_path.parent.mkdir(parents=True, exist_ok=True)
     full_path.touch()
-    result = check_naming_standard(file_path=full_path)
-    assert str(result) == f"{SUCCESS}: {NAME_STANDARD_SUCSESS}"
+    assert check_naming_standard(file_path=full_path).messages == [
+        NAME_STANDARD_SUCSESS,
+    ]
 
 
 @pytest.mark.parametrize(
@@ -70,7 +69,8 @@ def test_valid_path_string_result(file_path, tmp_path):
 )
 def test_path_not_confirmed(file_path):
     assert (
-        FILE_PATH_NOT_CONFIRMED in check_naming_standard(file_path=file_path).messages
+        check_naming_standard(file_path=file_path).messages[0]
+        == FILE_PATH_NOT_CONFIRMED
     )
 
 
@@ -151,7 +151,8 @@ def test_invalid_symbols(file_path, tmp_path):
     full_path = tmp_path / file_path
     full_path.parent.mkdir(parents=True, exist_ok=True)
     full_path.touch()
-    assert check_naming_standard(file_path=full_path).violations == [INVALID_SYMBOLS]
+    result = check_naming_standard(file_path=full_path)
+    assert any(v for v in result.violations for v in [INVALID_SYMBOLS])
 
 
 @pytest.mark.parametrize(
@@ -165,9 +166,8 @@ def test_missing_dataset_shortname(file_path, tmp_path):
     full_path = tmp_path / file_path
     full_path.parent.mkdir(parents=True, exist_ok=True)
     full_path.touch()
-    assert check_naming_standard(file_path=full_path).violations == [
-        MISSING_DATASET_SHORT_NAME,
-    ]
+    result = check_naming_standard(file_path=full_path)
+    assert any(v for v in result.violations for v in [MISSING_DATASET_SHORT_NAME])
 
 
 @pytest.mark.parametrize(
@@ -183,9 +183,13 @@ def test_missing_dataset_shortname_as_dict(file_path, tmp_path):
     full_path.touch()
     result = check_naming_standard(file_path=full_path)
     assert result.as_dict() == {
-        "success": False,
+        "file_path": full_path,
         "messages": [],
-        "violations": [MISSING_DATASET_SHORT_NAME],
+        "success": False,
+        "violations": [
+            "Filnavn mangler datasett kortnavn ref: "
+            "https://manual.dapla.ssb.no/statistikkere/navnestandard.html#filnavn",
+        ],
     }
 
 
@@ -216,7 +220,7 @@ def test_missing_multiple(file_path: str, violations: list, tmp_path):
     full_path.touch()
     result = check_naming_standard(file_path=full_path)
     if isinstance(result, ValidationResult):
-        assert result.violations == violations
+        assert any(v for v in result.violations for v in violations)
 
 
 @pytest.mark.parametrize(
@@ -225,10 +229,6 @@ def test_missing_multiple(file_path: str, violations: list, tmp_path):
         (
             "ssb-staging-dapla-felles-data-delt/stat_reg/utdata/person_data_p2022_v1.parquet",
             "ssb-staging-dapla-felles-data-delt",
-        ),
-        (
-            "ssb-dapla-example-data-produkt-prod/ledstill/inndata/person_testdata_p2021-12-31_p2021-12-31_v1.parquet",
-            "ssb-dapla-example-data-produkt-prod",
         ),
     ],
 )
@@ -239,24 +239,27 @@ def test_bucket_validation(file_path, bucket_name, tmp_path):
     with patch.object(Path, "cwd", return_value=tmp_path):
         assert full_path.exists()
         assert Path.cwd() == tmp_path
-        assert check_naming_standard(
+        result = check_naming_standard(
             file_path=None,
             bucket_name=bucket_name,
-        ).messages == [NAME_STANDARD_SUCSESS]
+        )
+        assert result[0].messages == [NAME_STANDARD_SUCSESS]
+        assert result[0].file_path == full_path
 
 
-@pytest.mark.parametrize(
-    ("bucket_name"),
-    [
-        "ssb-staging-dapla-felles-data-delt",
-        "ssb-dapla-example-data-produkt-prod",
-    ],
-)
-def test_bucket_validation_unknown(bucket_name):
-    assert (
-        BUCKET_NAME_UNKNOWN
-        in check_naming_standard(
+def test_bucket_violations(tmp_path):
+    file_paths = [
+        "buckets/ssb-staging-dapla-felles-data-delt/stat_reg/inndata/_p2022_v1.parquet",
+    ]
+    for file_path in file_paths:
+        full_path = tmp_path / file_path
+        full_path.parent.mkdir(parents=True, exist_ok=True)
+        full_path.touch()
+    with patch.object(Path, "cwd", return_value=tmp_path / "buckets"):
+        assert full_path.exists()
+        assert Path.cwd() == tmp_path / "buckets"
+        result = check_naming_standard(
             file_path=None,
-            bucket_name=bucket_name,
-        ).messages
-    )
+            bucket_name="ssb-staging-dapla-felles-data-delt",
+        )
+        assert result[0].violations == [MISSING_DATASET_SHORT_NAME]

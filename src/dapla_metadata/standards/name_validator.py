@@ -1,9 +1,9 @@
+import logging
 import os
 import re
 from pathlib import Path
 
 from dapla_metadata.datasets.dapla_dataset_path_info import DaplaDatasetPathInfo
-from dapla_metadata.standards.utils.constants import BUCKET_NAME_UNKNOWN
 from dapla_metadata.standards.utils.constants import FILE_PATH_NOT_CONFIRMED
 from dapla_metadata.standards.utils.constants import IGNORED_FOLDERS
 from dapla_metadata.standards.utils.constants import INVALID_SYMBOLS
@@ -12,61 +12,61 @@ from dapla_metadata.standards.utils.constants import MISSING_DATASET_SHORT_NAME
 from dapla_metadata.standards.utils.constants import MISSING_PERIOD
 from dapla_metadata.standards.utils.constants import MISSING_SHORT_NAME
 from dapla_metadata.standards.utils.constants import NAME_STANDARD_SUCSESS
-from dapla_metadata.standards.utils.constants import NAME_STANDARD_VIOLATION
 from dapla_metadata.standards.utils.constants import PATH_IGNORED
-from dapla_metadata.standards.utils.constants import SUCCESS
+
+# Set up logging
+logging.basicConfig(
+    level=logging.DEBUG,
+    format="%(asctime)s - %(levelname)s - %(message)s",
+)
+logger = logging.getLogger(__name__)
 
 
 class ValidationResult:
     """Result object for name standard validation."""
 
-    def __init__(self) -> None:
+    def __init__(
+        self,
+        success: bool = True,
+        is_bucket: bool = False,
+    ) -> None:
         """Initialize the validatation result."""
-        self.success: bool = True
+        self.success: bool = success
+        self.file_path: str = None
+        self.is_bucket: bool = is_bucket
         self.messages: list[str] = []
         self.violations: list[str] = []
 
     def add_message(self, message: str) -> None:
         """Add message to list."""
-        self.messages.append(message)
+        if message not in self.messages:
+            self.messages.append(message)
 
     def add_violation(self, violation: str) -> None:
         """Add violation to list."""
-        self.violations.append(violation)
+        if violation not in self.violations:
+            self.violations.append(violation)
         if self.success:
             self.success = False
-
-    def merge_result(self, other: "ValidationResult") -> None:
-        """Merge another ValidationResult into this one.
-
-        This method appends the messages and violations from another `ValidationResult`
-        to the current instance. If the other result has a failure (success is False),
-        the current instance's success status will be updated to False.
-
-        Args:
-            other (ValidationResult): Another validation result to merge into this one.
-        """
-        self.messages.extend(other.messages)
-        self.violations.extend(other.violations)
-        if not other.success:
-            self.success = False
-
-    def __str__(self) -> str:
-        """String result of validation."""
-        if self.success:
-            return f"{SUCCESS}: {', '.join(self.messages)}"
-        return f"{NAME_STANDARD_VIOLATION}: {', '.join(self.violations)}"
 
     def __repr__(self) -> str:
         """Representation for debugging."""
-        return f"ValidationResult(success={self.success}, messages={self.messages}, violations={self.violations})"
+        return f"ValidationResult(success={self.success}, file_path={self.file_path}, messages={self.messages}, violations={self.violations})"
 
     def as_dict(self) -> dict:
         """Return result as a dictionary."""
         return {
+            "file_path": self.file_path,
             "success": self.success,
             "messages": self.messages,
-            "violations": self.violations,
+            "violations": [
+                {"file_path": file_path, "violation": violation}
+                if self.is_bucket
+                else violation
+                for file_path, violation in self.violations
+            ]
+            if self.is_bucket
+            else self.violations,
         }
 
 
@@ -116,7 +116,9 @@ class NameStandardValidator:
     def _check_path_existence(self) -> None:
         """Check if the file path exists and add a message if not."""
         if self.file_path and not self.file_path.exists():
-            self.result.add_message(FILE_PATH_NOT_CONFIRMED)
+            self.result.add_message(
+                FILE_PATH_NOT_CONFIRMED,
+            )
 
     def _handle_ignored_folders(
         self,
@@ -168,6 +170,7 @@ class NameStandardValidator:
         Returns:
             A ValidationResult object containing messages and violations
         """
+        self.result.file_path = self.file_path
         self._check_path_existence()
         if self.path_info and not self.file_path:
             return self.result
@@ -178,29 +181,40 @@ class NameStandardValidator:
         self._check_violations()
 
         if self.result.success:
-            self.result.add_message(NAME_STANDARD_SUCSESS)
-
+            self.result.add_message(
+                NAME_STANDARD_SUCSESS,
+            )
         return self.result
 
-    def validate_bucket(self) -> ValidationResult:
+    def validate_bucket(self) -> list[ValidationResult]:
         """Recursively validate all files in a directory."""
-        final_result = ValidationResult()
-
-        if self.bucket_directory and not self.bucket_directory.exists():
-            final_result.add_message(BUCKET_NAME_UNKNOWN)
-            return final_result
+        validation_results = []
+        processed_files = set()
 
         for entry in os.scandir(self.bucket_directory):
             if entry.is_file():
-                result = NameStandardValidator(
-                    file_path=entry.path,
-                    bucket_name=self.bucket_name,
-                ).validate()
-                final_result.merge_result(result)
+                msg = f"Validating file: {entry.path}"
+                logger.debug(msg)
+
+                if entry.path not in processed_files:
+                    validator = NameStandardValidator(
+                        file_path=entry.path,
+                        bucket_name=self.bucket_name,
+                    )
+                    file_result = validator.validate()
+                    validation_results.append(file_result)
+                    processed_files.add(entry.path)
+
+                else:
+                    msg = f"Skipping already validated file: {entry.path}"
+                    logger.debug(msg)
+
             elif entry.is_dir():
-                sub_result = NameStandardValidator(
+                sub_validator = NameStandardValidator(
                     file_path=None,
                     bucket_name=entry.path,
-                ).validate_bucket()
-                final_result.merge_result(sub_result)
-        return final_result
+                )
+                sub_results = sub_validator.validate_bucket()  # Recursive call
+                validation_results.extend(sub_results)
+
+        return validation_results
