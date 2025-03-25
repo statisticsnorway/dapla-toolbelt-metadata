@@ -30,7 +30,7 @@ class ValidationResult:
     ) -> None:
         """Initialize the validatation result."""
         self.success: bool = success
-        self.file_path: str = ""
+        self.file_path: str | None = None
         self.messages: list[str] = []
         self.violations: list[str] = []
 
