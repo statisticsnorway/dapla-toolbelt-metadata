@@ -157,6 +157,7 @@ def mypy(session: Session) -> None:
         "pyarrow-stubs",
         "types-Pygments",
         "types-colorama",
+        "types-requests",
         "types-beautifulsoup4",
         "faker",
     )

@@ -1,9 +1,10 @@
 import logging
 from datetime import date
+from io import StringIO
 from os import PathLike
 from pathlib import Path
 
-import yaml
+import ruamel.yaml
 from pydantic import ConfigDict
 from pydantic import PrivateAttr
 
@@ -398,13 +399,17 @@ class VariableDefinition(CompleteResponse):
         return self._convert_to_yaml_output()
 
     def _convert_to_yaml_output(self) -> str:
-        return yaml.dump(
-            self.model_dump(
-                mode="json",
-                serialize_as_any=True,
-                warnings="error",
-            ),
-            allow_unicode=True,
-            default_flow_style=False,
-            sort_keys=False,
-        )
+        stream = StringIO()
+        with ruamel.yaml.YAML(
+            output=stream,
+        ) as yaml:
+            yaml.default_flow_style = False
+            yaml.allow_unicode = True
+            yaml.dump(
+                self.model_dump(
+                    mode="json",
+                    serialize_as_any=True,
+                    warnings="error",
+                ),
+            )
+        return stream.getvalue()

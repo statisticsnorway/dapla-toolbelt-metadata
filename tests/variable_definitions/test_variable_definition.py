@@ -297,7 +297,7 @@ contains_special_categories_of_personal_data: true
 variable_status: PUBLISHED_EXTERNAL
 measurement_type: test
 valid_from: '2024-11-01'
-valid_until: null
+valid_until:
 external_reference_uri: http://www.example.com
 comment:
   nb: test
