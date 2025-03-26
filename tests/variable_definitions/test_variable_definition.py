@@ -56,6 +56,22 @@ def test_update_draft(
     assert isinstance(my_draft.update_draft(update_draft), VariableDefinition)
 
 
+def test_update_draft_check_model_change(
+    update_draft: UpdateDraft,
+    mock_update_variable_definition_by_id,
+):
+    my_draft = Vardef.get_variable_definition_by_id(
+        variable_definition_id=VARDEF_EXAMPLE_DEFINITION_ID,
+    )
+    with patch(
+        "dapla_metadata.variable_definitions._generated.vardef_client.api.draft_variable_definitions_api.DraftVariableDefinitionsApi.update_variable_definition_by_id",
+        mock_update_variable_definition_by_id,
+    ):
+        my_draft.update_draft(update_draft=update_draft)
+        assert my_draft.classification_reference == "www.newurl.com"
+        mock_update_variable_definition_by_id.assert_called_once()
+
+
 def test_delete_draft():
     my_draft = Vardef.get_variable_definition_by_id(
         variable_definition_id=VARDEF_EXAMPLE_DEFINITION_ID,
@@ -66,13 +82,13 @@ def test_delete_draft():
 
 
 def test_create_patch(
-    patch: Patch,
+    patch_fixture: Patch,
     variable_definition: VariableDefinition,
 ):
     my_variable = variable_definition
     assert my_variable.patch_id == 1
     created_patch = my_variable.create_patch(
-        patch=patch,
+        patch=patch_fixture,
         valid_from=VARDEF_EXAMPLE_DATE,
     )
     assert isinstance(
@@ -80,6 +96,22 @@ def test_create_patch(
         VariableDefinition,
     )
     assert created_patch.patch_id == PATCH_ID
+
+
+def test_create_patch_check_model_change(
+    patch_fixture: Patch,
+    mock_update_variable_definition_by_id,
+):
+    my_draft = Vardef.get_variable_definition_by_id(
+        variable_definition_id=VARDEF_EXAMPLE_DEFINITION_ID,
+    )
+    with patch(
+        "dapla_metadata.variable_definitions._generated.vardef_client.api.patches_api.PatchesApi.create_patch",
+        mock_update_variable_definition_by_id,
+    ):
+        my_draft.create_patch(patch=patch_fixture)
+        assert my_draft.classification_reference == "www.newurl.com"
+        mock_update_variable_definition_by_id.assert_called_once()
 
 
 def test_create_validity_period(
@@ -91,6 +123,22 @@ def test_create_validity_period(
         my_variable.create_validity_period(validity_period),
         VariableDefinition,
     )
+
+
+def test_create_validity_period_check_model_change(
+    validity_period: ValidityPeriod,
+    mock_update_variable_definition_by_id,
+):
+    my_draft = Vardef.get_variable_definition_by_id(
+        variable_definition_id=VARDEF_EXAMPLE_DEFINITION_ID,
+    )
+    with patch(
+        "dapla_metadata.variable_definitions._generated.vardef_client.api.validity_periods_api.ValidityPeriodsApi.create_validity_period",
+        mock_update_variable_definition_by_id,
+    ):
+        my_draft.create_validity_period(validity_period=validity_period)
+        assert my_draft.classification_reference == "www.newurl.com"
+        mock_update_variable_definition_by_id.assert_called_once()
 
 
 def test_update_draft_from_file():

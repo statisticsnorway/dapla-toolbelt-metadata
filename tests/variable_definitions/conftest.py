@@ -1,7 +1,9 @@
 import os
 from collections.abc import Generator
 from datetime import date
+from datetime import datetime
 from pathlib import Path
+from unittest.mock import Mock
 
 import pytest
 
@@ -12,6 +14,9 @@ from dapla_metadata.variable_definitions._generated.vardef_client.api_client imp
 )
 from dapla_metadata.variable_definitions._generated.vardef_client.configuration import (
     Configuration,
+)
+from dapla_metadata.variable_definitions._generated.vardef_client.models.complete_response import (
+    CompleteResponse,
 )
 from dapla_metadata.variable_definitions._generated.vardef_client.models.contact import (
     Contact,
@@ -207,7 +212,7 @@ def validity_period(language_string_type, contact) -> ValidityPeriod:
 
 
 @pytest.fixture
-def patch(language_string_type, contact, owner) -> Patch:
+def patch_fixture(language_string_type, contact, owner) -> Patch:
     return Patch(
         name=language_string_type,
         definition=language_string_type,
@@ -261,6 +266,34 @@ def sample_complete_patch_output() -> VariableDefinition:
         created_by="ano@ssb.no",
         last_updated_at=date(2024, 11, 1),
         last_updated_by="ano@ssb.no",
+    )
+
+
+@pytest.fixture
+def mock_update_variable_definition_by_id():
+    return Mock(
+        return_value=CompleteResponse(
+            id="test-id",
+            patch_id=1,
+            name=LanguageStringType(en="Name", nb="Navn"),
+            short_name="short-name",
+            definition=LanguageStringType(en="Definition", nb="Definition"),
+            unit_types=["unit-type"],
+            subject_fields=["subject-field"],
+            contains_special_categories_of_personal_data=False,
+            variable_status=VariableStatus.DRAFT,
+            valid_from=date(2023, 1, 1),
+            owner=Owner(team="Owner", groups=["dapla-felles"]),
+            contact=Contact(
+                title=LanguageStringType(en="Contact", nb="Contact"),
+                email="contact@contact.com",
+            ),
+            classification_reference="www.newurl.com",
+            created_at=datetime(2023, 1, 1, 12, 0),  # noqa: DTZ001
+            created_by="created by",
+            last_updated_at=datetime(2023, 1, 1, 12, 0),  # noqa: DTZ001
+            last_updated_by="updated by",
+        ),
     )
 
 
