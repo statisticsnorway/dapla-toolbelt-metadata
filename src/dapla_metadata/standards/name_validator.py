@@ -182,28 +182,28 @@ class NameStandardValidator:
         validation_results = []
         processed_files = set()
 
-        for entry in os.scandir(self.bucket_directory):
+        for entry in Path(self.bucket_directory).rglob("*"):
             if entry.is_file():
-                msg = f"Validating file: {entry.path}"
+                msg = f"Validating file: {entry}"
                 logger.debug(msg)
 
-                if entry.path not in processed_files:
+                if entry not in processed_files:
                     validator = NameStandardValidator(
-                        file_path=entry.path,
+                        file_path=entry,
                         bucket_name=self.bucket_name,
                     )
                     file_result = validator.validate()
                     validation_results.append(file_result)
-                    processed_files.add(entry.path)
+                    processed_files.add(entry)
 
                 else:
-                    msg = f"Skipping already validated file: {entry.path}"
+                    msg = f"Skipping already validated file: {entry}"
                     logger.debug(msg)
 
             elif entry.is_dir():
                 sub_validator = NameStandardValidator(
                     file_path=None,
-                    bucket_name=entry.path,
+                    bucket_name=entry,
                 )
                 sub_results = sub_validator.validate_bucket()  # Recursive call
                 validation_results.extend(sub_results)
