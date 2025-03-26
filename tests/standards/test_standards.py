@@ -246,7 +246,7 @@ def test_bucket_violations(tmp_path):
         "buckets/ssb-staging-dapla-felles-data-delt/stat_reg/inndata/_p2022_v1.parquet"
     )
     file_path_2 = (
-        "buckets/ssb-staging-dapla-felles-data-delt/stat_reg/utdata/_p2022_v1.parquet"
+        "buckets/ssb-staging-dapla-felles-data-delt/stat_reg/utdata/person_v1.parquet"
     )
     full_path_1 = tmp_path / file_path_1
     full_path_1.parent.mkdir(parents=True, exist_ok=True)
@@ -261,4 +261,5 @@ def test_bucket_violations(tmp_path):
             bucket_name="ssb-staging-dapla-felles-data-delt",
         )
         assert len(result) == 2
-        assert result[0].violations == [MISSING_DATASET_SHORT_NAME]
+        assert result[0].violations == [MISSING_PERIOD]
+        assert result[1].violations == [MISSING_DATASET_SHORT_NAME]
