@@ -194,4 +194,7 @@ class NameStandardValidator:
                     msg = f"Skipping already validated file: {entry}"
                     logger.debug(msg)
 
+            elif entry.is_dir():
+                continue
+
         return validation_results
