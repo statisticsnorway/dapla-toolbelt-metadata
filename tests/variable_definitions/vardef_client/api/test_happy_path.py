@@ -89,12 +89,12 @@ def test_get_patch(api_client):
     assert isinstance(patch, CompleteResponse)
 
 
-def test_create_patch(api_client, patch):
+def test_create_patch(api_client, patch_fixture):
     api_instance = vardef_client.PatchesApi(api_client)
     patch = api_instance.create_patch(
         variable_definition_id=VARDEF_EXAMPLE_DEFINITION_ID,
         active_group=VARDEF_EXAMPLE_ACTIVE_GROUP,
         valid_from=VARDEF_EXAMPLE_DATE,
-        patch=patch,
+        patch=patch_fixture,
     )
     assert isinstance(patch, CompleteResponse)

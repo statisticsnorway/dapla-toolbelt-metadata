@@ -122,6 +122,8 @@ class VariableDefinition(CompleteResponse):
                 update_draft=update_draft,
             ),
         )
+        self.__dict__.update(updated)
+
         logger.info(
             "Successfully updated variable definition '%s' with ID '%s'",
             updated.short_name,
@@ -228,6 +230,8 @@ class VariableDefinition(CompleteResponse):
                 valid_from=valid_from,
             ),
         )
+        self.__dict__.update(new_patch)
+
         logger.info(
             "Successfully created patch with patch ID '%s' for variable definition '%s' with ID '%s'",
             new_patch.patch_id,
@@ -301,6 +305,7 @@ class VariableDefinition(CompleteResponse):
                 validity_period=validity_period,
             ),
         )
+        self.__dict__.update(new_validity_period)
 
         logger.info(
             "Successfully created validity period that is valid from '%s' for variable definition '%s' with ID '%s'",
