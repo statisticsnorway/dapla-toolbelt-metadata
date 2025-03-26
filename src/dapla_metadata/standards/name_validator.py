@@ -182,7 +182,7 @@ class NameStandardValidator:
         validation_results = []
         processed_files = set()
 
-        for entry in Path(self.bucket_directory).rglob("*"):
+        for entry in self.bucket_directory.rglob("*"):
             if entry.is_file():
                 msg = f"Validating file: {entry}"
                 logger.debug(msg)
