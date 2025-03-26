@@ -81,8 +81,6 @@ class NameStandardValidator:
 
         if self.bucket_name:
             self.bucket_directory: Path = Path.cwd() / self.bucket_name
-        else:
-            self.bucket_directory = None
 
     @staticmethod
     def is_invalid_symbols(s: str) -> bool:
