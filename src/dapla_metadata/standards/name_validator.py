@@ -198,12 +198,4 @@ class NameStandardValidator:
                     msg = f"Skipping already validated file: {entry}"
                     logger.debug(msg)
 
-            elif entry.is_dir():
-                sub_validator = NameStandardValidator(
-                    file_path=None,
-                    bucket_name=entry,
-                )
-                sub_results = sub_validator.validate_bucket()  # Recursive call
-                validation_results.extend(sub_results)
-
         return validation_results
