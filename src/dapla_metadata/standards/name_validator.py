@@ -14,10 +14,6 @@ from dapla_metadata.standards.utils.constants import MISSING_SHORT_NAME
 from dapla_metadata.standards.utils.constants import NAME_STANDARD_SUCSESS
 from dapla_metadata.standards.utils.constants import PATH_IGNORED
 
-logging.basicConfig(
-    level=logging.DEBUG,
-    format="%(asctime)s - %(levelname)s - %(message)s",
-)
 logger = logging.getLogger(__name__)
 
 
