@@ -58,16 +58,14 @@ class ValidationResult:
 
 
 class BucketNameValidator:
-    """Validator for ensuring file names from bucket name adhere to naming standard."""
+    """Validator for ensuring files in bucket adhere to naming standard."""
 
     def __init__(
         self,
         bucket_name: Path | str,
     ) -> None:
-        """Initialize the validator with file path information."""
+        """Initialize the validator with bucket name and bucket directory."""
         self.bucket_name = bucket_name
-        self.result: ValidationResult = ValidationResult()
-
         root = Path("/buckets")
         self.bucket_directory: Path = root / self.bucket_name
 
@@ -77,9 +75,12 @@ class BucketNameValidator:
         processed_files = set()
 
         if not self.bucket_name or not self.bucket_directory.exists():
-            self.result.file_path = self.bucket_directory
-            self.result.add_message(BUCKET_NAME_UNKNOWN)
-            return validation_results.append(self.result)
+            result = ValidationResult(
+                success=False,
+            )
+            result.file_path = self.bucket_directory
+            result.add_message(BUCKET_NAME_UNKNOWN)
+            return validation_results.append(result)
 
         for entry in self.bucket_directory.rglob("*"):
             if entry.is_file():
