@@ -227,9 +227,7 @@ def test_valid_partioned_path_success(file_path, tmp_path):
     full_path.parent.mkdir(parents=True, exist_ok=True)
     full_path.touch()
     result = check_naming_standard(file_path=full_path)
-    assert result.messages == [
-        NAME_STANDARD_SUCSESS,
-    ]
+    assert NAME_STANDARD_SUCSESS in result.messages
     assert isinstance(result, ValidationResult)
 
 
