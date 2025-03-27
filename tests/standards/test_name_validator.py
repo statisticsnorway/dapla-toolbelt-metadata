@@ -2,6 +2,7 @@ import pytest
 
 from dapla_metadata.standards.name_validator import BucketNameValidator
 from dapla_metadata.standards.name_validator import NameStandardValidator
+from dapla_metadata.standards.utils.constants import BUCKET_NAME_UNKNOWN
 from dapla_metadata.standards.utils.constants import MISSING_DATASET_SHORT_NAME
 from dapla_metadata.standards.utils.constants import MISSING_PERIOD
 from dapla_metadata.standards.utils.constants import NAME_STANDARD_SUCSESS
@@ -104,3 +105,12 @@ def test_bucket_validation_violations(
     assert not results[0].success
     assert MISSING_DATASET_SHORT_NAME in results[1].violations
     assert MISSING_PERIOD in results[0].violations
+
+
+def test_bucket_not_found():
+    validator = BucketNameValidator(bucket_name="random_bucket")
+    results = validator.validate()
+
+    assert len(results) == 1
+    assert not results[0].success
+    assert BUCKET_NAME_UNKNOWN in results[0].messages
