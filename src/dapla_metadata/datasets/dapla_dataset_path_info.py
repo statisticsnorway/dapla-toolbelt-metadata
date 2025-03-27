@@ -352,6 +352,10 @@ class DaplaDatasetPathInfo:
         Examples:
             >>> DaplaDatasetPathInfo("gs://team-bøtte/statistikk/klargjorte-data/persondata_p1990-Q1_p2023-Q4_v1/aar=2018").is_partitioned_data
             True
+
+            >>> DaplaDatasetPathInfo("team-bøtte/stat/inndata/person_p1990-Q1_p2023-Q4_v1/aar=2019/data.parquet").is_partitioned_data
+            True
+
             >>> DaplaDatasetPathInfo("gs://team-bøtte/statistikk/klargjorte-data/persondata_p1990-Q1_p2023-Q4_v1.parquet").is_partitioned_data
             False
         """
