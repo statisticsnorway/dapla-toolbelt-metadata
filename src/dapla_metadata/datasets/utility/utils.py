@@ -52,7 +52,7 @@ def normalize_path(path: str) -> pathlib.Path | CloudPath:
         Pathlib compatible object.
     """
     if path.startswith(GSPath.cloud_prefix):
-        client = GSClient(credentials=google.auth.default())
+        client = GSClient(credentials=google.auth.default()[0])
         return GSPath(path, client=client)
     return pathlib.Path(path)
 
