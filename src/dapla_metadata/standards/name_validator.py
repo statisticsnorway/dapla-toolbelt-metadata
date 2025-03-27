@@ -74,7 +74,7 @@ class BucketNameValidator:
         validation_results = []
         processed_files = set()
 
-        if not self.bucket_name or not self.bucket_directory.exists():
+        if not self.bucket_directory.exists():
             result = ValidationResult(
                 success=False,
             )
