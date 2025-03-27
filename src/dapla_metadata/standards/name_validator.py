@@ -4,6 +4,7 @@ import re
 from pathlib import Path
 
 from dapla_metadata.datasets.dapla_dataset_path_info import DaplaDatasetPathInfo
+from dapla_metadata.standards.utils.constants import BUCKET_NAME_UNKNOWN
 from dapla_metadata.standards.utils.constants import FILE_PATH_NOT_CONFIRMED
 from dapla_metadata.standards.utils.constants import IGNORED_FOLDERS
 from dapla_metadata.standards.utils.constants import INVALID_SYMBOLS
@@ -74,6 +75,11 @@ class BucketNameValidator:
         """Recursively validate all files in a directory."""
         validation_results = []
         processed_files = set()
+
+        if not self.bucket_name or not self.bucket_directory.exists():
+            self.result.file_path = self.bucket_directory
+            self.result.add_message(BUCKET_NAME_UNKNOWN)
+            return validation_results.append(self.result)
 
         for entry in self.bucket_directory.rglob("*"):
             if entry.is_file():
