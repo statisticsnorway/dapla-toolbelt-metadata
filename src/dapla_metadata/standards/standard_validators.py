@@ -31,6 +31,7 @@ def check_naming_standard(
         >>> check_naming_standard(file_path=Path("buckets/produkt/datadoc/utdata/person_data_p2021_v2.parquet")).success
         True
     """
+    naming_validator: BucketNameValidator | NameStandardValidator
     if bucket_name:
         naming_validator = BucketNameValidator(bucket_name=bucket_name)
     elif file_path:
