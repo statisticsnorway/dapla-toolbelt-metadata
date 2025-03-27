@@ -246,11 +246,42 @@ def test_partioned_path_success(file_path, tmp_path):
             "buckets/ssb-dapla-example-data-produkt-prod/inndata/skjema_p2018_p202_v1/aar=2018/data.parquet",
             MISSING_SHORT_NAME,
         ),
+        (
+            "ssb-dapla-example-data-produkt-prod/ledstill/klargjorte_data/_p2018_p202_v1/aar=2018/data.parquet",
+            MISSING_DATASET_SHORT_NAME,
+        ),
     ],
 )
-def test_valid_partioned_path_violations(file_path, violation, tmp_path):
+def test_partioned_path_violations(file_path, violation, tmp_path):
     full_path = tmp_path / file_path
     full_path.parent.mkdir(parents=True, exist_ok=True)
     full_path.touch()
     result = check_naming_standard(file_path=full_path)
     assert violation in result.violations
+
+
+def test_partioned_path_path_ignored(tmp_path):
+    file_path = "ssb-dapla-example-data-produkt-prod/tidsserier/inndata/skjema_p2018_p202_v1/aar=2018/data.parquet"
+    full_path = tmp_path / file_path
+    full_path.parent.mkdir(parents=True, exist_ok=True)
+    full_path.touch()
+    result = check_naming_standard(file_path=full_path)
+    assert PATH_IGNORED in result.messages
+    assert result.success
+    assert len(result.violations) == 0
+
+
+def test_partioned_path_not_confirmed_success():
+    file_path = "ssb-dapla-example-data-produkt-prod/ledstill/inndata/skjema_p2018_p202_v1/aar=2018/data.parquet"
+    result = check_naming_standard(file_path=file_path)
+    assert FILE_PATH_NOT_CONFIRMED in result.messages
+    assert result.success
+    assert NAME_STANDARD_SUCSESS in result.messages
+
+
+def test_partioned_path_not_confirmed_violation():
+    file_path = "ssb-dapla-example-data-produkt-prod/ledstill/inndata/skjema_v1/aar=2018/data.parquet"
+    result = check_naming_standard(file_path=file_path)
+    assert FILE_PATH_NOT_CONFIRMED in result.messages
+    assert not result.success
+    assert MISSING_PERIOD in result.violations
