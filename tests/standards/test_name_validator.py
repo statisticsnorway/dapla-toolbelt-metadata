@@ -1,5 +1,6 @@
 import pytest
 
+from dapla_metadata.standards.name_validator import BucketNameValidator
 from dapla_metadata.standards.name_validator import NameStandardValidator
 from dapla_metadata.standards.utils.constants import MISSING_DATASET_SHORT_NAME
 from dapla_metadata.standards.utils.constants import MISSING_PERIOD
@@ -24,7 +25,7 @@ def test_validate_sucsess(file_path, tmp_path):
     full_path = tmp_path / file_path
     full_path.parent.mkdir(parents=True, exist_ok=True)
     full_path.touch()
-    path_to_check = NameStandardValidator(file_path=full_path, bucket_name=None)
+    path_to_check = NameStandardValidator(file_path=full_path)
     result = path_to_check.validate()
     assert NAME_STANDARD_SUCSESS in result.messages[0]
 
@@ -60,10 +61,10 @@ def test_bucket_validation_success(
     (indata_path / file_path_1).touch()
     (outdata_path / file_path_2).touch()
 
-    validator = NameStandardValidator(file_path=None, bucket_name=bucket_name)
+    validator = BucketNameValidator(bucket_name=bucket_name)
     monkeypatch.setattr(validator, "bucket_directory", fake_bucket)
 
-    results = validator.validate_bucket()
+    results = validator.validate()
 
     assert len(results) == 2
     assert results[0].success
@@ -99,10 +100,10 @@ def test_bucket_validation_violations(
     (indata_path / file_path_1).touch()
     (outdata_path / file_path_2).touch()
 
-    validator = NameStandardValidator(file_path=None, bucket_name=bucket_name)
+    validator = BucketNameValidator(bucket_name=bucket_name)
     monkeypatch.setattr(validator, "bucket_directory", fake_bucket)
 
-    results = validator.validate_bucket()
+    results = validator.validate()
 
     assert len(results) == 2
     assert not results[0].success
