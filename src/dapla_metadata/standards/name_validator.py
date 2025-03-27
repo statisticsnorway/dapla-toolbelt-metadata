@@ -174,10 +174,10 @@ class NameStandardValidator:
         }
 
         violations = [message for message, value in checks.items() if not value]
-        if self.path_info.is_partitioned_data:
+        if self.file_path and self.path_info.is_partitioned_data:
             if PartitionedDataValidator.is_invalid_symbols(self.file_path.as_posix()):
                 violations.append(INVALID_SYMBOLS)
-        elif self.is_invalid_symbols(self.file_path.as_posix()):
+        elif self.file_path and self.is_invalid_symbols(self.file_path.as_posix()):
             violations.append(INVALID_SYMBOLS)
 
         for violation in violations:
