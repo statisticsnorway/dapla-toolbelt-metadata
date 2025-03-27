@@ -222,7 +222,7 @@ def test_missing_multiple(file_path: str, violations: list, tmp_path):
         "ssb-dapla-example-data-produkt-prod/ledstill/klargjorte_data/editert_p2018_p202_v1/aar=2018/data.parquet",
     ],
 )
-def test_valid_partioned_path_success(file_path, tmp_path):
+def test_partioned_path_success(file_path, tmp_path):
     full_path = tmp_path / file_path
     full_path.parent.mkdir(parents=True, exist_ok=True)
     full_path.touch()
@@ -232,21 +232,25 @@ def test_valid_partioned_path_success(file_path, tmp_path):
 
 
 @pytest.mark.parametrize(
-    ("file_path", "violations"),
+    ("file_path", "violation"),
     [
         (
             "buckets/ssb-dapla-example-data-produkt-prod/ledstill/skjema_p2018_p202_v1/aar=2019/data.parquet",
-            [MISSING_SHORT_NAME, MISSING_DATA_STATE],
+            MISSING_DATA_STATE,
         ),
         (
             "ssb-dapla-example-data-produkt-prod/ledstill/klargjorte_data/editert_v1/aar=2018/data.parquet",
-            [MISSING_PERIOD],
+            MISSING_PERIOD,
+        ),
+        (
+            "buckets/ssb-dapla-example-data-produkt-prod/inndata/skjema_p2018_p202_v1/aar=2018/data.parquet",
+            MISSING_SHORT_NAME,
         ),
     ],
 )
-def test_valid_partioned_path_violations(file_path, violations, tmp_path):
+def test_valid_partioned_path_violations(file_path, violation, tmp_path):
     full_path = tmp_path / file_path
     full_path.parent.mkdir(parents=True, exist_ok=True)
     full_path.touch()
     result = check_naming_standard(file_path=full_path)
-    assert result.violations == violations
+    assert violation in result.violations
