@@ -46,11 +46,11 @@ class ValidationResult:
         """Representation for debugging."""
         return f"ValidationResult(success={self.success}, file_path={self.file_path}, messages={self.messages}, violations={self.violations})"
 
-    def as_dict(self) -> dict:
+    def to_dict(self) -> dict:
         """Return result as a dictionary."""
         return {
-            "file_path": self.file_path,
             "success": self.success,
+            "file_path": self.file_path,
             "messages": self.messages,
             "violations": self.violations,
         }

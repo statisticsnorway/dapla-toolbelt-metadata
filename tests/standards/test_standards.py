@@ -181,7 +181,7 @@ def test_missing_dataset_shortname_as_dict(file_path, tmp_path):
     full_path.parent.mkdir(parents=True, exist_ok=True)
     full_path.touch()
     result = check_naming_standard(file_path=full_path)
-    assert not result.as_dict()["success"]
+    assert not result.to_dict()["success"]
 
 
 @pytest.mark.parametrize(
