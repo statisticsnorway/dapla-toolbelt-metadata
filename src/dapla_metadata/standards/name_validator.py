@@ -1,12 +1,13 @@
+import asyncio
 import logging
 import os
 import re
+from collections.abc import AsyncGenerator
 from pathlib import Path
 
 from dapla_metadata.datasets.dapla_dataset_path_info import DaplaDatasetPathInfo
 from dapla_metadata.standards.utils.constants import FILE_PATH_NOT_CONFIRMED
 from dapla_metadata.standards.utils.constants import IGNORED_FOLDERS
-from dapla_metadata.standards.utils.constants import INVALID_SYMBOLS
 from dapla_metadata.standards.utils.constants import MISSING_DATA_STATE
 from dapla_metadata.standards.utils.constants import MISSING_DATASET_SHORT_NAME
 from dapla_metadata.standards.utils.constants import MISSING_PERIOD
@@ -128,74 +129,59 @@ class NameStandardValidator:
 
         return False
 
-    def _check_violations(
-        self,
-    ) -> None:
-        """Check for missing attributes and invalid symbols."""
-        checks = {
-            MISSING_SHORT_NAME: self.path_info.statistic_short_name,
-            MISSING_DATA_STATE: self.path_info.dataset_state,
-            MISSING_PERIOD: self.path_info.contains_data_from,
-            MISSING_DATASET_SHORT_NAME: self.path_info.dataset_short_name,
-        }
 
-        violations = [message for message, value in checks.items() if not value]
+async def _check_violations(
+    file: Path,
+) -> list[str]:
+    """Check for missing attributes and invalid symbols."""
+    path_info = DaplaDatasetPathInfo(file)
+    checks = {
+        MISSING_SHORT_NAME: path_info.statistic_short_name,
+        MISSING_DATA_STATE: path_info.dataset_state,
+        MISSING_PERIOD: path_info.contains_data_from,
+        MISSING_DATASET_SHORT_NAME: path_info.dataset_short_name,
+    }
 
-        if self.file_path is not None and self.is_invalid_symbols(
-            self.file_path.as_posix(),
-        ):
-            violations.append(INVALID_SYMBOLS)
+    return [message for message, value in checks.items() if not value]
 
-        for violation in violations:
-            self.result.add_violation(violation)
+    # if self.file_path is not None and self.is_invalid_symbols(
+    #     self.file_path.as_posix(),
+    # ):
+    #     violations.append(INVALID_SYMBOLS)
 
-    def validate(self) -> ValidationResult:
-        """Check for naming standard violations.
+    # for violation in violations:
+    #     self.result.add_violation(violation)
 
-        Returns:
-            A ValidationResult object containing messages and violations
-        """
-        self.result.file_path = str(self.file_path)
 
-        if self.path_info and not self.file_path:
-            return self.result
+async def validate(file: Path) -> ValidationResult:
+    """Check for naming standard violations.
 
-        if self._handle_ignored_folders():
-            return self.result
+    Returns:
+        A ValidationResult object containing messages and violations
+    """
+    print(f"Validating file: {file}")
+    result = ValidationResult()
+    result.file_path = str(file)
 
-        self._check_path_existence()
-        self._check_violations()
+    result.violations = await _check_violations(file)
 
-        if self.result.success:
-            self.result.add_message(
-                NAME_STANDARD_SUCSESS,
-            )
-        return self.result
+    if result.success:
+        result.add_message(
+            NAME_STANDARD_SUCSESS,
+        )
+    return result
 
-    def validate_bucket(self) -> list[ValidationResult]:
-        """Recursively validate all files in a directory."""
-        validation_results = []
-        processed_files = set()
 
-        for entry in self.bucket_directory.rglob("*"):
-            if entry.is_file():
-                msg = f"Validating file: {entry}"
-                logger.debug(msg)
-
-                if entry not in processed_files:
-                    validator = NameStandardValidator(
-                        file_path=entry,
-                        bucket_name=self.bucket_name,
-                    )
-                    file_result = validator.validate()
-                    validation_results.append(file_result)
-                    processed_files.add(entry)
-
-                else:
-                    msg = f"Skipping already validated file: {entry}"
-                    logger.debug(msg)
-
-            elif entry.is_dir():
+async def validate_directory(
+    file: Path,
+) -> AsyncGenerator[asyncio.Future | asyncio.Task]:
+    """Recursively validate all files in a directory."""
+    for obj in file.glob("*"):
+        print(f"Found {obj}")
+        if obj.suffix:
+            if obj.suffix != ".parquet":
                 continue
+            yield asyncio.create_task(validate(obj))
 
-        return validation_results
+        else:
+            yield validate_directory(obj)
