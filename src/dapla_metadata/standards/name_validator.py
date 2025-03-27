@@ -80,7 +80,8 @@ class BucketNameValidator:
             )
             result.file_path = self.bucket_directory
             result.add_message(BUCKET_NAME_UNKNOWN)
-            return validation_results.append(result)
+            validation_results.append(result)
+            return validation_results
 
         for entry in self.bucket_directory.rglob("*"):
             if entry.is_file():
