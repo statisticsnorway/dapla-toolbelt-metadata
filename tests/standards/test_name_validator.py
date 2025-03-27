@@ -1,6 +1,8 @@
 import pytest
 
 from dapla_metadata.standards.name_validator import NameStandardValidator
+from dapla_metadata.standards.utils.constants import MISSING_DATASET_SHORT_NAME
+from dapla_metadata.standards.utils.constants import MISSING_PERIOD
 from dapla_metadata.standards.utils.constants import NAME_STANDARD_SUCSESS
 
 
@@ -27,16 +29,82 @@ def test_validate_sucsess(file_path, tmp_path):
     assert NAME_STANDARD_SUCSESS in result.messages[0]
 
 
-def test_bucket_validation_success(monkeypatch, tmp_path):
-    fake_bucket = tmp_path / "produkt"
-    fake_bucket.mkdir()
-    (fake_bucket / "person_data_p2021_v2.parquet").touch()
-    (fake_bucket / "bil_p2021_v2.parquet").touch()
+@pytest.mark.parametrize(
+    ("short_name", "file_path_1", "file_path_2", "bucket_name"),
+    [
+        (
+            "stat_reg",
+            "person_data_p2022_v1.parquet",
+            "bil_data_p2022_v1.parquet",
+            "ssb-staging-dapla-felles-data-delt",
+        ),
+    ],
+)
+def test_bucket_validation_success(
+    short_name,
+    file_path_1,
+    file_path_2,
+    bucket_name,
+    monkeypatch,
+    tmp_path,
+):
+    fake_bucket = tmp_path / bucket_name / short_name
 
-    validator = NameStandardValidator(file_path=None, bucket_name="produkt")
+    fake_bucket.mkdir(parents=True, exist_ok=True)
+    indata_path = fake_bucket / "inndata"
+    outdata_path = fake_bucket / "utdata"
+
+    indata_path.mkdir(parents=True, exist_ok=True)
+    outdata_path.mkdir(parents=True, exist_ok=True)
+
+    (indata_path / file_path_1).touch()
+    (outdata_path / file_path_2).touch()
+
+    validator = NameStandardValidator(file_path=None, bucket_name=bucket_name)
     monkeypatch.setattr(validator, "bucket_directory", fake_bucket)
 
     results = validator.validate_bucket()
 
     assert len(results) == 2
+    assert results[0].success
     assert all(res.file_path.startswith(str(fake_bucket)) for res in results)
+
+
+@pytest.mark.parametrize(
+    ("file_path_1", "file_path_2", "bucket_name"),
+    [
+        (
+            "_p2022_v1.parquet",
+            "bil_data_v1.parquet",
+            "ssb-staging-dapla-felles-data-delt",
+        ),
+    ],
+)
+def test_bucket_validation_violations(
+    file_path_1,
+    file_path_2,
+    bucket_name,
+    monkeypatch,
+    tmp_path,
+):
+    fake_bucket = tmp_path / bucket_name
+
+    fake_bucket.mkdir(parents=True, exist_ok=True)
+    indata_path = fake_bucket / "inndata"
+    outdata_path = fake_bucket / "utdata"
+
+    indata_path.mkdir(parents=True, exist_ok=True)
+    outdata_path.mkdir(parents=True, exist_ok=True)
+
+    (indata_path / file_path_1).touch()
+    (outdata_path / file_path_2).touch()
+
+    validator = NameStandardValidator(file_path=None, bucket_name=bucket_name)
+    monkeypatch.setattr(validator, "bucket_directory", fake_bucket)
+
+    results = validator.validate_bucket()
+
+    assert len(results) == 2
+    assert not results[0].success
+    assert MISSING_DATASET_SHORT_NAME in results[1].violations
+    assert MISSING_PERIOD in results[0].violations

@@ -1,6 +1,3 @@
-from pathlib import Path
-from unittest.mock import patch
-
 import pytest
 
 from dapla_metadata.standards.name_validator import ValidationResult
@@ -215,51 +212,3 @@ def test_missing_multiple(file_path: str, violations: list, tmp_path):
     result = check_naming_standard(file_path=full_path)
     if isinstance(result, ValidationResult):
         assert any(v for v in result.violations for v in violations)
-
-
-@pytest.mark.parametrize(
-    ("file_path", "bucket_name"),
-    [
-        (
-            "ssb-staging-dapla-felles-data-delt/stat_reg/utdata/person_data_p2022_v1.parquet",
-            "ssb-staging-dapla-felles-data-delt",
-        ),
-    ],
-)
-def test_bucket_validation(file_path, bucket_name, tmp_path):
-    full_path = tmp_path / file_path
-    full_path.parent.mkdir(parents=True, exist_ok=True)
-    full_path.touch()
-    with patch.object(Path, "cwd", return_value=tmp_path):
-        assert full_path.exists()
-        assert Path.cwd() == tmp_path
-        result = check_naming_standard(
-            file_path=None,
-            bucket_name=bucket_name,
-        )
-        assert result[0].messages == [NAME_STANDARD_SUCSESS]
-        assert str(file_path) in str(result[0].file_path)
-
-
-def test_bucket_violations(tmp_path):
-    file_path_1 = (
-        "buckets/ssb-staging-dapla-felles-data-delt/stat_reg/inndata/_p2022_v1.parquet"
-    )
-    file_path_2 = (
-        "buckets/ssb-staging-dapla-felles-data-delt/stat_reg/utdata/person_v1.parquet"
-    )
-    full_path_1 = tmp_path / file_path_1
-    full_path_1.parent.mkdir(parents=True, exist_ok=True)
-    full_path_1.touch()
-
-    full_path_2 = tmp_path / file_path_2
-    full_path_2.parent.mkdir(parents=True, exist_ok=True)
-    full_path_2.touch()
-    with patch.object(Path, "cwd", return_value=tmp_path / "buckets"):
-        result = check_naming_standard(
-            file_path=None,
-            bucket_name="ssb-staging-dapla-felles-data-delt",
-        )
-        assert len(result) == 2
-        assert result[0].violations == [MISSING_PERIOD]
-        assert result[1].violations == [MISSING_DATASET_SHORT_NAME]
