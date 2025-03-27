@@ -27,7 +27,10 @@ def test_normalize_path(
     expected_type: type[os.PathLike],
     mocker,
 ):
-    mocker.patch(f"{DATADOC_METADATA_MODULE_UTILS}.AuthClient", autospec=True)
+    mocker.patch(
+        f"{DATADOC_METADATA_MODULE_UTILS}.google.auth.default",
+        autospec=True,
+    )
     mocker.patch(f"{DATADOC_METADATA_MODULE_UTILS}.GSClient", LocalGSClient)
     mocker.patch(
         f"{DATADOC_METADATA_MODULE_UTILS}.GSPath",

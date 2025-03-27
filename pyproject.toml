@@ -19,18 +19,18 @@ Changelog = "https://github.com/statisticsnorway/dapla-toolbelt-metadata/release
 python = ">=3.11,<4.0"
 pyarrow = ">=8.0.0"
 pydantic = ">=2.5.2"
-pandas = ">=1.4.2"
-dapla-toolbelt = ">=3.0.1"
 arrow = ">=1.3.0"
 python-dotenv = ">=1.0.1"
 requests = ">=2.31.0"
 beautifulsoup4 = ">=4.12.3"
 cloudpathlib = { extras = ["gs"], version = ">=0.17.0" }
 pyjwt = ">=2.8.0"
-ssb-klass-python = ">=0.0.9"
+ssb-klass-python = ">=1.0.1"
 ssb-datadoc-model = "^6.0.0"
 typing-extensions = ">=4.12.2"
-ruamel-yaml = "^0.18.10"
+ruamel-yaml = ">=0.18.10"
+google-auth = ">=2.38.0"
+lxml = ">=5.3.1"
 
 [tool.poetry.group.dev.dependencies]
 pygments = ">=2.18.0"
@@ -48,6 +48,7 @@ typeguard = ">=2.13.3"
 xdoctest = { extras = ["colors"], version = ">=0.15.10" }
 myst-parser = { version = ">=0.16.1" }
 mypy = ">=0.950"
+pandas = ">=1.4.2"
 pytest-cov = ">=3.0.0"
 python-kacl = "*"
 pytest-mock = ">=3.14.0"
@@ -58,6 +59,7 @@ requests-mock = ">=1.12.1"
 types-Pygments = "*"
 types-colorama = "*"
 types-setuptools = "*"
+types-requests = "*"
 types-beautifulsoup4 = ">=4.12.0.20240511"
 ipykernel = "^6.29.5"
 rich = "^13.9.4"
@@ -115,8 +117,8 @@ module = [
     "datadoc_model.model",
     "pytest_mock",
     "testcontainers.*",
-    "yaml",
     "httpx",
+    "ruamel.*",
 ]
 ignore_missing_imports = true
 

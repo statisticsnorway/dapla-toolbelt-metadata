@@ -1,7 +1,7 @@
 import urllib.parse
 from pathlib import Path
 
-import yaml
+import ruamel.yaml
 from testcontainers.core.image import DockerImage
 from testcontainers.core.waiting_utils import wait_for_logs
 from testcontainers.generic import ServerContainer
@@ -59,7 +59,7 @@ class MicrocksContainer(ServerContainer):
         api_name: str | None = None
 
         with Path(self.primary_artifact).open() as openapi:
-            openapi_yaml: dict = yaml.safe_load(openapi)
+            openapi_yaml: dict = ruamel.yaml.YAML().load(openapi)
 
         info: dict | None = openapi_yaml.get("info")
         if info is None:
