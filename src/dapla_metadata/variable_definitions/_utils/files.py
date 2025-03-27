@@ -127,7 +127,8 @@ def _populate_commented_map(
     )[NORWEGIAN_DESCRIPTIONS]
     if description is not None:
         new_description = (
-            (REQUIRED_FIELD if field.is_required() else OPTIONAL_FIELD)
+            "\n"
+            + (REQUIRED_FIELD if field.is_required() else OPTIONAL_FIELD)
             + "\n"
             + str(description)
         )
@@ -177,7 +178,7 @@ def _validate_and_create_directory(custom_directory: Path) -> Path:
 def _configure_yaml() -> YAML:
     yaml = YAML()  # Use ruamel.yaml library
     yaml.default_flow_style = False  # Ensures pretty YAML formatting
-
+    yaml.indent(mapping=2, sequence=4, offset=2)
     yaml.representer.add_representer(
         VariableStatus,
         lambda dumper, data: dumper.represent_scalar(
