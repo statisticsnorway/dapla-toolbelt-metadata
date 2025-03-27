@@ -76,7 +76,8 @@ class NameStandardValidator:
             self.path_info = DaplaDatasetPathInfo(str(file_path))
 
         if self.bucket_name:
-            self.bucket_directory: Path = Path.cwd() / self.bucket_name
+            root = Path("/buckets")
+            self.bucket_directory: Path = root / self.bucket_name
 
     @staticmethod
     def is_invalid_symbols(s: str) -> bool:
