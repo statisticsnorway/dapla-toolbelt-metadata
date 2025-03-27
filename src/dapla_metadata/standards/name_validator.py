@@ -78,7 +78,7 @@ class BucketNameValidator:
             result = ValidationResult(
                 success=False,
             )
-            result.file_path = self.bucket_directory
+            result.file_path = str(self.bucket_directory)
             result.add_message(BUCKET_NAME_UNKNOWN)
             validation_results.append(result)
             return validation_results
