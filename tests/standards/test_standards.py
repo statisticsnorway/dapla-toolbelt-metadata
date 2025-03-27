@@ -238,15 +238,15 @@ def test_valid_partioned_path_success(file_path, tmp_path):
     [
         (
             "ssb-dapla-example-data-produkt-prod/inndata/skjema_p2018_p202_v1/aar=2018/data.parquet",
-            [MISSING_PERIOD, INVALID_SYMBOLS],
+            [MISSING_PERIOD],
         ),
         (
             "buckets/ssb-dapla-example-data-produkt-prod/ledstill/skjema_p2018_p202_v1/aar=2019/data.parquet",
-            [MISSING_SHORT_NAME, MISSING_DATA_STATE, MISSING_PERIOD, INVALID_SYMBOLS],
+            [MISSING_SHORT_NAME, MISSING_DATA_STATE, MISSING_PERIOD],
         ),
         (
             "ssb-dapla-example-data-produkt-prod/ledstill/klargjorte_data/editert_v1/aar=2018/data.parquet",
-            [MISSING_PERIOD, INVALID_SYMBOLS],
+            [MISSING_PERIOD],
         ),
     ],
 )
