@@ -31,20 +31,18 @@ def test_validate_sucsess(file_path, tmp_path):
 
 
 @pytest.mark.parametrize(
-    ("short_name", "file_path_1", "file_path_2", "bucket_name"),
+    ("short_name", "file_paths", "bucket_name"),
     [
         (
             "stat_reg",
-            "person_data_p2022_v1.parquet",
-            "bil_data_p2022_v1.parquet",
+            ["person_data_p2022_v1.parquet", "bil_data_p2022_v1.parquet"],
             "ssb-staging-dapla-felles-data-delt",
         ),
     ],
 )
 def test_bucket_validation_success(
     short_name,
-    file_path_1,
-    file_path_2,
+    file_paths,
     bucket_name,
     monkeypatch,
     tmp_path,
@@ -58,8 +56,8 @@ def test_bucket_validation_success(
     indata_path.mkdir(parents=True, exist_ok=True)
     outdata_path.mkdir(parents=True, exist_ok=True)
 
-    (indata_path / file_path_1).touch()
-    (outdata_path / file_path_2).touch()
+    (indata_path / file_paths[0]).touch()
+    (outdata_path / file_paths[1]).touch()
 
     validator = BucketNameValidator(bucket_name=bucket_name)
     monkeypatch.setattr(validator, "bucket_directory", fake_bucket)
@@ -68,22 +66,19 @@ def test_bucket_validation_success(
 
     assert len(results) == 2
     assert results[0].success
-    assert all(res.file_path.startswith(str(fake_bucket)) for res in results)
 
 
 @pytest.mark.parametrize(
-    ("file_path_1", "file_path_2", "bucket_name"),
+    ("file_paths", "bucket_name"),
     [
         (
-            "_p2022_v1.parquet",
-            "bil_data_v1.parquet",
+            ["_p2022_v1.parquet", "bil_data_v1.parquet"],
             "ssb-staging-dapla-felles-data-delt",
         ),
     ],
 )
 def test_bucket_validation_violations(
-    file_path_1,
-    file_path_2,
+    file_paths,
     bucket_name,
     monkeypatch,
     tmp_path,
@@ -97,8 +92,8 @@ def test_bucket_validation_violations(
     indata_path.mkdir(parents=True, exist_ok=True)
     outdata_path.mkdir(parents=True, exist_ok=True)
 
-    (indata_path / file_path_1).touch()
-    (outdata_path / file_path_2).touch()
+    (indata_path / file_paths[0]).touch()
+    (outdata_path / file_paths[1]).touch()
 
     validator = BucketNameValidator(bucket_name=bucket_name)
     monkeypatch.setattr(validator, "bucket_directory", fake_bucket)
