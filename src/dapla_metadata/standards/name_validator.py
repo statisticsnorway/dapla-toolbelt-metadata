@@ -24,7 +24,7 @@ class ValidationResult:
         self,
         success: bool = True,
     ) -> None:
-        """Initialize the validatation result."""
+        """Initialize the validation result."""
         self.success: bool = success
         self.file_path: str | None = None
         self.messages: list[str] = []
@@ -54,6 +54,40 @@ class ValidationResult:
             "messages": self.messages,
             "violations": self.violations,
         }
+
+
+class PartitionedDataValidator:
+    """Validator for ensuring partioned data files adhere to naming standard."""
+
+    INVALID_PATTERN = r"[^a-zA-Z0-9\./:_=-]"
+
+    def __init__(
+        self,
+        file_path: Path | str,
+    ) -> None:
+        """Initialize the validator."""
+        self.file_path = file_path
+        self.path_info = DaplaDatasetPathInfo(self.file_path)
+        self.result = ValidationResult()
+
+    @staticmethod
+    def is_invalid_symbols(s: str) -> bool:
+        """Return True if string contains illegal symbols.
+
+        Examples:
+            >>> PartitionedDataValidator.is_invalid_symbols("åregang-øre")
+            True
+
+            >>> PartitionedDataValidator.is_invalid_symbols("Azor89=value")
+            False
+
+            >>> PartitionedDataValidator.is_invalid_symbols("ssbÆ-dapla-example-data-produkt-prod/ledstill/oppdrag/skjema_p2018_p2020_v1")
+            True
+
+            >>> PartitionedDataValidator.is_invalid_symbols("ssb-dapla-example-data-produkt-prod/ledstill/oppdrag/skjema_p2018_p2020_v1")
+            False
+        """
+        return bool(re.search(PartitionedDataValidator.INVALID_PATTERN, s.strip()))
 
 
 class NameStandardValidator:
