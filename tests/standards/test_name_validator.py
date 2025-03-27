@@ -25,3 +25,18 @@ def test_validate_sucsess(file_path, tmp_path):
     path_to_check = NameStandardValidator(file_path=full_path, bucket_name=None)
     result = path_to_check.validate()
     assert NAME_STANDARD_SUCSESS in result.messages[0]
+
+
+def test_bucket_validation_success(monkeypatch, tmp_path):
+    fake_bucket = tmp_path / "produkt"
+    fake_bucket.mkdir()
+    (fake_bucket / "person_data_p2021_v2.parquet").touch()
+    (fake_bucket / "bil_p2021_v2.parquet").touch()
+
+    validator = NameStandardValidator(file_path=None, bucket_name="produkt")
+    monkeypatch.setattr(validator, "bucket_directory", fake_bucket)
+
+    results = validator.validate_bucket()
+
+    assert len(results) == 2
+    assert all(res.file_path.startswith(str(fake_bucket)) for res in results)
