@@ -3552,13 +3552,15 @@ pydantic = ">=2.5.2"
 
 [[package]]
 name = "ssb-klass-python"
-version = "1.0.0"
+version = "1.0.1"
 description = "A Python package built on top of KLASS's API for retrieving classifications, codes, correspondences etc."
 optional = false
-python-versions = ">=3.10,<4.0"
+python-versions = "<4.0,>=3.10"
 groups = ["main"]
-files = []
-develop = false
+files = [
+    {file = "ssb_klass_python-1.0.1-py3-none-any.whl", hash = "sha256:91d0a930449b27c009b3428065676675169fbdeac6de849dcc0adeee4d1fc181"},
+    {file = "ssb_klass_python-1.0.1.tar.gz", hash = "sha256:bb6d10235d464fc6d41f92434c543c6451723f943de71b502f1926c4cf29c6a1"},
+]
 
 [package.dependencies]
 ipython = "<9"
@@ -3568,12 +3570,6 @@ python-dateutil = ">=2.8.2"
 requests = ">=2.31.0"
 toml = ">=0.10.2"
 typing-extensions = ">=4.12.2"
-
-[package.source]
-type = "git"
-url = "https://github.com/statisticsnorway/ssb-klass-python.git"
-reference = "HEAD"
-resolved_reference = "7429198a06688b00b71e0d13e95dd715bf07c9d3"
 
 [[package]]
 name = "stack-data"
@@ -4250,4 +4246,4 @@ tests-strict = ["pytest (==4.6.0) ; python_version < \"3.10.0\" and python_versi
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.11,<4.0"
-content-hash = "1cb9126a83d0a1b437cdc88977cfb605ec836ca3fa6b5ff787765d316551b934"
+content-hash = "231d70b719420ac94cd36f75b2e9ba17996ff1ffe056c7ad8b086c1ded76845f"
