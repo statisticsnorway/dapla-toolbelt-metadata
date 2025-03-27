@@ -340,6 +340,16 @@ class DaplaDatasetPathInfo:
         self.dataset_path = pathlib.Path(dataset_path)
         self.dataset_name_sections = self.dataset_path.stem.split("_")
         self._period_strings = self._extract_period_strings(self.dataset_name_sections)
+        self.is_partitioned_data = self._is_partitioned_data()
+
+    def _is_partitioned_data(self):
+        """Check if dataset path is partitioned data."""
+        for part in self.dataset_path.parts:
+            if "=" in part:
+                key, value = part.split("=", 1)
+                if key and value:
+                    return True
+        return False
 
     @staticmethod
     def _get_period_string_indices(dataset_name_sections: list[str]) -> list[int]:
