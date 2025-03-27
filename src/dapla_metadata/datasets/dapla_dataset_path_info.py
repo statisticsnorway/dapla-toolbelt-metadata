@@ -478,7 +478,7 @@ class DaplaDatasetPathInfo:
         """Extract the bucket name from the dataset path.
 
         Returns:
-            The bucket name or None if the dataset path is not a GCS path.
+            The bucket name or None if the dataset path is not a GCS path nor ssb bucketeer path.
 
         Examples:
             >>> DaplaDatasetPathInfo('gs://ssb-staging-dapla-felles-data-delt/datadoc/utdata/person_data_p2021_v2.parquet').bucket_name
@@ -492,17 +492,32 @@ class DaplaDatasetPathInfo:
 
             >>> DaplaDatasetPathInfo('ssb-staging-dapla-felles-data-delt/datadoc/utdata/person_data_p2021_v2.parquet').bucket_name
             None
+
+            >>> DaplaDatasetPathInfo('ssb-staging-dapla-felles-data-delt/datadoc/utdata/person_data_p2021_v2.parquet').bucket_name
+            None
+
+            >>> DaplaDatasetPathInfo('buckets/ssb-staging-dapla-felles-data-delt/stat/utdata/person_data_p2021_v2.parquet').bucket_name
+            ssb-staging-dapla-felles-data-delt
+
+            >>> DaplaDatasetPathInfo('home/work/buckets/ssb-staging-dapla-felles-produkt/stat/utdata/person_data_p2021_v2.parquet').bucket_name
+            ssb-staging-dapla-felles-produkt
         """
         prefix: str | None = None
-        if self.dataset_string.startswith(GSPath.cloud_prefix):
+        dataset_string = str(self.dataset_string)
+        if GSPath.cloud_prefix in self.dataset_string:
             prefix = GSPath.cloud_prefix
-        elif self.dataset_string.startswith(GS_PREFIX_FROM_PATHLIB):
+            _, bucket_and_rest = dataset_string.split(prefix, 1)
+        elif GS_PREFIX_FROM_PATHLIB in self.dataset_string:
             prefix = GS_PREFIX_FROM_PATHLIB
+            _, bucket_and_rest = self.dataset_string.split(prefix, 1)
+        elif "buckets/" in self.dataset_string:
+            prefix = "buckets/"
+            _, bucket_and_rest = self.dataset_string.split(prefix, 1)
         else:
             return None
 
         return pathlib.Path(
-            self.dataset_string.removeprefix(prefix),
+            bucket_and_rest,
         ).parts[0]
 
     @property
@@ -528,6 +543,15 @@ class DaplaDatasetPathInfo:
 
             >>> DaplaDatasetPathInfo('my_data/simple_dataset_name.parquet').dataset_short_name
             simple_dataset_name
+
+            >>> DaplaDatasetPathInfo('gs:/ssb-staging-dapla-felles-data-delt/datadoc/utdata/person_data_p2021_v2.parquet').dataset_short_name
+            person_data
+
+            >>> DaplaDatasetPathInfo('buckets/ssb-staging-dapla-felles-data-delt/stat/utdata/folk_data_p2021_v2.parquet').dataset_short_name
+            folk_data
+
+            >>> DaplaDatasetPathInfo('buckets/ssb-staging-dapla-felles-data-delt/stat/utdata/dapla/bus_p2021_v2.parquet').dataset_short_name
+            bus
         """
         if self.contains_data_from or self.contains_data_until:
             short_name_sections = self.dataset_name_sections[
@@ -601,6 +625,9 @@ class DaplaDatasetPathInfo:
             >>> DaplaDatasetPathInfo('utdata/min_statistikk/person_data_v1.parquet').dataset_state
             <DataSetState.OUTPUT_DATA: 'OUTPUT_DATA'>
 
+            >>> DaplaDatasetPathInfo('buckets/bucket_name/stat_name/inndata/min_statistikk/person_data_v1.parquet').dataset_state
+            <DataSetState.INPUT_DATA: 'INPUT_DATA'>
+
             >>> DaplaDatasetPathInfo('my_special_data/person_data_v1.parquet').dataset_state
             None
         """
@@ -632,6 +659,12 @@ class DaplaDatasetPathInfo:
 
             >>> DaplaDatasetPathInfo('person_data.parquet').dataset_version
             None
+
+            >>> DaplaDatasetPathInfo('buckets/bucket_name/stat_name/inndata/min_statistikk/person_data_v1.parquet').dataset_version
+            '1'
+
+            >>> DaplaDatasetPathInfo('buckets/bucket_name/stat_name/inndata/min_statistikk/person_data.parquet').dataset_version
+            None
         """
         minimum_elements_in_file_name: Final[int] = 2
         minimum_characters_in_version_string: Final[int] = 2
@@ -644,6 +677,30 @@ class DaplaDatasetPathInfo:
             ):
                 return last_filename_element[1:]
         return None
+
+    def _get_left_parts(
+        self,
+        dataset_path_parts: list[str],
+        state_index: int,
+    ) -> list[str]:
+        """Retrieve the path parts before the dataset state, considering bucket prefixes."""
+        bucket_prefix = {"gs:", "buckets"}
+        left_parts = dataset_path_parts[:state_index]
+
+        # Stop checking beyond the bucket prefix
+        prefix_intersection = bucket_prefix & set(left_parts)
+        if prefix_intersection:
+            first_prefix = min(
+                left_parts.index(prefix) for prefix in prefix_intersection
+            )
+            left_parts = left_parts[first_prefix:]
+
+        return (
+            []
+            if left_parts == ["/"]
+            or (left_parts[0] in bucket_prefix and len(left_parts) <= 2)
+            else left_parts
+        )
 
     @property
     def statistic_short_name(
@@ -665,18 +722,44 @@ class DaplaDatasetPathInfo:
             >>> DaplaDatasetPathInfo('befolkning/inndata/person_data_v1.parquet').statistic_short_name
             befolkning
 
+            >>> DaplaDatasetPathInfo('buckets/bucket_name/stat_name/inndata/min_statistikk/person_data.parquet').statistic_short_name
+            stat_name
+
+            >>> DaplaDatasetPathInfo('buckets/stat_name/utdata/person_data.parquet').statistic_short_name
+            None
+
             >>> DaplaDatasetPathInfo('befolkning/person_data.parquet').statistic_short_name
             None
+
+            >>> DaplaDatasetPathInfo('buckets/produkt/befolkning/utdata/person_data.parquet').statistic_short_name
+            befolkning
+
+            >>> DaplaDatasetPathInfo('resources/buckets/produkt/befolkning/utdata/person_data.parquet').statistic_short_name
+            befolkning
         """
         dataset_state = self.dataset_state
-        if dataset_state is not None:
-            dataset_state_names = self._extract_norwegian_dataset_state_path_part(
-                dataset_state,
-            )
-            dataset_path_parts = list(self.dataset_path.parts)
-            for i in dataset_state_names:
-                if i in dataset_path_parts and dataset_path_parts.index(i) != 0:
-                    return dataset_path_parts[dataset_path_parts.index(i) - 1]
+        # Not possible to retrieve short name when dataset state folder is not present
+        if not dataset_state:
+            return None
+
+        dataset_state_names = self._extract_norwegian_dataset_state_path_part(
+            dataset_state,
+        )
+        dataset_path_parts = list(self.dataset_path.parts)
+
+        for state in dataset_state_names:
+            if state in dataset_path_parts:
+                index = dataset_path_parts.index(state)
+                if index == 0:
+                    continue  # Skip if state is the first element
+
+                # Check parts from state forward
+                left_parts = self._get_left_parts(dataset_path_parts, index)
+                if not left_parts:
+                    return None
+
+                return dataset_path_parts[index - 1]
+
         return None
 
     def path_complies_with_naming_standard(self) -> bool:
