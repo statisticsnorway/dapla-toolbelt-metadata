@@ -63,12 +63,8 @@ class PartitionedDataValidator:
 
     def __init__(
         self,
-        file_path: Path | str,
     ) -> None:
         """Initialize the validator."""
-        self.file_path = file_path
-        self.path_info = DaplaDatasetPathInfo(self.file_path)
-        self.result = ValidationResult()
 
     @staticmethod
     def is_invalid_symbols(s: str) -> bool:
