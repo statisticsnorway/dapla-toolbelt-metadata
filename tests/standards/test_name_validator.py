@@ -1,3 +1,5 @@
+from pathlib import Path
+
 import pytest
 
 from dapla_metadata.standards.name_validator import NameStandardValidator
@@ -108,3 +110,65 @@ def test_bucket_validation_violations(
     assert not results[0].success
     assert MISSING_DATASET_SHORT_NAME in results[1].violations
     assert MISSING_PERIOD in results[0].violations
+
+
+@pytest.mark.parametrize(
+    ("short_name", "indata_file_paths", "processed_file_paths", "bucket_name"),
+    [
+        (
+            "stat_reg",
+            [
+                "person_data_p2017_p2024_v2/year=2017/data.parquet",
+                "person_data_p2017_p2024_v2/year=2018/data.parquet",
+            ],
+            [
+                "person_data_p2017_p2024_v2/year=2017/edited.parquet",
+                "person_data_p2017_p2024_v2/year=2018/edited.parquet",
+            ],
+            "ssb-staging-dapla-felles-data-delt",
+        ),
+    ],
+)
+def test_bucket_validation_partitioned_data_success(
+    short_name,
+    indata_file_paths,
+    processed_file_paths,
+    bucket_name,
+    monkeypatch,
+    tmp_path,
+):
+    fake_bucket = tmp_path / bucket_name / short_name
+
+    fake_bucket.mkdir(parents=True, exist_ok=True)
+    indata_path = fake_bucket / "inndata"
+    processed_path = fake_bucket / "klargjorte_data"
+
+    indata_path.mkdir(parents=True, exist_ok=True)
+    processed_path.mkdir(parents=True, exist_ok=True)
+
+    (indata_path / Path(indata_file_paths[0]).parent).mkdir(parents=True, exist_ok=True)
+    (indata_path / Path(indata_file_paths[1]).parent).mkdir(parents=True, exist_ok=True)
+
+    (processed_path / Path(processed_file_paths[0]).parent).mkdir(
+        parents=True,
+        exist_ok=True,
+    )
+    (processed_path / Path(processed_file_paths[1]).parent).mkdir(
+        parents=True,
+        exist_ok=True,
+    )
+
+    (indata_path / indata_file_paths[0]).touch()
+    (indata_path / indata_file_paths[1]).touch()
+
+    (processed_path / processed_file_paths[0]).touch()
+    (processed_path / processed_file_paths[1]).touch()
+
+    validator = NameStandardValidator(file_path=None, bucket_name=bucket_name)
+    monkeypatch.setattr(validator, "bucket_directory", fake_bucket)
+
+    results = validator.validate_bucket()
+
+    assert len(results) == 4
+    assert all(result.success for result in results)
+    assert all(NAME_STANDARD_SUCSESS in result.messages for result in results)
