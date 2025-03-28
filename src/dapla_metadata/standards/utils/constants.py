@@ -2,7 +2,7 @@
 
 SUCCESS = "Suksess"
 
-NAME_STANDARD_SUCSESS = "Filene dine er i samsvar med SSB-navnestandarden"
+NAME_STANDARD_SUCCESS = "Filene dine er i samsvar med SSB-navnestandarden"
 
 NAME_STANDARD_VIOLATION = "Det er oppdaget brudd på SSB-navnestandard:"
 
@@ -15,9 +15,10 @@ MISSING_DATASET_SHORT_NAME = "Filnavn mangler datasett kortnavn ref: https://man
 
 INVALID_SYMBOLS = "Filnavn inneholder ulovlige tegn ref: https://manual.dapla.ssb.no/statistikkere/navnestandard.html#filnavn"
 
-PATH_IGNORED = "Mappen er ikke underlagt krav til navnestandard"
+PATH_IGNORED = "Ignorert, mappen er ikke underlagt krav til navnestandard."
+FILE_IGNORED = "Ignorert, kun .parquet filer valideres foreløpig."
 
-FILE_PATH_NOT_CONFIRMED = "Det var ikke mulig å bekrefte at filstien eksisterer. Validering ble utført uten å kunne bekrefte filens eksistens."
+FILE_DOES_NOT_EXIST = "Filen eksisterer ikke. Validerer uansett."
 
 BUCKET_NAME_UNKNOWN = "Kan ikke validere bøttenavn"
 

@@ -65,6 +65,7 @@ ipykernel = "^6.29.5"
 rich = "^13.9.4"
 bpython = "^0.24"
 testcontainers = { version = "^4.8.2", extras = ["generic"] }
+pytest-asyncio = "^0.26.0"
 
 [tool.pytest.ini_options]
 pythonpath = ["src"]
