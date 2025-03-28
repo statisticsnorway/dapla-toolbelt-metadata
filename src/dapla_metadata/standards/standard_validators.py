@@ -1,4 +1,5 @@
 import asyncio
+import logging
 import os
 import time
 from collections.abc import AsyncGenerator
@@ -6,6 +7,8 @@ from collections.abc import AsyncGenerator
 from dapla_metadata.datasets.utility.utils import normalize_path
 from dapla_metadata.standards.name_validator import ValidationResult
 from dapla_metadata.standards.name_validator import validate_directory
+
+logger = logging.getLogger(__name__)
 
 
 async def check_naming_standard(
@@ -25,42 +28,49 @@ async def check_naming_standard(
                 We also accept paths which don't yet exist so that you can test if a path will comply.
 
     Returns:
-        ValidationResult(s): An object or list of objects containing validation results,
+        list[ValidationResult]: A list of validation results,
         including success status, checked file path, messages, and any detected violations.
 
     Examples:
-        >>> check_naming_standard(file_path=Path("/data/example_file.parquet")).success
+        >>> check_naming_standard("/data/example_file.parquet").success
         False
 
-        >>> check_naming_standard(file_path=Path("buckets/produkt/datadoc/utdata/person_data_p2021_v2.parquet")).success
+        >>> check_naming_standard("/buckets/produkt/datadoc/utdata/person_data_p2021_v2.parquet").success
         True
     """
-    loop = asyncio.get_event_loop()
-    loop.set_task_factory(asyncio.eager_task_factory)
     results = []
-    tasks = [t async for t in validate_directory(normalize_path(file_path))]
+
+    # Begin validation.
+    # For each file this returns a task which we can wait on to complete.
+    # For each directory this returns another AsyncGenerator which must be unpacked below
+    tasks = [t async for t in validate_directory(normalize_path(str(file_path)))]  # type:ignore [arg-type]
+
+    # 5 minute timeout for safety
     start_time = time.time()
-    while time.time() < start_time + (2 * 60):
+    while time.time() < start_time + (5 * 60):
         for item in tasks:
             if isinstance(item, AsyncGenerator):
                 # Drill down into lower directories to get the validation tasks from them
                 tasks.remove(item)
+                new_tasks = [t async for t in item]
+                logger.debug("New Tasks: %s %s", len(new_tasks), new_tasks)
                 tasks.extend(
-                    [t async for t in item],
+                    new_tasks,
                 )
             elif isinstance(item, asyncio.Task):
                 if item.done():
-                    print(f"Validated {item.get_name()}")
+                    logger.info("Validated %s", item.get_name())
                     tasks.remove(item)
                     results.append(item.result())
+
+        logger.debug("Tasks: %s %s", len(tasks), tasks)
+        logger.debug("Results: %s", len(results))
+
         if len(tasks) == 0:
-            print("No tasks left")
+            logger.info("Completed validation")
             break
-        if all(isinstance(t, asyncio.Task) for t in tasks) and all(
-            t.done() for t in tasks
-        ):
-            print("All tasks complete")
-            break
-        await asyncio.sleep(1)
+
+        # Allow time for other processing to be performed
+        await asyncio.sleep(0.001)
 
     return results
