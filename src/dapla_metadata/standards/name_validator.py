@@ -130,7 +130,7 @@ class NameStandardValidator:
         return False
 
 
-async def _check_violations(
+def _check_violations(
     file: Path,
 ) -> list[str]:
     """Check for missing attributes and invalid symbols."""
@@ -153,19 +153,33 @@ async def _check_violations(
     #     self.result.add_violation(violation)
 
 
-async def validate(file: Path) -> ValidationResult:
+async def validate_file(
+    file: Path,
+    check_file_exists: bool = False,
+) -> ValidationResult:
     """Check for naming standard violations.
 
     Returns:
         A ValidationResult object containing messages and violations
     """
-    print(f"Validating file: {file}")
+    # print(f"Validating file: {file}")
     result = ValidationResult()
     result.file_path = str(file)
 
-    result.violations = await _check_violations(file)
+    if check_file_exists and not file.exists():
+        result.add_message(
+            FILE_PATH_NOT_CONFIRMED,
+        )
 
-    if result.success:
+    result.violations = await asyncio.get_running_loop().run_in_executor(
+        None,
+        lambda: _check_violations(file),
+    )
+
+    if result.violations:
+        result.success = False
+    else:
+        result.success = True
         result.add_message(
             NAME_STANDARD_SUCSESS,
         )
@@ -174,14 +188,22 @@ async def validate(file: Path) -> ValidationResult:
 
 async def validate_directory(
     file: Path,
-) -> AsyncGenerator[asyncio.Future | asyncio.Task]:
+) -> AsyncGenerator[AsyncGenerator | asyncio.Task]:
     """Recursively validate all files in a directory."""
-    for obj in file.glob("*"):
-        print(f"Found {obj}")
-        if obj.suffix:
-            if obj.suffix != ".parquet":
-                continue
-            yield asyncio.create_task(validate(obj))
+    if file.suffix:
+        if file.suffix != ".parquet":
+            return
+        yield asyncio.create_task(validate_file(file, check_file_exists=True))
+    else:
+        for obj in await asyncio.get_running_loop().run_in_executor(
+            None,
+            lambda: file.glob("*"),
+        ):
+            # print(f"Found {obj}")
+            if obj.suffix:
+                if obj.suffix != ".parquet":
+                    continue
+                yield asyncio.create_task(validate_file(obj), name=obj.name)
 
-        else:
-            yield validate_directory(obj)
+            else:
+                yield validate_directory(obj)

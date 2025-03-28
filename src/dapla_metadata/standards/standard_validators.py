@@ -1,5 +1,6 @@
 import asyncio
 import os
+import time
 from collections.abc import AsyncGenerator
 
 from dapla_metadata.datasets.utility.utils import normalize_path
@@ -9,15 +10,19 @@ from dapla_metadata.standards.name_validator import validate_directory
 
 async def check_naming_standard(
     file_path: os.PathLike[str],
-) -> ValidationResult | list[ValidationResult]:
-    """Check a given path following ssb name standard.
+) -> list[ValidationResult]:
+    """Check whether a given path follows the SSB naming standard.
 
-    This function checks whether the provided `file_path` or all files within
-    the specified `bucket` adhere to the SSB name standard.
+    This function checks whether the provided `file_path` and subdirectories thereof comply
+    with the naming standard. Currently we only examine '.parquet' files. Other files are ignored.
 
     Args:
-        file_path: The path to a specific file to validate.
-        bucket_name: The name of the bucket containing files to be validated.
+        file_path: The path to a bucket, directory, or specific file to validate.
+                This can be in the following forms:
+                  - A bucket URL in the form 'gs://ssb-dapla-felles-data-produkt-test'
+                  - An absolute path to a mounted bucket in the form '/buckets/produkt'
+                  - Any subdirectory or file thereof
+                We also accept paths which don't yet exist so that you can test if a path will comply.
 
     Returns:
         ValidationResult(s): An object or list of objects containing validation results,
@@ -32,30 +37,30 @@ async def check_naming_standard(
     """
     loop = asyncio.get_event_loop()
     loop.set_task_factory(asyncio.eager_task_factory)
-
-    def get_results(
-        item: asyncio.Task | AsyncGenerator,
-    ) -> list[ValidationResult]:
-        if isinstance(item, asyncio.Task):
-            return list(item.result)
-        return [t.result for t in item]
-
     results = []
-    finished = False
-    initial = [t async for t in validate_directory(normalize_path(file_path))]
-    while not finished:
-        for item in initial:
+    tasks = [t async for t in validate_directory(normalize_path(file_path))]
+    start_time = time.time()
+    while time.time() < start_time + (2 * 60):
+        for item in tasks:
             if isinstance(item, AsyncGenerator):
-                initial.remove(item)
-                initial.extend(
+                # Drill down into lower directories to get the validation tasks from them
+                tasks.remove(item)
+                tasks.extend(
                     [t async for t in item],
                 )
             elif isinstance(item, asyncio.Task):
-                initial.remove(item)
-                results.append(item.result())
-            else:
-                print(f"Skipping {item}")
-        if not any(isinstance(i, AsyncGenerator) for i in initial):
-            finished = True
+                if item.done():
+                    print(f"Validated {item.get_name()}")
+                    tasks.remove(item)
+                    results.append(item.result())
+        if len(tasks) == 0:
+            print("No tasks left")
+            break
+        if all(isinstance(t, asyncio.Task) for t in tasks) and all(
+            t.done() for t in tasks
+        ):
+            print("All tasks complete")
+            break
+        await asyncio.sleep(1)
 
     return results
