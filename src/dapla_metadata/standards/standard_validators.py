@@ -27,7 +27,13 @@ def check_naming_standard(
         >>> check_naming_standard(file_path=Path("/data/example_file.parquet")).success
         False
 
+        >>> check_naming_standard(file_path=Path("ssb-dapla-example-data-produkt-prod/ledstill/inndata/skjema_v1/aar=2018/data.parquet")).success
+        False
+
         >>> check_naming_standard(file_path=Path("buckets/produkt/datadoc/utdata/person_data_p2021_v2.parquet")).success
+        True
+
+        >>> check_naming_standard(file_path=Path("ssb-dapla-example-data-produkt-prod/ledstill/inndata/skjema_p2018_p2020_v1/aar=2018/data.parquet")).success
         True
     """
     naming_validator = NameStandardValidator(

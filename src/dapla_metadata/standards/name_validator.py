@@ -24,7 +24,7 @@ class ValidationResult:
         self,
         success: bool = True,
     ) -> None:
-        """Initialize the validatation result."""
+        """Initialize the validation result."""
         self.success: bool = success
         self.file_path: str | None = None
         self.messages: list[str] = []
@@ -54,6 +54,36 @@ class ValidationResult:
             "messages": self.messages,
             "violations": self.violations,
         }
+
+
+class PartitionedDataValidator:
+    """Validator for ensuring partioned data files adhere to naming standard."""
+
+    INVALID_PATTERN = r"[^a-zA-Z0-9\./:_=-]"
+
+    def __init__(
+        self,
+    ) -> None:
+        """Initialize the validator."""
+
+    @staticmethod
+    def is_invalid_symbols(s: str) -> bool:
+        """Return True if string contains illegal symbols.
+
+        Examples:
+            >>> PartitionedDataValidator.is_invalid_symbols("åregang-øre")
+            True
+
+            >>> PartitionedDataValidator.is_invalid_symbols("Azor89=value")
+            False
+
+            >>> PartitionedDataValidator.is_invalid_symbols("ssbÆ-dapla-example-data-produkt-prod/ledstill/oppdrag/skjema_p2018_p2020_v1")
+            True
+
+            >>> PartitionedDataValidator.is_invalid_symbols("ssb-dapla-example-data-produkt-prod/ledstill/oppdrag/skjema_p2018_p2020_v1")
+            False
+        """
+        return bool(re.search(PartitionedDataValidator.INVALID_PATTERN, s.strip()))
 
 
 class NameStandardValidator:
@@ -140,10 +170,10 @@ class NameStandardValidator:
         }
 
         violations = [message for message, value in checks.items() if not value]
-
-        if self.file_path is not None and self.is_invalid_symbols(
-            self.file_path.as_posix(),
-        ):
+        if self.file_path and self.path_info.is_partitioned_data:
+            if PartitionedDataValidator.is_invalid_symbols(self.file_path.as_posix()):
+                violations.append(INVALID_SYMBOLS)
+        elif self.file_path and self.is_invalid_symbols(self.file_path.as_posix()):
             violations.append(INVALID_SYMBOLS)
 
         for violation in violations:
