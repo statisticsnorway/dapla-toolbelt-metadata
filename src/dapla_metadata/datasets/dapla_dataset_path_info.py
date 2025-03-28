@@ -340,11 +340,29 @@ class DaplaDatasetPathInfo:
         self.dataset_path = pathlib.Path(dataset_path)
         self.is_partitioned_data = self._is_partitioned_data()
         self.dataset_name_sections = (
-            self.dataset_path.parts[-3].split("_")
+            self._parse_hive_partitioned_file_path().stem.split("_")
             if self.is_partitioned_data
             else self.dataset_path.stem.split("_")
         )
         self._period_strings = self._extract_period_strings(self.dataset_name_sections)
+
+    def _parse_hive_partitioned_file_path(self) -> pathlib.Path:
+        """Return a file path without key value and data suffix parts.
+
+        Examples:
+            >>> DaplaDatasetPathInfo("gs://team/statistikk/klargjorte-data/persondata_p1990-Q1_p2023-Q4_v1/aar=2018/data.parquet")._parse_hive_partitioned_file_path()
+            PosixPath('gs:/team/statistikk/klargjorte-data/persondata_p1990-Q1_p2023-Q4_v1')
+
+            >>> DaplaDatasetPathInfo("gs://team/statistikk/klargjorte-data/persondata_p1990-Q1_p2023-Q4_v1/aar=2018/dag=01/data.parquet")._parse_hive_partitioned_file_path()
+            PosixPath('gs:/team/statistikk/klargjorte-data/persondata_p1990-Q1_p2023-Q4_v1')
+
+            >>> DaplaDatasetPathInfo("gs://team/statistikk/klargjorte-data/persondata_p1990-Q1_p2023-Q4_v1/aar=2018")._parse_hive_partitioned_file_path()
+            PosixPath('gs:/team/statistikk/klargjorte-data/persondata_p1990-Q1_p2023-Q4_v1')
+        """
+        new_parts = [part for part in self.dataset_path.parts if "=" not in part]
+        if new_parts and pathlib.Path(new_parts[-1]).suffix:
+            new_parts.pop()
+        return pathlib.Path(*new_parts)
 
     def _is_partitioned_data(self):
         """Check if dataset path is partitioned data.
