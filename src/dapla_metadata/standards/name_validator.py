@@ -25,11 +25,12 @@ class ValidationResult:
 
     def __init__(
         self,
-        success: bool = True,
+        success: bool,
+        file_path: str,
     ) -> None:
         """Initialize the validatation result."""
-        self.success: bool = success
-        self.file_path: str | None = None
+        self.success = success
+        self.file_path = file_path
         self.messages: list[str] = []
         self.violations: list[str] = []
 
@@ -107,8 +108,7 @@ async def _validate_file(
         A ValidationResult object containing messages and violations
     """
     logger.info("Validating file: %s", file)
-    result = ValidationResult()
-    result.file_path = str(file)
+    result = ValidationResult(success=True, file_path=str(file))
 
     if check_file_exists and not file.exists():
         result.add_message(
@@ -131,15 +131,13 @@ async def _validate_file(
 
 
 async def _ignored_folder_result(file: Path) -> ValidationResult:
-    r = ValidationResult(success=True)
-    r.file_path = str(file)
+    r = ValidationResult(success=True, file_path=str(file))
     r.add_message(PATH_IGNORED)
     return r
 
 
 async def _ignored_file_type_result(file: Path) -> ValidationResult:
-    r = ValidationResult(success=True)
-    r.file_path = str(file)
+    r = ValidationResult(success=True, file_path=str(file))
     r.add_message(FILE_IGNORED)
     return r
 

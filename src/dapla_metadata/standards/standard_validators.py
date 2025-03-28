@@ -12,7 +12,7 @@ logger = logging.getLogger(__name__)
 
 
 async def check_naming_standard(
-    file_path: os.PathLike[str],
+    file_path: str | os.PathLike[str],
 ) -> list[ValidationResult]:
     """Check whether a given path follows the SSB naming standard.
 
