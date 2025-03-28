@@ -4,6 +4,7 @@ import re
 from pathlib import Path
 
 from dapla_metadata.datasets.dapla_dataset_path_info import DaplaDatasetPathInfo
+from dapla_metadata.standards.utils.constants import BUCKET_NAME_UNKNOWN
 from dapla_metadata.standards.utils.constants import FILE_PATH_NOT_CONFIRMED
 from dapla_metadata.standards.utils.constants import IGNORED_FOLDERS
 from dapla_metadata.standards.utils.constants import INVALID_SYMBOLS
@@ -56,6 +57,55 @@ class ValidationResult:
         }
 
 
+class BucketNameValidator:
+    """Validator for ensuring files in bucket adhere to naming standard."""
+
+    def __init__(
+        self,
+        bucket_name: Path | str,
+    ) -> None:
+        """Initialize the validator with bucket name and bucket directory."""
+        self.bucket_name = bucket_name
+        root = Path("/buckets")
+        self.bucket_directory: Path = root / self.bucket_name
+
+    def validate(self) -> list[ValidationResult]:
+        """Recursively validate all files in a directory."""
+        validation_results = []
+        processed_files = set()
+
+        if not self.bucket_directory.exists():
+            result = ValidationResult(
+                success=False,
+            )
+            result.file_path = str(self.bucket_directory)
+            result.add_message(BUCKET_NAME_UNKNOWN)
+            validation_results.append(result)
+            return validation_results
+
+        for entry in self.bucket_directory.rglob("*"):
+            if entry.is_file():
+                msg = f"Validating file: {entry}"
+                logger.debug(msg)
+
+                if entry not in processed_files:
+                    validator = NameStandardValidator(
+                        file_path=entry,
+                    )
+                    file_result = validator.validate()
+                    validation_results.append(file_result)
+                    processed_files.add(entry)
+
+                else:
+                    msg = f"Skipping already validated file: {entry}"
+                    logger.debug(msg)
+
+            elif entry.is_dir():
+                continue
+
+        return validation_results
+
+
 class NameStandardValidator:
     """Validator for ensuring file names adhere to naming standards."""
 
@@ -65,19 +115,12 @@ class NameStandardValidator:
 
     def __init__(
         self,
-        file_path: str | os.PathLike[str] | None,
-        bucket_name: Path | str | None,
+        file_path: str | os.PathLike[str],
     ) -> None:
         """Initialize the validator with file path information."""
-        self.file_path = Path(file_path).resolve() if file_path else None
-        self.bucket_name = bucket_name if bucket_name else None
+        self.file_path = Path(file_path).resolve()
         self.result: ValidationResult = ValidationResult()
-        if self.file_path:
-            self.path_info = DaplaDatasetPathInfo(str(file_path))
-
-        if self.bucket_name:
-            root = Path("/buckets")
-            self.bucket_directory: Path = root / self.bucket_name
+        self.path_info = DaplaDatasetPathInfo(str(file_path))
 
     @staticmethod
     def is_invalid_symbols(s: str) -> bool:
@@ -171,31 +214,3 @@ class NameStandardValidator:
                 NAME_STANDARD_SUCSESS,
             )
         return self.result
-
-    def validate_bucket(self) -> list[ValidationResult]:
-        """Recursively validate all files in a directory."""
-        validation_results = []
-        processed_files = set()
-
-        for entry in self.bucket_directory.rglob("*"):
-            if entry.is_file():
-                msg = f"Validating file: {entry}"
-                logger.debug(msg)
-
-                if entry not in processed_files:
-                    validator = NameStandardValidator(
-                        file_path=entry,
-                        bucket_name=self.bucket_name,
-                    )
-                    file_result = validator.validate()
-                    validation_results.append(file_result)
-                    processed_files.add(entry)
-
-                else:
-                    msg = f"Skipping already validated file: {entry}"
-                    logger.debug(msg)
-
-            elif entry.is_dir():
-                continue
-
-        return validation_results

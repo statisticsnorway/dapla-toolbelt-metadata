@@ -2,6 +2,7 @@ from pathlib import Path
 
 from cloudpathlib import CloudPath
 
+from dapla_metadata.standards.name_validator import BucketNameValidator
 from dapla_metadata.standards.name_validator import NameStandardValidator
 from dapla_metadata.standards.name_validator import ValidationResult
 
@@ -10,7 +11,7 @@ def check_naming_standard(
     file_path: Path | CloudPath | None,
     bucket_name: str | None = None,
 ) -> ValidationResult | list[ValidationResult]:
-    """Check a given path following ssb name standard.
+    """Check a given path or bucket following ssb name standard.
 
     This function checks whether the provided `file_path` or all files within
     the specified `bucket` adhere to the SSB name standard.
@@ -30,10 +31,9 @@ def check_naming_standard(
         >>> check_naming_standard(file_path=Path("buckets/produkt/datadoc/utdata/person_data_p2021_v2.parquet")).success
         True
     """
-    naming_validator = NameStandardValidator(
-        file_path=file_path,
-        bucket_name=bucket_name,
-    )
-    if not file_path:
-        return naming_validator.validate_bucket()
+    naming_validator: BucketNameValidator | NameStandardValidator
+    if bucket_name:
+        naming_validator = BucketNameValidator(bucket_name=bucket_name)
+    elif file_path:
+        naming_validator = NameStandardValidator(file_path=file_path)
     return naming_validator.validate()

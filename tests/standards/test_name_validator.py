@@ -1,6 +1,8 @@
 import pytest
 
+from dapla_metadata.standards.name_validator import BucketNameValidator
 from dapla_metadata.standards.name_validator import NameStandardValidator
+from dapla_metadata.standards.utils.constants import BUCKET_NAME_UNKNOWN
 from dapla_metadata.standards.utils.constants import MISSING_DATASET_SHORT_NAME
 from dapla_metadata.standards.utils.constants import MISSING_PERIOD
 from dapla_metadata.standards.utils.constants import NAME_STANDARD_SUCSESS
@@ -24,26 +26,24 @@ def test_validate_sucsess(file_path, tmp_path):
     full_path = tmp_path / file_path
     full_path.parent.mkdir(parents=True, exist_ok=True)
     full_path.touch()
-    path_to_check = NameStandardValidator(file_path=full_path, bucket_name=None)
+    path_to_check = NameStandardValidator(file_path=full_path)
     result = path_to_check.validate()
     assert NAME_STANDARD_SUCSESS in result.messages[0]
 
 
 @pytest.mark.parametrize(
-    ("short_name", "file_path_1", "file_path_2", "bucket_name"),
+    ("short_name", "file_paths", "bucket_name"),
     [
         (
             "stat_reg",
-            "person_data_p2022_v1.parquet",
-            "bil_data_p2022_v1.parquet",
+            ["person_data_p2022_v1.parquet", "bil_data_p2022_v1.parquet"],
             "ssb-staging-dapla-felles-data-delt",
         ),
     ],
 )
 def test_bucket_validation_success(
     short_name,
-    file_path_1,
-    file_path_2,
+    file_paths,
     bucket_name,
     monkeypatch,
     tmp_path,
@@ -57,32 +57,29 @@ def test_bucket_validation_success(
     indata_path.mkdir(parents=True, exist_ok=True)
     outdata_path.mkdir(parents=True, exist_ok=True)
 
-    (indata_path / file_path_1).touch()
-    (outdata_path / file_path_2).touch()
+    (indata_path / file_paths[0]).touch()
+    (outdata_path / file_paths[1]).touch()
 
-    validator = NameStandardValidator(file_path=None, bucket_name=bucket_name)
+    validator = BucketNameValidator(bucket_name=bucket_name)
     monkeypatch.setattr(validator, "bucket_directory", fake_bucket)
 
-    results = validator.validate_bucket()
+    results = validator.validate()
 
     assert len(results) == 2
     assert results[0].success
-    assert all(res.file_path.startswith(str(fake_bucket)) for res in results)
 
 
 @pytest.mark.parametrize(
-    ("file_path_1", "file_path_2", "bucket_name"),
+    ("file_paths", "bucket_name"),
     [
         (
-            "_p2022_v1.parquet",
-            "bil_data_v1.parquet",
+            ["_p2022_v1.parquet", "bil_data_v1.parquet"],
             "ssb-staging-dapla-felles-data-delt",
         ),
     ],
 )
 def test_bucket_validation_violations(
-    file_path_1,
-    file_path_2,
+    file_paths,
     bucket_name,
     monkeypatch,
     tmp_path,
@@ -96,15 +93,24 @@ def test_bucket_validation_violations(
     indata_path.mkdir(parents=True, exist_ok=True)
     outdata_path.mkdir(parents=True, exist_ok=True)
 
-    (indata_path / file_path_1).touch()
-    (outdata_path / file_path_2).touch()
+    (indata_path / file_paths[0]).touch()
+    (outdata_path / file_paths[1]).touch()
 
-    validator = NameStandardValidator(file_path=None, bucket_name=bucket_name)
+    validator = BucketNameValidator(bucket_name=bucket_name)
     monkeypatch.setattr(validator, "bucket_directory", fake_bucket)
 
-    results = validator.validate_bucket()
+    results = validator.validate()
 
     assert len(results) == 2
     assert not results[0].success
     assert MISSING_DATASET_SHORT_NAME in results[1].violations
     assert MISSING_PERIOD in results[0].violations
+
+
+def test_bucket_not_found():
+    validator = BucketNameValidator(bucket_name="random_bucket")
+    results = validator.validate()
+
+    assert len(results) == 1
+    assert not results[0].success
+    assert BUCKET_NAME_UNKNOWN in results[0].messages
