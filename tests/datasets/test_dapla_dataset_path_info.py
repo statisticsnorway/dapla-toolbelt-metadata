@@ -302,7 +302,7 @@ def test_date_format_correct_end_date(date_format, period, expected):
         (TEST_BUCKET_PARQUET_FILEPATH_WITH_SHORTNAME, "befolkning"),
         (
             "gs://ssb-staging-dapla-felles-data-delt/datadoc/person_data_v1.parquet",
-            None,
+            "datadoc",
         ),
         ("inndata/person_data_v1.parquet", None),
         ("stat/inndata/person_data", "stat"),

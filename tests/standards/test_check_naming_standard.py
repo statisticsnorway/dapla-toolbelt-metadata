@@ -295,3 +295,45 @@ async def test_check_naming_directory_with_subdirectories(
         else:
             assert NAME_STANDARD_VIOLATION in result.messages
             assert file[1] in result.violations
+
+
+@pytest.mark.parametrize(
+    ("file_path", "violations"),
+    [
+        (
+            "gs://ssb-dapla-example-data-produkt-prod/inndata/skjema_p2021-12-31_p2021-12-31_v1.parquet",
+            [MISSING_SHORT_NAME],
+        ),
+        (
+            "gs://ssb-dapla-example-data-produkt-prod/inndata/mappe/skjema_p2021-12-31_p2021-12-31_v1.parquet",
+            [MISSING_SHORT_NAME],
+        ),
+        (
+            "gs://inndata/skjema_p2021-12-31_p2021-12-31_v1.parquet",
+            [MISSING_SHORT_NAME],
+        ),
+        (
+            "buckets/produkt/klargjorte_data/bil_p2021-12-31_p2021-12-31_v1.parquet",
+            [MISSING_SHORT_NAME],
+        ),
+        (
+            "gs://ssb-dapla-example-data-produkt-prod/ledstill/skjema_p2021-12-31_p2021-12-31_v1.parquet",
+            [MISSING_DATA_STATE],
+        ),
+        (
+            "buckets/produkt/ledstill/bil_p2021-12-31_p2021-12-31_v1.parquet",
+            [MISSING_DATA_STATE],
+        ),
+        (
+            "buckets/bil_p2021-12-31_p2021-12-31_v1.parquet",
+            [MISSING_SHORT_NAME, MISSING_DATA_STATE],
+        ),
+    ],
+)
+def test_validate_short_name(file_path: str, violations: list, tmp_path):
+    full_path = tmp_path / file_path
+    full_path.parent.mkdir(parents=True, exist_ok=True)
+    full_path.touch()
+    result = check_naming_standard(file_path=full_path)
+    if isinstance(result, ValidationResult):
+        assert result.violations == violations
