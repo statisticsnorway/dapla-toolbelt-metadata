@@ -14,18 +14,6 @@ from dapla_metadata.standards.utils.constants import MISSING_PERIOD
 from dapla_metadata.standards.utils.constants import MISSING_SHORT_NAME
 from dapla_metadata.standards.utils.constants import NAME_STANDARD_SUCCESS
 from dapla_metadata.standards.utils.constants import PATH_IGNORED
-from dapla_metadata.standards.utils.constants import SSB_NAMING_STANDARD_REPORT
-from dapla_metadata.standards.utils.constants import SSB_NAMING_STANDARD_REPORT_FILES
-from dapla_metadata.standards.utils.constants import (
-    SSB_NAMING_STANDARD_REPORT_RESULT_AVERAGE,
-)
-from dapla_metadata.standards.utils.constants import SSB_NAMING_STANDARD_REPORT_SUCCESS
-from dapla_metadata.standards.utils.constants import (
-    SSB_NAMING_STANDARD_REPORT_SUCCESS_RATE,
-)
-from dapla_metadata.standards.utils.constants import (
-    SSB_NAMING_STANDARD_REPORT_VIOLATIONS,
-)
 
 pytest_plugins = ("pytest_asyncio",)
 
@@ -373,12 +361,6 @@ async def test_generate_naming_standard_report(tmp_path):
 
     if isinstance(results, list):
         report = generate_validation_report(validation_results=results)
-        assert report == (
-            f"{SSB_NAMING_STANDARD_REPORT}\n"
-            f"=============================\n"
-            f"{SSB_NAMING_STANDARD_REPORT_RESULT_AVERAGE}"
-            f"{SSB_NAMING_STANDARD_REPORT_SUCCESS_RATE}: 40.00%\n"
-            f"{SSB_NAMING_STANDARD_REPORT_FILES}: 5\n"
-            f"{SSB_NAMING_STANDARD_REPORT_SUCCESS}: 2\n"
-            f"{SSB_NAMING_STANDARD_REPORT_VIOLATIONS}s: 3\n"
-        )
+        assert report.num_failures == 3
+        assert report.num_files_validated == 5
+        assert report.num_success == 2
