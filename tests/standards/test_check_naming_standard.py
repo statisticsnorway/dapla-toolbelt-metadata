@@ -159,7 +159,7 @@ async def test_missing_dataset_shortname_as_dict(file_path, tmp_path):
     ("file_path", "violations"),
     [
         (
-            "gs://ssb-dapla-example-data-produkt-prod/ledstill/inndata/park_p2021-12-31_p2021-12-31.parquet.parquet",
+            "gs://ssb-dapla-example-data-produkt-prod/ledstill/inndata/park_p2021-12-31_p2021-12-31.parquet",
             [MISSING_VERSION],
         ),
         (
