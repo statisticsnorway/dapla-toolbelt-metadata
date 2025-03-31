@@ -499,6 +499,9 @@ class DaplaDatasetPathInfo:
             >>> DaplaDatasetPathInfo('buckets/ssb-staging-dapla-felles-data-delt/stat/utdata/person_data_p2021_v2.parquet').bucket_name
             ssb-staging-dapla-felles-data-delt
 
+            >>> DaplaDatasetPathInfo('buckets/ssb-staging-dapla-felles-data-delt/person_data_p2021_v2.parquet').bucket_name
+            ssb-staging-dapla-felles-data-delt
+
             >>> DaplaDatasetPathInfo('home/work/buckets/ssb-staging-dapla-felles-produkt/stat/utdata/person_data_p2021_v2.parquet').bucket_name
             ssb-staging-dapla-felles-produkt
         """
@@ -708,7 +711,7 @@ class DaplaDatasetPathInfo:
     ) -> str | None:
         """Extract the statistical short name from the filepath.
 
-        Extract the statistical short name from the filepath right before the
+        Extract the statistical short name from the filepath either after bucket name or right before the
         dataset state based on the Dapla filepath naming convention.
 
         Returns:
@@ -717,6 +720,9 @@ class DaplaDatasetPathInfo:
 
         Examples:
             >>> DaplaDatasetPathInfo('prosjekt/befolkning/klargjorte_data/person_data_v1.parquet').statistic_short_name
+            befolkning
+
+            >>> DaplaDatasetPathInfo('buckets/prosjekt/befolkning/person_data_v1.parquet').statistic_short_name
             befolkning
 
             >>> DaplaDatasetPathInfo('befolkning/inndata/person_data_v1.parquet').statistic_short_name
@@ -736,29 +742,54 @@ class DaplaDatasetPathInfo:
 
             >>> DaplaDatasetPathInfo('resources/buckets/produkt/befolkning/utdata/person_data.parquet').statistic_short_name
             befolkning
+
+            >>> DaplaDatasetPathInfo('gs://statistikk/produkt/klargjorte-data/persondata_p1990-Q1_p2023-Q4_v1/aar=2019/data.parquet').statistic_short_name
+            produkt
+
+            >>> DaplaDatasetPathInfo('gs://statistikk/produkt/persondata_p1990-Q1_p2023-Q4_v1/aar=2019/data.parquet').statistic_short_name
+            None
+
+            >>> DaplaDatasetPathInfo('buckets/ssb-staging-dapla-felles-data-delt/person_data_p2021_v2.parquet').statistic_short_name
+            None
         """
-        dataset_state = self.dataset_state
-        # Not possible to retrieve short name when dataset state folder is not present
-        if not dataset_state:
+        if not self.dataset_state:
+            if self.bucket_name:
+                parts = self.dataset_path.parent.parts
+
+                if self.bucket_name not in parts:
+                    return None
+
+                # Find the index of bucket_name in the path
+                bucket_name_index = self.dataset_path.parent.parts.index(
+                    self.bucket_name,
+                )
+
+                # If there are parts after bucket_name, return the part immediately after it
+                if len(self.dataset_path.parent.parts) > bucket_name_index + 1:
+                    return self.dataset_path.parent.parts[bucket_name_index + 1]
+
             return None
 
         dataset_state_names = self._extract_norwegian_dataset_state_path_part(
-            dataset_state,
+            self.dataset_state,
         )
         dataset_path_parts = list(self.dataset_path.parts)
 
         for state in dataset_state_names:
-            if state in dataset_path_parts:
-                index = dataset_path_parts.index(state)
-                if index == 0:
-                    continue  # Skip if state is the first element
+            if state not in dataset_path_parts:
+                continue
 
-                # Check parts from state forward
-                left_parts = self._get_left_parts(dataset_path_parts, index)
-                if not left_parts:
-                    return None
+            index = dataset_path_parts.index(state)
 
-                return dataset_path_parts[index - 1]
+            if index == 0:
+                continue
+
+            left_parts = self._get_left_parts(dataset_path_parts, index)
+
+            if not left_parts:
+                return None
+
+            return dataset_path_parts[index - 1]
 
         return None
 
