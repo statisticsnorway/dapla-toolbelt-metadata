@@ -32,7 +32,7 @@ SSB_NAMING_STANDARD_REPORT_RESULT_AVERAGE = (
     "⚠️ Ikke verst! Men det er noen feil å fikse. 🔧\n"
 )
 SSB_NAMING_STANDARD_REPORT_RESULT_LOW = "❌ Mye å forbedre! Ta en grundig sjekk. 🛠️\n"
-SSB_NAMING_STANDARD_REPORT_RESULT_NO_SCORE = "👀 Ingen filer ble validert"
+SSB_NAMING_STANDARD_REPORT_RESULT_NO_SCORE = "👀 Ingen filer ble validert\n"
 SSB_NAMING_STANDARD_REPORT_FILES = "Antall filer validert"
 SSB_NAMING_STANDARD_REPORT_SUCCESS = "Antall filer som følger SSB navnestandard"
 SSB_NAMING_STANDARD_REPORT_VIOLATIONS = "Antall filer som bryter SSB navnestandard"
