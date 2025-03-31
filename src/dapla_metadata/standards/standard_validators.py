@@ -80,15 +80,18 @@ async def check_naming_standard(
 def generate_validation_report(
     validation_results: list[ValidationResult],
 ) -> NamingStandardReport:
-    """Generate a formatted report based on the provided validation results.
+    """Generate and print a formatted naming standard validation report.
+
+    This function takes a list of `ValidationResult` objects, creates a
+    `NamingStandardReport` instance, and prints the generated report.
 
     Args:
         validation_results: A list of ValidationResult objects that
         contain the outcomes of the name standard checks.
 
     Returns:
-        str: A formatted string report summarizing the validation results, including success rate,
-            number of validated files, and violations..
+        NamingStandardReport: An instance of `NamingStandardReport` containing
+        the validation results.
     """
     report = NamingStandardReport(validation_results=validation_results)
     print(report.generate_report())  # noqa: T201
