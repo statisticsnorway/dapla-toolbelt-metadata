@@ -4,6 +4,7 @@ from cloudpathlib import CloudPath
 
 from dapla_metadata.standards.name_validator import BucketNameValidator
 from dapla_metadata.standards.name_validator import NameStandardValidator
+from dapla_metadata.standards.name_validator import NamingStandardReportGenerator
 from dapla_metadata.standards.name_validator import ValidationResult
 
 
@@ -43,3 +44,9 @@ def check_naming_standard(
     elif file_path:
         naming_validator = NameStandardValidator(file_path=file_path)
     return naming_validator.validate()
+
+
+def validation_report(validation_results: list[ValidationResult]) -> str:
+    """."""
+    report = NamingStandardReportGenerator(validation_results=validation_results)
+    return report.generate_report()

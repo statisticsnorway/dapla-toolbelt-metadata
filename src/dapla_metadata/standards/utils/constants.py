@@ -21,6 +21,11 @@ FILE_PATH_NOT_CONFIRMED = "Det var ikke mulig å bekrefte at filstien eksisterer
 
 BUCKET_NAME_UNKNOWN = "Kan ikke validere bøttenavn"
 
+SSB_NAMING_STANDARD_REPORT = "SSB navnestandard rapport"
+SSB_NAMING_STANDARD_REPORT_FILES = "Antall filer validert"
+SSB_NAMING_STANDARD_REPORT_SUCCESS = "Antall filer som følger ssb sin navnestandard"
+SSB_NAMING_STANDARD_REPORT_VIOLATIONS = "Antall filer som bryter ssb sin navcnestandard"
+
 IGNORED_FOLDERS = [
     "temp",
     "oppdrag",

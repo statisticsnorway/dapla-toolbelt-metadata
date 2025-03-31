@@ -2,6 +2,7 @@ import pytest
 
 from dapla_metadata.standards.name_validator import ValidationResult
 from dapla_metadata.standards.standard_validators import check_naming_standard
+from dapla_metadata.standards.standard_validators import validation_report
 from dapla_metadata.standards.utils.constants import FILE_PATH_NOT_CONFIRMED
 from dapla_metadata.standards.utils.constants import INVALID_SYMBOLS
 from dapla_metadata.standards.utils.constants import MISSING_DATA_STATE
@@ -10,6 +11,12 @@ from dapla_metadata.standards.utils.constants import MISSING_PERIOD
 from dapla_metadata.standards.utils.constants import MISSING_SHORT_NAME
 from dapla_metadata.standards.utils.constants import NAME_STANDARD_SUCSESS
 from dapla_metadata.standards.utils.constants import PATH_IGNORED
+from dapla_metadata.standards.utils.constants import SSB_NAMING_STANDARD_REPORT
+from dapla_metadata.standards.utils.constants import SSB_NAMING_STANDARD_REPORT_FILES
+from dapla_metadata.standards.utils.constants import SSB_NAMING_STANDARD_REPORT_SUCCESS
+from dapla_metadata.standards.utils.constants import (
+    SSB_NAMING_STANDARD_REPORT_VIOLATIONS,
+)
 
 
 @pytest.mark.parametrize(
@@ -285,3 +292,31 @@ def test_partioned_path_not_confirmed_violation():
     assert FILE_PATH_NOT_CONFIRMED in result.messages
     assert not result.success
     assert MISSING_PERIOD in result.violations
+
+
+def test_generate_naming_standard_report(tmp_path):
+    file_paths = [
+        "buckets/ssb-dapla-example-data-produkt-prod/inndata/skjema_v1.parquet",
+        "buckets/ssb-dapla-example-data-produkt-prod/inndata/skjema_v2.parquet",
+        "buckets/ssb-dapla-example-data-produkt-prod/utdata/editert_v1.parquet",
+        "buckets/ssb-dapla-example-data-produkt-prod/klargjorte_data/_p2021-12-31_p2021-12-31_v1.parquet",
+    ]
+    for file_path in file_paths:
+        full_path = tmp_path / file_path
+        full_path.parent.mkdir(parents=True, exist_ok=True)
+        full_path.touch()
+
+    results = check_naming_standard(
+        file_path=None,
+        bucket_name="ssb-dapla-example-data-produkt-prod",
+    )
+    if isinstance(results, list):
+        report = validation_report(validation_results=results)
+        assert report == (
+            f"{SSB_NAMING_STANDARD_REPORT}\n"
+            f"==============\n"
+            f"{SSB_NAMING_STANDARD_REPORT_FILES}: 1\n"
+            f"{SSB_NAMING_STANDARD_REPORT_SUCCESS}: 0\n"
+            f"{SSB_NAMING_STANDARD_REPORT_VIOLATIONS}s: 1\n"
+            f"Success Rate: 0.00%\n"
+        )

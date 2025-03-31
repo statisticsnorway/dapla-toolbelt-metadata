@@ -14,6 +14,12 @@ from dapla_metadata.standards.utils.constants import MISSING_PERIOD
 from dapla_metadata.standards.utils.constants import MISSING_SHORT_NAME
 from dapla_metadata.standards.utils.constants import NAME_STANDARD_SUCSESS
 from dapla_metadata.standards.utils.constants import PATH_IGNORED
+from dapla_metadata.standards.utils.constants import SSB_NAMING_STANDARD_REPORT
+from dapla_metadata.standards.utils.constants import SSB_NAMING_STANDARD_REPORT_FILES
+from dapla_metadata.standards.utils.constants import SSB_NAMING_STANDARD_REPORT_SUCCESS
+from dapla_metadata.standards.utils.constants import (
+    SSB_NAMING_STANDARD_REPORT_VIOLATIONS,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -55,6 +61,40 @@ class ValidationResult:
             "messages": self.messages,
             "violations": self.violations,
         }
+
+
+class NamingStandardReportGenerator:
+    """Return report based on list of validation results."""
+
+    def __init__(self, validation_results: list[ValidationResult]) -> None:
+        """."""
+        self.validation_results = validation_results
+        self.num_files_validated = len(validation_results)
+        self.num_success = len(
+            [result for result in validation_results if result.success is True],
+        )
+        self.num_failures = len(
+            [result for result in validation_results if result.success is False],
+        )
+
+    def generate_report(self) -> str:
+        """Formats the report as a string."""
+        return (
+            f"{SSB_NAMING_STANDARD_REPORT}\n"
+            f"==============\n"
+            f"{SSB_NAMING_STANDARD_REPORT_FILES}: {self.num_files_validated}\n"
+            f"{SSB_NAMING_STANDARD_REPORT_SUCCESS}: {self.num_success}\n"
+            f"{SSB_NAMING_STANDARD_REPORT_VIOLATIONS}s: {self.num_failures}\n"
+            f"Success Rate: {self.success_rate():.2f}%\n"
+        )
+
+    def success_rate(self) -> int:
+        """Calculates the success rate as a percentage."""
+        return (
+            (self.num_success / self.num_files_validated * 100)
+            if self.num_files_validated
+            else 0
+        )
 
 
 class BucketNameValidator:
