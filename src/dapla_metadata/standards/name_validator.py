@@ -1,18 +1,20 @@
+import asyncio
 import logging
 import os
 import re
+from collections.abc import AsyncGenerator
 from pathlib import Path
 
 from dapla_metadata.datasets.dapla_dataset_path_info import DaplaDatasetPathInfo
-from dapla_metadata.standards.utils.constants import BUCKET_NAME_UNKNOWN
-from dapla_metadata.standards.utils.constants import FILE_PATH_NOT_CONFIRMED
+from dapla_metadata.standards.utils.constants import FILE_DOES_NOT_EXIST
+from dapla_metadata.standards.utils.constants import FILE_IGNORED
 from dapla_metadata.standards.utils.constants import IGNORED_FOLDERS
 from dapla_metadata.standards.utils.constants import INVALID_SYMBOLS
 from dapla_metadata.standards.utils.constants import MISSING_DATA_STATE
 from dapla_metadata.standards.utils.constants import MISSING_DATASET_SHORT_NAME
 from dapla_metadata.standards.utils.constants import MISSING_PERIOD
 from dapla_metadata.standards.utils.constants import MISSING_SHORT_NAME
-from dapla_metadata.standards.utils.constants import NAME_STANDARD_SUCSESS
+from dapla_metadata.standards.utils.constants import NAME_STANDARD_SUCCESS
 from dapla_metadata.standards.utils.constants import PATH_IGNORED
 
 logger = logging.getLogger(__name__)
@@ -23,11 +25,12 @@ class ValidationResult:
 
     def __init__(
         self,
-        success: bool = True,
+        success: bool,
+        file_path: str,
     ) -> None:
-        """Initialize the validation result."""
-        self.success: bool = success
-        self.file_path: str | None = None
+        """Initialize the validatation result."""
+        self.success = success
+        self.file_path = file_path
         self.messages: list[str] = []
         self.violations: list[str] = []
 
@@ -57,190 +60,115 @@ class ValidationResult:
         }
 
 
-class BucketNameValidator:
-    """Validator for ensuring files in bucket adhere to naming standard."""
+def _has_invalid_symbols(path: os.PathLike[str]) -> bool:
+    """Return True if string contains illegal symbols.
 
-    def __init__(
-        self,
-        bucket_name: Path | str,
-    ) -> None:
-        """Initialize the validator with bucket name and bucket directory."""
-        self.bucket_name = bucket_name
-        root = Path("/buckets")
-        self.bucket_directory: Path = root / self.bucket_name
+    Examples:
+        >>> _has_invalid_symbols("åregang-øre")
+        True
 
-    def validate(self) -> list[ValidationResult]:
-        """Recursively validate all files in a directory."""
-        validation_results = []
-        processed_files = set()
+        >>> _has_invalid_symbols("Azor89")
+        False
 
-        if not self.bucket_directory.exists():
-            result = ValidationResult(
-                success=False,
-            )
-            result.file_path = str(self.bucket_directory)
-            result.add_message(BUCKET_NAME_UNKNOWN)
-            validation_results.append(result)
-            return validation_results
+        >>> _has_invalid_symbols("ssbÆ-dapla-example-data-produkt-prod/ledstill/oppdrag/skjema_p2018_p2020_v1")
+        True
 
-        for entry in self.bucket_directory.rglob("*"):
-            if entry.is_file():
-                msg = f"Validating file: {entry}"
-                logger.debug(msg)
+        >>> _has_invalid_symbols("ssb-dapla-example-data-produkt-prod/ledstill/oppdrag/skjema_p2018_p2020_v1")
+        False
 
-                if entry not in processed_files:
-                    validator = NameStandardValidator(
-                        file_path=entry,
-                    )
-                    file_result = validator.validate()
-                    validation_results.append(file_result)
-                    processed_files.add(entry)
-
-                else:
-                    msg = f"Skipping already validated file: {entry}"
-                    logger.debug(msg)
-
-            elif entry.is_dir():
-                continue
-
-        return validation_results
+        >>> _has_invalid_symbols("ssb-dapla-example-data-produkt-prod/ledstill/inndata/skjema_p2018_p202_v1/aar=2018/data.parquet")
+        False
+    """
+    # TODO @mmwinther: The = symbol is allowed to avoid failures on subdirectories of partioned parquet datasets.
+    # DPMETA-824
+    return bool(re.search(r"[^a-zA-Z0-9\./:_\-=]", str(path).strip()))
 
 
-class PartitionedDataValidator:
-    """Validator for ensuring partioned data files adhere to naming standard."""
+def _check_violations(
+    file: Path,
+) -> list[str]:
+    """Check for missing attributes and invalid symbols."""
+    path_info = DaplaDatasetPathInfo(file)
+    checks = {
+        MISSING_SHORT_NAME: path_info.statistic_short_name,
+        MISSING_DATA_STATE: path_info.dataset_state,
+        MISSING_PERIOD: path_info.contains_data_from,
+        MISSING_DATASET_SHORT_NAME: path_info.dataset_short_name,
+        INVALID_SYMBOLS: not _has_invalid_symbols(file),
+    }
 
-    INVALID_PATTERN = r"[^a-zA-Z0-9\./:_=-]"
-
-    def __init__(
-        self,
-    ) -> None:
-        """Initialize the validator."""
-
-    @staticmethod
-    def is_invalid_symbols(s: str) -> bool:
-        """Return True if string contains illegal symbols.
-
-        Examples:
-            >>> PartitionedDataValidator.is_invalid_symbols("åregang-øre")
-            True
-
-            >>> PartitionedDataValidator.is_invalid_symbols("Azor89=value")
-            False
-
-            >>> PartitionedDataValidator.is_invalid_symbols("ssbÆ-dapla-example-data-produkt-prod/ledstill/oppdrag/skjema_p2018_p2020_v1")
-            True
-
-            >>> PartitionedDataValidator.is_invalid_symbols("ssb-dapla-example-data-produkt-prod/ledstill/oppdrag/skjema_p2018_p2020_v1")
-            False
-        """
-        return bool(re.search(PartitionedDataValidator.INVALID_PATTERN, s.strip()))
+    return [message for message, value in checks.items() if not value]
 
 
-class NameStandardValidator:
-    """Validator for ensuring file names adhere to naming standards."""
+async def _validate_file(
+    file: Path,
+    check_file_exists: bool = False,
+) -> ValidationResult:
+    """Check for naming standard violations.
 
-    INVALID_PATTERN = r"[^a-zA-Z0-9\./:_-]"
+    Returns:
+        A ValidationResult object containing messages and violations
+    """
+    logger.info("Validating file: %s", file)
+    result = ValidationResult(success=True, file_path=str(file))
 
-    IGNORED_DATA_STATE_FOLDER = "SOURCE_DATA"
+    if check_file_exists and not file.exists():
+        result.add_message(
+            FILE_DOES_NOT_EXIST,
+        )
 
-    def __init__(
-        self,
-        file_path: str | os.PathLike[str],
-    ) -> None:
-        """Initialize the validator with file path information."""
-        self.file_path = Path(file_path).resolve()
-        self.result: ValidationResult = ValidationResult()
-        self.path_info = DaplaDatasetPathInfo(str(file_path))
+    result.violations = await asyncio.get_running_loop().run_in_executor(
+        None,
+        lambda: _check_violations(file),
+    )
 
-    @staticmethod
-    def is_invalid_symbols(s: str) -> bool:
-        """Return True if string contains illegal symbols.
+    if result.violations:
+        result.success = False
+    else:
+        result.success = True
+        result.add_message(
+            NAME_STANDARD_SUCCESS,
+        )
+    return result
 
-        Examples:
-            >>> NameStandardValidator.is_invalid_symbols("åregang-øre")
-            True
 
-            >>> NameStandardValidator.is_invalid_symbols("Azor89")
-            False
+async def _ignored_folder_result(file: Path) -> ValidationResult:
+    r = ValidationResult(success=True, file_path=str(file))
+    r.add_message(PATH_IGNORED)
+    return r
 
-            >>> NameStandardValidator.is_invalid_symbols("ssbÆ-dapla-example-data-produkt-prod/ledstill/oppdrag/skjema_p2018_p2020_v1")
-            True
 
-            >>> NameStandardValidator.is_invalid_symbols("ssb-dapla-example-data-produkt-prod/ledstill/oppdrag/skjema_p2018_p2020_v1")
-            False
-        """
-        return bool(re.search(NameStandardValidator.INVALID_PATTERN, s.strip()))
+async def _ignored_file_type_result(file: Path) -> ValidationResult:
+    r = ValidationResult(success=True, file_path=str(file))
+    r.add_message(FILE_IGNORED)
+    return r
 
-    def _check_path_existence(self) -> None:
-        """Check if the file path exists and add a message if not."""
-        if self.file_path and not self.file_path.exists():
-            self.result.add_message(
-                FILE_PATH_NOT_CONFIRMED,
-            )
 
-    def _handle_ignored_folders(
-        self,
-    ) -> bool:
-        """Check dataset state and handle ignored cases.
-
-        Returns:
-            bool: True if validation should stop due to ignored dataset state.
-        """
-        dataset_state = self.path_info.dataset_state
-        if dataset_state == self.IGNORED_DATA_STATE_FOLDER:
-            self.result.add_message(PATH_IGNORED)
-            return True
-
-        if any(
-            folder in self.file_path.as_posix().lower()
-            for folder in IGNORED_FOLDERS
-            if self.file_path is not None
+async def validate_directory(
+    path: Path,
+) -> AsyncGenerator[AsyncGenerator | asyncio.Task]:
+    """Validate a file or recursively validate all files in a directory."""
+    if set(path.parts).intersection(IGNORED_FOLDERS):
+        logger.info("File path ignored: %s", path)
+        yield asyncio.create_task(_ignored_folder_result(path))
+    elif path.suffix:
+        logger.debug("Found file: %s", path)
+        if path.suffix != ".parquet":
+            logger.info("Skipping non-parquet file: %s", path)
+            yield asyncio.create_task(_ignored_file_type_result(path))
+        else:
+            yield asyncio.create_task(_validate_file(path, check_file_exists=True))
+    else:
+        for obj in await asyncio.get_running_loop().run_in_executor(
+            None,
+            lambda: path.glob("*"),
         ):
-            self.result.add_message(PATH_IGNORED)
-            return True
+            logger.debug("Found: %s", obj)
+            if obj.suffix:
+                if obj.suffix != ".parquet":
+                    logger.info("Skipping non-parquet file: %s", obj)
+                    continue
+                yield asyncio.create_task(_validate_file(obj), name=obj.name)
 
-        return False
-
-    def _check_violations(
-        self,
-    ) -> None:
-        """Check for missing attributes and invalid symbols."""
-        checks = {
-            MISSING_SHORT_NAME: self.path_info.statistic_short_name,
-            MISSING_DATA_STATE: self.path_info.dataset_state,
-            MISSING_PERIOD: self.path_info.contains_data_from,
-            MISSING_DATASET_SHORT_NAME: self.path_info.dataset_short_name,
-        }
-
-        violations = [message for message, value in checks.items() if not value]
-        if self.file_path and self.path_info.is_partitioned_data:
-            if PartitionedDataValidator.is_invalid_symbols(self.file_path.as_posix()):
-                violations.append(INVALID_SYMBOLS)
-        elif self.file_path and self.is_invalid_symbols(self.file_path.as_posix()):
-            violations.append(INVALID_SYMBOLS)
-
-        for violation in violations:
-            self.result.add_violation(violation)
-
-    def validate(self) -> ValidationResult:
-        """Check for naming standard violations.
-
-        Returns:
-            A ValidationResult object containing messages and violations
-        """
-        self.result.file_path = str(self.file_path)
-
-        if self.path_info and not self.file_path:
-            return self.result
-
-        if self._handle_ignored_folders():
-            return self.result
-
-        self._check_path_existence()
-        self._check_violations()
-
-        if self.result.success:
-            self.result.add_message(
-                NAME_STANDARD_SUCSESS,
-            )
-        return self.result
+            else:
+                yield validate_directory(obj)
