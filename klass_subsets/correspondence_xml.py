@@ -1,7 +1,7 @@
 import xml.etree.ElementTree as ET
 
 
-def generate_xml(elements: list[dict], filename: str) -> None:
+def generate_correspondence_xml(elements: list[dict], filename: str) -> None:
     """Generates the xml file for input to klass."""
     # Define namespace
     ns = {
@@ -26,10 +26,10 @@ def generate_xml(elements: list[dict], filename: str) -> None:
     # Create child elements
     for elem in elements:
         element = ET.SubElement(root, "Korrespondanse")
-        ET.SubElement(element, "kilde_kode").text = elem["nb"]
-        ET.SubElement(element, "kilde_tittel").text = elem["nb"]
-        ET.SubElement(element, "mål_kode").text = elem["nb"]
-        ET.SubElement(element, "mål_tittel").text = elem["nb"]
+        ET.SubElement(element, "kilde_kode").text = elem["current_code"]
+        ET.SubElement(element, "kilde_tittel").text = elem["current_nb"]
+        ET.SubElement(element, "mål_kode").text = elem["previous_code"]
+        ET.SubElement(element, "mål_tittel").text = elem["previous_nb"]
 
     # Write XML to file with proper indentation
     tree = ET.ElementTree(root)

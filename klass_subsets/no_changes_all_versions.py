@@ -1,3 +1,5 @@
+import json
+
 import requests
 
 from utils import list_duplicates
@@ -8,11 +10,15 @@ def get_all_codes(versions: list) -> dict:
     all_versions_json = []
 
     # So here we get all versions of a subset and put them all in a list
-    for i in versions:
-        version_json: dict = requests.get(
+    for j, i in enumerate(versions):
+        response = requests.get(
             f"https://subsets-api.prod-bip-app.ssb.no/{i}",
             timeout=5,
-        ).json()
+        )
+        version_json = response.json()
+
+        with open(f"version_{j}.json", "w", encoding="utf-8") as f:
+            json.dump(version_json, f, indent=4, ensure_ascii=False)
 
         all_versions_json.append(version_json)
 

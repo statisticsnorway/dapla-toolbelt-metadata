@@ -1,4 +1,5 @@
 from collections import Counter
+from collections import defaultdict
 from datetime import datetime
 from pathlib import Path
 from typing import Any
@@ -66,3 +67,38 @@ def convert_to_the_nice_structure(
         }
         for i in codes
     ]
+
+
+def check_all_codes_klass_reference(codes: dict):
+    set_of_codes = set()
+    for i in codes["codes"]:
+        set_of_codes.add(i["classificationId"])
+
+    print(set_of_codes)
+    return set_of_codes
+
+
+def find_duplicate_new_codes(data):
+    code_map = defaultdict(set)
+    if data == None:
+        return None
+
+    for change in data["codeChanges"]:
+        old_code = change["oldCode"]
+        new_code = change["newCode"]
+        code_map[new_code].add(old_code)
+
+    duplicates = {
+        new_code: old_codes
+        for new_code, old_codes in code_map.items()
+        if len(old_codes) > 1
+    }
+
+    if duplicates:
+        print("Duplicate new codes found:")
+        for new_code, old_codes in duplicates.items():
+            print(f"New Code: {new_code}, Old Codes: {', '.join(old_codes)}")
+    else:
+        print("No duplicate new codes found.")
+
+    return duplicates

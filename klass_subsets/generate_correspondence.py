@@ -1,11 +1,19 @@
+import json
+
 import requests
+from correspondence_xml import generate_correspondence_xml
 from create_all_versions import get_periods
+from filter2 import extract_code_changes
+from filter2 import filter_codes_by_period2
 from filter_codes_by_period import filter_codes_by_period
+from klass_corr import get_changes
+from klass_corr import remove_code_missing
 from no_changes_all_versions import get_all_codes
 from transform_data import transform_data
 
 from utils import convert_to_the_nice_structure
 from utils import create_subset_dir
+from utils import find_duplicate_new_codes
 
 
 def correspondences(subset_id: str) -> None:
@@ -24,31 +32,29 @@ def correspondences(subset_id: str) -> None:
 
     periods = get_periods(convert_to_the_nice_structure(all_codes))
 
+    print("ID: ", subset_id)
+    classification_id = str(all_codes["codes"][0]["classificationId"])
+    changes = get_changes(classification_id, periods[0]["valid_from"], "2025-01-01")
+    if changes is not None:
+        changes = remove_code_missing(changes)
+        find_duplicate_new_codes(changes)
+
+    with open("b.json", "w") as f:
+        json.dump(changes, f, indent=2)
+
     transformed_data = transform_data(all_codes["codes"])
 
-    codes = filter_codes_by_period(transformed_data, periods)
+    filter_codes_by_period(transformed_data, periods)
 
-    for j, i in enumerate(periods):
-        vf = i["valid_from"]
-        vu = i["valid_until"]
-        codes[j]
+    categorized_codes = filter_codes_by_period2(transformed_data, periods)
+    categorized_changes = extract_code_changes(categorized_codes, changes)
 
-        print()
+    for change in categorized_changes:
+        vf = change["valid_from"]
 
-    #     output_file = f"{subset_dir}/{subset_id}_{vf}_{vu}.xml"
-    #     generate_xml(codes[j], output_file)
-
-
-
-
-
-def find_changes():
-    
-
-
-
-
-
+        output_file = f"{subset_dir}/{vf}_{subset_id}_correspondences.xml"
+        generate_correspondence_xml(change["codes"], output_file)
+    print()
 
 
 if __name__ == "__main__":
@@ -59,5 +65,3 @@ if __name__ == "__main__":
 
     for i in lines:
         correspondences(i)
-
-
