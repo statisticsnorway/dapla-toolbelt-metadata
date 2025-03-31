@@ -70,7 +70,7 @@ class NamingStandardReport:
     """Return report based on list of validation results."""
 
     def __init__(self, validation_results: list[ValidationResult]) -> None:
-        """."""
+        """Initialize the naming standard report."""
         self.validation_results = validation_results
         self.num_files_validated = len(validation_results)
         self.num_success = len(
@@ -81,10 +81,11 @@ class NamingStandardReport:
         )
 
     def generate_report(self) -> str:
-        """Formats the report as a string."""
+        """Format the report as a string."""
         return (
             f"{SSB_NAMING_STANDARD_REPORT}\n"
             f"=============================\n"
+            f"{self.evaluate_result()}"
             f"Suksess rate: {self.success_rate():.2f}%\n"
             f"{SSB_NAMING_STANDARD_REPORT_FILES}: {self.num_files_validated}\n"
             f"{SSB_NAMING_STANDARD_REPORT_SUCCESS}: {self.num_success}\n"
@@ -92,12 +93,24 @@ class NamingStandardReport:
         )
 
     def success_rate(self) -> int | float:
-        """Calculates the success rate as a percentage."""
+        """Calculate the success rate as a percentage."""
         return (
             (self.num_success / self.num_files_validated * 100)
             if self.num_files_validated
             else 0
         )
+
+    def evaluate_result(self) -> str:
+        """Returns an appropriate message based on the success rate."""
+        rate = self.success_rate()
+        if rate == 100:
+            return "🚀 Fantastisk! Alt bestått! 🎉\n"
+        if 70 < rate < 100:
+            return "✅ Bra jobba! Fortsatt litt rom for forbedring. 😊\n"
+        if 40 <= rate <= 70:
+            return "⚠️ Ikke verst! Men det er noen feil å fikse. 🔧\n"
+        # rate < 40
+        return "❌ Mye å forbedre! Ta en grundig sjekk. 🛠️\n"
 
 
 def _has_invalid_symbols(path: os.PathLike[str]) -> bool:
