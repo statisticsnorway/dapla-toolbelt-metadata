@@ -66,7 +66,7 @@ class ValidationResult:
         }
 
 
-class NamingStandardReportGenerator:
+class NamingStandardReport:
     """Return report based on list of validation results."""
 
     def __init__(self, validation_results: list[ValidationResult]) -> None:
@@ -91,8 +91,6 @@ class NamingStandardReportGenerator:
             f"{SSB_NAMING_STANDARD_REPORT_VIOLATIONS}s: {self.num_failures}\n"
         )
 
-    # over 70%
-    # under 40%
     def success_rate(self) -> int:
         """Calculates the success rate as a percentage."""
         return (
