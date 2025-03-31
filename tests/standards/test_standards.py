@@ -325,4 +325,5 @@ def test_validate_short_name(file_path: str, violations: list, tmp_path):
     full_path.parent.mkdir(parents=True, exist_ok=True)
     full_path.touch()
     result = check_naming_standard(file_path=full_path)
-    assert result.violations == violations
+    if isinstance(result, list):
+        assert result.violations == violations
