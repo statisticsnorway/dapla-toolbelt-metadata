@@ -158,6 +158,7 @@ ignore = [
     "D100",    # Supress undocumented-public-module. Only doc of public api required.
     "FBT001",  # Allow boolean positional arguments in a function.
     "FBT002",  # Allow boolean default positional arguments in a function.
+    "FIX002",  # Don't fail on TODO as long as it's documented correctly.
     "E402",    # Supress module-import-not-at-top-of-file, needed in jupyter notebooks.
     "E501",    # Supress line-too-long warnings: trust black's judgement on this one.
     "PLR2004", # Allow to compare with unnamed numerical constants.

@@ -60,9 +60,6 @@ class ValidationResult:
         }
 
 
-INVALID_PATTERN = r"[^a-zA-Z0-9\./:_-]"
-
-
 def _has_invalid_symbols(path: os.PathLike[str]) -> bool:
     """Return True if string contains illegal symbols.
 
@@ -78,8 +75,13 @@ def _has_invalid_symbols(path: os.PathLike[str]) -> bool:
 
         >>> _has_invalid_symbols("ssb-dapla-example-data-produkt-prod/ledstill/oppdrag/skjema_p2018_p2020_v1")
         False
+
+        >>> _has_invalid_symbols("ssb-dapla-example-data-produkt-prod/ledstill/inndata/skjema_p2018_p202_v1/aar=2018/data.parquet")
+        False
     """
-    return bool(re.search(INVALID_PATTERN, str(path).strip()))
+    # TODO @mmwinther: The = symbol is allowed to avoid failures on subdirectories of partioned parquet datasets.
+    # DPMETA-824
+    return bool(re.search(r"[^a-zA-Z0-9\./:_\-=]", str(path).strip()))
 
 
 def _check_violations(
