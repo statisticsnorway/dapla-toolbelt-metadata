@@ -18,7 +18,25 @@ from dapla_metadata.standards.utils.constants import NAME_STANDARD_SUCCESS
 from dapla_metadata.standards.utils.constants import PATH_IGNORED
 from dapla_metadata.standards.utils.constants import SSB_NAMING_STANDARD_REPORT
 from dapla_metadata.standards.utils.constants import SSB_NAMING_STANDARD_REPORT_FILES
+from dapla_metadata.standards.utils.constants import (
+    SSB_NAMING_STANDARD_REPORT_RESULT_AVERAGE,
+)
+from dapla_metadata.standards.utils.constants import (
+    SSB_NAMING_STANDARD_REPORT_RESULT_BEST,
+)
+from dapla_metadata.standards.utils.constants import (
+    SSB_NAMING_STANDARD_REPORT_RESULT_GOOD,
+)
+from dapla_metadata.standards.utils.constants import (
+    SSB_NAMING_STANDARD_REPORT_RESULT_LOW,
+)
+from dapla_metadata.standards.utils.constants import (
+    SSB_NAMING_STANDARD_REPORT_RESULT_NO_SCORE,
+)
 from dapla_metadata.standards.utils.constants import SSB_NAMING_STANDARD_REPORT_SUCCESS
+from dapla_metadata.standards.utils.constants import (
+    SSB_NAMING_STANDARD_REPORT_SUCCESS_RATE,
+)
 from dapla_metadata.standards.utils.constants import (
     SSB_NAMING_STANDARD_REPORT_VIOLATIONS,
 )
@@ -86,7 +104,7 @@ class NamingStandardReport:
             f"{SSB_NAMING_STANDARD_REPORT}\n"
             f"=============================\n"
             f"{self.evaluate_result()}"
-            f"Suksess rate: {self.success_rate():.2f}%\n"
+            f"{SSB_NAMING_STANDARD_REPORT_SUCCESS_RATE}: {self.success_rate():.2f}%\n"
             f"{SSB_NAMING_STANDARD_REPORT_FILES}: {self.num_files_validated}\n"
             f"{SSB_NAMING_STANDARD_REPORT_SUCCESS}: {self.num_success}\n"
             f"{SSB_NAMING_STANDARD_REPORT_VIOLATIONS}s: {self.num_failures}\n"
@@ -105,13 +123,13 @@ class NamingStandardReport:
         rate = self.success_rate()
         if rate > 0:
             if rate == 100:
-                return "🚀 Fantastisk! Alt bestått! 🎉\n"
+                return SSB_NAMING_STANDARD_REPORT_RESULT_BEST
             if 70 < rate < 100:
-                return "✅ Bra jobba! Fortsatt litt rom for forbedring. 😊\n"
+                return SSB_NAMING_STANDARD_REPORT_RESULT_GOOD
             if 40 <= rate <= 70:
-                return "⚠️ Ikke verst! Men det er noen feil å fikse. 🔧\n"
-            return "❌ Mye å forbedre! Ta en grundig sjekk. 🛠️\n"
-        return "👀 Ingen filer ble validert"
+                return SSB_NAMING_STANDARD_REPORT_RESULT_AVERAGE
+            return SSB_NAMING_STANDARD_REPORT_RESULT_LOW
+        return SSB_NAMING_STANDARD_REPORT_RESULT_NO_SCORE
 
 
 def _has_invalid_symbols(path: os.PathLike[str]) -> bool:
