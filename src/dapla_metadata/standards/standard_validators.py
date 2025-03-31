@@ -77,7 +77,9 @@ async def check_naming_standard(
     return results
 
 
-def generate_validation_report(validation_results: list[ValidationResult]) -> str:
+def generate_validation_report(
+    validation_results: list[ValidationResult],
+) -> NamingStandardReport:
     """Generate a formatted report based on the provided validation results.
 
     Args:
@@ -89,4 +91,5 @@ def generate_validation_report(validation_results: list[ValidationResult]) -> st
             number of validated files, and violations..
     """
     report = NamingStandardReport(validation_results=validation_results)
-    return report.generate_report()
+    print(report.generate_report())  # noqa: T201
+    return report
