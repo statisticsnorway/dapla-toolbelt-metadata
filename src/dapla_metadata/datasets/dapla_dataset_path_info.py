@@ -743,7 +743,7 @@ class DaplaDatasetPathInfo:
             >>> DaplaDatasetPathInfo('resources/buckets/produkt/befolkning/utdata/person_data.parquet').statistic_short_name
             befolkning
 
-            >>> DaplaDatasetPathInfo('buckets/ssb-staging-dapla-felles-data-delt/person_data_p2021_v2.parquet').bucket_name
+            >>> DaplaDatasetPathInfo('buckets/ssb-staging-dapla-felles-data-delt/person_data_p2021_v2.parquet').statistic_short_name
             None
         """
         if not self.dataset_state:
