@@ -3,6 +3,9 @@ import os
 import re
 from pathlib import Path
 
+from colorama import Fore
+from colorama import Style
+
 from dapla_metadata.datasets.dapla_dataset_path_info import DaplaDatasetPathInfo
 from dapla_metadata.standards.utils.constants import BUCKET_NAME_UNKNOWN
 from dapla_metadata.standards.utils.constants import FILE_PATH_NOT_CONFIRMED
@@ -81,13 +84,16 @@ class NamingStandardReportGenerator:
         """Formats the report as a string."""
         return (
             f"{SSB_NAMING_STANDARD_REPORT}\n"
-            f"==============\n"
+            f"=============================\n"
+            f"{Fore.GREEN}Suksess rate: {self.success_rate():.2f}%{Style.RESET_ALL}\n"
             f"{SSB_NAMING_STANDARD_REPORT_FILES}: {self.num_files_validated}\n"
             f"{SSB_NAMING_STANDARD_REPORT_SUCCESS}: {self.num_success}\n"
             f"{SSB_NAMING_STANDARD_REPORT_VIOLATIONS}s: {self.num_failures}\n"
             f"Success Rate: {self.success_rate():.2f}%\n"
         )
 
+    # over 70%
+    # under 40%
     def success_rate(self) -> int:
         """Calculates the success rate as a percentage."""
         return (
