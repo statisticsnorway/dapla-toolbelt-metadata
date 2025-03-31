@@ -170,10 +170,10 @@ def test_bucket_validation_partitioned_data_success(
     (processed_path / processed_file_paths[0]).touch()
     (processed_path / processed_file_paths[1]).touch()
 
-    validator = NameStandardValidator(file_path=None, bucket_name=bucket_name)
+    validator = BucketNameValidator(bucket_name=bucket_name)
     monkeypatch.setattr(validator, "bucket_directory", fake_bucket)
 
-    results = validator.validate_bucket()
+    results = validator.validate()
 
     assert len(results) == 4
     assert all(result.success for result in results)
@@ -232,10 +232,10 @@ def test_bucket_validation_partitioned_data_violations(
     (processed_path / processed_file_paths[0]).touch()
     (processed_path / processed_file_paths[1]).touch()
 
-    validator = NameStandardValidator(file_path=None, bucket_name=bucket_name)
+    validator = BucketNameValidator(bucket_name=bucket_name)
     monkeypatch.setattr(validator, "bucket_directory", fake_bucket)
 
-    results = validator.validate_bucket()
+    results = validator.validate()
 
     assert len(results) == 4
     assert all(not result.success for result in results)
