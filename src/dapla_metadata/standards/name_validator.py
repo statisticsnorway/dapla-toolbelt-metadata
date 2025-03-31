@@ -5,9 +5,6 @@ import re
 from collections.abc import AsyncGenerator
 from pathlib import Path
 
-from colorama import Fore
-from colorama import Style
-
 from dapla_metadata.datasets.dapla_dataset_path_info import DaplaDatasetPathInfo
 from dapla_metadata.standards.utils.constants import FILE_DOES_NOT_EXIST
 from dapla_metadata.standards.utils.constants import FILE_IGNORED
@@ -88,11 +85,10 @@ class NamingStandardReportGenerator:
         return (
             f"{SSB_NAMING_STANDARD_REPORT}\n"
             f"=============================\n"
-            f"{Fore.GREEN}Suksess rate: {self.success_rate():.2f}%{Style.RESET_ALL}\n"
+            f"Suksess rate: {self.success_rate():.2f}%\n"
             f"{SSB_NAMING_STANDARD_REPORT_FILES}: {self.num_files_validated}\n"
             f"{SSB_NAMING_STANDARD_REPORT_SUCCESS}: {self.num_success}\n"
             f"{SSB_NAMING_STANDARD_REPORT_VIOLATIONS}s: {self.num_failures}\n"
-            f"Success Rate: {self.success_rate():.2f}%\n"
         )
 
     # over 70%
