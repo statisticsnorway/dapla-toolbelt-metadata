@@ -5,7 +5,7 @@ import time
 from collections.abc import AsyncGenerator
 
 from dapla_metadata.datasets.utility.utils import normalize_path
-from dapla_metadata.standards.name_validator import NamingStandardReportGenerator
+from dapla_metadata.standards.name_validator import NamingStandardReport
 from dapla_metadata.standards.name_validator import ValidationResult
 from dapla_metadata.standards.name_validator import validate_directory
 
@@ -79,5 +79,5 @@ async def check_naming_standard(
 
 def validation_report(validation_results: list[ValidationResult]) -> str:
     """."""
-    report = NamingStandardReportGenerator(validation_results=validation_results)
+    report = NamingStandardReport(validation_results=validation_results)
     return report.generate_report()
