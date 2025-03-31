@@ -760,6 +760,7 @@ class DaplaDatasetPathInfo:
                     # If there are parts after bucket_name, return the part immediately after it
                     if len(self.dataset_path.parent.parts) > bucket_name_index + 1:
                         return self.dataset_path.parent.parts[bucket_name_index + 1]
+                    return None
             return None
         if self.dataset_state:
             dataset_state_names = self._extract_norwegian_dataset_state_path_part(
