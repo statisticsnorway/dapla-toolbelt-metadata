@@ -364,3 +364,28 @@ async def test_generate_naming_standard_report(tmp_path):
         assert report.num_failures == 3
         assert report.num_files_validated == 5
         assert report.num_success == 2
+
+
+@pytest.mark.asyncio
+async def test_generate_naming_standard_report_failure(tmp_path):
+    file_paths = [
+        "buckets/ssb-dapla-example-data-produkt-prod/ledstill/skjema_p1988.parquet",
+        "buckets/ssb-dapla-example-data-produkt-prod/skjema_v2.parquet",
+        "buckets/ssb-dapla-example-data-produkt-prod/utdata/editert_v1.parquet",
+        "buckets/ssb-dapla-example-data-produkt-prod/klargjorte_data/_p2021-12-31_p2021-12-31.parquet",
+        "buckets/ssb-dapla-example-data-produkt-prod/ledstill/park_v1.parquet",
+    ]
+    for file_path in file_paths:
+        full_path = tmp_path / file_path
+        full_path.parent.mkdir(parents=True, exist_ok=True)
+        full_path.touch()
+
+    results = await check_naming_standard(
+        file_path=str(tmp_path / "buckets/ssb-dapla-example-data-produkt-prod"),
+    )
+
+    if isinstance(results, list):
+        report = generate_validation_report(validation_results=results)
+        assert report.num_failures == 5
+        assert report.num_files_validated == 5
+        assert report.num_success == 0

@@ -111,24 +111,28 @@ class NamingStandardReport:
         )
 
     def success_rate(self) -> int | float:
-        """Calculate the success rate as a percentage."""
-        return (
-            (self.num_success / self.num_files_validated * 100)
-            if self.num_files_validated
-            else 0
-        )
+        """Calculate the success rate as a percentage.
+
+        Returns:
+            int | float | None: The success rate as a percentage, or None if
+            no files were validated.
+        """
+        if self.num_files_validated == 0:
+            return None
+        return self.num_success / self.num_files_validated * 100
 
     def evaluate_result(self) -> str:
         """Returns an appropriate message based on the success rate."""
         rate = self.success_rate()
-        if rate > 0:
+        if rate is not None:
             if rate == 100:
                 return SSB_NAMING_STANDARD_REPORT_RESULT_BEST
             if 70 < rate < 100:
                 return SSB_NAMING_STANDARD_REPORT_RESULT_GOOD
             if 40 <= rate <= 70:
                 return SSB_NAMING_STANDARD_REPORT_RESULT_AVERAGE
-            return SSB_NAMING_STANDARD_REPORT_RESULT_LOW
+            if rate < 40:
+                return SSB_NAMING_STANDARD_REPORT_RESULT_LOW
         return SSB_NAMING_STANDARD_REPORT_RESULT_NO_SCORE
 
 
