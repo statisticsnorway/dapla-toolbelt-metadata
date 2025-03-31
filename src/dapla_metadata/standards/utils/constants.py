@@ -24,8 +24,8 @@ BUCKET_NAME_UNKNOWN = "Kan ikke validere bøttenavn"
 
 SSB_NAMING_STANDARD_REPORT = "SSB navnestandard rapport"
 SSB_NAMING_STANDARD_REPORT_FILES = "Antall filer validert"
-SSB_NAMING_STANDARD_REPORT_SUCCESS = "Antall filer som følger ssb sin navnestandard"
-SSB_NAMING_STANDARD_REPORT_VIOLATIONS = "Antall filer som bryter ssb sin navnestandard"
+SSB_NAMING_STANDARD_REPORT_SUCCESS = "Antall filer som følger SSB navnestandard"
+SSB_NAMING_STANDARD_REPORT_VIOLATIONS = "Antall filer som bryter SSB navnestandard"
 
 IGNORED_FOLDERS = [
     "temp",
