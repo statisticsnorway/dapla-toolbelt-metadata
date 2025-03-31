@@ -67,7 +67,7 @@ class ValidationResult:
 
 
 class NamingStandardReport:
-    """Return report based on list of validation results."""
+    """Report object for name standard validation."""
 
     def __init__(self, validation_results: list[ValidationResult]) -> None:
         """Initialize the naming standard report."""
