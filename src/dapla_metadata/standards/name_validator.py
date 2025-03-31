@@ -110,7 +110,7 @@ class NamingStandardReport:
             f"{SSB_NAMING_STANDARD_REPORT_VIOLATIONS}s: {self.num_failures}\n"
         )
 
-    def success_rate(self) -> int | float:
+    def success_rate(self) -> int | float | None:
         """Calculate the success rate as a percentage.
 
         Returns:
