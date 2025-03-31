@@ -103,14 +103,15 @@ class NamingStandardReport:
     def evaluate_result(self) -> str:
         """Returns an appropriate message based on the success rate."""
         rate = self.success_rate()
-        if rate == 100:
-            return "🚀 Fantastisk! Alt bestått! 🎉\n"
-        if 70 < rate < 100:
-            return "✅ Bra jobba! Fortsatt litt rom for forbedring. 😊\n"
-        if 40 <= rate <= 70:
-            return "⚠️ Ikke verst! Men det er noen feil å fikse. 🔧\n"
-        # rate < 40
-        return "❌ Mye å forbedre! Ta en grundig sjekk. 🛠️\n"
+        if rate > 0:
+            if rate == 100:
+                return "🚀 Fantastisk! Alt bestått! 🎉\n"
+            if 70 < rate < 100:
+                return "✅ Bra jobba! Fortsatt litt rom for forbedring. 😊\n"
+            if 40 <= rate <= 70:
+                return "⚠️ Ikke verst! Men det er noen feil å fikse. 🔧\n"
+            return "❌ Mye å forbedre! Ta en grundig sjekk. 🛠️\n"
+        return "👀 Ingen filer ble validert"
 
 
 def _has_invalid_symbols(path: os.PathLike[str]) -> bool:
