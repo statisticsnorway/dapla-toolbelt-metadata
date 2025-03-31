@@ -754,7 +754,7 @@ class DaplaDatasetPathInfo:
     ) -> str | None:
         """Extract the statistical short name from the filepath.
 
-        Extract the statistical short name from the filepath right before the
+        Extract the statistical short name from the filepath either after bucket name or right before the
         dataset state based on the Dapla filepath naming convention.
 
         Returns:
@@ -799,31 +799,40 @@ class DaplaDatasetPathInfo:
             if self.bucket_name:
                 parts = self.dataset_path.parent.parts
 
-                if self.bucket_name in parts:
-                    # Find the index of bucket_name in the path
-                    bucket_name_index = self.dataset_path.parent.parts.index(
-                        self.bucket_name,
-                    )
-
-                    # If there are parts after bucket_name, return the part immediately after it
-                    if len(self.dataset_path.parent.parts) > bucket_name_index + 1:
-                        return self.dataset_path.parent.parts[bucket_name_index + 1]
+                if self.bucket_name not in parts:
                     return None
+
+                # Find the index of bucket_name in the path
+                bucket_name_index = self.dataset_path.parent.parts.index(
+                    self.bucket_name,
+                )
+
+                # If there are parts after bucket_name, return the part immediately after it
+                if len(self.dataset_path.parent.parts) > bucket_name_index + 1:
+                    return self.dataset_path.parent.parts[bucket_name_index + 1]
+
             return None
-        if self.dataset_state:
-            dataset_state_names = self._extract_norwegian_dataset_state_path_part(
-                self.dataset_state,
-            )
-            dataset_path_parts = list(self.dataset_path.parts)
-            for state in dataset_state_names:
-                if state in dataset_path_parts:
-                    index = dataset_path_parts.index(state)
-                    if index == 0:
-                        continue
-                    left_parts = self._get_left_parts(dataset_path_parts, index)
-                    if not left_parts:
-                        return None
-                    return dataset_path_parts[index - 1]
+
+        dataset_state_names = self._extract_norwegian_dataset_state_path_part(
+            self.dataset_state,
+        )
+        dataset_path_parts = list(self.dataset_path.parts)
+
+        for state in dataset_state_names:
+            if state not in dataset_path_parts:
+                continue
+
+            index = dataset_path_parts.index(state)
+
+            if index == 0:
+                continue
+
+            left_parts = self._get_left_parts(dataset_path_parts, index)
+
+            if not left_parts:
+                return None
+
+            return dataset_path_parts[index - 1]
 
         return None
 
