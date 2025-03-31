@@ -37,6 +37,7 @@ TESTS_SESSIONS_DEPENDENCIES = {
     "pytest",
     "pygments",
     "pytest-mock",
+    "pytest-asyncio",
     "requests-mock",
     "faker",
     "testcontainers[generic]",
