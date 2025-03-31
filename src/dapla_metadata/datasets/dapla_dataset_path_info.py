@@ -338,8 +338,51 @@ class DaplaDatasetPathInfo:
         """Digest the path so that it's ready for further parsing."""
         self.dataset_string = str(dataset_path)
         self.dataset_path = pathlib.Path(dataset_path)
-        self.dataset_name_sections = self.dataset_path.stem.split("_")
+        self.is_partitioned_data = self._is_partitioned_data()
+        self.dataset_name_sections = (
+            self._parse_hive_partitioned_file_path().stem.split("_")
+            if self.is_partitioned_data
+            else self.dataset_path.stem.split("_")
+        )
         self._period_strings = self._extract_period_strings(self.dataset_name_sections)
+
+    def _parse_hive_partitioned_file_path(self) -> pathlib.Path:
+        """Return a file path without key value and data suffix parts.
+
+        Examples:
+            >>> DaplaDatasetPathInfo("gs://team/statistikk/klargjorte-data/persondata_p1990-Q1_p2023-Q4_v1/aar=2018/data.parquet")._parse_hive_partitioned_file_path()
+            PosixPath('gs:/team/statistikk/klargjorte-data/persondata_p1990-Q1_p2023-Q4_v1')
+
+            >>> DaplaDatasetPathInfo("gs://team/statistikk/klargjorte-data/persondata_p1990-Q1_p2023-Q4_v1/aar=2018/dag=01/data.parquet")._parse_hive_partitioned_file_path()
+            PosixPath('gs:/team/statistikk/klargjorte-data/persondata_p1990-Q1_p2023-Q4_v1')
+
+            >>> DaplaDatasetPathInfo("gs://team/statistikk/klargjorte-data/persondata_p1990-Q1_p2023-Q4_v1/aar=2018")._parse_hive_partitioned_file_path()
+            PosixPath('gs:/team/statistikk/klargjorte-data/persondata_p1990-Q1_p2023-Q4_v1')
+        """
+        new_parts = [part for part in self.dataset_path.parts if "=" not in part]
+        if new_parts and pathlib.Path(new_parts[-1]).suffix:
+            new_parts.pop()
+        return pathlib.Path(*new_parts)
+
+    def _is_partitioned_data(self):
+        """Check if dataset path is partitioned data.
+
+        Examples:
+            >>> DaplaDatasetPathInfo("gs://team-bøtte/statistikk/klargjorte-data/persondata_p1990-Q1_p2023-Q4_v1/aar=2018").is_partitioned_data
+            True
+
+            >>> DaplaDatasetPathInfo("team-bøtte/stat/inndata/person_p1990-Q1_p2023-Q4_v1/aar=2019/data.parquet").is_partitioned_data
+            True
+
+            >>> DaplaDatasetPathInfo("gs://team-bøtte/statistikk/klargjorte-data/persondata_p1990-Q1_p2023-Q4_v1.parquet").is_partitioned_data
+            False
+        """
+        for part in self.dataset_path.parts:
+            if "=" in part:
+                key, value = part.split("=", 1)
+                if key and value:
+                    return True
+        return False
 
     @staticmethod
     def _get_period_string_indices(dataset_name_sections: list[str]) -> list[int]:
@@ -742,6 +785,12 @@ class DaplaDatasetPathInfo:
 
             >>> DaplaDatasetPathInfo('resources/buckets/produkt/befolkning/utdata/person_data.parquet').statistic_short_name
             befolkning
+
+            >>> DaplaDatasetPathInfo('gs://statistikk/produkt/klargjorte-data/persondata_p1990-Q1_p2023-Q4_v1/aar=2019/data.parquet').statistic_short_name
+            produkt
+
+            >>> DaplaDatasetPathInfo('gs://statistikk/produkt/persondata_p1990-Q1_p2023-Q4_v1/aar=2019/data.parquet').statistic_short_name
+            None
 
             >>> DaplaDatasetPathInfo('buckets/ssb-staging-dapla-felles-data-delt/person_data_p2021_v2.parquet').statistic_short_name
             None
