@@ -234,11 +234,11 @@ def test_missing_multiple(file_path: str, violations: list, tmp_path):
             [MISSING_SHORT_NAME],
         ),
         (
-            "buckets/produkt/bil_p2021-12-31_p2021-12-31_v1.parquet",
+            "gs://ssb-dapla-example-data-produkt-prod/ledstill/skjema_p2021-12-31_p2021-12-31_v1.parquet",
             [MISSING_DATA_STATE],
         ),
         (
-            "produkt/bil_p2021-12-31_p2021-12-31_v1.parquet",
+            "buckets/produkt/ledstill/bil_p2021-12-31_p2021-12-31_v1.parquet",
             [MISSING_DATA_STATE],
         ),
         (
