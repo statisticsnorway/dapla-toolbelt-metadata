@@ -4,7 +4,7 @@ import pytest
 
 from dapla_metadata.standards.name_validator import ValidationResult
 from dapla_metadata.standards.standard_validators import check_naming_standard
-from dapla_metadata.standards.standard_validators import validation_report
+from dapla_metadata.standards.standard_validators import generate_validation_report
 from dapla_metadata.standards.utils.constants import FILE_DOES_NOT_EXIST
 from dapla_metadata.standards.utils.constants import FILE_IGNORED
 from dapla_metadata.standards.utils.constants import INVALID_SYMBOLS
@@ -366,10 +366,11 @@ async def test_generate_naming_standard_report(tmp_path):
     )
 
     if isinstance(results, list):
-        report = validation_report(validation_results=results)
+        report = generate_validation_report(validation_results=results)
         assert report == (
             f"{SSB_NAMING_STANDARD_REPORT}\n"
             f"=============================\n"
+            f"⚠️ Ikke verst! Men det er noen feil å fikse. 🔧\n"
             f"Suksess rate: 40.00%\n"
             f"{SSB_NAMING_STANDARD_REPORT_FILES}: 5\n"
             f"{SSB_NAMING_STANDARD_REPORT_SUCCESS}: 2\n"

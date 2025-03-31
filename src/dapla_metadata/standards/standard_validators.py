@@ -77,7 +77,16 @@ async def check_naming_standard(
     return results
 
 
-def validation_report(validation_results: list[ValidationResult]) -> str:
-    """."""
+def generate_validation_report(validation_results: list[ValidationResult]) -> str:
+    """Generate a formatted report based on the provided validation results.
+
+    Args:
+        validation_results: A list of ValidationResult objects that
+        contain the outcomes of the name standard checks.
+
+    Returns:
+        str: A formatted string report summarizing the validation results, including success rate,
+            number of validated files, and violations..
+    """
     report = NamingStandardReport(validation_results=validation_results)
     return report.generate_report()
