@@ -800,7 +800,6 @@ class DaplaDatasetPathInfo:
                 parts = self.dataset_path.parent.parts
 
                 if self.bucket_name in parts:
-                    bucket_name_index = parts.index(self.bucket_name)
                     # Find the index of bucket_name in the path
                     bucket_name_index = self.dataset_path.parent.parts.index(
                         self.bucket_name,
