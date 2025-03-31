@@ -11,6 +11,7 @@ from dapla_metadata.standards.utils.constants import MISSING_DATA_STATE
 from dapla_metadata.standards.utils.constants import MISSING_DATASET_SHORT_NAME
 from dapla_metadata.standards.utils.constants import MISSING_PERIOD
 from dapla_metadata.standards.utils.constants import MISSING_SHORT_NAME
+from dapla_metadata.standards.utils.constants import MISSING_VERSION
 from dapla_metadata.standards.utils.constants import NAME_STANDARD_SUCCESS
 from dapla_metadata.standards.utils.constants import PATH_IGNORED
 
@@ -157,6 +158,10 @@ async def test_missing_dataset_shortname_as_dict(file_path, tmp_path):
 @pytest.mark.parametrize(
     ("file_path", "violations"),
     [
+        (
+            "gs://ssb-dapla-example-data-produkt-prod/ledstill/inndata/park_p2021-12-31_p2021-12-31.parquet",
+            [MISSING_VERSION],
+        ),
         (
             "gs://ssb-dapla-example-data-produkt-prod/inndata/skjema_v1.parquet",
             [MISSING_SHORT_NAME, MISSING_PERIOD],
