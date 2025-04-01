@@ -8,9 +8,9 @@ from dapla_metadata._shared.config import OIDC_TOKEN
 from dapla_metadata._shared.enums import DaplaRegion
 from dapla_metadata._shared.enums import DaplaService
 from dapla_metadata.dapla import user_info
-from dapla_metadata.dapla.user_info import PLACEHOLDER_EMAIL_ADDRESS
 from dapla_metadata.dapla.user_info import DaplaLabUserInfo
 from dapla_metadata.dapla.user_info import JupyterHubUserInfo
+from dapla_metadata.dapla.user_info import TestUserInfo
 from dapla_metadata.dapla.user_info import UnknownUserInfo
 from dapla_metadata.dapla.user_info import UserInfo
 
@@ -35,8 +35,8 @@ def test_get_user_info_for_current_platform(
 
 
 def test_jupyterhub_user_info_short_email(monkeypatch: pytest.MonkeyPatch):
-    monkeypatch.setenv(JUPYTERHUB_USER, PLACEHOLDER_EMAIL_ADDRESS)
-    assert JupyterHubUserInfo().short_email == PLACEHOLDER_EMAIL_ADDRESS
+    monkeypatch.setenv(JUPYTERHUB_USER, TestUserInfo.PLACEHOLDER_EMAIL_ADDRESS)
+    assert JupyterHubUserInfo().short_email == TestUserInfo.PLACEHOLDER_EMAIL_ADDRESS
 
 
 def test_dapla_lab_user_info_short_email(

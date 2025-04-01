@@ -13,11 +13,6 @@ from dapla_metadata._shared.enums import DaplaService
 logger = logging.getLogger(__name__)
 
 
-PLACEHOLDER_EMAIL_ADDRESS = "default_user@ssb.no"
-PLACEHOLDER_GROUP = "default-team-developers"
-PLACEHOLDER_TEAM = "default-team"
-
-
 class UserInfo(Protocol):
     """Information about the current user.
 
@@ -62,20 +57,24 @@ class UnknownUserInfo:
 class TestUserInfo:
     """Information about the current user for local development and testing."""
 
+    PLACEHOLDER_EMAIL_ADDRESS = "default_user@ssb.no"
+    PLACEHOLDER_GROUP = "default-team-developers"
+    PLACEHOLDER_TEAM = "default-team"
+
     @property
     def short_email(self) -> str | None:
         """Get the short email address."""
-        return PLACEHOLDER_EMAIL_ADDRESS
+        return TestUserInfo.PLACEHOLDER_EMAIL_ADDRESS
 
     @property
     def current_group(self) -> str | None:
         """Get the group which the user is currently representing."""
-        return PLACEHOLDER_GROUP
+        return TestUserInfo.PLACEHOLDER_GROUP
 
     @property
     def current_team(self) -> str | None:
         """Get the team which the user is currently representing."""
-        return PLACEHOLDER_TEAM
+        return TestUserInfo.PLACEHOLDER_TEAM
 
 
 class DaplaLabUserInfo:
