@@ -5,6 +5,7 @@ import time
 from collections.abc import AsyncGenerator
 
 from dapla_metadata.datasets.utility.utils import normalize_path
+from dapla_metadata.standards.name_validator import NamingStandardReport
 from dapla_metadata.standards.name_validator import ValidationResult
 from dapla_metadata.standards.name_validator import validate_directory
 
@@ -74,3 +75,24 @@ async def check_naming_standard(
         await asyncio.sleep(0.001)
 
     return results
+
+
+def generate_validation_report(
+    validation_results: list[ValidationResult],
+) -> NamingStandardReport:
+    """Generate and print a formatted naming standard validation report.
+
+    This function takes a list of `ValidationResult` objects, creates a
+    `NamingStandardReport` instance, and prints the generated report.
+
+    Args:
+        validation_results: A list of ValidationResult objects that
+        contain the outcomes of the name standard checks.
+
+    Returns:
+        NamingStandardReport: An instance of `NamingStandardReport` containing
+        the validation results.
+    """
+    report = NamingStandardReport(validation_results=validation_results)
+    print(report.generate_report())  # noqa: T201
+    return report

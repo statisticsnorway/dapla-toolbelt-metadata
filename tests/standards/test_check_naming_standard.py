@@ -4,6 +4,7 @@ import pytest
 
 from dapla_metadata.standards.name_validator import ValidationResult
 from dapla_metadata.standards.standard_validators import check_naming_standard
+from dapla_metadata.standards.standard_validators import generate_validation_report
 from dapla_metadata.standards.utils.constants import FILE_DOES_NOT_EXIST
 from dapla_metadata.standards.utils.constants import FILE_IGNORED
 from dapla_metadata.standards.utils.constants import INVALID_SYMBOLS
@@ -334,10 +335,62 @@ async def test_check_naming_directory_with_subdirectories(
         ),
     ],
 )
-def test_validate_short_name(file_path: str, violations: list, tmp_path):
+@pytest.mark.asyncio
+async def test_validate_short_name(file_path: str, violations: list, tmp_path):
     full_path = tmp_path / file_path
     full_path.parent.mkdir(parents=True, exist_ok=True)
     full_path.touch()
-    result = check_naming_standard(file_path=full_path)
+
+    result = await check_naming_standard(file_path=full_path)
     if isinstance(result, ValidationResult):
         assert result.violations == violations
+
+
+@pytest.mark.asyncio
+async def test_generate_naming_standard_report(tmp_path):
+    file_paths = [
+        "buckets/ssb-dapla-example-data-produkt-prod/ledstill/inndata/skjema_p1988_v1.parquet",
+        "buckets/ssb-dapla-example-data-produkt-prod/inndata/skjema_v2.parquet",
+        "buckets/ssb-dapla-example-data-produkt-prod/utdata/editert_v1.parquet",
+        "buckets/ssb-dapla-example-data-produkt-prod/klargjorte_data/_p2021-12-31_p2021-12-31_v1.parquet",
+        "buckets/ssb-dapla-example-data-produkt-prod/ledstill/klargjorte_data/park_p2021-12-31_p2021-12-31_v1.parquet",
+    ]
+    for file_path in file_paths:
+        full_path = tmp_path / file_path
+        full_path.parent.mkdir(parents=True, exist_ok=True)
+        full_path.touch()
+
+    results = await check_naming_standard(
+        file_path=str(tmp_path / "buckets/ssb-dapla-example-data-produkt-prod"),
+    )
+
+    if isinstance(results, list):
+        report = generate_validation_report(validation_results=results)
+        assert report.num_failures == 3
+        assert report.num_files_validated == 5
+        assert report.num_success == 2
+
+
+@pytest.mark.asyncio
+async def test_generate_naming_standard_report_failure(tmp_path):
+    file_paths = [
+        "buckets/ssb-dapla-example-data-produkt-prod/ledstill/skjema_p1988.parquet",
+        "buckets/ssb-dapla-example-data-produkt-prod/skjema_v2.parquet",
+        "buckets/ssb-dapla-example-data-produkt-prod/utdata/editert_v1.parquet",
+        "buckets/ssb-dapla-example-data-produkt-prod/klargjorte_data/_p2021-12-31_p2021-12-31.parquet",
+        "buckets/ssb-dapla-example-data-produkt-prod/ledstill/park_v1.parquet",
+    ]
+    for file_path in file_paths:
+        full_path = tmp_path / file_path
+        full_path.parent.mkdir(parents=True, exist_ok=True)
+        full_path.touch()
+
+    results = await check_naming_standard(
+        file_path=str(tmp_path / "buckets/ssb-dapla-example-data-produkt-prod"),
+    )
+
+    if isinstance(results, list):
+        report = generate_validation_report(validation_results=results)
+        assert report.num_failures == 5
+        assert report.num_files_validated == 5
+        assert report.num_success == 0

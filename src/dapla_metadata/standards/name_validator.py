@@ -17,6 +17,30 @@ from dapla_metadata.standards.utils.constants import MISSING_SHORT_NAME
 from dapla_metadata.standards.utils.constants import MISSING_VERSION
 from dapla_metadata.standards.utils.constants import NAME_STANDARD_SUCCESS
 from dapla_metadata.standards.utils.constants import PATH_IGNORED
+from dapla_metadata.standards.utils.constants import SSB_NAMING_STANDARD_REPORT
+from dapla_metadata.standards.utils.constants import SSB_NAMING_STANDARD_REPORT_FILES
+from dapla_metadata.standards.utils.constants import (
+    SSB_NAMING_STANDARD_REPORT_RESULT_AVERAGE,
+)
+from dapla_metadata.standards.utils.constants import (
+    SSB_NAMING_STANDARD_REPORT_RESULT_BEST,
+)
+from dapla_metadata.standards.utils.constants import (
+    SSB_NAMING_STANDARD_REPORT_RESULT_GOOD,
+)
+from dapla_metadata.standards.utils.constants import (
+    SSB_NAMING_STANDARD_REPORT_RESULT_LOW,
+)
+from dapla_metadata.standards.utils.constants import (
+    SSB_NAMING_STANDARD_REPORT_RESULT_NO_SCORE,
+)
+from dapla_metadata.standards.utils.constants import SSB_NAMING_STANDARD_REPORT_SUCCESS
+from dapla_metadata.standards.utils.constants import (
+    SSB_NAMING_STANDARD_REPORT_SUCCESS_RATE,
+)
+from dapla_metadata.standards.utils.constants import (
+    SSB_NAMING_STANDARD_REPORT_VIOLATIONS,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -59,6 +83,58 @@ class ValidationResult:
             "messages": self.messages,
             "violations": self.violations,
         }
+
+
+class NamingStandardReport:
+    """Report object for name standard validation."""
+
+    def __init__(self, validation_results: list[ValidationResult]) -> None:
+        """Initialize the naming standard report."""
+        self.validation_results = validation_results
+        self.num_files_validated = len(validation_results)
+        self.num_success = len(
+            [result for result in validation_results if result.success is True],
+        )
+        self.num_failures = len(
+            [result for result in validation_results if result.success is False],
+        )
+
+    def generate_report(self) -> str:
+        """Format the report as a string."""
+        return (
+            f"{SSB_NAMING_STANDARD_REPORT}\n"
+            f"=============================\n"
+            f"{self.evaluate_result()}"
+            f"{SSB_NAMING_STANDARD_REPORT_SUCCESS_RATE}: {self.success_rate():.2f}%\n"
+            f"{SSB_NAMING_STANDARD_REPORT_FILES}: {self.num_files_validated}\n"
+            f"{SSB_NAMING_STANDARD_REPORT_SUCCESS}: {self.num_success}\n"
+            f"{SSB_NAMING_STANDARD_REPORT_VIOLATIONS}s: {self.num_failures}\n"
+        )
+
+    def success_rate(self) -> int | float | None:
+        """Calculate the success rate as a percentage.
+
+        Returns:
+            int | float | None: The success rate as a percentage, or None if
+            no files were validated.
+        """
+        if self.num_files_validated == 0:
+            return None
+        return self.num_success / self.num_files_validated * 100
+
+    def evaluate_result(self) -> str:
+        """Returns an appropriate message based on the success rate."""
+        rate = self.success_rate()
+        if rate is not None:
+            if rate == 100:
+                return SSB_NAMING_STANDARD_REPORT_RESULT_BEST
+            if 70 < rate < 100:
+                return SSB_NAMING_STANDARD_REPORT_RESULT_GOOD
+            if 40 <= rate <= 70:
+                return SSB_NAMING_STANDARD_REPORT_RESULT_AVERAGE
+            if rate < 40:
+                return SSB_NAMING_STANDARD_REPORT_RESULT_LOW
+        return SSB_NAMING_STANDARD_REPORT_RESULT_NO_SCORE
 
 
 def _has_invalid_symbols(path: os.PathLike[str]) -> bool:
