@@ -5,6 +5,7 @@ import logging
 import pathlib
 import uuid
 
+import google.auth
 from cloudpathlib import CloudPath
 from cloudpathlib import GSClient
 from cloudpathlib import GSPath
@@ -13,7 +14,6 @@ from datadoc_model.model import Assessment
 from datadoc_model.model import DataSetState
 from datadoc_model.model import VariableRole
 
-from dapla import AuthClient
 from dapla_metadata.dapla import user_info
 from dapla_metadata.datasets.utility.constants import (
     DATASET_FIELDS_FROM_EXISTING_METADATA,
@@ -52,7 +52,7 @@ def normalize_path(path: str) -> pathlib.Path | CloudPath:
         Pathlib compatible object.
     """
     if path.startswith(GSPath.cloud_prefix):
-        client = GSClient(credentials=AuthClient.fetch_google_credentials())
+        client = GSClient(credentials=google.auth.default()[0])
         return GSPath(path, client=client)
     return pathlib.Path(path)
 

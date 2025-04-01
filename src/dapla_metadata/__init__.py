@@ -9,5 +9,7 @@ warnings.filterwarnings(
 
 import datadoc_model.model as datadoc_model
 
+from . import dapla
 from . import datasets
+from . import standards
 from . import variable_definitions
