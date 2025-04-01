@@ -14,6 +14,7 @@ from dapla_metadata.standards.utils.constants import MISSING_PERIOD
 from dapla_metadata.standards.utils.constants import MISSING_SHORT_NAME
 from dapla_metadata.standards.utils.constants import MISSING_VERSION
 from dapla_metadata.standards.utils.constants import NAME_STANDARD_SUCCESS
+from dapla_metadata.standards.utils.constants import NAME_STANDARD_VIOLATION
 from dapla_metadata.standards.utils.constants import PATH_IGNORED
 
 pytest_plugins = ("pytest_asyncio",)
@@ -245,61 +246,61 @@ async def test_check_naming_standard_ignored_file_type(
 
 
 @pytest.mark.parametrize(
-    ("short_name", "file_path_1", "file_path_2", "bucket_name", "expect_success"),
+    (
+        "short_name",
+        "files",
+        "bucket_name",
+    ),
     [
         (
             "stat_reg",
-            "person_data_p2022_v1.parquet",
-            "bil_data_p2022_v1.parquet",
+            [
+                ("person_data_p2022_v1.parquet", NAME_STANDARD_SUCCESS),
+                ("bil_data_p2022_v1.parquet", NAME_STANDARD_SUCCESS),
+                ("my%stuff.csv", FILE_IGNORED),
+            ],
             "ssb-staging-dapla-felles-data-delt",
-            True,
         ),
         (
             "temp_stuff",
-            "_p2022_v1.parquet",
-            "bil_data_v1.parquet",
+            [
+                ("_p2022_v1.parquet", MISSING_DATASET_SHORT_NAME),
+                ("bil_data_v1.parquet", MISSING_PERIOD),
+                ("my%stuff.csv", FILE_IGNORED),
+            ],
             "ssb-staging-dapla-felles-data-delt",
-            False,
         ),
     ],
 )
 @pytest.mark.asyncio
 async def test_check_naming_directory_with_subdirectories(
     short_name: str,
-    file_path_1: str,
-    file_path_2: str,
+    files: list[tuple[str, str]],
     bucket_name: str,
-    expect_success: bool,
     tmp_path: Path,
 ):
     fake_bucket = tmp_path / bucket_name / short_name
 
-    indata_path = fake_bucket / "inndata"
-    outdata_path = fake_bucket / "utdata"
+    data_states = ["inndata", "utdata"]
 
-    indata_path.mkdir(parents=True, exist_ok=True)
-    outdata_path.mkdir(parents=True, exist_ok=True)
+    for state in data_states:
+        state_path = fake_bucket / state
+        state_path.mkdir(parents=True, exist_ok=True)
+        for file in files:
+            (state_path / file[0]).touch()
 
-    (indata_path / file_path_1).touch()
-    (indata_path / file_path_2).touch()
-    (outdata_path / file_path_1).touch()
-    (outdata_path / file_path_2).touch()
     results = await check_naming_standard(
         tmp_path / bucket_name,
     )
-    assert len(results) == 4
-    for r in results:
-        if expect_success:
-            assert r.success
-            assert NAME_STANDARD_SUCCESS in r.messages
-            r.file_path.startswith(str(fake_bucket))
+    assert len(results) == 6
+    for file in files:
+        result = next(r for r in results if str(file[0]) in r.file_path)
+        assert file[0] in result.file_path
+        if file[1] in [NAME_STANDARD_SUCCESS, FILE_IGNORED]:
+            assert file[1] in result.messages
         else:
-            assert not r.success
-            assert len(r.violations) > 0
-            assert (
-                MISSING_DATASET_SHORT_NAME in r.violations
-                or MISSING_PERIOD in r.violations
-            )
+            assert NAME_STANDARD_VIOLATION in result.messages
+            assert file[1] in result.violations
 
 
 @pytest.mark.parametrize(

@@ -89,7 +89,7 @@ TYPE_CORRESPONDENCE: list[tuple[tuple[str, ...], DataType]] = [
 ]
 TYPE_MAP: dict[str, DataType] = {}
 for concrete_type, abstract_type in TYPE_CORRESPONDENCE:
-    TYPE_MAP.update({c: abstract_type for c in concrete_type})
+    TYPE_MAP.update(dict.fromkeys(concrete_type, abstract_type))
 
 TDatasetParser = t.TypeVar("TDatasetParser", bound="DatasetParser")
 
@@ -112,31 +112,23 @@ class DatasetParser(ABC):
     @staticmethod
     def for_file(dataset: pathlib.Path | CloudPath) -> DatasetParser:
         """Return the correct subclass based on the given dataset file."""
-        supported_file_types: dict[
-            str,
-            type[DatasetParser],
-        ] = {
-            ".parquet": DatasetParserParquet,
-            ".sas7bdat": DatasetParserSas7Bdat,
-            ".parquet.gzip": DatasetParserParquet,
-        }
         file_type = "Unknown"
         try:
             file_type = dataset.suffix
             # Gzipped parquet files can be read with DatasetParserParquet
-            match = re.search(r"(.parquet.gzip)", str(dataset).lower())
-            file_type = ".parquet.gzip" if match else file_type
+            match = re.search(PARQUET_GZIP_FILE_SUFFIX, str(dataset).lower())
+            file_type = PARQUET_GZIP_FILE_SUFFIX if match else file_type
             # Extract the appropriate reader class from the SUPPORTED_FILE_TYPES dict and return an instance of it
-            reader = supported_file_types[file_type](dataset)
+            reader = SUPPORTED_DATASET_FILE_SUFFIXES[file_type](dataset)
         except IndexError as e:
             # Thrown when just one element is returned from split, meaning there is no file extension supplied
-            msg = f"Could not recognise file type for provided {dataset = }. Supported file types are: {', '.join(supported_file_types.keys())}"
+            msg = f"Could not recognise file type for provided {dataset = }. Supported file types are: {', '.join(SUPPORTED_DATASET_FILE_SUFFIXES.keys())}"
             raise FileNotFoundError(
                 msg,
             ) from e
         except KeyError as e:
             # In this case the file type is not supported, so we throw a helpful exception
-            msg = f"{file_type = } is not supported. Please open one of the following supported files types: {', '.join(supported_file_types.keys())} or contact the maintainers to request support."
+            msg = f"{file_type = } is not supported. Please open one of the following supported files types: {', '.join(SUPPORTED_DATASET_FILE_SUFFIXES.keys())} or contact the maintainers to request support."
             raise NotImplementedError(
                 msg,
             ) from e
@@ -239,3 +231,17 @@ class DatasetParserSas7Bdat(DatasetParser):
             )
 
         return fields
+
+
+PARQUET_FILE_SUFFIX = ".parquet"
+PARQUET_GZIP_FILE_SUFFIX = ".parquet.gzip"
+SAS7BDAT_FILE_SUFFIX = ".sas7bdat"
+
+SUPPORTED_DATASET_FILE_SUFFIXES: dict[
+    str,
+    type[DatasetParser],
+] = {
+    PARQUET_FILE_SUFFIX: DatasetParserParquet,
+    PARQUET_GZIP_FILE_SUFFIX: DatasetParserParquet,
+    SAS7BDAT_FILE_SUFFIX: DatasetParserSas7Bdat,
+}

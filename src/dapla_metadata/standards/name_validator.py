@@ -6,6 +6,7 @@ from collections.abc import AsyncGenerator
 from pathlib import Path
 
 from dapla_metadata.datasets.dapla_dataset_path_info import DaplaDatasetPathInfo
+from dapla_metadata.datasets.dataset_parser import SUPPORTED_DATASET_FILE_SUFFIXES
 from dapla_metadata.standards.utils.constants import FILE_DOES_NOT_EXIST
 from dapla_metadata.standards.utils.constants import FILE_IGNORED
 from dapla_metadata.standards.utils.constants import IGNORED_FOLDERS
@@ -16,6 +17,7 @@ from dapla_metadata.standards.utils.constants import MISSING_PERIOD
 from dapla_metadata.standards.utils.constants import MISSING_SHORT_NAME
 from dapla_metadata.standards.utils.constants import MISSING_VERSION
 from dapla_metadata.standards.utils.constants import NAME_STANDARD_SUCCESS
+from dapla_metadata.standards.utils.constants import NAME_STANDARD_VIOLATION
 from dapla_metadata.standards.utils.constants import PATH_IGNORED
 from dapla_metadata.standards.utils.constants import SSB_NAMING_STANDARD_REPORT
 from dapla_metadata.standards.utils.constants import SSB_NAMING_STANDARD_REPORT_FILES
@@ -188,6 +190,10 @@ async def _validate_file(
         A ValidationResult object containing messages and violations
     """
     logger.info("Validating file: %s", file)
+    if file.suffix not in SUPPORTED_DATASET_FILE_SUFFIXES:
+        logger.info("Skipping validation on non-dataset file: %s", file)
+        return await _ignored_file_type_result(file)
+
     result = ValidationResult(success=True, file_path=str(file))
 
     if check_file_exists and not file.exists():
@@ -202,6 +208,7 @@ async def _validate_file(
 
     if result.violations:
         result.success = False
+        result.add_message(NAME_STANDARD_VIOLATION)
     else:
         result.success = True
         result.add_message(
@@ -230,23 +237,14 @@ async def validate_directory(
         logger.info("File path ignored: %s", path)
         yield asyncio.create_task(_ignored_folder_result(path))
     elif path.suffix:
-        logger.debug("Found file: %s", path)
-        if path.suffix != ".parquet":
-            logger.info("Skipping non-parquet file: %s", path)
-            yield asyncio.create_task(_ignored_file_type_result(path))
-        else:
-            yield asyncio.create_task(_validate_file(path, check_file_exists=True))
+        yield asyncio.create_task(_validate_file(path, check_file_exists=True))
     else:
         for obj in await asyncio.get_running_loop().run_in_executor(
             None,
             lambda: path.glob("*"),
         ):
-            logger.debug("Found: %s", obj)
             if obj.suffix:
-                if obj.suffix != ".parquet":
-                    logger.info("Skipping non-parquet file: %s", obj)
-                    continue
                 yield asyncio.create_task(_validate_file(obj), name=obj.name)
-
             else:
+                logger.debug("Recursing into: %s", obj)
                 yield validate_directory(obj)
