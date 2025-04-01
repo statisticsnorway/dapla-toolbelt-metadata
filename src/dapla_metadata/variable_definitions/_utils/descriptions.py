@@ -2,14 +2,17 @@
 
 import logging
 from pathlib import Path
+from typing import TYPE_CHECKING
 from typing import cast
 
-import yaml
+import ruamel.yaml
 from pydantic import BaseModel
 from pydantic import Field
-from pydantic.config import JsonDict
 
 from dapla_metadata.variable_definitions._utils.config import get_descriptions_path
+
+if TYPE_CHECKING:
+    from pydantic.config import JsonDict
 
 logger = logging.getLogger(__name__)
 
@@ -34,7 +37,7 @@ def load_descriptions(file_path: Path) -> dict:
     dict: Parsed contents of the YAML file.
     """
     with Path.open(file_path, encoding="utf-8") as f:
-        return yaml.safe_load(f)
+        return ruamel.yaml.YAML().load(f)
 
 
 def apply_norwegian_descriptions_to_model(
@@ -74,7 +77,7 @@ def apply_norwegian_descriptions_to_model(
             title=field_info.title,
             description=field_info.description,
             json_schema_extra=cast(
-                JsonDict,
+                "JsonDict",
                 {
                     "norwegian_description": new_description,
                     "annotation": field_info.annotation,

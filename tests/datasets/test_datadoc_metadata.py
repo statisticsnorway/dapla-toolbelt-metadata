@@ -25,7 +25,6 @@ from datadoc_model.model import IsPersonalData
 from datadoc_model.model import Variable
 from datadoc_model.model import VariableRole
 
-from dapla_metadata.dapla.user_info import PLACEHOLDER_EMAIL_ADDRESS
 from dapla_metadata.dapla.user_info import TestUserInfo
 from dapla_metadata.datasets.core import Datadoc
 from dapla_metadata.datasets.core import InconsistentDatasetsError
@@ -102,9 +101,14 @@ def test_write_metadata_document(
     written_document = tmp_path / TEST_EXISTING_METADATA_FILE_NAME
     assert Path.exists(written_document)
     assert metadata.dataset.metadata_created_date == dummy_timestamp
-    assert metadata.dataset.metadata_created_by == PLACEHOLDER_EMAIL_ADDRESS
+    assert (
+        metadata.dataset.metadata_created_by == TestUserInfo.PLACEHOLDER_EMAIL_ADDRESS
+    )
     assert metadata.dataset.metadata_last_updated_date == dummy_timestamp
-    assert metadata.dataset.metadata_last_updated_by == PLACEHOLDER_EMAIL_ADDRESS
+    assert (
+        metadata.dataset.metadata_last_updated_by
+        == TestUserInfo.PLACEHOLDER_EMAIL_ADDRESS
+    )
 
     with Path.open(written_document) as f:
         written_metadata = json.loads(f.read())
@@ -117,7 +121,10 @@ def test_write_metadata_document(
         ).metadata_created_date
         == dummy_timestamp
     )
-    assert datadoc_metadata["metadata_created_by"] == PLACEHOLDER_EMAIL_ADDRESS
+    assert (
+        datadoc_metadata["metadata_created_by"]
+        == TestUserInfo.PLACEHOLDER_EMAIL_ADDRESS
+    )
     assert (
         # Use our pydantic model to read in the datetime string so we get the correct format
         Dataset(
@@ -125,7 +132,10 @@ def test_write_metadata_document(
         ).metadata_last_updated_date
         == dummy_timestamp
     )
-    assert datadoc_metadata["metadata_last_updated_by"] == PLACEHOLDER_EMAIL_ADDRESS
+    assert (
+        datadoc_metadata["metadata_last_updated_by"]
+        == TestUserInfo.PLACEHOLDER_EMAIL_ADDRESS
+    )
 
 
 @pytest.mark.usefixtures("existing_metadata_file")
@@ -143,7 +153,10 @@ def test_write_metadata_document_existing_document(
     metadata.write_metadata_document()
     assert metadata.dataset.metadata_created_by == original_created_by
     assert metadata.dataset.metadata_created_date == original_created_date
-    assert metadata.dataset.metadata_last_updated_by == PLACEHOLDER_EMAIL_ADDRESS
+    assert (
+        metadata.dataset.metadata_last_updated_by
+        == TestUserInfo.PLACEHOLDER_EMAIL_ADDRESS
+    )
     assert metadata.dataset.metadata_last_updated_date == dummy_timestamp
 
 

@@ -1,9 +1,10 @@
 import logging
 from datetime import date
+from io import StringIO
 from os import PathLike
 from pathlib import Path
 
-import yaml
+import ruamel.yaml
 from pydantic import ConfigDict
 from pydantic import PrivateAttr
 
@@ -122,6 +123,8 @@ class VariableDefinition(CompleteResponse):
                 update_draft=update_draft,
             ),
         )
+        self.__dict__.update(updated)
+
         logger.info(
             "Successfully updated variable definition '%s' with ID '%s'",
             updated.short_name,
@@ -228,6 +231,8 @@ class VariableDefinition(CompleteResponse):
                 valid_from=valid_from,
             ),
         )
+        self.__dict__.update(new_patch)
+
         logger.info(
             "Successfully created patch with patch ID '%s' for variable definition '%s' with ID '%s'",
             new_patch.patch_id,
@@ -301,6 +306,7 @@ class VariableDefinition(CompleteResponse):
                 validity_period=validity_period,
             ),
         )
+        self.__dict__.update(new_validity_period)
 
         logger.info(
             "Successfully created validity period that is valid from '%s' for variable definition '%s' with ID '%s'",
@@ -398,13 +404,17 @@ class VariableDefinition(CompleteResponse):
         return self._convert_to_yaml_output()
 
     def _convert_to_yaml_output(self) -> str:
-        return yaml.dump(
-            self.model_dump(
-                mode="json",
-                serialize_as_any=True,
-                warnings="error",
-            ),
-            allow_unicode=True,
-            default_flow_style=False,
-            sort_keys=False,
-        )
+        stream = StringIO()
+        with ruamel.yaml.YAML(
+            output=stream,
+        ) as yaml:
+            yaml.default_flow_style = False
+            yaml.allow_unicode = True
+            yaml.dump(
+                self.model_dump(
+                    mode="json",
+                    serialize_as_any=True,
+                    warnings="error",
+                ),
+            )
+        return stream.getvalue()
