@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "dapla-toolbelt-metadata"
-version = "0.5.0"
+version = "0.6.0"
 description = "Dapla Toolbelt Metadata"
 authors = ["Team Metadata <metadata@ssb.no>"]
 license = "MIT"
