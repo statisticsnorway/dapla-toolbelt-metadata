@@ -7,7 +7,6 @@ from __future__ import annotations
 
 import pathlib  # noqa: TC003 import is needed for docs build
 import re
-import typing as t
 from abc import ABC
 from abc import abstractmethod
 from typing import TYPE_CHECKING
@@ -56,6 +55,8 @@ KNOWN_FLOAT_TYPES = (
 
 KNOWN_STRING_TYPES = (
     "string",
+    "string[pyarrow]",
+    "large_string",
     "str",
     "char",
     "varchar",
@@ -67,13 +68,18 @@ KNOWN_STRING_TYPES = (
 
 KNOWN_DATETIME_TYPES = (
     "timestamp",
+    "timestamp[s]",
+    "timestamp[ms]",
     "timestamp[us]",
     "timestamp[ns]",
-    "datetime64",
-    " datetime64[ns]",
-    " datetime64[us]",
-    "date",
     "datetime",
+    "datetime64",
+    "datetime64[s]",
+    "datetime64[ms]",
+    "datetime64[us]",
+    "datetime64[ns]",
+    "date",
+    "date32[day]",
     "time",
 )
 
@@ -90,8 +96,6 @@ TYPE_CORRESPONDENCE: list[tuple[tuple[str, ...], DataType]] = [
 TYPE_MAP: dict[str, DataType] = {}
 for concrete_type, abstract_type in TYPE_CORRESPONDENCE:
     TYPE_MAP.update(dict.fromkeys(concrete_type, abstract_type))
-
-TDatasetParser = t.TypeVar("TDatasetParser", bound="DatasetParser")
 
 
 class DatasetParser(ABC):
@@ -118,7 +122,7 @@ class DatasetParser(ABC):
             # Gzipped parquet files can be read with DatasetParserParquet
             match = re.search(PARQUET_GZIP_FILE_SUFFIX, str(dataset).lower())
             file_type = PARQUET_GZIP_FILE_SUFFIX if match else file_type
-            # Extract the appropriate reader class from the SUPPORTED_FILE_TYPES dict and return an instance of it
+            # Extract the appropriate reader class from the SUPPORTED_FILE_TYPES dict
             reader = SUPPORTED_DATASET_FILE_SUFFIXES[file_type](dataset)
         except IndexError as e:
             # Thrown when just one element is returned from split, meaning there is no file extension supplied
@@ -149,6 +153,9 @@ class DatasetParser(ABC):
 
         Arguments:
             data_type: The concrete data type to map.
+
+        Returns:
+            The abstract data type or None
         """
         return TYPE_MAP.get(data_type.lower(), None)
 
