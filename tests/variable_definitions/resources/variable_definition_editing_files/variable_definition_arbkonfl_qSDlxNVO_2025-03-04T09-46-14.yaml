@@ -1,3 +1,5 @@
+# yaml-language-server: $schema=../../../../schemas/jsonschema/complete-response-schema.json
+
 # --- Variable definition ---
 # Name of the variable. Must be unique for a given Unit Type and Owner combination.
 name:
