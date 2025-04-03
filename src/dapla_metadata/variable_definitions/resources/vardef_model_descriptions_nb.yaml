@@ -54,7 +54,7 @@ comment: |
   Her kan en sette inn eventuelle tilleggsopplysninger som ikke hører hjemme i selve definisjonen. Variabelen “Landbakgrunn” har f.eks. merknaden “Fra og med 1.1.2003 ble definisjon endret til også å trekke inn besteforeldrenes fødeland”.
 related_variable_definition_uris: |
   Her kan en legge inn URIer til andre variabler som er relevante. Eksempelvis er variabelen “Inntekt etter skatt” en beregnet variabel der  “Yrkesinntekter” og “Kapitalinntekter” inngår i beregningen. En kan da legge inn deres URI-er i dette feltet.
-  Eksempel: "https://www.ssb.no/metadata/conceptvariable/vardok/2"
+  Eksempel: "https://example.com/"
 contact: |
   Her dokumenterer en navn og epost for person eller gruppe som kan svare på spørsmål.
   Eksempel:
