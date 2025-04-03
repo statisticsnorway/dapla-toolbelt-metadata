@@ -15,8 +15,8 @@ from __future__ import annotations
 
 from collections import OrderedDict
 from dataclasses import dataclass
-from datetime import UTC
 from datetime import datetime
+from datetime import timezone
 from typing import TYPE_CHECKING
 from typing import Any
 
@@ -160,8 +160,7 @@ def _remove_element_from_model(
         element_to_remove: The key of the element to be removed from the metadata
             dictionary.
     """
-    if element_to_remove in supplied_metadata:
-        del supplied_metadata[element_to_remove]
+    supplied_metadata.pop(element_to_remove, None)
 
 
 def _cast_to_date_type(value_to_update: str | None) -> str | None:
@@ -384,7 +383,7 @@ def handle_version_1_0_0(supplied_metadata: dict[str, Any]) -> dict[str, Any]:
         if supplied_metadata["dataset"][field]:
             supplied_metadata["dataset"][field] = datetime.isoformat(
                 datetime.fromisoformat(supplied_metadata["dataset"][field]).astimezone(
-                    tz=UTC,
+                    tz=timezone.utc,
                 ),
                 timespec="seconds",
             )
