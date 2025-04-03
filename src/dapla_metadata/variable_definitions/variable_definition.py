@@ -126,7 +126,7 @@ class VariableDefinition(CompleteResponse):
         self.__dict__.update(updated)
 
         logger.info(
-            "Successfully updated variable definition '%s' with ID '%s'",
+            "✅ Successfully updated variable definition '%s' with ID '%s'",
             updated.short_name,
             updated.id,
         )
@@ -176,7 +176,7 @@ class VariableDefinition(CompleteResponse):
             variable_definition_id=self.id,
             active_group=config.get_active_group(),
         )
-        return f"Variable {self.id} safely deleted"
+        return f"✅ Variable {self.id} safely deleted"
 
     @vardef_exception_handler
     def get_patch(self, patch_id: int) -> "VariableDefinition":
@@ -234,7 +234,7 @@ class VariableDefinition(CompleteResponse):
         self.__dict__.update(new_patch)
 
         logger.info(
-            "Successfully created patch with patch ID '%s' for variable definition '%s' with ID '%s'",
+            "✅ Successfully created patch with patch ID '%s' for variable definition '%s' with ID '%s'",
             new_patch.patch_id,
             new_patch.short_name,
             new_patch.id,
@@ -309,7 +309,7 @@ class VariableDefinition(CompleteResponse):
         self.__dict__.update(new_validity_period)
 
         logger.info(
-            "Successfully created validity period that is valid from '%s' for variable definition '%s' with ID '%s'",
+            "✅ Successfully created validity period that is valid from '%s' for variable definition '%s' with ID '%s'",
             new_validity_period.valid_from,
             new_validity_period.short_name,
             new_validity_period.id,
@@ -350,7 +350,7 @@ class VariableDefinition(CompleteResponse):
             UpdateDraft(variable_status=VariableStatus.PUBLISHED_INTERNAL),
         )
         logger.info(
-            "Variable definition '%s' with ID '%s' successfully published, new status: %s",
+            "✅ Variable definition '%s' with ID '%s' successfully published, new status: %s",
             update.short_name,
             update.id,
             update.variable_status,
@@ -373,7 +373,7 @@ class VariableDefinition(CompleteResponse):
                 Patch(variable_status=VariableStatus.PUBLISHED_EXTERNAL),
             )
         logger.info(
-            "Variable definition '%s' with ID '%s' successfully published, new status: %s",
+            "✅ Variable definition '%s' with ID '%s' successfully published, new status: %s",
             update.short_name,
             update.id,
             update.variable_status,
@@ -387,7 +387,7 @@ class VariableDefinition(CompleteResponse):
         )
         self.set_file_path(file_path)
         logger.info(
-            f"Created editable variable definition file at {file_path}",  # noqa: G004
+            f"✅ Created editable variable definition file at {file_path}",  # noqa: G004
         )
         return self
 
