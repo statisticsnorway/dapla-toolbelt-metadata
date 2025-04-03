@@ -10,6 +10,7 @@ import pytz
 from pydantic.config import JsonDict
 from ruamel.yaml import YAML
 from ruamel.yaml import CommentedMap
+from ruamel.yaml import RoundTripDumper
 
 from dapla_metadata.variable_definitions._generated.vardef_client.models.complete_response import (
     CompleteResponse,
@@ -178,6 +179,12 @@ def _validate_and_create_directory(custom_directory: Path) -> Path:
 def _configure_yaml() -> YAML:
     yaml = YAML()  # Use ruamel.yaml library
     yaml.default_flow_style = False  # Ensures pretty YAML formatting
+
+    def represent_multiline_str(dumper: RoundTripDumper, data: str):
+        """Custom representer for multi-line strings (block scalar)."""
+        return dumper.represent_scalar("tag:yaml.org,2002:str", data, style="|")
+
+    yaml.representer.add_representer(str, represent_multiline_str)
 
     yaml.representer.add_representer(
         VariableStatus,
