@@ -78,7 +78,7 @@ def test_delete_draft():
     )
     assert my_draft.id is not None
     result = my_draft.delete_draft()
-    assert result == f"Variable {VARDEF_EXAMPLE_DEFINITION_ID} safely deleted"
+    assert f"Variable {VARDEF_EXAMPLE_DEFINITION_ID} safely deleted" in result
 
 
 def test_create_patch(

@@ -108,7 +108,7 @@ class Vardef:
         )
 
         logger.info(
-            "Successfully created variable definition '%s' with ID '%s'",
+            "✅ Successfully created variable definition '%s' with ID '%s'",
             new_variable.short_name,
             new_variable.id,
         )
@@ -165,7 +165,7 @@ class Vardef:
         )
 
         logger.info(
-            "Successfully migrated variable definition '%s' with ID '%s'",
+            "✅ Successfully migrated variable definition '%s' with ID '%s'",
             migrated_variable.short_name,
             migrated_variable.id,
         )
@@ -273,7 +273,7 @@ class Vardef:
             custom_directory=Path(custom_file_path) if custom_file_path else None,
         )
         logger.info(
-            f"Created editable variable definition template file at {file_path}",  # noqa: G004
+            f"✅ Created editable variable definition template file at {file_path}",  # noqa: G004
         )
         return file_path
 
