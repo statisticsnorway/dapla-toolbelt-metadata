@@ -179,8 +179,10 @@ def _configure_yaml() -> YAML:
     yaml = YAML()  # Use ruamel.yaml library
     yaml.default_flow_style = False  # Ensures pretty YAML formatting block style
     yaml.width = 180  # Ensures long texts are wrapped
+    yaml.allow_unicode = True  # Support special characters
+    yaml.preserve_quotes = True  # Ensures numbers as string stays as a string
     yaml.indent(
-        mapping=4, sequence=6, offset=4
+        mapping=4, sequence=4, offset=2
     )  # Ensure indentation for nested keys and lists
     yaml.representer.add_representer(
         VariableStatus,
