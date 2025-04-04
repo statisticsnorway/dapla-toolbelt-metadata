@@ -41,17 +41,17 @@ def _get_default_template() -> "VariableDefinition":
 
     return VariableDefinition(
         name=LanguageStringType(
-            nb="default navn",
-            nn="default namn",
-            en="default name",
+            nb="navn",
+            nn="namn",
+            en="name",
         ),
-        short_name="default_kortnavn",
+        short_name="generert_kortnavn",
         definition=LanguageStringType(
-            nb="default definisjon",
-            nn="default definisjon",
-            en="default definition",
+            nb="definisjonstekst",
+            nn="definisjonstekst",
+            en="definition text",
         ),
-        classification_reference="class_id",
+        classification_reference="00",
         valid_from=DEFAULT_DATE,
         unit_types=["00"],
         subject_fields=["aa"],
@@ -60,11 +60,11 @@ def _get_default_template() -> "VariableDefinition":
         owner=Owner(team="default team", groups=["default group"]),
         contact=Contact(
             title=LanguageStringType(
-                nb="default tittel",
-                nn="default tittel",
-                en="default title",
+                nb="generert tittel",
+                nn="generert tittel",
+                en="generert title",
             ),
-            email="default@ssb.no",
+            email="generert@ssb.no",
         ),
         id="",
         patch_id=0,
