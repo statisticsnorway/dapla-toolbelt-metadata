@@ -1,7 +1,6 @@
 """Lower level file utilities."""
 
 import logging
-import textwrap
 from datetime import datetime
 from pathlib import Path
 from typing import TYPE_CHECKING
@@ -11,7 +10,6 @@ import pytz
 from pydantic.config import JsonDict
 from ruamel.yaml import YAML
 from ruamel.yaml import CommentedMap
-from ruamel.yaml import RoundTripDumper
 
 from dapla_metadata.variable_definitions._generated.vardef_client.models.complete_response import (
     CompleteResponse,
@@ -186,21 +184,6 @@ def _configure_yaml() -> YAML:
     yaml.indent(
         mapping=4, sequence=4, offset=2
     )  # Ensure indentation for nested keys and lists
-
-    def block_style_representer(dumper: RoundTripDumper, value: str):
-        # Only apply block style for multi-line strings
-        if len(value) > 180 or "\n" in value:
-            wrapped_lines = textwrap.wrap(value, width=180)
-            # Join the wrapped lines with '\n' and return as block style
-            wrapped_value = "\n".join(wrapped_lines)
-            return dumper.represent_scalar(
-                "tag:yaml.org,2002:str", wrapped_value, style="|"
-            )
-        return dumper.represent_scalar("tag:yaml.org,2002:str", value)
-
-    # Register the custom representer for string values
-    yaml.representer.add_representer(str, block_style_representer)
-
     yaml.representer.add_representer(
         VariableStatus,
         lambda dumper, data: dumper.represent_scalar(
