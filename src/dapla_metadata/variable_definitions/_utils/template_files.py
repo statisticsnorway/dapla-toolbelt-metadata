@@ -51,13 +51,11 @@ def _get_default_template() -> "VariableDefinition":
             nn="definisjonstekst",
             en="definition text",
         ),
-        classification_reference="00",
         valid_from=DEFAULT_DATE,
         unit_types=["00"],
         subject_fields=["aa"],
         contains_special_categories_of_personal_data=False,
         variable_status=VariableStatus.DRAFT.value,
-        measurement_type="00",
         owner=Owner(team="default team", groups=["default group"]),
         contact=Contact(
             title=LanguageStringType(
