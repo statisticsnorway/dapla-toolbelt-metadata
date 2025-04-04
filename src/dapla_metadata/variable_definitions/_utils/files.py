@@ -176,9 +176,11 @@ def _validate_and_create_directory(custom_directory: Path) -> Path:
 
 def _configure_yaml() -> YAML:
     yaml = YAML()  # Use ruamel.yaml library
-    yaml.default_flow_style = False  # Ensures pretty YAML formatting
-    yaml.width = 180
-    yaml.indent(mapping=4, sequence=6, offset=4)
+    yaml.default_flow_style = False  # Ensures pretty YAML formatting block style
+    yaml.width = 180  # Ensures long texts are wrapped
+    yaml.indent(
+        mapping=4, sequence=6, offset=4
+    )  # Ensure indentation for nested keys and lists
     yaml.representer.add_representer(
         VariableStatus,
         lambda dumper, data: dumper.represent_scalar(
