@@ -57,6 +57,7 @@ def _get_default_template() -> "VariableDefinition":
         subject_fields=["aa"],
         contains_special_categories_of_personal_data=False,
         variable_status=VariableStatus.DRAFT.value,
+        measurement_type="00",
         owner=Owner(team="default team", groups=["default group"]),
         contact=Contact(
             title=LanguageStringType(
