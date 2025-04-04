@@ -178,7 +178,7 @@ def _configure_yaml() -> YAML:
     yaml = YAML()  # Use ruamel.yaml library
     yaml.default_flow_style = False  # Ensures pretty YAML formatting
     yaml.width = 180
-    yaml.indent(mapping=4, offset=2)
+    yaml.indent(mapping=4, sequence=6, offset=4)
     yaml.representer.add_representer(
         VariableStatus,
         lambda dumper, data: dumper.represent_scalar(
