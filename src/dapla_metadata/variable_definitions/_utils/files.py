@@ -196,7 +196,7 @@ def _configure_yaml() -> YAML:
             return dumper.represent_scalar(
                 "tag:yaml.org,2002:str", wrapped_value, style="|"
             )
-        return dumper.represent_scalar("tag:yaml.org,2002:str", value)
+        return dumper.represent_scalar("tag:yaml.org,2002:str", value, style="|")
 
     # Register the custom representer for string values
     yaml.representer.add_representer(str, block_style_representer)
