@@ -127,7 +127,8 @@ def _populate_commented_map(
     )[NORWEGIAN_DESCRIPTIONS]
     if description is not None:
         new_description = (
-            (REQUIRED_FIELD if field.is_required() else OPTIONAL_FIELD)
+            "\n"
+            + (REQUIRED_FIELD if field.is_required() else OPTIONAL_FIELD)
             + "\n"
             + str(description)
         )
