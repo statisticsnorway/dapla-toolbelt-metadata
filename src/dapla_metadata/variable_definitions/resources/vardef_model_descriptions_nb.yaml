@@ -36,7 +36,7 @@ contains_special_categories_of_personal_data: |
     - opplysninger om seksuelle forhold
     - opplysninger om seksuell legning
   ref: https://lovdata.no/dokument/NL/lov/2018-06-15-38/KAPITTEL_gdpr-2#gdpr/a9
-  Eksempel: "true"
+  Eksempel: true
 measurement_type: |
   Måletype som en kvantitativ variabelen tilhører, f.eks.  valuta, areal osv.
   Verdien skal være en kode fra: https://www.ssb.no/klass/klassifikasjoner/303
