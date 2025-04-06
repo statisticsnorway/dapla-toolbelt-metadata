@@ -232,7 +232,7 @@ class Datadoc:
         existing_dataset_path: Path,
         extracted_metadata: model.DatadocMetadata,
         existing_metadata: model.DatadocMetadata,
-    ) -> list[dict[str, str|bool]]:
+    ) -> list[dict[str, object]]:
         """
         Args:
             new_dataset_path: Path to the dataset to be documented.
@@ -294,7 +294,7 @@ class Datadoc:
 
     @staticmethod
     def _check_ready_to_merge(
-        results:list[dict[str, str|bool]],
+        results:list[dict[str, object]],
         *,
         errors_as_warnings: bool,) -> None:
         """Check if the datasets are consistent enough to make a successful merge of metadata.
