@@ -7,6 +7,8 @@ from pathlib import Path
 import ruamel.yaml
 from pydantic import ConfigDict
 from pydantic import PrivateAttr
+from ruamel.yaml import RoundTripDumper
+from ruamel.yaml import RoundTripRepresenter
 
 from dapla_metadata.variable_definitions._generated.vardef_client.api.draft_variable_definitions_api import (
     DraftVariableDefinitionsApi,
@@ -34,7 +36,7 @@ from dapla_metadata.variable_definitions._generated.vardef_client.models.variabl
 )
 from dapla_metadata.variable_definitions._utils import config
 from dapla_metadata.variable_definitions._utils._client import VardefClient
-from dapla_metadata.variable_definitions._utils.files import _configure_yaml
+from dapla_metadata.variable_definitions._utils.files import represent_str
 from dapla_metadata.variable_definitions._utils.variable_definition_files import (
     _read_file_to_model,
 )
@@ -406,10 +408,29 @@ class VariableDefinition(CompleteResponse):
 
     def _convert_to_yaml_output(self) -> str:
         stream = StringIO()
-        yaml = _configure_yaml()
         with ruamel.yaml.YAML(
             output=stream,
-        ):
+        ) as yaml:
+            yaml.Representer = RoundTripRepresenter  # 👈 Viktig!
+            yaml.Dumper = RoundTripDumper
+            yaml.default_flow_style = (
+                False  # Ensures pretty YAML formatting block style
+            )
+            yaml.width = 180  # Ensures long texts are wrapped
+            yaml.allow_unicode = True  # Support special characters
+            yaml.preserve_quotes = True  # Ensures numbers as string stays as a string
+            yaml.indent(
+                mapping=4, sequence=4, offset=2
+            )  # Ensure indentation for nested keys and lists
+
+            yaml.representer.add_representer(str, represent_str)
+            yaml.representer.add_representer(
+                VariableStatus,
+                lambda dumper, data: dumper.represent_scalar(
+                    "tag:yaml.org,2002:str",
+                    data.value,
+                ),
+            )
             yaml.dump(
                 self.model_dump(
                     mode="json",
