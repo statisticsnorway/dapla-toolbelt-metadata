@@ -11,6 +11,7 @@ from pydantic.config import JsonDict
 from ruamel.yaml import YAML
 from ruamel.yaml import CommentedMap
 from ruamel.yaml import RoundTripDumper
+from ruamel.yaml import RoundTripRepresenter
 
 from dapla_metadata.variable_definitions._generated.vardef_client.models.complete_response import (
     CompleteResponse,
@@ -178,6 +179,8 @@ def _validate_and_create_directory(custom_directory: Path) -> Path:
 
 def _configure_yaml() -> YAML:
     yaml = YAML()  # Use ruamel.yaml library
+    yaml.Representer = RoundTripRepresenter  # 👈 Viktig!
+    yaml.Dumper = RoundTripDumper
     yaml.default_flow_style = False  # Ensures pretty YAML formatting block style
     yaml.width = 180  # Ensures long texts are wrapped
     yaml.allow_unicode = True  # Support special characters
@@ -189,9 +192,7 @@ def _configure_yaml() -> YAML:
     def represent_str(dumper: RoundTripDumper, data: str):
         if "\n" in data:
             # Use literal block style (|)
-            return dumper.represent_scalar(
-                "tag:yaml.org,2002:str", yaml.LiteralScalarString(data)
-            )
+            return dumper.represent_scalar("tag:yaml.org,2002:str", data, style="|")
         # Use quoted style (")
         return dumper.represent_scalar("tag:yaml.org,2002:str", data, style='"')
 
