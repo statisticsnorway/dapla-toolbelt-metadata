@@ -638,7 +638,7 @@ def test_check_dataset_consistency_consistent_paths(
     ids=["warnings", "errors"],
 )
 def test_check_ready_to_merge_consistent_paths(
-    dataset_consistency: list[dict[str, str|bool]],
+    dataset_consistency: list[dict[str, object]],
     errors_as_warnings: bool,
 ):
     with warnings.catch_warnings() if errors_as_warnings else contextlib.nullcontext():  # type: ignore [attr-defined]
@@ -711,7 +711,7 @@ def test_check_dataset_consistency_inconsistent_paths(
     ids=["warnings", "errors"],
 )
 def test_check_ready_to_merge_inconsistent_paths(
-    dataset_consistency_status: list[dict[str, str|bool]],
+    dataset_consistency_status: list[dict[str, object]],
     errors_as_warnings: bool,
 ):
     with contextlib.ExitStack() as stack:
@@ -759,7 +759,7 @@ def test_check_dataset_consistency_inconsistent_variable_names(
     ids=["warnings", "errors"],
 )
 def test_check_ready_to_merge_inconsistent_variable_names(
-    dataset_consistency_status: list[dict[str, str|bool]],
+    dataset_consistency_status: list[dict[str, object]],
     errors_as_warnings: bool,
 ):
     with contextlib.ExitStack() as stack:

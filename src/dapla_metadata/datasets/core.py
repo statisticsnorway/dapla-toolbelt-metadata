@@ -111,7 +111,7 @@ class Datadoc:
         self.variables: list = []
         self.variables_lookup: dict[str, model.Variable] = {}
         self.explicitly_defined_metadata_document = False
-        self.dataset_consistency_status: list=[]
+        self.dataset_consistency_status: list = []
         if metadata_document_path:
             self.metadata_document = normalize_path(metadata_document_path)
             self.explicitly_defined_metadata_document = True
@@ -174,7 +174,8 @@ class Datadoc:
                 self.dataset_path,
                 Path(existing_file_path),
                 extracted_metadata,
-                existing_metadata,)
+                existing_metadata,
+            )
             self._check_ready_to_merge(
                 self.dataset_consistency_status,
                 errors_as_warnings=self.errors_as_warnings,
@@ -294,9 +295,8 @@ class Datadoc:
 
     @staticmethod
     def _check_ready_to_merge(
-        results:list[dict[str, object]],
-        *,
-        errors_as_warnings: bool,) -> None:
+        results: list[dict[str, object]], *, errors_as_warnings: bool
+    ) -> None:
         """Check if the datasets are consistent enough to make a successful merge of metadata.
 
         Args:
