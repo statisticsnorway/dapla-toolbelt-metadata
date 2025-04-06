@@ -7,6 +7,9 @@ from pathlib import Path
 import ruamel.yaml
 from pydantic import ConfigDict
 from pydantic import PrivateAttr
+from ruamel.yaml import RoundTripDumper
+from ruamel.yaml import RoundTripRepresenter
+from ruamel.yaml.scalarstring import LiteralScalarString
 
 from dapla_metadata.variable_definitions._generated.vardef_client.api.draft_variable_definitions_api import (
     DraftVariableDefinitionsApi,
@@ -413,6 +416,8 @@ class VariableDefinition(CompleteResponse):
             yaml.preserve_quotes = True
             yaml.width = 180
             yaml.indent(mapping=4, sequence=4, offset=2)
+            yaml.Representer = CustomRepresenter
+            yaml.Dumper = RoundTripDumper
             yaml.dump(
                 self.model_dump(
                     mode="json",
@@ -421,3 +426,15 @@ class VariableDefinition(CompleteResponse):
                 ),
             )
         return stream.getvalue()
+
+
+class CustomRepresenter(RoundTripRepresenter):
+    """Custom."""
+
+    def represent_str(self, data: str) -> RoundTripRepresenter:
+        """Set."""
+        if "\n" in data:
+            return self.represent_scalar(
+                "tag:yaml.org,2002:str", LiteralScalarString(data)
+            )
+        return self.represent_scalar("tag:yaml.org,2002:str", data, style='"')
