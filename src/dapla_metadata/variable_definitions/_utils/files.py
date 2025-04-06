@@ -199,7 +199,7 @@ def _configure_yaml() -> YAML:
     yaml.indent(
         mapping=4, sequence=4, offset=2
     )  # Ensure indentation for nested keys and lists
-    yaml.representer.add_multi_representer(str, represent_str)
+    yaml.representer.add_representer(str, represent_str)
     yaml.representer.add_representer(
         VariableStatus,
         lambda dumper, data: dumper.represent_scalar(
