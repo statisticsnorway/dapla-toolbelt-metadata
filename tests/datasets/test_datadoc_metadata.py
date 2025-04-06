@@ -33,7 +33,7 @@ from dapla_metadata.datasets.statistic_subject_mapping import StatisticSubjectMa
 from dapla_metadata.datasets.utility.constants import (
     DATASET_FIELDS_FROM_EXISTING_METADATA,
 )
-from tests.datasets.constants import DATADOC_METADATA_MODULE_CORE
+from tests.datasets.constants import DATADOC_METADATA_MODULE_CORE, VARIABLE_DATA_TYPES, VARIABLE_SHORT_NAMES
 from tests.datasets.constants import TEST_BUCKET_NAMING_STANDARD_COMPATIBLE_PATH
 from tests.datasets.constants import TEST_DATASETS_DIRECTORY
 from tests.datasets.constants import TEST_EXISTING_METADATA_DIRECTORY
@@ -724,28 +724,6 @@ def test_check_ready_to_merge_inconsistent_paths(
             dataset_consistency_status,
             errors_as_warnings=errors_as_warnings,
         )
-
-
-
-# TODO: Flytte disse til constants.py
-VARIABLE_SHORT_NAMES = [
-    "fnr",
-    "sivilstand",
-    "bostedskommune",
-    "inntekt",
-    "bankinnskudd",
-    "dato",
-]
-
-
-VARIABLE_DATA_TYPES = [
-    DataType.STRING,
-    DataType.STRING,
-    DataType.STRING,
-    DataType.INTEGER,
-    DataType.INTEGER,
-    DataType.DATETIME,
-]
 
 
 @pytest.mark.parametrize(
