@@ -208,9 +208,9 @@ class VariableDefinition(CompleteResponse):
 
         Patches are to be used for minor changes which don't require a new Validity Period.
         Examples of reasons for creating a new Patch:
-          - Correcting a typo
-          - Adding a translation
-          - Adding a subject field
+        - Correcting a typo
+        - Adding a translation
+        - Adding a subject field
 
         Supply only the fields to be changed. Other fields will retain their current values.
 
@@ -408,7 +408,7 @@ class VariableDefinition(CompleteResponse):
 
     def _convert_to_yaml_output(self) -> str:
         stream = StringIO()
-        with ruamel.yaml.YAML(output=stream, typ="rt") as yaml:
+        with ruamel.yaml.YAML(output=stream, typ="safe") as yaml:
             yaml.Representer = RoundTripRepresenter
             yaml.Dumper = RoundTripDumper
             yaml.default_flow_style = (
