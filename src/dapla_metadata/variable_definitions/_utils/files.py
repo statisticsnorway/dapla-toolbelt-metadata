@@ -178,6 +178,17 @@ def _validate_and_create_directory(custom_directory: Path) -> Path:
     return custom_directory
 
 
+def represent_str(dumper: RoundTripDumper, data: str):
+    """Set."""
+    if "\n" in data:
+        # Use literal block style (|)
+        return dumper.represent_scalar(
+            "tag:yaml.org,2002:str", data, LiteralScalarString(data)
+        )
+        # Use quoted style (")
+    return dumper.represent_scalar("tag:yaml.org,2002:str", data, style='"')
+
+
 def _configure_yaml() -> YAML:
     yaml = YAML()  # Use ruamel.yaml library
     yaml.Representer = RoundTripRepresenter  # 👈 Viktig!
@@ -189,15 +200,6 @@ def _configure_yaml() -> YAML:
     yaml.indent(
         mapping=4, sequence=4, offset=2
     )  # Ensure indentation for nested keys and lists
-
-    def represent_str(dumper: RoundTripDumper, data: str):
-        if "\n" in data:
-            # Use literal block style (|)
-            return dumper.represent_scalar(
-                "tag:yaml.org,2002:str", data, LiteralScalarString(data)
-            )
-        # Use quoted style (")
-        return dumper.represent_scalar("tag:yaml.org,2002:str", data, style='"')
 
     yaml.representer.add_representer(str, represent_str)
     yaml.representer.add_representer(
