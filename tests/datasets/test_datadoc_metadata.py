@@ -690,7 +690,7 @@ def test_check_dataset_consistency_inconsistent_paths(
         DatadocMetadata(variables=[]),
     )
     test_id = request.node.callspec.id
-    result_entry=next(item for item in result if item["name"].lower()==test_id)
+    result_entry=next(item for item in result if item["name"].lower()==test_id) # type: ignore
     assert not result_entry["success"]
 
 
