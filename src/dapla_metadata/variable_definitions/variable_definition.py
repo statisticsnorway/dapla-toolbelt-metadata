@@ -431,11 +431,11 @@ class VariableDefinition(CompleteResponse):
                     data.value,
                 ),
             )
-            yaml.dump(
-                self.model_dump(
-                    mode="json",
-                    serialize_as_any=True,
-                    warnings="error",
-                ),
+            data = self.model_dump(
+                mode="dict",  # Or a suitable alternative to JSON
+                serialize_as_any=True,
+                warnings="error",
             )
+            yaml.dump(data, stream)
+
         return stream.getvalue()
