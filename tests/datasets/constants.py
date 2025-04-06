@@ -1,6 +1,7 @@
 """Repository for constant values for Datadoc tests."""
 
 from pathlib import Path
+
 from datadoc_model.model import DataType
 
 TEST_BUCKET_PARQUET_FILEPATH = "gs://ssb-staging-dapla-felles-data-delt/datadoc/klargjorte_data/person_data_v1.parquet"

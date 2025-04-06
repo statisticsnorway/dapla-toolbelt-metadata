@@ -170,7 +170,7 @@ class Datadoc:
             and existing_metadata is not None
         ):
             existing_file_path = self._get_existing_file_path(extracted_metadata)
-            self.dataset_consistency_status=self._check_dataset_consistency( 
+            self.dataset_consistency_status = self._check_dataset_consistency(
                 self.dataset_path,
                 Path(existing_file_path),
                 extracted_metadata,
@@ -235,13 +235,13 @@ class Datadoc:
         existing_metadata: model.DatadocMetadata,
     ) -> list[dict[str, object]]:
         """Run consistency tests.
-        
+
         Args:
             new_dataset_path: Path to the dataset to be documented.
             existing_dataset_path: Path stored in the existing metadata.
             extracted_metadata: Metadata extracted from a physical dataset.
             existing_metadata: Metadata from a previously created metadata document.
-        
+
         Returns:
             List if dict with property name and boolean success flag
         """
@@ -292,7 +292,6 @@ class Datadoc:
             },
         ]
 
-
     @staticmethod
     def _check_ready_to_merge(
         results: list[dict[str, object]], *, errors_as_warnings: bool
@@ -318,7 +317,6 @@ class Datadoc:
                 raise InconsistentDatasetsError(
                     msg,
                 )
-
 
     @staticmethod
     def _merge_metadata(

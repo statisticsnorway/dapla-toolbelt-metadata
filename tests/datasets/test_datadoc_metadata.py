@@ -33,7 +33,7 @@ from dapla_metadata.datasets.statistic_subject_mapping import StatisticSubjectMa
 from dapla_metadata.datasets.utility.constants import (
     DATASET_FIELDS_FROM_EXISTING_METADATA,
 )
-from tests.datasets.constants import DATADOC_METADATA_MODULE_CORE, VARIABLE_DATA_TYPES, VARIABLE_SHORT_NAMES
+from tests.datasets.constants import DATADOC_METADATA_MODULE_CORE
 from tests.datasets.constants import TEST_BUCKET_NAMING_STANDARD_COMPATIBLE_PATH
 from tests.datasets.constants import TEST_DATASETS_DIRECTORY
 from tests.datasets.constants import TEST_EXISTING_METADATA_DIRECTORY
@@ -43,6 +43,8 @@ from tests.datasets.constants import TEST_NAMING_STANDARD_COMPATIBLE_DATASET
 from tests.datasets.constants import TEST_PARQUET_FILEPATH
 from tests.datasets.constants import TEST_PROCESSED_DATA_POPULATION_DIRECTORY
 from tests.datasets.constants import TEST_RESOURCES_DIRECTORY
+from tests.datasets.constants import VARIABLE_DATA_TYPES
+from tests.datasets.constants import VARIABLE_SHORT_NAMES
 
 if TYPE_CHECKING:
     from collections.abc import Generator
@@ -610,27 +612,27 @@ def test_check_dataset_consistency_consistent_paths(
     new_dataset_path: str,
     existing_dataset_path: str,
 ):
-    result=Datadoc._check_dataset_consistency( # noqa: SLF001
-            Path(new_dataset_path),
-            Path(existing_dataset_path),
-            DatadocMetadata(variables=[]),
-            DatadocMetadata(variables=[]),
+    result = Datadoc._check_dataset_consistency(  # noqa: SLF001
+        Path(new_dataset_path),
+        Path(existing_dataset_path),
+        DatadocMetadata(variables=[]),
+        DatadocMetadata(variables=[]),
     )
-    assert all(item['success'] for item in result), "Not all 'success' is True"
+    assert all(item["success"] for item in result), "Not all 'success' is True"
 
-    
+
 @pytest.mark.parametrize(
     "dataset_consistency",
     [
         [
-            {'name': 'Bucket name', 'success': True}, 
-            {'name': 'Data product name', 'success': True}, 
-            {'name': 'Dataset state', 'success': True}, 
-            {'name': 'Dataset short name', 'success': True}, 
-            {'name': 'Variable names', 'success': True}, 
-            {'name': 'Variable datatypes', 'success': True},
+            {"name": "Bucket name", "success": True},
+            {"name": "Data product name", "success": True},
+            {"name": "Dataset state", "success": True},
+            {"name": "Dataset short name", "success": True},
+            {"name": "Variable names", "success": True},
+            {"name": "Variable datatypes", "success": True},
         ]
-    ]
+    ],
 )
 @pytest.mark.parametrize(
     "errors_as_warnings",
@@ -644,7 +646,7 @@ def test_check_ready_to_merge_consistent_paths(
     with warnings.catch_warnings() if errors_as_warnings else contextlib.nullcontext():  # type: ignore [attr-defined]
         if errors_as_warnings:
             warnings.simplefilter("error")
-        Datadoc._check_ready_to_merge( # noqa: SLF001
+        Datadoc._check_ready_to_merge(  # noqa: SLF001
             dataset_consistency,
             errors_as_warnings=errors_as_warnings,
         )
@@ -679,31 +681,55 @@ def test_check_ready_to_merge_consistent_paths(
     ids=["bucket name", "data product name", "dataset state", "dataset short name"],
 )
 def test_check_dataset_consistency_inconsistent_paths(
-    new_dataset_path: str,
-    existing_dataset_path: str,
-    request
+    new_dataset_path: str, existing_dataset_path: str, request
 ):
-    result=Datadoc._check_dataset_consistency( # noqa: SLF001
+    result = Datadoc._check_dataset_consistency(  # noqa: SLF001
         Path(new_dataset_path),
         Path(existing_dataset_path),
         DatadocMetadata(variables=[]),
         DatadocMetadata(variables=[]),
     )
     test_id = request.node.callspec.id
-    result_entry=next(item for item in result if item["name"].lower()==test_id) # type: ignore[attr-defined]
+    result_entry = next(item for item in result if item["name"].lower() == test_id)  # type: ignore[attr-defined]
     assert not result_entry["success"]
-
-
 
 
 @pytest.mark.parametrize(
     ("dataset_consistency_status"),
     [
-        [{'name': 'Bucket name', 'success': False}, {'name': 'Data product name', 'success': True}, {'name': 'Dataset state', 'success': True}, {'name': 'Dataset short name', 'success': True}, {'name': 'Variable names', 'success': True}, {'name': 'Variable datatypes', 'success': True}],
-        [{'name': 'Bucket name', 'success': True}, {'name': 'Data product name', 'success': False}, {'name': 'Dataset state', 'success': True}, {'name': 'Dataset short name', 'success': True}, {'name': 'Variable names', 'success': True}, {'name': 'Variable datatypes', 'success': True}],
-        [{'name': 'Bucket name', 'success': True}, {'name': 'Data product name', 'success': True}, {'name': 'Dataset state', 'success': False}, {'name': 'Dataset short name', 'success': True}, {'name': 'Variable names', 'success': True}, {'name': 'Variable datatypes', 'success': True}],
-        [{'name': 'Bucket name', 'success': True}, {'name': 'Data product name', 'success': True}, {'name': 'Dataset state', 'success': True}, {'name': 'Dataset short name', 'success': False}, {'name': 'Variable names', 'success': True}, {'name': 'Variable datatypes', 'success': True}],
-    ]
+        [
+            {"name": "Bucket name", "success": False},
+            {"name": "Data product name", "success": True},
+            {"name": "Dataset state", "success": True},
+            {"name": "Dataset short name", "success": True},
+            {"name": "Variable names", "success": True},
+            {"name": "Variable datatypes", "success": True},
+        ],
+        [
+            {"name": "Bucket name", "success": True},
+            {"name": "Data product name", "success": False},
+            {"name": "Dataset state", "success": True},
+            {"name": "Dataset short name", "success": True},
+            {"name": "Variable names", "success": True},
+            {"name": "Variable datatypes", "success": True},
+        ],
+        [
+            {"name": "Bucket name", "success": True},
+            {"name": "Data product name", "success": True},
+            {"name": "Dataset state", "success": False},
+            {"name": "Dataset short name", "success": True},
+            {"name": "Variable names", "success": True},
+            {"name": "Variable datatypes", "success": True},
+        ],
+        [
+            {"name": "Bucket name", "success": True},
+            {"name": "Data product name", "success": True},
+            {"name": "Dataset state", "success": True},
+            {"name": "Dataset short name", "success": False},
+            {"name": "Variable names", "success": True},
+            {"name": "Variable datatypes", "success": True},
+        ],
+    ],
 )
 @pytest.mark.parametrize(
     "errors_as_warnings",
@@ -738,20 +764,33 @@ def test_check_dataset_consistency_inconsistent_variable_names(
     extracted_variables: list[str],
     existing_variables: list[str],
 ):
-    result=Datadoc._check_dataset_consistency( # noqa: SLF001
+    result = Datadoc._check_dataset_consistency(  # noqa: SLF001
         Path(TEST_BUCKET_NAMING_STANDARD_COMPATIBLE_PATH),
         Path(TEST_BUCKET_NAMING_STANDARD_COMPATIBLE_PATH),
-        DatadocMetadata(variables=[Variable(short_name=name) for name in extracted_variables],),
-        DatadocMetadata(variables=[Variable(short_name=name) for name in existing_variables],)
+        DatadocMetadata(
+            variables=[Variable(short_name=name) for name in extracted_variables]
+        ),
+        DatadocMetadata(
+            variables=[Variable(short_name=name) for name in existing_variables]
+        ),
     )
-    assert any(item['name']=="Variable names" and not item["success"] for item in result)
+    assert any(
+        item["name"] == "Variable names" and not item["success"] for item in result
+    )
 
 
 @pytest.mark.parametrize(
     ("dataset_consistency_status"),
     [
-        [{'name': 'Bucket name', 'success': True}, {'name': 'Data product name', 'success': True}, {'name': 'Dataset state', 'success': True}, {'name': 'Dataset short name', 'success': True}, {'name': 'Variable names', 'success': False}, {'name': 'Variable datatypes', 'success': False}],
-    ]
+        [
+            {"name": "Bucket name", "success": True},
+            {"name": "Data product name", "success": True},
+            {"name": "Dataset state", "success": True},
+            {"name": "Dataset short name", "success": True},
+            {"name": "Variable names", "success": False},
+            {"name": "Variable datatypes", "success": False},
+        ],
+    ],
 )
 @pytest.mark.parametrize(
     "errors_as_warnings",
@@ -773,33 +812,33 @@ def test_check_ready_to_merge_inconsistent_variable_names(
         )
 
 
-expected_dataset_consistency_status= \
-[
-    {'name': 'Bucket name', 'success': True}, 
-    {'name': 'Data product name', 'success': True}, 
-    {'name': 'Dataset state', 'success': True}, 
-    {'name': 'Dataset short name', 'success': True}, 
-    {'name': 'Variable names', 'success': True}, 
-    {'name': 'Variable datatypes', 'success': True}
+expected_dataset_consistency_status = [
+    {"name": "Bucket name", "success": True},
+    {"name": "Data product name", "success": True},
+    {"name": "Dataset state", "success": True},
+    {"name": "Dataset short name", "success": True},
+    {"name": "Variable names", "success": True},
+    {"name": "Variable datatypes", "success": True},
 ]
 
 
 def test_check_dataset_consistency_consistent_variables():
-    variables=[
+    variables = [
         Variable(short_name=name, data_type=data_type)
         for name, data_type in zip(
             VARIABLE_SHORT_NAMES,
             VARIABLE_DATA_TYPES,
             strict=False,
-        )]
-    metadata=DatadocMetadata(variables=variables)
-    result=Datadoc._check_dataset_consistency( # noqa: SLF001
+        )
+    ]
+    metadata = DatadocMetadata(variables=variables)
+    result = Datadoc._check_dataset_consistency(  # noqa: SLF001
         Path(TEST_BUCKET_NAMING_STANDARD_COMPATIBLE_PATH),
         Path(TEST_BUCKET_NAMING_STANDARD_COMPATIBLE_PATH),
         metadata,
         metadata,
     )
-    assert result==expected_dataset_consistency_status
+    assert result == expected_dataset_consistency_status
 
 
 @pytest.mark.parametrize(
@@ -825,15 +864,20 @@ def test_check_dataset_consistency_inconsistent_variable_data_types():
             Variable(short_name=name, data_type=data_type)
             for name, data_type in zip(VARIABLE_SHORT_NAMES, data_types, strict=False)
         ]
-    metadata1=DatadocMetadata(variables=create_variables(VARIABLE_DATA_TYPES[:-1] + [DataType.BOOLEAN]))
-    metadata2=DatadocMetadata(variables=create_variables(VARIABLE_DATA_TYPES))
-    result=Datadoc._check_dataset_consistency( # noqa: SLF001
+
+    metadata1 = DatadocMetadata(
+        variables=create_variables(VARIABLE_DATA_TYPES[:-1] + [DataType.BOOLEAN])
+    )
+    metadata2 = DatadocMetadata(variables=create_variables(VARIABLE_DATA_TYPES))
+    result = Datadoc._check_dataset_consistency(  # noqa: SLF001
         Path(TEST_BUCKET_NAMING_STANDARD_COMPATIBLE_PATH),
         Path(TEST_BUCKET_NAMING_STANDARD_COMPATIBLE_PATH),
         metadata1,
         metadata2,
     )
-    assert any(item['name']=="Variable datatypes" and not item["success"] for item in result)
+    assert any(
+        item["name"] == "Variable datatypes" and not item["success"] for item in result
+    )
 
 
 @pytest.mark.parametrize(
@@ -850,6 +894,13 @@ def test_check_ready_to_merge_inconsistent_variable_data_types(
         else:
             stack.enter_context(pytest.raises(InconsistentDatasetsError))
         Datadoc._check_ready_to_merge(  # noqa: SLF001
-            [{'name': 'Bucket name', 'success': True}, {'name': 'Data product name', 'success': True}, {'name': 'Dataset state', 'success': True}, {'name': 'Dataset short name', 'success': True}, {'name': 'Variable names', 'success': True}, {'name': 'Variable datatypes', 'success': False}],
+            [
+                {"name": "Bucket name", "success": True},
+                {"name": "Data product name", "success": True},
+                {"name": "Dataset state", "success": True},
+                {"name": "Dataset short name", "success": True},
+                {"name": "Variable names", "success": True},
+                {"name": "Variable datatypes", "success": False},
+            ],
             errors_as_warnings=errors_as_warnings,
         )
