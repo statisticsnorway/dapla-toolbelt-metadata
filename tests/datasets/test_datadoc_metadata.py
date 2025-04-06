@@ -610,7 +610,7 @@ def test_check_dataset_consistency_consistent_paths(
     new_dataset_path: str,
     existing_dataset_path: str,
 ):
-    result=Datadoc._check_dataset_consistency(
+    result=Datadoc._check_dataset_consistency( # noqa: SLF001
             Path(new_dataset_path),
             Path(existing_dataset_path),
             DatadocMetadata(variables=[]),
@@ -684,7 +684,7 @@ def test_check_dataset_consistency_inconsistent_paths(
     existing_dataset_path: str,
     request
 ):
-    result=Datadoc._check_dataset_consistency(
+    result=Datadoc._check_dataset_consistency( # noqa: SLF001
         Path(new_dataset_path),
         Path(existing_dataset_path),
         DatadocMetadata(variables=[]),
@@ -739,7 +739,7 @@ def test_check_dataset_consistency_inconsistent_variable_names(
     extracted_variables: list[str],
     existing_variables: list[str],
 ):
-    result=Datadoc._check_dataset_consistency(
+    result=Datadoc._check_dataset_consistency( # noqa: SLF001
         Path(TEST_BUCKET_NAMING_STANDARD_COMPATIBLE_PATH),
         Path(TEST_BUCKET_NAMING_STANDARD_COMPATIBLE_PATH),
         DatadocMetadata(variables=[Variable(short_name=name) for name in extracted_variables],),
@@ -796,7 +796,7 @@ def test_check_dataset_consistency_consistent_variables():
             strict=False,
         )]
     metadata=DatadocMetadata(variables=variables)
-    result=Datadoc._check_dataset_consistency(
+    result=Datadoc._check_dataset_consistency( # noqa: SLF001
         Path(TEST_BUCKET_NAMING_STANDARD_COMPATIBLE_PATH),
         Path(TEST_BUCKET_NAMING_STANDARD_COMPATIBLE_PATH),
         metadata,
@@ -830,7 +830,7 @@ def test_check_dataset_consistency_inconsistent_variable_data_types():
         ]
     metadata1=DatadocMetadata(variables=create_variables(VARIABLE_DATA_TYPES[:-1] + [DataType.BOOLEAN]))
     metadata2=DatadocMetadata(variables=create_variables(VARIABLE_DATA_TYPES))
-    result=Datadoc._check_dataset_consistency(
+    result=Datadoc._check_dataset_consistency( # noqa: SLF001
         Path(TEST_BUCKET_NAMING_STANDARD_COMPATIBLE_PATH),
         Path(TEST_BUCKET_NAMING_STANDARD_COMPATIBLE_PATH),
         metadata1,
