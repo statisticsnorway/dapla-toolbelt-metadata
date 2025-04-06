@@ -7,6 +7,8 @@ from typing import TypeVar
 
 from pydantic import BaseModel
 from ruamel.yaml import YAML
+from ruamel.yaml import RoundTripDumper
+from ruamel.yaml import RoundTripRepresenter
 
 from dapla_metadata.variable_definitions._generated.vardef_client.models.complete_response import (
     CompleteResponse,
@@ -17,6 +19,7 @@ from dapla_metadata.variable_definitions._utils.files import _get_current_time
 from dapla_metadata.variable_definitions._utils.files import (
     _model_to_yaml_with_comments,
 )
+from dapla_metadata.variable_definitions._utils.files import represent_str
 
 logger = logging.getLogger(__name__)
 
@@ -46,6 +49,17 @@ def create_variable_yaml(
 
 def _read_variable_definition_file(file_path: Path) -> dict:
     yaml = YAML()
+    yaml.Representer = RoundTripRepresenter
+    yaml.Dumper = RoundTripDumper
+    yaml.default_flow_style = False  # Ensures pretty YAML formatting block style
+    yaml.width = 180  # Ensures long texts are wrapped
+    yaml.allow_unicode = True  # Support special characters
+    yaml.preserve_quotes = True  # Ensures numbers as string stays as a string
+    yaml.indent(
+        mapping=4, sequence=4, offset=2
+    )  # Ensure indentation for nested keys and lists
+
+    yaml.representer.add_representer(str, represent_str)
 
     logger.debug("Full path to variable definition file %s", file_path)
     logger.info("Reading from '%s'", file_path.name)

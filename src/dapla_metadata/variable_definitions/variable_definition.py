@@ -411,7 +411,7 @@ class VariableDefinition(CompleteResponse):
         with ruamel.yaml.YAML(
             output=stream,
         ) as yaml:
-            yaml.Representer = RoundTripRepresenter  # 👈 Viktig!
+            yaml.Representer = RoundTripRepresenter
             yaml.Dumper = RoundTripDumper
             yaml.default_flow_style = (
                 False  # Ensures pretty YAML formatting block style

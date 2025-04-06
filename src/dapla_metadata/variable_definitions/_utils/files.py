@@ -180,7 +180,7 @@ def _validate_and_create_directory(custom_directory: Path) -> Path:
 
 def represent_str(dumper: RoundTripDumper, data: str):
     """Set."""
-    if "\n" in data:
+    if "\n" in data or len(data) > 180:
         # Use literal block style (|)
         return dumper.represent_scalar(
             "tag:yaml.org,2002:str", data, LiteralScalarString(data)
