@@ -182,7 +182,7 @@ def represent_str(dumper: RoundTripDumper, data: str):
     """Set."""
     if isinstance(data, dict):
         return {key: represent_str(value) for key, value in data.items()}
-    if isinstance(data, str) and ("\n" in data or len(data) > 180):
+    if isinstance(data, str) and ("\n" in data or len(data) > 250):
         # Use literal block style (|)
         return dumper.represent_scalar(
             "tag:yaml.org,2002:str", LiteralScalarString(data)
