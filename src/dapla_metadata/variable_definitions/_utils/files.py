@@ -10,7 +10,6 @@ import pytz
 from pydantic.config import JsonDict
 from ruamel.yaml import YAML
 from ruamel.yaml import CommentedMap
-from ruamel.yaml import RoundTripDumper
 
 from dapla_metadata.variable_definitions._generated.vardef_client.models.complete_response import (
     CompleteResponse,
@@ -186,10 +185,6 @@ def _configure_yaml() -> YAML:
         mapping=4, sequence=4, offset=2
     )  # Ensure indentation for nested keys and lists
 
-    def _quoted_str_representer(dumper: RoundTripDumper, value: str):
-        return dumper.represent_scalar("tag:yaml.org,2002:str", value, style='"')
-
-    yaml.representer.add_representer(str, _quoted_str_representer)
     yaml.representer.add_representer(
         VariableStatus,
         lambda dumper, data: dumper.represent_scalar(

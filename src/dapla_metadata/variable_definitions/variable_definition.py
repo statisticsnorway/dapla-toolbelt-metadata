@@ -411,7 +411,6 @@ class VariableDefinition(CompleteResponse):
             yaml.default_flow_style = False
             yaml.allow_unicode = True
             yaml.preserve_quotes = True
-            yaml.default_style = '"'
             yaml.width = 180
             yaml.indent(mapping=4, sequence=4, offset=2)
             yaml.dump(
