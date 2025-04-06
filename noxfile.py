@@ -21,7 +21,7 @@ except ImportError:
     raise SystemExit(dedent(message)) from None
 
 package = "dapla_metadata"
-python_versions = ["3.11", "3.12", "3.13"]
+python_versions = ["3.10", "3.11", "3.12", "3.13"]
 nox.needs_version = ">= 2021.6.6"
 nox.options.sessions = (
     "pre-commit",
@@ -145,7 +145,7 @@ def precommit(session: Session) -> None:
         activate_virtualenv_in_precommit_hooks(session)
 
 
-@session(python=python_versions[-2:])
+@session(python=python_versions)
 def mypy(session: Session) -> None:
     """Type-check using mypy."""
     args = session.posargs or ["src", "tests"]
