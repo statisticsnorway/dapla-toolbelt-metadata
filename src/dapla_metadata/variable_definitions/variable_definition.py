@@ -408,7 +408,7 @@ class VariableDefinition(CompleteResponse):
 
     def _convert_to_yaml_output(self) -> str:
         stream = StringIO()
-        with ruamel.yaml.YAML(output=stream, typ="safe") as yaml:
+        with ruamel.yaml.YAML(output=stream) as yaml:
             yaml.Representer = RoundTripRepresenter
             yaml.Dumper = RoundTripDumper
             yaml.default_flow_style = (
