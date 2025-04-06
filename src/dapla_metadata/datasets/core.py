@@ -233,7 +233,8 @@ class Datadoc:
         extracted_metadata: model.DatadocMetadata,
         existing_metadata: model.DatadocMetadata,
     ) -> list[dict[str, object]]:
-        """
+        """Run consistency tests
+        
         Args:
             new_dataset_path: Path to the dataset to be documented.
             existing_dataset_path: Path stored in the existing metadata.
@@ -245,7 +246,7 @@ class Datadoc:
         """
         new_dataset_path_info = DaplaDatasetPathInfo(new_dataset_path)
         existing_dataset_path_info = DaplaDatasetPathInfo(existing_dataset_path)
-        results = [
+        return [
             {
                 "name": "Bucket name",
                 "success": (
@@ -289,7 +290,6 @@ class Datadoc:
                 ),
             },
         ]
-        return results
 
 
     @staticmethod

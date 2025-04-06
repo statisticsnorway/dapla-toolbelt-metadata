@@ -641,7 +641,6 @@ def test_check_ready_to_merge_consistent_paths(
     dataset_consistency: list[dict[str, str|bool]],
     errors_as_warnings: bool,
 ):
-    print("Dataset Consistency:", dataset_consistency)  # Debugging line
     with warnings.catch_warnings() if errors_as_warnings else contextlib.nullcontext():  # type: ignore [attr-defined]
         if errors_as_warnings:
             warnings.simplefilter("error")
@@ -692,7 +691,7 @@ def test_check_dataset_consistency_inconsistent_paths(
     )
     test_id = request.node.callspec.id
     result_entry=next(item for item in result if item["name"].lower()==test_id)
-    assert result_entry["success"]==False
+    assert not result_entry["success"]
 
 
 
@@ -751,8 +750,6 @@ def test_check_dataset_consistency_inconsistent_variable_names(
 @pytest.mark.parametrize(
     ("dataset_consistency_status"),
     [
-        [{'name': 'Bucket name', 'success': True}, {'name': 'Data product name', 'success': True}, {'name': 'Dataset state', 'success': True}, {'name': 'Dataset short name', 'success': True}, {'name': 'Variable names', 'success': False}, {'name': 'Variable datatypes', 'success': False}],
-        [{'name': 'Bucket name', 'success': True}, {'name': 'Data product name', 'success': True}, {'name': 'Dataset state', 'success': True}, {'name': 'Dataset short name', 'success': True}, {'name': 'Variable names', 'success': False}, {'name': 'Variable datatypes', 'success': False}],
         [{'name': 'Bucket name', 'success': True}, {'name': 'Data product name', 'success': True}, {'name': 'Dataset state', 'success': True}, {'name': 'Dataset short name', 'success': True}, {'name': 'Variable names', 'success': False}, {'name': 'Variable datatypes', 'success': False}],
     ]
 )
