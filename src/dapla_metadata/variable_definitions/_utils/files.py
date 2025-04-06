@@ -182,7 +182,9 @@ def represent_str(dumper: RoundTripDumper, data: str):
     """Set."""
     if "\n" in data or len(data) > 180:
         # Use literal block style (|)
-        data = LiteralScalarString(data)
+        return dumper.represent_scalar(
+            "tag:yaml.org,2002:str", LiteralScalarString(data)
+        )
     return dumper.represent_scalar("tag:yaml.org,2002:str", data, style='"')
 
 
