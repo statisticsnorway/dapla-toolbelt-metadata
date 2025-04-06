@@ -12,6 +12,7 @@ from ruamel.yaml import YAML
 from ruamel.yaml import CommentedMap
 from ruamel.yaml import RoundTripDumper
 from ruamel.yaml import RoundTripRepresenter
+from ruamel.yaml.scalarstring import LiteralScalarString
 
 from dapla_metadata.variable_definitions._generated.vardef_client.models.complete_response import (
     CompleteResponse,
@@ -192,7 +193,9 @@ def _configure_yaml() -> YAML:
     def represent_str(dumper: RoundTripDumper, data: str):
         if "\n" in data:
             # Use literal block style (|)
-            return dumper.represent_scalar("tag:yaml.org,2002:str", data, style="|")
+            return dumper.represent_scalar(
+                "tag:yaml.org,2002:str", data, LiteralScalarString(data)
+            )
         # Use quoted style (")
         return dumper.represent_scalar("tag:yaml.org,2002:str", data, style='"')
 
