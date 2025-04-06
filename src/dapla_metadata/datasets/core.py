@@ -233,7 +233,7 @@ class Datadoc:
         extracted_metadata: model.DatadocMetadata,
         existing_metadata: model.DatadocMetadata,
     ) -> list[dict[str, object]]:
-        """Run consistency tests
+        """Run consistency tests.
         
         Args:
             new_dataset_path: Path to the dataset to be documented.
