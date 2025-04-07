@@ -201,7 +201,7 @@ def _configure_yaml() -> YAML:
     yaml.default_flow_style = False  # Ensures pretty YAML formatting block style
     yaml.allow_unicode = True  # Support special characters
     yaml.preserve_quotes = True
-    yaml.width = 180
+    yaml.width = 180  # wrap long lines
     yaml.indent(
         mapping=4, sequence=2, offset=0
     )  # Ensure indentation for nested keys and lists
