@@ -188,7 +188,7 @@ def represent_str(dumper: RoundTripDumper, data: Any):
             return dumper.represent_scalar(
                 "tag:yaml.org,2002:str",
                 data,
-                style="|",
+                style=">",
             )
         return dumper.represent_scalar("tag:yaml.org,2002:str", data, style='"')
     return dumper.represent_scalar("tag:yaml.org,2002:str", data)
