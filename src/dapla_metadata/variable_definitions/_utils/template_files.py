@@ -47,9 +47,9 @@ def _get_default_template() -> "VariableDefinition":
         ),
         short_name="generert_kortnavn",
         definition=LanguageStringType(
-            nb="Her kan du skrive definisjonsteksten på norsk bokmål. Dette er kun en placeholder og må fjernes før du oppretter en ny variabeldefinisjon.",
-            nn="Her kan du skrive definisjonsteksten på nynorsk. Dette er berre ein placeholder og må fjernast før du opprettar ein ny variabeldefinisjon.",
-            en="Here you can write the definition text in English. This is just a placeholder and must be removed before you create a new variable definition.",
+            nb="Her kan du skrive definisjonsteksten på norsk bokmål. Dette er kun en placeholder og må fjernes eller endres før du oppretter en ny variabeldefinisjon.",
+            nn="Her kan du skrive definisjonsteksten på nynorsk. Dette er berre ein placeholder og må fjernast eller endrast før du opprettar ein ny variabeldefinisjon.",
+            en="Here you can write the definition text in English. This is just a placeholder and must be removed or changed before you create a new variable definition.",
         ),
         valid_from=DEFAULT_DATE,
         unit_types=[""],
