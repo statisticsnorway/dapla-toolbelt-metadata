@@ -61,7 +61,7 @@ def _get_default_template() -> "VariableDefinition":
             title=LanguageStringType(
                 nb="Her kan du skrive tittel på kontakt norsk bokmål",
                 nn="Her kan du skrive tittel på kontakt nynorsk",
-                en="Her you can write title contact in english",
+                en="Her you can write title for contact in english",
             ),
             email="generert@ssb.no",
         ),
