@@ -420,6 +420,7 @@ class VariableDefinition(CompleteResponse):
                 sequence=2,
                 offset=0,
             )  # Ensure indentation for nested keys and lists
+            yaml.preserve_quotes = True
             yaml.representer.add_representer(str, represent_str)
             yaml.dump(
                 self.model_dump(
