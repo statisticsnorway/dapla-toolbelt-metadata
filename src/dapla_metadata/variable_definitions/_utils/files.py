@@ -43,6 +43,7 @@ from dapla_metadata.variable_definitions._utils.constants import (
 from dapla_metadata.variable_definitions._utils.constants import (
     VARIABLE_STATUS_FIELD_NAME,
 )
+from dapla_metadata.variable_definitions._utils.constants import YAML_STR_TAG
 from dapla_metadata.variable_definitions._utils.descriptions import (
     apply_norwegian_descriptions_to_model,
 )
@@ -186,12 +187,12 @@ def represent_str(dumper: RoundTripDumper, data: Any):
         if len(data) > 120:
             data = data.strip()
             return dumper.represent_scalar(
-                "tag:yaml.org,2002:str",
+                YAML_STR_TAG,
                 data,
                 style=">",
             )
-        return dumper.represent_scalar("tag:yaml.org,2002:str", data, style='"')
-    return dumper.represent_scalar("tag:yaml.org,2002:str", data)
+        return dumper.represent_scalar(YAML_STR_TAG, data, style='"')
+    return dumper.represent_scalar(YAML_STR_TAG, data)
 
 
 def _configure_yaml() -> YAML:
@@ -208,7 +209,7 @@ def _configure_yaml() -> YAML:
     yaml.representer.add_representer(
         VariableStatus,
         lambda dumper, data: dumper.represent_scalar(
-            "tag:yaml.org,2002:str",
+            YAML_STR_TAG,
             data.value,
         ),
     )
