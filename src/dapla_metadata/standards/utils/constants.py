@@ -26,7 +26,7 @@ BUCKET_NAME_UNKNOWN = "Kan ikke validere bøttenavn"
 
 SSB_NAMING_STANDARD_REPORT = "SSB navnestandard rapport"
 SSB_NAMING_STANDARD_REPORT_SUCCESS_RATE = "Suksess rate"
-SSB_NAMING_STANDARD_REPORT_RESULT_BEST = "🚀 Fantastisk! Alt bestått! 🎉\n"
+SSB_NAMING_STANDARD_REPORT_RESULT_BEST = "🚀 Fantastisk! 🎉\n"
 SSB_NAMING_STANDARD_REPORT_RESULT_GOOD = (
     "✅ Bra jobba! Fortsatt litt rom for forbedring. 😊\n"
 )
