@@ -415,6 +415,7 @@ class VariableDefinition(CompleteResponse):
                 False  # Ensures pretty YAML formatting block style
             )
             yaml.allow_unicode = True  # Support special characters
+            yaml.width = 180
             yaml.indent(
                 mapping=4,
                 sequence=2,
