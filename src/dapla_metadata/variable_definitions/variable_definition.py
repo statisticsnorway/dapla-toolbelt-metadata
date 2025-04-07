@@ -414,21 +414,13 @@ class VariableDefinition(CompleteResponse):
             yaml.default_flow_style = (
                 False  # Ensures pretty YAML formatting block style
             )
-            yaml.width = 180  # Ensures long texts are wrapped
             yaml.allow_unicode = True  # Support special characters
-            yaml.preserve_quotes = True  # Ensures numbers as string stays as a string
             yaml.indent(
-                mapping=4, sequence=4, offset=2
+                mapping=4,
+                sequence=2,
+                offset=0,
             )  # Ensure indentation for nested keys and lists
-
             yaml.representer.add_representer(str, represent_str)
-            yaml.representer.add_representer(
-                VariableStatus,
-                lambda dumper, data: dumper.represent_scalar(
-                    "tag:yaml.org,2002:str",
-                    data.value,
-                ),
-            )
             yaml.dump(
                 self.model_dump(
                     mode="json",
