@@ -41,14 +41,14 @@ def _get_default_template() -> "VariableDefinition":
 
     return VariableDefinition(
         name=LanguageStringType(
-            nb="Her kan du skrive navnet på norsk bokmål.",
-            nn="Her kan du skrive namnet på nynorsk.",
-            en="Her you can write the name in english",
+            nb="Skriv 'navn' på norsk bokmål. Fjern språk og verdier du ikke vil lagre",
+            nn="Skriv 'namn' på nynorsk. Fjern språk og verdiar du ikkje vil lagre",
+            en="Write 'name' in english. Remove language and values you do not want to save",
         ),
         short_name="generert_kortnavn",
         definition=LanguageStringType(
             nb="Her kan du skrive definisjonsteksten på norsk bokmål. Dette er kun en placeholder og må fjernes før du oppretter en ny variabeldefinisjon.",
-            nn="Her kan du skrive definisjonsteksten på nynorsk. Dette er kun en placeholder og må fjernes før du oppretter en ny variabeldefinisjon.",
+            nn="Her kan du skrive definisjonsteksten på nynorsk. Dette er berre ein placeholder og må fjernast før du opprettar ein ny variabeldefinisjon.",
             en="Here you can write the definition text in English. This is just a placeholder and must be removed before you create a new variable definition.",
         ),
         valid_from=DEFAULT_DATE,
@@ -59,9 +59,9 @@ def _get_default_template() -> "VariableDefinition":
         owner=Owner(team="default team", groups=["default group"]),
         contact=Contact(
             title=LanguageStringType(
-                nb="Her kan du skrive tittel på kontakt norsk bokmål",
-                nn="Her kan du skrive tittel på kontakt nynorsk",
-                en="Her you can write title for contact in english",
+                nb="Skriv tittel på kontakt norsk bokmål. Fjern språk og verdier du ikke vil lagre",
+                nn="Skriv tittel på kontakt norsk nynorsk. Fjern språk og verdiar du ikkje vil lagre",
+                en="Write title for contact in english. Remove language and values you do not want to save",
             ),
             email="generert@ssb.no",
         ),
