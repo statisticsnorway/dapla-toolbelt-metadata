@@ -13,7 +13,6 @@ from ruamel.yaml import YAML
 from ruamel.yaml import CommentedMap
 from ruamel.yaml import RoundTripDumper
 from ruamel.yaml import RoundTripRepresenter
-from ruamel.yaml.scalarstring import LiteralScalarString
 
 from dapla_metadata.variable_definitions._generated.vardef_client.models.complete_response import (
     CompleteResponse,
@@ -184,10 +183,12 @@ def represent_str(dumper: RoundTripDumper, data: Any):
     if isinstance(data, dict):
         return {key: represent_str(value) for key, value in data.items()}
     if isinstance(data, str):
-        if len(data) > 80:
+        if len(data) > 120:
             data = data.strip()
             return dumper.represent_scalar(
-                "tag:yaml.org,2002:str", LiteralScalarString(data)
+                "tag:yaml.org,2002:str",
+                data,
+                style="|",
             )
         return dumper.represent_scalar("tag:yaml.org,2002:str", data, style='"')
     return dumper.represent_scalar("tag:yaml.org,2002:str", data)
