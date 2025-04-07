@@ -41,15 +41,15 @@ def _get_default_template() -> "VariableDefinition":
 
     return VariableDefinition(
         name=LanguageStringType(
-            nb="navn",
-            nn="namn",
-            en="name",
+            nb="Her kan du skrive navnet på norsk bokmål.",
+            nn="Her kan du skrive namnet på nynorsk.",
+            en="Her you can write the name in english",
         ),
         short_name="generert_kortnavn",
         definition=LanguageStringType(
             nb="Her kan du skrive definisjonsteksten på norsk bokmål. Dette er kun en placeholder og må fjernes før du oppretter en ny variabeldefinisjon.",
             nn="Her kan du skrive definisjonsteksten på nynorsk. Dette er kun en placeholder og må fjernes før du oppretter en ny variabeldefinisjon.",
-            en="Her kan du skrive definisjonsteksten på engelsk. Dette er kun en placeholder og må fjernes før du oppretter en ny variabeldefinisjon.",
+            en="Here you can write the definition text in English. This is just a placeholder and must be removed before you create a new variable definition.",
         ),
         valid_from=DEFAULT_DATE,
         unit_types=[""],
@@ -59,9 +59,9 @@ def _get_default_template() -> "VariableDefinition":
         owner=Owner(team="default team", groups=["default group"]),
         contact=Contact(
             title=LanguageStringType(
-                nb="generert tittel",
-                nn="generert tittel",
-                en="generert title",
+                nb="Her kan du skrive tittel på kontakt norsk bokmål",
+                nn="Her kan du skrive tittel på kontakt nynorsk",
+                en="Her you can write title contact in english",
             ),
             email="generert@ssb.no",
         ),
