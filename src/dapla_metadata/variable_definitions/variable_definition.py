@@ -7,7 +7,6 @@ from pathlib import Path
 import ruamel.yaml
 from pydantic import ConfigDict
 from pydantic import PrivateAttr
-from ruamel.yaml import RoundTripDumper
 from ruamel.yaml import RoundTripRepresenter
 
 from dapla_metadata.variable_definitions._generated.vardef_client.api.draft_variable_definitions_api import (
@@ -409,19 +408,19 @@ class VariableDefinition(CompleteResponse):
     def _convert_to_yaml_output(self) -> str:
         stream = StringIO()
         with ruamel.yaml.YAML(output=stream) as yaml:
-            yaml.Representer = RoundTripRepresenter
-            yaml.Dumper = RoundTripDumper
+            yaml.Representer = RoundTripRepresenter  # Preserve the order of keys etc.
             yaml.default_flow_style = (
                 False  # Ensures pretty YAML formatting block style
             )
             yaml.allow_unicode = True  # Support special characters
-            yaml.width = 180
+            yaml.width = 180  # wrap long lines
             yaml.indent(
                 mapping=4,
                 sequence=2,
                 offset=0,
             )  # Ensure indentation for nested keys and lists
             yaml.preserve_quotes = True
+            # Add custom rules to yaml string
             yaml.representer.add_representer(str, represent_str)
             yaml.dump(
                 self.model_dump(

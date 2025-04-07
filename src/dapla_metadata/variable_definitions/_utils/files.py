@@ -196,8 +196,7 @@ def represent_str(dumper: RoundTripDumper, data: Any):
 
 def _configure_yaml() -> YAML:
     yaml = YAML(typ="rt")  # Use ruamel.yaml library
-    yaml.Representer = RoundTripRepresenter
-    yaml.Dumper = RoundTripDumper
+    yaml.Representer = RoundTripRepresenter  # Preserve the order of keys etc.
     yaml.default_flow_style = False  # Ensures pretty YAML formatting block style
     yaml.allow_unicode = True  # Support special characters
     yaml.preserve_quotes = True
