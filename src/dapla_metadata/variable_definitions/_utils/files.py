@@ -181,8 +181,6 @@ def _validate_and_create_directory(custom_directory: Path) -> Path:
 
 def represent_str(dumper: RoundTripDumper, data: Any):
     """Set yaml style for string."""
-    if isinstance(data, dict):
-        return {key: represent_str(dumper, value) for key, value in data.items()}
     if isinstance(data, str):
         if len(data) > 120:
             data = data.strip()
