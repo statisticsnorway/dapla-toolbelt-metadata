@@ -4,6 +4,7 @@ import logging
 from datetime import datetime
 from pathlib import Path
 from typing import TYPE_CHECKING
+from typing import Any
 from typing import cast
 
 import pytz
@@ -178,28 +179,28 @@ def _validate_and_create_directory(custom_directory: Path) -> Path:
     return custom_directory
 
 
-def represent_str(dumper: RoundTripDumper, data: str):
-    """Set."""
+def represent_str(dumper: RoundTripDumper, data: Any):
+    """Set yaml style for string."""
     if isinstance(data, dict):
         return {key: represent_str(value) for key, value in data.items()}
-    if isinstance(data, str) and ("\n" in data or len(data) > 250):
-        # Use literal block style (|)
-        return dumper.represent_scalar(
-            "tag:yaml.org,2002:str", LiteralScalarString(data)
-        )
-    return dumper.represent_scalar("tag:yaml.org,2002:str", data, style='"')
+    if isinstance(data, str):
+        if len(data) > 80:
+            data = data.strip()
+            return dumper.represent_scalar(
+                "tag:yaml.org,2002:str", LiteralScalarString(data)
+            )
+        return dumper.represent_scalar("tag:yaml.org,2002:str", data, style='"')
+    return dumper.represent_scalar("tag:yaml.org,2002:str", data)
 
 
 def _configure_yaml() -> YAML:
     yaml = YAML(typ="rt")  # Use ruamel.yaml library
-    yaml.Representer = RoundTripRepresenter  # 👈 Viktig!
+    yaml.Representer = RoundTripRepresenter
     yaml.Dumper = RoundTripDumper
     yaml.default_flow_style = False  # Ensures pretty YAML formatting block style
-    yaml.width = 180  # Ensures long texts are wrapped
     yaml.allow_unicode = True  # Support special characters
-    yaml.preserve_quotes = True  # Ensures numbers as string stays as a string
     yaml.indent(
-        mapping=4, sequence=4, offset=2
+        mapping=4, sequence=2, offset=0
     )  # Ensure indentation for nested keys and lists
     yaml.representer.add_representer(str, represent_str)
     yaml.representer.add_representer(
