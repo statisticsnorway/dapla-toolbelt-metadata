@@ -179,14 +179,6 @@ def _validate_and_create_directory(custom_directory: Path) -> Path:
     return custom_directory
 
 
-def _folded_scalar_string_representer(
-    representer: RoundTripRepresenter, data: FoldedScalarString
-):
-    # Ensure no trailing newline so ruamel emits >- instead of >
-    clean_data = data.rstrip("\n")
-    return representer.represent_scalar(YAML_STR_TAG, clean_data, style=">")
-
-
 def configure_yaml(yaml: YAML) -> YAML:
     """Common Yaml config for variable definitions."""
     yaml.Representer = RoundTripRepresenter  # Preserve the order of keys etc.
@@ -197,9 +189,6 @@ def configure_yaml(yaml: YAML) -> YAML:
     yaml.indent(
         mapping=4, sequence=2, offset=0
     )  # Ensure indentation for nested keys and lists
-    yaml.Representer.add_representer(
-        FoldedScalarString, _folded_scalar_string_representer
-    )
     yaml.representer.add_representer(
         VariableStatus,
         lambda dumper, data: dumper.represent_scalar(
@@ -321,6 +310,8 @@ def _model_to_yaml_with_comments(
     # Loop through all fields in the model and populate the commented maps
     for field_name, value in data.items():
         if field_name == VARIABLE_STATUS_FIELD_NAME:
+            if isinstance(value, str):
+                value.strip()
             _populate_commented_map(field_name, value, status_map, model_instance)
         elif field_name == OWNER_FIELD_NAME:
             _populate_commented_map(field_name, value, owner_map, model_instance)
