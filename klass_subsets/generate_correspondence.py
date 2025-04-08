@@ -3,8 +3,8 @@ import json
 import requests
 from correspondence_xml import generate_correspondence_xml
 from create_all_versions import get_periods
-from filter2 import extract_code_changes
 from filter2 import filter_codes_by_period2
+from filter3 import extract_code_changes_2
 from filter_codes_by_period import filter_codes_by_period
 from klass_corr import get_changes
 from klass_corr import remove_code_missing
@@ -23,16 +23,18 @@ def correspondences(subset_id: str) -> None:
         timeout=5,
     ).json()
 
+    subset_name = subset_id  # id_to_name(subset_id)
+
     ### This gets all the codes
     all_codes = get_all_codes(one_subset["versions"])
 
     subset_dir = create_subset_dir(
-        subset_id,
+        subset_name,
     )
 
     periods = get_periods(convert_to_the_nice_structure(all_codes))
 
-    print("ID: ", subset_id)
+    print("ID: ", subset_name)
     classification_id = str(all_codes["codes"][0]["classificationId"])
     changes = get_changes(classification_id, periods[0]["valid_from"], "2025-01-01")
     if changes is not None:
@@ -47,12 +49,13 @@ def correspondences(subset_id: str) -> None:
     filter_codes_by_period(transformed_data, periods)
 
     categorized_codes = filter_codes_by_period2(transformed_data, periods)
-    categorized_changes = extract_code_changes(categorized_codes, changes)
+    categorized_changes = extract_code_changes_2(categorized_codes, changes)
 
     for change in categorized_changes:
-        vf = change["valid_from"]
+        vf = change["valid_from"][:-6]
+        previous_year = str(int(vf) - 1)
 
-        output_file = f"{subset_dir}/{vf}_{subset_id}_correspondences.xml"
+        output_file = f"{subset_dir}/korrespondanse_mellom_{vf}_og_{previous_year}_{subset_name}.xml"
         generate_correspondence_xml(change["codes"], output_file)
     print()
 

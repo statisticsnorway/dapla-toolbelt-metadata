@@ -1,0 +1,1167 @@
+{
+    "codes": [
+        {
+            "code": "KG28",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Arbeidskapital ex. premieavvik"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Arbeidskapital ex. premieavvik"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Working capital ex. pension premium deviaton"
+                }
+            ],
+            "rank": 1,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Verdi av arbeidskapitalen korrigert for premieavvik. Arbeidskapital er differansen mellom omløpsmidler og kortsiktig gjeld i balansen. Premieavvik er trukket ut av kortsiktige fordringer (positivt avvik)/kortsiktig gjeld (negativt avvik). i det finansielt orienterte kommuneregnskapet vises endringen i arbeidskapital som endringen i anvendelse av midler minus anskaffelse av midler. Konserninterne kortsiktige fordringer og gjeld inngår ikke i beregningen.\n\nDefinisjon (fylkes-)kommune: (Kapitlene for omløpsmidler (10, 11, 12, 13, 15, 16, 18) alle sektorer minus kapitlene for kortsiktig gjeld (31, 32, 34, 35) alle sektorer i (fylkes-)kommunens balanse) + (kapitlene for omløpsmidler (10, 11, 12, 13, 15, 16, 17, 18) alle sektorer minus kapitlene for kortsiktig gjeld (31, 32, 34, 35) alle sektorer i balansene til (fylkes-)kommunale foretak, inter-(fylkes-)kommunale selskaper og -samarbeider og lånefond. \n\nDefinisjon (fylkes)kommune eksklusive (fylkes-)kommunale foretak, inter(fylkes-)kommunale selskap og -samarbeid og lånefond: Begrepet brukes ikke."
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "374",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2802"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2024-01-01"
+        },
+        {
+            "code": "AGD21",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Avdrag (netto)"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Avdrag (netto)"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Net instalments"
+                }
+            ],
+            "rank": 2,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Begrepet omfatter netto avdrag.  Avdragbelastningen vil avhenge av valgt finansieringsstrategi, f.eks. andelen fremmedkapital, nedbetalingstiden o.l. Ekstraordinære avdrag vil ikke fremkomme fordi dette føres i investeringsregnskapet, og det her bare tas hensyn til transaksjoner i driftsregnskapet. \n\nDefinisjon (fylkes-)kommune: Kontoklasse 1 og 3 (driftsregnskapet). Artene [(920,921)-(510,511)]\n\nDefinisjon (fylkes-)kommune eks. (fylkes-)kommunale foretak, inter-(fylkes-)kommunale selskaper og -samarbeider: Begrepet brukes ikke."
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "374",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/1013",
+                "https://data.ssb.no/api/klass/v1/versions/1014",
+                "https://data.ssb.no/api/klass/v1/versions/1015"
+            ],
+            "validToInRequestedRange": "2020-01-01",
+            "validFromInRequestedRange": "2015-01-01"
+        },
+        {
+            "code": "AGD21",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Avdrag (netto) i driftsregnskapet"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Avdrag (netto) i driftsregnskapet"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Net instalments in operational accounts"
+                }
+            ],
+            "rank": 3,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Begrepet omfatter netto avdrag.  Avdragsbelastningen vil avhenge av valgt finansieringsstrategi, f.eks. andelen fremmedkapital, nedbetalingstiden o.l. Ekstraordinære avdrag vil ikke fremkomme fordi dette føres i investeringsregnskapet, og her omfattes bare transaksjoner i driftsregnskapet. \n\nDefinisjon (fylkes-)kommunekonsern: Tall fra driftsregnskapet, alle funksjoner (100..899), artene (510-920)\n\nDefinisjon (fylkes-)kommunekasse og konsoliderte regnskap: Tall fra driftsregnskapet, alle funksjoner (100..899), artene [(510,511)-(920,921)]\n\n(Fylkes-)kommunekonsern omfatter regnskapene for (fylkes-)kommunekassen, (fylkes-)kommunale foretak, inter-(fylkes-)kommunale selskaper og - samarbeider, og lånefond. \n\nKonsolidert regnskap omfatter alle regnskapene innen (fylkes-)kommunen som juridisk enhet, dvs. regnskapene for (fylkes-)kommunekassen, (fylkes-)kommunale foretak og inter-(fylkes-)kommunale  samarbeider som ikke er egne rettssubjekt, samt lånefond."
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "374",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2802"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2024-01-01"
+        },
+        {
+            "code": "AGD74",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Avsetning til bundne fond (netto)"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Avsetning til bundne fond (netto)"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Deposition to restricted funds, net"
+                }
+            ],
+            "rank": 4,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Begrepet viser hvor mye av fondsmidlene i driftsregnskapet som er bundet, og omfatter bruk av bundne fond minus avsetning til bundne fond. Begrepet kan brukes for å korrigere netto driftsresultat for midler som er bundne til spesielle formål.\n\nDefinisjon (fylkes-)kommunekasse og konsoliderte regnskap: \nkontoklasse 1 og 3 (driftsregnskapet), alle funksjoner (100..899), artene (950) - (550).\n\nPositive tall betegner netto bruk av bundne fond, mens negative tall betegner at avsetningen til bundne fond er større enn bruken.\n\n(Fylkes-)kommunekonsern omfatter regnskapene for (fylkes-)kommunekassen, (fylkes-)kommunale foretak, inter-(fylkes-)kommunale selskaper og - samarbeider, og lånefond. \n\nKonsolidert regnskap omfatter alle regnskapene innen (fylkes-)kommunen som juridisk enhet, dvs. regnskapene for (fylkes-)kommunekassen, (fylkes-)kommunale foretak og inter-(fylkes-)kommunale samarbeider som ikke er egne rettssubjekt, samt lånefond."
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "374",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2802"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2024-01-01"
+        },
+        {
+            "code": "AGD18",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Brutto driftsresultat"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Brutto driftsresultat"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Gross operating result"
+                }
+            ],
+            "rank": 5,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Brutto driftsresultat regnes ut som differansen mellom brutto driftsinntekter og brutto driftsutgifter inkludert avskrivninger. Brutto driftsresultat kan sammenlignes med driftsresultat i det resultatorienterte regnskapssystem, som primært brukes i privat næringsliv. \n\nDefinisjon (fylkes-)kommunekonsern:\nBrutto driftsinntekter er kontoklasse 1 (driftsregnskapet (fylkes-)kommune), alle funksjoner (100..899), artene (600..890, 920) og kontoklasse 3 (driftsregnskapet KF/FKF/IKS), alle funksjoner (100..899), artene (380, 480, 600..700..770, 800..877, 890, 920). \n\nBrutto driftsutgifter er kontoklasse 1 (driftsregnskapet (fylkes-)kommuner), alle funksjoner (100..899), artene (010..480, 520, 590) og kontoklasse 3 (driftsregnskapet KF/FKF/IKS), alle funksjoner (100..899), artene [(010..370, 400..470, 520, 590) - (780, 880, 920)]. \n\nDefinisjon (fylkes-)kommunekasse og konsoliderte regnskap: \nBrutto driftsinntekter = kontoklasse 1 (driftsregnskapet (fylkes-)kommuner), alle funksjoner (100..899), artene [(600..700..780, 800..890, 920).\nBrutto driftsutgifter = kontoklasse 1 (driftsregnskapet (fylkes-)kommuner), alle funksjoner (100..899), artene (010..480, 520, 590).\n\n(Fylkes-)kommunekonsern omfatter regnskapene for (fylkes-)kommunekassen, (fylkes-)kommunale foretak, inter-(fylkes-)kommunale selskaper og - samarbeider, og lånefond. \n\nKonsolidert regnskap omfatter alle regnskapene innen (fylkes-)kommunen som juridisk enhet, dvs. regnskapene for (fylkes-)kommunekassen, (fylkes-)kommunale foretak og inter-(fylkes-)kommunale  samarbeider som ikke er egne rettssubjekt, samt lånefond."
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "374",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2802"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2024-01-01"
+        },
+        {
+            "code": "AGI1",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Brutto investeringsutgifter totalt"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Brutto investeringsutgifter totalt"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Gross investment expenditures"
+                }
+            ],
+            "rank": 6,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Begrepet omfatter (fylkes-)kommunens utgifter i forbindelse med investeringer i fast eiendom og anlegg. Begrepet skal si noe om prioritering av nybygging, større utviklingstiltak og andre investeringer innen de enkelte tjenesteområdene og totalt.\n\nDefinisjon (fylkes-)kommunekonsern: kontoklasse 0 (investeringsregnskapet (fylkes)-kommuneregnskapet), alle tjenestefunksjonene (100..790), artene (010..501) + kontoklasse 4 (investeringsregnskapet KF/FKF/IKS), alle tjenestefunksjonene (100..790), artene [(010..500) - (901)]\n\nDefinisjon (fylkes-)kommunekasse og konsoliderte regnskap: kontoklasse 0 (investeringsregnskapet), alle tjenestefunksjonene (100..790), artene (010..501)\n\n(Fylkes-)kommunekonsern omfatter regnskapene for (fylkes-)kommunekassen, (fylkes-)kommunale foretak, inter-(fylkes-)kommunale selskaper og - samarbeider, og lånefond. \n\nKonsolidert regnskap omfatter alle regnskapene innen (fylkes-)kommunen som juridisk enhet, dvs. regnskapene for (fylkes-)kommunekassen, (fylkes-)kommunale foretak og inter-(fylkes-)kommunale samarbeider som ikke er egne rettssubjekt, samt lånefond."
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "374",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2802"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2024-01-01"
+        },
+        {
+            "code": "56",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Disposisjonsfond (K)"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Disposisjonsfond (K)"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "General funds (M)"
+                }
+            ],
+            "rank": 7,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "374",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2802"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2024-01-01"
+        },
+        {
+            "code": "KG21",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Fri egenkapital drift"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Fri eigenkapital drift"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Free equity operational account"
+                }
+            ],
+            "rank": 8,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Verdien av fri egenkapital i driftsregnskapet. Begrepet angir differansen mellom midlene som står på disposisjonsfond og merforbruk i driftsregnskapet. \n\nDisposisjonsfond korrigert for merforbruk i driftsregnskapet på under 5 pst av driftsinntektene isolert sett er en indikasjon på begrenset økonomisk handlefrihet. Korrigert disposisjonsfond på mellom 5 og 8 pst av inntektene representerer moderat økonomisk handlefrihet, mens korrigert disposisjonsfond over 8 pst representerer større grad av økonomisk handlefrihet.\n\nDefinisjon (fylkes-)kommune: (Kapittel 56 minus kapittel 5900) alle sektorer i (fylkes-)kommunens balanse og i balansene til (fylkes-)kommunale foretak, inter-(fylkes-)kommunale selskaper og -samarbeider og lånefond. \n\nDefinisjon (fylkes-)kommune eksklusive (fylkes-)kommunale foretak, inter-(fylkes-)kommunale selskaper og -samarbeider og lånefond: (Kapittel 56 minus kapittel 5900) alle sektorer i (fylkes-)kommunes balanse."
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "374",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2802"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2024-01-01"
+        },
+        {
+            "code": "KG25",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Langsiktig gjeld"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Langsiktig gjeld"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Long-term liabilities"
+                }
+            ],
+            "rank": 9,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Total verdi av den langsiktige gjelden. Langsiktig gjeld er knyttet til finansiering av investeringer gjennom opptak av lån med lenger nedbetalingstid enn 1 år. Gjelden er knyttet til formålene i §§ 14-15 til 14-17 i kommuneloven. \nKonsernintern langsiktig gjeld inngår ikke i beregningen.\n\nDefinisjon (fylkes-)kommune: Kapitlene (40, 411-412, 431, 451-454) alle sektorer i (fylkes-)kommunens balanse  og kapitlene (40, 411-412, 431, 451-454, 46) alle sektorer i balansene til (fylkes-)kommunale foretak, inter(fylkes-)kommunale selskaper og -samarbeider og lånefond. \n\nDefinisjon (fylkes)kommune eksklusive (fylkes)kommunale foretak, interkommunale selskap og -samarbeid og lånefond: Begrepet brukes ikke."
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "374",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2802"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2024-01-01"
+        },
+        {
+            "code": "AGD23",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Netto driftsresultat"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Netto driftsresultat"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Net operating result"
+                }
+            ],
+            "rank": 10,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Netto driftsresultat viser resultatet av (fylkes-)kommunens ordinære løpende drift. Resultatet beregnes ut fra brutto driftsresultat, men tar i tillegg hensyn til resultat eksterne finansieringstransaksjoner, dvs. netto renter, netto avdrag og netto tap/gevinst på finansielle instrumenter, samt kommunale utlån, utbytter og eieruttak, og er i tillegg korrigert for avskrivninger slik at disse ikke gis resultateffekt. Netto driftsresultat kan enten brukes til finansiering av investeringer eller avsettes til senere bruk. \n\nDefinisjon (fylkes-)kommunekonsern: Brutto driftsresultat minus resultat eksterne finansieringstransaksjoner pluss motpost avskrivninger.\nBrutto driftsresultat er kontoklasse 1 og 3 (driftsregnskapet), alle funksjoner, artene [(600..670, 700..890,920 ) - (010..480, 520, 590)]. \nResultat eksterne finansieringstransaksjoner er kontoklasse 1 og 3 (driftsregnskapet), alle funksjoner, artene [(900+901+905+909+921) - (500+501+509+510+511+521)]. \nMotpost avskrivinger er kontoklasse 1 og 3 (driftsregnskapet), funksjon 860, art 990.\n\nDefinisjon (fylkes-)kommunekasse og konsoliderte regnskap: Brutto driftsresultat er kontoklasse 1 (driftsregnskapet), alle funksjoner, artene  [(600..670, 700..895, 920) - (010..480, 520, 590)]. \nResultat eksterne finansieringstransaksjoner er kontoklasse 1 (driftsregnskapet), alle funksjoner, artene[(900+901+905+909+921) - (500+501+509+510+511+521)]. \nMotpost avskrivinger er kontoklasse 1 (driftsregnskapet), funksjon 860, art 990.\n\n(Fylkes-)kommunekonsern omfatter regnskapene for (fylkes-)kommunekassen, (fylkes-)kommunale foretak, inter-(fylkes-)kommunale selskaper og - samarbeider, og lånefond. \n\nKonsolidert regnskap omfatter alle regnskapene innen (fylkes-)kommunen som juridisk enhet, dvs. regnskapene for (fylkes-)kommunekassen, (fylkes-)kommunale foretak og inter-(fylkes-)kommunale  samarbeider som ikke er egne rettssubjekt, samt lånefond."
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "374",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2802"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2024-01-01"
+        },
+        {
+            "code": "KG31",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Netto lånegjeld"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Netto lånegjeld"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Net loan debt"
+                }
+            ],
+            "rank": 11,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Netto lånegjeld er definert som langsiktig gjeld (eksklusive pensjonsforpliktelser) fratrukket totale utlån og ubrukte lånemidler. I totale utlån inngår formidlingslån og ansvarlige lån (utlån av egne midler). Beregningen omfatter dermed utlån hvis mottatte avdrag skal inntektsføres i investeringsregnskapet, i tillegg til innlån som skal avdras i driftsregnskapet. Beregningen omfatter ikke konsernintern langsiktig gjeld.\n\nDefinisjon (fylkes-)kommune: (Kapitlene for langsiktig gjeld eksklusive pensjonsforpliktelser (411-412, 431, 451-454) alle sektorer minus kapitlet for utlån (22) alle sektorer minus kapitlet for ubrukte lånemidler (9100) alle sektorer i (fylkes-)kommunens balanse) + (kapitlene for ekstern langsiktig gjeld eksklusive pensjonsforpliktelser (411-412, 431, 451-454, 46) alle sektorer minus kapitlet for utlån (22) alle sektorer minus kapitlet for ubrukte lånemidler (9100) alle sektorer i balansene til (fylkes-)kommunale foretak, inter-(fylkes-)kommunale selskaper og -samarbeider og lånefond. \n\nDefinisjon (fylkes-)kommune eksklusive (fylkes-)kommunale foretak, inter(fylkes-)kommunale selskap og -samarbeid og lånefond: Begrepet brukes ikke."
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "374",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2802"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2024-01-01"
+        },
+        {
+            "code": "KG40",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Netto renteeksponering"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Netto renteeksponering"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Net interest exposure"
+                }
+            ],
+            "rank": 12,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Variabelen gir en indikasjon på hvor mye av (fylkes-)kommunens renteeksponerte gjeld som er igjen etter at rentebærende likviditet er trukket fra. Dette gir uttrykk for hvilket beløp som netto vil være utsatt for endringer i rentenivået (før det tas hensyn til eventuelle rentebindinger). Variabelen gir således en indikasjon på hvor sårbar (fylkes-)kommunen vil være for en endring i rentenivået. \n\nNetto renteeksponering er netto lånegjeld minus kalkulatoriske rentekostnader VAR dividert med kalkylerente (for kommunene), minus rentekompensasjon for investeringer innen omsorgs-, skole- og kirkebygg for kommunene og rentekompensasjon for investeringer innen skolebygg og fylkesveier for fylkeskommunene, minus (fylkes-)kommunens likviditet som ikke er lånefinansiert.\n\nDefinisjon kommune: Netto lånegjeld er langsiktig gjeld eks. pensjonsforpliktelser - totale utlån - ubrukte lånemidler. \nLikviditet som ikke er lånefinansiert er bankinnskudd og kontanter  + sertifikater + obligasjoner + derivater – likviditetslån – ubrukte lånemidler.\n\nLangsiktig gjeld ekskl. pensjonsforpliktelser er kapitlene (411-412, 431, 451-454) i kommunens balanse og lånefond og kapitlene (411-412, 431, 451-454, 46) i balansene til kommunale foretak, interkommunale selskaper og -samarbeider. \n\nTotale utlån er kapittel 22 i balansene til kommunene, kommunale foretak, interkommunale selskaper og -samarbeider, samt lånefond. \nUbrukte lånemidler er kapittel 9100 i balansene til kommunene og kommunale foretak, interkommunale selskaper og -samarbeider. \n\nLikviditet som ikke er lånefinansiert er kapitlene (10, 11, 12, 15) minus kapitlene (31, 9100) i balansene til kommunene og kommunale foretak, interkommunale selskaper og – samarbeider samt lånefond.  \n\nKalkulerte rentekostnader fra KOSTRA-skjema 23 for hhv. vann, avløp og renovasjon, der summen er dividert med kalkylerenten. Beløpet viser dermed ”hovedstolen”/bokført verdi på VAR-anleggene, der kalkulatoriske renter og avskrivninger vil bli dekket gjennom gebyrene fra innbyggerne. Kalkylerente er 5-årig swaprente tillagt 1/2 prosentpoeng.\nRentekompensasjon er hovedstolen/beregningsgrunnlaget som ligger til grunn for rentekompensasjon som Husbanken dekker for investeringer innen omsorgs-, skole- og kirkebygg.\n\nDefinisjon fylkeskommune: Netto lånegjeld er langsiktig gjeld eks. pensjonsforpliktelser - totale utlån - ubrukte lånemidler.\nLangsiktig gjeld ekskl. pensjonsforpliktelser er kapitlene (411-412, 431, 451-454) i fylkeskommunens balanse og kapitlene (411-412, 431, 451-454, 46) i balansene fylkeskommunale foretak, interfylkeskommunale selskaper og -samarbeider. \nTotale utlån er kapittel 22 i balansene til fylkeskommunene, fylkeskommunale foretak, interfylkeskommunale selskaper og -samarbeider. \nUbrukte lånemidler er kapittel 9100 i balansene til fylkeskommunene og fylkeskommunale foretak, interfylkeskommunale selskaper og -samarbeider. \nLikviditet som ikke er lånefinansiert er kapitlene 10, 11, 12, 15 minus kapitlene 31, 9100 i balansene til fylkes-kommunene og fylkeskommunale foretak, interfylkeskommunale selskaper og – samarbeider. \n\nDefinisjon (fylkes-)kommunekasse og konsoliderte regnskaper: Begrepet brukes ikke.\n\nData for netto lånegjeld er hentet fra balanseregnskapet til (fylkes-)kommunen og balansene til (fylkes-)kommunale foretak (KF/FKF), inter-(fylkes-)kommunale samarbeider og inter-(fylkes-)kommunale selskaper (IKS) samt lånefond for kommunene Oslo, Drammen og Bergen. Data for kalkulatoriske rentekostnader VAR er hentet fra KOSTRA-skjema 23 (selvkostanlegg). Kaklylerente er hentet fra Kommunalbankens nettsider. Data for rentekompensasjon er innhentet fra Husbanken og Statens vegvesen.\n\nOBS! Variabelen må ses på som en indikasjon på hhv. hvor stor del av gjelden som (fylkes-)kommunen må dekke renteutgiftene på selv og hvordan en renteendring vil slå ut på (fylkes-)kommunens økonomi, gjort med utgangspunkt i innrapporterte regnskaper samt tall fra Husbanken og Vegvesenet på rentekompensasjonsordningene. Det vil likevel kunne være noen momenter som gjør at variablene må tolkes med en viss varsomhet. Noen slike momenter kan f.eks. være:\n •         VAR-tjenester som er skilt ut i AS vil ikke inngå i beregningen av renteeksponert gjeld. \n•         VAR-tjenester som er skilt ut i IKS vil inngå i konserntallene for langsiktig gjeld, men likevel ikke bli trukket fra i den renteeksponerte gjelden fordi vi ikke har opplysninger om de kalkulerte rentekostnadene for disse. Det vil trekke i retning av at indikatoren overvurderer den renteeksponerte gjelden/kommunekonsernets netto renteeksponering.\n•         Splittingen av IKS-ets gjeld på deltakerkommunene er gjort ut fra eierandel og samsvarer ikke nødvendigvis med hvordan IKS-ets selvkost er fordelt.\n •         Beregningene tar for seg aktiva og passiva som er rentebærende. Det er likevel ikke nødvendigvis fullt samsvar mellom de to sidene til enhver tid. Det vil kunne ta tid før tilskudd og betalingssatser blir justert i samsvar med endringer i rentenivået, og ulike poster kan knytte seg opp til ulike referanserenter for de ulike gebyrene og tilskuddene. Disse referanserentene vil nødvendigvis heller ikke være helt lik kommunekonsernets faktiske lånerente.\n•         Utlån som forskutteringer, ansvarlige lån osv. kan være rentefrie. I tillegg kan tjenester som ikke er tatt med her, være relevante å ta med for den enkelte kommune, f.eks. hvis renteutgiftene til utleieboliger som kommunen har lånefinansiert, dekkes gjennom husleien.\n•         Det er ikke tatt hensyn til rentebindinger.\n•         Det er ikke tatt hensyn til hvordan endringer i renten kan virke inn på forvaltningen av pensjonsmidlene, og i neste omgang pensjonspremiene og –kostnadene. \n\nTallene for Oslo omfatter både kommune og fylkeskommune, inkludert  rentekompensasjon og bokført verdi for VAR-investeringene."
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "374",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2802"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2024-01-01"
+        },
+        {
+            "code": "AGID1",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Overskudd før lån og avsetninger"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Overskot før lån og avsettingar"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Result before loan and allocations"
+                }
+            ],
+            "rank": 13,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Begrepet omfatter brutto driftsresultat inkl. motpost avskrivninger fratrukket netto renter, netto tap/gevinst på finansielle instrumenter og netto investeringsutgifter. Overskudd før lånetransaksjoner måles som (fylkes-)kommunens samlede inntekter fratrukket samlede utgifter, ekskl. låne- og avdragsutgifter. Sammensetningen av inntektene og utgiftene i både drifts- og investeringsregnskapet, kan vise om det over tid vil bli en økning i nettogjelden i balanseregnskapet. \n\nDefinisjon (fylkes-)kommunekonsern: \nBrutto driftsresultat er kontoklasse 1 og 3 (driftsregnskapet), alle funksjoner (100..899), artene [(600..890,920) - (010..480, 520,590)]. \nMotpost avskrivninger er kontoklasse 1 og 3 (driftsregnskapet, funksjon 860, art 990. \nNetto renter er kontoklasse 1 og 3 (driftsregnskapet), alle funksjoner (100..899), artene [(900..905) - (500,501)]. \nNetto tap/gevinst på finansielle instrumenter (omløpsmidler) er kontoklasse 1 og 3 (driftsregnskapet), alle funksjoner (100..899), artene [(509) - (909)]. \nNetto investeringsutgifter er Brutto investeringsutgifter = kontoklasse 0 (investeringsregnskapet (fylkes-)kommune), alle tjenestefunksjonene (100..790), artene (010..501) + kontoklasse 4 (investeringsregnskapet KF/FKF/IKS), alle tjenestefunksjonene (100..790), artene (010..370, 400..470, 500, 780, 880, 901) minus Tilskudd, refusjoner, salgsinntekter m.v. = kontoklasse 0 (investeringsregnskapet (fylkes-)kommuner, alle funksjonene (100..899), artene (600..905) + kontoklasse 4 (investeringsregnskapet KF/FKF/IKS), alle funksjonene (100..899), artene [(600..877, 890, 900, 905) - (380, 480, 501)] - kontoklasse 0 (investeringsregnskapet (fylkes-)kommune, funksjonene (800..899), artene (010..501) - kontoklasse 4 (investeringsregnskapet KF/FKF/IKS), funksjonene (800..899), artene [(010..370, 400..470, 500) - (780, 880, 901)] \n\nDefinisjon (fylkes-)kommunekasse og konsoliderte regnskap:\nBrutto driftsresultat = kontoklasse 1 (driftsregnskapet), alle funksjoner (100..899), artene [(600..890,920) - (010..480,520,590)]\nMotpost avskrivninger = kontoklasse 1 (driftsregnskapet), funksjon 860, art 990.\nNetto finans = kontoklasse 1 (driftsregnskapet), alle funksjoner (100..899), artene [(900, 901, 905, 909) - (500, 501, 509)].\nNetto investeringsutgifter er Brutto investeringsutgifter = kontoklasse 0 (investeringsregnskapet), alle tjenestefunksjoner (100..790), artene (010..501)  minus Tilskudd, refusjoner, salgsinntekter m.v.= kontoklasse 0 (investeringsregnskapet), alle funksjoner (100..899), artene (600..905) – kontoklasse 0 (investeringsregnskapet, funksjonene (800..899), artene (010..501).\n\n(Fylkes-)kommunekonsern omfatter regnskapene for (fylkes-)kommunekassen, (fylkes-)kommunale foretak, inter-(fylkes-)kommunale selskaper og - samarbeider, og lånefond. \n\nKonsolidert regnskap omfatter alle regnskapene innen (fylkes-)kommunen som juridisk enhet, dvs. regnskapene for (fylkes-)kommunekassen, (fylkes-)kommunale foretak og inter-(fylkes-)kommunale samarbeider som ikke er egne rettssubjekt, samt lånefond."
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "374",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2802"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2024-01-01"
+        },
+        {
+            "code": "40",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Pensjonsforpliktelse"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Pensjonsforplikting"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Pension obligations"
+                }
+            ],
+            "rank": 14,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "374",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2802"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2024-01-01"
+        },
+        {
+            "code": "5900",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Merforbruk i driftsregnskapet (K)"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Meirforbruk i driftsrekneskapen (K)"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Deficit of the year in operational accounts (M)"
+                }
+            ],
+            "rank": 15,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "374",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2802"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2024-01-01"
+        },
+        {
+            "code": "AGD86",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Netto finansutgifter (D)"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Netto finansutgifter (D)"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Net financial expenditures in operational accounts (D)"
+                }
+            ],
+            "rank": 16,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Begrepet omfatter eksterne og interne finansinntekter minus eksterne og interne finansutgifter i driftsregnskapet. Finansinntekter/-utgifter er typisk renter, utbytte og eieruttak, gevinst/tap på finansielle instrumenter og avdrag på lån. \n\nDefinisjon (fylkes-)kommunekasse og konsoliderte regnskap: \nTall fra driftsregnskapet., alle funksjoner (100..899), artene [(900, 901, 905, 909) - (500, 501, 509, 510, 511)] \n\nDefinisjon (fylkes-)kommunekonsern: Begrepet har sin egen kode.\n\nKonsolidert regnskap omfatter alle regnskapene innen (fylkes-)kommunen som juridisk enhet, dvs. regnskapene for (fylkes-)kommunekassen, (fylkes-)kommunale foretak og inter-(fylkes-)kommunale samarbeider som ikke er egne rettssubjekt, samt lånefond."
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "374",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2802"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2024-01-01"
+        },
+        {
+            "code": "5900",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Regnskapsmessig merforbruk (K)"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Rekneskapsmessig meirforbruk (K)"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Deficit of the year (M)"
+                }
+            ],
+            "rank": 17,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "374",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/1013",
+                "https://data.ssb.no/api/klass/v1/versions/1014",
+                "https://data.ssb.no/api/klass/v1/versions/1015"
+            ],
+            "validToInRequestedRange": "2020-01-01",
+            "validFromInRequestedRange": "2015-01-01"
+        },
+        {
+            "code": "KG39",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Renteeksponert gjeld"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Renteeksponert gjeld"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Interest-exposed debt"
+                }
+            ],
+            "rank": 18,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Variabelen gir en indikasjon på den delen av (fylkes-)kommunens langsiktig gjeld hvor renteutgiftene må dekkes av (fylkes-)kommunen selv. For kommunene dekkes renter på øvrig gjeld av innbyggerne gjennom gebyrer på vann, avløp og renovasjon (selvkosttjenester VAR), og av staten gjennom rentekompensasjonsordningene. For fylkeskommunene dekkes øvrig gjeld av staten gjennom rentekompensasjonsordningene.\n\nRenteeksponert gjeld, er netto lånegjeld minus kalkulatoriske rentekostnader VAR dividert med kalkylerente (for kommunene), minus rentekompensasjon for investeringer innen omsorgs-, skole- og kirkebygg for kommunene og rentekompensasjon for investeringer innen skolebygg og fylkesveier for fylkeskommunene.\n\nDefinisjon kommune: Netto lånegjeld er langsiktig gjeld eks. pensjonsforpliktelser - totale utlån - ubrukte lånemidler.\nLangsiktig gjeld ekskl. pensjonsforpliktelser er kapitlene (411-412, 431, 451-454) i kommunens balanse og kapitlene (411-412, 431, 451-454, 46) i balansene til kommunale foretak, interkommunale selskaper og -samarbeider og lånefond.\nTotale utlån er kapittel 22 i balansene til kommunene, kommunale foretak, interkommunale selskaper og -samarbeider, samt lånefond. \nUbrukte lånemidler er kapittel 9100 i balansene til kommunene og kommunale foretak, interkommunale selskaper og -samarbeider. \n\nKalkulerte rentekostnader fra KOSTRA-skjema 23 for hhv. vann, avløp og renovasjon, der summen er dividert med kalkylerenten. Beløpet viser dermed ”hovedstolen”/bokført verdi på VAR-anleggene, der kalkulatoriske renter og avskrivninger vil bli dekket gjennom gebyrene fra innbyggerne.\nKalkylerente er 5-årig swaprente tillagt 1/2 prosentpoeng.\n\nRentekompensasjon er hovedstolen/beregningsgrunnlaget som ligger til grunn for rentekompensasjon som Husbanken dekker for investeringer innen omsorgs-, skole- og kirkebygg.\n\nDefinisjon fylkeskommune: Netto lånegjeld er langsiktig gjeld eks. pensjonsforpliktelser - totale utlån - ubrukte lånemidler.\nLangsiktig gjeld ekskl. pensjonsforpliktelser er kapitlene (411-412, 431, 451-454) i fylkeskommunens balanse og kapitlene (411-412, 431, 451-454, 46) i balansene fylkeskommunale foretak, interfylkeskommunale selskaper og -samarbeider og lånefond.\nTotale utlån er kapittel 22 i balansene til fylkeskommunene, fylkeskommunale foretak, interfylkeskommunale selskaper og -samarbeider, samt lånefond.\nUbrukte lånemidler er kapittel 9100 i balansene til fylkeskommunene og fylkeskommunale foretak, interfylkeskommunale selskaper og -samarbeider. \n\nDefinisjon (fylkes-)kommune ekskl. (fylkes-)kommunale foretak, inter-(fylkes-)kommunale selskaper og -samarbeider samt lånefond: Begrepet brukes ikke.\n\nData for netto lånegjeld er hentet fra balanseregnskapet til (fylkes-)kommunen og balansene til (fylkes-)kommunale foretak (KF/FKF), inter-(fylkes-)kommunale samarbeider og inter-(fylkes-)kommunale selskaper (IKS) samt lånefond for -Trøndelag fylkeskommune og kommunene Oslo, Drammen og Bergen. Data for kalkulatoriske rentekostnader VAR er hentet fra KOSTRA-skjema 23 (selvkostanlegg). Kalylerente er hentet fra Kommunalbankens nettsider. Data for rentekompensasjon er innhentet fra Husbanken og Statens vegvesen.\n\nOBS!\nVariabelen må ses på som en indikasjon på hhv. hvor stor del av gjelden som (fylkes-)kommunen må dekke renteutgiftene på selv og hvordan en renteendring vil slå ut på (fylkes-)kommunens økonomi, med utgangspunkt i innrapporterte regnskaper samt tall fra Husbanken og Vegvesenet på rentekompensasjonsordningene. Det vil likevel kunne være noen momenter som gjør at variablene må tolkes med en viss varsomhet. Noen slike momenter kan f.eks. være: \n•         VAR-tjenester som er skilt ut i AS vil ikke inngå i beregningen av renteeksponert gjeld.\n•         VAR-tjenester som er skilt ut i IKS vil inngå i tallene for langsiktig gjeld, men likevel ikke bli trukket fra i den renteeksponerte gjelden fordi vi ikke har opplysninger om de kalkulerte rentekostnadene for disse. Det vil trekke i retning av at indikatoren overvurderer den renteeksponerte gjelden/kommunens netto renteeksponering.\n•         Splittingen av IKS-ets gjeld på deltakerkommunene er gjort ut fra eierandel og samsvarer ikke nødvendigvis med hvordan IKS-ets selvkost er fordelt. \n•         Beregningene tar for seg aktiva og passiva som er rentebærende. Det er likevel ikke nødvendigvis fullt samsvar mellom de to sidene til enhver tid. Det vil kunne ta tid før tilskudd og betalingssatser blir justert i samsvar med endringer i rentenivået, og ulike poster kan knytte seg opp til ulike referanserenter for de ulike gebyrene og tilskuddene. Disse referanserentene vil nødvendigvis heller ikke være helt lik (fylkes-)kommunens faktiske lånerente.\n•         Utlån som forskutteringer, ansvarlige lån osv. kan være rentefrie. I tillegg kan tjenester som ikke er tatt med her, være relevante å ta med for den enkelte kommune, f.eks. hvis renteutgiftene til utleieboliger som kommunen har lånefinansiert, dekkes gjennom husleien.\n•         Det er ikke tatt hensyn til rentebindinger.\n•         Det er ikke tatt hensyn til hvordan endringer i renten kan virke inn på forvaltningen av pensjonsmidlene, og i neste omgang pensjonspremiene og –kostnadene. \n\nTallene for Oslo omfatter både kommune og fylkeskommune, inkludert  rentekompensasjon og bokført verdi for VAR-investeringene."
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "374",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2802"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2024-01-01"
+        },
+        {
+            "code": "AGD24",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Renter (netto) inkl. utbytte og eieruttak"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Renter (netto)"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Net interest expenditures"
+                }
+            ],
+            "rank": 19,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Renter (netto) viser rentebelastningen på eksterne lån, samt interne renteutgifter og -inntekter. Utbytte og eieruttak regnes som en del av renteinntektene. Tap/gevinst på finansielle instrumenter omfattes ikke av beregningen. Begrepet tar kun hensyn til rentene som føres i driftsregnskapet. NB! Netto renteutgifter vises som positive tall, mens netto renteinntekter er negative tall.\n\nDefinisjon (fylkes-)kommunekonsern: Tall fra driftsregnskapet, alle funksjoner (100..899), artene [(500, 501) – (900, 901, 905)]\n\nDefinisjon (fylkes-)kommunekasse og konsoliderte (fylkes-)kommuneregnskap: Tall fra driftsregnskapet, alle funksjoner (100..899), artene [(500, 501) – (900, 901, 905)]\n\n(Fylkes-)kommunekonsern omfatter regnskapene for (fylkes-)kommunekassen, (fylkes-)kommunale foretak, inter-(fylkes-)kommunale selskaper og - samarbeider, og lånefond. \n\nKonsolidert regnskap omfatter alle regnskapene innen (fylkes-)kommunen som juridisk enhet, dvs. regnskapene for (fylkes-)kommunekassen, (fylkes-)kommunale foretak og inter-(fylkes-)kommunale  samarbeider som ikke er egne rettssubjekt, samt lånefond."
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "374",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2802"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2024-01-01"
+        },
+        {
+            "code": "AGD24",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Renter (netto)"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Renter (netto)"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Net interest expenditures"
+                }
+            ],
+            "rank": 20,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Netto renter viser rentebelastningen på eksterne lån, samt interne renteutgifter og -inntekter. Tap/gevinst på finansielle instrumenter omfattes ikke av beregningen. Begrepet tar kun hensyn til rentene som føres i driftsregnskapet.\n\nDefinisjon (fylkes-)kommune: Kontoklasse 1 og 3 (driftsregnskapet), alle funksjoner (100..899), artene [(900, 901, 905) – (500, 501)]\n\nDefinisjon (fylkes-)kommune eks. (fylkes-)kommunale foretak, inter-(fylkes-)kommunale selskaper og -samarbeider: Begrepet brukes ikke.\n\nNB! Netto renteutgifter vises som positive tall, mens netto renteinntekter er negative tall."
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "374",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/1013",
+                "https://data.ssb.no/api/klass/v1/versions/1014",
+                "https://data.ssb.no/api/klass/v1/versions/1015"
+            ],
+            "validToInRequestedRange": "2020-01-01",
+            "validFromInRequestedRange": "2015-01-01"
+        },
+        {
+            "code": "AGD97",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Renter (netto)"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Renter (netto)"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Net interest expenditures"
+                }
+            ],
+            "rank": 21,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Renter (netto) viser rentebelastningen på eksterne lån, samt interne renteutgifter og -inntekter. Tap/gevinst på finansielle instrumenter omfattes ikke av beregningen. Begrepet tar kun hensyn til rentene som føres i driftsregnskapet. NB! Netto renteutgifter vises som positive tall, mens netto renteinntekter er negative tall.\n\nDefinisjon (fylkes-)kommunekonsern: Tall fra driftsregnskapet, alle funksjoner (100..899), artene [(500, 501) – (900, 901)]\n\nDefinisjon (fylkes-)kommunekasse og konsoliderte (fylkes-)kommuneregnskap: Tall fra driftsregnskapet, alle funksjoner (100..899), artene [(500, 501) – (900, 901)]\n\n(Fylkes-)kommunekonsern omfatter regnskapene for (fylkes-)kommunekassen, (fylkes-)kommunale foretak, inter-(fylkes-)kommunale selskaper og - samarbeider, og lånefond. \n\nKonsolidert regnskap omfatter alle regnskapene innen (fylkes-)kommunen som juridisk enhet, dvs. regnskapene for (fylkes-)kommunekassen, (fylkes-)kommunale foretak og inter-(fylkes-)kommunale samarbeider som ikke er egne rettssubjekt, samt lånefond.\n"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "374",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2802"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2024-01-01"
+        },
+        {
+            "code": "AGD25",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Tap/gevinst (netto) på finansielle omløpsmidler"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Tap/gevinst (netto) på finansielle omløpsmidlar"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Net loss/profit on financial assets (current asset)"
+                }
+            ],
+            "rank": 22,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Tap/gevinst på finansielle instrumenter omfatter plasseringer av aksjer etc, som er definert som omløpsmidler i balansen – både realisert og urealisert tap/gevinst. Tall hentes fra driftsregnskapet.\n\n\nDefinisjon (fylkes-)kommunekonsern: Artene (509 - 909). \n\nDefinisjon (fylkes-)kommunekasse og konsoliderte regnskap: Artene (509 - 909).\n\n(Fylkes-)kommunekonsern omfatter regnskapene for (fylkes-)kommunekassen, (fylkes-)kommunale foretak, inter-(fylkes-)kommunale selskaper og - samarbeider, og lånefond. \n\nKonsolidert regnskap omfatter alle regnskapene innen (fylkes-)kommunen som juridisk enhet, dvs. regnskapene for (fylkes-)kommunekassen, (fylkes-)kommunale foretak og inter-(fylkes-)kommunale  samarbeider som ikke er egne rettssubjekt, samt lånefond."
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "374",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2802"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2024-01-01"
+        },
+        {
+            "code": "AGD25",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Tap/gevinst (netto) på finansielle instrumenter"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Tap/gevinst (netto) på finansielle instrument"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Net loss/profit on financial assets (current asset)"
+                }
+            ],
+            "rank": 23,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Begrepet omfatter tap/gevinst på finansielle instrumenter og omfatter plasseringer av aksjer etc, som er definert som omløpsmidler i balansen – både realisert og urealisert tap/gevinst. \n\n\nDefinisjon (fylkes-)kommune: Kontoklasse 1 og 3 (driftsregnskapet), alle funksjoner, artene (509 - 909). \n\nDefinisjon (fylkes-)kommune eks. (fylkes-)kommunale foretak, inter-(fylkes-)kommunale selskaper og -samarbeider: Kontoklasse 1 (driftsregnskapet (fylkes-)kommune), alle funksjoner, artene (509 - 909)."
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "374",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/1013",
+                "https://data.ssb.no/api/klass/v1/versions/1014",
+                "https://data.ssb.no/api/klass/v1/versions/1015"
+            ],
+            "validToInRequestedRange": "2020-01-01",
+            "validFromInRequestedRange": "2015-01-01"
+        },
+        {
+            "code": "AD905",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Utbytte og eieruttak"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Utbytte og eigaruttak"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Dividends and other distributed income"
+                }
+            ],
+            "rank": 24,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "374",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2802"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2024-01-01"
+        },
+        {
+            "code": "AGD73",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Utlån (netto) i driftsregnskapet"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Utlån (netto) i driftsregnskapet"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Lending, net in operational accounts"
+                }
+            ],
+            "rank": 25,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Begrepet viser netto utlån i driftsregnskapet og omfatter mottatte avdrag på lån minus utlån.\n\nDefinisjon (fylkes-)kommunekonsern, (fylkes-)kommunekasse og konsoliderte regnskap:\nTall fra driftsregnskapet, alle funksjoner (100..899), artene [(920,921) - (520,521)]\n\n(Fylkes-)kommunekonsern omfatter regnskapene for (fylkes-)kommunekassen, (fylkes-)kommunale foretak, inter-(fylkes-)kommunale selskaper og - samarbeider, og lånefond. \n\nKonsolidert regnskap omfatter alle regnskapene innen (fylkes-)kommunen som juridisk enhet, dvs. regnskapene for (fylkes-)kommunekassen, (fylkes-)kommunale foretak og inter-(fylkes-)kommunale samarbeider som ikke er egne rettssubjekt, samt lånefond."
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "374",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2802"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2024-01-01"
+        },
+        {
+            "code": "AGD29",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Årets merforbruk i driftsregnskapet"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Årets merforbruk i driftsrekneskapen"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Annual accumulated surplus/deficit in operational acounts"
+                }
+            ],
+            "rank": 26,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Variabelen omfatter årets merforbruk i driftsregnskapet. Merforbruk skal dekkes inn i de påfølgende regnskapsårene.\n\nDefinisjon (fylkes-)kommunekonsern, kommunekasse og konsoliderte regnskap: kontoklasse 1 og 3 (driftsregnskapet), funksjon 899, art 980.\n\nFrem til og med 2019 var det anledning til å avslutte driftsregnskapet med et mindreforbruk (overskudd). \n\nVariabelverdi med negativ fortegn viser merforbruk i driftsregnskapet dette året. Variabelverdi med positivt fortegn viser mindreforbruk (aktuelt for årene til og med 2019).\n\n(Fylkes-)kommunekonsern omfatter regnskapene for (fylkes-)kommunekassen, (fylkes-)kommunale foretak, inter-(fylkes-)kommunale selskaper og – samarbeider, og lånefond.\n\nKonsolidert regnskap omfatter alle regnskapene innen (fylkes-)kommunen som juridisk enhet, dvs. balanseregnskapene for (fylkes-)kommunekassen, (fylkes-)kommunale foretak og inter-(fylkes-)kommunale  samarbeider som ikke er egne rettssubjekt, samt lånefond."
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "374",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2802"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2024-01-01"
+        },
+        {
+            "code": "AGD29",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Årets mindreforbruk/merforbruk i driftsregnskapet"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Årets mindreforbruk/meirforbruk i driftsrekneskapen"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Annual accumulated surplus/deficit in operational acounts"
+                }
+            ],
+            "rank": 27,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Årets mindreforbruk/merforbruk i driftsregnskapet. Et mindreforbruk (overskudd) kan disponeres fritt, mens et merforbruk (underskudd) antyder at (fylkes-)kommunen er/kan komme i økonomisk ubalanse. Merforbruk skal dekkes inn i de påfølgende regnskapsårene.\n\nDefinisjon (fylkes-)kommune: kontoklasse 1 og 3 (driftsregnskapet), funksjon 899, artene (580 - 980).\n\nDefinisjon (fylkes-)kommune eks. (fylkes-)kommunale foretak, inter-(fylkes-)kommunale selskaper og -samarbeider: kontoklasse 1 (driftsregnskapet), funksjon 899, artene (580 - 980).\n\nVariabelverdi med positivt fortegn viser mindreforbruk. Dersom variabelverdien er negativ betyr dette at (fylkes)kommunen har et merforbruk i driftsregnskapet dette året."
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "374",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/1013",
+                "https://data.ssb.no/api/klass/v1/versions/1014",
+                "https://data.ssb.no/api/klass/v1/versions/1015"
+            ],
+            "validToInRequestedRange": "2020-01-01",
+            "validFromInRequestedRange": "2015-01-01"
+        },
+        {
+            "code": "AGI7",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Årets udisponert/udekket i investeringsregnskapet"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Årets udisponert/udekt i investeringsrekneskapen"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Capital account distributed equity/uncovered loss"
+                }
+            ],
+            "rank": 28,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Begrepet viser årets udisponert/udekket resultat i investeringsregnskapet. \n\nDefinisjon (fylkes-)kommune: kontoklasse 0 og 4 (investeringsregnskapet), funksjon 899, artene (580) - (980).\n\nDefinisjon kommune ekskl. (fylkes-)kommunale foretak, inter-(fylkes-)kommunale selskaper og -samarbeider: kontoklasse 0 (investeringsregnskapet), funksjon 899, artene (980) - (580).\n\nEt positivt tall angir at (fylkes-)kommunen har et udisponert resultat i investeringsregnskapet, mens et negativt tall angir et udekket resultat."
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "374",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/1013",
+                "https://data.ssb.no/api/klass/v1/versions/1014",
+                "https://data.ssb.no/api/klass/v1/versions/1015"
+            ],
+            "validToInRequestedRange": "2020-01-01",
+            "validFromInRequestedRange": "2015-01-01"
+        },
+        {
+            "code": "AGI7",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Årets udekket i investeringsregnskapet"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Årets udekket i investeringsrekneskapen"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Capital account distributed uncovered loss"
+                }
+            ],
+            "rank": 29,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Variabelen omfatter årets udekket beløp i investeringsregnskapet. Udekket beløp skal dekkes inn i de påfølgende regnskapsårene.\n\nDefinisjon (fylkes-)kommunekonsern, (fylkes-)kommunekasse og konsoliderte regnskap: kontoklasse 0 og 4 (investeringsregnskapet), funksjon 899, art 980.\n\nFrem til og med 2019 var det anledning til å avslutte investeringsregnskapet med et udisponert beløp (overskudd). \n\nVariabelverdi med negativ fortegn viser udekket beløp i investeringsregnskapet dette året. Variabelverdi med positivt fortegn viser udisponert beløp (aktuelt for årene til og med 2019).\n\n(Fylkes-)kommunekonsern omfatter regnskapene for (fylkes-)kommunekassen, (fylkes-)kommunale foretak, inter-(fylkes-)kommunale selskaper og - samarbeider, og lånefond. \n\nKonsolidert regnskap omfatter alle regnskapene innen (fylkes-)kommunen som juridisk enhet, dvs. regnskapene for (fylkes-)kommunekassen, (fylkes-)kommunale foretak og inter-(fylkes-)kommunale samarbeider som ikke er egne rettssubjekt, samt lånefond."
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "374",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2802"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2024-01-01"
+        }
+    ],
+    "subsetId": "uttrekk_for_finansielle_nokkeltall_i_prosent_av_brutto_driftsinntekter_konsern",
+    "validFrom": "2024-01-01",
+    "versionId": "a7200e46-4654-4683-9664-5c58362f7cf6",
+    "createdDate": "2024-11-22",
+    "lastModified": "2024-11-22T10:28:18Z",
+    "versionRationale": [
+        {
+            "languageCode": "nb",
+            "languageText": "Oppdatert med nye koder"
+        }
+    ],
+    "administrativeStatus": "OPEN",
+    "_links": {
+        "self": {
+            "href": "/v2/subsets/uttrekk_for_finansielle_nokkeltall_i_prosent_av_brutto_driftsinntekter_konsern/versions/a7200e46-4654-4683-9664-5c58362f7cf6"
+        },
+        "series": {
+            "href": "/v2/subsets/uttrekk_for_finansielle_nokkeltall_i_prosent_av_brutto_driftsinntekter_konsern"
+        }
+    }
+}

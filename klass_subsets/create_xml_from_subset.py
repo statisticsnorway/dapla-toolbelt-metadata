@@ -19,11 +19,13 @@ def create_xml_file_one_version_from_subset_id(subset_id: str) -> None:
         timeout=5,
     ).json()
 
+    subset_name = subset_id  # id_to_name(subset_id)
+
     ### This gets all the codes
     all_codes = get_all_codes(one_subset["versions"])
 
     subset_dir = create_subset_dir(
-        subset_id,
+        subset_name,
     )
 
     periods = get_periods(convert_to_the_nice_structure(all_codes))
@@ -33,11 +35,18 @@ def create_xml_file_one_version_from_subset_id(subset_id: str) -> None:
     codes = filter_codes_by_period(transformed_data, periods)
 
     for j, i in enumerate(periods):
-        vf = i["valid_from"]
-        vu = i["valid_until"]
+        vf = i["valid_from"][:-6]
+        vu = None
+        if i["valid_until"] is not None:
+            vu = i["valid_until"][:-6]
+
+            previous_year = str(int(vu) - 1)
+            if vf != vu:
+                vu = previous_year
+        # print(f"vf: {vf} vu: {vu}")
         codes[j]
 
-        output_file = f"{subset_dir}/{subset_id}_{vf}_{vu}.xml"
+        output_file = f"{subset_dir}/{vf}_{vu}_{subset_name}.xml"
         generate_xml(codes[j], output_file)
 
 

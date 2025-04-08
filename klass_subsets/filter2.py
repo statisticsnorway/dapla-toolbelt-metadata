@@ -1,3 +1,4 @@
+import json
 from datetime import datetime
 
 
@@ -80,8 +81,15 @@ def extract_code_changes(
     code_to_code: dict,
 ) -> list[dict]:
     """Extracts changes per year for each code."""
-    changes, previous_codes = [], {}
+    changes, previous_codes, previous_names = [], {}, {}
     starting_period = categorized_codes[0]["valid_from"]
+
+    with open("periods.json", "w") as f:
+        json.dump(
+            categorized_codes,
+            f,
+            indent=2,
+        )
 
     # Helper function to create a dictionary representing a code change
     def track_changes(previous, current, prev_nb, curr_nb):
@@ -92,15 +100,33 @@ def extract_code_changes(
             "current_nb": curr_nb,
         }
 
+    # for i in categorized_codes:
+    #     for j in i["codes"]:
+    #         if j["code"] == "490":
+    #             print(j)
+
     # Iterate over each period to detect code changes
     for i, period in enumerate(categorized_codes):
-        period_start, current_codes, changes_in_period = period["valid_from"], {}, []
+        period_start, current_codes, current_names, changes_in_period = (
+            period["valid_from"],
+            {},
+            {},
+            [],
+        )
 
         code_is_added = []
+
+        with open(f"codes_{i}.json", "w") as f:
+            json.dump(period, f, indent=2)
+
+        same_name_diff_code = []
         # Process each code entry in the current period
         for entry in period["codes"]:
             code, current_nb = entry["code"], entry["nb"]
             current_codes[code] = current_nb
+            current_names[current_nb] = code
+
+            # code_changed_but_not_name(entry["nb"], period["codes"])
 
             # Check if the code has been replaced with new codes
             if code_to_code is not None:
@@ -125,27 +151,68 @@ def extract_code_changes(
                     track_changes(code, code, previous_codes[code], current_nb),
                 )
 
+            # Name same but changes in code
+            if current_nb in previous_names and previous_names[current_nb] != code:
+                # print(
+                #    f"name: {current_nb},         code: {previous_names[current_nb]},       code: {code}",
+                # )
+                changes_in_period.append(
+                    track_changes(
+                        previous_names[current_nb],
+                        code,
+                        current_nb,
+                        current_nb,
+                    ),
+                )
+                same_name_diff_code.append(code)
+
             # Check if a new code appears (not seen in previous periods and not a replacement code)
             if (
                 code not in previous_codes
+                and current_nb not in previous_names
                 and starting_period != period_start
                 and code not in code_is_added
+                and current_nb not in same_name_diff_code
             ):
                 changes_in_period.append(track_changes(None, code, None, current_nb))
 
-        # Identify codes that disappear in the next period
-        if i < len(categorized_codes) - 1:
-            next_codes = {entry["code"] for entry in categorized_codes[i + 1]["codes"]}
+        ## Identify codes that disappear in the next period
+        # if i < len(categorized_codes) - 1:
+        #     next_codes = {entry["code"] for entry in categorized_codes[i + 1]["codes"]}
+        #     disappearing_codes = [
+        #         code
+        #         for code in current_codes
+        #         if code not in next_codes
+        #         and not is_old_code_present(code, code_to_code)
+        #     ]
+        #     print(disappearing_codes, "period start:", period_start)
+        #     changes_in_period.extend(
+        #         track_changes(code, None, current_codes[code], None)
+        #         for code in disappearing_codes
+        #     )
+
+        # Identify codes that disappeared this period
+        if i > 0:  # Ensure there's a previous period to compare
+            previous_codes_dict = {
+                entry["code"]: entry for entry in categorized_codes[i - 1]["codes"]
+            }
+
+            if current_nb in previous_names and previous_names[current_nb] != code:
+                # print(current_nb)
+                pass
+
             disappearing_codes = [
                 code
-                for code in current_codes
-                if code not in next_codes
+                for code in previous_codes_dict  # Check against previous period's codes
+                if code not in current_codes
                 and not is_old_code_present(code, code_to_code)
             ]
             changes_in_period.extend(
-                track_changes(code, None, current_codes[code], None)
+                track_changes(code, None, previous_codes_dict[code]["nb"], None)
                 for code in disappearing_codes
+                if current_nb in previous_names and previous_names[current_nb] != code
             )
+            # print(changes_in_period)
 
         # Store detected changes for the period if any exist
         if changes_in_period:
@@ -153,8 +220,18 @@ def extract_code_changes(
 
         # Update previous codes for the next iteration
         previous_codes = current_codes
+        previous_names = current_names
+
+    # for i in changes[0]:
+    #     print(i)
 
     return changes
+
+
+def code_changed_but_not_name(name, codes):
+    # if name
+
+    print(f"Valid from: {codes['valid_from']}, Valid until: {codes['valid_until']}")
 
 
 # Example Data

@@ -1,0 +1,368 @@
+{
+    "codes": [
+        {
+            "code": "EAFK",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Landet"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Landet"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "The whole country"
+                }
+            ],
+            "rank": 1,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "null"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "null"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "null"
+                }
+            ],
+            "classificationId": "232",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/771",
+                "https://data.ssb.no/api/klass/v1/versions/940",
+                "https://data.ssb.no/api/klass/v1/versions/1206",
+                "https://data.ssb.no/api/klass/v1/versions/2152",
+                "https://data.ssb.no/api/klass/v1/versions/2153"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2015-01-01"
+        },
+        {
+            "code": "EAFKUO",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Landet uten Oslo"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Landet utan Oslo"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "The whole country except Oslo"
+                }
+            ],
+            "rank": 2,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "null"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "null"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "null"
+                }
+            ],
+            "classificationId": "232",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/771",
+                "https://data.ssb.no/api/klass/v1/versions/940",
+                "https://data.ssb.no/api/klass/v1/versions/1206",
+                "https://data.ssb.no/api/klass/v1/versions/2152",
+                "https://data.ssb.no/api/klass/v1/versions/2153"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2015-01-01"
+        },
+        {
+            "code": "EAFK01",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Øst-Norge"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Øst-Norge"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "East of Norway"
+                }
+            ],
+            "rank": 3,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "null"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "null"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "null"
+                }
+            ],
+            "classificationId": "232",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/771",
+                "https://data.ssb.no/api/klass/v1/versions/940",
+                "https://data.ssb.no/api/klass/v1/versions/1206",
+                "https://data.ssb.no/api/klass/v1/versions/2152",
+                "https://data.ssb.no/api/klass/v1/versions/2153"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2015-01-01"
+        },
+        {
+            "code": "EAFK02",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Sør-Norge"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Sør-Norge"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "South of Norway"
+                }
+            ],
+            "rank": 4,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "null"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "null"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "null"
+                }
+            ],
+            "classificationId": "232",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/771",
+                "https://data.ssb.no/api/klass/v1/versions/940",
+                "https://data.ssb.no/api/klass/v1/versions/1206",
+                "https://data.ssb.no/api/klass/v1/versions/2152",
+                "https://data.ssb.no/api/klass/v1/versions/2153"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2015-01-01"
+        },
+        {
+            "code": "EAFK03",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Vest-Norge"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Vest-Norge"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "West of Norway"
+                }
+            ],
+            "rank": 5,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "null"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "null"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "null"
+                }
+            ],
+            "classificationId": "232",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/771",
+                "https://data.ssb.no/api/klass/v1/versions/940",
+                "https://data.ssb.no/api/klass/v1/versions/1206",
+                "https://data.ssb.no/api/klass/v1/versions/2152",
+                "https://data.ssb.no/api/klass/v1/versions/2153"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2015-01-01"
+        },
+        {
+            "code": "EAFK04",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Midt-Norge"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Midt-Norge"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Midle of Norway"
+                }
+            ],
+            "rank": 6,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "null"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "null"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "null"
+                }
+            ],
+            "classificationId": "232",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/771",
+                "https://data.ssb.no/api/klass/v1/versions/940",
+                "https://data.ssb.no/api/klass/v1/versions/1206",
+                "https://data.ssb.no/api/klass/v1/versions/2152",
+                "https://data.ssb.no/api/klass/v1/versions/2153"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2015-01-01"
+        },
+        {
+            "code": "EAFK05",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Nord-Norge"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Nord-Norge"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "North of Norway"
+                }
+            ],
+            "rank": 7,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "null"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "null"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "null"
+                }
+            ],
+            "classificationId": "232",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/771",
+                "https://data.ssb.no/api/klass/v1/versions/940",
+                "https://data.ssb.no/api/klass/v1/versions/1206",
+                "https://data.ssb.no/api/klass/v1/versions/2152",
+                "https://data.ssb.no/api/klass/v1/versions/2153"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2015-01-01"
+        },
+        {
+            "code": "EAFK06",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Oslo kommune"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Oslo kommune"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Oslo municipality"
+                }
+            ],
+            "rank": 8,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "null"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "null"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "null"
+                }
+            ],
+            "classificationId": "232",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/771",
+                "https://data.ssb.no/api/klass/v1/versions/940",
+                "https://data.ssb.no/api/klass/v1/versions/1206",
+                "https://data.ssb.no/api/klass/v1/versions/2152",
+                "https://data.ssb.no/api/klass/v1/versions/2153"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2015-01-01"
+        }
+    ],
+    "subsetId": "uttrekk_for_kostra-fylkeskommunegrupperinger",
+    "validFrom": "2015-01-01",
+    "versionId": "515c0bf3-4af5-490a-9457-b43cd8f03277",
+    "createdDate": "2023-12-18",
+    "lastModified": "2024-01-05T09:52:36Z",
+    "versionRationale": [
+        {
+            "languageCode": "nb",
+            "languageText": ""
+        }
+    ],
+    "administrativeStatus": "OPEN",
+    "_links": {
+        "self": {
+            "href": "/v2/subsets/uttrekk_for_kostra-fylkeskommunegrupperinger/versions/515c0bf3-4af5-490a-9457-b43cd8f03277"
+        },
+        "series": {
+            "href": "/v2/subsets/uttrekk_for_kostra-fylkeskommunegrupperinger"
+        }
+    }
+}

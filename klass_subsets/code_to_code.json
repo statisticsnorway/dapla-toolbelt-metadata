@@ -1,0 +1,121 @@
+{
+  "codeChanges": [
+    {
+      "oldCode": "A874",
+      "oldName": "Eiendomsskatt annen eiendom",
+      "oldShortName": "",
+      "newCode": "A871",
+      "newName": "Eiendomsskatt vannkraftanlegg",
+      "newShortName": "",
+      "changeOccurred": "2023-01-01"
+    },
+    {
+      "oldCode": "A874",
+      "oldName": "Eiendomsskatt annen eiendom",
+      "oldShortName": "",
+      "newCode": "A872",
+      "newName": "Eiendomsskatt vindkraftanlegg",
+      "newShortName": "",
+      "changeOccurred": "2023-01-01"
+    },
+    {
+      "oldCode": "A874",
+      "oldName": "Eiendomsskatt annen eiendom",
+      "oldShortName": "",
+      "newCode": "A873",
+      "newName": "Eiendomsskatt petroleumsanlegg",
+      "newShortName": "",
+      "changeOccurred": "2023-01-01"
+    },
+    {
+      "oldCode": "A874",
+      "oldName": "Eiendomsskatt annen eiendom",
+      "oldShortName": "",
+      "newCode": "A876",
+      "newName": "Eiendomsskatt n\u00e6ringseiendom m.m.",
+      "newShortName": "",
+      "changeOccurred": "2023-01-01"
+    },
+    {
+      "oldCode": "41",
+      "oldName": "Obligasjonsl\u00e5n (-2023)",
+      "oldShortName": "",
+      "newCode": "411",
+      "newName": "Utest\u00e5ende obligasjonsl\u00e5n med forfall etter neste regnskaps\u00e5r (2024-)",
+      "newShortName": "",
+      "changeOccurred": "2024-01-01"
+    },
+    {
+      "oldCode": "42",
+      "oldName": "Obligasjonsl\u00e5n med forfall i neste regnskaps\u00e5r (-2023)",
+      "oldShortName": "",
+      "newCode": "412",
+      "newName": "Utest\u00e5ende obligasjonsl\u00e5n med forfall i neste regnskaps\u00e5r (2024-)",
+      "newShortName": "",
+      "changeOccurred": "2024-01-01"
+    },
+    {
+      "oldCode": "43",
+      "oldName": "Sertifikatl\u00e5n (-2023)",
+      "oldShortName": "",
+      "newCode": "431",
+      "newName": "Sertifikatl\u00e5n (2024-)",
+      "newShortName": "",
+      "changeOccurred": "2024-01-01"
+    },
+    {
+      "oldCode": "45",
+      "oldName": "Gjeld til kredittinstitusjoner (-2023)",
+      "oldShortName": "",
+      "newCode": "451",
+      "newName": "L\u00e5n i kredittinstitusjon med avdragsprofil (2024-)",
+      "newShortName": "",
+      "changeOccurred": "2024-01-01"
+    },
+    {
+      "oldCode": "45",
+      "oldName": "Gjeld til kredittinstitusjoner (-2023)",
+      "oldShortName": "",
+      "newCode": "452",
+      "newName": "Avdragsfrie l\u00e5n i kredittinstitusjon hvor hovedstol forfaller etter neste regnskaps\u00e5r (2024-)",
+      "newShortName": "",
+      "changeOccurred": "2024-01-01"
+    },
+    {
+      "oldCode": "45",
+      "oldName": "Gjeld til kredittinstitusjoner (-2023)",
+      "oldShortName": "",
+      "newCode": "453",
+      "newName": "Avdragsfrie l\u00e5n i kredittinstitusjon hvor hovedstol forfaller i neste regnskaps\u00e5r (2024-)",
+      "newShortName": "",
+      "changeOccurred": "2024-01-01"
+    },
+    {
+      "oldCode": "45",
+      "oldName": "Gjeld til kredittinstitusjoner (-2023)",
+      "oldShortName": "",
+      "newCode": "454",
+      "newName": "L\u00e5n i kredittinstitusjon med sertifikatvilk\u00e5r \u2013 med l\u00f8petid inntil 12 m\u00e5neder (2024-)",
+      "newShortName": "",
+      "changeOccurred": "2024-01-01"
+    },
+    {
+      "oldCode": "97",
+      "oldName": "Gjeld til kredittinstitusjoner (-2023)",
+      "oldShortName": "",
+      "newCode": "99",
+      "newName": "L\u00e5n i kredittinstitusjon med sertifikatvilk\u00e5r \u2013 med l\u00f8petid inntil 12 m\u00e5neder (2024-)",
+      "newShortName": "",
+      "changeOccurred": "2023-01-01"
+    },
+    {
+      "oldCode": "98",
+      "oldName": "Gjeld til kredittinstitusjoner (-2023)",
+      "oldShortName": "",
+      "newCode": "99",
+      "newName": "L\u00e5n i kredittinstitusjon med sertifikatvilk\u00e5r \u2013 med l\u00f8petid inntil 12 m\u00e5neder (2024-)",
+      "newShortName": "",
+      "changeOccurred": "2023-01-01"
+    }
+  ]
+}

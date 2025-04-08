@@ -1,0 +1,444 @@
+{
+  "valid_from": "2024-01-01",
+  "valid_until": null,
+  "codes": [
+    {
+      "code": "KG14",
+      "nb": "Akkumulert regnskapsmessig resultat",
+      "valid_from": "01.01.2015",
+      "valid_until": null
+    },
+    {
+      "code": "KG15",
+      "nb": "Akkumulert resultat investeringsregnskapet",
+      "valid_from": "01.01.2015",
+      "valid_until": null
+    },
+    {
+      "code": "AGD62",
+      "nb": "Andre driftsinntekter, ekskl. mva-kompensasjon",
+      "valid_from": "01.01.2015",
+      "valid_until": null
+    },
+    {
+      "code": "AGI23",
+      "nb": "Andre salgsinntekter (i investering)",
+      "valid_from": "01.01.2015",
+      "valid_until": null
+    },
+    {
+      "code": "A810",
+      "nb": "Andre statlige overf\u00f8ringer",
+      "valid_from": "01.01.2015",
+      "valid_until": null
+    },
+    {
+      "code": "KG114",
+      "nb": "Arbeidskapital ex. premieavvik",
+      "valid_from": "01.01.2020",
+      "valid_until": null
+    },
+    {
+      "code": "AGD74",
+      "nb": "Avsetning til bundne fond (netto)",
+      "valid_from": "01.01.2015",
+      "valid_until": null
+    },
+    {
+      "code": "AGID2",
+      "nb": "Bruk av fond/avsetning til fond, drift og investering",
+      "valid_from": "01.01.2015",
+      "valid_until": null
+    },
+    {
+      "code": "AGI29",
+      "nb": "Bruk av l\u00e5n (netto)",
+      "valid_from": "01.01.2015",
+      "valid_until": null
+    },
+    {
+      "code": "AGD13",
+      "nb": "Brutto driftsinntekter i alt",
+      "valid_from": "01.01.2015",
+      "valid_until": null
+    },
+    {
+      "code": "AGD18",
+      "nb": "Brutto driftsresultat",
+      "valid_from": "01.01.2015",
+      "valid_until": null
+    },
+    {
+      "code": "AGD9",
+      "nb": "Brutto driftsutgifter totalt",
+      "valid_from": "01.01.2015",
+      "valid_until": null
+    },
+    {
+      "code": "AGD19",
+      "nb": "Brutto inntekt fra konsesjonskraft, kraftrettigheter og annen kraft for videresalg",
+      "valid_from": "01.01.2015",
+      "valid_until": null
+    },
+    {
+      "code": "AGD63",
+      "nb": "Brutto inntekt fra konsesjonskraft, kraftrettigheter og annen kraft for videresalg, ekskl. mva-kompensasjon",
+      "valid_from": "01.01.2015",
+      "valid_until": null
+    },
+    {
+      "code": "AGI1",
+      "nb": "Brutto investeringsutgifter totalt",
+      "valid_from": "01.01.2015",
+      "valid_until": null
+    },
+    {
+      "code": "56",
+      "nb": "Disposisjonsfond (K)",
+      "valid_from": "01.01.2015",
+      "valid_until": null
+    },
+    {
+      "code": "A874",
+      "nb": "Eiendomsskatt annen eiendom",
+      "valid_from": "01.01.2015",
+      "valid_until": null
+    },
+    {
+      "code": "AG10",
+      "nb": "Eiendomsskatt totalt",
+      "valid_from": "01.01.2015",
+      "valid_until": null
+    },
+    {
+      "code": "AGI21",
+      "nb": "Egenfinansiering av investeringene",
+      "valid_from": "01.01.2015",
+      "valid_until": null
+    },
+    {
+      "code": "KG21",
+      "nb": "Fri egenkapital drift",
+      "valid_from": "01.01.2015",
+      "valid_until": null
+    },
+    {
+      "code": "AG11",
+      "nb": "Frie inntekter",
+      "valid_from": "01.01.2015",
+      "valid_until": null
+    },
+    {
+      "code": "AI729",
+      "nb": "Kompensasjon for merverdiavgift i investeringsregnskapet",
+      "valid_from": "01.01.2015",
+      "valid_until": null
+    },
+    {
+      "code": "AGD3",
+      "nb": "Korrigerte brutto driftsutgifter totalt",
+      "valid_from": "01.01.2015",
+      "valid_until": null
+    },
+    {
+      "code": "KG115",
+      "nb": "Langsiktig gjeld",
+      "valid_from": "01.01.2020",
+      "valid_until": null
+    },
+    {
+      "code": "KG116",
+      "nb": "Langsiktig gjeld ex. pensjonsforpliktelser",
+      "valid_from": "01.01.2020",
+      "valid_until": null
+    },
+    {
+      "code": "KG18",
+      "nb": "Likviditet som ikke er l\u00e5nefinansiert",
+      "valid_from": "01.01.2015",
+      "valid_until": null
+    },
+    {
+      "code": "AG16",
+      "nb": "L\u00f8nnsutgifter fratrukket sykel\u00f8nnsrefusjon",
+      "valid_from": "01.01.2015",
+      "valid_until": null
+    },
+    {
+      "code": "AG43",
+      "nb": "Naturressursskatt",
+      "valid_from": "01.01.2015",
+      "valid_until": null
+    },
+    {
+      "code": "AGD23",
+      "nb": "Netto driftsresultat",
+      "valid_from": "01.01.2015",
+      "valid_until": null
+    },
+    {
+      "code": "AGD1",
+      "nb": "Netto driftsutgifter totalt",
+      "valid_from": "01.01.2015",
+      "valid_until": null
+    },
+    {
+      "code": "AGD20",
+      "nb": "Netto inntekt fra konsesjonskraft, kraftrettigheter og annen kraft for videresalg",
+      "valid_from": "01.01.2015",
+      "valid_until": null
+    },
+    {
+      "code": "KG117",
+      "nb": "Netto l\u00e5negjeld",
+      "valid_from": "01.01.2020",
+      "valid_until": null
+    },
+    {
+      "code": "AGID1",
+      "nb": "Overskudd f\u00f8r l\u00e5n og avsetninger",
+      "valid_from": "01.01.2015",
+      "valid_until": null
+    },
+    {
+      "code": "40",
+      "nb": "Pensjonsforpliktelse",
+      "valid_from": "01.01.2015",
+      "valid_until": null
+    },
+    {
+      "code": "A800",
+      "nb": "Rammetilskudd",
+      "valid_from": "01.01.2015",
+      "valid_until": null
+    },
+    {
+      "code": "AGI31",
+      "nb": "Refusjons- og overf\u00f8ringsinntekter inkl. renteinntekter og utbytte, ekskl. mva-komp.",
+      "valid_from": "01.01.2015",
+      "valid_until": null
+    },
+    {
+      "code": "AI660",
+      "nb": "Salg av driftsmidler (i investeringsregnskapet",
+      "valid_from": "01.01.2015",
+      "valid_until": null
+    },
+    {
+      "code": "A670",
+      "nb": "Salg av fast eiendom (I)",
+      "valid_from": "01.01.2015",
+      "valid_until": null
+    },
+    {
+      "code": "AGI6",
+      "nb": "Salg og kj\u00f8p av aksjer og andeler (netto)",
+      "valid_from": "01.01.2015",
+      "valid_until": null
+    },
+    {
+      "code": "AGD16",
+      "nb": "Salgs- og leieinntekter i driftsregnskapet",
+      "valid_from": "01.01.2015",
+      "valid_until": null
+    },
+    {
+      "code": "43",
+      "nb": "Sertifikatl\u00e5n",
+      "valid_from": "01.01.2015",
+      "valid_until": null
+    },
+    {
+      "code": "AG12",
+      "nb": "Skatt p\u00e5 inntekt og formue inkludert naturressursskatt",
+      "valid_from": "01.01.2015",
+      "valid_until": null
+    },
+    {
+      "code": "AGI2",
+      "nb": "Tilskudd, refusjoner, salgsinntekter",
+      "valid_from": "01.01.2015",
+      "valid_until": null
+    },
+    {
+      "code": "AD905",
+      "nb": "Utbytte og eieruttak",
+      "valid_from": "01.01.2015",
+      "valid_until": null
+    },
+    {
+      "code": "AGD73",
+      "nb": "Utl\u00e5n (netto) i driftsregnskapet",
+      "valid_from": "01.01.2015",
+      "valid_until": null
+    },
+    {
+      "code": "AGI28",
+      "nb": "Utl\u00e5n (netto) i investeringsregnskapet",
+      "valid_from": "01.01.2015",
+      "valid_until": null
+    },
+    {
+      "code": "A871",
+      "nb": "Eiendomsskatt vannkraftanlegg",
+      "valid_from": "01.01.2023",
+      "valid_until": null
+    },
+    {
+      "code": "A872",
+      "nb": "Eiendomsskatt vindkraftanlegg",
+      "valid_from": "01.01.2023",
+      "valid_until": null
+    },
+    {
+      "code": "A873",
+      "nb": "Eiendomsskatt petroleumsanlegg",
+      "valid_from": "01.01.2023",
+      "valid_until": null
+    },
+    {
+      "code": "A876",
+      "nb": "Eiendomsskatt n\u00e6ringseiendom m.m.",
+      "valid_from": "01.01.2023",
+      "valid_until": null
+    },
+    {
+      "code": "452",
+      "nb": "Avdragsfrie l\u00e5n i kredittinstitusjon hvor hovedstol forfaller etter neste regnskaps\u00e5r",
+      "valid_from": "01.01.2024",
+      "valid_until": null
+    },
+    {
+      "code": "453",
+      "nb": "Avdragsfrie l\u00e5n i kredittinstitusjon hvor hovedstol forfaller i neste regnskaps\u00e5r",
+      "valid_from": "01.01.2024",
+      "valid_until": null
+    },
+    {
+      "code": "451",
+      "nb": "L\u00e5n i kredittinstitusjon med avdragsprofil",
+      "valid_from": "01.01.2024",
+      "valid_until": null
+    },
+    {
+      "code": "454",
+      "nb": "L\u00e5n i kredittinstitusjon med sertifikatvilk\u00e5r \u2013 med l\u00f8petid inntil 12 m\u00e5neder",
+      "valid_from": "01.01.2024",
+      "valid_until": null
+    },
+    {
+      "code": "AGD86",
+      "nb": "Netto finansutgifter (D)",
+      "valid_from": "01.01.2024",
+      "valid_until": null
+    },
+    {
+      "code": "AGD97",
+      "nb": "Renter (netto)",
+      "valid_from": "01.01.2024",
+      "valid_until": null
+    },
+    {
+      "code": "431",
+      "nb": "Sertifikatl\u00e5n",
+      "valid_from": "01.01.2024",
+      "valid_until": null
+    },
+    {
+      "code": "411",
+      "nb": "Utest\u00e5ende obligasjonsl\u00e5n med forfall etter neste regnskaps\u00e5r",
+      "valid_from": "01.01.2024",
+      "valid_until": null
+    },
+    {
+      "code": "412",
+      "nb": "Utest\u00e5ende obligasjonsl\u00e5n med forfall i neste regnskaps\u00e5r",
+      "valid_from": "01.01.2024",
+      "valid_until": null
+    },
+    {
+      "code": "AGD21",
+      "nb": "Avdrag (netto) i driftsregnskapet",
+      "valid_from": "01.01.2020",
+      "valid_until": null
+    },
+    {
+      "code": "AGI4",
+      "nb": "Avsetninger til, og bruk av fond i investeringsregnskapet, netto",
+      "valid_from": "01.01.2016",
+      "valid_until": null
+    },
+    {
+      "code": "A590",
+      "nb": "Avskrivninger",
+      "valid_from": "01.01.2020",
+      "valid_until": null
+    },
+    {
+      "code": "AGI26",
+      "nb": "Dekning av tidligere \u00e5rs udekket bel\u00f8p",
+      "valid_from": "01.01.2021",
+      "valid_until": null
+    },
+    {
+      "code": "A875",
+      "nb": "Eiendomsskatt boliger og fritidsboliger",
+      "valid_from": "01.01.2020",
+      "valid_until": null
+    },
+    {
+      "code": "41",
+      "nb": "Obligasjonsl\u00e5n",
+      "valid_from": "01.01.2020",
+      "valid_until": null
+    },
+    {
+      "code": "42",
+      "nb": "Obligasjonsl\u00e5n med forfall i neste regnskaps\u00e5r",
+      "valid_from": "01.01.2020",
+      "valid_until": null
+    },
+    {
+      "code": "AD729",
+      "nb": "Kompensasjon for merverdiavgift i driftsregnskapet",
+      "valid_from": "01.01.2021",
+      "valid_until": null
+    },
+    {
+      "code": "970",
+      "nb": "Overf\u00f8ring fra drift",
+      "valid_from": "01.01.2021",
+      "valid_until": null
+    },
+    {
+      "code": "5900",
+      "nb": "Merforbruk i driftsregnskapet (K)",
+      "valid_from": "01.01.2020",
+      "valid_until": null
+    },
+    {
+      "code": "AGD24",
+      "nb": "Renter (netto) inkl. utbytte og eieruttak",
+      "valid_from": "01.01.2020",
+      "valid_until": null
+    },
+    {
+      "code": "AGD25",
+      "nb": "Tap/gevinst (netto) p\u00e5 finansielle oml\u00f8psmidler",
+      "valid_from": "01.01.2020",
+      "valid_until": null
+    },
+    {
+      "code": "AGD29",
+      "nb": "\u00c5rets merforbruk i driftsregnskapet",
+      "valid_from": "01.01.2020",
+      "valid_until": null
+    },
+    {
+      "code": "AGI7",
+      "nb": "\u00c5rets udekket i investeringsregnskapet",
+      "valid_from": "01.01.2020",
+      "valid_until": null
+    }
+  ]
+}

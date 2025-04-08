@@ -1,4 +1,6 @@
 import xml.etree.ElementTree as ET
+from datetime import datetime
+from datetime import timedelta
 
 
 def generate_xml(elements: list[dict], filename: str) -> None:
@@ -42,7 +44,15 @@ def generate_xml(elements: list[dict], filename: str) -> None:
         # ET.SubElement(element, "noter_engelsk").text = ""
 
         if elem["valid_until"] is not None:
-            ET.SubElement(element, "gyldig_til").text = elem["valid_until"]
+            date_format = "%d.%m.%Y"
+            date_str = elem["valid_until"]
+            date = datetime.strptime(date_str, date_format)
+
+            if date.day == 1 and date.month == 1:
+                date -= timedelta(days=1)
+                date_str = date.strftime(date_format)
+
+            ET.SubElement(element, "gyldig_til").text = date_str
         else:
             ET.SubElement(element, "gyldig_til").text = ""
         ET.SubElement(element, "gyldig_fra").text = elem["valid_from"]

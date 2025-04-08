@@ -1,0 +1,2160 @@
+{
+  "valid_from": "2024-01-01",
+  "valid_until": null,
+  "codes": [
+    {
+      "code": "EAK",
+      "nb": "Landet",
+      "valid_from": "01.01.2015",
+      "valid_until": null
+    },
+    {
+      "code": "EAKUO",
+      "nb": "Landet uten Oslo",
+      "valid_from": "01.01.2015",
+      "valid_until": null
+    },
+    {
+      "code": "0301",
+      "nb": "Oslo",
+      "valid_from": "01.01.2015",
+      "valid_until": null
+    },
+    {
+      "code": "1101",
+      "nb": "Eigersund",
+      "valid_from": "01.01.2015",
+      "valid_until": null
+    },
+    {
+      "code": "1103",
+      "nb": "Stavanger",
+      "valid_from": "01.01.2015",
+      "valid_until": null
+    },
+    {
+      "code": "1106",
+      "nb": "Haugesund",
+      "valid_from": "01.01.2015",
+      "valid_until": null
+    },
+    {
+      "code": "1108",
+      "nb": "Sandnes",
+      "valid_from": "01.01.2020",
+      "valid_until": null
+    },
+    {
+      "code": "1111",
+      "nb": "Sokndal",
+      "valid_from": "01.01.2015",
+      "valid_until": null
+    },
+    {
+      "code": "1112",
+      "nb": "Lund",
+      "valid_from": "01.01.2015",
+      "valid_until": null
+    },
+    {
+      "code": "1114",
+      "nb": "Bjerkreim",
+      "valid_from": "01.01.2015",
+      "valid_until": null
+    },
+    {
+      "code": "1119",
+      "nb": "H\u00e5",
+      "valid_from": "01.01.2015",
+      "valid_until": null
+    },
+    {
+      "code": "1120",
+      "nb": "Klepp",
+      "valid_from": "01.01.2015",
+      "valid_until": null
+    },
+    {
+      "code": "1121",
+      "nb": "Time",
+      "valid_from": "01.01.2015",
+      "valid_until": null
+    },
+    {
+      "code": "1122",
+      "nb": "Gjesdal",
+      "valid_from": "01.01.2015",
+      "valid_until": null
+    },
+    {
+      "code": "1124",
+      "nb": "Sola",
+      "valid_from": "01.01.2015",
+      "valid_until": null
+    },
+    {
+      "code": "1127",
+      "nb": "Randaberg",
+      "valid_from": "01.01.2015",
+      "valid_until": null
+    },
+    {
+      "code": "1130",
+      "nb": "Strand",
+      "valid_from": "01.01.2015",
+      "valid_until": null
+    },
+    {
+      "code": "1133",
+      "nb": "Hjelmeland",
+      "valid_from": "01.01.2015",
+      "valid_until": null
+    },
+    {
+      "code": "1134",
+      "nb": "Suldal",
+      "valid_from": "01.01.2015",
+      "valid_until": null
+    },
+    {
+      "code": "1135",
+      "nb": "Sauda",
+      "valid_from": "01.01.2015",
+      "valid_until": null
+    },
+    {
+      "code": "1144",
+      "nb": "Kvits\u00f8y",
+      "valid_from": "01.01.2015",
+      "valid_until": null
+    },
+    {
+      "code": "1145",
+      "nb": "Bokn",
+      "valid_from": "01.01.2015",
+      "valid_until": null
+    },
+    {
+      "code": "1146",
+      "nb": "Tysv\u00e6r",
+      "valid_from": "01.01.2015",
+      "valid_until": null
+    },
+    {
+      "code": "1149",
+      "nb": "Karm\u00f8y",
+      "valid_from": "01.01.2015",
+      "valid_until": null
+    },
+    {
+      "code": "1151",
+      "nb": "Utsira",
+      "valid_from": "01.01.2015",
+      "valid_until": null
+    },
+    {
+      "code": "1160",
+      "nb": "Vindafjord",
+      "valid_from": "01.01.2015",
+      "valid_until": null
+    },
+    {
+      "code": "1505",
+      "nb": "Kristiansund",
+      "valid_from": "01.01.2015",
+      "valid_until": null
+    },
+    {
+      "code": "1506",
+      "nb": "Molde",
+      "valid_from": "01.01.2020",
+      "valid_until": null
+    },
+    {
+      "code": "1508",
+      "nb": "\u00c5lesund",
+      "valid_from": "01.01.2024",
+      "valid_until": null
+    },
+    {
+      "code": "1511",
+      "nb": "Vanylven",
+      "valid_from": "01.01.2015",
+      "valid_until": null
+    },
+    {
+      "code": "1514",
+      "nb": "Sande",
+      "valid_from": "01.01.2015",
+      "valid_until": null
+    },
+    {
+      "code": "1516",
+      "nb": "Ulstein",
+      "valid_from": "01.01.2015",
+      "valid_until": null
+    },
+    {
+      "code": "1517",
+      "nb": "Hareid",
+      "valid_from": "01.01.2015",
+      "valid_until": null
+    },
+    {
+      "code": "1520",
+      "nb": "\u00d8rsta",
+      "valid_from": "01.01.2015",
+      "valid_until": null
+    },
+    {
+      "code": "1525",
+      "nb": "Stranda",
+      "valid_from": "01.01.2015",
+      "valid_until": null
+    },
+    {
+      "code": "1528",
+      "nb": "Sykkylven",
+      "valid_from": "01.01.2015",
+      "valid_until": null
+    },
+    {
+      "code": "1531",
+      "nb": "Sula",
+      "valid_from": "01.01.2015",
+      "valid_until": null
+    },
+    {
+      "code": "1532",
+      "nb": "Giske",
+      "valid_from": "01.01.2015",
+      "valid_until": null
+    },
+    {
+      "code": "1535",
+      "nb": "Vestnes",
+      "valid_from": "01.01.2015",
+      "valid_until": null
+    },
+    {
+      "code": "1539",
+      "nb": "Rauma",
+      "valid_from": "01.01.2015",
+      "valid_until": null
+    },
+    {
+      "code": "1547",
+      "nb": "Aukra",
+      "valid_from": "01.01.2015",
+      "valid_until": null
+    },
+    {
+      "code": "1554",
+      "nb": "Aver\u00f8y",
+      "valid_from": "01.01.2015",
+      "valid_until": null
+    },
+    {
+      "code": "1557",
+      "nb": "Gjemnes",
+      "valid_from": "01.01.2015",
+      "valid_until": null
+    },
+    {
+      "code": "1560",
+      "nb": "Tingvoll",
+      "valid_from": "01.01.2015",
+      "valid_until": null
+    },
+    {
+      "code": "1563",
+      "nb": "Sunndal",
+      "valid_from": "01.01.2015",
+      "valid_until": null
+    },
+    {
+      "code": "1566",
+      "nb": "Surnadal",
+      "valid_from": "01.01.2015",
+      "valid_until": null
+    },
+    {
+      "code": "1573",
+      "nb": "Sm\u00f8la",
+      "valid_from": "01.01.2015",
+      "valid_until": null
+    },
+    {
+      "code": "1576",
+      "nb": "Aure",
+      "valid_from": "01.01.2015",
+      "valid_until": null
+    },
+    {
+      "code": "1577",
+      "nb": "Volda",
+      "valid_from": "01.01.2020",
+      "valid_until": null
+    },
+    {
+      "code": "1578",
+      "nb": "Fjord",
+      "valid_from": "01.01.2020",
+      "valid_until": null
+    },
+    {
+      "code": "1579",
+      "nb": "Hustadvika",
+      "valid_from": "01.01.2020",
+      "valid_until": null
+    },
+    {
+      "code": "1580",
+      "nb": "Haram",
+      "valid_from": "01.01.2024",
+      "valid_until": null
+    },
+    {
+      "code": "1804",
+      "nb": "Bod\u00f8",
+      "valid_from": "01.01.2015",
+      "valid_until": null
+    },
+    {
+      "code": "1806",
+      "nb": "Narvik",
+      "valid_from": "01.01.2020",
+      "valid_until": null
+    },
+    {
+      "code": "1811",
+      "nb": "Bindal",
+      "valid_from": "01.01.2015",
+      "valid_until": null
+    },
+    {
+      "code": "1812",
+      "nb": "S\u00f8mna",
+      "valid_from": "01.01.2015",
+      "valid_until": null
+    },
+    {
+      "code": "1813",
+      "nb": "Br\u00f8nn\u00f8y",
+      "valid_from": "01.01.2015",
+      "valid_until": null
+    },
+    {
+      "code": "1815",
+      "nb": "Vega",
+      "valid_from": "01.01.2015",
+      "valid_until": null
+    },
+    {
+      "code": "1816",
+      "nb": "Vevelstad",
+      "valid_from": "01.01.2015",
+      "valid_until": null
+    },
+    {
+      "code": "1820",
+      "nb": "Alstahaug",
+      "valid_from": "01.01.2015",
+      "valid_until": null
+    },
+    {
+      "code": "1822",
+      "nb": "Leirfjord",
+      "valid_from": "01.01.2015",
+      "valid_until": null
+    },
+    {
+      "code": "1824",
+      "nb": "Vefsn",
+      "valid_from": "01.01.2015",
+      "valid_until": null
+    },
+    {
+      "code": "1825",
+      "nb": "Grane",
+      "valid_from": "01.01.2015",
+      "valid_until": null
+    },
+    {
+      "code": "1827",
+      "nb": "D\u00f8nna",
+      "valid_from": "01.01.2015",
+      "valid_until": null
+    },
+    {
+      "code": "1828",
+      "nb": "Nesna",
+      "valid_from": "01.01.2015",
+      "valid_until": null
+    },
+    {
+      "code": "1832",
+      "nb": "Hemnes",
+      "valid_from": "01.01.2015",
+      "valid_until": null
+    },
+    {
+      "code": "1833",
+      "nb": "Rana",
+      "valid_from": "01.01.2015",
+      "valid_until": null
+    },
+    {
+      "code": "1834",
+      "nb": "Lur\u00f8y",
+      "valid_from": "01.01.2015",
+      "valid_until": null
+    },
+    {
+      "code": "1835",
+      "nb": "Tr\u00e6na",
+      "valid_from": "01.01.2015",
+      "valid_until": null
+    },
+    {
+      "code": "1836",
+      "nb": "R\u00f8d\u00f8y",
+      "valid_from": "01.01.2015",
+      "valid_until": null
+    },
+    {
+      "code": "1837",
+      "nb": "Mel\u00f8y",
+      "valid_from": "01.01.2015",
+      "valid_until": null
+    },
+    {
+      "code": "1838",
+      "nb": "Gildesk\u00e5l",
+      "valid_from": "01.01.2015",
+      "valid_until": null
+    },
+    {
+      "code": "1839",
+      "nb": "Beiarn",
+      "valid_from": "01.01.2015",
+      "valid_until": null
+    },
+    {
+      "code": "1840",
+      "nb": "Saltdal",
+      "valid_from": "01.01.2015",
+      "valid_until": null
+    },
+    {
+      "code": "1845",
+      "nb": "S\u00f8rfold",
+      "valid_from": "01.01.2015",
+      "valid_until": null
+    },
+    {
+      "code": "1848",
+      "nb": "Steigen",
+      "valid_from": "01.01.2015",
+      "valid_until": null
+    },
+    {
+      "code": "1851",
+      "nb": "L\u00f8dingen",
+      "valid_from": "01.01.2015",
+      "valid_until": null
+    },
+    {
+      "code": "1856",
+      "nb": "R\u00f8st",
+      "valid_from": "01.01.2015",
+      "valid_until": null
+    },
+    {
+      "code": "1857",
+      "nb": "V\u00e6r\u00f8y",
+      "valid_from": "01.01.2015",
+      "valid_until": null
+    },
+    {
+      "code": "1859",
+      "nb": "Flakstad",
+      "valid_from": "01.01.2015",
+      "valid_until": null
+    },
+    {
+      "code": "1860",
+      "nb": "Vestv\u00e5g\u00f8y",
+      "valid_from": "01.01.2015",
+      "valid_until": null
+    },
+    {
+      "code": "1865",
+      "nb": "V\u00e5gan",
+      "valid_from": "01.01.2015",
+      "valid_until": null
+    },
+    {
+      "code": "1866",
+      "nb": "Hadsel",
+      "valid_from": "01.01.2015",
+      "valid_until": null
+    },
+    {
+      "code": "1867",
+      "nb": "B\u00f8",
+      "valid_from": "01.01.2015",
+      "valid_until": null
+    },
+    {
+      "code": "1868",
+      "nb": "\u00d8ksnes",
+      "valid_from": "01.01.2015",
+      "valid_until": null
+    },
+    {
+      "code": "1871",
+      "nb": "And\u00f8y",
+      "valid_from": "01.01.2015",
+      "valid_until": null
+    },
+    {
+      "code": "1874",
+      "nb": "Moskenes",
+      "valid_from": "01.01.2015",
+      "valid_until": null
+    },
+    {
+      "code": "2111",
+      "nb": "Longyearbyen",
+      "valid_from": "01.01.2015",
+      "valid_until": null
+    },
+    {
+      "code": "3101",
+      "nb": "Halden",
+      "valid_from": "01.01.2024",
+      "valid_until": null
+    },
+    {
+      "code": "3103",
+      "nb": "Moss",
+      "valid_from": "01.01.2024",
+      "valid_until": null
+    },
+    {
+      "code": "3105",
+      "nb": "Sarpsborg",
+      "valid_from": "01.01.2024",
+      "valid_until": null
+    },
+    {
+      "code": "3107",
+      "nb": "Fredrikstad",
+      "valid_from": "01.01.2024",
+      "valid_until": null
+    },
+    {
+      "code": "3110",
+      "nb": "Hvaler",
+      "valid_from": "01.01.2024",
+      "valid_until": null
+    },
+    {
+      "code": "3112",
+      "nb": "R\u00e5de",
+      "valid_from": "01.01.2024",
+      "valid_until": null
+    },
+    {
+      "code": "3114",
+      "nb": "V\u00e5ler (\u00d8stfold)",
+      "valid_from": "01.01.2024",
+      "valid_until": null
+    },
+    {
+      "code": "3116",
+      "nb": "Skiptvet",
+      "valid_from": "01.01.2024",
+      "valid_until": null
+    },
+    {
+      "code": "3118",
+      "nb": "Indre \u00d8stfold",
+      "valid_from": "01.01.2024",
+      "valid_until": null
+    },
+    {
+      "code": "3120",
+      "nb": "Rakkestad",
+      "valid_from": "01.01.2024",
+      "valid_until": null
+    },
+    {
+      "code": "3122",
+      "nb": "Marker",
+      "valid_from": "01.01.2024",
+      "valid_until": null
+    },
+    {
+      "code": "3124",
+      "nb": "Aremark",
+      "valid_from": "01.01.2024",
+      "valid_until": null
+    },
+    {
+      "code": "3201",
+      "nb": "B\u00e6rum",
+      "valid_from": "01.01.2024",
+      "valid_until": null
+    },
+    {
+      "code": "3203",
+      "nb": "Asker",
+      "valid_from": "01.01.2024",
+      "valid_until": null
+    },
+    {
+      "code": "3205",
+      "nb": "Lillestr\u00f8m",
+      "valid_from": "01.01.2024",
+      "valid_until": null
+    },
+    {
+      "code": "3207",
+      "nb": "Nordre Follo",
+      "valid_from": "01.01.2024",
+      "valid_until": null
+    },
+    {
+      "code": "3209",
+      "nb": "Ullensaker",
+      "valid_from": "01.01.2024",
+      "valid_until": null
+    },
+    {
+      "code": "3212",
+      "nb": "Nesodden",
+      "valid_from": "01.01.2024",
+      "valid_until": null
+    },
+    {
+      "code": "3214",
+      "nb": "Frogn",
+      "valid_from": "01.01.2024",
+      "valid_until": null
+    },
+    {
+      "code": "3216",
+      "nb": "Vestby",
+      "valid_from": "01.01.2024",
+      "valid_until": null
+    },
+    {
+      "code": "3218",
+      "nb": "\u00c5s",
+      "valid_from": "01.01.2024",
+      "valid_until": null
+    },
+    {
+      "code": "3220",
+      "nb": "Enebakk",
+      "valid_from": "01.01.2024",
+      "valid_until": null
+    },
+    {
+      "code": "3222",
+      "nb": "L\u00f8renskog",
+      "valid_from": "01.01.2024",
+      "valid_until": null
+    },
+    {
+      "code": "3224",
+      "nb": "R\u00e6lingen",
+      "valid_from": "01.01.2024",
+      "valid_until": null
+    },
+    {
+      "code": "3226",
+      "nb": "Aurskog-H\u00f8land",
+      "valid_from": "01.01.2024",
+      "valid_until": null
+    },
+    {
+      "code": "3228",
+      "nb": "Nes",
+      "valid_from": "01.01.2024",
+      "valid_until": null
+    },
+    {
+      "code": "3230",
+      "nb": "Gjerdrum",
+      "valid_from": "01.01.2024",
+      "valid_until": null
+    },
+    {
+      "code": "3232",
+      "nb": "Nittedal",
+      "valid_from": "01.01.2024",
+      "valid_until": null
+    },
+    {
+      "code": "3234",
+      "nb": "Lunner",
+      "valid_from": "01.01.2024",
+      "valid_until": null
+    },
+    {
+      "code": "3236",
+      "nb": "Jevnaker",
+      "valid_from": "01.01.2024",
+      "valid_until": null
+    },
+    {
+      "code": "3238",
+      "nb": "Nannestad",
+      "valid_from": "01.01.2024",
+      "valid_until": null
+    },
+    {
+      "code": "3240",
+      "nb": "Eidsvoll",
+      "valid_from": "01.01.2024",
+      "valid_until": null
+    },
+    {
+      "code": "3242",
+      "nb": "Hurdal",
+      "valid_from": "01.01.2024",
+      "valid_until": null
+    },
+    {
+      "code": "3301",
+      "nb": "Drammen",
+      "valid_from": "01.01.2024",
+      "valid_until": null
+    },
+    {
+      "code": "3303",
+      "nb": "Kongsberg",
+      "valid_from": "01.01.2024",
+      "valid_until": null
+    },
+    {
+      "code": "3305",
+      "nb": "Ringerike",
+      "valid_from": "01.01.2024",
+      "valid_until": null
+    },
+    {
+      "code": "3310",
+      "nb": "Hole",
+      "valid_from": "01.01.2024",
+      "valid_until": null
+    },
+    {
+      "code": "3312",
+      "nb": "Lier",
+      "valid_from": "01.01.2024",
+      "valid_until": null
+    },
+    {
+      "code": "3314",
+      "nb": "\u00d8vre Eiker",
+      "valid_from": "01.01.2024",
+      "valid_until": null
+    },
+    {
+      "code": "3316",
+      "nb": "Modum",
+      "valid_from": "01.01.2024",
+      "valid_until": null
+    },
+    {
+      "code": "3318",
+      "nb": "Kr\u00f8dsherad",
+      "valid_from": "01.01.2024",
+      "valid_until": null
+    },
+    {
+      "code": "3320",
+      "nb": "Fl\u00e5",
+      "valid_from": "01.01.2024",
+      "valid_until": null
+    },
+    {
+      "code": "3322",
+      "nb": "Nesbyen",
+      "valid_from": "01.01.2024",
+      "valid_until": null
+    },
+    {
+      "code": "3324",
+      "nb": "Gol",
+      "valid_from": "01.01.2024",
+      "valid_until": null
+    },
+    {
+      "code": "3326",
+      "nb": "Hemsedal",
+      "valid_from": "01.01.2024",
+      "valid_until": null
+    },
+    {
+      "code": "3328",
+      "nb": "\u00c5l",
+      "valid_from": "01.01.2024",
+      "valid_until": null
+    },
+    {
+      "code": "3330",
+      "nb": "Hol",
+      "valid_from": "01.01.2024",
+      "valid_until": null
+    },
+    {
+      "code": "3332",
+      "nb": "Sigdal",
+      "valid_from": "01.01.2024",
+      "valid_until": null
+    },
+    {
+      "code": "3334",
+      "nb": "Flesberg",
+      "valid_from": "01.01.2024",
+      "valid_until": null
+    },
+    {
+      "code": "3336",
+      "nb": "Rollag",
+      "valid_from": "01.01.2024",
+      "valid_until": null
+    },
+    {
+      "code": "3338",
+      "nb": "Nore og Uvdal",
+      "valid_from": "01.01.2024",
+      "valid_until": null
+    },
+    {
+      "code": "3401",
+      "nb": "Kongsvinger",
+      "valid_from": "01.01.2020",
+      "valid_until": null
+    },
+    {
+      "code": "3403",
+      "nb": "Hamar",
+      "valid_from": "01.01.2020",
+      "valid_until": null
+    },
+    {
+      "code": "3405",
+      "nb": "Lillehammer",
+      "valid_from": "01.01.2020",
+      "valid_until": null
+    },
+    {
+      "code": "3407",
+      "nb": "Gj\u00f8vik",
+      "valid_from": "01.01.2020",
+      "valid_until": null
+    },
+    {
+      "code": "3411",
+      "nb": "Ringsaker",
+      "valid_from": "01.01.2020",
+      "valid_until": null
+    },
+    {
+      "code": "3412",
+      "nb": "L\u00f8ten",
+      "valid_from": "01.01.2020",
+      "valid_until": null
+    },
+    {
+      "code": "3413",
+      "nb": "Stange",
+      "valid_from": "01.01.2020",
+      "valid_until": null
+    },
+    {
+      "code": "3414",
+      "nb": "Nord-Odal",
+      "valid_from": "01.01.2020",
+      "valid_until": null
+    },
+    {
+      "code": "3415",
+      "nb": "S\u00f8r-Odal",
+      "valid_from": "01.01.2020",
+      "valid_until": null
+    },
+    {
+      "code": "3416",
+      "nb": "Eidskog",
+      "valid_from": "01.01.2020",
+      "valid_until": null
+    },
+    {
+      "code": "3417",
+      "nb": "Grue",
+      "valid_from": "01.01.2020",
+      "valid_until": null
+    },
+    {
+      "code": "3418",
+      "nb": "\u00c5snes",
+      "valid_from": "01.01.2020",
+      "valid_until": null
+    },
+    {
+      "code": "3420",
+      "nb": "Elverum",
+      "valid_from": "01.01.2020",
+      "valid_until": null
+    },
+    {
+      "code": "3421",
+      "nb": "Trysil",
+      "valid_from": "01.01.2020",
+      "valid_until": null
+    },
+    {
+      "code": "3422",
+      "nb": "\u00c5mot",
+      "valid_from": "01.01.2020",
+      "valid_until": null
+    },
+    {
+      "code": "3423",
+      "nb": "Stor-Elvdal",
+      "valid_from": "01.01.2020",
+      "valid_until": null
+    },
+    {
+      "code": "3424",
+      "nb": "Rendalen",
+      "valid_from": "01.01.2020",
+      "valid_until": null
+    },
+    {
+      "code": "3425",
+      "nb": "Engerdal",
+      "valid_from": "01.01.2020",
+      "valid_until": null
+    },
+    {
+      "code": "3426",
+      "nb": "Tolga",
+      "valid_from": "01.01.2020",
+      "valid_until": null
+    },
+    {
+      "code": "3427",
+      "nb": "Tynset",
+      "valid_from": "01.01.2020",
+      "valid_until": null
+    },
+    {
+      "code": "3428",
+      "nb": "Alvdal",
+      "valid_from": "01.01.2020",
+      "valid_until": null
+    },
+    {
+      "code": "3429",
+      "nb": "Folldal",
+      "valid_from": "01.01.2020",
+      "valid_until": null
+    },
+    {
+      "code": "3430",
+      "nb": "Os",
+      "valid_from": "01.01.2020",
+      "valid_until": null
+    },
+    {
+      "code": "3431",
+      "nb": "Dovre",
+      "valid_from": "01.01.2020",
+      "valid_until": null
+    },
+    {
+      "code": "3432",
+      "nb": "Lesja",
+      "valid_from": "01.01.2020",
+      "valid_until": null
+    },
+    {
+      "code": "3433",
+      "nb": "Skj\u00e5k",
+      "valid_from": "01.01.2020",
+      "valid_until": null
+    },
+    {
+      "code": "3434",
+      "nb": "Lom",
+      "valid_from": "01.01.2020",
+      "valid_until": null
+    },
+    {
+      "code": "3435",
+      "nb": "V\u00e5g\u00e5",
+      "valid_from": "01.01.2020",
+      "valid_until": null
+    },
+    {
+      "code": "3436",
+      "nb": "Nord-Fron",
+      "valid_from": "01.01.2020",
+      "valid_until": null
+    },
+    {
+      "code": "3437",
+      "nb": "Sel",
+      "valid_from": "01.01.2020",
+      "valid_until": null
+    },
+    {
+      "code": "3438",
+      "nb": "S\u00f8r-Fron",
+      "valid_from": "01.01.2020",
+      "valid_until": null
+    },
+    {
+      "code": "3439",
+      "nb": "Ringebu",
+      "valid_from": "01.01.2020",
+      "valid_until": null
+    },
+    {
+      "code": "3440",
+      "nb": "\u00d8yer",
+      "valid_from": "01.01.2020",
+      "valid_until": null
+    },
+    {
+      "code": "3441",
+      "nb": "Gausdal",
+      "valid_from": "01.01.2020",
+      "valid_until": null
+    },
+    {
+      "code": "3442",
+      "nb": "\u00d8stre Toten",
+      "valid_from": "01.01.2020",
+      "valid_until": null
+    },
+    {
+      "code": "3443",
+      "nb": "Vestre Toten",
+      "valid_from": "01.01.2020",
+      "valid_until": null
+    },
+    {
+      "code": "3446",
+      "nb": "Gran",
+      "valid_from": "01.01.2020",
+      "valid_until": null
+    },
+    {
+      "code": "3447",
+      "nb": "S\u00f8ndre Land",
+      "valid_from": "01.01.2020",
+      "valid_until": null
+    },
+    {
+      "code": "3448",
+      "nb": "Nordre Land",
+      "valid_from": "01.01.2020",
+      "valid_until": null
+    },
+    {
+      "code": "3449",
+      "nb": "S\u00f8r-Aurdal",
+      "valid_from": "01.01.2020",
+      "valid_until": null
+    },
+    {
+      "code": "3450",
+      "nb": "Etnedal",
+      "valid_from": "01.01.2020",
+      "valid_until": null
+    },
+    {
+      "code": "3451",
+      "nb": "Nord-Aurdal",
+      "valid_from": "01.01.2020",
+      "valid_until": null
+    },
+    {
+      "code": "3452",
+      "nb": "Vestre Slidre",
+      "valid_from": "01.01.2020",
+      "valid_until": null
+    },
+    {
+      "code": "3453",
+      "nb": "\u00d8ystre Slidre",
+      "valid_from": "01.01.2020",
+      "valid_until": null
+    },
+    {
+      "code": "3454",
+      "nb": "Vang",
+      "valid_from": "01.01.2020",
+      "valid_until": null
+    },
+    {
+      "code": "3901",
+      "nb": "Horten",
+      "valid_from": "01.01.2024",
+      "valid_until": null
+    },
+    {
+      "code": "3903",
+      "nb": "Holmestrand",
+      "valid_from": "01.01.2024",
+      "valid_until": null
+    },
+    {
+      "code": "3905",
+      "nb": "T\u00f8nsberg",
+      "valid_from": "01.01.2024",
+      "valid_until": null
+    },
+    {
+      "code": "3907",
+      "nb": "Sandefjord",
+      "valid_from": "01.01.2024",
+      "valid_until": null
+    },
+    {
+      "code": "3909",
+      "nb": "Larvik",
+      "valid_from": "01.01.2024",
+      "valid_until": null
+    },
+    {
+      "code": "3911",
+      "nb": "F\u00e6rder",
+      "valid_from": "01.01.2024",
+      "valid_until": null
+    },
+    {
+      "code": "4001",
+      "nb": "Porsgrunn",
+      "valid_from": "01.01.2024",
+      "valid_until": null
+    },
+    {
+      "code": "4003",
+      "nb": "Skien",
+      "valid_from": "01.01.2024",
+      "valid_until": null
+    },
+    {
+      "code": "4005",
+      "nb": "Notodden",
+      "valid_from": "01.01.2024",
+      "valid_until": null
+    },
+    {
+      "code": "4010",
+      "nb": "Siljan",
+      "valid_from": "01.01.2024",
+      "valid_until": null
+    },
+    {
+      "code": "4012",
+      "nb": "Bamble",
+      "valid_from": "01.01.2024",
+      "valid_until": null
+    },
+    {
+      "code": "4014",
+      "nb": "Krager\u00f8",
+      "valid_from": "01.01.2024",
+      "valid_until": null
+    },
+    {
+      "code": "4016",
+      "nb": "Drangedal",
+      "valid_from": "01.01.2024",
+      "valid_until": null
+    },
+    {
+      "code": "4018",
+      "nb": "Nome",
+      "valid_from": "01.01.2024",
+      "valid_until": null
+    },
+    {
+      "code": "4020",
+      "nb": "Midt-Telemark",
+      "valid_from": "01.01.2024",
+      "valid_until": null
+    },
+    {
+      "code": "4022",
+      "nb": "Seljord",
+      "valid_from": "01.01.2024",
+      "valid_until": null
+    },
+    {
+      "code": "4024",
+      "nb": "Hjartdal",
+      "valid_from": "01.01.2024",
+      "valid_until": null
+    },
+    {
+      "code": "4026",
+      "nb": "Tinn",
+      "valid_from": "01.01.2024",
+      "valid_until": null
+    },
+    {
+      "code": "4028",
+      "nb": "Kviteseid",
+      "valid_from": "01.01.2024",
+      "valid_until": null
+    },
+    {
+      "code": "4030",
+      "nb": "Nissedal",
+      "valid_from": "01.01.2024",
+      "valid_until": null
+    },
+    {
+      "code": "4032",
+      "nb": "Fyresdal",
+      "valid_from": "01.01.2024",
+      "valid_until": null
+    },
+    {
+      "code": "4034",
+      "nb": "Tokke",
+      "valid_from": "01.01.2024",
+      "valid_until": null
+    },
+    {
+      "code": "4036",
+      "nb": "Vinje",
+      "valid_from": "01.01.2024",
+      "valid_until": null
+    },
+    {
+      "code": "4201",
+      "nb": "Ris\u00f8r",
+      "valid_from": "01.01.2020",
+      "valid_until": null
+    },
+    {
+      "code": "4202",
+      "nb": "Grimstad",
+      "valid_from": "01.01.2020",
+      "valid_until": null
+    },
+    {
+      "code": "4203",
+      "nb": "Arendal",
+      "valid_from": "01.01.2020",
+      "valid_until": null
+    },
+    {
+      "code": "4204",
+      "nb": "Kristiansand",
+      "valid_from": "01.01.2020",
+      "valid_until": null
+    },
+    {
+      "code": "4205",
+      "nb": "Lindesnes",
+      "valid_from": "01.01.2020",
+      "valid_until": null
+    },
+    {
+      "code": "4206",
+      "nb": "Farsund",
+      "valid_from": "01.01.2020",
+      "valid_until": null
+    },
+    {
+      "code": "4207",
+      "nb": "Flekkefjord",
+      "valid_from": "01.01.2020",
+      "valid_until": null
+    },
+    {
+      "code": "4211",
+      "nb": "Gjerstad",
+      "valid_from": "01.01.2020",
+      "valid_until": null
+    },
+    {
+      "code": "4212",
+      "nb": "Veg\u00e5rshei",
+      "valid_from": "01.01.2020",
+      "valid_until": null
+    },
+    {
+      "code": "4213",
+      "nb": "Tvedestrand",
+      "valid_from": "01.01.2020",
+      "valid_until": null
+    },
+    {
+      "code": "4214",
+      "nb": "Froland",
+      "valid_from": "01.01.2020",
+      "valid_until": null
+    },
+    {
+      "code": "4215",
+      "nb": "Lillesand",
+      "valid_from": "01.01.2020",
+      "valid_until": null
+    },
+    {
+      "code": "4216",
+      "nb": "Birkenes",
+      "valid_from": "01.01.2020",
+      "valid_until": null
+    },
+    {
+      "code": "4217",
+      "nb": "\u00c5mli",
+      "valid_from": "01.01.2020",
+      "valid_until": null
+    },
+    {
+      "code": "4218",
+      "nb": "Iveland",
+      "valid_from": "01.01.2020",
+      "valid_until": null
+    },
+    {
+      "code": "4219",
+      "nb": "Evje og Hornnes",
+      "valid_from": "01.01.2020",
+      "valid_until": null
+    },
+    {
+      "code": "4220",
+      "nb": "Bygland",
+      "valid_from": "01.01.2020",
+      "valid_until": null
+    },
+    {
+      "code": "4221",
+      "nb": "Valle",
+      "valid_from": "01.01.2020",
+      "valid_until": null
+    },
+    {
+      "code": "4222",
+      "nb": "Bykle",
+      "valid_from": "01.01.2020",
+      "valid_until": null
+    },
+    {
+      "code": "4223",
+      "nb": "Vennesla",
+      "valid_from": "01.01.2020",
+      "valid_until": null
+    },
+    {
+      "code": "4224",
+      "nb": "\u00c5seral",
+      "valid_from": "01.01.2020",
+      "valid_until": null
+    },
+    {
+      "code": "4225",
+      "nb": "Lyngdal",
+      "valid_from": "01.01.2020",
+      "valid_until": null
+    },
+    {
+      "code": "4226",
+      "nb": "H\u00e6gebostad",
+      "valid_from": "01.01.2020",
+      "valid_until": null
+    },
+    {
+      "code": "4227",
+      "nb": "Kvinesdal",
+      "valid_from": "01.01.2020",
+      "valid_until": null
+    },
+    {
+      "code": "4228",
+      "nb": "Sirdal",
+      "valid_from": "01.01.2020",
+      "valid_until": null
+    },
+    {
+      "code": "4601",
+      "nb": "Bergen",
+      "valid_from": "01.01.2020",
+      "valid_until": null
+    },
+    {
+      "code": "4602",
+      "nb": "Kinn",
+      "valid_from": "01.01.2020",
+      "valid_until": null
+    },
+    {
+      "code": "4611",
+      "nb": "Etne",
+      "valid_from": "01.01.2020",
+      "valid_until": null
+    },
+    {
+      "code": "4612",
+      "nb": "Sveio",
+      "valid_from": "01.01.2020",
+      "valid_until": null
+    },
+    {
+      "code": "4613",
+      "nb": "B\u00f8mlo",
+      "valid_from": "01.01.2020",
+      "valid_until": null
+    },
+    {
+      "code": "4614",
+      "nb": "Stord",
+      "valid_from": "01.01.2020",
+      "valid_until": null
+    },
+    {
+      "code": "4615",
+      "nb": "Fitjar",
+      "valid_from": "01.01.2020",
+      "valid_until": null
+    },
+    {
+      "code": "4616",
+      "nb": "Tysnes",
+      "valid_from": "01.01.2020",
+      "valid_until": null
+    },
+    {
+      "code": "4617",
+      "nb": "Kvinnherad",
+      "valid_from": "01.01.2020",
+      "valid_until": null
+    },
+    {
+      "code": "4618",
+      "nb": "Ullensvang",
+      "valid_from": "01.01.2020",
+      "valid_until": null
+    },
+    {
+      "code": "4619",
+      "nb": "Eidfjord",
+      "valid_from": "01.01.2020",
+      "valid_until": null
+    },
+    {
+      "code": "4620",
+      "nb": "Ulvik",
+      "valid_from": "01.01.2020",
+      "valid_until": null
+    },
+    {
+      "code": "4621",
+      "nb": "Voss",
+      "valid_from": "01.01.2020",
+      "valid_until": null
+    },
+    {
+      "code": "4622",
+      "nb": "Kvam",
+      "valid_from": "01.01.2020",
+      "valid_until": null
+    },
+    {
+      "code": "4623",
+      "nb": "Samnanger",
+      "valid_from": "01.01.2020",
+      "valid_until": null
+    },
+    {
+      "code": "4624",
+      "nb": "Bj\u00f8rnafjorden",
+      "valid_from": "01.01.2020",
+      "valid_until": null
+    },
+    {
+      "code": "4625",
+      "nb": "Austevoll",
+      "valid_from": "01.01.2020",
+      "valid_until": null
+    },
+    {
+      "code": "4626",
+      "nb": "\u00d8ygarden",
+      "valid_from": "01.01.2020",
+      "valid_until": null
+    },
+    {
+      "code": "4627",
+      "nb": "Ask\u00f8y",
+      "valid_from": "01.01.2020",
+      "valid_until": null
+    },
+    {
+      "code": "4628",
+      "nb": "Vaksdal",
+      "valid_from": "01.01.2020",
+      "valid_until": null
+    },
+    {
+      "code": "4629",
+      "nb": "Modalen",
+      "valid_from": "01.01.2020",
+      "valid_until": null
+    },
+    {
+      "code": "4630",
+      "nb": "Oster\u00f8y",
+      "valid_from": "01.01.2020",
+      "valid_until": null
+    },
+    {
+      "code": "4631",
+      "nb": "Alver",
+      "valid_from": "01.01.2020",
+      "valid_until": null
+    },
+    {
+      "code": "4632",
+      "nb": "Austrheim",
+      "valid_from": "01.01.2020",
+      "valid_until": null
+    },
+    {
+      "code": "4633",
+      "nb": "Fedje",
+      "valid_from": "01.01.2020",
+      "valid_until": null
+    },
+    {
+      "code": "4634",
+      "nb": "Masfjorden",
+      "valid_from": "01.01.2020",
+      "valid_until": null
+    },
+    {
+      "code": "4635",
+      "nb": "Gulen",
+      "valid_from": "01.01.2020",
+      "valid_until": null
+    },
+    {
+      "code": "4636",
+      "nb": "Solund",
+      "valid_from": "01.01.2020",
+      "valid_until": null
+    },
+    {
+      "code": "4637",
+      "nb": "Hyllestad",
+      "valid_from": "01.01.2020",
+      "valid_until": null
+    },
+    {
+      "code": "4638",
+      "nb": "H\u00f8yanger",
+      "valid_from": "01.01.2020",
+      "valid_until": null
+    },
+    {
+      "code": "4639",
+      "nb": "Vik",
+      "valid_from": "01.01.2020",
+      "valid_until": null
+    },
+    {
+      "code": "4640",
+      "nb": "Sogndal",
+      "valid_from": "01.01.2020",
+      "valid_until": null
+    },
+    {
+      "code": "4641",
+      "nb": "Aurland",
+      "valid_from": "01.01.2020",
+      "valid_until": null
+    },
+    {
+      "code": "4642",
+      "nb": "L\u00e6rdal",
+      "valid_from": "01.01.2020",
+      "valid_until": null
+    },
+    {
+      "code": "4643",
+      "nb": "\u00c5rdal",
+      "valid_from": "01.01.2020",
+      "valid_until": null
+    },
+    {
+      "code": "4644",
+      "nb": "Luster",
+      "valid_from": "01.01.2020",
+      "valid_until": null
+    },
+    {
+      "code": "4645",
+      "nb": "Askvoll",
+      "valid_from": "01.01.2020",
+      "valid_until": null
+    },
+    {
+      "code": "4646",
+      "nb": "Fjaler",
+      "valid_from": "01.01.2020",
+      "valid_until": null
+    },
+    {
+      "code": "4647",
+      "nb": "Sunnfjord",
+      "valid_from": "01.01.2020",
+      "valid_until": null
+    },
+    {
+      "code": "4648",
+      "nb": "Bremanger",
+      "valid_from": "01.01.2020",
+      "valid_until": null
+    },
+    {
+      "code": "4649",
+      "nb": "Stad",
+      "valid_from": "01.01.2020",
+      "valid_until": null
+    },
+    {
+      "code": "4650",
+      "nb": "Gloppen",
+      "valid_from": "01.01.2020",
+      "valid_until": null
+    },
+    {
+      "code": "4651",
+      "nb": "Stryn",
+      "valid_from": "01.01.2020",
+      "valid_until": null
+    },
+    {
+      "code": "5006",
+      "nb": "Steinkjer",
+      "valid_from": "01.01.2020",
+      "valid_until": null
+    },
+    {
+      "code": "5014",
+      "nb": "Fr\u00f8ya",
+      "valid_from": "01.01.2018",
+      "valid_until": null
+    },
+    {
+      "code": "5020",
+      "nb": "Osen",
+      "valid_from": "01.01.2018",
+      "valid_until": null
+    },
+    {
+      "code": "5021",
+      "nb": "Oppdal",
+      "valid_from": "01.01.2018",
+      "valid_until": null
+    },
+    {
+      "code": "5022",
+      "nb": "Rennebu",
+      "valid_from": "01.01.2018",
+      "valid_until": null
+    },
+    {
+      "code": "5026",
+      "nb": "Holt\u00e5len",
+      "valid_from": "01.01.2018",
+      "valid_until": null
+    },
+    {
+      "code": "5027",
+      "nb": "Midtre Gauldal",
+      "valid_from": "01.01.2018",
+      "valid_until": null
+    },
+    {
+      "code": "5028",
+      "nb": "Melhus",
+      "valid_from": "01.01.2018",
+      "valid_until": null
+    },
+    {
+      "code": "5029",
+      "nb": "Skaun",
+      "valid_from": "01.01.2018",
+      "valid_until": null
+    },
+    {
+      "code": "5031",
+      "nb": "Malvik",
+      "valid_from": "01.01.2018",
+      "valid_until": null
+    },
+    {
+      "code": "5032",
+      "nb": "Selbu",
+      "valid_from": "01.01.2018",
+      "valid_until": null
+    },
+    {
+      "code": "5033",
+      "nb": "Tydal",
+      "valid_from": "01.01.2018",
+      "valid_until": null
+    },
+    {
+      "code": "5034",
+      "nb": "Mer\u00e5ker",
+      "valid_from": "01.01.2018",
+      "valid_until": null
+    },
+    {
+      "code": "5035",
+      "nb": "Stj\u00f8rdal",
+      "valid_from": "01.01.2018",
+      "valid_until": null
+    },
+    {
+      "code": "5036",
+      "nb": "Frosta",
+      "valid_from": "01.01.2018",
+      "valid_until": null
+    },
+    {
+      "code": "5037",
+      "nb": "Levanger",
+      "valid_from": "01.01.2018",
+      "valid_until": null
+    },
+    {
+      "code": "5038",
+      "nb": "Verdal",
+      "valid_from": "01.01.2018",
+      "valid_until": null
+    },
+    {
+      "code": "5041",
+      "nb": "Sn\u00e5ase - Sn\u00e5sa",
+      "valid_from": "01.01.2018",
+      "valid_until": null
+    },
+    {
+      "code": "5042",
+      "nb": "Lierne",
+      "valid_from": "01.01.2018",
+      "valid_until": null
+    },
+    {
+      "code": "5043",
+      "nb": "Raarvihke - R\u00f8yrvik",
+      "valid_from": "01.01.2018",
+      "valid_until": null
+    },
+    {
+      "code": "5044",
+      "nb": "Namsskogan",
+      "valid_from": "01.01.2018",
+      "valid_until": null
+    },
+    {
+      "code": "5045",
+      "nb": "Grong",
+      "valid_from": "01.01.2018",
+      "valid_until": null
+    },
+    {
+      "code": "5046",
+      "nb": "H\u00f8ylandet",
+      "valid_from": "01.01.2018",
+      "valid_until": null
+    },
+    {
+      "code": "5047",
+      "nb": "Overhalla",
+      "valid_from": "01.01.2018",
+      "valid_until": null
+    },
+    {
+      "code": "5049",
+      "nb": "Flatanger",
+      "valid_from": "01.01.2018",
+      "valid_until": null
+    },
+    {
+      "code": "5052",
+      "nb": "Leka",
+      "valid_from": "01.01.2018",
+      "valid_until": null
+    },
+    {
+      "code": "5053",
+      "nb": "Inder\u00f8y",
+      "valid_from": "01.01.2018",
+      "valid_until": null
+    },
+    {
+      "code": "5054",
+      "nb": "Indre Fosen",
+      "valid_from": "01.01.2018",
+      "valid_until": null
+    },
+    {
+      "code": "5055",
+      "nb": "Heim",
+      "valid_from": "01.01.2020",
+      "valid_until": null
+    },
+    {
+      "code": "5056",
+      "nb": "Hitra",
+      "valid_from": "01.01.2020",
+      "valid_until": null
+    },
+    {
+      "code": "5057",
+      "nb": "\u00d8rland",
+      "valid_from": "01.01.2020",
+      "valid_until": null
+    },
+    {
+      "code": "5058",
+      "nb": "\u00c5fjord",
+      "valid_from": "01.01.2020",
+      "valid_until": null
+    },
+    {
+      "code": "5059",
+      "nb": "Orkland",
+      "valid_from": "01.01.2020",
+      "valid_until": null
+    },
+    {
+      "code": "5060",
+      "nb": "N\u00e6r\u00f8ysund",
+      "valid_from": "01.01.2020",
+      "valid_until": null
+    },
+    {
+      "code": "5061",
+      "nb": "Rindal",
+      "valid_from": "01.01.2019",
+      "valid_until": null
+    },
+    {
+      "code": "5501",
+      "nb": "Troms\u00f8",
+      "valid_from": "01.01.2024",
+      "valid_until": null
+    },
+    {
+      "code": "5503",
+      "nb": "Harstad - H\u00e1rstt\u00e1k",
+      "valid_from": "01.01.2024",
+      "valid_until": null
+    },
+    {
+      "code": "5510",
+      "nb": "Kv\u00e6fjord",
+      "valid_from": "01.01.2024",
+      "valid_until": null
+    },
+    {
+      "code": "5512",
+      "nb": "Dielddanuorri - Tjeldsund",
+      "valid_from": "01.01.2024",
+      "valid_until": null
+    },
+    {
+      "code": "5514",
+      "nb": "Ibestad",
+      "valid_from": "01.01.2024",
+      "valid_until": null
+    },
+    {
+      "code": "5516",
+      "nb": "Gratangen",
+      "valid_from": "01.01.2024",
+      "valid_until": null
+    },
+    {
+      "code": "5518",
+      "nb": "Loab\u00e1k - Lavangen",
+      "valid_from": "01.01.2024",
+      "valid_until": null
+    },
+    {
+      "code": "5520",
+      "nb": "Bardu",
+      "valid_from": "01.01.2024",
+      "valid_until": null
+    },
+    {
+      "code": "5522",
+      "nb": "Salangen",
+      "valid_from": "01.01.2024",
+      "valid_until": null
+    },
+    {
+      "code": "5524",
+      "nb": "M\u00e5lselv",
+      "valid_from": "01.01.2024",
+      "valid_until": null
+    },
+    {
+      "code": "5526",
+      "nb": "S\u00f8rreisa",
+      "valid_from": "01.01.2024",
+      "valid_until": null
+    },
+    {
+      "code": "5528",
+      "nb": "Dyr\u00f8y",
+      "valid_from": "01.01.2024",
+      "valid_until": null
+    },
+    {
+      "code": "5530",
+      "nb": "Senja",
+      "valid_from": "01.01.2024",
+      "valid_until": null
+    },
+    {
+      "code": "5532",
+      "nb": "Balsfjord",
+      "valid_from": "01.01.2024",
+      "valid_until": null
+    },
+    {
+      "code": "5534",
+      "nb": "Karls\u00f8y",
+      "valid_from": "01.01.2024",
+      "valid_until": null
+    },
+    {
+      "code": "5536",
+      "nb": "Lyngen",
+      "valid_from": "01.01.2024",
+      "valid_until": null
+    },
+    {
+      "code": "5538",
+      "nb": "Storfjord - Omasvuotna - Omasvuono",
+      "valid_from": "01.01.2024",
+      "valid_until": null
+    },
+    {
+      "code": "5540",
+      "nb": "G\u00e1ivuotna - K\u00e5fjord - Kaivuono",
+      "valid_from": "01.01.2024",
+      "valid_until": null
+    },
+    {
+      "code": "5542",
+      "nb": "Skjerv\u00f8y",
+      "valid_from": "01.01.2024",
+      "valid_until": null
+    },
+    {
+      "code": "5544",
+      "nb": "Nordreisa - R\u00e1isa - Raisi",
+      "valid_from": "01.01.2024",
+      "valid_until": null
+    },
+    {
+      "code": "5546",
+      "nb": "Kv\u00e6nangen",
+      "valid_from": "01.01.2024",
+      "valid_until": null
+    },
+    {
+      "code": "5601",
+      "nb": "Alta",
+      "valid_from": "01.01.2024",
+      "valid_until": null
+    },
+    {
+      "code": "5603",
+      "nb": "Hammerfest - H\u00e1mmerfeasta",
+      "valid_from": "01.01.2024",
+      "valid_until": null
+    },
+    {
+      "code": "5605",
+      "nb": "S\u00f8r-Varanger",
+      "valid_from": "01.01.2024",
+      "valid_until": null
+    },
+    {
+      "code": "5607",
+      "nb": "Vads\u00f8",
+      "valid_from": "01.01.2024",
+      "valid_until": null
+    },
+    {
+      "code": "5610",
+      "nb": "K\u00e1r\u00e1\u0161johka - Karasjok",
+      "valid_from": "01.01.2024",
+      "valid_until": null
+    },
+    {
+      "code": "5612",
+      "nb": "Guovdageaidnu - Kautokeino",
+      "valid_from": "01.01.2024",
+      "valid_until": null
+    },
+    {
+      "code": "5614",
+      "nb": "Loppa",
+      "valid_from": "01.01.2024",
+      "valid_until": null
+    },
+    {
+      "code": "5616",
+      "nb": "Hasvik",
+      "valid_from": "01.01.2024",
+      "valid_until": null
+    },
+    {
+      "code": "5618",
+      "nb": "M\u00e5s\u00f8y",
+      "valid_from": "01.01.2024",
+      "valid_until": null
+    },
+    {
+      "code": "5620",
+      "nb": "Nordkapp",
+      "valid_from": "01.01.2024",
+      "valid_until": null
+    },
+    {
+      "code": "5622",
+      "nb": "Porsanger - Pors\u00e1ngu - Porsanki",
+      "valid_from": "01.01.2024",
+      "valid_until": null
+    },
+    {
+      "code": "5624",
+      "nb": "Lebesby",
+      "valid_from": "01.01.2024",
+      "valid_until": null
+    },
+    {
+      "code": "5626",
+      "nb": "Gamvik",
+      "valid_from": "01.01.2024",
+      "valid_until": null
+    },
+    {
+      "code": "5628",
+      "nb": "Deatnu - Tana",
+      "valid_from": "01.01.2024",
+      "valid_until": null
+    },
+    {
+      "code": "5630",
+      "nb": "Berlev\u00e5g",
+      "valid_from": "01.01.2024",
+      "valid_until": null
+    },
+    {
+      "code": "5632",
+      "nb": "B\u00e5tsfjord",
+      "valid_from": "01.01.2024",
+      "valid_until": null
+    },
+    {
+      "code": "5634",
+      "nb": "Vard\u00f8",
+      "valid_from": "01.01.2024",
+      "valid_until": null
+    },
+    {
+      "code": "5636",
+      "nb": "Unj\u00e1rga - Nesseby",
+      "valid_from": "01.01.2024",
+      "valid_until": null
+    },
+    {
+      "code": "1515",
+      "nb": "Her\u00f8y (M\u00f8re og Romsdal)",
+      "valid_from": "01.01.2020",
+      "valid_until": null
+    },
+    {
+      "code": "1818",
+      "nb": "Her\u00f8y (Nordland)",
+      "valid_from": "01.01.2020",
+      "valid_until": null
+    },
+    {
+      "code": "1826",
+      "nb": "Aarborte - Hattfjelldal",
+      "valid_from": "01.01.2024",
+      "valid_until": null
+    },
+    {
+      "code": "1841",
+      "nb": "Fauske - Fuossko",
+      "valid_from": "01.01.2020",
+      "valid_until": null
+    },
+    {
+      "code": "1853",
+      "nb": "Evenes - Even\u00e1\u0161\u0161i",
+      "valid_from": "01.01.2022",
+      "valid_until": null
+    },
+    {
+      "code": "1875",
+      "nb": "H\u00e1bmer - Hamar\u00f8y",
+      "valid_from": "01.01.2024",
+      "valid_until": null
+    },
+    {
+      "code": "3419",
+      "nb": "V\u00e5ler (Innlandet)",
+      "valid_from": "01.01.2023",
+      "valid_until": null
+    },
+    {
+      "code": "5001",
+      "nb": "Trondheim - Tr\u00e5anten",
+      "valid_from": "01.01.2023",
+      "valid_until": null
+    },
+    {
+      "code": "5007",
+      "nb": "Namsos - N\u00e5avmesjenjaelmie",
+      "valid_from": "01.01.2024",
+      "valid_until": null
+    },
+    {
+      "code": "5025",
+      "nb": "R\u00f8ros - Rossen",
+      "valid_from": "01.01.2023",
+      "valid_until": null
+    }
+  ]
+}

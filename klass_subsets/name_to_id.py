@@ -1,7 +1,17 @@
 from pathlib import Path
 
 from migration_lists import add_suffix
+from migration_lists import raw_names
 from migration_lists import special_cases
+
+
+def id_to_name(subset_id: str) -> str:
+    """This converts name id to name."""
+    for i in raw_names:
+        if transform_subset_name_to_id(i) == subset_id:
+            return i.replace(" ", "_").replace(",", "")
+    print("Not id")
+    return None
 
 
 def transform_subset_name_to_id(name: str) -> str:
@@ -37,3 +47,12 @@ def write_subset_id_to_file(name_list: list) -> None:
 
 # write to file
 # write_subset_id_to_file(raw_names)
+
+
+if __name__ == "__main__":
+    with open("resources/subsets_migrations.txt") as f:  # noqa: PTH123
+        lines = f.readlines()  # Reads all lines into a list
+    lines = [line.strip() for line in lines]
+
+    for i in lines:
+        print(id_to_name(i))
