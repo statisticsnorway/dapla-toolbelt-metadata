@@ -200,6 +200,22 @@ def configure_yaml(yaml: YAML) -> YAML:
     return yaml
 
 
+def _safe_get(data: dict, keys: list):
+    """Safely navigate nested dictionaries."""
+    for key in keys:
+        if not isinstance(data, dict) or key not in data or data[key] is None:
+            return None
+        data = data[key]
+    return data
+
+
+def _safe_set_folded(data: dict, path: str, lang: str):
+    keys = path.split(".")
+    parent = _safe_get(data, keys)
+    if isinstance(parent, dict) and lang in parent and parent[lang] is not None:
+        parent[lang] = FoldedScalarString(parent[lang])
+
+
 def pre_process_data(data: dict) -> dict:
     """Format Variable definition model fields with ruamel yaml scalar string types."""
     folded_fields = [
@@ -210,11 +226,7 @@ def pre_process_data(data: dict) -> dict:
     ]
     for field_path, langs in folded_fields:
         for lang in langs:
-            keys = field_path.split(".")
-            target = data
-            for key in keys[:-1]:
-                target = target[key]
-            target[keys[-1]][lang] = FoldedScalarString(target[keys[-1]][lang])
+            _safe_set_folded(data, field_path, lang)
 
     list_fields = [
         "unit_types",
@@ -222,8 +234,10 @@ def pre_process_data(data: dict) -> dict:
         "related_variable_definition_uris",
     ]
     for key in list_fields:
-        if data.get(key) is not None:
-            data[key] = [DoubleQuotedScalarString(item) for item in data[key]]
+        if isinstance(data.get(key), list):
+            data[key] = [
+                DoubleQuotedScalarString(item) for item in data[key] if item is not None
+            ]
 
     single_line_fields = [
         "short_name",
@@ -237,11 +251,16 @@ def pre_process_data(data: dict) -> dict:
     for key in single_line_fields:
         if data.get(key) is not None:
             data[key] = DoubleQuotedScalarString(data[key])
-
-    data["owner"]["team"] = DoubleQuotedScalarString(data["owner"]["team"])
-    data["owner"]["groups"] = [
-        DoubleQuotedScalarString(item) for item in data["owner"]["groups"]
-    ]
+    owner = data.get("owner")
+    if isinstance(owner, dict):
+        if owner.get("team") is not None:
+            owner["team"] = DoubleQuotedScalarString(owner["team"])
+        if isinstance(owner.get("groups"), list):
+            owner["groups"] = [
+                DoubleQuotedScalarString(item)
+                for item in owner["groups"]
+                if item is not None
+            ]
 
     return data
 
