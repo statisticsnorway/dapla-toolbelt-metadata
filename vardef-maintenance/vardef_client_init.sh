@@ -35,7 +35,9 @@ pushd "$VARIABLE_DEFINITIONS_DIR" || exit
 ssb-project build --no-verify
 
 echo "Configure kernel for all Notebooks"
-KERNELSPEC_OBJECT='{"kernelspec": {"display_name": "variable_definitions", "language": "python", "name": "variable_definit
-ions"}}'
-# shellcheck disable=SC2005
-find ./*.ipynb -maxdepth 1 -type f -exec sh -c "echo \"$(jq \".metadata += "$KERNELSPEC_OBJECT"\" "$1")\" > ""$1""" _ {} \;
+KERNELSPEC_OBJECT='{"kernelspec": {"display_name": "variable_definitions", "language": "python", "name": "variable_definitions"}}'
+for file in ./*.ipynb; do
+    echo "Inserting kernelspec into $file"
+    # shellcheck disable=SC2005
+    input=$(cat "$file") && jq ".metadata += $KERNELSPEC_OBJECT" <<< "$input" > "$file"
+done
