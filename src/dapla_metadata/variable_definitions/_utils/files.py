@@ -230,7 +230,6 @@ def pre_process_data(data: dict) -> dict:
         "classification_reference",
         "measurement_type",
         "external_reference_uri",
-        "variable_status",
         "created_by",
         "id",
         "last_updated_by",
