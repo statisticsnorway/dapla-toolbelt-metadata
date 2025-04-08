@@ -128,9 +128,9 @@ class NamingStandardReport:
         """Returns an appropriate message based on the success rate."""
         rate = self.success_rate()
         if rate is not None:
-            if rate == 100:
+            if 95 <= rate <= 100:
                 return SSB_NAMING_STANDARD_REPORT_RESULT_BEST
-            if 70 < rate < 100:
+            if 70 < rate < 95:
                 return SSB_NAMING_STANDARD_REPORT_RESULT_GOOD
             if 40 <= rate <= 70:
                 return SSB_NAMING_STANDARD_REPORT_RESULT_AVERAGE

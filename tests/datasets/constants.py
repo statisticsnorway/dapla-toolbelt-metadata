@@ -2,6 +2,8 @@
 
 from pathlib import Path
 
+from datadoc_model.model import DataType
+
 TEST_BUCKET_PARQUET_FILEPATH = "gs://ssb-staging-dapla-felles-data-delt/datadoc/klargjorte_data/person_data_v1.parquet"
 
 TEST_BUCKET_PARQUET_FILEPATH_WITH_SHORTNAME = "gs://ssb-staging-dapla-felles-data-delt/befolkning/klargjorte_data/person_data_v1.parquet"
@@ -53,3 +55,22 @@ DATADOC_METADATA_MODULE = "dapla_metadata.datasets"
 DATADOC_METADATA_MODULE_CORE = "dapla_metadata.datasets.core"
 
 DATADOC_METADATA_MODULE_UTILS = "dapla_metadata.datasets.utility.utils"
+
+VARIABLE_SHORT_NAMES = [
+    "fnr",
+    "sivilstand",
+    "bostedskommune",
+    "inntekt",
+    "bankinnskudd",
+    "dato",
+]
+
+
+VARIABLE_DATA_TYPES = [
+    DataType.STRING,
+    DataType.STRING,
+    DataType.STRING,
+    DataType.INTEGER,
+    DataType.INTEGER,
+    DataType.DATETIME,
+]

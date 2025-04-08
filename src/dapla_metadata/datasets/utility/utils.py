@@ -37,7 +37,7 @@ logger = logging.getLogger(__name__)
 
 def get_timestamp_now() -> datetime.datetime:
     """Return a timestamp for the current moment."""
-    return datetime.datetime.now(tz=datetime.UTC)
+    return datetime.datetime.now(tz=datetime.timezone.utc)
 
 
 def normalize_path(path: str) -> pathlib.Path | CloudPath:

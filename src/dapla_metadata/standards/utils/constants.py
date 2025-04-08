@@ -9,7 +9,7 @@ NAME_STANDARD_SUCCESS = "Filene dine er i samsvar med SSB-navnestandarden"
 NAME_STANDARD_VIOLATION = "Det er oppdaget brudd på SSB-navnestandard:"
 
 MISSING_BUCKET_NAME = "Filnavn mangler bøttenavn ref: https://manual.dapla.ssb.no/statistikkere/navnestandard.html#obligatoriske-mapper"
-MISSING_VERSION = "Filnavn mangler versjon ref: https://manual.dapla.ssb.no/statistikkere/navnestandard.html#filnavn"
+MISSING_VERSION = "Filnavn mangler versjon, hvis ikke filen er nyeste versjon kan dette være brudd på navnestandarden ref: https://manual.dapla.ssb.no/statistikkere/navnestandard.html#versjonering-av-datasett"
 MISSING_PERIOD = "Filnavn mangler gyldighetsperiode ref: https://manual.dapla.ssb.no/statistikkere/navnestandard.html#filnavn"
 MISSING_SHORT_NAME = "Kortnavn for statistikk mangler ref: https://manual.dapla.ssb.no/statistikkere/navnestandard.html#obligatoriske-mapper"
 MISSING_DATA_STATE = "Mappe for datatilstand mangler ref: https://manual.dapla.ssb.no/statistikkere/navnestandard.html#obligatoriske-mapper"
@@ -26,7 +26,7 @@ BUCKET_NAME_UNKNOWN = "Kan ikke validere bøttenavn"
 
 SSB_NAMING_STANDARD_REPORT = "SSB navnestandard rapport"
 SSB_NAMING_STANDARD_REPORT_SUCCESS_RATE = "Suksess rate"
-SSB_NAMING_STANDARD_REPORT_RESULT_BEST = "🚀 Fantastisk! Alt bestått! 🎉\n"
+SSB_NAMING_STANDARD_REPORT_RESULT_BEST = "🚀 Fantastisk! 🎉\n"
 SSB_NAMING_STANDARD_REPORT_RESULT_GOOD = (
     "✅ Bra jobba! Fortsatt litt rom for forbedring. 😊\n"
 )

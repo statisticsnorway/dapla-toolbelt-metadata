@@ -120,14 +120,15 @@ def _populate_commented_map(
 ) -> None:
     """Add data to a CommentedMap."""
     commented_map[field_name] = value
-    field = model_instance.model_fields[field_name]
+    field = type(model_instance).model_fields[field_name]
     description: JsonValue = cast(
         JsonDict,
         field.json_schema_extra,
     )[NORWEGIAN_DESCRIPTIONS]
     if description is not None:
         new_description = (
-            (REQUIRED_FIELD if field.is_required() else OPTIONAL_FIELD)
+            "\n"
+            + (REQUIRED_FIELD if field.is_required() else OPTIONAL_FIELD)
             + "\n"
             + str(description)
         )
