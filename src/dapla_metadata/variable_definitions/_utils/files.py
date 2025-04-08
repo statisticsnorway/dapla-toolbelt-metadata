@@ -179,8 +179,8 @@ def _validate_and_create_directory(custom_directory: Path) -> Path:
     return custom_directory
 
 
-def _configure_yaml() -> YAML:
-    yaml = YAML(typ="rt")  # Use ruamel.yaml library
+def configure_yaml(yaml: YAML) -> YAML:
+    """Common Yaml config for variable definitions."""
     yaml.Representer = RoundTripRepresenter  # Preserve the order of keys etc.
     yaml.default_flow_style = False  # Ensures pretty YAML formatting block style
     yaml.allow_unicode = True  # Support special characters
@@ -211,10 +211,23 @@ def pre_process_data(data: dict) -> dict:
     data["comment"]["nb"] = FoldedScalarString(data["comment"]["nb"])
     data["comment"]["nn"] = FoldedScalarString(data["comment"]["nn"])
     data["comment"]["en"] = FoldedScalarString(data["comment"]["en"])
-    for i in range(len(data["unit_types"])):
-        data["unit_types"][i] = DoubleQuotedScalarString(data["unit_types"][i])
-    for i in range(len(data["subject_fields"])):
-        data["subject_fields"][i] = DoubleQuotedScalarString(data["subject_fields"][i])
+    data["contact"]["title"]["nb"] = FoldedScalarString(data["contact"]["title"]["nb"])
+    data["contact"]["title"]["nn"] = FoldedScalarString(data["contact"]["title"]["nn"])
+    data["contact"]["title"]["en"] = FoldedScalarString(data["contact"]["title"]["en"])
+    if data["unit_types"] is not None:
+        for i in range(len(data["unit_types"])):
+            data["unit_types"][i] = DoubleQuotedScalarString(data["unit_types"][i])
+    if data["subject_fields"] is not None:
+        for i in range(len(data["subject_fields"])):
+            data["subject_fields"][i] = DoubleQuotedScalarString(
+                data["subject_fields"][i]
+            )
+    if data["related_variable_definition_uris"] is not None:
+        for i in range(len(data["related_variable_definition_uris"])):
+            data["related_variable_definition_uris"][i] = DoubleQuotedScalarString(
+                data["related_variable_definition_uris"][i]
+            )
+    data["short_name"] = DoubleQuotedScalarString(data["short_name"])
     return data
 
 
@@ -238,7 +251,8 @@ def _model_to_yaml_with_comments(
     Returns:
         Path: The file path of the generated YAML file.
     """
-    yaml = _configure_yaml()
+    yaml = YAML()
+    configure_yaml(yaml)
 
     from dapla_metadata.variable_definitions.variable_definition import (
         VariableDefinition,
