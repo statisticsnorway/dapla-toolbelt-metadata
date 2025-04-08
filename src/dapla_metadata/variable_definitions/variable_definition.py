@@ -34,7 +34,7 @@ from dapla_metadata.variable_definitions._generated.vardef_client.models.variabl
 )
 from dapla_metadata.variable_definitions._utils import config
 from dapla_metadata.variable_definitions._utils._client import VardefClient
-from dapla_metadata.variable_definitions._utils.files import _configure_yaml
+from dapla_metadata.variable_definitions._utils.files import configure_yaml
 from dapla_metadata.variable_definitions._utils.files import pre_process_data
 from dapla_metadata.variable_definitions._utils.variable_definition_files import (
     _read_file_to_model,
@@ -408,7 +408,7 @@ class VariableDefinition(CompleteResponse):
     def _convert_to_yaml_output(self) -> str:
         stream = StringIO()
         with ruamel.yaml.YAML(output=stream) as yaml:
-            _configure_yaml(yaml)
+            configure_yaml(yaml)
             data = self.model_dump(
                 mode="json",
                 serialize_as_any=True,
