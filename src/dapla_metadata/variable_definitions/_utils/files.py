@@ -202,32 +202,48 @@ def configure_yaml(yaml: YAML) -> YAML:
 
 def pre_process_data(data: dict) -> dict:
     """Set ruamel yaml format directly on model data."""
-    data["definition"]["nb"] = FoldedScalarString(data["definition"]["nb"])
-    data["definition"]["en"] = FoldedScalarString(data["definition"]["en"])
-    data["definition"]["nn"] = FoldedScalarString(data["definition"]["nn"])
-    data["name"]["nb"] = FoldedScalarString(data["name"]["nb"])
-    data["name"]["nn"] = FoldedScalarString(data["name"]["nn"])
-    data["name"]["en"] = FoldedScalarString(data["name"]["en"])
-    data["comment"]["nb"] = FoldedScalarString(data["comment"]["nb"])
-    data["comment"]["nn"] = FoldedScalarString(data["comment"]["nn"])
-    data["comment"]["en"] = FoldedScalarString(data["comment"]["en"])
-    data["contact"]["title"]["nb"] = FoldedScalarString(data["contact"]["title"]["nb"])
-    data["contact"]["title"]["nn"] = FoldedScalarString(data["contact"]["title"]["nn"])
-    data["contact"]["title"]["en"] = FoldedScalarString(data["contact"]["title"]["en"])
-    if data["unit_types"] is not None:
-        for i in range(len(data["unit_types"])):
-            data["unit_types"][i] = DoubleQuotedScalarString(data["unit_types"][i])
-    if data["subject_fields"] is not None:
-        for i in range(len(data["subject_fields"])):
-            data["subject_fields"][i] = DoubleQuotedScalarString(
-                data["subject_fields"][i]
-            )
-    if data["related_variable_definition_uris"] is not None:
-        for i in range(len(data["related_variable_definition_uris"])):
-            data["related_variable_definition_uris"][i] = DoubleQuotedScalarString(
-                data["related_variable_definition_uris"][i]
-            )
-    data["short_name"] = DoubleQuotedScalarString(data["short_name"])
+    folded_fields = [
+        ("definition", ["nb", "en", "nn"]),
+        ("name", ["nb", "en", "nn"]),
+        ("comment", ["nb", "en", "nn"]),
+        ("contact.title", ["nb", "en", "nn"]),
+    ]
+    for field_path, langs in folded_fields:
+        for lang in langs:
+            keys = field_path.split(".")
+            target = data
+            for key in keys[:-1]:
+                target = target[key]
+            target[keys[-1]][lang] = FoldedScalarString(target[keys[-1]][lang])
+
+    list_fields = [
+        "unit_types",
+        "subject_fields",
+        "related_variable_definition_uris",
+    ]
+    for key in list_fields:
+        if data.get(key) is not None:
+            data[key] = [DoubleQuotedScalarString(item) for item in data[key]]
+
+    single_line_fields = [
+        "short_name",
+        "classification_reference",
+        "measurement_type",
+        "external_reference_uri",
+        "variable_status",
+        "created_by",
+        "id",
+        "last_updated_by",
+    ]
+    for key in single_line_fields:
+        if data.get(key) is not None:
+            data[key] = DoubleQuotedScalarString(data[key])
+
+    data["owner"]["team"] = DoubleQuotedScalarString(data["owner"]["team"])
+    data["owner"]["groups"] = [
+        DoubleQuotedScalarString(item) for item in data["owner"]["groups"]
+    ]
+
     return data
 
 
