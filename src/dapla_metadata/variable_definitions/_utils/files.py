@@ -310,8 +310,6 @@ def _model_to_yaml_with_comments(
     # Loop through all fields in the model and populate the commented maps
     for field_name, value in data.items():
         if field_name == VARIABLE_STATUS_FIELD_NAME:
-            if isinstance(value, str):
-                value.strip()
             _populate_commented_map(field_name, value, status_map, model_instance)
         elif field_name == OWNER_FIELD_NAME:
             _populate_commented_map(field_name, value, owner_map, model_instance)
@@ -323,6 +321,8 @@ def _model_to_yaml_with_comments(
                 model_instance,
             )
         elif field_name not in {VARIABLE_STATUS_FIELD_NAME, OWNER_FIELD_NAME}:
+            if isinstance(value, str):
+                value.strip()
             _populate_commented_map(field_name, value, commented_map, model_instance)
 
     base_path = (
