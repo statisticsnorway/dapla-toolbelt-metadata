@@ -201,7 +201,7 @@ def configure_yaml(yaml: YAML) -> YAML:
 
 
 def pre_process_data(data: dict) -> dict:
-    """Set ruamel yaml format directly on model data."""
+    """Format Variable definition model fields with ruamel yaml scalar string types."""
     folded_fields = [
         ("definition", ["nb", "en", "nn"]),
         ("name", ["nb", "en", "nn"]),
