@@ -4,15 +4,15 @@ import logging
 from datetime import datetime
 from pathlib import Path
 from typing import TYPE_CHECKING
-from typing import Any
 from typing import cast
 
 import pytz
 from pydantic.config import JsonDict
 from ruamel.yaml import YAML
 from ruamel.yaml import CommentedMap
-from ruamel.yaml import RoundTripDumper
 from ruamel.yaml import RoundTripRepresenter
+from ruamel.yaml.scalarstring import DoubleQuotedScalarString
+from ruamel.yaml.scalarstring import FoldedScalarString
 
 from dapla_metadata.variable_definitions._generated.vardef_client.models.complete_response import (
     CompleteResponse,
@@ -179,20 +179,6 @@ def _validate_and_create_directory(custom_directory: Path) -> Path:
     return custom_directory
 
 
-def represent_str(dumper: RoundTripDumper, data: Any):
-    """Set yaml style for string."""
-    if isinstance(data, str):
-        if len(data) > 120:
-            data = data.strip()
-            return dumper.represent_scalar(
-                YAML_STR_TAG,
-                data,
-                style=">",
-            )
-        return dumper.represent_scalar(YAML_STR_TAG, data, style='"')
-    return dumper.represent_scalar(YAML_STR_TAG, data)
-
-
 def _configure_yaml() -> YAML:
     yaml = YAML(typ="rt")  # Use ruamel.yaml library
     yaml.Representer = RoundTripRepresenter  # Preserve the order of keys etc.
@@ -203,7 +189,6 @@ def _configure_yaml() -> YAML:
     yaml.indent(
         mapping=4, sequence=2, offset=0
     )  # Ensure indentation for nested keys and lists
-    yaml.representer.add_representer(str, represent_str)
     yaml.representer.add_representer(
         VariableStatus,
         lambda dumper, data: dumper.represent_scalar(
@@ -213,6 +198,24 @@ def _configure_yaml() -> YAML:
     )
 
     return yaml
+
+
+def pre_process_data(data: dict) -> dict:
+    """Set ruamel yaml format directly on model data."""
+    data["definition"]["nb"] = FoldedScalarString(data["definition"]["nb"])
+    data["definition"]["en"] = FoldedScalarString(data["definition"]["en"])
+    data["definition"]["nn"] = FoldedScalarString(data["definition"]["nn"])
+    data["name"]["nb"] = FoldedScalarString(data["name"]["nb"])
+    data["name"]["nn"] = FoldedScalarString(data["name"]["nn"])
+    data["name"]["en"] = FoldedScalarString(data["name"]["en"])
+    data["comment"]["nb"] = FoldedScalarString(data["comment"]["nb"])
+    data["comment"]["nn"] = FoldedScalarString(data["comment"]["nn"])
+    data["comment"]["en"] = FoldedScalarString(data["comment"]["en"])
+    for i in range(len(data["unit_types"])):
+        data["unit_types"][i] = DoubleQuotedScalarString(data["unit_types"][i])
+    for i in range(len(data["subject_fields"])):
+        data["subject_fields"][i] = DoubleQuotedScalarString(data["subject_fields"][i])
+    return data
 
 
 def _model_to_yaml_with_comments(
@@ -249,7 +252,7 @@ def _model_to_yaml_with_comments(
         serialize_as_any=True,
         warnings="error",
     )
-
+    data = pre_process_data(data)
     # One CommentMap for each section in the yaml file
     machine_generated_map = CommentedMap()
     commented_map = CommentedMap()
