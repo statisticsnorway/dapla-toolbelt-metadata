@@ -35,7 +35,6 @@ from dapla_metadata.variable_definitions._generated.vardef_client.models.variabl
 )
 from dapla_metadata.variable_definitions._utils import config
 from dapla_metadata.variable_definitions._utils._client import VardefClient
-from dapla_metadata.variable_definitions._utils.files import represent_str
 from dapla_metadata.variable_definitions._utils.variable_definition_files import (
     _read_file_to_model,
 )
@@ -420,8 +419,6 @@ class VariableDefinition(CompleteResponse):
                 offset=0,
             )  # Ensure indentation for nested keys and lists
             yaml.preserve_quotes = True
-            # Add custom rules to yaml string
-            yaml.representer.add_representer(str, represent_str)
             yaml.dump(
                 self.model_dump(
                     mode="json",
