@@ -59,8 +59,7 @@ def get_vardef_host() -> str:
         case DaplaEnvironment.TEST:
             return VARDEF_HOST_TEST
         case DaplaEnvironment.DEV:
-            msg = "Vardef is not available in dev."
-            raise NotImplementedError(msg)
+            return VARDEF_HOST_TEST
         case _:
             return get_config_item("VARDEF_HOST") or "http://localhost:8080"
 
