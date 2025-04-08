@@ -25,7 +25,7 @@ git clone -n --filter=tree:0 \
 pushd "$TMP_CHECKOUT_DIR" || exit
 git sparse-checkout set --no-cone /demo/variable_definitions --no-cone /vardef-maintenance/vardef-maintenance.toml
 git checkout "$BRANCH"
-cp -R demo/variable_definitions "$VARIABLE_DEFINITIONS_DIR"
+cp -R demo/variable_definitions/. "$VARIABLE_DEFINITIONS_DIR"
 cp vardef-maintenance/vardef-maintenance.toml "$VARIABLE_DEFINITIONS_DIR"/pyproject.toml
 popd || exit
 rm -rf "$TMP_CHECKOUT_DIR"
