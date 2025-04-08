@@ -111,6 +111,7 @@ class Datadoc:
         self.variables: list = []
         self.variables_lookup: dict[str, model.Variable] = {}
         self.explicitly_defined_metadata_document = False
+        self.dataset_consistency_status: list = []
         if metadata_document_path:
             self.metadata_document = normalize_path(metadata_document_path)
             self.explicitly_defined_metadata_document = True
@@ -169,11 +170,14 @@ class Datadoc:
             and existing_metadata is not None
         ):
             existing_file_path = self._get_existing_file_path(extracted_metadata)
-            self._check_ready_to_merge(
+            self.dataset_consistency_status = self._check_dataset_consistency(
                 self.dataset_path,
                 Path(existing_file_path),
                 extracted_metadata,
                 existing_metadata,
+            )
+            self._check_ready_to_merge(
+                self.dataset_consistency_status,
                 errors_as_warnings=self.errors_as_warnings,
             )
             merged_metadata = self._merge_metadata(
@@ -224,29 +228,26 @@ class Datadoc:
         }
 
     @staticmethod
-    def _check_ready_to_merge(
+    def _check_dataset_consistency(
         new_dataset_path: Path | CloudPath,
         existing_dataset_path: Path,
         extracted_metadata: model.DatadocMetadata,
         existing_metadata: model.DatadocMetadata,
-        *,
-        errors_as_warnings: bool,
-    ) -> None:
-        """Check if the datasets are consistent enough to make a successful merge of metadata.
+    ) -> list[dict[str, object]]:
+        """Run consistency tests.
 
         Args:
             new_dataset_path: Path to the dataset to be documented.
             existing_dataset_path: Path stored in the existing metadata.
             extracted_metadata: Metadata extracted from a physical dataset.
             existing_metadata: Metadata from a previously created metadata document.
-            errors_as_warnings: True if failing checks should be raised as warnings, not errors.
 
-        Raises:
-            InconsistentDatasetsError: If inconsistencies are found and `errors_as_warnings == False`
+        Returns:
+            List if dict with property name and boolean success flag
         """
         new_dataset_path_info = DaplaDatasetPathInfo(new_dataset_path)
         existing_dataset_path_info = DaplaDatasetPathInfo(existing_dataset_path)
-        results = [
+        return [
             {
                 "name": "Bucket name",
                 "success": (
@@ -290,6 +291,20 @@ class Datadoc:
                 ),
             },
         ]
+
+    @staticmethod
+    def _check_ready_to_merge(
+        results: list[dict[str, object]], *, errors_as_warnings: bool
+    ) -> None:
+        """Check if the datasets are consistent enough to make a successful merge of metadata.
+
+        Args:
+            results: List if dict with property name and boolean success flag
+            errors_as_warnings: True if failing checks should be raised as warnings, not errors.
+
+        Raises:
+            InconsistentDatasetsError: If inconsistencies are found and `errors_as_warnings == False`
+        """
         if failures := [result for result in results if not result["success"]]:
             msg = f"{INCONSISTENCIES_MESSAGE} {', '.join(str(f['name']) for f in failures)}"
             if errors_as_warnings:
