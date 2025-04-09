@@ -5,7 +5,7 @@ name: |
   -------------------------
   >>> EKSEMPEL:
   name:
-    nb: |-
+    nb: >-
         Lønnsinntekter
 short_name: |
   Dette er variabelens kortnavn, som kan være en mer “teknisk” forkortelse, f.eks. wlonn (kortnavnet til Lønnsinntekter). Kortnavnet til en variabel i Vardef skal være unikt.
@@ -15,7 +15,7 @@ definition: |
   -------------------------
   >>> EKSEMPEL:
   definition:
-    nb: |-
+    nb: >-
         Yrkesinntekter, kapitalinntekter, skattepliktige og skattefrie overføringer, i løpet av kalenderåret.
 classification_reference: |
   ID av en klassifikasjon eller kodeliste fra KLASS som beskriver verdiene variabelen kan anta.
@@ -86,7 +86,7 @@ contact: |
   >>> EKSEMPEL:
   contact:
     title:
-      nb: |-
+      nb: >-
           Seksjonsleder
     email: leder@ssb.no
 variable_status: |
