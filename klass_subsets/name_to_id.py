@@ -54,5 +54,7 @@ if __name__ == "__main__":
         lines = f.readlines()  # Reads all lines into a list
     lines = [line.strip() for line in lines]
 
+    max_len = max(len(i) for i in lines)
+
     for i in lines:
-        print(id_to_name(i))
+        print(f"Id: {i.ljust(max_len)} Name: {id_to_name(i)},")  # noqa: T201
