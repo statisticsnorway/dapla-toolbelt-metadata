@@ -41,3 +41,27 @@ OPTIONAL_FIELD = "~ Valgfritt felt ~"
 REQUIRED_FIELD = "! Obligatorisk felt !"
 
 YAML_STR_TAG = "tag:yaml.org,2002:str"
+
+FOLDED_FIELDS = [
+    ("definition", ["nb", "nn", "en"]),
+    ("name", ["nb", "nn", "en"]),
+    ("contact.title", ["nb", "nn", "en"]),
+]
+
+BLOCK_FIELDS = [("comment", ["nb", "nn", "en"])]
+
+LIST_FIELDS = [
+    "unit_types",
+    "subject_fields",
+    "related_variable_definition_uris",
+]
+
+SINGLE_LINE_FIELDS = [
+    "short_name",
+    "classification_reference",
+    "measurement_type",
+    "external_reference_uri",
+    "created_by",
+    "id",
+    "last_updated_by",
+]
