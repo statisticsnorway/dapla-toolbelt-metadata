@@ -52,6 +52,10 @@ external_reference_uri:  |
   Eksempel: "https://www.landbruksdirektoratet.com"
 comment: |
   Her kan en sette inn eventuelle tilleggsopplysninger som ikke hører hjemme i selve definisjonen. Variabelen “Landbakgrunn” har f.eks. merknaden “Fra og med 1.1.2003 ble definisjon endret til også å trekke inn besteforeldrenes fødeland”.
+  Eksempel:
+    comment:
+        nb: >-
+            Fra og med 1.1.2003 ble definisjon endret til også å trekke inn besteforeldrenes fødeland.
 related_variable_definition_uris: |
   Her kan en legge inn URIer til andre variabler som er relevante. Eksempelvis er variabelen “Inntekt etter skatt” en beregnet variabel der  “Yrkesinntekter” og “Kapitalinntekter” inngår i beregningen. En kan da legge inn deres URI-er i dette feltet.
   Eksempel: "https://example.com/"
@@ -60,7 +64,8 @@ contact: |
   Eksempel:
     contact:
       title:
-        nb: "Seksjonsleder"
+        nb: >-
+            Seksjonsleder
       email: leder@ssb.no
 variable_status: |
   Livssyklus for variabelen.
