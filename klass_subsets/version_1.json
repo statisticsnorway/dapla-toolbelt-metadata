@@ -1,19 +1,19 @@
 {
     "codes": [
         {
-            "code": "KG28",
+            "code": "100",
             "name": [
                 {
                     "languageCode": "nb",
-                    "languageText": "Arbeidskapital ex. premieavvik"
+                    "languageText": "Politisk styring"
                 },
                 {
                     "languageCode": "nn",
-                    "languageText": "Arbeidskapital ex. premieavvik"
+                    "languageText": "Politisk styring"
                 },
                 {
                     "languageCode": "en",
-                    "languageText": "Working capital ex. pension premium deviaton"
+                    "languageText": "Political management"
                 }
             ],
             "rank": 1,
@@ -21,7 +21,7 @@
             "notes": [
                 {
                     "languageCode": "nb",
-                    "languageText": "Verdi av arbeidskapitalen korrigert for premieavvik. Arbeidskapital er differansen mellom omløpsmidler og kortsiktig gjeld i balansen. Premieavvik er trukket ut av kortsiktige fordringer (positivt avvik)/kortsiktig gjeld (negativt avvik). i det finansielt orienterte kommuneregnskapet vises endringen i arbeidskapital som endringen i anvendelse av midler minus anskaffelse av midler. Konserninterne kortsiktige fordringer og gjeld inngår ikke i beregningen.\n\nDefinisjon (fylkes-)kommune: (Kapitlene for omløpsmidler (10, 11, 12, 13, 15, 16, 18) alle sektorer minus kapitlene for kortsiktig gjeld (31, 32, 34, 35) alle sektorer i (fylkes-)kommunens balanse) + (kapitlene for omløpsmidler (10, 11, 12, 13, 15, 16, 17, 18) alle sektorer minus kapitlene for kortsiktig gjeld (31, 32, 34, 35) alle sektorer i balansene til (fylkes-)kommunale foretak, inter-(fylkes-)kommunale selskaper og -samarbeider og lånefond. \n\nDefinisjon (fylkes)kommune eksklusive (fylkes-)kommunale foretak, inter(fylkes-)kommunale selskap og -samarbeid og lånefond: Begrepet brukes ikke."
+                    "languageText": ""
                 },
                 {
                     "languageCode": "nn",
@@ -32,27 +32,27 @@
                     "languageText": ""
                 }
             ],
-            "classificationId": "374",
+            "classificationId": "277",
             "classificationVersions": [
-                "https://data.ssb.no/api/klass/v1/versions/2802"
+                "https://data.ssb.no/api/klass/v1/versions/2781"
             ],
             "validToInRequestedRange": null,
             "validFromInRequestedRange": "2024-01-01"
         },
         {
-            "code": "AGD21",
+            "code": "110",
             "name": [
                 {
                     "languageCode": "nb",
-                    "languageText": "Avdrag (netto)"
+                    "languageText": "Kontroll og revisjon"
                 },
                 {
                     "languageCode": "nn",
-                    "languageText": "Avdrag (netto)"
+                    "languageText": "Kontroll og revisjon"
                 },
                 {
                     "languageCode": "en",
-                    "languageText": "Net instalments"
+                    "languageText": "Regulation and control"
                 }
             ],
             "rank": 2,
@@ -60,7 +60,7 @@
             "notes": [
                 {
                     "languageCode": "nb",
-                    "languageText": "Begrepet omfatter netto avdrag.  Avdragbelastningen vil avhenge av valgt finansieringsstrategi, f.eks. andelen fremmedkapital, nedbetalingstiden o.l. Ekstraordinære avdrag vil ikke fremkomme fordi dette føres i investeringsregnskapet, og det her bare tas hensyn til transaksjoner i driftsregnskapet. \n\nDefinisjon (fylkes-)kommune: Kontoklasse 1 og 3 (driftsregnskapet). Artene [(920,921)-(510,511)]\n\nDefinisjon (fylkes-)kommune eks. (fylkes-)kommunale foretak, inter-(fylkes-)kommunale selskaper og -samarbeider: Begrepet brukes ikke."
+                    "languageText": ""
                 },
                 {
                     "languageCode": "nn",
@@ -71,29 +71,27 @@
                     "languageText": ""
                 }
             ],
-            "classificationId": "374",
+            "classificationId": "277",
             "classificationVersions": [
-                "https://data.ssb.no/api/klass/v1/versions/1013",
-                "https://data.ssb.no/api/klass/v1/versions/1014",
-                "https://data.ssb.no/api/klass/v1/versions/1015"
+                "https://data.ssb.no/api/klass/v1/versions/2781"
             ],
-            "validToInRequestedRange": "2020-01-01",
-            "validFromInRequestedRange": "2015-01-01"
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2024-01-01"
         },
         {
-            "code": "AGD21",
+            "code": "120",
             "name": [
                 {
                     "languageCode": "nb",
-                    "languageText": "Avdrag (netto) i driftsregnskapet"
+                    "languageText": "Administrasjon"
                 },
                 {
                     "languageCode": "nn",
-                    "languageText": "Avdrag (netto) i driftsregnskapet"
+                    "languageText": "Administrasjon"
                 },
                 {
                     "languageCode": "en",
-                    "languageText": "Net instalments in operational accounts"
+                    "languageText": "Administration"
                 }
             ],
             "rank": 3,
@@ -101,7 +99,7 @@
             "notes": [
                 {
                     "languageCode": "nb",
-                    "languageText": "Begrepet omfatter netto avdrag.  Avdragsbelastningen vil avhenge av valgt finansieringsstrategi, f.eks. andelen fremmedkapital, nedbetalingstiden o.l. Ekstraordinære avdrag vil ikke fremkomme fordi dette føres i investeringsregnskapet, og her omfattes bare transaksjoner i driftsregnskapet. \n\nDefinisjon (fylkes-)kommunekonsern: Tall fra driftsregnskapet, alle funksjoner (100..899), artene (510-920)\n\nDefinisjon (fylkes-)kommunekasse og konsoliderte regnskap: Tall fra driftsregnskapet, alle funksjoner (100..899), artene [(510,511)-(920,921)]\n\n(Fylkes-)kommunekonsern omfatter regnskapene for (fylkes-)kommunekassen, (fylkes-)kommunale foretak, inter-(fylkes-)kommunale selskaper og - samarbeider, og lånefond. \n\nKonsolidert regnskap omfatter alle regnskapene innen (fylkes-)kommunen som juridisk enhet, dvs. regnskapene for (fylkes-)kommunekassen, (fylkes-)kommunale foretak og inter-(fylkes-)kommunale  samarbeider som ikke er egne rettssubjekt, samt lånefond."
+                    "languageText": ""
                 },
                 {
                     "languageCode": "nn",
@@ -112,27 +110,27 @@
                     "languageText": ""
                 }
             ],
-            "classificationId": "374",
+            "classificationId": "277",
             "classificationVersions": [
-                "https://data.ssb.no/api/klass/v1/versions/2802"
+                "https://data.ssb.no/api/klass/v1/versions/2781"
             ],
             "validToInRequestedRange": null,
             "validFromInRequestedRange": "2024-01-01"
         },
         {
-            "code": "AGD74",
+            "code": "121",
             "name": [
                 {
                     "languageCode": "nb",
-                    "languageText": "Avsetning til bundne fond (netto)"
+                    "languageText": "Forvaltningsutgifter i eiendomsforvaltningen"
                 },
                 {
                     "languageCode": "nn",
-                    "languageText": "Avsetning til bundne fond (netto)"
+                    "languageText": "Forvaltningsutgifter i eigedomsforvaltninga"
                 },
                 {
                     "languageCode": "en",
-                    "languageText": "Deposition to restricted funds, net"
+                    "languageText": "Administration expenses of managing property/property management"
                 }
             ],
             "rank": 4,
@@ -140,7 +138,7 @@
             "notes": [
                 {
                     "languageCode": "nb",
-                    "languageText": "Begrepet viser hvor mye av fondsmidlene i driftsregnskapet som er bundet, og omfatter bruk av bundne fond minus avsetning til bundne fond. Begrepet kan brukes for å korrigere netto driftsresultat for midler som er bundne til spesielle formål.\n\nDefinisjon (fylkes-)kommunekasse og konsoliderte regnskap: \nkontoklasse 1 og 3 (driftsregnskapet), alle funksjoner (100..899), artene (950) - (550).\n\nPositive tall betegner netto bruk av bundne fond, mens negative tall betegner at avsetningen til bundne fond er større enn bruken.\n\n(Fylkes-)kommunekonsern omfatter regnskapene for (fylkes-)kommunekassen, (fylkes-)kommunale foretak, inter-(fylkes-)kommunale selskaper og - samarbeider, og lånefond. \n\nKonsolidert regnskap omfatter alle regnskapene innen (fylkes-)kommunen som juridisk enhet, dvs. regnskapene for (fylkes-)kommunekassen, (fylkes-)kommunale foretak og inter-(fylkes-)kommunale samarbeider som ikke er egne rettssubjekt, samt lånefond."
+                    "languageText": ""
                 },
                 {
                     "languageCode": "nn",
@@ -151,27 +149,27 @@
                     "languageText": ""
                 }
             ],
-            "classificationId": "374",
+            "classificationId": "277",
             "classificationVersions": [
-                "https://data.ssb.no/api/klass/v1/versions/2802"
+                "https://data.ssb.no/api/klass/v1/versions/2781"
             ],
             "validToInRequestedRange": null,
             "validFromInRequestedRange": "2024-01-01"
         },
         {
-            "code": "AGD18",
+            "code": "130",
             "name": [
                 {
                     "languageCode": "nb",
-                    "languageText": "Brutto driftsresultat"
+                    "languageText": "Administrasjonslokaler"
                 },
                 {
                     "languageCode": "nn",
-                    "languageText": "Brutto driftsresultat"
+                    "languageText": "Administrasjonslokaler"
                 },
                 {
                     "languageCode": "en",
-                    "languageText": "Gross operating result"
+                    "languageText": "Administration buildings"
                 }
             ],
             "rank": 5,
@@ -179,7 +177,7 @@
             "notes": [
                 {
                     "languageCode": "nb",
-                    "languageText": "Brutto driftsresultat regnes ut som differansen mellom brutto driftsinntekter og brutto driftsutgifter inkludert avskrivninger. Brutto driftsresultat kan sammenlignes med driftsresultat i det resultatorienterte regnskapssystem, som primært brukes i privat næringsliv. \n\nDefinisjon (fylkes-)kommunekonsern:\nBrutto driftsinntekter er kontoklasse 1 (driftsregnskapet (fylkes-)kommune), alle funksjoner (100..899), artene (600..890, 920) og kontoklasse 3 (driftsregnskapet KF/FKF/IKS), alle funksjoner (100..899), artene (380, 480, 600..700..770, 800..877, 890, 920). \n\nBrutto driftsutgifter er kontoklasse 1 (driftsregnskapet (fylkes-)kommuner), alle funksjoner (100..899), artene (010..480, 520, 590) og kontoklasse 3 (driftsregnskapet KF/FKF/IKS), alle funksjoner (100..899), artene [(010..370, 400..470, 520, 590) - (780, 880, 920)]. \n\nDefinisjon (fylkes-)kommunekasse og konsoliderte regnskap: \nBrutto driftsinntekter = kontoklasse 1 (driftsregnskapet (fylkes-)kommuner), alle funksjoner (100..899), artene [(600..700..780, 800..890, 920).\nBrutto driftsutgifter = kontoklasse 1 (driftsregnskapet (fylkes-)kommuner), alle funksjoner (100..899), artene (010..480, 520, 590).\n\n(Fylkes-)kommunekonsern omfatter regnskapene for (fylkes-)kommunekassen, (fylkes-)kommunale foretak, inter-(fylkes-)kommunale selskaper og - samarbeider, og lånefond. \n\nKonsolidert regnskap omfatter alle regnskapene innen (fylkes-)kommunen som juridisk enhet, dvs. regnskapene for (fylkes-)kommunekassen, (fylkes-)kommunale foretak og inter-(fylkes-)kommunale  samarbeider som ikke er egne rettssubjekt, samt lånefond."
+                    "languageText": ""
                 },
                 {
                     "languageCode": "nn",
@@ -190,27 +188,27 @@
                     "languageText": ""
                 }
             ],
-            "classificationId": "374",
+            "classificationId": "277",
             "classificationVersions": [
-                "https://data.ssb.no/api/klass/v1/versions/2802"
+                "https://data.ssb.no/api/klass/v1/versions/2781"
             ],
             "validToInRequestedRange": null,
             "validFromInRequestedRange": "2024-01-01"
         },
         {
-            "code": "AGI1",
+            "code": "170",
             "name": [
                 {
                     "languageCode": "nb",
-                    "languageText": "Brutto investeringsutgifter totalt"
+                    "languageText": "Årets premieavvik"
                 },
                 {
                     "languageCode": "nn",
-                    "languageText": "Brutto investeringsutgifter totalt"
+                    "languageText": "Premieavvik i år"
                 },
                 {
                     "languageCode": "en",
-                    "languageText": "Gross investment expenditures"
+                    "languageText": "This years' pension premium deviation"
                 }
             ],
             "rank": 6,
@@ -218,7 +216,7 @@
             "notes": [
                 {
                     "languageCode": "nb",
-                    "languageText": "Begrepet omfatter (fylkes-)kommunens utgifter i forbindelse med investeringer i fast eiendom og anlegg. Begrepet skal si noe om prioritering av nybygging, større utviklingstiltak og andre investeringer innen de enkelte tjenesteområdene og totalt.\n\nDefinisjon (fylkes-)kommunekonsern: kontoklasse 0 (investeringsregnskapet (fylkes)-kommuneregnskapet), alle tjenestefunksjonene (100..790), artene (010..501) + kontoklasse 4 (investeringsregnskapet KF/FKF/IKS), alle tjenestefunksjonene (100..790), artene [(010..500) - (901)]\n\nDefinisjon (fylkes-)kommunekasse og konsoliderte regnskap: kontoklasse 0 (investeringsregnskapet), alle tjenestefunksjonene (100..790), artene (010..501)\n\n(Fylkes-)kommunekonsern omfatter regnskapene for (fylkes-)kommunekassen, (fylkes-)kommunale foretak, inter-(fylkes-)kommunale selskaper og - samarbeider, og lånefond. \n\nKonsolidert regnskap omfatter alle regnskapene innen (fylkes-)kommunen som juridisk enhet, dvs. regnskapene for (fylkes-)kommunekassen, (fylkes-)kommunale foretak og inter-(fylkes-)kommunale samarbeider som ikke er egne rettssubjekt, samt lånefond."
+                    "languageText": ""
                 },
                 {
                     "languageCode": "nn",
@@ -229,27 +227,27 @@
                     "languageText": ""
                 }
             ],
-            "classificationId": "374",
+            "classificationId": "277",
             "classificationVersions": [
-                "https://data.ssb.no/api/klass/v1/versions/2802"
+                "https://data.ssb.no/api/klass/v1/versions/2781"
             ],
             "validToInRequestedRange": null,
             "validFromInRequestedRange": "2024-01-01"
         },
         {
-            "code": "56",
+            "code": "171",
             "name": [
                 {
                     "languageCode": "nb",
-                    "languageText": "Disposisjonsfond (K)"
+                    "languageText": "Amortisering av tidligere års premieavvik"
                 },
                 {
                     "languageCode": "nn",
-                    "languageText": "Disposisjonsfond (K)"
+                    "languageText": "Amortisering av tidlegare år sine premieavvik"
                 },
                 {
                     "languageCode": "en",
-                    "languageText": "General funds (M)"
+                    "languageText": "Amortisation of previous years' pension premium deviation"
                 }
             ],
             "rank": 7,
@@ -268,27 +266,27 @@
                     "languageText": ""
                 }
             ],
-            "classificationId": "374",
+            "classificationId": "277",
             "classificationVersions": [
-                "https://data.ssb.no/api/klass/v1/versions/2802"
+                "https://data.ssb.no/api/klass/v1/versions/2781"
             ],
             "validToInRequestedRange": null,
             "validFromInRequestedRange": "2024-01-01"
         },
         {
-            "code": "KG21",
+            "code": "172",
             "name": [
                 {
                     "languageCode": "nb",
-                    "languageText": "Fri egenkapital drift"
+                    "languageText": "Pensjon"
                 },
                 {
                     "languageCode": "nn",
-                    "languageText": "Fri eigenkapital drift"
+                    "languageText": "Pensjon"
                 },
                 {
                     "languageCode": "en",
-                    "languageText": "Free equity operational account"
+                    "languageText": "Pension"
                 }
             ],
             "rank": 8,
@@ -296,7 +294,7 @@
             "notes": [
                 {
                     "languageCode": "nb",
-                    "languageText": "Verdien av fri egenkapital i driftsregnskapet. Begrepet angir differansen mellom midlene som står på disposisjonsfond og merforbruk i driftsregnskapet. \n\nDisposisjonsfond korrigert for merforbruk i driftsregnskapet på under 5 pst av driftsinntektene isolert sett er en indikasjon på begrenset økonomisk handlefrihet. Korrigert disposisjonsfond på mellom 5 og 8 pst av inntektene representerer moderat økonomisk handlefrihet, mens korrigert disposisjonsfond over 8 pst representerer større grad av økonomisk handlefrihet.\n\nDefinisjon (fylkes-)kommune: (Kapittel 56 minus kapittel 5900) alle sektorer i (fylkes-)kommunens balanse og i balansene til (fylkes-)kommunale foretak, inter-(fylkes-)kommunale selskaper og -samarbeider og lånefond. \n\nDefinisjon (fylkes-)kommune eksklusive (fylkes-)kommunale foretak, inter-(fylkes-)kommunale selskaper og -samarbeider og lånefond: (Kapittel 56 minus kapittel 5900) alle sektorer i (fylkes-)kommunes balanse."
+                    "languageText": ""
                 },
                 {
                     "languageCode": "nn",
@@ -307,27 +305,27 @@
                     "languageText": ""
                 }
             ],
-            "classificationId": "374",
+            "classificationId": "277",
             "classificationVersions": [
-                "https://data.ssb.no/api/klass/v1/versions/2802"
+                "https://data.ssb.no/api/klass/v1/versions/2781"
             ],
             "validToInRequestedRange": null,
             "validFromInRequestedRange": "2024-01-01"
         },
         {
-            "code": "KG25",
+            "code": "173",
             "name": [
                 {
                     "languageCode": "nb",
-                    "languageText": "Langsiktig gjeld"
+                    "languageText": "Premiefond"
                 },
                 {
                     "languageCode": "nn",
-                    "languageText": "Langsiktig gjeld"
+                    "languageText": "Premiefond"
                 },
                 {
                     "languageCode": "en",
-                    "languageText": "Long-term liabilities"
+                    "languageText": "Premium fund"
                 }
             ],
             "rank": 9,
@@ -335,7 +333,7 @@
             "notes": [
                 {
                     "languageCode": "nb",
-                    "languageText": "Total verdi av den langsiktige gjelden. Langsiktig gjeld er knyttet til finansiering av investeringer gjennom opptak av lån med lenger nedbetalingstid enn 1 år. Gjelden er knyttet til formålene i §§ 14-15 til 14-17 i kommuneloven. \nKonsernintern langsiktig gjeld inngår ikke i beregningen.\n\nDefinisjon (fylkes-)kommune: Kapitlene (40, 411-412, 431, 451-454) alle sektorer i (fylkes-)kommunens balanse  og kapitlene (40, 411-412, 431, 451-454, 46) alle sektorer i balansene til (fylkes-)kommunale foretak, inter(fylkes-)kommunale selskaper og -samarbeider og lånefond. \n\nDefinisjon (fylkes)kommune eksklusive (fylkes)kommunale foretak, interkommunale selskap og -samarbeid og lånefond: Begrepet brukes ikke."
+                    "languageText": ""
                 },
                 {
                     "languageCode": "nn",
@@ -346,27 +344,27 @@
                     "languageText": ""
                 }
             ],
-            "classificationId": "374",
+            "classificationId": "277",
             "classificationVersions": [
-                "https://data.ssb.no/api/klass/v1/versions/2802"
+                "https://data.ssb.no/api/klass/v1/versions/2781"
             ],
             "validToInRequestedRange": null,
             "validFromInRequestedRange": "2024-01-01"
         },
         {
-            "code": "AGD23",
+            "code": "180",
             "name": [
                 {
                     "languageCode": "nb",
-                    "languageText": "Netto driftsresultat"
+                    "languageText": "Diverse fellesutgifter"
                 },
                 {
                     "languageCode": "nn",
-                    "languageText": "Netto driftsresultat"
+                    "languageText": "Diverse fellesutgifter"
                 },
                 {
                     "languageCode": "en",
-                    "languageText": "Net operating result"
+                    "languageText": "Variuos joint expenditures"
                 }
             ],
             "rank": 10,
@@ -374,7 +372,7 @@
             "notes": [
                 {
                     "languageCode": "nb",
-                    "languageText": "Netto driftsresultat viser resultatet av (fylkes-)kommunens ordinære løpende drift. Resultatet beregnes ut fra brutto driftsresultat, men tar i tillegg hensyn til resultat eksterne finansieringstransaksjoner, dvs. netto renter, netto avdrag og netto tap/gevinst på finansielle instrumenter, samt kommunale utlån, utbytter og eieruttak, og er i tillegg korrigert for avskrivninger slik at disse ikke gis resultateffekt. Netto driftsresultat kan enten brukes til finansiering av investeringer eller avsettes til senere bruk. \n\nDefinisjon (fylkes-)kommunekonsern: Brutto driftsresultat minus resultat eksterne finansieringstransaksjoner pluss motpost avskrivninger.\nBrutto driftsresultat er kontoklasse 1 og 3 (driftsregnskapet), alle funksjoner, artene [(600..670, 700..890,920 ) - (010..480, 520, 590)]. \nResultat eksterne finansieringstransaksjoner er kontoklasse 1 og 3 (driftsregnskapet), alle funksjoner, artene [(900+901+905+909+921) - (500+501+509+510+511+521)]. \nMotpost avskrivinger er kontoklasse 1 og 3 (driftsregnskapet), funksjon 860, art 990.\n\nDefinisjon (fylkes-)kommunekasse og konsoliderte regnskap: Brutto driftsresultat er kontoklasse 1 (driftsregnskapet), alle funksjoner, artene  [(600..670, 700..895, 920) - (010..480, 520, 590)]. \nResultat eksterne finansieringstransaksjoner er kontoklasse 1 (driftsregnskapet), alle funksjoner, artene[(900+901+905+909+921) - (500+501+509+510+511+521)]. \nMotpost avskrivinger er kontoklasse 1 (driftsregnskapet), funksjon 860, art 990.\n\n(Fylkes-)kommunekonsern omfatter regnskapene for (fylkes-)kommunekassen, (fylkes-)kommunale foretak, inter-(fylkes-)kommunale selskaper og - samarbeider, og lånefond. \n\nKonsolidert regnskap omfatter alle regnskapene innen (fylkes-)kommunen som juridisk enhet, dvs. regnskapene for (fylkes-)kommunekassen, (fylkes-)kommunale foretak og inter-(fylkes-)kommunale  samarbeider som ikke er egne rettssubjekt, samt lånefond."
+                    "languageText": ""
                 },
                 {
                     "languageCode": "nn",
@@ -385,27 +383,27 @@
                     "languageText": ""
                 }
             ],
-            "classificationId": "374",
+            "classificationId": "277",
             "classificationVersions": [
-                "https://data.ssb.no/api/klass/v1/versions/2802"
+                "https://data.ssb.no/api/klass/v1/versions/2781"
             ],
             "validToInRequestedRange": null,
             "validFromInRequestedRange": "2024-01-01"
         },
         {
-            "code": "KG31",
+            "code": "190",
             "name": [
                 {
                     "languageCode": "nb",
-                    "languageText": "Netto lånegjeld"
+                    "languageText": "Interne serviceenheter"
                 },
                 {
                     "languageCode": "nn",
-                    "languageText": "Netto lånegjeld"
+                    "languageText": "Interne serviceeiningar"
                 },
                 {
                     "languageCode": "en",
-                    "languageText": "Net loan debt"
+                    "languageText": "Internal service units"
                 }
             ],
             "rank": 11,
@@ -413,7 +411,7 @@
             "notes": [
                 {
                     "languageCode": "nb",
-                    "languageText": "Netto lånegjeld er definert som langsiktig gjeld (eksklusive pensjonsforpliktelser) fratrukket totale utlån og ubrukte lånemidler. I totale utlån inngår formidlingslån og ansvarlige lån (utlån av egne midler). Beregningen omfatter dermed utlån hvis mottatte avdrag skal inntektsføres i investeringsregnskapet, i tillegg til innlån som skal avdras i driftsregnskapet. Beregningen omfatter ikke konsernintern langsiktig gjeld.\n\nDefinisjon (fylkes-)kommune: (Kapitlene for langsiktig gjeld eksklusive pensjonsforpliktelser (411-412, 431, 451-454) alle sektorer minus kapitlet for utlån (22) alle sektorer minus kapitlet for ubrukte lånemidler (9100) alle sektorer i (fylkes-)kommunens balanse) + (kapitlene for ekstern langsiktig gjeld eksklusive pensjonsforpliktelser (411-412, 431, 451-454, 46) alle sektorer minus kapitlet for utlån (22) alle sektorer minus kapitlet for ubrukte lånemidler (9100) alle sektorer i balansene til (fylkes-)kommunale foretak, inter-(fylkes-)kommunale selskaper og -samarbeider og lånefond. \n\nDefinisjon (fylkes-)kommune eksklusive (fylkes-)kommunale foretak, inter(fylkes-)kommunale selskap og -samarbeid og lånefond: Begrepet brukes ikke."
+                    "languageText": ""
                 },
                 {
                     "languageCode": "nn",
@@ -424,27 +422,30 @@
                     "languageText": ""
                 }
             ],
-            "classificationId": "374",
+            "classificationId": "277",
             "classificationVersions": [
-                "https://data.ssb.no/api/klass/v1/versions/2802"
+                "https://data.ssb.no/api/klass/v1/versions/831",
+                "https://data.ssb.no/api/klass/v1/versions/832",
+                "https://data.ssb.no/api/klass/v1/versions/1068",
+                "https://data.ssb.no/api/klass/v1/versions/1204"
             ],
-            "validToInRequestedRange": null,
-            "validFromInRequestedRange": "2024-01-01"
+            "validToInRequestedRange": "2020-01-01",
+            "validFromInRequestedRange": "2015-01-01"
         },
         {
-            "code": "KG40",
+            "code": "201",
             "name": [
                 {
                     "languageCode": "nb",
-                    "languageText": "Netto renteeksponering"
+                    "languageText": "Barnehage"
                 },
                 {
                     "languageCode": "nn",
-                    "languageText": "Netto renteeksponering"
+                    "languageText": "Barnehage"
                 },
                 {
                     "languageCode": "en",
-                    "languageText": "Net interest exposure"
+                    "languageText": "Kindergarten"
                 }
             ],
             "rank": 12,
@@ -452,7 +453,7 @@
             "notes": [
                 {
                     "languageCode": "nb",
-                    "languageText": "Variabelen gir en indikasjon på hvor mye av (fylkes-)kommunens renteeksponerte gjeld som er igjen etter at rentebærende likviditet er trukket fra. Dette gir uttrykk for hvilket beløp som netto vil være utsatt for endringer i rentenivået (før det tas hensyn til eventuelle rentebindinger). Variabelen gir således en indikasjon på hvor sårbar (fylkes-)kommunen vil være for en endring i rentenivået. \n\nNetto renteeksponering er netto lånegjeld minus kalkulatoriske rentekostnader VAR dividert med kalkylerente (for kommunene), minus rentekompensasjon for investeringer innen omsorgs-, skole- og kirkebygg for kommunene og rentekompensasjon for investeringer innen skolebygg og fylkesveier for fylkeskommunene, minus (fylkes-)kommunens likviditet som ikke er lånefinansiert.\n\nDefinisjon kommune: Netto lånegjeld er langsiktig gjeld eks. pensjonsforpliktelser - totale utlån - ubrukte lånemidler. \nLikviditet som ikke er lånefinansiert er bankinnskudd og kontanter  + sertifikater + obligasjoner + derivater – likviditetslån – ubrukte lånemidler.\n\nLangsiktig gjeld ekskl. pensjonsforpliktelser er kapitlene (411-412, 431, 451-454) i kommunens balanse og lånefond og kapitlene (411-412, 431, 451-454, 46) i balansene til kommunale foretak, interkommunale selskaper og -samarbeider. \n\nTotale utlån er kapittel 22 i balansene til kommunene, kommunale foretak, interkommunale selskaper og -samarbeider, samt lånefond. \nUbrukte lånemidler er kapittel 9100 i balansene til kommunene og kommunale foretak, interkommunale selskaper og -samarbeider. \n\nLikviditet som ikke er lånefinansiert er kapitlene (10, 11, 12, 15) minus kapitlene (31, 9100) i balansene til kommunene og kommunale foretak, interkommunale selskaper og – samarbeider samt lånefond.  \n\nKalkulerte rentekostnader fra KOSTRA-skjema 23 for hhv. vann, avløp og renovasjon, der summen er dividert med kalkylerenten. Beløpet viser dermed ”hovedstolen”/bokført verdi på VAR-anleggene, der kalkulatoriske renter og avskrivninger vil bli dekket gjennom gebyrene fra innbyggerne. Kalkylerente er 5-årig swaprente tillagt 1/2 prosentpoeng.\nRentekompensasjon er hovedstolen/beregningsgrunnlaget som ligger til grunn for rentekompensasjon som Husbanken dekker for investeringer innen omsorgs-, skole- og kirkebygg.\n\nDefinisjon fylkeskommune: Netto lånegjeld er langsiktig gjeld eks. pensjonsforpliktelser - totale utlån - ubrukte lånemidler.\nLangsiktig gjeld ekskl. pensjonsforpliktelser er kapitlene (411-412, 431, 451-454) i fylkeskommunens balanse og kapitlene (411-412, 431, 451-454, 46) i balansene fylkeskommunale foretak, interfylkeskommunale selskaper og -samarbeider. \nTotale utlån er kapittel 22 i balansene til fylkeskommunene, fylkeskommunale foretak, interfylkeskommunale selskaper og -samarbeider. \nUbrukte lånemidler er kapittel 9100 i balansene til fylkeskommunene og fylkeskommunale foretak, interfylkeskommunale selskaper og -samarbeider. \nLikviditet som ikke er lånefinansiert er kapitlene 10, 11, 12, 15 minus kapitlene 31, 9100 i balansene til fylkes-kommunene og fylkeskommunale foretak, interfylkeskommunale selskaper og – samarbeider. \n\nDefinisjon (fylkes-)kommunekasse og konsoliderte regnskaper: Begrepet brukes ikke.\n\nData for netto lånegjeld er hentet fra balanseregnskapet til (fylkes-)kommunen og balansene til (fylkes-)kommunale foretak (KF/FKF), inter-(fylkes-)kommunale samarbeider og inter-(fylkes-)kommunale selskaper (IKS) samt lånefond for kommunene Oslo, Drammen og Bergen. Data for kalkulatoriske rentekostnader VAR er hentet fra KOSTRA-skjema 23 (selvkostanlegg). Kaklylerente er hentet fra Kommunalbankens nettsider. Data for rentekompensasjon er innhentet fra Husbanken og Statens vegvesen.\n\nOBS! Variabelen må ses på som en indikasjon på hhv. hvor stor del av gjelden som (fylkes-)kommunen må dekke renteutgiftene på selv og hvordan en renteendring vil slå ut på (fylkes-)kommunens økonomi, gjort med utgangspunkt i innrapporterte regnskaper samt tall fra Husbanken og Vegvesenet på rentekompensasjonsordningene. Det vil likevel kunne være noen momenter som gjør at variablene må tolkes med en viss varsomhet. Noen slike momenter kan f.eks. være:\n •         VAR-tjenester som er skilt ut i AS vil ikke inngå i beregningen av renteeksponert gjeld. \n•         VAR-tjenester som er skilt ut i IKS vil inngå i konserntallene for langsiktig gjeld, men likevel ikke bli trukket fra i den renteeksponerte gjelden fordi vi ikke har opplysninger om de kalkulerte rentekostnadene for disse. Det vil trekke i retning av at indikatoren overvurderer den renteeksponerte gjelden/kommunekonsernets netto renteeksponering.\n•         Splittingen av IKS-ets gjeld på deltakerkommunene er gjort ut fra eierandel og samsvarer ikke nødvendigvis med hvordan IKS-ets selvkost er fordelt.\n •         Beregningene tar for seg aktiva og passiva som er rentebærende. Det er likevel ikke nødvendigvis fullt samsvar mellom de to sidene til enhver tid. Det vil kunne ta tid før tilskudd og betalingssatser blir justert i samsvar med endringer i rentenivået, og ulike poster kan knytte seg opp til ulike referanserenter for de ulike gebyrene og tilskuddene. Disse referanserentene vil nødvendigvis heller ikke være helt lik kommunekonsernets faktiske lånerente.\n•         Utlån som forskutteringer, ansvarlige lån osv. kan være rentefrie. I tillegg kan tjenester som ikke er tatt med her, være relevante å ta med for den enkelte kommune, f.eks. hvis renteutgiftene til utleieboliger som kommunen har lånefinansiert, dekkes gjennom husleien.\n•         Det er ikke tatt hensyn til rentebindinger.\n•         Det er ikke tatt hensyn til hvordan endringer i renten kan virke inn på forvaltningen av pensjonsmidlene, og i neste omgang pensjonspremiene og –kostnadene. \n\nTallene for Oslo omfatter både kommune og fylkeskommune, inkludert  rentekompensasjon og bokført verdi for VAR-investeringene."
+                    "languageText": ""
                 },
                 {
                     "languageCode": "nn",
@@ -463,27 +464,27 @@
                     "languageText": ""
                 }
             ],
-            "classificationId": "374",
+            "classificationId": "277",
             "classificationVersions": [
-                "https://data.ssb.no/api/klass/v1/versions/2802"
+                "https://data.ssb.no/api/klass/v1/versions/2781"
             ],
             "validToInRequestedRange": null,
             "validFromInRequestedRange": "2024-01-01"
         },
         {
-            "code": "AGID1",
+            "code": "201",
             "name": [
                 {
                     "languageCode": "nb",
-                    "languageText": "Overskudd før lån og avsetninger"
+                    "languageText": "Førskole"
                 },
                 {
                     "languageCode": "nn",
-                    "languageText": "Overskot før lån og avsettingar"
+                    "languageText": "Førskule"
                 },
                 {
                     "languageCode": "en",
-                    "languageText": "Result before loan and allocations"
+                    "languageText": "Pre-school"
                 }
             ],
             "rank": 13,
@@ -491,7 +492,7 @@
             "notes": [
                 {
                     "languageCode": "nb",
-                    "languageText": "Begrepet omfatter brutto driftsresultat inkl. motpost avskrivninger fratrukket netto renter, netto tap/gevinst på finansielle instrumenter og netto investeringsutgifter. Overskudd før lånetransaksjoner måles som (fylkes-)kommunens samlede inntekter fratrukket samlede utgifter, ekskl. låne- og avdragsutgifter. Sammensetningen av inntektene og utgiftene i både drifts- og investeringsregnskapet, kan vise om det over tid vil bli en økning i nettogjelden i balanseregnskapet. \n\nDefinisjon (fylkes-)kommunekonsern: \nBrutto driftsresultat er kontoklasse 1 og 3 (driftsregnskapet), alle funksjoner (100..899), artene [(600..890,920) - (010..480, 520,590)]. \nMotpost avskrivninger er kontoklasse 1 og 3 (driftsregnskapet, funksjon 860, art 990. \nNetto renter er kontoklasse 1 og 3 (driftsregnskapet), alle funksjoner (100..899), artene [(900..905) - (500,501)]. \nNetto tap/gevinst på finansielle instrumenter (omløpsmidler) er kontoklasse 1 og 3 (driftsregnskapet), alle funksjoner (100..899), artene [(509) - (909)]. \nNetto investeringsutgifter er Brutto investeringsutgifter = kontoklasse 0 (investeringsregnskapet (fylkes-)kommune), alle tjenestefunksjonene (100..790), artene (010..501) + kontoklasse 4 (investeringsregnskapet KF/FKF/IKS), alle tjenestefunksjonene (100..790), artene (010..370, 400..470, 500, 780, 880, 901) minus Tilskudd, refusjoner, salgsinntekter m.v. = kontoklasse 0 (investeringsregnskapet (fylkes-)kommuner, alle funksjonene (100..899), artene (600..905) + kontoklasse 4 (investeringsregnskapet KF/FKF/IKS), alle funksjonene (100..899), artene [(600..877, 890, 900, 905) - (380, 480, 501)] - kontoklasse 0 (investeringsregnskapet (fylkes-)kommune, funksjonene (800..899), artene (010..501) - kontoklasse 4 (investeringsregnskapet KF/FKF/IKS), funksjonene (800..899), artene [(010..370, 400..470, 500) - (780, 880, 901)] \n\nDefinisjon (fylkes-)kommunekasse og konsoliderte regnskap:\nBrutto driftsresultat = kontoklasse 1 (driftsregnskapet), alle funksjoner (100..899), artene [(600..890,920) - (010..480,520,590)]\nMotpost avskrivninger = kontoklasse 1 (driftsregnskapet), funksjon 860, art 990.\nNetto finans = kontoklasse 1 (driftsregnskapet), alle funksjoner (100..899), artene [(900, 901, 905, 909) - (500, 501, 509)].\nNetto investeringsutgifter er Brutto investeringsutgifter = kontoklasse 0 (investeringsregnskapet), alle tjenestefunksjoner (100..790), artene (010..501)  minus Tilskudd, refusjoner, salgsinntekter m.v.= kontoklasse 0 (investeringsregnskapet), alle funksjoner (100..899), artene (600..905) – kontoklasse 0 (investeringsregnskapet, funksjonene (800..899), artene (010..501).\n\n(Fylkes-)kommunekonsern omfatter regnskapene for (fylkes-)kommunekassen, (fylkes-)kommunale foretak, inter-(fylkes-)kommunale selskaper og - samarbeider, og lånefond. \n\nKonsolidert regnskap omfatter alle regnskapene innen (fylkes-)kommunen som juridisk enhet, dvs. regnskapene for (fylkes-)kommunekassen, (fylkes-)kommunale foretak og inter-(fylkes-)kommunale samarbeider som ikke er egne rettssubjekt, samt lånefond."
+                    "languageText": ""
                 },
                 {
                     "languageCode": "nn",
@@ -502,27 +503,28 @@
                     "languageText": ""
                 }
             ],
-            "classificationId": "374",
+            "classificationId": "277",
             "classificationVersions": [
-                "https://data.ssb.no/api/klass/v1/versions/2802"
+                "https://data.ssb.no/api/klass/v1/versions/831",
+                "https://data.ssb.no/api/klass/v1/versions/832"
             ],
-            "validToInRequestedRange": null,
-            "validFromInRequestedRange": "2024-01-01"
+            "validToInRequestedRange": "2018-01-01",
+            "validFromInRequestedRange": "2015-01-01"
         },
         {
-            "code": "40",
+            "code": "202",
             "name": [
                 {
                     "languageCode": "nb",
-                    "languageText": "Pensjonsforpliktelse"
+                    "languageText": "Grunnskole"
                 },
                 {
                     "languageCode": "nn",
-                    "languageText": "Pensjonsforplikting"
+                    "languageText": "Grunnskule"
                 },
                 {
                     "languageCode": "en",
-                    "languageText": "Pension obligations"
+                    "languageText": "Primary and lower secondary schools"
                 }
             ],
             "rank": 14,
@@ -541,27 +543,27 @@
                     "languageText": ""
                 }
             ],
-            "classificationId": "374",
+            "classificationId": "277",
             "classificationVersions": [
-                "https://data.ssb.no/api/klass/v1/versions/2802"
+                "https://data.ssb.no/api/klass/v1/versions/2781"
             ],
             "validToInRequestedRange": null,
             "validFromInRequestedRange": "2024-01-01"
         },
         {
-            "code": "5900",
+            "code": "211",
             "name": [
                 {
                     "languageCode": "nb",
-                    "languageText": "Merforbruk i driftsregnskapet (K)"
+                    "languageText": "Styrket tilbud til førskolebarn"
                 },
                 {
                     "languageCode": "nn",
-                    "languageText": "Meirforbruk i driftsrekneskapen (K)"
+                    "languageText": "Styrka tilbod til førskulebarn"
                 },
                 {
                     "languageCode": "en",
-                    "languageText": "Deficit of the year in operational accounts (M)"
+                    "languageText": "Enhanced kindergarten services"
                 }
             ],
             "rank": 15,
@@ -580,27 +582,27 @@
                     "languageText": ""
                 }
             ],
-            "classificationId": "374",
+            "classificationId": "277",
             "classificationVersions": [
-                "https://data.ssb.no/api/klass/v1/versions/2802"
+                "https://data.ssb.no/api/klass/v1/versions/2781"
             ],
             "validToInRequestedRange": null,
             "validFromInRequestedRange": "2024-01-01"
         },
         {
-            "code": "AGD86",
+            "code": "213",
             "name": [
                 {
                     "languageCode": "nb",
-                    "languageText": "Netto finansutgifter (D)"
+                    "languageText": "Voksenopplæring"
                 },
                 {
                     "languageCode": "nn",
-                    "languageText": "Netto finansutgifter (D)"
+                    "languageText": "Vaksenopplæring"
                 },
                 {
                     "languageCode": "en",
-                    "languageText": "Net financial expenditures in operational accounts (D)"
+                    "languageText": "Adult education at primary and lower secondary school level"
                 }
             ],
             "rank": 16,
@@ -608,7 +610,7 @@
             "notes": [
                 {
                     "languageCode": "nb",
-                    "languageText": "Begrepet omfatter eksterne og interne finansinntekter minus eksterne og interne finansutgifter i driftsregnskapet. Finansinntekter/-utgifter er typisk renter, utbytte og eieruttak, gevinst/tap på finansielle instrumenter og avdrag på lån. \n\nDefinisjon (fylkes-)kommunekasse og konsoliderte regnskap: \nTall fra driftsregnskapet., alle funksjoner (100..899), artene [(900, 901, 905, 909) - (500, 501, 509, 510, 511)] \n\nDefinisjon (fylkes-)kommunekonsern: Begrepet har sin egen kode.\n\nKonsolidert regnskap omfatter alle regnskapene innen (fylkes-)kommunen som juridisk enhet, dvs. regnskapene for (fylkes-)kommunekassen, (fylkes-)kommunale foretak og inter-(fylkes-)kommunale samarbeider som ikke er egne rettssubjekt, samt lånefond."
+                    "languageText": ""
                 },
                 {
                     "languageCode": "nn",
@@ -619,27 +621,27 @@
                     "languageText": ""
                 }
             ],
-            "classificationId": "374",
+            "classificationId": "277",
             "classificationVersions": [
-                "https://data.ssb.no/api/klass/v1/versions/2802"
+                "https://data.ssb.no/api/klass/v1/versions/2781"
             ],
             "validToInRequestedRange": null,
             "validFromInRequestedRange": "2024-01-01"
         },
         {
-            "code": "5900",
+            "code": "215",
             "name": [
                 {
                     "languageCode": "nb",
-                    "languageText": "Regnskapsmessig merforbruk (K)"
+                    "languageText": "Skolefritidstilbud"
                 },
                 {
                     "languageCode": "nn",
-                    "languageText": "Rekneskapsmessig meirforbruk (K)"
+                    "languageText": "Skulefritidstilbod"
                 },
                 {
                     "languageCode": "en",
-                    "languageText": "Deficit of the year (M)"
+                    "languageText": "Out of school care"
                 }
             ],
             "rank": 17,
@@ -658,29 +660,27 @@
                     "languageText": ""
                 }
             ],
-            "classificationId": "374",
+            "classificationId": "277",
             "classificationVersions": [
-                "https://data.ssb.no/api/klass/v1/versions/1013",
-                "https://data.ssb.no/api/klass/v1/versions/1014",
-                "https://data.ssb.no/api/klass/v1/versions/1015"
+                "https://data.ssb.no/api/klass/v1/versions/2781"
             ],
-            "validToInRequestedRange": "2020-01-01",
-            "validFromInRequestedRange": "2015-01-01"
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2024-01-01"
         },
         {
-            "code": "KG39",
+            "code": "221",
             "name": [
                 {
                     "languageCode": "nb",
-                    "languageText": "Renteeksponert gjeld"
+                    "languageText": "Barnehagelokaler og skyss"
                 },
                 {
                     "languageCode": "nn",
-                    "languageText": "Renteeksponert gjeld"
+                    "languageText": "Barnehagelokale og skyss"
                 },
                 {
                     "languageCode": "en",
-                    "languageText": "Interest-exposed debt"
+                    "languageText": "Kindergarten facilities and transportation"
                 }
             ],
             "rank": 18,
@@ -688,7 +688,7 @@
             "notes": [
                 {
                     "languageCode": "nb",
-                    "languageText": "Variabelen gir en indikasjon på den delen av (fylkes-)kommunens langsiktig gjeld hvor renteutgiftene må dekkes av (fylkes-)kommunen selv. For kommunene dekkes renter på øvrig gjeld av innbyggerne gjennom gebyrer på vann, avløp og renovasjon (selvkosttjenester VAR), og av staten gjennom rentekompensasjonsordningene. For fylkeskommunene dekkes øvrig gjeld av staten gjennom rentekompensasjonsordningene.\n\nRenteeksponert gjeld, er netto lånegjeld minus kalkulatoriske rentekostnader VAR dividert med kalkylerente (for kommunene), minus rentekompensasjon for investeringer innen omsorgs-, skole- og kirkebygg for kommunene og rentekompensasjon for investeringer innen skolebygg og fylkesveier for fylkeskommunene.\n\nDefinisjon kommune: Netto lånegjeld er langsiktig gjeld eks. pensjonsforpliktelser - totale utlån - ubrukte lånemidler.\nLangsiktig gjeld ekskl. pensjonsforpliktelser er kapitlene (411-412, 431, 451-454) i kommunens balanse og kapitlene (411-412, 431, 451-454, 46) i balansene til kommunale foretak, interkommunale selskaper og -samarbeider og lånefond.\nTotale utlån er kapittel 22 i balansene til kommunene, kommunale foretak, interkommunale selskaper og -samarbeider, samt lånefond. \nUbrukte lånemidler er kapittel 9100 i balansene til kommunene og kommunale foretak, interkommunale selskaper og -samarbeider. \n\nKalkulerte rentekostnader fra KOSTRA-skjema 23 for hhv. vann, avløp og renovasjon, der summen er dividert med kalkylerenten. Beløpet viser dermed ”hovedstolen”/bokført verdi på VAR-anleggene, der kalkulatoriske renter og avskrivninger vil bli dekket gjennom gebyrene fra innbyggerne.\nKalkylerente er 5-årig swaprente tillagt 1/2 prosentpoeng.\n\nRentekompensasjon er hovedstolen/beregningsgrunnlaget som ligger til grunn for rentekompensasjon som Husbanken dekker for investeringer innen omsorgs-, skole- og kirkebygg.\n\nDefinisjon fylkeskommune: Netto lånegjeld er langsiktig gjeld eks. pensjonsforpliktelser - totale utlån - ubrukte lånemidler.\nLangsiktig gjeld ekskl. pensjonsforpliktelser er kapitlene (411-412, 431, 451-454) i fylkeskommunens balanse og kapitlene (411-412, 431, 451-454, 46) i balansene fylkeskommunale foretak, interfylkeskommunale selskaper og -samarbeider og lånefond.\nTotale utlån er kapittel 22 i balansene til fylkeskommunene, fylkeskommunale foretak, interfylkeskommunale selskaper og -samarbeider, samt lånefond.\nUbrukte lånemidler er kapittel 9100 i balansene til fylkeskommunene og fylkeskommunale foretak, interfylkeskommunale selskaper og -samarbeider. \n\nDefinisjon (fylkes-)kommune ekskl. (fylkes-)kommunale foretak, inter-(fylkes-)kommunale selskaper og -samarbeider samt lånefond: Begrepet brukes ikke.\n\nData for netto lånegjeld er hentet fra balanseregnskapet til (fylkes-)kommunen og balansene til (fylkes-)kommunale foretak (KF/FKF), inter-(fylkes-)kommunale samarbeider og inter-(fylkes-)kommunale selskaper (IKS) samt lånefond for -Trøndelag fylkeskommune og kommunene Oslo, Drammen og Bergen. Data for kalkulatoriske rentekostnader VAR er hentet fra KOSTRA-skjema 23 (selvkostanlegg). Kalylerente er hentet fra Kommunalbankens nettsider. Data for rentekompensasjon er innhentet fra Husbanken og Statens vegvesen.\n\nOBS!\nVariabelen må ses på som en indikasjon på hhv. hvor stor del av gjelden som (fylkes-)kommunen må dekke renteutgiftene på selv og hvordan en renteendring vil slå ut på (fylkes-)kommunens økonomi, med utgangspunkt i innrapporterte regnskaper samt tall fra Husbanken og Vegvesenet på rentekompensasjonsordningene. Det vil likevel kunne være noen momenter som gjør at variablene må tolkes med en viss varsomhet. Noen slike momenter kan f.eks. være: \n•         VAR-tjenester som er skilt ut i AS vil ikke inngå i beregningen av renteeksponert gjeld.\n•         VAR-tjenester som er skilt ut i IKS vil inngå i tallene for langsiktig gjeld, men likevel ikke bli trukket fra i den renteeksponerte gjelden fordi vi ikke har opplysninger om de kalkulerte rentekostnadene for disse. Det vil trekke i retning av at indikatoren overvurderer den renteeksponerte gjelden/kommunens netto renteeksponering.\n•         Splittingen av IKS-ets gjeld på deltakerkommunene er gjort ut fra eierandel og samsvarer ikke nødvendigvis med hvordan IKS-ets selvkost er fordelt. \n•         Beregningene tar for seg aktiva og passiva som er rentebærende. Det er likevel ikke nødvendigvis fullt samsvar mellom de to sidene til enhver tid. Det vil kunne ta tid før tilskudd og betalingssatser blir justert i samsvar med endringer i rentenivået, og ulike poster kan knytte seg opp til ulike referanserenter for de ulike gebyrene og tilskuddene. Disse referanserentene vil nødvendigvis heller ikke være helt lik (fylkes-)kommunens faktiske lånerente.\n•         Utlån som forskutteringer, ansvarlige lån osv. kan være rentefrie. I tillegg kan tjenester som ikke er tatt med her, være relevante å ta med for den enkelte kommune, f.eks. hvis renteutgiftene til utleieboliger som kommunen har lånefinansiert, dekkes gjennom husleien.\n•         Det er ikke tatt hensyn til rentebindinger.\n•         Det er ikke tatt hensyn til hvordan endringer i renten kan virke inn på forvaltningen av pensjonsmidlene, og i neste omgang pensjonspremiene og –kostnadene. \n\nTallene for Oslo omfatter både kommune og fylkeskommune, inkludert  rentekompensasjon og bokført verdi for VAR-investeringene."
+                    "languageText": ""
                 },
                 {
                     "languageCode": "nn",
@@ -699,27 +699,27 @@
                     "languageText": ""
                 }
             ],
-            "classificationId": "374",
+            "classificationId": "277",
             "classificationVersions": [
-                "https://data.ssb.no/api/klass/v1/versions/2802"
+                "https://data.ssb.no/api/klass/v1/versions/2781"
             ],
             "validToInRequestedRange": null,
             "validFromInRequestedRange": "2024-01-01"
         },
         {
-            "code": "AGD24",
+            "code": "221",
             "name": [
                 {
                     "languageCode": "nb",
-                    "languageText": "Renter (netto) inkl. utbytte og eieruttak"
+                    "languageText": "Førskolelokaler og skyss"
                 },
                 {
                     "languageCode": "nn",
-                    "languageText": "Renter (netto)"
+                    "languageText": "Førskulelokale og skyss"
                 },
                 {
                     "languageCode": "en",
-                    "languageText": "Net interest expenditures"
+                    "languageText": "Pre-school facilities and transportation"
                 }
             ],
             "rank": 19,
@@ -727,7 +727,7 @@
             "notes": [
                 {
                     "languageCode": "nb",
-                    "languageText": "Renter (netto) viser rentebelastningen på eksterne lån, samt interne renteutgifter og -inntekter. Utbytte og eieruttak regnes som en del av renteinntektene. Tap/gevinst på finansielle instrumenter omfattes ikke av beregningen. Begrepet tar kun hensyn til rentene som føres i driftsregnskapet. NB! Netto renteutgifter vises som positive tall, mens netto renteinntekter er negative tall.\n\nDefinisjon (fylkes-)kommunekonsern: Tall fra driftsregnskapet, alle funksjoner (100..899), artene [(500, 501) – (900, 901, 905)]\n\nDefinisjon (fylkes-)kommunekasse og konsoliderte (fylkes-)kommuneregnskap: Tall fra driftsregnskapet, alle funksjoner (100..899), artene [(500, 501) – (900, 901, 905)]\n\n(Fylkes-)kommunekonsern omfatter regnskapene for (fylkes-)kommunekassen, (fylkes-)kommunale foretak, inter-(fylkes-)kommunale selskaper og - samarbeider, og lånefond. \n\nKonsolidert regnskap omfatter alle regnskapene innen (fylkes-)kommunen som juridisk enhet, dvs. regnskapene for (fylkes-)kommunekassen, (fylkes-)kommunale foretak og inter-(fylkes-)kommunale  samarbeider som ikke er egne rettssubjekt, samt lånefond."
+                    "languageText": ""
                 },
                 {
                     "languageCode": "nn",
@@ -738,27 +738,28 @@
                     "languageText": ""
                 }
             ],
-            "classificationId": "374",
+            "classificationId": "277",
             "classificationVersions": [
-                "https://data.ssb.no/api/klass/v1/versions/2802"
+                "https://data.ssb.no/api/klass/v1/versions/831",
+                "https://data.ssb.no/api/klass/v1/versions/832"
             ],
-            "validToInRequestedRange": null,
-            "validFromInRequestedRange": "2024-01-01"
+            "validToInRequestedRange": "2018-01-01",
+            "validFromInRequestedRange": "2015-01-01"
         },
         {
-            "code": "AGD24",
+            "code": "222",
             "name": [
                 {
                     "languageCode": "nb",
-                    "languageText": "Renter (netto)"
+                    "languageText": "Skolelokaler"
                 },
                 {
                     "languageCode": "nn",
-                    "languageText": "Renter (netto)"
+                    "languageText": "Skulelokale"
                 },
                 {
                     "languageCode": "en",
-                    "languageText": "Net interest expenditures"
+                    "languageText": "School buildings"
                 }
             ],
             "rank": 20,
@@ -766,7 +767,7 @@
             "notes": [
                 {
                     "languageCode": "nb",
-                    "languageText": "Netto renter viser rentebelastningen på eksterne lån, samt interne renteutgifter og -inntekter. Tap/gevinst på finansielle instrumenter omfattes ikke av beregningen. Begrepet tar kun hensyn til rentene som føres i driftsregnskapet.\n\nDefinisjon (fylkes-)kommune: Kontoklasse 1 og 3 (driftsregnskapet), alle funksjoner (100..899), artene [(900, 901, 905) – (500, 501)]\n\nDefinisjon (fylkes-)kommune eks. (fylkes-)kommunale foretak, inter-(fylkes-)kommunale selskaper og -samarbeider: Begrepet brukes ikke.\n\nNB! Netto renteutgifter vises som positive tall, mens netto renteinntekter er negative tall."
+                    "languageText": ""
                 },
                 {
                     "languageCode": "nn",
@@ -777,29 +778,27 @@
                     "languageText": ""
                 }
             ],
-            "classificationId": "374",
+            "classificationId": "277",
             "classificationVersions": [
-                "https://data.ssb.no/api/klass/v1/versions/1013",
-                "https://data.ssb.no/api/klass/v1/versions/1014",
-                "https://data.ssb.no/api/klass/v1/versions/1015"
+                "https://data.ssb.no/api/klass/v1/versions/2781"
             ],
-            "validToInRequestedRange": "2020-01-01",
-            "validFromInRequestedRange": "2015-01-01"
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2024-01-01"
         },
         {
-            "code": "AGD97",
+            "code": "223",
             "name": [
                 {
                     "languageCode": "nb",
-                    "languageText": "Renter (netto)"
+                    "languageText": "Skoleskyss"
                 },
                 {
                     "languageCode": "nn",
-                    "languageText": "Renter (netto)"
+                    "languageText": "Skuleskyss"
                 },
                 {
                     "languageCode": "en",
-                    "languageText": "Net interest expenditures"
+                    "languageText": "School transport"
                 }
             ],
             "rank": 21,
@@ -807,7 +806,7 @@
             "notes": [
                 {
                     "languageCode": "nb",
-                    "languageText": "Renter (netto) viser rentebelastningen på eksterne lån, samt interne renteutgifter og -inntekter. Tap/gevinst på finansielle instrumenter omfattes ikke av beregningen. Begrepet tar kun hensyn til rentene som føres i driftsregnskapet. NB! Netto renteutgifter vises som positive tall, mens netto renteinntekter er negative tall.\n\nDefinisjon (fylkes-)kommunekonsern: Tall fra driftsregnskapet, alle funksjoner (100..899), artene [(500, 501) – (900, 901)]\n\nDefinisjon (fylkes-)kommunekasse og konsoliderte (fylkes-)kommuneregnskap: Tall fra driftsregnskapet, alle funksjoner (100..899), artene [(500, 501) – (900, 901)]\n\n(Fylkes-)kommunekonsern omfatter regnskapene for (fylkes-)kommunekassen, (fylkes-)kommunale foretak, inter-(fylkes-)kommunale selskaper og - samarbeider, og lånefond. \n\nKonsolidert regnskap omfatter alle regnskapene innen (fylkes-)kommunen som juridisk enhet, dvs. regnskapene for (fylkes-)kommunekassen, (fylkes-)kommunale foretak og inter-(fylkes-)kommunale samarbeider som ikke er egne rettssubjekt, samt lånefond.\n"
+                    "languageText": ""
                 },
                 {
                     "languageCode": "nn",
@@ -818,27 +817,27 @@
                     "languageText": ""
                 }
             ],
-            "classificationId": "374",
+            "classificationId": "277",
             "classificationVersions": [
-                "https://data.ssb.no/api/klass/v1/versions/2802"
+                "https://data.ssb.no/api/klass/v1/versions/2781"
             ],
             "validToInRequestedRange": null,
             "validFromInRequestedRange": "2024-01-01"
         },
         {
-            "code": "AGD25",
+            "code": "231",
             "name": [
                 {
                     "languageCode": "nb",
-                    "languageText": "Tap/gevinst (netto) på finansielle omløpsmidler"
+                    "languageText": "Aktivitetstilbud barn og unge"
                 },
                 {
                     "languageCode": "nn",
-                    "languageText": "Tap/gevinst (netto) på finansielle omløpsmidlar"
+                    "languageText": "Aktivitetstilbod barn og unge"
                 },
                 {
                     "languageCode": "en",
-                    "languageText": "Net loss/profit on financial assets (current asset)"
+                    "languageText": "Children and youth activities"
                 }
             ],
             "rank": 22,
@@ -846,7 +845,7 @@
             "notes": [
                 {
                     "languageCode": "nb",
-                    "languageText": "Tap/gevinst på finansielle instrumenter omfatter plasseringer av aksjer etc, som er definert som omløpsmidler i balansen – både realisert og urealisert tap/gevinst. Tall hentes fra driftsregnskapet.\n\n\nDefinisjon (fylkes-)kommunekonsern: Artene (509 - 909). \n\nDefinisjon (fylkes-)kommunekasse og konsoliderte regnskap: Artene (509 - 909).\n\n(Fylkes-)kommunekonsern omfatter regnskapene for (fylkes-)kommunekassen, (fylkes-)kommunale foretak, inter-(fylkes-)kommunale selskaper og - samarbeider, og lånefond. \n\nKonsolidert regnskap omfatter alle regnskapene innen (fylkes-)kommunen som juridisk enhet, dvs. regnskapene for (fylkes-)kommunekassen, (fylkes-)kommunale foretak og inter-(fylkes-)kommunale  samarbeider som ikke er egne rettssubjekt, samt lånefond."
+                    "languageText": ""
                 },
                 {
                     "languageCode": "nn",
@@ -857,27 +856,27 @@
                     "languageText": ""
                 }
             ],
-            "classificationId": "374",
+            "classificationId": "277",
             "classificationVersions": [
-                "https://data.ssb.no/api/klass/v1/versions/2802"
+                "https://data.ssb.no/api/klass/v1/versions/2781"
             ],
             "validToInRequestedRange": null,
             "validFromInRequestedRange": "2024-01-01"
         },
         {
-            "code": "AGD25",
+            "code": "232",
             "name": [
                 {
                     "languageCode": "nb",
-                    "languageText": "Tap/gevinst (netto) på finansielle instrumenter"
+                    "languageText": "Forebygging, helsestasjons- og skolehelsetjeneste"
                 },
                 {
                     "languageCode": "nn",
-                    "languageText": "Tap/gevinst (netto) på finansielle instrument"
+                    "languageText": "Førebygging, helsestasjons- og skulehelseteneste"
                 },
                 {
                     "languageCode": "en",
-                    "languageText": "Net loss/profit on financial assets (current asset)"
+                    "languageText": "Preventive health care, school/health centre"
                 }
             ],
             "rank": 23,
@@ -885,7 +884,7 @@
             "notes": [
                 {
                     "languageCode": "nb",
-                    "languageText": "Begrepet omfatter tap/gevinst på finansielle instrumenter og omfatter plasseringer av aksjer etc, som er definert som omløpsmidler i balansen – både realisert og urealisert tap/gevinst. \n\n\nDefinisjon (fylkes-)kommune: Kontoklasse 1 og 3 (driftsregnskapet), alle funksjoner, artene (509 - 909). \n\nDefinisjon (fylkes-)kommune eks. (fylkes-)kommunale foretak, inter-(fylkes-)kommunale selskaper og -samarbeider: Kontoklasse 1 (driftsregnskapet (fylkes-)kommune), alle funksjoner, artene (509 - 909)."
+                    "languageText": ""
                 },
                 {
                     "languageCode": "nn",
@@ -896,29 +895,30 @@
                     "languageText": ""
                 }
             ],
-            "classificationId": "374",
+            "classificationId": "277",
             "classificationVersions": [
-                "https://data.ssb.no/api/klass/v1/versions/1013",
-                "https://data.ssb.no/api/klass/v1/versions/1014",
-                "https://data.ssb.no/api/klass/v1/versions/1015"
+                "https://data.ssb.no/api/klass/v1/versions/831",
+                "https://data.ssb.no/api/klass/v1/versions/832",
+                "https://data.ssb.no/api/klass/v1/versions/1068",
+                "https://data.ssb.no/api/klass/v1/versions/1204"
             ],
             "validToInRequestedRange": "2020-01-01",
             "validFromInRequestedRange": "2015-01-01"
         },
         {
-            "code": "AD905",
+            "code": "232",
             "name": [
                 {
                     "languageCode": "nb",
-                    "languageText": "Utbytte og eieruttak"
+                    "languageText": "Helsestasjons- og skolehelsetjeneste"
                 },
                 {
                     "languageCode": "nn",
-                    "languageText": "Utbytte og eigaruttak"
+                    "languageText": "Helsestasjons- og skulehelseteneste"
                 },
                 {
                     "languageCode": "en",
-                    "languageText": "Dividends and other distributed income"
+                    "languageText": "Preventive health care, school/health centre"
                 }
             ],
             "rank": 24,
@@ -937,27 +937,27 @@
                     "languageText": ""
                 }
             ],
-            "classificationId": "374",
+            "classificationId": "277",
             "classificationVersions": [
-                "https://data.ssb.no/api/klass/v1/versions/2802"
+                "https://data.ssb.no/api/klass/v1/versions/2781"
             ],
             "validToInRequestedRange": null,
             "validFromInRequestedRange": "2024-01-01"
         },
         {
-            "code": "AGD73",
+            "code": "233",
             "name": [
                 {
                     "languageCode": "nb",
-                    "languageText": "Utlån (netto) i driftsregnskapet"
+                    "languageText": "Annet forebyggende helsearbeid"
                 },
                 {
                     "languageCode": "nn",
-                    "languageText": "Utlån (netto) i driftsregnskapet"
+                    "languageText": "Anna førebyggande helsearbeid"
                 },
                 {
                     "languageCode": "en",
-                    "languageText": "Lending, net in operational accounts"
+                    "languageText": "Preventive health care"
                 }
             ],
             "rank": 25,
@@ -965,7 +965,7 @@
             "notes": [
                 {
                     "languageCode": "nb",
-                    "languageText": "Begrepet viser netto utlån i driftsregnskapet og omfatter mottatte avdrag på lån minus utlån.\n\nDefinisjon (fylkes-)kommunekonsern, (fylkes-)kommunekasse og konsoliderte regnskap:\nTall fra driftsregnskapet, alle funksjoner (100..899), artene [(920,921) - (520,521)]\n\n(Fylkes-)kommunekonsern omfatter regnskapene for (fylkes-)kommunekassen, (fylkes-)kommunale foretak, inter-(fylkes-)kommunale selskaper og - samarbeider, og lånefond. \n\nKonsolidert regnskap omfatter alle regnskapene innen (fylkes-)kommunen som juridisk enhet, dvs. regnskapene for (fylkes-)kommunekassen, (fylkes-)kommunale foretak og inter-(fylkes-)kommunale samarbeider som ikke er egne rettssubjekt, samt lånefond."
+                    "languageText": ""
                 },
                 {
                     "languageCode": "nn",
@@ -976,27 +976,27 @@
                     "languageText": ""
                 }
             ],
-            "classificationId": "374",
+            "classificationId": "277",
             "classificationVersions": [
-                "https://data.ssb.no/api/klass/v1/versions/2802"
+                "https://data.ssb.no/api/klass/v1/versions/2781"
             ],
             "validToInRequestedRange": null,
             "validFromInRequestedRange": "2024-01-01"
         },
         {
-            "code": "AGD29",
+            "code": "234",
             "name": [
                 {
                     "languageCode": "nb",
-                    "languageText": "Årets merforbruk i driftsregnskapet"
+                    "languageText": "Aktiviserings- og servicetjenester til eldre og personer med funksjonsnedsettelser mv."
                 },
                 {
                     "languageCode": "nn",
-                    "languageText": "Årets merforbruk i driftsrekneskapen"
+                    "languageText": "Aktiviserings- og servicetenester overfor eldre og personar med funksjonsnedsettingar mv."
                 },
                 {
                     "languageCode": "en",
-                    "languageText": "Annual accumulated surplus/deficit in operational acounts"
+                    "languageText": "Activation of elderly and disabled"
                 }
             ],
             "rank": 26,
@@ -1004,7 +1004,7 @@
             "notes": [
                 {
                     "languageCode": "nb",
-                    "languageText": "Variabelen omfatter årets merforbruk i driftsregnskapet. Merforbruk skal dekkes inn i de påfølgende regnskapsårene.\n\nDefinisjon (fylkes-)kommunekonsern, kommunekasse og konsoliderte regnskap: kontoklasse 1 og 3 (driftsregnskapet), funksjon 899, art 980.\n\nFrem til og med 2019 var det anledning til å avslutte driftsregnskapet med et mindreforbruk (overskudd). \n\nVariabelverdi med negativ fortegn viser merforbruk i driftsregnskapet dette året. Variabelverdi med positivt fortegn viser mindreforbruk (aktuelt for årene til og med 2019).\n\n(Fylkes-)kommunekonsern omfatter regnskapene for (fylkes-)kommunekassen, (fylkes-)kommunale foretak, inter-(fylkes-)kommunale selskaper og – samarbeider, og lånefond.\n\nKonsolidert regnskap omfatter alle regnskapene innen (fylkes-)kommunen som juridisk enhet, dvs. balanseregnskapene for (fylkes-)kommunekassen, (fylkes-)kommunale foretak og inter-(fylkes-)kommunale  samarbeider som ikke er egne rettssubjekt, samt lånefond."
+                    "languageText": ""
                 },
                 {
                     "languageCode": "nn",
@@ -1015,27 +1015,27 @@
                     "languageText": ""
                 }
             ],
-            "classificationId": "374",
+            "classificationId": "277",
             "classificationVersions": [
-                "https://data.ssb.no/api/klass/v1/versions/2802"
+                "https://data.ssb.no/api/klass/v1/versions/2781"
             ],
             "validToInRequestedRange": null,
             "validFromInRequestedRange": "2024-01-01"
         },
         {
-            "code": "AGD29",
+            "code": "234",
             "name": [
                 {
                     "languageCode": "nb",
-                    "languageText": "Årets mindreforbruk/merforbruk i driftsregnskapet"
+                    "languageText": "Aktiviserings- og servicetjenester overfor eldre og personer med funksjonsnedsettelser"
                 },
                 {
                     "languageCode": "nn",
-                    "languageText": "Årets mindreforbruk/meirforbruk i driftsrekneskapen"
+                    "languageText": "Aktiviserings- og servicetenester overfor eldre og personar med funksjonsnedsettingar"
                 },
                 {
                     "languageCode": "en",
-                    "languageText": "Annual accumulated surplus/deficit in operational acounts"
+                    "languageText": "Activation of elderly and disabled"
                 }
             ],
             "rank": 27,
@@ -1043,7 +1043,7 @@
             "notes": [
                 {
                     "languageCode": "nb",
-                    "languageText": "Årets mindreforbruk/merforbruk i driftsregnskapet. Et mindreforbruk (overskudd) kan disponeres fritt, mens et merforbruk (underskudd) antyder at (fylkes-)kommunen er/kan komme i økonomisk ubalanse. Merforbruk skal dekkes inn i de påfølgende regnskapsårene.\n\nDefinisjon (fylkes-)kommune: kontoklasse 1 og 3 (driftsregnskapet), funksjon 899, artene (580 - 980).\n\nDefinisjon (fylkes-)kommune eks. (fylkes-)kommunale foretak, inter-(fylkes-)kommunale selskaper og -samarbeider: kontoklasse 1 (driftsregnskapet), funksjon 899, artene (580 - 980).\n\nVariabelverdi med positivt fortegn viser mindreforbruk. Dersom variabelverdien er negativ betyr dette at (fylkes)kommunen har et merforbruk i driftsregnskapet dette året."
+                    "languageText": ""
                 },
                 {
                     "languageCode": "nn",
@@ -1054,29 +1054,30 @@
                     "languageText": ""
                 }
             ],
-            "classificationId": "374",
+            "classificationId": "277",
             "classificationVersions": [
-                "https://data.ssb.no/api/klass/v1/versions/1013",
-                "https://data.ssb.no/api/klass/v1/versions/1014",
-                "https://data.ssb.no/api/klass/v1/versions/1015"
+                "https://data.ssb.no/api/klass/v1/versions/831",
+                "https://data.ssb.no/api/klass/v1/versions/832",
+                "https://data.ssb.no/api/klass/v1/versions/1068",
+                "https://data.ssb.no/api/klass/v1/versions/1204"
             ],
             "validToInRequestedRange": "2020-01-01",
             "validFromInRequestedRange": "2015-01-01"
         },
         {
-            "code": "AGI7",
+            "code": "241",
             "name": [
                 {
                     "languageCode": "nb",
-                    "languageText": "Årets udisponert/udekket i investeringsregnskapet"
+                    "languageText": "Diagnose, behandling, re-/habilitering"
                 },
                 {
                     "languageCode": "nn",
-                    "languageText": "Årets udisponert/udekt i investeringsrekneskapen"
+                    "languageText": "Diagnose, behandling, re-/habilitering"
                 },
                 {
                     "languageCode": "en",
-                    "languageText": "Capital account distributed equity/uncovered loss"
+                    "languageText": "Diagnosis, treatment and rehabilitation"
                 }
             ],
             "rank": 28,
@@ -1084,7 +1085,7 @@
             "notes": [
                 {
                     "languageCode": "nb",
-                    "languageText": "Begrepet viser årets udisponert/udekket resultat i investeringsregnskapet. \n\nDefinisjon (fylkes-)kommune: kontoklasse 0 og 4 (investeringsregnskapet), funksjon 899, artene (580) - (980).\n\nDefinisjon kommune ekskl. (fylkes-)kommunale foretak, inter-(fylkes-)kommunale selskaper og -samarbeider: kontoklasse 0 (investeringsregnskapet), funksjon 899, artene (980) - (580).\n\nEt positivt tall angir at (fylkes-)kommunen har et udisponert resultat i investeringsregnskapet, mens et negativt tall angir et udekket resultat."
+                    "languageText": ""
                 },
                 {
                     "languageCode": "nn",
@@ -1095,29 +1096,30 @@
                     "languageText": ""
                 }
             ],
-            "classificationId": "374",
+            "classificationId": "277",
             "classificationVersions": [
-                "https://data.ssb.no/api/klass/v1/versions/1013",
-                "https://data.ssb.no/api/klass/v1/versions/1014",
-                "https://data.ssb.no/api/klass/v1/versions/1015"
+                "https://data.ssb.no/api/klass/v1/versions/831",
+                "https://data.ssb.no/api/klass/v1/versions/832",
+                "https://data.ssb.no/api/klass/v1/versions/1068",
+                "https://data.ssb.no/api/klass/v1/versions/1204"
             ],
             "validToInRequestedRange": "2020-01-01",
             "validFromInRequestedRange": "2015-01-01"
         },
         {
-            "code": "AGI7",
+            "code": "241",
             "name": [
                 {
                     "languageCode": "nb",
-                    "languageText": "Årets udekket i investeringsregnskapet"
+                    "languageText": "Diagnose, behandling, habilitering og rehabilitering"
                 },
                 {
                     "languageCode": "nn",
-                    "languageText": "Årets udekket i investeringsrekneskapen"
+                    "languageText": "Diagnose, behandling, habilitering og rehabilitering"
                 },
                 {
                     "languageCode": "en",
-                    "languageText": "Capital account distributed uncovered loss"
+                    "languageText": "Diagnosis, treatment and rehabilitation"
                 }
             ],
             "rank": 29,
@@ -1125,7 +1127,7 @@
             "notes": [
                 {
                     "languageCode": "nb",
-                    "languageText": "Variabelen omfatter årets udekket beløp i investeringsregnskapet. Udekket beløp skal dekkes inn i de påfølgende regnskapsårene.\n\nDefinisjon (fylkes-)kommunekonsern, (fylkes-)kommunekasse og konsoliderte regnskap: kontoklasse 0 og 4 (investeringsregnskapet), funksjon 899, art 980.\n\nFrem til og med 2019 var det anledning til å avslutte investeringsregnskapet med et udisponert beløp (overskudd). \n\nVariabelverdi med negativ fortegn viser udekket beløp i investeringsregnskapet dette året. Variabelverdi med positivt fortegn viser udisponert beløp (aktuelt for årene til og med 2019).\n\n(Fylkes-)kommunekonsern omfatter regnskapene for (fylkes-)kommunekassen, (fylkes-)kommunale foretak, inter-(fylkes-)kommunale selskaper og - samarbeider, og lånefond. \n\nKonsolidert regnskap omfatter alle regnskapene innen (fylkes-)kommunen som juridisk enhet, dvs. regnskapene for (fylkes-)kommunekassen, (fylkes-)kommunale foretak og inter-(fylkes-)kommunale samarbeider som ikke er egne rettssubjekt, samt lånefond."
+                    "languageText": ""
                 },
                 {
                     "languageCode": "nn",
@@ -1136,32 +1138,3343 @@
                     "languageText": ""
                 }
             ],
-            "classificationId": "374",
+            "classificationId": "277",
             "classificationVersions": [
-                "https://data.ssb.no/api/klass/v1/versions/2802"
+                "https://data.ssb.no/api/klass/v1/versions/2781"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2024-01-01"
+        },
+        {
+            "code": "242",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Råd, veiledning og sosialt forebyggende arbeid"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Råd, rettleiing og sosialt førebyggande arbeid"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Social services, counselling and preventive social work"
+                }
+            ],
+            "rank": 30,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2781"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2024-01-01"
+        },
+        {
+            "code": "243",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Tilbud til personer med rusproblemer"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Tilbod til personar med rusproblem"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Assistance to substance abusers"
+                }
+            ],
+            "rank": 31,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2781"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2024-01-01"
+        },
+        {
+            "code": "244",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Barneverntjeneste"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Barnevernteneste"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Child welfare services"
+                }
+            ],
+            "rank": 32,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2781"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2024-01-01"
+        },
+        {
+            "code": "251",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Barnevernstiltak når barnet ikke er plassert av barnevernet"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Barnevernstiltak når barnet ikkje er plassert av barnevernet"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Child welfare, children living at home"
+                }
+            ],
+            "rank": 33,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2781"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2024-01-01"
+        },
+        {
+            "code": "252",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Barnevernstiltak når barnet er plassert av barnevernet"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Barnevernstiltak når barnet er plassert av barnevernet"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Child welfare, children living away from home"
+                }
+            ],
+            "rank": 34,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2781"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2024-01-01"
+        },
+        {
+            "code": "253",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Helse- og omsorgstjenester i institusjon"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Helse- og omsorgstenester i institusjon"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Nursing and care services in institutions"
+                }
+            ],
+            "rank": 35,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2781"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2024-01-01"
+        },
+        {
+            "code": "254",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Helse- og omsorgstjenester til hjemmeboende"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Helse- og omsorgstenester til heimebuande"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Nursing and care services, home-based"
+                }
+            ],
+            "rank": 36,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/831",
+                "https://data.ssb.no/api/klass/v1/versions/832",
+                "https://data.ssb.no/api/klass/v1/versions/1068",
+                "https://data.ssb.no/api/klass/v1/versions/1204",
+                "https://data.ssb.no/api/klass/v1/versions/1366",
+                "https://data.ssb.no/api/klass/v1/versions/1618",
+                "https://data.ssb.no/api/klass/v1/versions/1777",
+                "https://data.ssb.no/api/klass/v1/versions/2311",
+                "https://data.ssb.no/api/klass/v1/versions/2781"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2015-01-01"
+        },
+        {
+            "code": "255",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Medfinansiering somatiske tjenester"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Medfinansiering somatiske tenester"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Cofinancing somatic services"
+                }
+            ],
+            "rank": 37,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/831"
+            ],
+            "validToInRequestedRange": "2016-01-01",
+            "validFromInRequestedRange": "2015-01-01"
+        },
+        {
+            "code": "256",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Øyeblikkelig hjelp døgntilbud "
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Omgåande hjelp døgntilbod"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Emergency health and care services"
+                }
+            ],
+            "rank": 38,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2781"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2024-01-01"
+        },
+        {
+            "code": "256",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Tilbud om øyeblikkelig hjelp døgnopphold i kommunene"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Tilbod om augeblikkelig hjelp døgnopphald i kommunane"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Emergency health and care services"
+                }
+            ],
+            "rank": 39,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/831",
+                "https://data.ssb.no/api/klass/v1/versions/832",
+                "https://data.ssb.no/api/klass/v1/versions/1068",
+                "https://data.ssb.no/api/klass/v1/versions/1204"
+            ],
+            "validToInRequestedRange": "2020-01-01",
+            "validFromInRequestedRange": "2015-01-01"
+        },
+        {
+            "code": "257",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Hjemmetjenester - personellbase knyttet til bofellesskap/samlokaliserte omsorgsboliger"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Heimetenester - personellbase knytt til bufellesskap/samlokaliserte omsorgsbustader"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Home services - personnel base linked to housing communities/co-located care homes"
+                }
+            ],
+            "rank": 40,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2781"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2024-01-01"
+        },
+        {
+            "code": "258",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Hjemmetjenester - ambulerende virksomhet med mer"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Heimetenester - ambulerande verksemd med meir"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Home services - ambulatory services and more"
+                }
+            ],
+            "rank": 41,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2781"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2024-01-01"
+        },
+        {
+            "code": "261",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Institusjonslokaler"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Institusjonslokale"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Institution facilities"
+                }
+            ],
+            "rank": 42,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2781"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2024-01-01"
+        },
+        {
+            "code": "265",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Kommunalt disponerte boliger"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Kommunalt disponerte bustadar"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Municipally managed housing"
+                }
+            ],
+            "rank": 43,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2781"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2024-01-01"
+        },
+        {
+            "code": "273",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Arbeidsrettede tiltak i kommunal regi"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Arbeidsretta tiltak i kommunal regi"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Local goverment employment measures"
+                }
+            ],
+            "rank": 44,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2781"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2024-01-01"
+        },
+        {
+            "code": "275",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Introduksjonsordningen"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Introduksjonsordninga"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Introductory programme for newly arrived immigrants"
+                }
+            ],
+            "rank": 45,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2781"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2024-01-01"
+        },
+        {
+            "code": "276",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Kvalifiseringsordningen"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Kvalifiseringsordninga"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Qualification programme"
+                }
+            ],
+            "rank": 46,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2781"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2024-01-01"
+        },
+        {
+            "code": "281",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Økonomisk sosialhjelp"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Yting til livsopphald"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Social assistance"
+                }
+            ],
+            "rank": 47,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/831"
+            ],
+            "validToInRequestedRange": "2016-01-01",
+            "validFromInRequestedRange": "2015-01-01"
+        },
+        {
+            "code": "281",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Ytelse til livsopphold"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Yting til livsopphald"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Benefits for living expenses"
+                }
+            ],
+            "rank": 48,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2781"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2024-01-01"
+        },
+        {
+            "code": "283",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Bistand til etablering og opprettholdelse av egen bolig m.v."
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Bistand til etablering og oppretthalding av eigen bustad mv."
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Assistance in setting up and retaining a home"
+                }
+            ],
+            "rank": 49,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2781"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2024-01-01"
+        },
+        {
+            "code": "283",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Bistand til etablering og opprettholdelse av egen bolig"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Bistand til etablering og oppretthalding av eigen bustad"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Assistance in setting up and retaining a home"
+                }
+            ],
+            "rank": 50,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/831",
+                "https://data.ssb.no/api/klass/v1/versions/832",
+                "https://data.ssb.no/api/klass/v1/versions/1068",
+                "https://data.ssb.no/api/klass/v1/versions/1204"
+            ],
+            "validToInRequestedRange": "2020-01-01",
+            "validFromInRequestedRange": "2015-01-01"
+        },
+        {
+            "code": "285",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Tjenester utenfor ordinært kommunalt ansvarsområde"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Tenester utanfor ordinært kommunalt ansvarsområde"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Services other than ordinary municipal obligations"
+                }
+            ],
+            "rank": 51,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2781"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2024-01-01"
+        },
+        {
+            "code": "290",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Interkommunale samarbeid "
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Interkommunale samarbeid "
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Inter-municipal cooperation (§ 27- cooperation)"
+                }
+            ],
+            "rank": 52,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2781"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2024-01-01"
+        },
+        {
+            "code": "290",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Interkommunale samarbeid (§§ 27/28a- samarbeid)"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Interkommunale samarbeid (§§ 27/28a- samarbeid)"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Inter-municipal cooperation (§ 27- cooperation)"
+                }
+            ],
+            "rank": 53,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/831",
+                "https://data.ssb.no/api/klass/v1/versions/832",
+                "https://data.ssb.no/api/klass/v1/versions/1068",
+                "https://data.ssb.no/api/klass/v1/versions/1204"
+            ],
+            "validToInRequestedRange": "2020-01-01",
+            "validFromInRequestedRange": "2015-01-01"
+        },
+        {
+            "code": "301",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Plansaksbehandling"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Plansaksbehandling"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Planning procedures"
+                }
+            ],
+            "rank": 54,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2781"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2024-01-01"
+        },
+        {
+            "code": "302",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Byggesaksbehandling, opprettelse og endring av eiendom og eierseksjonering"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Byggesaksbehandling, oppretting og endring av eigedom og og eigarseksjonering"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Building- and division application, creation and change of property and sectioning"
+                }
+            ],
+            "rank": 55,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2781"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2024-01-01"
+        },
+        {
+            "code": "302",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Byggesaksbehandling og eierseksjonering"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Byggesaksbehandling og eigarseksjonering"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Building- and division application and sectioning"
+                }
+            ],
+            "rank": 56,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/831",
+                "https://data.ssb.no/api/klass/v1/versions/832",
+                "https://data.ssb.no/api/klass/v1/versions/1068",
+                "https://data.ssb.no/api/klass/v1/versions/1204",
+                "https://data.ssb.no/api/klass/v1/versions/1366",
+                "https://data.ssb.no/api/klass/v1/versions/1618"
+            ],
+            "validToInRequestedRange": "2022-01-01",
+            "validFromInRequestedRange": "2015-01-01"
+        },
+        {
+            "code": "303",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Kart og oppmåling"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Kart og oppmåling"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Maps and survey"
+                }
+            ],
+            "rank": 57,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "\n"
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2781"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2024-01-01"
+        },
+        {
+            "code": "304",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Bygge- og delesaksbehandling, ansvarsrett og utslippstillatelser"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Bygge- og delesaksbehandling, ansvarsrett og utsleppstillatingar"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Applications for: constructions of buildings, partition of landed properties, formal privileges o..."
+                }
+            ],
+            "rank": 58,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/831",
+                "https://data.ssb.no/api/klass/v1/versions/832"
+            ],
+            "validToInRequestedRange": "2018-01-01",
+            "validFromInRequestedRange": "2015-01-01"
+        },
+        {
+            "code": "305",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Eierseksjonering"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Eigarseksjonering"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Applications for condominium ownerships"
+                }
+            ],
+            "rank": 59,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/831",
+                "https://data.ssb.no/api/klass/v1/versions/832"
+            ],
+            "validToInRequestedRange": "2018-01-01",
+            "validFromInRequestedRange": "2015-01-01"
+        },
+        {
+            "code": "315",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Boligbygging og fysiske bomiljøtiltak"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Bustadbygging og fysiske bumiljøtiltak"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Construction of houses and residential environment measures"
+                }
+            ],
+            "rank": 60,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2781"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2024-01-01"
+        },
+        {
+            "code": "320",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Kommunal næringsvirksomhet"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Kommunal næringsverksemd"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Municipal business developments"
+                }
+            ],
+            "rank": 61,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2781"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2024-01-01"
+        },
+        {
+            "code": "321",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Konsesjonskraft, kraftrettigheter og annen kraft for videresalg"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Konsesjonskraft, kraftrettar og anna kraft for vidaresal"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Energy concessions, energy/power licence and other energy for resale"
+                }
+            ],
+            "rank": 62,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2781"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2024-01-01"
+        },
+        {
+            "code": "322",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Produksjon, distribusjon og omsetning av kraft"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Produksjon distribusjon og omsetning av kraft"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Production, distribution and sale of energy"
+                }
+            ],
+            "rank": 63,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2781"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2024-01-01"
+        },
+        {
+            "code": "325",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Tilrettelegging og bistand for næringslivet"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Tilrettelegging og bistand for næringslivet"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Facilitation and assistance for the business community"
+                }
+            ],
+            "rank": 64,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2781"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2024-01-01"
+        },
+        {
+            "code": "329",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Landbruksforvaltning og landbruksbasert næringsutvikling"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Landbruksforvaltning og landbruksbasert næringsutvikling"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Agricultural management and agricultural-based business development"
+                }
+            ],
+            "rank": 65,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2781"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2024-01-01"
+        },
+        {
+            "code": "330",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Samferdselsbedrifter/transporttiltak"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Samferdslebedrifter/transporttiltak"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Transport companies/transport measures"
+                }
+            ],
+            "rank": 66,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/831",
+                "https://data.ssb.no/api/klass/v1/versions/832",
+                "https://data.ssb.no/api/klass/v1/versions/1068",
+                "https://data.ssb.no/api/klass/v1/versions/1204"
+            ],
+            "validToInRequestedRange": "2020-01-01",
+            "validFromInRequestedRange": "2015-01-01"
+        },
+        {
+            "code": "330",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Samferdsel og transporttiltak"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Samferdsel og transporttiltak"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Transport companies/transport measures"
+                }
+            ],
+            "rank": 67,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2781"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2024-01-01"
+        },
+        {
+            "code": "332",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Kommunale veier"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Kommunale vegar"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Local roads"
+                }
+            ],
+            "rank": 68,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2781"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2024-01-01"
+        },
+        {
+            "code": "335",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Rekreasjon i tettsted"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Rekreasjon i tettstad"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Recreation in urban areas"
+                }
+            ],
+            "rank": 69,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2781"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2024-01-01"
+        },
+        {
+            "code": "338",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Forebygging av branner og andre ulykker"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Førebygging av brannar og andre ulukker"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Prevention of fires and other accidents"
+                }
+            ],
+            "rank": 70,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2781"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2024-01-01"
+        },
+        {
+            "code": "339",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Beredskap mot branner og andre ulykker"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Beredskap mot brannar og andre ulukker"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Preparedness for fire and other accidents"
+                }
+            ],
+            "rank": 71,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2781"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2024-01-01"
+        },
+        {
+            "code": "340",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Produksjon av vann"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Produksjon av vatn"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Production of water"
+                }
+            ],
+            "rank": 72,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2781"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2024-01-01"
+        },
+        {
+            "code": "345",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Distribusjon av vann"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Distribusjon av vatn"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Distribution of water"
+                }
+            ],
+            "rank": 73,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2781"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2024-01-01"
+        },
+        {
+            "code": "350",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Avløpsrensing"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Avlaupsrensing"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Wastewater treatment"
+                }
+            ],
+            "rank": 74,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2781"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2024-01-01"
+        },
+        {
+            "code": "353",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Avløpsnett og innsamling av avløpsvann"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Avlaupsnett og innsamling av avlaupsvatn"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Wastewater pipelines/ wastewater facilities"
+                }
+            ],
+            "rank": 75,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2781"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2024-01-01"
+        },
+        {
+            "code": "353",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Avløpsnett/innsamling av avløpsvann"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Avlaupsnett/innsamling av avlaupsvatn"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Wastewater pipelines/ wastewater facilities"
+                }
+            ],
+            "rank": 76,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/831",
+                "https://data.ssb.no/api/klass/v1/versions/832",
+                "https://data.ssb.no/api/klass/v1/versions/1068",
+                "https://data.ssb.no/api/klass/v1/versions/1204"
+            ],
+            "validToInRequestedRange": "2020-01-01",
+            "validFromInRequestedRange": "2015-01-01"
+        },
+        {
+            "code": "354",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Tømming av slamavskillere, septiktanker o.l"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Tømming av slamavskiljarar, septiktankar o.l"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Emptying of sludge interceptors, sseptic tanks etc."
+                }
+            ],
+            "rank": 77,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/831",
+                "https://data.ssb.no/api/klass/v1/versions/832",
+                "https://data.ssb.no/api/klass/v1/versions/1068"
+            ],
+            "validToInRequestedRange": "2019-01-01",
+            "validFromInRequestedRange": "2015-01-01"
+        },
+        {
+            "code": "354",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Tømming av slamavskillere, septiktanker o.l. på avløpsanlegg"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Tømming av slamavskiljarar, septiktankar o.l. på avlaupsanlegg"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Emptying of sludge interceptors and septic tanks "
+                }
+            ],
+            "rank": 78,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2781"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2024-01-01"
+        },
+        {
+            "code": "355",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Innsamling, gjenvinning og sluttbehandling av husholdningsavfall"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Innsamling, gjenvinning og sluttbehandling av hushaldsavfall"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Collecting, recycling and treatment of household waste"
+                }
+            ],
+            "rank": 79,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2781"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2024-01-01"
+        },
+        {
+            "code": "360",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Naturforvaltning og friluftsliv"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Naturforvaltning og friluftsliv"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Management of nature and outdoor activities"
+                }
+            ],
+            "rank": 80,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2781"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2024-01-01"
+        },
+        {
+            "code": "365",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Kulturminneforvaltning"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Kulturminneforvaltning"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Cultural heritage protection"
+                }
+            ],
+            "rank": 81,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2781"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2024-01-01"
+        },
+        {
+            "code": "370",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Bibliotek"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Bibliotek"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Libraries"
+                }
+            ],
+            "rank": 82,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2781"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2024-01-01"
+        },
+        {
+            "code": "373",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Kino"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Kino"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Cinemas"
+                }
+            ],
+            "rank": 83,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2781"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2024-01-01"
+        },
+        {
+            "code": "375",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Muséer"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Museum"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Museums"
+                }
+            ],
+            "rank": 84,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2781"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2024-01-01"
+        },
+        {
+            "code": "377",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Kunstformidling"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Kunstformidling"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Cultural arrangements"
+                }
+            ],
+            "rank": 85,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2781"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2024-01-01"
+        },
+        {
+            "code": "380",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Idrett og tilskudd til andres idrettsanlegg"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Idrett og tilskot til andre sine idrettsanlegg"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Sports and grants donated to other sporting facilities"
+                }
+            ],
+            "rank": 86,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2781"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2024-01-01"
+        },
+        {
+            "code": "381",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Kommunale idrettsbygg og idrettsanlegg"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Kommunale idrettsbygg og idrettsanlegg"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Municipal sports buildings and  facilities"
+                }
+            ],
+            "rank": 87,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2781"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2024-01-01"
+        },
+        {
+            "code": "383",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Musikk- og kulturskoler"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Musikk- og kulturskular"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Municipal music and culture schools"
+                }
+            ],
+            "rank": 88,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/831",
+                "https://data.ssb.no/api/klass/v1/versions/832",
+                "https://data.ssb.no/api/klass/v1/versions/1068"
+            ],
+            "validToInRequestedRange": "2019-01-01",
+            "validFromInRequestedRange": "2015-01-01"
+        },
+        {
+            "code": "383",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Kulturskoler"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Kulturskular"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Municipal cultural schools"
+                }
+            ],
+            "rank": 89,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2781"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2024-01-01"
+        },
+        {
+            "code": "385",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Andre kulturaktiviteter og tilskudd til andres kulturbygg"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Andre kulturaktivitetar og tilskot til andre sine kulturbygg"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Other cultural activities and grants donated to other cultural buildings"
+                }
+            ],
+            "rank": 90,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2781"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2024-01-01"
+        },
+        {
+            "code": "386",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Kommunale kulturbygg"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Kommunale kulturbygg"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Municipal cultural buildings"
+                }
+            ],
+            "rank": 91,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2781"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2024-01-01"
+        },
+        {
+            "code": "390",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Den norske kirke"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Den norske kyrkje"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "The Church of Norway"
+                }
+            ],
+            "rank": 92,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2781"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2024-01-01"
+        },
+        {
+            "code": "392",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Tilskudd til tros- og livssynssamfunn"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Tilskot til tru- og livssynssamfunn"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Grants to religious and belief communities"
+                }
+            ],
+            "rank": 93,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2781"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2024-01-01"
+        },
+        {
+            "code": "392",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Andre religiøse formål"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Tilskot til tru- og livssynssamfunn"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Cemeteries and crematoria"
+                }
+            ],
+            "rank": 94,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/831"
+            ],
+            "validToInRequestedRange": "2016-01-01",
+            "validFromInRequestedRange": "2015-01-01"
+        },
+        {
+            "code": "393",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Gravplasser og krematorier"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Gravplassar og krematorium"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Cemeteries and crematoria"
+                }
+            ],
+            "rank": 95,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2781"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2024-01-01"
+        },
+        {
+            "code": "FGK12",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Sosialsektoren samlet"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Sosialsektoren samla"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Total social services"
+                }
+            ],
+            "rank": 96,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Grupperingen omfatter funksjonene 242, 243, 273, 275, 276 og 281 innen sosialtjenesten."
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2781"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2024-01-01"
+        },
+        {
+            "code": "FGK13",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Barnevern"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Barnevern"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Child welfare"
+                }
+            ],
+            "rank": 97,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Grupperingen omfatter funksjonene 244, 251 og 252 innen barnevern."
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2781"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2024-01-01"
+        },
+        {
+            "code": "FGK14",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Vann, avløp, renovasjon, avfall (VAR)"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Vatn, avlaup, renovasjon, avfall (VAR)"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Water supply, wastewater and waste management"
+                }
+            ],
+            "rank": 98,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Grupperingen omfatter funksjonene 340, 345, 350, 353, 354 og 355 innen VAR."
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2781"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2024-01-01"
+        },
+        {
+            "code": "FGK15",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Kirke"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Kyrkje"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Religion services"
+                }
+            ],
+            "rank": 99,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Grupperingen omfatter funksjonene 390, 392 og 393 innen kirke."
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2781"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2024-01-01"
+        },
+        {
+            "code": "FGK16",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Kommunale boliger"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Kommunale bustadar"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Public housing and related services"
+                }
+            ],
+            "rank": 100,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Grupperingen omfatter funksjonene 265, 283 og 315 innen kommunale boliger."
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2781"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2024-01-01"
+        },
+        {
+            "code": "FGK17",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Brann- og ulykkesvern"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Brann- og ulukkesvern"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Fire and accident protection"
+                }
+            ],
+            "rank": 101,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Grupperingen omfatter funksjonene 338 og 339 innen brann- og ullykkesvern."
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2781"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2024-01-01"
+        },
+        {
+            "code": "FGK1a",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Politisk styring og kontrollvirksomhet, kommune"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Politisk styring og kontrollverksemd, kommune"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Regulation and control, municipality"
+                }
+            ],
+            "rank": 102,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Grupperingen omfatter funksjonene 100 og 110 innen politisk styring og kontrollvirksomhet."
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2781"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2024-01-01"
+        },
+        {
+            "code": "FGK1b",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Administrasjon, kommune"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Administrasjon, kommune"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Administration, municipality"
+                }
+            ],
+            "rank": 103,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Grupperingen omfatter funksjonene 120, 121 og 130 innen administrasjon."
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2781"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2024-01-01"
+        },
+        {
+            "code": "FGK1c",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Fellesutgifter, kommune"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Fellesutgifter, kommune"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Variuos joint expenditures, municipality"
+                }
+            ],
+            "rank": 104,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Grupperingen omfatter funksjonene 170, 171, 172, 173 og 180 innen fellesutgifter."
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2781"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2024-01-01"
+        },
+        {
+            "code": "FGK2",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Kultursektoren, kommune"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Kultursektoren, kommune"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Cultural services, municipality"
+                }
+            ],
+            "rank": 105,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Grupperingen omfatter funksjonene 231, 370, 373, 375, 377, 380, 381, 383, 385 og 386 innen kultur."
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2781"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2024-01-01"
+        },
+        {
+            "code": "FGK3",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Fysisk planlegging, kulturminner, natur, nærmiljø, kommune"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Fysisk planlegging, kulturminner, natur, nærmiljø, kommune"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Planning, cultural heritage protection and community management"
+                }
+            ],
+            "rank": 106,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Grupperingen omfatter funksjonene 301, 302, 303, 304, 305, 335, 360 og 365 innen fysisk planlegging, kulturminner, natur og nærmiljø."
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/831",
+                "https://data.ssb.no/api/klass/v1/versions/832"
+            ],
+            "validToInRequestedRange": "2018-01-01",
+            "validFromInRequestedRange": "2015-01-01"
+        },
+        {
+            "code": "FGK3",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Plan, byggesak og miljø, kommune"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Plan, byggesak og miljø, kommune"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Municipal management of planning, building applications and environment"
+                }
+            ],
+            "rank": 107,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Grupperingen omfatter funksjonene 301, 302, 303, 335, 360 og 365 innen fysisk planlegging, kulturminner, natur og nærmiljø."
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2781"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2024-01-01"
+        },
+        {
+            "code": "FGK4",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Næringsforvaltning, kommune"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Næringsforvaltning, kommune"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Trade and industry management, municipality"
+                }
+            ],
+            "rank": 108,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Grupperingen omfatter funksjonene 320, 321, 322, 325 og 329 innen næringsforvaltning."
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2781"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2024-01-01"
+        },
+        {
+            "code": "FGK5",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Samferdsel, kommune"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Samferdsle, kommune"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Transport affairs, municipality"
+                }
+            ],
+            "rank": 109,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Grupperingen omfatter funksjonene 330 og 332 innen samferdsel."
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2781"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2024-01-01"
+        },
+        {
+            "code": "FGK6a",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Eiendomsforvaltning, kommune"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Eigedomsforvaltning, kommune"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Property management, municipality"
+                }
+            ],
+            "rank": 110,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Grupperingen omfatter funksjonene 121, 130, 221, 222, 261, 381 og 386 innen eiendomsforvaltning."
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2781"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2024-01-01"
+        },
+        {
+            "code": "FGK7",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Barnehage"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Barnehage"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Pre-school"
+                }
+            ],
+            "rank": 111,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Grupperingen omfatter funksjonene 201, 211 og 221 innen barnehage."
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2781"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2024-01-01"
+        },
+        {
+            "code": "FGK8b",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Grunnskole"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Grunnskule"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Primary and secondary schools, school buildings, school transport and adult educaton"
+                }
+            ],
+            "rank": 112,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Grupperingen omfatter funksjonene 202, 215, 222 og 223 innen grunnskole og funksjon 213 Voksenopplæring"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2781"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2024-01-01"
+        },
+        {
+            "code": "FGK9",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Helse- og omsorg"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Helse- og omsorg"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Health care,nursing and care services"
+                }
+            ],
+            "rank": 113,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Grupperingen omfatter funksjonene 232, 233, 234, 241, 253, 257, 258, 256 og 261 innen helse og omsorg."
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/2781"
             ],
             "validToInRequestedRange": null,
             "validFromInRequestedRange": "2024-01-01"
         }
     ],
-    "subsetId": "uttrekk_for_finansielle_nokkeltall_i_prosent_av_brutto_driftsinntekter_konsern",
+    "subsetId": "uttrekk_for_detaljerte_regnskapstall_driftsregnskapet_kommuner_funksjoner",
     "validFrom": "2024-01-01",
-    "versionId": "a7200e46-4654-4683-9664-5c58362f7cf6",
-    "createdDate": "2024-11-22",
-    "lastModified": "2024-11-22T10:28:18Z",
+    "versionId": "2732dfa7-1be3-40d7-a8f4-0d03a0b63feb",
+    "createdDate": "2024-11-21",
+    "lastModified": "2024-11-21T14:25:31Z",
     "versionRationale": [
         {
             "languageCode": "nb",
-            "languageText": "Oppdatert med nye koder"
+            "languageText": "Oppdatert med nye funksjoner f.o.m. regnskapsåret 2024"
         }
     ],
     "administrativeStatus": "OPEN",
     "_links": {
         "self": {
-            "href": "/v2/subsets/uttrekk_for_finansielle_nokkeltall_i_prosent_av_brutto_driftsinntekter_konsern/versions/a7200e46-4654-4683-9664-5c58362f7cf6"
+            "href": "/v2/subsets/uttrekk_for_detaljerte_regnskapstall_driftsregnskapet_kommuner_funksjoner/versions/2732dfa7-1be3-40d7-a8f4-0d03a0b63feb"
         },
         "series": {
-            "href": "/v2/subsets/uttrekk_for_finansielle_nokkeltall_i_prosent_av_brutto_driftsinntekter_konsern"
+            "href": "/v2/subsets/uttrekk_for_detaljerte_regnskapstall_driftsregnskapet_kommuner_funksjoner"
         }
     }
 }

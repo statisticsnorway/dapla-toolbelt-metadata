@@ -1,19 +1,19 @@
 {
     "codes": [
         {
-            "code": "EAFK",
+            "code": "100",
             "name": [
                 {
                     "languageCode": "nb",
-                    "languageText": "Landet"
+                    "languageText": "Politisk styring"
                 },
                 {
                     "languageCode": "nn",
-                    "languageText": "Landet"
+                    "languageText": "Politisk styring"
                 },
                 {
                     "languageCode": "en",
-                    "languageText": "The whole country"
+                    "languageText": "Political management"
                 }
             ],
             "rank": 1,
@@ -21,42 +21,46 @@
             "notes": [
                 {
                     "languageCode": "nb",
-                    "languageText": "null"
+                    "languageText": ""
                 },
                 {
                     "languageCode": "nn",
-                    "languageText": "null"
+                    "languageText": ""
                 },
                 {
                     "languageCode": "en",
-                    "languageText": "null"
+                    "languageText": ""
                 }
             ],
-            "classificationId": "232",
+            "classificationId": "277",
             "classificationVersions": [
-                "https://data.ssb.no/api/klass/v1/versions/771",
-                "https://data.ssb.no/api/klass/v1/versions/940",
-                "https://data.ssb.no/api/klass/v1/versions/1206",
-                "https://data.ssb.no/api/klass/v1/versions/2152",
-                "https://data.ssb.no/api/klass/v1/versions/2153"
+                "https://data.ssb.no/api/klass/v1/versions/831",
+                "https://data.ssb.no/api/klass/v1/versions/832",
+                "https://data.ssb.no/api/klass/v1/versions/1068",
+                "https://data.ssb.no/api/klass/v1/versions/1204",
+                "https://data.ssb.no/api/klass/v1/versions/1366",
+                "https://data.ssb.no/api/klass/v1/versions/1618",
+                "https://data.ssb.no/api/klass/v1/versions/1777",
+                "https://data.ssb.no/api/klass/v1/versions/2311",
+                "https://data.ssb.no/api/klass/v1/versions/2781"
             ],
             "validToInRequestedRange": null,
             "validFromInRequestedRange": "2015-01-01"
         },
         {
-            "code": "EAFKUO",
+            "code": "110",
             "name": [
                 {
                     "languageCode": "nb",
-                    "languageText": "Landet uten Oslo"
+                    "languageText": "Kontroll og revisjon"
                 },
                 {
                     "languageCode": "nn",
-                    "languageText": "Landet utan Oslo"
+                    "languageText": "Kontroll og revisjon"
                 },
                 {
                     "languageCode": "en",
-                    "languageText": "The whole country except Oslo"
+                    "languageText": "Regulation and control"
                 }
             ],
             "rank": 2,
@@ -64,42 +68,46 @@
             "notes": [
                 {
                     "languageCode": "nb",
-                    "languageText": "null"
+                    "languageText": ""
                 },
                 {
                     "languageCode": "nn",
-                    "languageText": "null"
+                    "languageText": ""
                 },
                 {
                     "languageCode": "en",
-                    "languageText": "null"
+                    "languageText": ""
                 }
             ],
-            "classificationId": "232",
+            "classificationId": "277",
             "classificationVersions": [
-                "https://data.ssb.no/api/klass/v1/versions/771",
-                "https://data.ssb.no/api/klass/v1/versions/940",
-                "https://data.ssb.no/api/klass/v1/versions/1206",
-                "https://data.ssb.no/api/klass/v1/versions/2152",
-                "https://data.ssb.no/api/klass/v1/versions/2153"
+                "https://data.ssb.no/api/klass/v1/versions/831",
+                "https://data.ssb.no/api/klass/v1/versions/832",
+                "https://data.ssb.no/api/klass/v1/versions/1068",
+                "https://data.ssb.no/api/klass/v1/versions/1204",
+                "https://data.ssb.no/api/klass/v1/versions/1366",
+                "https://data.ssb.no/api/klass/v1/versions/1618",
+                "https://data.ssb.no/api/klass/v1/versions/1777",
+                "https://data.ssb.no/api/klass/v1/versions/2311",
+                "https://data.ssb.no/api/klass/v1/versions/2781"
             ],
             "validToInRequestedRange": null,
             "validFromInRequestedRange": "2015-01-01"
         },
         {
-            "code": "EAFK01",
+            "code": "120",
             "name": [
                 {
                     "languageCode": "nb",
-                    "languageText": "Øst-Norge"
+                    "languageText": "Administrasjon"
                 },
                 {
                     "languageCode": "nn",
-                    "languageText": "Øst-Norge"
+                    "languageText": "Administrasjon"
                 },
                 {
                     "languageCode": "en",
-                    "languageText": "East of Norway"
+                    "languageText": "Administration"
                 }
             ],
             "rank": 3,
@@ -107,42 +115,46 @@
             "notes": [
                 {
                     "languageCode": "nb",
-                    "languageText": "null"
+                    "languageText": ""
                 },
                 {
                     "languageCode": "nn",
-                    "languageText": "null"
+                    "languageText": ""
                 },
                 {
                     "languageCode": "en",
-                    "languageText": "null"
+                    "languageText": ""
                 }
             ],
-            "classificationId": "232",
+            "classificationId": "277",
             "classificationVersions": [
-                "https://data.ssb.no/api/klass/v1/versions/771",
-                "https://data.ssb.no/api/klass/v1/versions/940",
-                "https://data.ssb.no/api/klass/v1/versions/1206",
-                "https://data.ssb.no/api/klass/v1/versions/2152",
-                "https://data.ssb.no/api/klass/v1/versions/2153"
+                "https://data.ssb.no/api/klass/v1/versions/831",
+                "https://data.ssb.no/api/klass/v1/versions/832",
+                "https://data.ssb.no/api/klass/v1/versions/1068",
+                "https://data.ssb.no/api/klass/v1/versions/1204",
+                "https://data.ssb.no/api/klass/v1/versions/1366",
+                "https://data.ssb.no/api/klass/v1/versions/1618",
+                "https://data.ssb.no/api/klass/v1/versions/1777",
+                "https://data.ssb.no/api/klass/v1/versions/2311",
+                "https://data.ssb.no/api/klass/v1/versions/2781"
             ],
             "validToInRequestedRange": null,
             "validFromInRequestedRange": "2015-01-01"
         },
         {
-            "code": "EAFK02",
+            "code": "121",
             "name": [
                 {
                     "languageCode": "nb",
-                    "languageText": "Sør-Norge"
+                    "languageText": "Forvaltningsutgifter i eiendomsforvaltningen"
                 },
                 {
                     "languageCode": "nn",
-                    "languageText": "Sør-Norge"
+                    "languageText": "Forvaltningsutgifter i eigedomsforvaltninga"
                 },
                 {
                     "languageCode": "en",
-                    "languageText": "South of Norway"
+                    "languageText": "Administration expenses of managing property/property management"
                 }
             ],
             "rank": 4,
@@ -150,42 +162,46 @@
             "notes": [
                 {
                     "languageCode": "nb",
-                    "languageText": "null"
+                    "languageText": ""
                 },
                 {
                     "languageCode": "nn",
-                    "languageText": "null"
+                    "languageText": ""
                 },
                 {
                     "languageCode": "en",
-                    "languageText": "null"
+                    "languageText": ""
                 }
             ],
-            "classificationId": "232",
+            "classificationId": "277",
             "classificationVersions": [
-                "https://data.ssb.no/api/klass/v1/versions/771",
-                "https://data.ssb.no/api/klass/v1/versions/940",
-                "https://data.ssb.no/api/klass/v1/versions/1206",
-                "https://data.ssb.no/api/klass/v1/versions/2152",
-                "https://data.ssb.no/api/klass/v1/versions/2153"
+                "https://data.ssb.no/api/klass/v1/versions/831",
+                "https://data.ssb.no/api/klass/v1/versions/832",
+                "https://data.ssb.no/api/klass/v1/versions/1068",
+                "https://data.ssb.no/api/klass/v1/versions/1204",
+                "https://data.ssb.no/api/klass/v1/versions/1366",
+                "https://data.ssb.no/api/klass/v1/versions/1618",
+                "https://data.ssb.no/api/klass/v1/versions/1777",
+                "https://data.ssb.no/api/klass/v1/versions/2311",
+                "https://data.ssb.no/api/klass/v1/versions/2781"
             ],
             "validToInRequestedRange": null,
             "validFromInRequestedRange": "2015-01-01"
         },
         {
-            "code": "EAFK03",
+            "code": "130",
             "name": [
                 {
                     "languageCode": "nb",
-                    "languageText": "Vest-Norge"
+                    "languageText": "Administrasjonslokaler"
                 },
                 {
                     "languageCode": "nn",
-                    "languageText": "Vest-Norge"
+                    "languageText": "Administrasjonslokaler"
                 },
                 {
                     "languageCode": "en",
-                    "languageText": "West of Norway"
+                    "languageText": "Administration buildings"
                 }
             ],
             "rank": 5,
@@ -193,42 +209,46 @@
             "notes": [
                 {
                     "languageCode": "nb",
-                    "languageText": "null"
+                    "languageText": ""
                 },
                 {
                     "languageCode": "nn",
-                    "languageText": "null"
+                    "languageText": ""
                 },
                 {
                     "languageCode": "en",
-                    "languageText": "null"
+                    "languageText": ""
                 }
             ],
-            "classificationId": "232",
+            "classificationId": "277",
             "classificationVersions": [
-                "https://data.ssb.no/api/klass/v1/versions/771",
-                "https://data.ssb.no/api/klass/v1/versions/940",
-                "https://data.ssb.no/api/klass/v1/versions/1206",
-                "https://data.ssb.no/api/klass/v1/versions/2152",
-                "https://data.ssb.no/api/klass/v1/versions/2153"
+                "https://data.ssb.no/api/klass/v1/versions/831",
+                "https://data.ssb.no/api/klass/v1/versions/832",
+                "https://data.ssb.no/api/klass/v1/versions/1068",
+                "https://data.ssb.no/api/klass/v1/versions/1204",
+                "https://data.ssb.no/api/klass/v1/versions/1366",
+                "https://data.ssb.no/api/klass/v1/versions/1618",
+                "https://data.ssb.no/api/klass/v1/versions/1777",
+                "https://data.ssb.no/api/klass/v1/versions/2311",
+                "https://data.ssb.no/api/klass/v1/versions/2781"
             ],
             "validToInRequestedRange": null,
             "validFromInRequestedRange": "2015-01-01"
         },
         {
-            "code": "EAFK04",
+            "code": "170",
             "name": [
                 {
                     "languageCode": "nb",
-                    "languageText": "Midt-Norge"
+                    "languageText": "Årets premieavvik"
                 },
                 {
                     "languageCode": "nn",
-                    "languageText": "Midt-Norge"
+                    "languageText": "Premieavvik i år"
                 },
                 {
                     "languageCode": "en",
-                    "languageText": "Midle of Norway"
+                    "languageText": "This years' pension premium deviation"
                 }
             ],
             "rank": 6,
@@ -236,42 +256,46 @@
             "notes": [
                 {
                     "languageCode": "nb",
-                    "languageText": "null"
+                    "languageText": ""
                 },
                 {
                     "languageCode": "nn",
-                    "languageText": "null"
+                    "languageText": ""
                 },
                 {
                     "languageCode": "en",
-                    "languageText": "null"
+                    "languageText": ""
                 }
             ],
-            "classificationId": "232",
+            "classificationId": "277",
             "classificationVersions": [
-                "https://data.ssb.no/api/klass/v1/versions/771",
-                "https://data.ssb.no/api/klass/v1/versions/940",
-                "https://data.ssb.no/api/klass/v1/versions/1206",
-                "https://data.ssb.no/api/klass/v1/versions/2152",
-                "https://data.ssb.no/api/klass/v1/versions/2153"
+                "https://data.ssb.no/api/klass/v1/versions/831",
+                "https://data.ssb.no/api/klass/v1/versions/832",
+                "https://data.ssb.no/api/klass/v1/versions/1068",
+                "https://data.ssb.no/api/klass/v1/versions/1204",
+                "https://data.ssb.no/api/klass/v1/versions/1366",
+                "https://data.ssb.no/api/klass/v1/versions/1618",
+                "https://data.ssb.no/api/klass/v1/versions/1777",
+                "https://data.ssb.no/api/klass/v1/versions/2311",
+                "https://data.ssb.no/api/klass/v1/versions/2781"
             ],
             "validToInRequestedRange": null,
             "validFromInRequestedRange": "2015-01-01"
         },
         {
-            "code": "EAFK05",
+            "code": "171",
             "name": [
                 {
                     "languageCode": "nb",
-                    "languageText": "Nord-Norge"
+                    "languageText": "Amortisering av tidligere års premieavvik"
                 },
                 {
                     "languageCode": "nn",
-                    "languageText": "Nord-Norge"
+                    "languageText": "Amortisering av tidlegare år sine premieavvik"
                 },
                 {
                     "languageCode": "en",
-                    "languageText": "North of Norway"
+                    "languageText": "Amortisation of previous years' pension premium deviation"
                 }
             ],
             "rank": 7,
@@ -279,42 +303,46 @@
             "notes": [
                 {
                     "languageCode": "nb",
-                    "languageText": "null"
+                    "languageText": ""
                 },
                 {
                     "languageCode": "nn",
-                    "languageText": "null"
+                    "languageText": ""
                 },
                 {
                     "languageCode": "en",
-                    "languageText": "null"
+                    "languageText": ""
                 }
             ],
-            "classificationId": "232",
+            "classificationId": "277",
             "classificationVersions": [
-                "https://data.ssb.no/api/klass/v1/versions/771",
-                "https://data.ssb.no/api/klass/v1/versions/940",
-                "https://data.ssb.no/api/klass/v1/versions/1206",
-                "https://data.ssb.no/api/klass/v1/versions/2152",
-                "https://data.ssb.no/api/klass/v1/versions/2153"
+                "https://data.ssb.no/api/klass/v1/versions/831",
+                "https://data.ssb.no/api/klass/v1/versions/832",
+                "https://data.ssb.no/api/klass/v1/versions/1068",
+                "https://data.ssb.no/api/klass/v1/versions/1204",
+                "https://data.ssb.no/api/klass/v1/versions/1366",
+                "https://data.ssb.no/api/klass/v1/versions/1618",
+                "https://data.ssb.no/api/klass/v1/versions/1777",
+                "https://data.ssb.no/api/klass/v1/versions/2311",
+                "https://data.ssb.no/api/klass/v1/versions/2781"
             ],
             "validToInRequestedRange": null,
             "validFromInRequestedRange": "2015-01-01"
         },
         {
-            "code": "EAFK06",
+            "code": "172",
             "name": [
                 {
                     "languageCode": "nb",
-                    "languageText": "Oslo kommune"
+                    "languageText": "Pensjon"
                 },
                 {
                     "languageCode": "nn",
-                    "languageText": "Oslo kommune"
+                    "languageText": "Pensjon"
                 },
                 {
                     "languageCode": "en",
-                    "languageText": "Oslo municipality"
+                    "languageText": "Pension"
                 }
             ],
             "rank": 8,
@@ -322,47 +350,4717 @@
             "notes": [
                 {
                     "languageCode": "nb",
-                    "languageText": "null"
+                    "languageText": ""
                 },
                 {
                     "languageCode": "nn",
-                    "languageText": "null"
+                    "languageText": ""
                 },
                 {
                     "languageCode": "en",
-                    "languageText": "null"
+                    "languageText": ""
                 }
             ],
-            "classificationId": "232",
+            "classificationId": "277",
             "classificationVersions": [
-                "https://data.ssb.no/api/klass/v1/versions/771",
-                "https://data.ssb.no/api/klass/v1/versions/940",
-                "https://data.ssb.no/api/klass/v1/versions/1206",
-                "https://data.ssb.no/api/klass/v1/versions/2152",
-                "https://data.ssb.no/api/klass/v1/versions/2153"
+                "https://data.ssb.no/api/klass/v1/versions/831",
+                "https://data.ssb.no/api/klass/v1/versions/832",
+                "https://data.ssb.no/api/klass/v1/versions/1068",
+                "https://data.ssb.no/api/klass/v1/versions/1204",
+                "https://data.ssb.no/api/klass/v1/versions/1366",
+                "https://data.ssb.no/api/klass/v1/versions/1618",
+                "https://data.ssb.no/api/klass/v1/versions/1777",
+                "https://data.ssb.no/api/klass/v1/versions/2311",
+                "https://data.ssb.no/api/klass/v1/versions/2781"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2015-01-01"
+        },
+        {
+            "code": "173",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Premiefond"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Premiefond"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Premium fund"
+                }
+            ],
+            "rank": 9,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/831",
+                "https://data.ssb.no/api/klass/v1/versions/832",
+                "https://data.ssb.no/api/klass/v1/versions/1068",
+                "https://data.ssb.no/api/klass/v1/versions/1204",
+                "https://data.ssb.no/api/klass/v1/versions/1366",
+                "https://data.ssb.no/api/klass/v1/versions/1618",
+                "https://data.ssb.no/api/klass/v1/versions/1777",
+                "https://data.ssb.no/api/klass/v1/versions/2311",
+                "https://data.ssb.no/api/klass/v1/versions/2781"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2015-01-01"
+        },
+        {
+            "code": "180",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Diverse fellesutgifter"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Diverse fellesutgifter"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Variuos joint expenditures"
+                }
+            ],
+            "rank": 10,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/831",
+                "https://data.ssb.no/api/klass/v1/versions/832",
+                "https://data.ssb.no/api/klass/v1/versions/1068",
+                "https://data.ssb.no/api/klass/v1/versions/1204",
+                "https://data.ssb.no/api/klass/v1/versions/1366",
+                "https://data.ssb.no/api/klass/v1/versions/1618",
+                "https://data.ssb.no/api/klass/v1/versions/1777",
+                "https://data.ssb.no/api/klass/v1/versions/2311",
+                "https://data.ssb.no/api/klass/v1/versions/2781"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2015-01-01"
+        },
+        {
+            "code": "190",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Interne serviceenheter"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Interne serviceeiningar"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Internal service units"
+                }
+            ],
+            "rank": 11,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/831",
+                "https://data.ssb.no/api/klass/v1/versions/832",
+                "https://data.ssb.no/api/klass/v1/versions/1068",
+                "https://data.ssb.no/api/klass/v1/versions/1204"
+            ],
+            "validToInRequestedRange": "2020-01-01",
+            "validFromInRequestedRange": "2015-01-01"
+        },
+        {
+            "code": "201",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Barnehage"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Barnehage"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Kindergarten"
+                }
+            ],
+            "rank": 12,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/1068",
+                "https://data.ssb.no/api/klass/v1/versions/1204",
+                "https://data.ssb.no/api/klass/v1/versions/1366",
+                "https://data.ssb.no/api/klass/v1/versions/1618",
+                "https://data.ssb.no/api/klass/v1/versions/1777",
+                "https://data.ssb.no/api/klass/v1/versions/2311",
+                "https://data.ssb.no/api/klass/v1/versions/2781"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2018-01-01"
+        },
+        {
+            "code": "201",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Førskole"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Førskule"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Pre-school"
+                }
+            ],
+            "rank": 13,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/831",
+                "https://data.ssb.no/api/klass/v1/versions/832"
+            ],
+            "validToInRequestedRange": "2018-01-01",
+            "validFromInRequestedRange": "2015-01-01"
+        },
+        {
+            "code": "202",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Grunnskole"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Grunnskule"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Primary and lower secondary schools"
+                }
+            ],
+            "rank": 14,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/831",
+                "https://data.ssb.no/api/klass/v1/versions/832",
+                "https://data.ssb.no/api/klass/v1/versions/1068",
+                "https://data.ssb.no/api/klass/v1/versions/1204",
+                "https://data.ssb.no/api/klass/v1/versions/1366",
+                "https://data.ssb.no/api/klass/v1/versions/1618",
+                "https://data.ssb.no/api/klass/v1/versions/1777",
+                "https://data.ssb.no/api/klass/v1/versions/2311",
+                "https://data.ssb.no/api/klass/v1/versions/2781"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2015-01-01"
+        },
+        {
+            "code": "211",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Styrket tilbud til førskolebarn"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Styrka tilbod til førskulebarn"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Enhanced kindergarten services"
+                }
+            ],
+            "rank": 15,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/831",
+                "https://data.ssb.no/api/klass/v1/versions/832",
+                "https://data.ssb.no/api/klass/v1/versions/1068",
+                "https://data.ssb.no/api/klass/v1/versions/1204",
+                "https://data.ssb.no/api/klass/v1/versions/1366",
+                "https://data.ssb.no/api/klass/v1/versions/1618",
+                "https://data.ssb.no/api/klass/v1/versions/1777",
+                "https://data.ssb.no/api/klass/v1/versions/2311",
+                "https://data.ssb.no/api/klass/v1/versions/2781"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2015-01-01"
+        },
+        {
+            "code": "213",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Voksenopplæring"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Vaksenopplæring"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Adult education at primary and lower secondary school level"
+                }
+            ],
+            "rank": 16,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/831",
+                "https://data.ssb.no/api/klass/v1/versions/832",
+                "https://data.ssb.no/api/klass/v1/versions/1068",
+                "https://data.ssb.no/api/klass/v1/versions/1204",
+                "https://data.ssb.no/api/klass/v1/versions/1366",
+                "https://data.ssb.no/api/klass/v1/versions/1618",
+                "https://data.ssb.no/api/klass/v1/versions/1777",
+                "https://data.ssb.no/api/klass/v1/versions/2311",
+                "https://data.ssb.no/api/klass/v1/versions/2781"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2015-01-01"
+        },
+        {
+            "code": "215",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Skolefritidstilbud"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Skulefritidstilbod"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Out of school care"
+                }
+            ],
+            "rank": 17,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/831",
+                "https://data.ssb.no/api/klass/v1/versions/832",
+                "https://data.ssb.no/api/klass/v1/versions/1068",
+                "https://data.ssb.no/api/klass/v1/versions/1204",
+                "https://data.ssb.no/api/klass/v1/versions/1366",
+                "https://data.ssb.no/api/klass/v1/versions/1618",
+                "https://data.ssb.no/api/klass/v1/versions/1777",
+                "https://data.ssb.no/api/klass/v1/versions/2311",
+                "https://data.ssb.no/api/klass/v1/versions/2781"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2015-01-01"
+        },
+        {
+            "code": "221",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Barnehagelokaler og skyss"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Barnehagelokale og skyss"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Kindergarten facilities and transportation"
+                }
+            ],
+            "rank": 18,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/1068",
+                "https://data.ssb.no/api/klass/v1/versions/1204",
+                "https://data.ssb.no/api/klass/v1/versions/1366",
+                "https://data.ssb.no/api/klass/v1/versions/1618",
+                "https://data.ssb.no/api/klass/v1/versions/1777",
+                "https://data.ssb.no/api/klass/v1/versions/2311",
+                "https://data.ssb.no/api/klass/v1/versions/2781"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2018-01-01"
+        },
+        {
+            "code": "221",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Førskolelokaler og skyss"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Førskulelokale og skyss"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Pre-school facilities and transportation"
+                }
+            ],
+            "rank": 19,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/831",
+                "https://data.ssb.no/api/klass/v1/versions/832"
+            ],
+            "validToInRequestedRange": "2018-01-01",
+            "validFromInRequestedRange": "2015-01-01"
+        },
+        {
+            "code": "222",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Skolelokaler"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Skulelokale"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "School buildings"
+                }
+            ],
+            "rank": 20,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/831",
+                "https://data.ssb.no/api/klass/v1/versions/832",
+                "https://data.ssb.no/api/klass/v1/versions/1068",
+                "https://data.ssb.no/api/klass/v1/versions/1204",
+                "https://data.ssb.no/api/klass/v1/versions/1366",
+                "https://data.ssb.no/api/klass/v1/versions/1618",
+                "https://data.ssb.no/api/klass/v1/versions/1777",
+                "https://data.ssb.no/api/klass/v1/versions/2311",
+                "https://data.ssb.no/api/klass/v1/versions/2781"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2015-01-01"
+        },
+        {
+            "code": "223",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Skoleskyss"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Skuleskyss"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "School transport"
+                }
+            ],
+            "rank": 21,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/831",
+                "https://data.ssb.no/api/klass/v1/versions/832",
+                "https://data.ssb.no/api/klass/v1/versions/1068",
+                "https://data.ssb.no/api/klass/v1/versions/1204",
+                "https://data.ssb.no/api/klass/v1/versions/1366",
+                "https://data.ssb.no/api/klass/v1/versions/1618",
+                "https://data.ssb.no/api/klass/v1/versions/1777",
+                "https://data.ssb.no/api/klass/v1/versions/2311",
+                "https://data.ssb.no/api/klass/v1/versions/2781"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2015-01-01"
+        },
+        {
+            "code": "231",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Aktivitetstilbud barn og unge"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Aktivitetstilbod barn og unge"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Children and youth activities"
+                }
+            ],
+            "rank": 22,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/831",
+                "https://data.ssb.no/api/klass/v1/versions/832",
+                "https://data.ssb.no/api/klass/v1/versions/1068",
+                "https://data.ssb.no/api/klass/v1/versions/1204",
+                "https://data.ssb.no/api/klass/v1/versions/1366",
+                "https://data.ssb.no/api/klass/v1/versions/1618",
+                "https://data.ssb.no/api/klass/v1/versions/1777",
+                "https://data.ssb.no/api/klass/v1/versions/2311",
+                "https://data.ssb.no/api/klass/v1/versions/2781"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2015-01-01"
+        },
+        {
+            "code": "232",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Forebygging, helsestasjons- og skolehelsetjeneste"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Førebygging, helsestasjons- og skulehelseteneste"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Preventive health care, school/health centre"
+                }
+            ],
+            "rank": 23,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/831",
+                "https://data.ssb.no/api/klass/v1/versions/832",
+                "https://data.ssb.no/api/klass/v1/versions/1068",
+                "https://data.ssb.no/api/klass/v1/versions/1204"
+            ],
+            "validToInRequestedRange": "2020-01-01",
+            "validFromInRequestedRange": "2015-01-01"
+        },
+        {
+            "code": "232",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Helsestasjons- og skolehelsetjeneste"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Helsestasjons- og skulehelseteneste"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Preventive health care, school/health centre"
+                }
+            ],
+            "rank": 24,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/1366",
+                "https://data.ssb.no/api/klass/v1/versions/1618",
+                "https://data.ssb.no/api/klass/v1/versions/1777",
+                "https://data.ssb.no/api/klass/v1/versions/2311",
+                "https://data.ssb.no/api/klass/v1/versions/2781"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2020-01-01"
+        },
+        {
+            "code": "233",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Annet forebyggende helsearbeid"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Anna førebyggande helsearbeid"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Preventive health care"
+                }
+            ],
+            "rank": 25,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/831",
+                "https://data.ssb.no/api/klass/v1/versions/832",
+                "https://data.ssb.no/api/klass/v1/versions/1068",
+                "https://data.ssb.no/api/klass/v1/versions/1204",
+                "https://data.ssb.no/api/klass/v1/versions/1366",
+                "https://data.ssb.no/api/klass/v1/versions/1618",
+                "https://data.ssb.no/api/klass/v1/versions/1777",
+                "https://data.ssb.no/api/klass/v1/versions/2311",
+                "https://data.ssb.no/api/klass/v1/versions/2781"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2015-01-01"
+        },
+        {
+            "code": "234",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Aktiviserings- og servicetjenester til eldre og personer med funksjonsnedsettelser mv."
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Aktiviserings- og servicetenester overfor eldre og personar med funksjonsnedsettingar mv."
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Activation of elderly and disabled"
+                }
+            ],
+            "rank": 26,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/1366",
+                "https://data.ssb.no/api/klass/v1/versions/1618",
+                "https://data.ssb.no/api/klass/v1/versions/1777",
+                "https://data.ssb.no/api/klass/v1/versions/2311",
+                "https://data.ssb.no/api/klass/v1/versions/2781"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2020-01-01"
+        },
+        {
+            "code": "234",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Aktiviserings- og servicetjenester overfor eldre og personer med funksjonsnedsettelser"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Aktiviserings- og servicetenester overfor eldre og personar med funksjonsnedsettingar"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Activation of elderly and disabled"
+                }
+            ],
+            "rank": 27,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/831",
+                "https://data.ssb.no/api/klass/v1/versions/832",
+                "https://data.ssb.no/api/klass/v1/versions/1068",
+                "https://data.ssb.no/api/klass/v1/versions/1204"
+            ],
+            "validToInRequestedRange": "2020-01-01",
+            "validFromInRequestedRange": "2015-01-01"
+        },
+        {
+            "code": "241",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Diagnose, behandling, re-/habilitering"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Diagnose, behandling, re-/habilitering"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Diagnosis, treatment and rehabilitation"
+                }
+            ],
+            "rank": 28,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/831",
+                "https://data.ssb.no/api/klass/v1/versions/832",
+                "https://data.ssb.no/api/klass/v1/versions/1068",
+                "https://data.ssb.no/api/klass/v1/versions/1204"
+            ],
+            "validToInRequestedRange": "2020-01-01",
+            "validFromInRequestedRange": "2015-01-01"
+        },
+        {
+            "code": "241",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Diagnose, behandling, habilitering og rehabilitering"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Diagnose, behandling, habilitering og rehabilitering"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Diagnosis, treatment and rehabilitation"
+                }
+            ],
+            "rank": 29,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/1366",
+                "https://data.ssb.no/api/klass/v1/versions/1618",
+                "https://data.ssb.no/api/klass/v1/versions/1777",
+                "https://data.ssb.no/api/klass/v1/versions/2311",
+                "https://data.ssb.no/api/klass/v1/versions/2781"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2020-01-01"
+        },
+        {
+            "code": "242",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Råd, veiledning og sosialt forebyggende arbeid"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Råd, rettleiing og sosialt førebyggande arbeid"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Social services, counselling and preventive social work"
+                }
+            ],
+            "rank": 30,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/831",
+                "https://data.ssb.no/api/klass/v1/versions/832",
+                "https://data.ssb.no/api/klass/v1/versions/1068",
+                "https://data.ssb.no/api/klass/v1/versions/1204",
+                "https://data.ssb.no/api/klass/v1/versions/1366",
+                "https://data.ssb.no/api/klass/v1/versions/1618",
+                "https://data.ssb.no/api/klass/v1/versions/1777",
+                "https://data.ssb.no/api/klass/v1/versions/2311",
+                "https://data.ssb.no/api/klass/v1/versions/2781"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2015-01-01"
+        },
+        {
+            "code": "243",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Tilbud til personer med rusproblemer"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Tilbod til personar med rusproblem"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Assistance to substance abusers"
+                }
+            ],
+            "rank": 31,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/831",
+                "https://data.ssb.no/api/klass/v1/versions/832",
+                "https://data.ssb.no/api/klass/v1/versions/1068",
+                "https://data.ssb.no/api/klass/v1/versions/1204",
+                "https://data.ssb.no/api/klass/v1/versions/1366",
+                "https://data.ssb.no/api/klass/v1/versions/1618",
+                "https://data.ssb.no/api/klass/v1/versions/1777",
+                "https://data.ssb.no/api/klass/v1/versions/2311",
+                "https://data.ssb.no/api/klass/v1/versions/2781"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2015-01-01"
+        },
+        {
+            "code": "244",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Barneverntjeneste"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Barnevernteneste"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Child welfare services"
+                }
+            ],
+            "rank": 32,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/831",
+                "https://data.ssb.no/api/klass/v1/versions/832",
+                "https://data.ssb.no/api/klass/v1/versions/1068",
+                "https://data.ssb.no/api/klass/v1/versions/1204",
+                "https://data.ssb.no/api/klass/v1/versions/1366",
+                "https://data.ssb.no/api/klass/v1/versions/1618",
+                "https://data.ssb.no/api/klass/v1/versions/1777",
+                "https://data.ssb.no/api/klass/v1/versions/2311",
+                "https://data.ssb.no/api/klass/v1/versions/2781"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2015-01-01"
+        },
+        {
+            "code": "251",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Barnevernstiltak når barnet ikke er plassert av barnevernet"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Barnevernstiltak når barnet ikkje er plassert av barnevernet"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Child welfare, children living at home"
+                }
+            ],
+            "rank": 33,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/831",
+                "https://data.ssb.no/api/klass/v1/versions/832",
+                "https://data.ssb.no/api/klass/v1/versions/1068",
+                "https://data.ssb.no/api/klass/v1/versions/1204",
+                "https://data.ssb.no/api/klass/v1/versions/1366",
+                "https://data.ssb.no/api/klass/v1/versions/1618",
+                "https://data.ssb.no/api/klass/v1/versions/1777",
+                "https://data.ssb.no/api/klass/v1/versions/2311",
+                "https://data.ssb.no/api/klass/v1/versions/2781"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2015-01-01"
+        },
+        {
+            "code": "252",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Barnevernstiltak når barnet er plassert av barnevernet"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Barnevernstiltak når barnet er plassert av barnevernet"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Child welfare, children living away from home"
+                }
+            ],
+            "rank": 34,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/831",
+                "https://data.ssb.no/api/klass/v1/versions/832",
+                "https://data.ssb.no/api/klass/v1/versions/1068",
+                "https://data.ssb.no/api/klass/v1/versions/1204",
+                "https://data.ssb.no/api/klass/v1/versions/1366",
+                "https://data.ssb.no/api/klass/v1/versions/1618",
+                "https://data.ssb.no/api/klass/v1/versions/1777",
+                "https://data.ssb.no/api/klass/v1/versions/2311",
+                "https://data.ssb.no/api/klass/v1/versions/2781"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2015-01-01"
+        },
+        {
+            "code": "253",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Helse- og omsorgstjenester i institusjon"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Helse- og omsorgstenester i institusjon"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Nursing and care services in institutions"
+                }
+            ],
+            "rank": 35,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/831",
+                "https://data.ssb.no/api/klass/v1/versions/832",
+                "https://data.ssb.no/api/klass/v1/versions/1068",
+                "https://data.ssb.no/api/klass/v1/versions/1204",
+                "https://data.ssb.no/api/klass/v1/versions/1366",
+                "https://data.ssb.no/api/klass/v1/versions/1618",
+                "https://data.ssb.no/api/klass/v1/versions/1777",
+                "https://data.ssb.no/api/klass/v1/versions/2311",
+                "https://data.ssb.no/api/klass/v1/versions/2781"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2015-01-01"
+        },
+        {
+            "code": "254",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Helse- og omsorgstjenester til hjemmeboende"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Helse- og omsorgstenester til heimebuande"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Nursing and care services, home-based"
+                }
+            ],
+            "rank": 36,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/831",
+                "https://data.ssb.no/api/klass/v1/versions/832",
+                "https://data.ssb.no/api/klass/v1/versions/1068",
+                "https://data.ssb.no/api/klass/v1/versions/1204",
+                "https://data.ssb.no/api/klass/v1/versions/1366",
+                "https://data.ssb.no/api/klass/v1/versions/1618",
+                "https://data.ssb.no/api/klass/v1/versions/1777",
+                "https://data.ssb.no/api/klass/v1/versions/2311",
+                "https://data.ssb.no/api/klass/v1/versions/2781"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2015-01-01"
+        },
+        {
+            "code": "255",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Medfinansiering somatiske tjenester"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Medfinansiering somatiske tenester"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Cofinancing somatic services"
+                }
+            ],
+            "rank": 37,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/831"
+            ],
+            "validToInRequestedRange": "2016-01-01",
+            "validFromInRequestedRange": "2015-01-01"
+        },
+        {
+            "code": "256",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Øyeblikkelig hjelp døgntilbud "
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Omgåande hjelp døgntilbod"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Emergency health and care services"
+                }
+            ],
+            "rank": 38,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/1366",
+                "https://data.ssb.no/api/klass/v1/versions/1618",
+                "https://data.ssb.no/api/klass/v1/versions/1777",
+                "https://data.ssb.no/api/klass/v1/versions/2311",
+                "https://data.ssb.no/api/klass/v1/versions/2781"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2020-01-01"
+        },
+        {
+            "code": "256",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Tilbud om øyeblikkelig hjelp døgnopphold i kommunene"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Tilbod om augeblikkelig hjelp døgnopphald i kommunane"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Emergency health and care services"
+                }
+            ],
+            "rank": 39,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/831",
+                "https://data.ssb.no/api/klass/v1/versions/832",
+                "https://data.ssb.no/api/klass/v1/versions/1068",
+                "https://data.ssb.no/api/klass/v1/versions/1204"
+            ],
+            "validToInRequestedRange": "2020-01-01",
+            "validFromInRequestedRange": "2015-01-01"
+        },
+        {
+            "code": "261",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Institusjonslokaler"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Institusjonslokale"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Institution facilities"
+                }
+            ],
+            "rank": 40,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/831",
+                "https://data.ssb.no/api/klass/v1/versions/832",
+                "https://data.ssb.no/api/klass/v1/versions/1068",
+                "https://data.ssb.no/api/klass/v1/versions/1204",
+                "https://data.ssb.no/api/klass/v1/versions/1366",
+                "https://data.ssb.no/api/klass/v1/versions/1618",
+                "https://data.ssb.no/api/klass/v1/versions/1777",
+                "https://data.ssb.no/api/klass/v1/versions/2311",
+                "https://data.ssb.no/api/klass/v1/versions/2781"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2015-01-01"
+        },
+        {
+            "code": "265",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Kommunalt disponerte boliger"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Kommunalt disponerte bustadar"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Dwellings with municipal right of disposal"
+                }
+            ],
+            "rank": 41,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/831",
+                "https://data.ssb.no/api/klass/v1/versions/832",
+                "https://data.ssb.no/api/klass/v1/versions/1068",
+                "https://data.ssb.no/api/klass/v1/versions/1204",
+                "https://data.ssb.no/api/klass/v1/versions/1366",
+                "https://data.ssb.no/api/klass/v1/versions/1618",
+                "https://data.ssb.no/api/klass/v1/versions/1777",
+                "https://data.ssb.no/api/klass/v1/versions/2311",
+                "https://data.ssb.no/api/klass/v1/versions/2781"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2015-01-01"
+        },
+        {
+            "code": "273",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Arbeidsrettede tiltak i kommunal regi"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Arbeidsretta tiltak i kommunal regi"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Local goverment employment measures"
+                }
+            ],
+            "rank": 42,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/831",
+                "https://data.ssb.no/api/klass/v1/versions/832",
+                "https://data.ssb.no/api/klass/v1/versions/1068",
+                "https://data.ssb.no/api/klass/v1/versions/1204",
+                "https://data.ssb.no/api/klass/v1/versions/1366",
+                "https://data.ssb.no/api/klass/v1/versions/1618",
+                "https://data.ssb.no/api/klass/v1/versions/1777",
+                "https://data.ssb.no/api/klass/v1/versions/2311",
+                "https://data.ssb.no/api/klass/v1/versions/2781"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2015-01-01"
+        },
+        {
+            "code": "275",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Introduksjonsordningen"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Introduksjonsordninga"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Introductory programme for newly arrived immigrants"
+                }
+            ],
+            "rank": 43,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/831",
+                "https://data.ssb.no/api/klass/v1/versions/832",
+                "https://data.ssb.no/api/klass/v1/versions/1068",
+                "https://data.ssb.no/api/klass/v1/versions/1204",
+                "https://data.ssb.no/api/klass/v1/versions/1366",
+                "https://data.ssb.no/api/klass/v1/versions/1618",
+                "https://data.ssb.no/api/klass/v1/versions/1777",
+                "https://data.ssb.no/api/klass/v1/versions/2311",
+                "https://data.ssb.no/api/klass/v1/versions/2781"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2015-01-01"
+        },
+        {
+            "code": "276",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Kvalifiseringsordningen"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Kvalifiseringsordninga"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Qualification programme"
+                }
+            ],
+            "rank": 44,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/831",
+                "https://data.ssb.no/api/klass/v1/versions/832",
+                "https://data.ssb.no/api/klass/v1/versions/1068",
+                "https://data.ssb.no/api/klass/v1/versions/1204",
+                "https://data.ssb.no/api/klass/v1/versions/1366",
+                "https://data.ssb.no/api/klass/v1/versions/1618",
+                "https://data.ssb.no/api/klass/v1/versions/1777",
+                "https://data.ssb.no/api/klass/v1/versions/2311",
+                "https://data.ssb.no/api/klass/v1/versions/2781"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2015-01-01"
+        },
+        {
+            "code": "281",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Økonomisk sosialhjelp"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Yting til livsopphald"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Social assistance"
+                }
+            ],
+            "rank": 45,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/831"
+            ],
+            "validToInRequestedRange": "2016-01-01",
+            "validFromInRequestedRange": "2015-01-01"
+        },
+        {
+            "code": "281",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Ytelse til livsopphold"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Yting til livsopphald"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Benefits for living expenses"
+                }
+            ],
+            "rank": 46,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/832",
+                "https://data.ssb.no/api/klass/v1/versions/1068",
+                "https://data.ssb.no/api/klass/v1/versions/1204",
+                "https://data.ssb.no/api/klass/v1/versions/1366",
+                "https://data.ssb.no/api/klass/v1/versions/1618",
+                "https://data.ssb.no/api/klass/v1/versions/1777",
+                "https://data.ssb.no/api/klass/v1/versions/2311",
+                "https://data.ssb.no/api/klass/v1/versions/2781"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2016-01-01"
+        },
+        {
+            "code": "283",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Bistand til etablering og opprettholdelse av egen bolig m.v."
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Bistand til etablering og oppretthalding av eigen bustad mv."
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Assistance in setting up and retaining a home"
+                }
+            ],
+            "rank": 47,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/1366",
+                "https://data.ssb.no/api/klass/v1/versions/1618",
+                "https://data.ssb.no/api/klass/v1/versions/1777",
+                "https://data.ssb.no/api/klass/v1/versions/2311",
+                "https://data.ssb.no/api/klass/v1/versions/2781"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2020-01-01"
+        },
+        {
+            "code": "283",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Bistand til etablering og opprettholdelse av egen bolig"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Bistand til etablering og oppretthalding av eigen bustad"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Assistance in setting up and retaining a home"
+                }
+            ],
+            "rank": 48,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/831",
+                "https://data.ssb.no/api/klass/v1/versions/832",
+                "https://data.ssb.no/api/klass/v1/versions/1068",
+                "https://data.ssb.no/api/klass/v1/versions/1204"
+            ],
+            "validToInRequestedRange": "2020-01-01",
+            "validFromInRequestedRange": "2015-01-01"
+        },
+        {
+            "code": "285",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Tjenester utenfor ordinært kommunalt ansvarsområde"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Tenester utanfor ordinært kommunalt ansvarsområde"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Services other than ordinary municipal obligations"
+                }
+            ],
+            "rank": 49,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/831",
+                "https://data.ssb.no/api/klass/v1/versions/832",
+                "https://data.ssb.no/api/klass/v1/versions/1068",
+                "https://data.ssb.no/api/klass/v1/versions/1204",
+                "https://data.ssb.no/api/klass/v1/versions/1366",
+                "https://data.ssb.no/api/klass/v1/versions/1618",
+                "https://data.ssb.no/api/klass/v1/versions/1777",
+                "https://data.ssb.no/api/klass/v1/versions/2311",
+                "https://data.ssb.no/api/klass/v1/versions/2781"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2015-01-01"
+        },
+        {
+            "code": "290",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Interkommunale samarbeid "
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Interkommunale samarbeid "
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Inter-municipal cooperation (§ 27- cooperation)"
+                }
+            ],
+            "rank": 50,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/1366",
+                "https://data.ssb.no/api/klass/v1/versions/1618",
+                "https://data.ssb.no/api/klass/v1/versions/1777",
+                "https://data.ssb.no/api/klass/v1/versions/2311",
+                "https://data.ssb.no/api/klass/v1/versions/2781"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2020-01-01"
+        },
+        {
+            "code": "290",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Interkommunale samarbeid (§§ 27/28a- samarbeid)"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Interkommunale samarbeid (§§ 27/28a- samarbeid)"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Inter-municipal cooperation (§ 27- cooperation)"
+                }
+            ],
+            "rank": 51,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/831",
+                "https://data.ssb.no/api/klass/v1/versions/832",
+                "https://data.ssb.no/api/klass/v1/versions/1068",
+                "https://data.ssb.no/api/klass/v1/versions/1204"
+            ],
+            "validToInRequestedRange": "2020-01-01",
+            "validFromInRequestedRange": "2015-01-01"
+        },
+        {
+            "code": "301",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Plansaksbehandling"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Plansaksbehandling"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Planning procedures"
+                }
+            ],
+            "rank": 52,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/831",
+                "https://data.ssb.no/api/klass/v1/versions/832",
+                "https://data.ssb.no/api/klass/v1/versions/1068",
+                "https://data.ssb.no/api/klass/v1/versions/1204",
+                "https://data.ssb.no/api/klass/v1/versions/1366",
+                "https://data.ssb.no/api/klass/v1/versions/1618",
+                "https://data.ssb.no/api/klass/v1/versions/1777",
+                "https://data.ssb.no/api/klass/v1/versions/2311",
+                "https://data.ssb.no/api/klass/v1/versions/2781"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2015-01-01"
+        },
+        {
+            "code": "302",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Byggesaksbehandling, opprettelse og endring av eiendom og eierseksjonering"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Byggesaksbehandling, oppretting og endring av eigedom og og eigarseksjonering"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Building- and division application, creation and change of property and sectioning"
+                }
+            ],
+            "rank": 53,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/1777",
+                "https://data.ssb.no/api/klass/v1/versions/2311",
+                "https://data.ssb.no/api/klass/v1/versions/2781"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2022-01-01"
+        },
+        {
+            "code": "302",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Byggesaksbehandling og eierseksjonering"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Byggesaksbehandling og eigarseksjonering"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Building- and division application and sectioning"
+                }
+            ],
+            "rank": 54,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/831",
+                "https://data.ssb.no/api/klass/v1/versions/832",
+                "https://data.ssb.no/api/klass/v1/versions/1068",
+                "https://data.ssb.no/api/klass/v1/versions/1204",
+                "https://data.ssb.no/api/klass/v1/versions/1366",
+                "https://data.ssb.no/api/klass/v1/versions/1618"
+            ],
+            "validToInRequestedRange": "2022-01-01",
+            "validFromInRequestedRange": "2015-01-01"
+        },
+        {
+            "code": "303",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Kart og oppmåling"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Kart og oppmåling"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Maps and measuring"
+                }
+            ],
+            "rank": 55,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/831",
+                "https://data.ssb.no/api/klass/v1/versions/832",
+                "https://data.ssb.no/api/klass/v1/versions/1068",
+                "https://data.ssb.no/api/klass/v1/versions/1204",
+                "https://data.ssb.no/api/klass/v1/versions/1366",
+                "https://data.ssb.no/api/klass/v1/versions/1618",
+                "https://data.ssb.no/api/klass/v1/versions/1777",
+                "https://data.ssb.no/api/klass/v1/versions/2311",
+                "https://data.ssb.no/api/klass/v1/versions/2781"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2015-01-01"
+        },
+        {
+            "code": "304",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Bygge- og delesaksbehandling, ansvarsrett og utslippstillatelser"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Bygge- og delesaksbehandling, ansvarsrett og utsleppstillatingar"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Applications for: constructions of buildings, partition of landed properties, formal privileges o..."
+                }
+            ],
+            "rank": 56,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/831",
+                "https://data.ssb.no/api/klass/v1/versions/832"
+            ],
+            "validToInRequestedRange": "2018-01-01",
+            "validFromInRequestedRange": "2015-01-01"
+        },
+        {
+            "code": "305",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Eierseksjonering"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Eigarseksjonering"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Applications for condominium ownerships"
+                }
+            ],
+            "rank": 57,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/831",
+                "https://data.ssb.no/api/klass/v1/versions/832"
+            ],
+            "validToInRequestedRange": "2018-01-01",
+            "validFromInRequestedRange": "2015-01-01"
+        },
+        {
+            "code": "315",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Boligbygging og fysiske bomiljøtiltak"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Bustadbygging og fysiske bumiljøtiltak"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "House building and residential environment initiatives"
+                }
+            ],
+            "rank": 58,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/831",
+                "https://data.ssb.no/api/klass/v1/versions/832",
+                "https://data.ssb.no/api/klass/v1/versions/1068",
+                "https://data.ssb.no/api/klass/v1/versions/1204",
+                "https://data.ssb.no/api/klass/v1/versions/1366",
+                "https://data.ssb.no/api/klass/v1/versions/1618",
+                "https://data.ssb.no/api/klass/v1/versions/1777",
+                "https://data.ssb.no/api/klass/v1/versions/2311",
+                "https://data.ssb.no/api/klass/v1/versions/2781"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2015-01-01"
+        },
+        {
+            "code": "320",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Kommunal næringsvirksomhet"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Kommunal næringsverksemd"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Municipal industrial activities"
+                }
+            ],
+            "rank": 59,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/831",
+                "https://data.ssb.no/api/klass/v1/versions/832",
+                "https://data.ssb.no/api/klass/v1/versions/1068",
+                "https://data.ssb.no/api/klass/v1/versions/1204",
+                "https://data.ssb.no/api/klass/v1/versions/1366",
+                "https://data.ssb.no/api/klass/v1/versions/1618",
+                "https://data.ssb.no/api/klass/v1/versions/1777",
+                "https://data.ssb.no/api/klass/v1/versions/2311",
+                "https://data.ssb.no/api/klass/v1/versions/2781"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2015-01-01"
+        },
+        {
+            "code": "321",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Konsesjonskraft, kraftrettigheter og annen kraft for videresalg"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Konsesjonskraft, kraftrettar og anna kraft for vidaresal"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Revenues acquired from concessionary electrical power, licensing rights agreements and other type..."
+                }
+            ],
+            "rank": 60,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/831",
+                "https://data.ssb.no/api/klass/v1/versions/832",
+                "https://data.ssb.no/api/klass/v1/versions/1068",
+                "https://data.ssb.no/api/klass/v1/versions/1204",
+                "https://data.ssb.no/api/klass/v1/versions/1366",
+                "https://data.ssb.no/api/klass/v1/versions/1618",
+                "https://data.ssb.no/api/klass/v1/versions/1777",
+                "https://data.ssb.no/api/klass/v1/versions/2311",
+                "https://data.ssb.no/api/klass/v1/versions/2781"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2015-01-01"
+        },
+        {
+            "code": "322",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Produksjon, distribusjon og omsetning av kraft"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Produksjon distribusjon og omsetning av kraft"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Production, distribution and sale of energy"
+                }
+            ],
+            "rank": 61,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/1618",
+                "https://data.ssb.no/api/klass/v1/versions/1777",
+                "https://data.ssb.no/api/klass/v1/versions/2311",
+                "https://data.ssb.no/api/klass/v1/versions/2781"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2021-01-01"
+        },
+        {
+            "code": "325",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Tilrettelegging og bistand for næringslivet"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Tilrettelegging og bistand for næringslivet"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Arrangements and assistance for trade and industry"
+                }
+            ],
+            "rank": 62,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/831",
+                "https://data.ssb.no/api/klass/v1/versions/832",
+                "https://data.ssb.no/api/klass/v1/versions/1068",
+                "https://data.ssb.no/api/klass/v1/versions/1204",
+                "https://data.ssb.no/api/klass/v1/versions/1366",
+                "https://data.ssb.no/api/klass/v1/versions/1618",
+                "https://data.ssb.no/api/klass/v1/versions/1777",
+                "https://data.ssb.no/api/klass/v1/versions/2311",
+                "https://data.ssb.no/api/klass/v1/versions/2781"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2015-01-01"
+        },
+        {
+            "code": "329",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Landbruksforvaltning og landbruksbasert næringsutvikling"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Landbruksforvaltning og landbruksbasert næringsutvikling"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Agricultural management and agricultural-based industrial development"
+                }
+            ],
+            "rank": 63,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/831",
+                "https://data.ssb.no/api/klass/v1/versions/832",
+                "https://data.ssb.no/api/klass/v1/versions/1068",
+                "https://data.ssb.no/api/klass/v1/versions/1204",
+                "https://data.ssb.no/api/klass/v1/versions/1366",
+                "https://data.ssb.no/api/klass/v1/versions/1618",
+                "https://data.ssb.no/api/klass/v1/versions/1777",
+                "https://data.ssb.no/api/klass/v1/versions/2311",
+                "https://data.ssb.no/api/klass/v1/versions/2781"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2015-01-01"
+        },
+        {
+            "code": "330",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Samferdselsbedrifter/transporttiltak"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Samferdslebedrifter/transporttiltak"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Transport companies/transport measures"
+                }
+            ],
+            "rank": 64,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/831",
+                "https://data.ssb.no/api/klass/v1/versions/832",
+                "https://data.ssb.no/api/klass/v1/versions/1068",
+                "https://data.ssb.no/api/klass/v1/versions/1204"
+            ],
+            "validToInRequestedRange": "2020-01-01",
+            "validFromInRequestedRange": "2015-01-01"
+        },
+        {
+            "code": "330",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Samferdsel og transporttiltak"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Samferdsel og transporttiltak"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Transport companies/transport measures"
+                }
+            ],
+            "rank": 65,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/1366",
+                "https://data.ssb.no/api/klass/v1/versions/1618",
+                "https://data.ssb.no/api/klass/v1/versions/1777",
+                "https://data.ssb.no/api/klass/v1/versions/2311",
+                "https://data.ssb.no/api/klass/v1/versions/2781"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2020-01-01"
+        },
+        {
+            "code": "332",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Kommunale veier"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Kommunale vegar"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Local roads"
+                }
+            ],
+            "rank": 66,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/831",
+                "https://data.ssb.no/api/klass/v1/versions/832",
+                "https://data.ssb.no/api/klass/v1/versions/1068",
+                "https://data.ssb.no/api/klass/v1/versions/1204",
+                "https://data.ssb.no/api/klass/v1/versions/1366",
+                "https://data.ssb.no/api/klass/v1/versions/1618",
+                "https://data.ssb.no/api/klass/v1/versions/1777",
+                "https://data.ssb.no/api/klass/v1/versions/2311",
+                "https://data.ssb.no/api/klass/v1/versions/2781"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2015-01-01"
+        },
+        {
+            "code": "335",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Rekreasjon i tettsted"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Rekreasjon i tettstad"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Recreation in urban areas"
+                }
+            ],
+            "rank": 67,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/831",
+                "https://data.ssb.no/api/klass/v1/versions/832",
+                "https://data.ssb.no/api/klass/v1/versions/1068",
+                "https://data.ssb.no/api/klass/v1/versions/1204",
+                "https://data.ssb.no/api/klass/v1/versions/1366",
+                "https://data.ssb.no/api/klass/v1/versions/1618",
+                "https://data.ssb.no/api/klass/v1/versions/1777",
+                "https://data.ssb.no/api/klass/v1/versions/2311",
+                "https://data.ssb.no/api/klass/v1/versions/2781"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2015-01-01"
+        },
+        {
+            "code": "338",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Forebygging av branner og andre ulykker"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Førebygging av brannar og andre ulukker"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Prevention of fires and other accidents"
+                }
+            ],
+            "rank": 68,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/831",
+                "https://data.ssb.no/api/klass/v1/versions/832",
+                "https://data.ssb.no/api/klass/v1/versions/1068",
+                "https://data.ssb.no/api/klass/v1/versions/1204",
+                "https://data.ssb.no/api/klass/v1/versions/1366",
+                "https://data.ssb.no/api/klass/v1/versions/1618",
+                "https://data.ssb.no/api/klass/v1/versions/1777",
+                "https://data.ssb.no/api/klass/v1/versions/2311",
+                "https://data.ssb.no/api/klass/v1/versions/2781"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2015-01-01"
+        },
+        {
+            "code": "339",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Beredskap mot branner og andre ulykker"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Beredskap mot brannar og andre ulukker"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Preparedness for fire and other accidents"
+                }
+            ],
+            "rank": 69,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/831",
+                "https://data.ssb.no/api/klass/v1/versions/832",
+                "https://data.ssb.no/api/klass/v1/versions/1068",
+                "https://data.ssb.no/api/klass/v1/versions/1204",
+                "https://data.ssb.no/api/klass/v1/versions/1366",
+                "https://data.ssb.no/api/klass/v1/versions/1618",
+                "https://data.ssb.no/api/klass/v1/versions/1777",
+                "https://data.ssb.no/api/klass/v1/versions/2311",
+                "https://data.ssb.no/api/klass/v1/versions/2781"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2015-01-01"
+        },
+        {
+            "code": "340",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Produksjon av vann"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Produksjon av vatn"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Production of water"
+                }
+            ],
+            "rank": 70,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/831",
+                "https://data.ssb.no/api/klass/v1/versions/832",
+                "https://data.ssb.no/api/klass/v1/versions/1068",
+                "https://data.ssb.no/api/klass/v1/versions/1204",
+                "https://data.ssb.no/api/klass/v1/versions/1366",
+                "https://data.ssb.no/api/klass/v1/versions/1618",
+                "https://data.ssb.no/api/klass/v1/versions/1777",
+                "https://data.ssb.no/api/klass/v1/versions/2311",
+                "https://data.ssb.no/api/klass/v1/versions/2781"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2015-01-01"
+        },
+        {
+            "code": "345",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Distribusjon av vann"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Distribusjon av vatn"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Distribution of water"
+                }
+            ],
+            "rank": 71,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/831",
+                "https://data.ssb.no/api/klass/v1/versions/832",
+                "https://data.ssb.no/api/klass/v1/versions/1068",
+                "https://data.ssb.no/api/klass/v1/versions/1204",
+                "https://data.ssb.no/api/klass/v1/versions/1366",
+                "https://data.ssb.no/api/klass/v1/versions/1618",
+                "https://data.ssb.no/api/klass/v1/versions/1777",
+                "https://data.ssb.no/api/klass/v1/versions/2311",
+                "https://data.ssb.no/api/klass/v1/versions/2781"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2015-01-01"
+        },
+        {
+            "code": "350",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Avløpsrensing"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Avlaupsrensing"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Wastewater cleansing"
+                }
+            ],
+            "rank": 72,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/831",
+                "https://data.ssb.no/api/klass/v1/versions/832",
+                "https://data.ssb.no/api/klass/v1/versions/1068",
+                "https://data.ssb.no/api/klass/v1/versions/1204",
+                "https://data.ssb.no/api/klass/v1/versions/1366",
+                "https://data.ssb.no/api/klass/v1/versions/1618",
+                "https://data.ssb.no/api/klass/v1/versions/1777",
+                "https://data.ssb.no/api/klass/v1/versions/2311",
+                "https://data.ssb.no/api/klass/v1/versions/2781"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2015-01-01"
+        },
+        {
+            "code": "353",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Avløpsnett og innsamling av avløpsvann"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Avlaupsnett og innsamling av avlaupsvatn"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Wastewater pipelines/ wastewater facilities"
+                }
+            ],
+            "rank": 73,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/1366",
+                "https://data.ssb.no/api/klass/v1/versions/1618",
+                "https://data.ssb.no/api/klass/v1/versions/1777",
+                "https://data.ssb.no/api/klass/v1/versions/2311",
+                "https://data.ssb.no/api/klass/v1/versions/2781"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2020-01-01"
+        },
+        {
+            "code": "353",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Avløpsnett/innsamling av avløpsvann"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Avlaupsnett/innsamling av avlaupsvatn"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Wastewater pipelines/ wastewater facilities"
+                }
+            ],
+            "rank": 74,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/831",
+                "https://data.ssb.no/api/klass/v1/versions/832",
+                "https://data.ssb.no/api/klass/v1/versions/1068",
+                "https://data.ssb.no/api/klass/v1/versions/1204"
+            ],
+            "validToInRequestedRange": "2020-01-01",
+            "validFromInRequestedRange": "2015-01-01"
+        },
+        {
+            "code": "354",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Tømming av slamavskillere, septiktanker o.l"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Tømming av slamavskiljarar, septiktankar o.l"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Emptying of sludge interceptors, sseptic tanks etc."
+                }
+            ],
+            "rank": 75,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/831",
+                "https://data.ssb.no/api/klass/v1/versions/832",
+                "https://data.ssb.no/api/klass/v1/versions/1068"
+            ],
+            "validToInRequestedRange": "2019-01-01",
+            "validFromInRequestedRange": "2015-01-01"
+        },
+        {
+            "code": "354",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Tømming av slamavskillere, septiktanker o.l. på avløpsanlegg"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Tømming av slamavskiljarar, septiktankar o.l. på avlaupsanlegg"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Emptying of sludge interceptors, sseptic tanks etc. on sewerage"
+                }
+            ],
+            "rank": 76,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/1204",
+                "https://data.ssb.no/api/klass/v1/versions/1366",
+                "https://data.ssb.no/api/klass/v1/versions/1618",
+                "https://data.ssb.no/api/klass/v1/versions/1777",
+                "https://data.ssb.no/api/klass/v1/versions/2311",
+                "https://data.ssb.no/api/klass/v1/versions/2781"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2019-01-01"
+        },
+        {
+            "code": "355",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Innsamling, gjenvinning og sluttbehandling av husholdningsavfall"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Innsamling, gjenvinning og sluttbehandling av hushaldsavfall"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Collecting, recycling and preparation of houshold waste"
+                }
+            ],
+            "rank": 77,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/831",
+                "https://data.ssb.no/api/klass/v1/versions/832",
+                "https://data.ssb.no/api/klass/v1/versions/1068",
+                "https://data.ssb.no/api/klass/v1/versions/1204",
+                "https://data.ssb.no/api/klass/v1/versions/1366",
+                "https://data.ssb.no/api/klass/v1/versions/1618",
+                "https://data.ssb.no/api/klass/v1/versions/1777",
+                "https://data.ssb.no/api/klass/v1/versions/2311",
+                "https://data.ssb.no/api/klass/v1/versions/2781"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2015-01-01"
+        },
+        {
+            "code": "360",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Naturforvaltning og friluftsliv"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Naturforvaltning og friluftsliv"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Management of nature and the outdoors"
+                }
+            ],
+            "rank": 78,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/831",
+                "https://data.ssb.no/api/klass/v1/versions/832",
+                "https://data.ssb.no/api/klass/v1/versions/1068",
+                "https://data.ssb.no/api/klass/v1/versions/1204",
+                "https://data.ssb.no/api/klass/v1/versions/1366",
+                "https://data.ssb.no/api/klass/v1/versions/1618",
+                "https://data.ssb.no/api/klass/v1/versions/1777",
+                "https://data.ssb.no/api/klass/v1/versions/2311",
+                "https://data.ssb.no/api/klass/v1/versions/2781"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2015-01-01"
+        },
+        {
+            "code": "365",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Kulturminneforvaltning"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Kulturminneforvaltning"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Cultural heritage protection"
+                }
+            ],
+            "rank": 79,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/831",
+                "https://data.ssb.no/api/klass/v1/versions/832",
+                "https://data.ssb.no/api/klass/v1/versions/1068",
+                "https://data.ssb.no/api/klass/v1/versions/1204",
+                "https://data.ssb.no/api/klass/v1/versions/1366",
+                "https://data.ssb.no/api/klass/v1/versions/1618",
+                "https://data.ssb.no/api/klass/v1/versions/1777",
+                "https://data.ssb.no/api/klass/v1/versions/2311",
+                "https://data.ssb.no/api/klass/v1/versions/2781"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2015-01-01"
+        },
+        {
+            "code": "370",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Bibliotek"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Bibliotek"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Libraries"
+                }
+            ],
+            "rank": 80,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/831",
+                "https://data.ssb.no/api/klass/v1/versions/832",
+                "https://data.ssb.no/api/klass/v1/versions/1068",
+                "https://data.ssb.no/api/klass/v1/versions/1204",
+                "https://data.ssb.no/api/klass/v1/versions/1366",
+                "https://data.ssb.no/api/klass/v1/versions/1618",
+                "https://data.ssb.no/api/klass/v1/versions/1777",
+                "https://data.ssb.no/api/klass/v1/versions/2311",
+                "https://data.ssb.no/api/klass/v1/versions/2781"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2015-01-01"
+        },
+        {
+            "code": "373",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Kino"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Kino"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Cinemas"
+                }
+            ],
+            "rank": 81,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/831",
+                "https://data.ssb.no/api/klass/v1/versions/832",
+                "https://data.ssb.no/api/klass/v1/versions/1068",
+                "https://data.ssb.no/api/klass/v1/versions/1204",
+                "https://data.ssb.no/api/klass/v1/versions/1366",
+                "https://data.ssb.no/api/klass/v1/versions/1618",
+                "https://data.ssb.no/api/klass/v1/versions/1777",
+                "https://data.ssb.no/api/klass/v1/versions/2311",
+                "https://data.ssb.no/api/klass/v1/versions/2781"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2015-01-01"
+        },
+        {
+            "code": "375",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Muséer"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Museum"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Museums"
+                }
+            ],
+            "rank": 82,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/831",
+                "https://data.ssb.no/api/klass/v1/versions/832",
+                "https://data.ssb.no/api/klass/v1/versions/1068",
+                "https://data.ssb.no/api/klass/v1/versions/1204",
+                "https://data.ssb.no/api/klass/v1/versions/1366",
+                "https://data.ssb.no/api/klass/v1/versions/1618",
+                "https://data.ssb.no/api/klass/v1/versions/1777",
+                "https://data.ssb.no/api/klass/v1/versions/2311",
+                "https://data.ssb.no/api/klass/v1/versions/2781"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2015-01-01"
+        },
+        {
+            "code": "377",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Kunstformidling"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Kunstformidling"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Cultural arrangements"
+                }
+            ],
+            "rank": 83,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/831",
+                "https://data.ssb.no/api/klass/v1/versions/832",
+                "https://data.ssb.no/api/klass/v1/versions/1068",
+                "https://data.ssb.no/api/klass/v1/versions/1204",
+                "https://data.ssb.no/api/klass/v1/versions/1366",
+                "https://data.ssb.no/api/klass/v1/versions/1618",
+                "https://data.ssb.no/api/klass/v1/versions/1777",
+                "https://data.ssb.no/api/klass/v1/versions/2311",
+                "https://data.ssb.no/api/klass/v1/versions/2781"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2015-01-01"
+        },
+        {
+            "code": "380",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Idrett og tilskudd til andres idrettsanlegg"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Idrett og tilskot til andre sine idrettsanlegg"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Sports and grants donated to other sporting facilities"
+                }
+            ],
+            "rank": 84,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/831",
+                "https://data.ssb.no/api/klass/v1/versions/832",
+                "https://data.ssb.no/api/klass/v1/versions/1068",
+                "https://data.ssb.no/api/klass/v1/versions/1204",
+                "https://data.ssb.no/api/klass/v1/versions/1366",
+                "https://data.ssb.no/api/klass/v1/versions/1618",
+                "https://data.ssb.no/api/klass/v1/versions/1777",
+                "https://data.ssb.no/api/klass/v1/versions/2311",
+                "https://data.ssb.no/api/klass/v1/versions/2781"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2015-01-01"
+        },
+        {
+            "code": "381",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Kommunale idrettsbygg og idrettsanlegg"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Kommunale idrettsbygg og idrettsanlegg"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Municipal sports buildings and  facilities"
+                }
+            ],
+            "rank": 85,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/831",
+                "https://data.ssb.no/api/klass/v1/versions/832",
+                "https://data.ssb.no/api/klass/v1/versions/1068",
+                "https://data.ssb.no/api/klass/v1/versions/1204",
+                "https://data.ssb.no/api/klass/v1/versions/1366",
+                "https://data.ssb.no/api/klass/v1/versions/1618",
+                "https://data.ssb.no/api/klass/v1/versions/1777",
+                "https://data.ssb.no/api/klass/v1/versions/2311",
+                "https://data.ssb.no/api/klass/v1/versions/2781"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2015-01-01"
+        },
+        {
+            "code": "383",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Musikk- og kulturskoler"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Musikk- og kulturskular"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Municipal music and culture schools"
+                }
+            ],
+            "rank": 86,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/831",
+                "https://data.ssb.no/api/klass/v1/versions/832",
+                "https://data.ssb.no/api/klass/v1/versions/1068"
+            ],
+            "validToInRequestedRange": "2019-01-01",
+            "validFromInRequestedRange": "2015-01-01"
+        },
+        {
+            "code": "383",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Kulturskoler"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Kulturskular"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Municipal culture schools"
+                }
+            ],
+            "rank": 87,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/1204",
+                "https://data.ssb.no/api/klass/v1/versions/1366",
+                "https://data.ssb.no/api/klass/v1/versions/1618",
+                "https://data.ssb.no/api/klass/v1/versions/1777",
+                "https://data.ssb.no/api/klass/v1/versions/2311",
+                "https://data.ssb.no/api/klass/v1/versions/2781"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2019-01-01"
+        },
+        {
+            "code": "385",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Andre kulturaktiviteter og tilskudd til andres kulturbygg"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Andre kulturaktivitetar og tilskot til andre sine kulturbygg"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Other cultural activities and grants donated to other cultural and sports buildings"
+                }
+            ],
+            "rank": 88,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/831",
+                "https://data.ssb.no/api/klass/v1/versions/832",
+                "https://data.ssb.no/api/klass/v1/versions/1068",
+                "https://data.ssb.no/api/klass/v1/versions/1204",
+                "https://data.ssb.no/api/klass/v1/versions/1366",
+                "https://data.ssb.no/api/klass/v1/versions/1618",
+                "https://data.ssb.no/api/klass/v1/versions/1777",
+                "https://data.ssb.no/api/klass/v1/versions/2311",
+                "https://data.ssb.no/api/klass/v1/versions/2781"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2015-01-01"
+        },
+        {
+            "code": "386",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Kommunale kulturbygg"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Kommunale kulturbygg"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Municipal cultural buildings"
+                }
+            ],
+            "rank": 89,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/831",
+                "https://data.ssb.no/api/klass/v1/versions/832",
+                "https://data.ssb.no/api/klass/v1/versions/1068",
+                "https://data.ssb.no/api/klass/v1/versions/1204",
+                "https://data.ssb.no/api/klass/v1/versions/1366",
+                "https://data.ssb.no/api/klass/v1/versions/1618",
+                "https://data.ssb.no/api/klass/v1/versions/1777",
+                "https://data.ssb.no/api/klass/v1/versions/2311",
+                "https://data.ssb.no/api/klass/v1/versions/2781"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2015-01-01"
+        },
+        {
+            "code": "390",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Den norske kirke"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Den norske kyrkje"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "The Church of Norway"
+                }
+            ],
+            "rank": 90,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/831",
+                "https://data.ssb.no/api/klass/v1/versions/832",
+                "https://data.ssb.no/api/klass/v1/versions/1068",
+                "https://data.ssb.no/api/klass/v1/versions/1204",
+                "https://data.ssb.no/api/klass/v1/versions/1366",
+                "https://data.ssb.no/api/klass/v1/versions/1618",
+                "https://data.ssb.no/api/klass/v1/versions/1777",
+                "https://data.ssb.no/api/klass/v1/versions/2311",
+                "https://data.ssb.no/api/klass/v1/versions/2781"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2015-01-01"
+        },
+        {
+            "code": "392",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Tilskudd til tros- og livssynssamfunn"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Tilskot til tru- og livssynssamfunn"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Grants to religious and belief communities"
+                }
+            ],
+            "rank": 91,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/832",
+                "https://data.ssb.no/api/klass/v1/versions/1068",
+                "https://data.ssb.no/api/klass/v1/versions/1204",
+                "https://data.ssb.no/api/klass/v1/versions/1366",
+                "https://data.ssb.no/api/klass/v1/versions/1618",
+                "https://data.ssb.no/api/klass/v1/versions/1777",
+                "https://data.ssb.no/api/klass/v1/versions/2311",
+                "https://data.ssb.no/api/klass/v1/versions/2781"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2016-01-01"
+        },
+        {
+            "code": "392",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Andre religiøse formål"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Tilskot til tru- og livssynssamfunn"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Cemeteries and crematoria"
+                }
+            ],
+            "rank": 92,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/831"
+            ],
+            "validToInRequestedRange": "2016-01-01",
+            "validFromInRequestedRange": "2015-01-01"
+        },
+        {
+            "code": "393",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Gravplasser og krematorier"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Gravplassar og krematorium"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Cemeteries and crematoria"
+                }
+            ],
+            "rank": 93,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/831",
+                "https://data.ssb.no/api/klass/v1/versions/832",
+                "https://data.ssb.no/api/klass/v1/versions/1068",
+                "https://data.ssb.no/api/klass/v1/versions/1204",
+                "https://data.ssb.no/api/klass/v1/versions/1366",
+                "https://data.ssb.no/api/klass/v1/versions/1618",
+                "https://data.ssb.no/api/klass/v1/versions/1777",
+                "https://data.ssb.no/api/klass/v1/versions/2311",
+                "https://data.ssb.no/api/klass/v1/versions/2781"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2015-01-01"
+        },
+        {
+            "code": "FGK12",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Sosialsektoren samlet"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Sosialsektoren samla"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Total social services"
+                }
+            ],
+            "rank": 94,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Grupperingen omfatter funksjonene 242, 243, 273, 275, 276 og 281 innen sosialtjenesten."
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/831",
+                "https://data.ssb.no/api/klass/v1/versions/832",
+                "https://data.ssb.no/api/klass/v1/versions/1068",
+                "https://data.ssb.no/api/klass/v1/versions/1204",
+                "https://data.ssb.no/api/klass/v1/versions/1366",
+                "https://data.ssb.no/api/klass/v1/versions/1618",
+                "https://data.ssb.no/api/klass/v1/versions/1777",
+                "https://data.ssb.no/api/klass/v1/versions/2311",
+                "https://data.ssb.no/api/klass/v1/versions/2781"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2015-01-01"
+        },
+        {
+            "code": "FGK13",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Barnevern"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Barnevern"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Child welfare"
+                }
+            ],
+            "rank": 95,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Grupperingen omfatter funksjonene 244, 251 og 252 innen barnevern."
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/831",
+                "https://data.ssb.no/api/klass/v1/versions/832",
+                "https://data.ssb.no/api/klass/v1/versions/1068",
+                "https://data.ssb.no/api/klass/v1/versions/1204",
+                "https://data.ssb.no/api/klass/v1/versions/1366",
+                "https://data.ssb.no/api/klass/v1/versions/1618",
+                "https://data.ssb.no/api/klass/v1/versions/1777",
+                "https://data.ssb.no/api/klass/v1/versions/2311",
+                "https://data.ssb.no/api/klass/v1/versions/2781"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2015-01-01"
+        },
+        {
+            "code": "FGK14",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Vann, avløp, renovasjon, avfall (VAR)"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Vatn, avlaup, renovasjon, avfall (VAR)"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Water supply, wastewater and waste management"
+                }
+            ],
+            "rank": 96,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Grupperingen omfatter funksjonene 340, 345, 350, 353, 354 og 355 innen VAR."
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/831",
+                "https://data.ssb.no/api/klass/v1/versions/832",
+                "https://data.ssb.no/api/klass/v1/versions/1068",
+                "https://data.ssb.no/api/klass/v1/versions/1204",
+                "https://data.ssb.no/api/klass/v1/versions/1366",
+                "https://data.ssb.no/api/klass/v1/versions/1618",
+                "https://data.ssb.no/api/klass/v1/versions/1777",
+                "https://data.ssb.no/api/klass/v1/versions/2311",
+                "https://data.ssb.no/api/klass/v1/versions/2781"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2015-01-01"
+        },
+        {
+            "code": "FGK15",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Kirke"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Kyrkje"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Religion services"
+                }
+            ],
+            "rank": 97,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Grupperingen omfatter funksjonene 390, 392 og 393 innen kirke."
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/831",
+                "https://data.ssb.no/api/klass/v1/versions/832",
+                "https://data.ssb.no/api/klass/v1/versions/1068",
+                "https://data.ssb.no/api/klass/v1/versions/1204",
+                "https://data.ssb.no/api/klass/v1/versions/1366",
+                "https://data.ssb.no/api/klass/v1/versions/1618",
+                "https://data.ssb.no/api/klass/v1/versions/1777",
+                "https://data.ssb.no/api/klass/v1/versions/2311",
+                "https://data.ssb.no/api/klass/v1/versions/2781"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2015-01-01"
+        },
+        {
+            "code": "FGK16",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Kommunale boliger"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Kommunale bustadar"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Public housing and related services"
+                }
+            ],
+            "rank": 98,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Grupperingen omfatter funksjonene 265, 283 og 315 innen kommunale boliger."
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/831",
+                "https://data.ssb.no/api/klass/v1/versions/832",
+                "https://data.ssb.no/api/klass/v1/versions/1068",
+                "https://data.ssb.no/api/klass/v1/versions/1204",
+                "https://data.ssb.no/api/klass/v1/versions/1366",
+                "https://data.ssb.no/api/klass/v1/versions/1618",
+                "https://data.ssb.no/api/klass/v1/versions/1777",
+                "https://data.ssb.no/api/klass/v1/versions/2311",
+                "https://data.ssb.no/api/klass/v1/versions/2781"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2015-01-01"
+        },
+        {
+            "code": "FGK17",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Brann- og ulykkesvern"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Brann- og ulukkesvern"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Fire and accident protection"
+                }
+            ],
+            "rank": 99,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Grupperingen omfatter funksjonene 338 og 339 innen brann- og ullykkesvern."
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/831",
+                "https://data.ssb.no/api/klass/v1/versions/832",
+                "https://data.ssb.no/api/klass/v1/versions/1068",
+                "https://data.ssb.no/api/klass/v1/versions/1204",
+                "https://data.ssb.no/api/klass/v1/versions/1366",
+                "https://data.ssb.no/api/klass/v1/versions/1618",
+                "https://data.ssb.no/api/klass/v1/versions/1777",
+                "https://data.ssb.no/api/klass/v1/versions/2311",
+                "https://data.ssb.no/api/klass/v1/versions/2781"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2015-01-01"
+        },
+        {
+            "code": "FGK1a",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Politisk styring og kontrollvirksomhet, kommune"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Politisk styring og kontrollverksemd, kommune"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Regulation and control"
+                }
+            ],
+            "rank": 100,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Grupperingen omfatter funksjonene 100 og 110 innen politisk styring og kontrollvirksomhet."
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/831",
+                "https://data.ssb.no/api/klass/v1/versions/832",
+                "https://data.ssb.no/api/klass/v1/versions/1068",
+                "https://data.ssb.no/api/klass/v1/versions/1204",
+                "https://data.ssb.no/api/klass/v1/versions/1366",
+                "https://data.ssb.no/api/klass/v1/versions/1618",
+                "https://data.ssb.no/api/klass/v1/versions/1777",
+                "https://data.ssb.no/api/klass/v1/versions/2311",
+                "https://data.ssb.no/api/klass/v1/versions/2781"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2015-01-01"
+        },
+        {
+            "code": "FGK1b",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Administrasjon, kommune"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Administrasjon, kommune"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Administration"
+                }
+            ],
+            "rank": 101,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Grupperingen omfatter funksjonene 120, 121 og 130 innen administrasjon."
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/831",
+                "https://data.ssb.no/api/klass/v1/versions/832",
+                "https://data.ssb.no/api/klass/v1/versions/1068",
+                "https://data.ssb.no/api/klass/v1/versions/1204",
+                "https://data.ssb.no/api/klass/v1/versions/1366",
+                "https://data.ssb.no/api/klass/v1/versions/1618",
+                "https://data.ssb.no/api/klass/v1/versions/1777",
+                "https://data.ssb.no/api/klass/v1/versions/2311",
+                "https://data.ssb.no/api/klass/v1/versions/2781"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2015-01-01"
+        },
+        {
+            "code": "FGK1c",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Fellesutgifter, kommune"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Fellesutgifter, kommune"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Variuos joint expenditures"
+                }
+            ],
+            "rank": 102,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Grupperingen omfatter funksjonene 170, 171, 172, 173, 180 og 190 innen fellesutgifter."
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/831",
+                "https://data.ssb.no/api/klass/v1/versions/832",
+                "https://data.ssb.no/api/klass/v1/versions/1068",
+                "https://data.ssb.no/api/klass/v1/versions/1204",
+                "https://data.ssb.no/api/klass/v1/versions/1366",
+                "https://data.ssb.no/api/klass/v1/versions/1618",
+                "https://data.ssb.no/api/klass/v1/versions/1777",
+                "https://data.ssb.no/api/klass/v1/versions/2311",
+                "https://data.ssb.no/api/klass/v1/versions/2781"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2015-01-01"
+        },
+        {
+            "code": "FGK2",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Kultursektoren, kommune"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Kultursektoren, kommune"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Cultural services"
+                }
+            ],
+            "rank": 103,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Grupperingen omfatter funksjonene 231, 370, 373, 375, 377, 380, 381, 383, 385 og 386 innen kultur."
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/831",
+                "https://data.ssb.no/api/klass/v1/versions/832",
+                "https://data.ssb.no/api/klass/v1/versions/1068",
+                "https://data.ssb.no/api/klass/v1/versions/1204",
+                "https://data.ssb.no/api/klass/v1/versions/1366",
+                "https://data.ssb.no/api/klass/v1/versions/1618",
+                "https://data.ssb.no/api/klass/v1/versions/1777",
+                "https://data.ssb.no/api/klass/v1/versions/2311",
+                "https://data.ssb.no/api/klass/v1/versions/2781"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2015-01-01"
+        },
+        {
+            "code": "FGK3",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Fysisk planlegging, kulturminner, natur, nærmiljø, kommune"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Fysisk planlegging, kulturminner, natur, nærmiljø, kommune"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Planning, cultural heritage protection and community management"
+                }
+            ],
+            "rank": 104,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Grupperingen omfatter funksjonene 301, 302, 303, 304, 305, 335, 360 og 365 innen fysisk planlegging, kulturminner, natur og nærmiljø."
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/831",
+                "https://data.ssb.no/api/klass/v1/versions/832"
+            ],
+            "validToInRequestedRange": "2018-01-01",
+            "validFromInRequestedRange": "2015-01-01"
+        },
+        {
+            "code": "FGK3",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Plan, byggesak og miljø, kommune"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Plan, byggesak og miljø, kommune"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Municipal management of planning, building applications and environment"
+                }
+            ],
+            "rank": 105,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Grupperingen omfatter funksjonene 301, 302, 303, 335, 360 og 365 innen fysisk planlegging, kulturminner, natur og nærmiljø."
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/1068",
+                "https://data.ssb.no/api/klass/v1/versions/1204",
+                "https://data.ssb.no/api/klass/v1/versions/1366",
+                "https://data.ssb.no/api/klass/v1/versions/1618",
+                "https://data.ssb.no/api/klass/v1/versions/1777",
+                "https://data.ssb.no/api/klass/v1/versions/2311",
+                "https://data.ssb.no/api/klass/v1/versions/2781"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2018-01-01"
+        },
+        {
+            "code": "FGK4",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Næringsforvaltning, kommune"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Næringsforvaltning, kommune"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Trade and industry management"
+                }
+            ],
+            "rank": 106,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Grupperingen omfatter funksjonene 320, 321, 325 og 329 innen næringsforvaltning."
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/831",
+                "https://data.ssb.no/api/klass/v1/versions/832",
+                "https://data.ssb.no/api/klass/v1/versions/1068",
+                "https://data.ssb.no/api/klass/v1/versions/1204",
+                "https://data.ssb.no/api/klass/v1/versions/1366",
+                "https://data.ssb.no/api/klass/v1/versions/1618",
+                "https://data.ssb.no/api/klass/v1/versions/1777",
+                "https://data.ssb.no/api/klass/v1/versions/2311",
+                "https://data.ssb.no/api/klass/v1/versions/2781"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2015-01-01"
+        },
+        {
+            "code": "FGK5",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Samferdsel, kommune"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Samferdsle, kommune"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Transport and communication"
+                }
+            ],
+            "rank": 107,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Grupperingen omfatter funksjonene 330 og 332 innen samferdsel."
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/831",
+                "https://data.ssb.no/api/klass/v1/versions/832",
+                "https://data.ssb.no/api/klass/v1/versions/1068",
+                "https://data.ssb.no/api/klass/v1/versions/1204",
+                "https://data.ssb.no/api/klass/v1/versions/1366",
+                "https://data.ssb.no/api/klass/v1/versions/1618",
+                "https://data.ssb.no/api/klass/v1/versions/1777",
+                "https://data.ssb.no/api/klass/v1/versions/2311",
+                "https://data.ssb.no/api/klass/v1/versions/2781"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2015-01-01"
+        },
+        {
+            "code": "FGK6a",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Eiendomsforvaltning, kommune"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Eigedomsforvaltning, kommune"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Property management"
+                }
+            ],
+            "rank": 108,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Grupperingen omfatter funksjonene 121, 130, 221, 222, 261, 381 og 386 innen eiendomsforvaltning."
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/831",
+                "https://data.ssb.no/api/klass/v1/versions/832",
+                "https://data.ssb.no/api/klass/v1/versions/1068",
+                "https://data.ssb.no/api/klass/v1/versions/1204",
+                "https://data.ssb.no/api/klass/v1/versions/1366",
+                "https://data.ssb.no/api/klass/v1/versions/1618",
+                "https://data.ssb.no/api/klass/v1/versions/1777",
+                "https://data.ssb.no/api/klass/v1/versions/2311",
+                "https://data.ssb.no/api/klass/v1/versions/2781"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2015-01-01"
+        },
+        {
+            "code": "FGK7",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Barnehage"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Barnehage"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Pre-school"
+                }
+            ],
+            "rank": 109,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Grupperingen omfatter funksjonene 201, 211 og 221 innen barnehage."
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/831",
+                "https://data.ssb.no/api/klass/v1/versions/832",
+                "https://data.ssb.no/api/klass/v1/versions/1068",
+                "https://data.ssb.no/api/klass/v1/versions/1204",
+                "https://data.ssb.no/api/klass/v1/versions/1366",
+                "https://data.ssb.no/api/klass/v1/versions/1618",
+                "https://data.ssb.no/api/klass/v1/versions/1777",
+                "https://data.ssb.no/api/klass/v1/versions/2311",
+                "https://data.ssb.no/api/klass/v1/versions/2781"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2015-01-01"
+        },
+        {
+            "code": "FGK8b",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Grunnskole"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Grunnskule"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Primary and lower secondary schools, school building, school transport and adult education"
+                }
+            ],
+            "rank": 110,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Grupperingen omfatter funksjonene 202, 215, 222 og 223 innen grunnskole og funksjon 213 Voksenopplæring"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/831",
+                "https://data.ssb.no/api/klass/v1/versions/832",
+                "https://data.ssb.no/api/klass/v1/versions/1068",
+                "https://data.ssb.no/api/klass/v1/versions/1204",
+                "https://data.ssb.no/api/klass/v1/versions/1366",
+                "https://data.ssb.no/api/klass/v1/versions/1618",
+                "https://data.ssb.no/api/klass/v1/versions/1777",
+                "https://data.ssb.no/api/klass/v1/versions/2311",
+                "https://data.ssb.no/api/klass/v1/versions/2781"
+            ],
+            "validToInRequestedRange": null,
+            "validFromInRequestedRange": "2015-01-01"
+        },
+        {
+            "code": "FGK9",
+            "name": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Helse- og omsorg"
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": "Helse- og omsorg"
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": "Health care,nursing and care services"
+                }
+            ],
+            "rank": 111,
+            "level": "1",
+            "notes": [
+                {
+                    "languageCode": "nb",
+                    "languageText": "Grupperingen omfatter funksjonene 232, 233, 234, 241, 253, 254, 255, 256 og 261 innen helse og omsorg."
+                },
+                {
+                    "languageCode": "nn",
+                    "languageText": ""
+                },
+                {
+                    "languageCode": "en",
+                    "languageText": ""
+                }
+            ],
+            "classificationId": "277",
+            "classificationVersions": [
+                "https://data.ssb.no/api/klass/v1/versions/831",
+                "https://data.ssb.no/api/klass/v1/versions/832",
+                "https://data.ssb.no/api/klass/v1/versions/1068",
+                "https://data.ssb.no/api/klass/v1/versions/1204",
+                "https://data.ssb.no/api/klass/v1/versions/1366",
+                "https://data.ssb.no/api/klass/v1/versions/1618",
+                "https://data.ssb.no/api/klass/v1/versions/1777",
+                "https://data.ssb.no/api/klass/v1/versions/2311",
+                "https://data.ssb.no/api/klass/v1/versions/2781"
             ],
             "validToInRequestedRange": null,
             "validFromInRequestedRange": "2015-01-01"
         }
     ],
-    "subsetId": "uttrekk_for_kostra-fylkeskommunegrupperinger",
+    "subsetId": "uttrekk_for_detaljerte_regnskapstall_driftsregnskapet_kommuner_funksjoner",
     "validFrom": "2015-01-01",
-    "versionId": "515c0bf3-4af5-490a-9457-b43cd8f03277",
-    "createdDate": "2023-12-18",
-    "lastModified": "2024-01-05T09:52:36Z",
+    "versionId": "6bc31b3e-7801-4527-b88b-57c5788e7a89",
+    "validUntil": "2023-12-31",
+    "createdDate": "2023-04-21",
+    "lastModified": "2024-11-21T14:17:47Z",
     "versionRationale": [
         {
             "languageCode": "nb",
-            "languageText": ""
+            "languageText": "Tidsserien"
         }
     ],
     "administrativeStatus": "OPEN",
     "_links": {
         "self": {
-            "href": "/v2/subsets/uttrekk_for_kostra-fylkeskommunegrupperinger/versions/515c0bf3-4af5-490a-9457-b43cd8f03277"
+            "href": "/v2/subsets/uttrekk_for_detaljerte_regnskapstall_driftsregnskapet_kommuner_funksjoner/versions/6bc31b3e-7801-4527-b88b-57c5788e7a89"
         },
         "series": {
-            "href": "/v2/subsets/uttrekk_for_kostra-fylkeskommunegrupperinger"
+            "href": "/v2/subsets/uttrekk_for_detaljerte_regnskapstall_driftsregnskapet_kommuner_funksjoner"
         }
     }
 }

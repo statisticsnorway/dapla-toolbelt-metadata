@@ -232,11 +232,26 @@ def find_changes(previous_codes, this_period_codes, code_to_code, period_start):
 
 # This checks
 def code_changed_but_not_name(previous_codes, name, code):
+    mul_codes = []
+    for i in previous_codes:
+        if i["nb"] == name:
+            mul_codes.append(i["code"])  # noqa: PERF401
+
+    if len(mul_codes) > 1:
+        return None
     return any(i["nb"] == name and i["code"] != code for i in previous_codes)
 
 
 # This gets
 def get_code_changed_but_not_name(previous_codes, name, code):
+    mul_codes = []
+    for i in previous_codes:
+        if i["nb"] == name:
+            mul_codes.append(i["code"])  # noqa: PERF401
+
+    if len(mul_codes) > 1:
+        return None
+
     for i in previous_codes:
         if i["nb"] == name and i["code"] != code:
             return i["code"]

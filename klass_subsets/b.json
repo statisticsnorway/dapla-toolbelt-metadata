@@ -1,1 +1,40 @@
-null
+{
+  "codeChanges": [
+    {
+      "oldCode": "715",
+      "oldName": "Lokal og regional utvikling",
+      "oldShortName": "",
+      "newCode": "713",
+      "newName": "Regional planlegging og planveiledning",
+      "newShortName": "",
+      "changeOccurred": "2023-01-01"
+    },
+    {
+      "oldCode": "715",
+      "oldName": "Lokal og regional utvikling",
+      "oldShortName": "",
+      "newCode": "714",
+      "newName": "Regionale forsknings- og utviklingsprosjekter",
+      "newShortName": "",
+      "changeOccurred": "2023-01-01"
+    },
+    {
+      "oldCode": "254",
+      "oldName": "Helse- og omsorgstjenester til hjemmeboende",
+      "oldShortName": "",
+      "newCode": "257",
+      "newName": "Hjemmetjenester - personellbase knyttet til bofellesskap/samlokaliserte omsorgsboliger",
+      "newShortName": "",
+      "changeOccurred": "2024-01-01"
+    },
+    {
+      "oldCode": "254",
+      "oldName": "Helse- og omsorgstjenester til hjemmeboende",
+      "oldShortName": "",
+      "newCode": "258",
+      "newName": "Hjemmetjenester - ambulerende virksomhet med mer",
+      "newShortName": "",
+      "changeOccurred": "2024-01-01"
+    }
+  ]
+}
