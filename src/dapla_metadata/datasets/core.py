@@ -109,6 +109,7 @@ class Datadoc:
         self.dataset_path: pathlib.Path | CloudPath | None = None
         self.dataset = model.Dataset()
         self.variables: list = []
+        self.pseudo_variables: list = []
         self.variables_lookup: dict[str, model.Variable] = {}
         self.explicitly_defined_metadata_document = False
         self.dataset_consistency_status: list = []
@@ -192,6 +193,7 @@ class Datadoc:
             self._set_metadata(merged_metadata)
         else:
             self._set_metadata(existing_metadata or extracted_metadata)
+
         set_default_values_variables(self.variables)
         set_default_values_dataset(self.dataset)
         set_dataset_owner(self.dataset)
@@ -383,6 +385,7 @@ class Datadoc:
                     json.dumps(fresh_metadata),
                 )
                 datadoc_metadata = fresh_metadata["datadoc"]
+                print("Datadoc: ", fresh_metadata["pseudonymization"])
             else:
                 datadoc_metadata = fresh_metadata
             if datadoc_metadata is None:
@@ -516,6 +519,11 @@ class Datadoc:
         )
         if self.container:
             self.container.datadoc = datadoc
+            if not self.container.pseudonymization:
+                self.container.pseudonymization = model.PseudonymizationMetadata(
+                    pseudo_dataset=model.PseudoDataset()
+                )
+            self.container.pseudonymization.pseudo_variables = self.pseudo_variables
         else:
             self.container = model.MetadataContainer(datadoc=datadoc)
         if self.metadata_document:
@@ -545,3 +553,9 @@ class Datadoc:
             self.dataset,
         ) + num_obligatory_variables_fields_completed(self.variables)
         return calculate_percentage(num_set_fields, num_all_fields)
+
+    def add_pseudo_variable(self, variable_short_name: str) -> model.PseudoVariable:
+        """Adds a new pseudo variable to the list of pseudonymized variables."""
+        pseudo_variable = model.PseudoVariable(short_name=variable_short_name)
+        self.pseudo_variables.append(pseudo_variable)
+        return pseudo_variable

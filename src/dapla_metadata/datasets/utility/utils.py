@@ -448,6 +448,13 @@ def override_dataset_fields(
             )
 
 
+def contains_pseudonymization(metadata: dict) -> bool:
+    """Checks if there is any pseudonymized data in the existing metadata document."""
+    return bool(
+        "pseudonymization" in metadata and metadata["pseudonymization"] is not None
+    )
+
+
 def merge_variables(
     existing_metadata: model.DatadocMetadata,
     extracted_metadata: model.DatadocMetadata,
