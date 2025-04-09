@@ -22,6 +22,9 @@ from dapla_metadata.variable_definitions._generated.vardef_client.models.variabl
     VariableStatus,
 )
 from dapla_metadata.variable_definitions._utils import config
+from dapla_metadata.variable_definitions._utils.constants import BLOCK_FIELDS
+from dapla_metadata.variable_definitions._utils.constants import FOLDED_FIELDS
+from dapla_metadata.variable_definitions._utils.constants import LIST_FIELDS
 from dapla_metadata.variable_definitions._utils.constants import (
     MACHINE_GENERATED_FIELDS,
 )
@@ -29,6 +32,7 @@ from dapla_metadata.variable_definitions._utils.constants import NORWEGIAN_DESCR
 from dapla_metadata.variable_definitions._utils.constants import OPTIONAL_FIELD
 from dapla_metadata.variable_definitions._utils.constants import OWNER_FIELD_NAME
 from dapla_metadata.variable_definitions._utils.constants import REQUIRED_FIELD
+from dapla_metadata.variable_definitions._utils.constants import SINGLE_LINE_FIELDS
 from dapla_metadata.variable_definitions._utils.constants import (
     TEMPLATE_SECTION_HEADER_MACHINE_GENERATED,
 )
@@ -210,59 +214,45 @@ def _safe_get(data: dict, keys: list):
     return data
 
 
-def _safe_set_folded(data: dict, path: str, lang: str):
+def _safe_set_multi_line_type(
+    data: dict, path: str, lang: str, string_type: str
+) -> None:
+    """Set the string type (Folded or Literal) for the specified field in the data dictionary."""
     keys = path.split(".")
     parent = _safe_get(data, keys)
+
     if isinstance(parent, dict) and lang in parent and parent[lang] is not None:
-        parent[lang] = FoldedScalarString(parent[lang])
+        if string_type == "folded":
+            parent[lang] = FoldedScalarString(parent[lang])
+        elif string_type == "block":
+            parent[lang] = LiteralScalarString(parent[lang])
 
 
-def _safe_set_block(data: dict, path: str, lang: str):
-    keys = path.split(".")
-    parent = _safe_get(data, keys)
-    if isinstance(parent, dict) and lang in parent and parent[lang] is not None:
-        parent[lang] = LiteralScalarString(parent[lang])
+def _apply_language_string_type_to_fields(
+    language_string_types: list, data: dict, string_type: str
+):
+    """Apply the specified language string type to multiple fields in the data dictionary."""
+    for field_path, langs in language_string_types:
+        for lang in langs:
+            _safe_set_multi_line_type(data, field_path, lang, string_type)
 
 
 def pre_process_data(data: dict) -> dict:
     """Format Variable definition model fields with ruamel yaml scalar string types."""
-    folded_fields = [
-        ("definition", ["nb", "nn", "en"]),
-        ("name", ["nb", "nn", "en"]),
-        ("contact.title", ["nb", "nn", "en"]),
-    ]
-    for field_path, langs in folded_fields:
-        for lang in langs:
-            _safe_set_folded(data, field_path, lang)
+    _apply_language_string_type_to_fields(FOLDED_FIELDS, data, "folded")
 
-    block_fields = [("comment", ["nb", "nn", "en"])]
-    for field_path, langs in block_fields:
-        for lang in langs:
-            _safe_set_block(data, field_path, lang)
+    _apply_language_string_type_to_fields(BLOCK_FIELDS, data, "block")
 
-    list_fields = [
-        "unit_types",
-        "subject_fields",
-        "related_variable_definition_uris",
-    ]
-    for key in list_fields:
+    for key in LIST_FIELDS:
         if isinstance(data.get(key), list):
             data[key] = [
                 DoubleQuotedScalarString(item) for item in data[key] if item is not None
             ]
 
-    single_line_fields = [
-        "short_name",
-        "classification_reference",
-        "measurement_type",
-        "external_reference_uri",
-        "created_by",
-        "id",
-        "last_updated_by",
-    ]
-    for key in single_line_fields:
+    for key in SINGLE_LINE_FIELDS:
         if data.get(key) is not None:
             data[key] = DoubleQuotedScalarString(data[key])
+
     # Special case due to complex structure
     owner = data.get("owner")
     if isinstance(owner, dict):
