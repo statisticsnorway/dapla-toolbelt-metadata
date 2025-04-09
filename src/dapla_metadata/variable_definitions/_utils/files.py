@@ -13,6 +13,7 @@ from ruamel.yaml import CommentedMap
 from ruamel.yaml import RoundTripRepresenter
 from ruamel.yaml.scalarstring import DoubleQuotedScalarString
 from ruamel.yaml.scalarstring import FoldedScalarString
+from ruamel.yaml.scalarstring import LiteralScalarString
 
 from dapla_metadata.variable_definitions._generated.vardef_client.models.complete_response import (
     CompleteResponse,
@@ -216,6 +217,13 @@ def _safe_set_folded(data: dict, path: str, lang: str):
         parent[lang] = FoldedScalarString(parent[lang])
 
 
+def _safe_set_block(data: dict, path: str, lang: str):
+    keys = path.split(".")
+    parent = _safe_get(data, keys)
+    if isinstance(parent, dict) and lang in parent and parent[lang] is not None:
+        parent[lang] = LiteralScalarString(parent[lang])
+
+
 def pre_process_data(data: dict) -> dict:
     """Format Variable definition model fields with ruamel yaml scalar string types."""
     folded_fields = [
@@ -226,7 +234,7 @@ def pre_process_data(data: dict) -> dict:
     ]
     for field_path, langs in folded_fields:
         for lang in langs:
-            _safe_set_folded(data, field_path, lang)
+            _safe_set_block(data, field_path, lang)
 
     list_fields = [
         "unit_types",
