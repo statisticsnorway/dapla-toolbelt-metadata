@@ -186,9 +186,6 @@ def configure_yaml(yaml: YAML) -> YAML:
     yaml.allow_unicode = True  # Support special characters
     yaml.preserve_quotes = True
     yaml.width = 180  # wrap long lines
-    yaml.indent(
-        mapping=4, sequence=2, offset=0
-    )  # Ensure indentation for nested keys and lists
     yaml.representer.add_representer(
         VariableStatus,
         lambda dumper, data: dumper.represent_scalar(
