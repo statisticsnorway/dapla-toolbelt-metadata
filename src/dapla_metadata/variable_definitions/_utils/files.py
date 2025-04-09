@@ -219,10 +219,10 @@ def _safe_set_folded(data: dict, path: str, lang: str):
 def pre_process_data(data: dict) -> dict:
     """Format Variable definition model fields with ruamel yaml scalar string types."""
     folded_fields = [
-        ("definition", ["nb", "en", "nn"]),
-        ("name", ["nb", "en", "nn"]),
-        ("comment", ["nb", "en", "nn"]),
-        ("contact.title", ["nb", "en", "nn"]),
+        ("definition", ["nb", "nn", "en"]),
+        ("name", ["nb", "nn", "en"]),
+        ("comment", ["nb", "nn", "en"]),
+        ("contact.title", ["nb", "nn", "en"]),
     ]
     for field_path, langs in folded_fields:
         for lang in langs:
@@ -251,6 +251,7 @@ def pre_process_data(data: dict) -> dict:
     for key in single_line_fields:
         if data.get(key) is not None:
             data[key] = DoubleQuotedScalarString(data[key])
+
     owner = data.get("owner")
     if isinstance(owner, dict):
         if owner.get("team") is not None:
