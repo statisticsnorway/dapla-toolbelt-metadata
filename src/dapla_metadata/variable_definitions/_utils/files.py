@@ -229,10 +229,14 @@ def pre_process_data(data: dict) -> dict:
     folded_fields = [
         ("definition", ["nb", "nn", "en"]),
         ("name", ["nb", "nn", "en"]),
-        ("comment", ["nb", "nn", "en"]),
         ("contact.title", ["nb", "nn", "en"]),
     ]
     for field_path, langs in folded_fields:
+        for lang in langs:
+            _safe_set_folded(data, field_path, lang)
+
+    block_fields = [("comment", ["nb", "nn", "en"])]
+    for field_path, langs in block_fields:
         for lang in langs:
             _safe_set_block(data, field_path, lang)
 
