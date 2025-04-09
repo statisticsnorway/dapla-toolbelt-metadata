@@ -41,15 +41,15 @@ def _get_default_template() -> "VariableDefinition":
 
     return VariableDefinition(
         name=LanguageStringType(
-            nb="navn",
-            nn="namn",
-            en="name",
+            nb="Navn",
+            nn="",
+            en="",
         ),
         short_name="generert_kortnavn",
         definition=LanguageStringType(
-            nb="definisjonstekst",
-            nn="definisjonstekst",
-            en="definition text",
+            nb="Definisjonstekst",
+            nn="",
+            en="",
         ),
         valid_from=DEFAULT_DATE,
         unit_types=[""],
@@ -60,15 +60,10 @@ def _get_default_template() -> "VariableDefinition":
         contact=Contact(
             title=LanguageStringType(
                 nb="generert tittel",
-                nn="generert tittel",
-                en="generert title",
+                nn="",
+                en="",
             ),
             email="generert@ssb.no",
-        ),
-        comment=LanguageStringType(
-            nb="",
-            nn="",
-            en="",
         ),
         id="",
         patch_id=0,
