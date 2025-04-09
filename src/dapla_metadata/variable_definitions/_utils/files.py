@@ -10,6 +10,9 @@ import pytz
 from pydantic.config import JsonDict
 from ruamel.yaml import YAML
 from ruamel.yaml import CommentedMap
+from ruamel.yaml import RoundTripRepresenter
+from ruamel.yaml.scalarstring import DoubleQuotedScalarString
+from ruamel.yaml.scalarstring import FoldedScalarString
 
 from dapla_metadata.variable_definitions._generated.vardef_client.models.complete_response import (
     CompleteResponse,
@@ -40,6 +43,7 @@ from dapla_metadata.variable_definitions._utils.constants import (
 from dapla_metadata.variable_definitions._utils.constants import (
     VARIABLE_STATUS_FIELD_NAME,
 )
+from dapla_metadata.variable_definitions._utils.constants import YAML_STR_TAG
 from dapla_metadata.variable_definitions._utils.descriptions import (
     apply_norwegian_descriptions_to_model,
 )
@@ -175,19 +179,91 @@ def _validate_and_create_directory(custom_directory: Path) -> Path:
     return custom_directory
 
 
-def _configure_yaml() -> YAML:
-    yaml = YAML()  # Use ruamel.yaml library
-    yaml.default_flow_style = False  # Ensures pretty YAML formatting
-
+def configure_yaml(yaml: YAML) -> YAML:
+    """Common Yaml config for variable definitions."""
+    yaml.Representer = RoundTripRepresenter  # Preserve the order of keys etc.
+    yaml.default_flow_style = False  # Ensures pretty YAML formatting block style
+    yaml.allow_unicode = True  # Support special characters
+    yaml.preserve_quotes = True
+    yaml.width = 180  # wrap long lines
+    yaml.indent(
+        mapping=4, sequence=2, offset=0
+    )  # Ensure indentation for nested keys and lists
     yaml.representer.add_representer(
         VariableStatus,
         lambda dumper, data: dumper.represent_scalar(
-            "tag:yaml.org,2002:str",
+            YAML_STR_TAG,
             data.value,
         ),
     )
 
     return yaml
+
+
+def _safe_get(data: dict, keys: list):
+    """Safely navigate nested dictionaries."""
+    for key in keys:
+        if not isinstance(data, dict) or key not in data or data[key] is None:
+            return None
+        data = data[key]
+    return data
+
+
+def _safe_set_folded(data: dict, path: str, lang: str):
+    keys = path.split(".")
+    parent = _safe_get(data, keys)
+    if isinstance(parent, dict) and lang in parent and parent[lang] is not None:
+        parent[lang] = FoldedScalarString(parent[lang])
+
+
+def pre_process_data(data: dict) -> dict:
+    """Format Variable definition model fields with ruamel yaml scalar string types."""
+    folded_fields = [
+        ("definition", ["nb", "nn", "en"]),
+        ("name", ["nb", "nn", "en"]),
+        ("comment", ["nb", "nn", "en"]),
+        ("contact.title", ["nb", "nn", "en"]),
+    ]
+    for field_path, langs in folded_fields:
+        for lang in langs:
+            _safe_set_folded(data, field_path, lang)
+
+    list_fields = [
+        "unit_types",
+        "subject_fields",
+        "related_variable_definition_uris",
+    ]
+    for key in list_fields:
+        if isinstance(data.get(key), list):
+            data[key] = [
+                DoubleQuotedScalarString(item) for item in data[key] if item is not None
+            ]
+
+    single_line_fields = [
+        "short_name",
+        "classification_reference",
+        "measurement_type",
+        "external_reference_uri",
+        "created_by",
+        "id",
+        "last_updated_by",
+    ]
+    for key in single_line_fields:
+        if data.get(key) is not None:
+            data[key] = DoubleQuotedScalarString(data[key])
+    # Special case due to complex structure
+    owner = data.get("owner")
+    if isinstance(owner, dict):
+        if owner.get("team") is not None:
+            owner["team"] = DoubleQuotedScalarString(owner["team"])
+        if isinstance(owner.get("groups"), list):
+            owner["groups"] = [
+                DoubleQuotedScalarString(item)
+                for item in owner["groups"]
+                if item is not None
+            ]
+
+    return data
 
 
 def _model_to_yaml_with_comments(
@@ -210,7 +286,8 @@ def _model_to_yaml_with_comments(
     Returns:
         Path: The file path of the generated YAML file.
     """
-    yaml = _configure_yaml()
+    yaml = YAML()
+    configure_yaml(yaml)
 
     from dapla_metadata.variable_definitions.variable_definition import (
         VariableDefinition,
@@ -224,7 +301,7 @@ def _model_to_yaml_with_comments(
         serialize_as_any=True,
         warnings="error",
     )
-
+    data = pre_process_data(data)
     # One CommentMap for each section in the yaml file
     machine_generated_map = CommentedMap()
     commented_map = CommentedMap()
@@ -245,6 +322,8 @@ def _model_to_yaml_with_comments(
                 model_instance,
             )
         elif field_name not in {VARIABLE_STATUS_FIELD_NAME, OWNER_FIELD_NAME}:
+            if isinstance(value, str):
+                value.strip()
             _populate_commented_map(field_name, value, commented_map, model_instance)
 
     base_path = (

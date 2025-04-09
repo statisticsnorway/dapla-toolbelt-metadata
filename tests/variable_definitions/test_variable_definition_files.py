@@ -7,8 +7,8 @@ from pathlib import Path
 
 import pytest
 import pytz
-import ruamel.yaml
 from pytest_mock import MockerFixture
+from ruamel.yaml import YAML
 
 from dapla_metadata.variable_definitions._generated.vardef_client.models.variable_status import (
     VariableStatus,
@@ -25,6 +25,7 @@ from dapla_metadata.variable_definitions._utils.constants import (
     TEMPLATE_SECTION_HEADER_STATUS,
 )
 from dapla_metadata.variable_definitions._utils.files import _get_workspace_dir
+from dapla_metadata.variable_definitions._utils.files import configure_yaml
 from dapla_metadata.variable_definitions._utils.template_files import (
     _find_latest_template_file,
 )
@@ -37,7 +38,8 @@ from tests.utils.constants import VARDEF_EXAMPLE_DEFINITION_ID
 from tests.utils.constants import VARDEF_EXAMPLE_SHORT_NAME
 from tests.variable_definitions.conftest import VARIABLE_DEFINITION_DICT
 
-yaml = ruamel.yaml.YAML()
+yaml = YAML()
+configure_yaml(yaml)
 
 
 def test_yaml_file_creation(work_folder_defaults: Path):

@@ -34,6 +34,8 @@ from dapla_metadata.variable_definitions._generated.vardef_client.models.variabl
 )
 from dapla_metadata.variable_definitions._utils import config
 from dapla_metadata.variable_definitions._utils._client import VardefClient
+from dapla_metadata.variable_definitions._utils.files import configure_yaml
+from dapla_metadata.variable_definitions._utils.files import pre_process_data
 from dapla_metadata.variable_definitions._utils.variable_definition_files import (
     _read_file_to_model,
 )
@@ -205,9 +207,9 @@ class VariableDefinition(CompleteResponse):
 
         Patches are to be used for minor changes which don't require a new Validity Period.
         Examples of reasons for creating a new Patch:
-          - Correcting a typo
-          - Adding a translation
-          - Adding a subject field
+        - Correcting a typo
+        - Adding a translation
+        - Adding a subject field
 
         Supply only the fields to be changed. Other fields will retain their current values.
 
@@ -405,16 +407,12 @@ class VariableDefinition(CompleteResponse):
 
     def _convert_to_yaml_output(self) -> str:
         stream = StringIO()
-        with ruamel.yaml.YAML(
-            output=stream,
-        ) as yaml:
-            yaml.default_flow_style = False
-            yaml.allow_unicode = True
-            yaml.dump(
-                self.model_dump(
-                    mode="json",
-                    serialize_as_any=True,
-                    warnings="error",
-                ),
+        with ruamel.yaml.YAML(output=stream) as yaml:
+            configure_yaml(yaml)
+            data = self.model_dump(
+                mode="json",
+                serialize_as_any=True,
+                warnings="error",
             )
+            yaml.dump(pre_process_data(data))
         return stream.getvalue()

@@ -262,6 +262,52 @@ def test_create_validity_period_from_file(variable_definition: VariableDefinitio
     mock_create_validity_period.assert_called_once()
 
 
+def test_create_draft_with_special_characters():
+    mock_api_response = MagicMock(name="VariableDefinition")
+    mock_api_response.definition = {
+        "nb": "Varigheten av en konflikt måles i antall tapte arbeidsdager, dvs. virkedager per uke for den aktuelle gruppen i konflikt, ikke kalenderdager. Det kan innebære mange spesialtegn som : og ;",
+        "nn": "",
+        "en": "Duration of an industrial disputes contains in number of work-days lost, i.e. working-days a week to the actual group in work stoppages, not calendar days.",
+    }
+
+    with patch.object(
+        Vardef,
+        "create_draft_from_file",
+        return_value=mock_api_response,
+    ) as mock_create_draft:
+        result = Vardef.create_draft_from_file(
+            file_path=VARIABLE_DEFINITION_EDITING_FILES_DIR
+            / "variable_definition_arbkonfl_qSDlxNVO_2025-02-04T08-46-14.yaml",
+        )
+    assert ":" in result.definition["nb"]
+    assert result.definition["nn"] == ""
+    mock_create_draft.assert_called_once()
+
+
+def test_update_draft_with_special_characters(variable_definition: VariableDefinition):
+    mock_api_response = MagicMock(name="VariableDefinition")
+    mock_api_response.definition = {
+        "nb": "Ny definition med :",
+        "nn": "Ny definition med %&",
+        "en": "New definition",
+    }
+
+    with patch.object(
+        VariableDefinition,
+        "update_draft",
+        return_value=mock_api_response,
+    ) as mock_update_draft:
+        prev_variable_definition = variable_definition
+        result = prev_variable_definition.update_draft_from_file(
+            file_path=VARIABLE_DEFINITION_EDITING_FILES_DIR
+            / "variable_definition_arbkonfl_qSDlxNVO_2025-02-04T08-46-14.yaml",
+        )
+    assert result.definition != prev_variable_definition.definition
+    assert ":" in result.definition["nb"]
+    assert "&" in result.definition["nn"]
+    mock_update_draft.assert_called_once()
+
+
 def test_create_validity_period_from_file_path_not_set(
     variable_definition: VariableDefinition,
 ):
@@ -324,48 +370,60 @@ def test_publish_methods(
 def test_str(variable_definition):
     assert (
         str(variable_definition)
-        == """id: wypvb3wd
+        == """id: "wypvb3wd"
 patch_id: 1
 name:
-  nb: test
-  nn: test
-  en: test
-short_name: var_test
+    nb: >-
+        test
+    nn: >-
+        test
+    en: >-
+        test
+short_name: "var_test"
 definition:
-  nb: test
-  nn: test
-  en: test
-classification_reference: '91'
+    nb: >-
+        test
+    nn: >-
+        test
+    en: >-
+        test
+classification_reference: "91"
 unit_types:
-- '01'
+- "01"
 subject_fields:
-- a
-- b
+- "a"
+- "b"
 contains_special_categories_of_personal_data: true
 variable_status: PUBLISHED_EXTERNAL
-measurement_type: test
+measurement_type: "test"
 valid_from: '2024-11-01'
 valid_until:
-external_reference_uri: http://www.example.com
+external_reference_uri: "http://www.example.com"
 comment:
-  nb: test
-  nn: test
-  en: test
+    nb: >-
+        test
+    nn: >-
+        test
+    en: >-
+        test
 related_variable_definition_uris:
-- http://www.example.com
+- "http://www.example.com"
 owner:
-  team: my_team
-  groups:
-  - my_team_developers
+    team: "my_team"
+    groups:
+    - "my_team_developers"
 contact:
-  title:
-    nb: test
-    nn: test
-    en: test
-  email: me@example.com
+    title:
+        nb: >-
+            test
+        nn: >-
+            test
+        en: >-
+            test
+    email: me@example.com
 created_at: '2024-11-01T00:00:00'
-created_by: ano@ssb.no
+created_by: "ano@ssb.no"
 last_updated_at: '2024-11-01T00:00:00'
-last_updated_by: ano@ssb.no
+last_updated_by: "ano@ssb.no"
 """
     )

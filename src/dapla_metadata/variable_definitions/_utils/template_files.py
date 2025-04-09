@@ -65,6 +65,11 @@ def _get_default_template() -> "VariableDefinition":
             ),
             email="generert@ssb.no",
         ),
+        comment=LanguageStringType(
+            nb="",
+            nn="",
+            en="",
+        ),
         id="",
         patch_id=0,
         created_at=DEFAULT_DATE,

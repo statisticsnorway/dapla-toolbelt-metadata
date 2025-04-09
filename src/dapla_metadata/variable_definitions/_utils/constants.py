@@ -39,3 +39,5 @@ MACHINE_GENERATED_FIELDS = [
 
 OPTIONAL_FIELD = "~ Valgfritt felt ~"
 REQUIRED_FIELD = "! Obligatorisk felt !"
+
+YAML_STR_TAG = "tag:yaml.org,2002:str"
