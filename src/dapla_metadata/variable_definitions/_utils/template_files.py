@@ -55,7 +55,6 @@ def _get_default_template() -> "VariableDefinition":
         unit_types=[""],
         subject_fields=[""],
         contains_special_categories_of_personal_data=False,
-        variable_status=VariableStatus.DRAFT.value,
         owner=Owner(team="default team", groups=["default group"]),
         contact=Contact(
             title=LanguageStringType(
@@ -65,6 +64,8 @@ def _get_default_template() -> "VariableDefinition":
             ),
             email="generert@ssb.no",
         ),
+        comment=LanguageStringType(nb="Valgfri merknad"),
+        variable_status=VariableStatus.DRAFT.value,
         id="",
         patch_id=0,
         created_at=DEFAULT_DATE,
