@@ -3,7 +3,6 @@
 import logging
 from os import PathLike
 from pathlib import Path
-from typing import Any
 from typing import TypeVar
 
 from pydantic import BaseModel
@@ -55,7 +54,7 @@ def _read_variable_definition_file(file_path: Path) -> dict:
         return yaml.load(f)
 
 
-def _clean_values(data: dict[str, Any]) -> dict[str, Any]:
+def _clean_values(data: dict) -> dict:
     """Recursively strip string values from nested dicts/lists."""
     if isinstance(data, dict):
         return {k: _clean_values(v) for k, v in data.items()}
