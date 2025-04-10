@@ -96,7 +96,9 @@ def _read_file_to_model(
     raw_data = _read_variable_definition_file(file_path)
     cleaned_data = _clean_values(raw_data)
 
-    model = model_class.from_dict(cleaned_data)
+    model = model_class.from_dict(  # type:ignore [attr-defined]
+        cleaned_data
+    )
 
     if model is None:
         msg = f"Could not read data from {file_path}"
