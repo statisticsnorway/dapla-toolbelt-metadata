@@ -22,7 +22,7 @@ from dapla_metadata.variable_definitions._generated.vardef_client.models.variabl
 )
 from dapla_metadata.variable_definitions._utils import config
 from dapla_metadata.variable_definitions._utils.constants import BLOCK_FIELDS
-from dapla_metadata.variable_definitions._utils.constants import LIST_FIELDS
+from dapla_metadata.variable_definitions._utils.constants import DOUBLE_QUOTE_FIELDS
 from dapla_metadata.variable_definitions._utils.constants import (
     MACHINE_GENERATED_FIELDS,
 )
@@ -30,7 +30,6 @@ from dapla_metadata.variable_definitions._utils.constants import NORWEGIAN_DESCR
 from dapla_metadata.variable_definitions._utils.constants import OPTIONAL_FIELD
 from dapla_metadata.variable_definitions._utils.constants import OWNER_FIELD_NAME
 from dapla_metadata.variable_definitions._utils.constants import REQUIRED_FIELD
-from dapla_metadata.variable_definitions._utils.constants import SINGLE_LINE_FIELDS
 from dapla_metadata.variable_definitions._utils.constants import (
     TEMPLATE_SECTION_HEADER_MACHINE_GENERATED,
 )
@@ -213,7 +212,19 @@ def _safe_get(data: dict, keys: list):
 
 
 def pre_process_data(data: dict) -> dict:
-    """Format Variable definition model fields with ruamel yaml scalar string types."""
+    """Format Variable definition model fields with ruamel yaml scalar string types.
+
+    This method sets the appropriate scalar string type (either `LiteralScalarString` or `DoubleQuotedScalarString`)
+    for the fields of the variable definition model, based on predefined lists of fields.
+
+    It processes both nested dictionaries and lists, applying the correct formatting to each element.
+
+    Args:
+        data (dict): A dictionary containing the variable definition data.
+
+    Returns:
+        dict: The updated dictionary with model fields formatted as ruamel.yaml scalar string types.
+    """
     for key, langs in BLOCK_FIELDS:
         keys = key.split(".")
         field = _safe_get(data, keys)
@@ -222,14 +233,15 @@ def pre_process_data(data: dict) -> dict:
                 if lang in field and field[lang] is not None:
                     field[lang] = LiteralScalarString(field[lang])
 
-    for key in LIST_FIELDS:
+    for key in DOUBLE_QUOTE_FIELDS:
         keys = key.split(".")
         field = _safe_get(data, keys)
-
         if isinstance(field, list):
             data[key] = [
                 DoubleQuotedScalarString(item) for item in field if item is not None
             ]
+        elif isinstance(field, str):
+            data[key] = DoubleQuotedScalarString(data[key])
         elif isinstance(field, dict):
             for sub_key, sub_value in field.items():
                 if isinstance(sub_value, list):
@@ -240,11 +252,6 @@ def pre_process_data(data: dict) -> dict:
                     ]
                 elif sub_value is not None:
                     field[sub_key] = DoubleQuotedScalarString(sub_value)
-
-    for key in SINGLE_LINE_FIELDS:
-        if data.get(key) is not None:
-            data[key] = DoubleQuotedScalarString(data[key])
-
     return data
 
 
