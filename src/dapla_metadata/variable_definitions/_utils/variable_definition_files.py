@@ -57,7 +57,9 @@ def _read_variable_definition_file(file_path: Path) -> dict:
 def _clean_values(data: dict):
     """Recursively remove None values from nested dicts/lists and strip string values."""
     if isinstance(data, dict):
-        return {k: _clean_values(v) for k, v in data.items() if v is not None}
+        return {
+            k: _clean_values(v) for k, v in data.items() if v not in (None, "", "None")
+        }
     if isinstance(data, list):
         return [_clean_values(item) for item in data if item is not None]
     if isinstance(data, str):
