@@ -4,6 +4,7 @@ import logging
 from datetime import datetime
 from pathlib import Path
 from typing import TYPE_CHECKING
+from typing import Any
 from typing import cast
 
 import pytz
@@ -211,6 +212,24 @@ def _safe_get(data: dict, keys: list):
     return data
 
 
+def _apply_literal_scalars_to_multi_language_fields(field: Any):
+    """Helper function to modify LanguageStringType fields."""
+    for lang, value in field.items():
+        if value is not None:
+            field[lang] = LiteralScalarString(value)
+
+
+def _apply_double_quotes_to_dict_values(field: Any):
+    """Helper function to modify dict fields which are not LanguageStringType."""
+    for sub_key, sub_value in field.items():
+        if isinstance(sub_value, list):
+            field[sub_key] = [
+                DoubleQuotedScalarString(item) for item in sub_value if item is not None
+            ]
+        elif sub_value is not None:
+            field[sub_key] = DoubleQuotedScalarString(sub_value)
+
+
 def pre_process_data(data: dict) -> dict:
     """Format Variable definition model fields with ruamel yaml scalar string types.
 
@@ -225,13 +244,11 @@ def pre_process_data(data: dict) -> dict:
     Returns:
         dict: The updated dictionary with model fields formatted as ruamel.yaml scalar string types.
     """
-    for key, langs in BLOCK_FIELDS:
+    for key in BLOCK_FIELDS:
         keys = key.split(".")
         field = _safe_get(data, keys)
         if isinstance(field, dict):
-            for lang in langs:
-                if lang in field and field[lang] is not None:
-                    field[lang] = LiteralScalarString(field[lang])
+            _apply_literal_scalars_to_multi_language_fields(field)
 
     for key in DOUBLE_QUOTE_FIELDS:
         keys = key.split(".")
@@ -243,15 +260,8 @@ def pre_process_data(data: dict) -> dict:
         elif isinstance(field, str):
             data[key] = DoubleQuotedScalarString(data[key])
         elif isinstance(field, dict):
-            for sub_key, sub_value in field.items():
-                if isinstance(sub_value, list):
-                    field[sub_key] = [
-                        DoubleQuotedScalarString(item)
-                        for item in sub_value
-                        if item is not None
-                    ]
-                elif sub_value is not None:
-                    field[sub_key] = DoubleQuotedScalarString(sub_value)
+            _apply_double_quotes_to_dict_values(field)
+
     return data
 
 
