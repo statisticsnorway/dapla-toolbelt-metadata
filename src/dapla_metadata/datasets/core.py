@@ -110,6 +110,7 @@ class Datadoc:
         self.dataset = model.Dataset()
         self.variables: list = []
         self.pseudo_variables: list = []
+        self.pseudonymization: dict | None = None
         self.variables_lookup: dict[str, model.Variable] = {}
         self.explicitly_defined_metadata_document = False
         self.dataset_consistency_status: list = []
@@ -150,9 +151,17 @@ class Datadoc:
         """
         extracted_metadata: model.DatadocMetadata | None = None
         existing_metadata: model.DatadocMetadata | None = None
+        existing_pseudonymization: model.PseudonymizationMetadata | None = None
+
         if self.metadata_document and self.metadata_document.exists():
             existing_metadata = self._extract_metadata_from_existing_document(
                 self.metadata_document,
+            )
+
+            existing_pseudonymization = (
+                self._extract_pseudonymization_from_existing_document(
+                    self.metadata_document,
+                )
             )
 
         if (
@@ -194,6 +203,11 @@ class Datadoc:
         else:
             self._set_metadata(existing_metadata or extracted_metadata)
 
+        if existing_pseudonymization:
+            self._set_pseudonymization_metadata(existing_pseudonymization)
+
+        print("vars: ", self.variables)
+
         set_default_values_variables(self.variables)
         set_default_values_dataset(self.dataset)
         set_dataset_owner(self.dataset)
@@ -223,6 +237,17 @@ class Datadoc:
             raise ValueError(msg)
         self.dataset = merged_metadata.dataset
         self.variables = merged_metadata.variables
+
+    def _set_pseudonymization_metadata(
+        self,
+        existing_pseudonymization: model.PseudonymizationMetadata | None,
+    ) -> None:
+        if not existing_pseudonymization or not (
+            existing_pseudonymization.pseudo_variables
+        ):
+            msg = "Could not read pseudonymization metadata"
+            raise ValueError(msg)
+        self.pseudo_variables = existing_pseudonymization.pseudo_variables
 
     def _create_variables_lookup(self) -> None:
         self.variables_lookup = {
@@ -385,7 +410,6 @@ class Datadoc:
                     json.dumps(fresh_metadata),
                 )
                 datadoc_metadata = fresh_metadata["datadoc"]
-                print("Datadoc: ", fresh_metadata["pseudonymization"])
             else:
                 datadoc_metadata = fresh_metadata
             if datadoc_metadata is None:
@@ -401,6 +425,48 @@ class Datadoc:
                 exc_info=True,
             )
             return None
+
+    def _extract_pseudonymization_from_existing_document(
+        self,
+        document: pathlib.Path | CloudPath,
+    ) -> model.PseudonymizationMetadata | None:
+        """Read metadata from an existing metadata document.
+
+        If an existing metadata document is available, this method reads and
+        loads the metadata from it. It validates and upgrades the metadata as
+        necessary. If we have read in a file with an empty "datadoc" structure
+        the process ends.
+        A typical example causing a empty datadoc is a file produced from a
+        pseudonymization process.
+
+        Args:
+            document: A path to the existing metadata document.
+
+        Raises:
+            json.JSONDecodeError: If the metadata document cannot be parsed.
+        """
+        try:
+            with document.open(mode="r", encoding="utf-8") as file:
+                fresh_metadata = json.load(file)
+        except json.JSONDecodeError:
+            logger.warning(
+                "Could not open existing metadata file %s. "
+                "Falling back to collecting data from the dataset",
+                document,
+                exc_info=True,
+            )
+            return None
+
+        if not is_metadata_in_container_structure(fresh_metadata):
+            return None
+
+        pseudonymization_metadata = fresh_metadata.get("pseudonymization")
+        if pseudonymization_metadata is None:
+            return None
+
+        return model.PseudonymizationMetadata.model_validate_json(
+            json.dumps(pseudonymization_metadata),
+        )
 
     def _extract_subject_field_from_path(
         self,
