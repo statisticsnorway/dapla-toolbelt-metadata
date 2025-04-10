@@ -61,7 +61,7 @@ def correspondences(subset_id: str) -> None:
 
 
 if __name__ == "__main__":
-    with open("resources/b.txt") as f:  # noqa: PTH123
+    with open("resources/subsets_migrations.txt") as f:  # noqa: PTH123
         lines = f.readlines()  # Reads all lines into a list
 
     lines = [line.strip() for line in lines]
