@@ -49,14 +49,11 @@ BLOCK_FIELDS = [
     ("comment", ["nb", "nn", "en"]),
 ]
 
-LIST_FIELDS = [
+DOUBLE_QUOTE_FIELDS = [
     "unit_types",
     "subject_fields",
     "related_variable_definition_uris",
     "owner",
-]
-
-SINGLE_LINE_FIELDS = [
     "short_name",
     "classification_reference",
     "measurement_type",
