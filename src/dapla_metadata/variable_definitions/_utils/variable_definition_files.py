@@ -57,9 +57,9 @@ def _read_variable_definition_file(file_path: Path) -> dict:
 def _clean_values(data: dict):
     """Recursively remove None values from nested dicts/lists and strip string values."""
     if isinstance(data, dict):
-        return {k: _clean_values(v) for k, v in data.items() if v is not None}
+        return {k: _clean_values(v) for k, v in data.items()}
     if isinstance(data, list):
-        return [_clean_values(item) for item in data if item is not None]
+        return [_clean_values(item) for item in data]
     if isinstance(data, str):
         return data.strip()
     return data
@@ -101,4 +101,4 @@ def _read_file_to_model(
     if model is None:
         msg = f"Could not read data from {file_path}"
         raise FileNotFoundError(msg)
-    return model
+    return _clean_values(model)
