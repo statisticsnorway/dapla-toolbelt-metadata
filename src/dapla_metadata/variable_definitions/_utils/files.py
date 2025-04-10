@@ -311,8 +311,6 @@ def _model_to_yaml_with_comments(
                 model_instance,
             )
         elif field_name not in {VARIABLE_STATUS_FIELD_NAME, OWNER_FIELD_NAME}:
-            if isinstance(value, str):
-                value.strip()
             _populate_commented_map(field_name, value, commented_map, model_instance)
 
     base_path = (
