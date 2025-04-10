@@ -42,13 +42,12 @@ REQUIRED_FIELD = "! Obligatorisk felt !"
 
 YAML_STR_TAG = "tag:yaml.org,2002:str"
 
-FOLDED_FIELDS = [
+BLOCK_FIELDS = [
     ("definition", ["nb", "nn", "en"]),
     ("name", ["nb", "nn", "en"]),
     ("contact.title", ["nb", "nn", "en"]),
+    ("comment", ["nb", "nn", "en"]),
 ]
-
-BLOCK_FIELDS = [("comment", ["nb", "nn", "en"])]
 
 LIST_FIELDS = [
     "unit_types",

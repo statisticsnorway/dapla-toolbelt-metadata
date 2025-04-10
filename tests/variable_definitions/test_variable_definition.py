@@ -373,19 +373,19 @@ def test_str(variable_definition):
         == """id: "wypvb3wd"
 patch_id: 1
 name:
-    nb: >-
+    nb: |-
         test
-    nn: >-
+    nn: |-
         test
-    en: >-
+    en: |-
         test
 short_name: "var_test"
 definition:
-    nb: >-
+    nb: |-
         test
-    nn: >-
+    nn: |-
         test
-    en: >-
+    en: |-
         test
 classification_reference: "91"
 unit_types:
@@ -414,11 +414,11 @@ owner:
     - "my_team_developers"
 contact:
     title:
-        nb: >-
+        nb: |-
             test
-        nn: >-
+        nn: |-
             test
-        en: >-
+        en: |-
             test
     email: me@example.com
 created_at: '2024-11-01T00:00:00'

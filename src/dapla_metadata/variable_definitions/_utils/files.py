@@ -12,7 +12,6 @@ from ruamel.yaml import YAML
 from ruamel.yaml import CommentedMap
 from ruamel.yaml import RoundTripRepresenter
 from ruamel.yaml.scalarstring import DoubleQuotedScalarString
-from ruamel.yaml.scalarstring import FoldedScalarString
 from ruamel.yaml.scalarstring import LiteralScalarString
 
 from dapla_metadata.variable_definitions._generated.vardef_client.models.complete_response import (
@@ -23,7 +22,6 @@ from dapla_metadata.variable_definitions._generated.vardef_client.models.variabl
 )
 from dapla_metadata.variable_definitions._utils import config
 from dapla_metadata.variable_definitions._utils.constants import BLOCK_FIELDS
-from dapla_metadata.variable_definitions._utils.constants import FOLDED_FIELDS
 from dapla_metadata.variable_definitions._utils.constants import LIST_FIELDS
 from dapla_metadata.variable_definitions._utils.constants import (
     MACHINE_GENERATED_FIELDS,
@@ -215,33 +213,27 @@ def _safe_get(data: dict, keys: list):
 
 
 def _safe_set_multi_line_type(
-    data: dict, path: str, lang: str, string_type: str
+    data: dict,
+    path: str,
+    lang: str,
 ) -> None:
-    """Set the string type (Folded or Literal) for the specified field in the data dictionary."""
+    """Set the string type (Literal) for the specified field in the data dictionary."""
     keys = path.split(".")
     parent = _safe_get(data, keys)
-
-    if isinstance(parent, dict) and lang in parent and parent[lang] is not None:
-        if string_type == "folded":
-            parent[lang] = FoldedScalarString(parent[lang])
-        elif string_type == "block":
-            parent[lang] = LiteralScalarString(parent[lang])
+    if parent is not None:
+        parent[lang] = LiteralScalarString(parent[lang])
 
 
-def _apply_language_string_type_to_fields(
-    language_string_types: list, data: dict, string_type: str
-):
+def _apply_language_string_type_to_fields(language_string_types: list, data: dict):
     """Apply the specified language string type to multiple fields in the data dictionary."""
     for field_path, langs in language_string_types:
         for lang in langs:
-            _safe_set_multi_line_type(data, field_path, lang, string_type)
+            _safe_set_multi_line_type(data, field_path, lang)
 
 
 def pre_process_data(data: dict) -> dict:
     """Format Variable definition model fields with ruamel yaml scalar string types."""
-    _apply_language_string_type_to_fields(FOLDED_FIELDS, data, "folded")
-
-    _apply_language_string_type_to_fields(BLOCK_FIELDS, data, "block")
+    _apply_language_string_type_to_fields(BLOCK_FIELDS, data)
 
     for key in LIST_FIELDS:
         if isinstance(data.get(key), list):
