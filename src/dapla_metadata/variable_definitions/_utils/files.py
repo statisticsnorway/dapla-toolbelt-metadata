@@ -213,15 +213,23 @@ def _safe_get(data: dict, keys: list):
     return data
 
 
-def _apply_literal_scalars_to_multi_language_fields(field: dict):
-    """Helper function to set `LiteralScalarString` type."""
+def _apply_literal_scalars(field: dict):
+    """Helper function to wrap `LanguageStringType` values in `LiteralScalarString`.
+
+    This function wraps each non-`None` language value in a `LanguageStringType` field
+    in the `LiteralScalarString` YAML type, ensuring proper YAML formatting with block style.
+    """
     for lang, value in field.items():
         if value is not None:
             field[lang] = LiteralScalarString(value)
 
 
 def _apply_double_quotes_to_dict_values(field: dict):
-    """Helper function to set `DoubleQuotedScalarString` type."""
+    """Helper function to wrap dictionary values in `DoubleQuotedScalarString`.
+
+    This function wraps each non-`None` value in a dictionary, including values inside lists,
+    in the `DoubleQuotedScalarString` YAML type, ensuring proper YAML formatting with double quotes.
+    """
     for sub_key, sub_value in field.items():
         if isinstance(sub_value, list):
             field[sub_key] = [
@@ -232,12 +240,12 @@ def _apply_double_quotes_to_dict_values(field: dict):
 
 
 def pre_process_data(data: dict) -> dict:
-    """Format Variable definition model fields with ruamel yaml scalar string types.
+    """Format variable definition model fields with ruamel YAML scalar string types.
 
     This method sets the appropriate scalar string type (either `LiteralScalarString` or `DoubleQuotedScalarString`)
-    for the fields of the variable definition model, based on predefined lists of fields.
+    for fields of the variable definition model, based on predefined lists of fields.
 
-    It processes both nested dictionaries and lists, applying the correct formatting to each element.
+    It processes both nested dictionaries and lists, ensuring each element is formatted with the correct YAML string type.
 
     Args:
         data (dict): A dictionary containing the variable definition data.
@@ -249,7 +257,7 @@ def pre_process_data(data: dict) -> dict:
         keys = key.split(".")
         field = _safe_get(data, keys)
         if isinstance(field, dict):
-            _apply_literal_scalars_to_multi_language_fields(field)
+            _apply_literal_scalars(field)
 
     for key in DOUBLE_QUOTE_FIELDS:
         keys = key.split(".")
