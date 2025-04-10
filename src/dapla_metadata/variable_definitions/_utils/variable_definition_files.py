@@ -56,7 +56,21 @@ def _read_variable_definition_file(file_path: Path) -> dict:
 
 
 def _strip_strings_recursively(data: Any) -> Any:
-    """Recursively strip string values from nested dicts/lists."""
+    """Recursively strip leading and trailing whitespace from string values in nested dicts/lists.
+
+    This function traverses the provided data, which may be a dictionary, list, or other types,
+    and applies the following logic:
+        - If the data is a dictionary, it recursively strips string values in all key-value pairs.
+        - If the data is a list, it recursively strips string values in all list elements.
+        - If the data is a string, it strips leading and trailing whitespace.
+        - Any other data types are returned unchanged.
+
+    Args:
+        data: The input data, which may include nested dictionaries, lists, or other types.
+
+    Returns:
+        Any: The processed data, with strings stripped of whitespace or unchanged if not a string.
+    """
     if isinstance(data, dict):
         return {k: _strip_strings_recursively(v) for k, v in data.items()}
     if isinstance(data, list):
