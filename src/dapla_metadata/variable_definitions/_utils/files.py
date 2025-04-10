@@ -219,7 +219,7 @@ def _apply_literal_scalars_to_multi_language_fields(field: Any):
             field[lang] = LiteralScalarString(value)
 
 
-def _apply_double_quotes_to_dict_values(field: Any):
+def _apply_double_quotes_to_dict_values(field: dict):
     """Helper function to modify dict fields which are not LanguageStringType."""
     for sub_key, sub_value in field.items():
         if isinstance(sub_value, list):
