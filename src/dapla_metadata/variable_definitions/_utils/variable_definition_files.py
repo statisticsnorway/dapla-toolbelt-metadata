@@ -17,6 +17,7 @@ from dapla_metadata.variable_definitions._utils.files import _get_current_time
 from dapla_metadata.variable_definitions._utils.files import (
     _model_to_yaml_with_comments,
 )
+from dapla_metadata.variable_definitions._utils.files import configure_yaml
 
 logger = logging.getLogger(__name__)
 
@@ -46,7 +47,7 @@ def create_variable_yaml(
 
 def _read_variable_definition_file(file_path: Path) -> dict:
     yaml = YAML()
-
+    configure_yaml(yaml)
     logger.debug("Full path to variable definition file %s", file_path)
     logger.info("Reading from '%s'", file_path.name)
     with file_path.open(encoding="utf-8") as f:
