@@ -55,12 +55,12 @@ def _read_variable_definition_file(file_path: Path) -> dict:
         return yaml.load(f)
 
 
-def _clean_values(data: Any) -> Any:
+def _strip_strings_recursively(data: Any) -> Any:
     """Recursively strip string values from nested dicts/lists."""
     if isinstance(data, dict):
-        return {k: _clean_values(v) for k, v in data.items()}
+        return {k: _strip_strings_recursively(v) for k, v in data.items()}
     if isinstance(data, list):
-        return [_clean_values(item) for item in data]
+        return [_strip_strings_recursively(item) for item in data]
     if isinstance(data, str):
         return data.strip()
     return data
@@ -94,7 +94,7 @@ def _read_file_to_model(
             msg,
         ) from e
     raw_data = _read_variable_definition_file(file_path)
-    cleaned_data = _clean_values(raw_data)
+    cleaned_data = _strip_strings_recursively(raw_data)
 
     model = model_class.from_dict(  # type:ignore [attr-defined]
         cleaned_data
