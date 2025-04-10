@@ -4,7 +4,6 @@ import logging
 from datetime import datetime
 from pathlib import Path
 from typing import TYPE_CHECKING
-from typing import Any
 from typing import cast
 
 import pytz
@@ -212,7 +211,7 @@ def _safe_get(data: dict, keys: list):
     return data
 
 
-def _apply_literal_scalars_to_multi_language_fields(field: Any):
+def _apply_literal_scalars_to_multi_language_fields(field: dict):
     """Helper function to modify LanguageStringType fields."""
     for lang, value in field.items():
         if value is not None:
