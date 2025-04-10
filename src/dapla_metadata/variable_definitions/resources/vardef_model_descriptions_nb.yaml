@@ -37,18 +37,7 @@ subject_fields: |
     - "be"
 contains_special_categories_of_personal_data: |
   Viser om variabelen inneholder spesielt sensitive personopplysninger.
-  Kategorier:
-    - opplysninger om etnisk opprinnelse
-    - opplysninger om politisk oppfatning
-    - opplysninger om religion
-    - opplysninger om filosofisk overbevisning
-    - opplysninger om fagforeningsmedlemskap
-    - genetiske opplysninger
-    - biometriske opplysninger med det formål å entydig identifisere noen
-    - helseopplysninger
-    - opplysninger om seksuelle forhold
-    - opplysninger om seksuell legning
-  ref: https://lovdata.no/dokument/NL/lov/2018-06-15-38/KAPITTEL_gdpr-2#gdpr/a9
+  ref: https://statistics-norway.atlassian.net/wiki/spaces/MPD/pages/3009839199/VarDef+-+Krav+til+dokumentasjon+av+variabler#inneholder-s%C3%A6rlige-kategorier-av-personopplysninger%2FcontainsSpecialCategoriesOfPersonalData
   -------------------------
   >>> EKSEMPEL: true
 measurement_type: |
@@ -63,7 +52,7 @@ valid_from: |
 valid_until: |
   Datoen variabeldefinisjonens var gyldig t.o.m. Settes hvis definisjonen skal erstattet av en ny definisjon (med en ny gyldighetsperiode), eller variabelen ikke lenger skal brukes.
   -------------------------
-  >>> EKSEMPEL: 2025-10-23
+  >>> EKSEMPEL: 2024-10-23
 external_reference_uri:  |
   En peker (URI) til ekstern definisjon/dokumentasjon, f.eks. ei webside som er relevant for variabelen.
   -----------------------------------------------------
