@@ -43,10 +43,10 @@ REQUIRED_FIELD = "! Obligatorisk felt !"
 YAML_STR_TAG = "tag:yaml.org,2002:str"
 
 BLOCK_FIELDS = [
-    ("definition", ["nb", "nn", "en"]),
-    ("name", ["nb", "nn", "en"]),
-    ("contact.title", ["nb", "nn", "en"]),
-    ("comment", ["nb", "nn", "en"]),
+    "definition",
+    "name",
+    "contact.title",
+    "comment",
 ]
 
 DOUBLE_QUOTE_FIELDS = [
