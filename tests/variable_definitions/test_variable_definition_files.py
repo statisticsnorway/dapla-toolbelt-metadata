@@ -55,6 +55,7 @@ def test_yaml_content_default_values(work_folder_defaults: Path):
 
     assert parsed_yaml["variable_status"] == "DRAFT"
     assert parsed_yaml["owner"]["team"] == "default team"
+    assert parsed_yaml["name"]["nn"] is None
 
 
 def test_yaml_content_saved_values(work_folder_variable_definition: Path) -> None:
