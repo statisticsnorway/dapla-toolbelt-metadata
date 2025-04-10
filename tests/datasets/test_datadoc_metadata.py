@@ -379,7 +379,7 @@ def test_existing_pseudo_metadata_file(
     metadata.write_metadata_document()
     post_open_metadata = json.loads(existing_metadata_file.read_text())
 
-    assert len(metadata.variables) == 8
+    assert len(metadata.variables) == 0
     assert (
         pre_open_metadata["pseudonymization"] == post_open_metadata["pseudonymization"]
     )
@@ -904,3 +904,22 @@ def test_check_ready_to_merge_inconsistent_variable_data_types(
             ],
             errors_as_warnings=errors_as_warnings,
         )
+
+
+@pytest.mark.parametrize(
+    "existing_metadata_path",
+    [TEST_EXISTING_METADATA_DIRECTORY / "dataset_and_pseudo"],
+)
+def test_existing_metadata_file_with_pseudonymization(
+    existing_metadata_file: Path,
+    metadata: Datadoc,
+):
+    pre_open_metadata = json.loads(existing_metadata_file.read_text())
+    metadata.write_metadata_document()
+    post_open_metadata = json.loads(existing_metadata_file.read_text())
+
+    assert len(metadata.variables) == 8
+    assert (
+        pre_open_metadata["pseudonymization"] == post_open_metadata["pseudonymization"]
+    )
+    assert post_open_metadata["datadoc"] is not None
