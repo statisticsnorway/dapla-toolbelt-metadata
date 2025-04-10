@@ -64,6 +64,9 @@ def _get_default_template() -> "VariableDefinition":
             ),
             email="generert@ssb.no",
         ),
+        comment=LanguageStringType(
+            nb="Valgfri merknad",
+        ),
         variable_status=VariableStatus.DRAFT.value,
         id="",
         patch_id=0,
