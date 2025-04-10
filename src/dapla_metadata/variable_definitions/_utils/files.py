@@ -220,7 +220,7 @@ def _safe_set_multi_line_type(
     """Set the string type (Literal) for the specified field in the data dictionary."""
     keys = path.split(".")
     parent = _safe_get(data, keys)
-    if parent is not None:
+    if parent is not None and lang in parent and parent[lang] is not None:
         parent[lang] = LiteralScalarString(parent[lang])
 
 
