@@ -53,6 +53,7 @@ LIST_FIELDS = [
     "unit_types",
     "subject_fields",
     "related_variable_definition_uris",
+    "owner",
 ]
 
 SINGLE_LINE_FIELDS = [

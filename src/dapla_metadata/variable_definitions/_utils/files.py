@@ -212,50 +212,38 @@ def _safe_get(data: dict, keys: list):
     return data
 
 
-def _safe_set_multi_line_type(
-    data: dict,
-    path: str,
-    lang: str,
-) -> None:
-    """Set the string type (Literal) for the specified field in the data dictionary."""
-    keys = path.split(".")
-    parent = _safe_get(data, keys)
-    if parent is not None and lang in parent and parent[lang] is not None:
-        parent[lang] = LiteralScalarString(parent[lang])
-
-
-def _apply_language_string_type_to_fields(language_string_types: list, data: dict):
-    """Apply the specified language string type to multiple fields in the data dictionary."""
-    for field_path, langs in language_string_types:
-        for lang in langs:
-            _safe_set_multi_line_type(data, field_path, lang)
-
-
 def pre_process_data(data: dict) -> dict:
     """Format Variable definition model fields with ruamel yaml scalar string types."""
-    _apply_language_string_type_to_fields(BLOCK_FIELDS, data)
+    for key, langs in BLOCK_FIELDS:
+        keys = key.split(".")
+        field = _safe_get(data, keys)
+        if isinstance(field, dict):
+            for lang in langs:
+                if lang in field and field[lang] is not None:
+                    field[lang] = LiteralScalarString(field[lang])
 
     for key in LIST_FIELDS:
-        if isinstance(data.get(key), list):
+        keys = key.split(".")
+        field = _safe_get(data, keys)
+
+        if isinstance(field, list):
             data[key] = [
-                DoubleQuotedScalarString(item) for item in data[key] if item is not None
+                DoubleQuotedScalarString(item) for item in field if item is not None
             ]
+        elif isinstance(field, dict):
+            for sub_key, sub_value in field.items():
+                if isinstance(sub_value, list):
+                    field[sub_key] = [
+                        DoubleQuotedScalarString(item)
+                        for item in sub_value
+                        if item is not None
+                    ]
+                elif sub_value is not None:
+                    field[sub_key] = DoubleQuotedScalarString(sub_value)
 
     for key in SINGLE_LINE_FIELDS:
         if data.get(key) is not None:
             data[key] = DoubleQuotedScalarString(data[key])
-
-    # Special case due to complex structure
-    owner = data.get("owner")
-    if isinstance(owner, dict):
-        if owner.get("team") is not None:
-            owner["team"] = DoubleQuotedScalarString(owner["team"])
-        if isinstance(owner.get("groups"), list):
-            owner["groups"] = [
-                DoubleQuotedScalarString(item)
-                for item in owner["groups"]
-                if item is not None
-            ]
 
     return data
 
