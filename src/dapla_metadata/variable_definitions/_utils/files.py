@@ -189,7 +189,9 @@ def configure_yaml(yaml: YAML) -> YAML:
     yaml.preserve_quotes = True
     yaml.width = 180  # wrap long lines
     yaml.indent(
-        mapping=4, sequence=2, offset=0
+        mapping=4,
+        sequence=6,
+        offset=4,
     )  # Ensure indentation for nested keys and lists
     yaml.representer.add_representer(
         VariableStatus,

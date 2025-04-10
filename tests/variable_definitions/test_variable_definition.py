@@ -389,10 +389,10 @@ definition:
         test
 classification_reference: "91"
 unit_types:
-- "01"
+    - "01"
 subject_fields:
-- "a"
-- "b"
+    - "a"
+    - "b"
 contains_special_categories_of_personal_data: true
 variable_status: PUBLISHED_EXTERNAL
 measurement_type: "test"
@@ -407,11 +407,11 @@ comment:
     en: |-
         test
 related_variable_definition_uris:
-- "http://www.example.com"
+    - "http://www.example.com"
 owner:
     team: "my_team"
     groups:
-    - "my_team_developers"
+        - "my_team_developers"
 contact:
     title:
         nb: |-
