@@ -3,6 +3,7 @@
 import logging
 from os import PathLike
 from pathlib import Path
+from typing import Any
 from typing import TypeVar
 
 from pydantic import BaseModel
@@ -54,8 +55,8 @@ def _read_variable_definition_file(file_path: Path) -> dict:
         return yaml.load(f)
 
 
-def _clean_values(data: dict):
-    """Recursively remove None values from nested dicts/lists and strip string values."""
+def _clean_values(data: dict[str, Any]) -> dict[str, Any]:
+    """Recursively strip string values from nested dicts/lists."""
     if isinstance(data, dict):
         return {k: _clean_values(v) for k, v in data.items()}
     if isinstance(data, list):
@@ -92,13 +93,12 @@ def _read_file_to_model(
         raise FileNotFoundError(
             msg,
         ) from e
-    model = model_class.from_dict(  # type:ignore [attr-defined]
-        _read_variable_definition_file(
-            file_path,
-        ),
-    )
+    raw_data = _read_variable_definition_file(file_path)
+    cleaned_data = _clean_values(raw_data)
+
+    model = model_class.from_dict(cleaned_data)
 
     if model is None:
         msg = f"Could not read data from {file_path}"
         raise FileNotFoundError(msg)
-    return _clean_values(model)
+    return model
