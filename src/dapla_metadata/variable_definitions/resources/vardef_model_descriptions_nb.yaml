@@ -37,7 +37,6 @@ subject_fields: |
     - "be"
 contains_special_categories_of_personal_data: |
   Viser om variabelen inneholder spesielt sensitive personopplysninger.
-  ref: https://statistics-norway.atlassian.net/wiki/spaces/MPD/pages/3009839199/VarDef+-+Krav+til+dokumentasjon+av+variabler#inneholder-s%C3%A6rlige-kategorier-av-personopplysninger%2FcontainsSpecialCategoriesOfPersonalData
   -------------------------
   >>> EKSEMPEL: true
 measurement_type: |
