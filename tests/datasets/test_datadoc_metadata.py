@@ -904,3 +904,46 @@ def test_check_ready_to_merge_inconsistent_variable_data_types(
             ],
             errors_as_warnings=errors_as_warnings,
         )
+
+
+@pytest.mark.parametrize(
+    "existing_metadata_path",
+    [TEST_EXISTING_METADATA_DIRECTORY / "dataset_and_pseudo"],
+)
+def test_add_pseudo_variable(
+    existing_metadata_file: Path,  # noqa: ARG001
+    metadata: Datadoc,
+):
+    assert len(metadata.pseudo_variables) == 2
+    metadata.add_pseudo_variable("sykepenger")
+    assert len(metadata.pseudo_variables) == 3
+
+
+@pytest.mark.parametrize(
+    "existing_metadata_path",
+    [TEST_EXISTING_METADATA_DIRECTORY / "dataset_and_pseudo"],
+)
+def test_add_pseudo_variable_non_existent_variable_name(
+    existing_metadata_file: Path,  # noqa: ARG001
+    metadata: Datadoc,
+):
+    with pytest.raises(KeyError):
+        metadata.add_pseudo_variable("new_pseudo_variable")
+
+
+@pytest.mark.parametrize(
+    "existing_metadata_path",
+    [TEST_EXISTING_METADATA_DIRECTORY / "dataset_and_pseudo"],
+)
+def test_existing_metadata_file_update_pseudonymization(
+    existing_metadata_file: Path,  # noqa: ARG001
+    metadata: Datadoc,
+):
+    metadata.add_pseudo_variable("pers_id")
+    pseudo_var = metadata.pseudo_variables_lookup["pers_id"]
+
+    assert pseudo_var.encryption_algorithm is None
+    pseudo_var.encryption_algorithm = "new_encryption_algorithm"
+
+    updated_pseudo_var = metadata.pseudo_variables_lookup["pers_id"]
+    assert updated_pseudo_var.encryption_algorithm == "new_encryption_algorithm"

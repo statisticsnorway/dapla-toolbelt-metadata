@@ -109,7 +109,9 @@ class Datadoc:
         self.dataset_path: pathlib.Path | CloudPath | None = None
         self.dataset = model.Dataset()
         self.variables: list = []
+        self.pseudo_variables: list[model.PseudoVariable] = []
         self.variables_lookup: dict[str, model.Variable] = {}
+        self.pseudo_variables_lookup: dict[str, model.PseudoVariable] = {}
         self.explicitly_defined_metadata_document = False
         self.dataset_consistency_status: list = []
         if metadata_document_path:
@@ -149,9 +151,17 @@ class Datadoc:
         """
         extracted_metadata: model.DatadocMetadata | None = None
         existing_metadata: model.DatadocMetadata | None = None
+        existing_pseudonymization: model.PseudonymizationMetadata | None = None
+
         if self.metadata_document and self.metadata_document.exists():
             existing_metadata = self._extract_metadata_from_existing_document(
                 self.metadata_document,
+            )
+
+            existing_pseudonymization = (
+                self._extract_pseudonymization_from_existing_document(
+                    self.metadata_document,
+                )
             )
 
         if (
@@ -192,6 +202,10 @@ class Datadoc:
             self._set_metadata(merged_metadata)
         else:
             self._set_metadata(existing_metadata or extracted_metadata)
+
+        if existing_pseudonymization:
+            self._set_pseudonymization_metadata(existing_pseudonymization)
+
         set_default_values_variables(self.variables)
         set_default_values_dataset(self.dataset)
         set_dataset_owner(self.dataset)
@@ -222,9 +236,25 @@ class Datadoc:
         self.dataset = merged_metadata.dataset
         self.variables = merged_metadata.variables
 
+    def _set_pseudonymization_metadata(
+        self,
+        existing_pseudonymization: model.PseudonymizationMetadata | None,
+    ) -> None:
+        if not existing_pseudonymization or not (
+            existing_pseudonymization.pseudo_variables
+        ):
+            msg = "Could not read pseudonymization metadata"
+            raise ValueError(msg)
+        self.pseudo_variables = existing_pseudonymization.pseudo_variables
+
     def _create_variables_lookup(self) -> None:
         self.variables_lookup = {
             v.short_name: v for v in self.variables if v.short_name
+        }
+
+    def _create_pseudo_variables_lookup(self) -> None:
+        self.pseudo_variables_lookup = {
+            v.short_name: v for v in self.pseudo_variables if v.short_name
         }
 
     @staticmethod
@@ -399,6 +429,42 @@ class Datadoc:
             )
             return None
 
+    def _extract_pseudonymization_from_existing_document(
+        self,
+        document: pathlib.Path | CloudPath,
+    ) -> model.PseudonymizationMetadata | None:
+        """Read pseudo metadata from an existing metadata document.
+
+        If there is pseudo metadata in the document supplied, the method validates and returns the pseudonymization structure.
+
+        Args:
+            document: A path to the existing metadata document.
+
+        Raises:
+            json.JSONDecodeError: If the metadata document cannot be parsed.
+        """
+        try:
+            with document.open(mode="r", encoding="utf-8") as file:
+                fresh_metadata = json.load(file)
+        except json.JSONDecodeError:
+            logger.warning(
+                "Could not open existing metadata file %s.",
+                document,
+                exc_info=True,
+            )
+            return None
+
+        if not is_metadata_in_container_structure(fresh_metadata):
+            return None
+
+        pseudonymization_metadata = fresh_metadata.get("pseudonymization")
+        if pseudonymization_metadata is None:
+            return None
+
+        return model.PseudonymizationMetadata.model_validate_json(
+            json.dumps(pseudonymization_metadata),
+        )
+
     def _extract_subject_field_from_path(
         self,
         dapla_dataset_path_info: DaplaDatasetPathInfo,
@@ -516,6 +582,11 @@ class Datadoc:
         )
         if self.container:
             self.container.datadoc = datadoc
+            if not self.container.pseudonymization:
+                self.container.pseudonymization = model.PseudonymizationMetadata(
+                    pseudo_dataset=model.PseudoDataset()
+                )
+            self.container.pseudonymization.pseudo_variables = self.pseudo_variables
         else:
             self.container = model.MetadataContainer(datadoc=datadoc)
         if self.metadata_document:
@@ -545,3 +616,16 @@ class Datadoc:
             self.dataset,
         ) + num_obligatory_variables_fields_completed(self.variables)
         return calculate_percentage(num_set_fields, num_all_fields)
+
+    def add_pseudo_variable(self, variable_short_name: str) -> None:
+        """Adds a new pseudo variable to the list of pseudonymized variables."""
+        if self.variables_lookup[variable_short_name] is not None:
+            pseudo_variable = model.PseudoVariable(short_name=variable_short_name)
+            self.pseudo_variables.append(pseudo_variable)
+            self.pseudo_variables_lookup[variable_short_name] = pseudo_variable
+
+    def get_pseudo_variable(
+        self, variable_short_name: str
+    ) -> model.PseudoVariable | None:
+        """Finds a pseudo variable by shortname."""
+        return self.pseudo_variables_lookup.get(variable_short_name)
