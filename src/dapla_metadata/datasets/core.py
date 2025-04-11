@@ -447,8 +447,7 @@ class Datadoc:
                 fresh_metadata = json.load(file)
         except json.JSONDecodeError:
             logger.warning(
-                "Could not open existing metadata file %s. "
-                "Falling back to collecting data from the dataset",
+                "Could not open existing metadata file %s.",
                 document,
                 exc_info=True,
             )
