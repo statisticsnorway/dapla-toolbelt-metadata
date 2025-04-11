@@ -630,8 +630,6 @@ class Datadoc:
             )
             self.pseudo_variables_lookup["shortname"] = pseudo_variable
 
-    def get_pseudo_variable(
-        self, variable_short_name: str
-    ) -> model.PseudoVariable | None:
+    def get_pseudo_variable(self, variable_short_name: str) -> model.PseudoVariable:
         """Finds a pseudo variable by shortname."""
         return self.pseudo_variables_lookup.get(variable_short_name, None)
