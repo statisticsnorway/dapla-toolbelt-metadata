@@ -911,7 +911,6 @@ def test_check_ready_to_merge_inconsistent_variable_data_types(
     [TEST_EXISTING_METADATA_DIRECTORY / "dataset_and_pseudo"],
 )
 def test_existing_metadata_file_with_pseudonymization(
-    existing_metadata_file: Path,
     metadata: Datadoc,
 ):
     assert len(metadata.pseudo_variables) == 2
@@ -924,7 +923,6 @@ def test_existing_metadata_file_with_pseudonymization(
     [TEST_EXISTING_METADATA_DIRECTORY / "dataset_and_pseudo"],
 )
 def test_existing_metadata_file_with_pseudonymization_raises(
-    existing_metadata_file: Path,
     metadata: Datadoc,
 ):
     with pytest.raises(KeyError):  # replace with the actual expected exception
@@ -936,7 +934,6 @@ def test_existing_metadata_file_with_pseudonymization_raises(
     [TEST_EXISTING_METADATA_DIRECTORY / "dataset_and_pseudo"],
 )
 def test_existing_metadata_file_update_pseudonymization(
-    existing_metadata_file: Path,
     metadata: Datadoc,
 ):
     metadata.add_pseudo_variable("pers_id")

@@ -205,8 +205,6 @@ class Datadoc:
         if existing_pseudonymization:
             self._set_pseudonymization_metadata(existing_pseudonymization)
 
-        print("vars: ", self.variables)
-
         set_default_values_variables(self.variables)
         set_default_values_dataset(self.dataset)
         set_dataset_owner(self.dataset)
@@ -626,7 +624,9 @@ class Datadoc:
                 model.PseudoVariable(short_name=variable_short_name)
             )
 
-    def get_pseudo_variable(self, variable_short_name: str) -> model.PseudoVariable:
+    def get_pseudo_variable(
+        self, variable_short_name: str
+    ) -> model.PseudoVariable | None:
         """Finds a pseudo variable by shortname."""
         if self.variables_lookup.get(variable_short_name):
             return next(
@@ -638,6 +638,5 @@ class Datadoc:
                 None,
             )
 
-        raise KeyError(
-            f"No pseudo variable found with short_name={variable_short_name}"
-        )
+        msg = f"No pseudo variable found with short_name={variable_short_name}"
+        raise KeyError(msg)
