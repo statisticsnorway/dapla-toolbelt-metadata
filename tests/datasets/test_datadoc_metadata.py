@@ -923,7 +923,7 @@ def test_existing_metadata_file_with_pseudonymization(
     "existing_metadata_path",
     [TEST_EXISTING_METADATA_DIRECTORY / "dataset_and_pseudo"],
 )
-def test_existing_metadata_file_with_pseudonymization_raises(
+def test_add_pseudo_variable_non_existent_variable_name(
     existing_metadata_file: Path,  # noqa: ARG001
     metadata: Datadoc,
 ):
