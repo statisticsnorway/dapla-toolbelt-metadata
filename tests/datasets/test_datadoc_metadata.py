@@ -379,7 +379,7 @@ def test_existing_pseudo_metadata_file(
     metadata.write_metadata_document()
     post_open_metadata = json.loads(existing_metadata_file.read_text())
 
-    assert len(metadata.variables) == 0
+    assert len(metadata.variables) == 8
     assert (
         pre_open_metadata["pseudonymization"] == post_open_metadata["pseudonymization"]
     )
