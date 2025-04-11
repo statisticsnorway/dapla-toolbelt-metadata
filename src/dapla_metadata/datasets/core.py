@@ -638,5 +638,5 @@ class Datadoc:
                 None,
             )
 
-        msg = f"No pseudo variable found with short_name={variable_short_name}"
+        msg = f"No pseudo variable was found with short_name={variable_short_name}"
         raise KeyError(msg)
