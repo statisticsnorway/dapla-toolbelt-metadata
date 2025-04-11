@@ -622,6 +622,24 @@ class Datadoc:
 
     def add_pseudo_variable(self, variable_short_name: str) -> model.PseudoVariable:
         """Adds a new pseudo variable to the list of pseudonymized variables."""
-        pseudo_variable = model.PseudoVariable(short_name=variable_short_name)
-        self.pseudo_variables.append(pseudo_variable)
-        return pseudo_variable
+        if self.variables_lookup[variable_short_name] is not None:
+            pseudo_variable = model.PseudoVariable(short_name=variable_short_name)
+
+            self.pseudo_variables.append(pseudo_variable)
+            return pseudo_variable
+
+    def get_pseudo_variable(self, variable_short_name: str) -> model.PseudoVariable:
+        """Finds a pseudo variable by shortname."""
+        if self.variables_lookup.get(variable_short_name):
+            return next(
+                (
+                    v
+                    for v in self.pseudo_variables
+                    if v.short_name == variable_short_name
+                ),
+                None,
+            )
+
+        raise KeyError(
+            f"No pseudo variable found with short_name={variable_short_name}"
+        )

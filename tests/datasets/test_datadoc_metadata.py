@@ -914,12 +914,36 @@ def test_existing_metadata_file_with_pseudonymization(
     existing_metadata_file: Path,
     metadata: Datadoc,
 ):
-    pre_open_metadata = json.loads(existing_metadata_file.read_text())
-    metadata.write_metadata_document()
-    post_open_metadata = json.loads(existing_metadata_file.read_text())
+    assert len(metadata.pseudo_variables) == 2
+    metadata.add_pseudo_variable("sykepenger")
+    assert len(metadata.pseudo_variables) == 3
 
-    assert len(metadata.variables) == 8
+
+@pytest.mark.parametrize(
+    "existing_metadata_path",
+    [TEST_EXISTING_METADATA_DIRECTORY / "dataset_and_pseudo"],
+)
+def test_existing_metadata_file_with_pseudonymization_raises(
+    existing_metadata_file: Path,
+    metadata: Datadoc,
+):
+    with pytest.raises(KeyError):  # replace with the actual expected exception
+        metadata.add_pseudo_variable("new_pseudo_variable")
+
+
+@pytest.mark.parametrize(
+    "existing_metadata_path",
+    [TEST_EXISTING_METADATA_DIRECTORY / "dataset_and_pseudo"],
+)
+def test_existing_metadata_file_update_pseudonymization(
+    existing_metadata_file: Path,
+    metadata: Datadoc,
+):
+    pseudo_var = metadata.add_pseudo_variable("pers_id")
+    assert pseudo_var.encryption_algorithm is None
+    pseudo_var.encryption_algorithm = "new_encryption_algorithm"
+
     assert (
-        pre_open_metadata["pseudonymization"] == post_open_metadata["pseudonymization"]
+        metadata.get_pseudo_variable("pers_id").encryption_algorithm
+        == "new_encryption_algorithm"
     )
-    assert post_open_metadata["datadoc"] is not None

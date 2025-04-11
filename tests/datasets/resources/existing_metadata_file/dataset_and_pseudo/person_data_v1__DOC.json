@@ -202,9 +202,21 @@
     "pseudo_dataset": null,
     "pseudo_variables": [
       {
-        "short_name": "fnr",
-        "data_element_path": "fnr",
-        "data_element_pattern": "**/fnr",
+        "short_name": "alm_inntekt",
+        "data_element_path": "alm_inntekt",
+        "data_element_pattern": "**/alm_inntekt",
+        "stable_identifier_type": null,
+        "stable_identifier_version": null,
+        "encryption_algorithm": "TINK-DAEAD",
+        "encryption_key_reference": "ssb-common-key-1",
+        "encryption_algorithm_parameters": [{ "keyId": "ssb-common-key-1" }],
+        "source_variable": null,
+        "source_variable_datatype": null
+      },
+      {
+        "short_name": "sivilstand",
+        "data_element_path": "sivilstand",
+        "data_element_pattern": "**/sivilstand",
         "stable_identifier_type": null,
         "stable_identifier_version": null,
         "encryption_algorithm": "TINK-DAEAD",
