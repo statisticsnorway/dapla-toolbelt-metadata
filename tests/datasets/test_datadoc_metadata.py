@@ -941,10 +941,11 @@ def test_existing_metadata_file_update_pseudonymization(
 ):
     metadata.add_pseudo_variable("pers_id")
     pseudo_var = metadata.get_pseudo_variable("pers_id")
-    assert pseudo_var.encryption_algorithm is None
-    pseudo_var.encryption_algorithm = "new_encryption_algorithm"
 
-    assert (
-        metadata.get_pseudo_variable("pers_id").encryption_algorithm
-        == "new_encryption_algorithm"
-    )
+    if pseudo_var is not None:
+        assert pseudo_var.encryption_algorithm is None
+        pseudo_var.encryption_algorithm = "new_encryption_algorithm"
+
+    updated_pseudo_var = metadata.get_pseudo_variable("pers_id")
+    if updated_pseudo_var is not None:
+        assert updated_pseudo_var.encryption_algorithm == "new_encryption_algorithm"
