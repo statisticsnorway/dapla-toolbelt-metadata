@@ -188,7 +188,6 @@ def configure_yaml(yaml: YAML) -> YAML:
     yaml.allow_unicode = True  # Support special characters
     yaml.preserve_quotes = True
     yaml.width = 120  # wrap long lines
-    yaml.line_break = "\n"
     yaml.indent(
         mapping=4,
         sequence=6,
