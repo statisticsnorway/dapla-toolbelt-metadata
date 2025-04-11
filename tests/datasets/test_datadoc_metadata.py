@@ -910,7 +910,7 @@ def test_check_ready_to_merge_inconsistent_variable_data_types(
     "existing_metadata_path",
     [TEST_EXISTING_METADATA_DIRECTORY / "dataset_and_pseudo"],
 )
-def test_existing_metadata_file_with_pseudonymization(
+def test_add_pseudo_variable(
     existing_metadata_file: Path,  # noqa: ARG001
     metadata: Datadoc,
 ):
