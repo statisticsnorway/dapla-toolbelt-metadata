@@ -4,6 +4,7 @@ import logging
 from datetime import datetime
 from pathlib import Path
 from typing import TYPE_CHECKING
+from typing import Any
 from typing import cast
 
 import pytz
@@ -118,6 +119,15 @@ def _get_variable_definitions_dir():
     return folder_path
 
 
+def _set_field_requirement(field_name: str, field: Any) -> str | None:
+    """Determine the field requirement status."""
+    if field_name not in MACHINE_GENERATED_FIELDS:
+        if field.is_required() or field_name == VARIABLE_STATUS_FIELD_NAME:
+            return REQUIRED_FIELD
+        return OPTIONAL_FIELD
+    return None
+
+
 def _populate_commented_map(
     field_name: str,
     value: str,
@@ -131,12 +141,12 @@ def _populate_commented_map(
         JsonDict,
         field.json_schema_extra,
     )[NORWEGIAN_DESCRIPTIONS]
+    field_requirement: str | None = _set_field_requirement(field_name, field)
     if description is not None:
         new_description = (
-            "\n"
-            + (REQUIRED_FIELD if field.is_required() else OPTIONAL_FIELD)
-            + "\n"
-            + str(description)
+            ("\n" + field_requirement + "\n" + str(description))
+            if field_requirement
+            else ("\n" + str(description))
         )
         commented_map.yaml_set_comment_before_after_key(
             field_name,
@@ -187,7 +197,7 @@ def configure_yaml(yaml: YAML) -> YAML:
     yaml.default_flow_style = False  # Ensures pretty YAML formatting block style
     yaml.allow_unicode = True  # Support special characters
     yaml.preserve_quotes = True
-    yaml.width = 180  # wrap long lines
+    yaml.width = 4096  # prevent wrapping lines
     yaml.indent(
         mapping=4,
         sequence=6,
