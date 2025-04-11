@@ -110,7 +110,6 @@ class Datadoc:
         self.dataset = model.Dataset()
         self.variables: list = []
         self.pseudo_variables: list = []
-        self.pseudonymization: dict | None = None
         self.variables_lookup: dict[str, model.Variable] = {}
         self.explicitly_defined_metadata_document = False
         self.dataset_consistency_status: list = []
