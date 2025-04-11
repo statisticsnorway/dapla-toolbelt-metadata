@@ -141,7 +141,7 @@ def _populate_commented_map(
         JsonDict,
         field.json_schema_extra,
     )[NORWEGIAN_DESCRIPTIONS]
-    field_requirement: str = _set_field_requirement(field_name, field)
+    field_requirement: str | None = _set_field_requirement(field_name, field)
     if description is not None:
         new_description = (
             ("\n" + field_requirement + "\n" + str(description))
