@@ -927,7 +927,7 @@ def test_add_pseudo_variable_non_existent_variable_name(
     existing_metadata_file: Path,  # noqa: ARG001
     metadata: Datadoc,
 ):
-    with pytest.raises(KeyError):  # replace with the actual expected exception
+    with pytest.raises(KeyError):
         metadata.add_pseudo_variable("new_pseudo_variable")
 
 
