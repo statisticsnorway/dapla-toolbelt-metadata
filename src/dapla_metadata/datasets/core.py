@@ -109,7 +109,7 @@ class Datadoc:
         self.dataset_path: pathlib.Path | CloudPath | None = None
         self.dataset = model.Dataset()
         self.variables: list = []
-        self.pseudo_variables: list = []
+        self.pseudo_variables: list[model.PseudoVariable] = []
         self.variables_lookup: dict[str, model.Variable] = {}
         self.explicitly_defined_metadata_document = False
         self.dataset_consistency_status: list = []
