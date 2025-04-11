@@ -111,7 +111,7 @@ class Datadoc:
         self.variables: list = []
         self.pseudo_variables: list[model.PseudoVariable] = []
         self.variables_lookup: dict[str, model.Variable] = {}
-        self.pseudo_variables_lookup: dict[str, model.Variable] = {}
+        self.pseudo_variables_lookup: dict[str, model.PseudoVariable] = {}
         self.explicitly_defined_metadata_document = False
         self.dataset_consistency_status: list = []
         if metadata_document_path:
@@ -620,10 +620,9 @@ class Datadoc:
     def add_pseudo_variable(self, variable_short_name: str) -> None:
         """Adds a new pseudo variable to the list of pseudonymized variables."""
         if self.variables_lookup[variable_short_name] is not None:
-            pseudo_variable = self.pseudo_variables.append(
-                model.PseudoVariable(short_name=variable_short_name)
-            )
-            self.pseudo_variables_lookup["shortname"] = pseudo_variable
+            pseudo_variable = model.PseudoVariable(short_name=variable_short_name)
+            self.pseudo_variables.append(pseudo_variable)
+            self.pseudo_variables_lookup[variable_short_name] = pseudo_variable
 
     def get_pseudo_variable(self, variable_short_name: str) -> model.PseudoVariable:
         """Finds a pseudo variable by shortname."""

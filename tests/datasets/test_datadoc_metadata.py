@@ -940,10 +940,10 @@ def test_existing_metadata_file_update_pseudonymization(
     metadata: Datadoc,
 ):
     metadata.add_pseudo_variable("pers_id")
-    pseudo_var = metadata.get_pseudo_variable("pers_id")
+    pseudo_var = metadata.pseudo_variables_lookup["pers_id"]
 
     assert pseudo_var.encryption_algorithm is None
     pseudo_var.encryption_algorithm = "new_encryption_algorithm"
 
-    updated_pseudo_var = metadata.get_pseudo_variable("pers_id")
+    updated_pseudo_var = metadata.pseudo_variables_lookup["pers_id"]
     assert updated_pseudo_var.encryption_algorithm == "new_encryption_algorithm"
