@@ -373,26 +373,26 @@ def test_str(variable_definition):
         == """id: "wypvb3wd"
 patch_id: 1
 name:
-    nb: >-
+    nb: |-
         test
-    nn: >-
+    nn: |-
         test
-    en: >-
+    en: |-
         test
 short_name: "var_test"
 definition:
-    nb: >-
+    nb: |-
         test
-    nn: >-
+    nn: |-
         test
-    en: >-
+    en: |-
         test
 classification_reference: "91"
 unit_types:
-- "01"
+    - "01"
 subject_fields:
-- "a"
-- "b"
+    - "a"
+    - "b"
 contains_special_categories_of_personal_data: true
 variable_status: PUBLISHED_EXTERNAL
 measurement_type: "test"
@@ -400,25 +400,25 @@ valid_from: '2024-11-01'
 valid_until:
 external_reference_uri: "http://www.example.com"
 comment:
-    nb: >-
+    nb: |-
         test
-    nn: >-
+    nn: |-
         test
-    en: >-
+    en: |-
         test
 related_variable_definition_uris:
-- "http://www.example.com"
+    - "http://www.example.com"
 owner:
     team: "my_team"
     groups:
-    - "my_team_developers"
+        - "my_team_developers"
 contact:
     title:
-        nb: >-
+        nb: |-
             test
-        nn: >-
+        nn: |-
             test
-        en: >-
+        en: |-
             test
     email: me@example.com
 created_at: '2024-11-01T00:00:00'

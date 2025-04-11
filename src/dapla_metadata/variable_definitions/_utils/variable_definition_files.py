@@ -3,6 +3,7 @@
 import logging
 from os import PathLike
 from pathlib import Path
+from typing import Any
 from typing import TypeVar
 
 from pydantic import BaseModel
@@ -17,6 +18,7 @@ from dapla_metadata.variable_definitions._utils.files import _get_current_time
 from dapla_metadata.variable_definitions._utils.files import (
     _model_to_yaml_with_comments,
 )
+from dapla_metadata.variable_definitions._utils.files import configure_yaml
 
 logger = logging.getLogger(__name__)
 
@@ -46,11 +48,36 @@ def create_variable_yaml(
 
 def _read_variable_definition_file(file_path: Path) -> dict:
     yaml = YAML()
-
+    configure_yaml(yaml)
     logger.debug("Full path to variable definition file %s", file_path)
     logger.info("Reading from '%s'", file_path.name)
     with file_path.open(encoding="utf-8") as f:
         return yaml.load(f)
+
+
+def _strip_strings_recursively(data: Any) -> Any:
+    """Recursively strip leading and trailing whitespace from string values in nested dicts/lists.
+
+    This function traverses the provided data, which may be a dictionary, list, or other types,
+    and applies the following logic:
+        - If the data is a dictionary, it recursively strips string values in all key-value pairs.
+        - If the data is a list, it recursively strips string values in all list elements.
+        - If the data is a string, it strips leading and trailing whitespace.
+        - Any other data types are returned unchanged.
+
+    Args:
+        data: The input data, which may include nested dictionaries, lists, or other types.
+
+    Returns:
+        Any: The processed data, with strings stripped of whitespace or unchanged if not a string.
+    """
+    if isinstance(data, dict):
+        return {k: _strip_strings_recursively(v) for k, v in data.items()}
+    if isinstance(data, list):
+        return [_strip_strings_recursively(item) for item in data]
+    if isinstance(data, str):
+        return data.strip()
+    return data
 
 
 def _read_file_to_model(
@@ -80,14 +107,14 @@ def _read_file_to_model(
         raise FileNotFoundError(
             msg,
         ) from e
+    raw_data = _read_variable_definition_file(file_path)
+    cleaned_data = _strip_strings_recursively(raw_data)
+
     model = model_class.from_dict(  # type:ignore [attr-defined]
-        _read_variable_definition_file(
-            file_path,
-        ),
+        cleaned_data
     )
 
     if model is None:
         msg = f"Could not read data from {file_path}"
         raise FileNotFoundError(msg)
-
     return model

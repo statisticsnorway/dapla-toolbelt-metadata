@@ -41,35 +41,24 @@ def _get_default_template() -> "VariableDefinition":
 
     return VariableDefinition(
         name=LanguageStringType(
-            nb="navn",
-            nn="namn",
-            en="name",
+            nb="Navn",
         ),
         short_name="generert_kortnavn",
         definition=LanguageStringType(
-            nb="definisjonstekst",
-            nn="definisjonstekst",
-            en="definition text",
+            nb="Definisjonstekst",
         ),
         valid_from=DEFAULT_DATE,
         unit_types=[""],
         subject_fields=[""],
         contains_special_categories_of_personal_data=False,
-        variable_status=VariableStatus.DRAFT.value,
         owner=Owner(team="default team", groups=["default group"]),
         contact=Contact(
             title=LanguageStringType(
                 nb="generert tittel",
-                nn="generert tittel",
-                en="generert title",
             ),
             email="generert@ssb.no",
         ),
-        comment=LanguageStringType(
-            nb="",
-            nn="",
-            en="",
-        ),
+        variable_status=VariableStatus.DRAFT.value,
         id="",
         patch_id=0,
         created_at=DEFAULT_DATE,

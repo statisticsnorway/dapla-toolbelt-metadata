@@ -12,7 +12,7 @@ from ruamel.yaml import YAML
 from ruamel.yaml import CommentedMap
 from ruamel.yaml import RoundTripRepresenter
 from ruamel.yaml.scalarstring import DoubleQuotedScalarString
-from ruamel.yaml.scalarstring import FoldedScalarString
+from ruamel.yaml.scalarstring import LiteralScalarString
 
 from dapla_metadata.variable_definitions._generated.vardef_client.models.complete_response import (
     CompleteResponse,
@@ -21,6 +21,8 @@ from dapla_metadata.variable_definitions._generated.vardef_client.models.variabl
     VariableStatus,
 )
 from dapla_metadata.variable_definitions._utils import config
+from dapla_metadata.variable_definitions._utils.constants import BLOCK_FIELDS
+from dapla_metadata.variable_definitions._utils.constants import DOUBLE_QUOTE_FIELDS
 from dapla_metadata.variable_definitions._utils.constants import (
     MACHINE_GENERATED_FIELDS,
 )
@@ -187,7 +189,9 @@ def configure_yaml(yaml: YAML) -> YAML:
     yaml.preserve_quotes = True
     yaml.width = 180  # wrap long lines
     yaml.indent(
-        mapping=4, sequence=2, offset=0
+        mapping=4,
+        sequence=6,
+        offset=4,
     )  # Ensure indentation for nested keys and lists
     yaml.representer.add_representer(
         VariableStatus,
@@ -209,59 +213,63 @@ def _safe_get(data: dict, keys: list):
     return data
 
 
-def _safe_set_folded(data: dict, path: str, lang: str):
-    keys = path.split(".")
-    parent = _safe_get(data, keys)
-    if isinstance(parent, dict) and lang in parent and parent[lang] is not None:
-        parent[lang] = FoldedScalarString(parent[lang])
+def _apply_literal_scalars(field: dict):
+    """Helper function to wrap `LanguageStringType` values in `LiteralScalarString`.
+
+    This function wraps each non-`None` language value in a `LanguageStringType` field
+    in the `LiteralScalarString` YAML type, ensuring proper YAML formatting with block style.
+    """
+    for lang, value in field.items():
+        if value is not None:
+            field[lang] = LiteralScalarString(value)
+
+
+def _apply_double_quotes_to_dict_values(field: dict):
+    """Helper function to wrap dictionary values in `DoubleQuotedScalarString`.
+
+    This function wraps each non-`None` value in a dictionary, including values inside lists,
+    in the `DoubleQuotedScalarString` YAML type, ensuring proper YAML formatting with double quotes.
+    """
+    for sub_key, sub_value in field.items():
+        if isinstance(sub_value, list):
+            field[sub_key] = [
+                DoubleQuotedScalarString(item) for item in sub_value if item is not None
+            ]
+        elif sub_value is not None:
+            field[sub_key] = DoubleQuotedScalarString(sub_value)
 
 
 def pre_process_data(data: dict) -> dict:
-    """Format Variable definition model fields with ruamel yaml scalar string types."""
-    folded_fields = [
-        ("definition", ["nb", "nn", "en"]),
-        ("name", ["nb", "nn", "en"]),
-        ("comment", ["nb", "nn", "en"]),
-        ("contact.title", ["nb", "nn", "en"]),
-    ]
-    for field_path, langs in folded_fields:
-        for lang in langs:
-            _safe_set_folded(data, field_path, lang)
+    """Format variable definition model fields with ruamel YAML scalar string types.
 
-    list_fields = [
-        "unit_types",
-        "subject_fields",
-        "related_variable_definition_uris",
-    ]
-    for key in list_fields:
-        if isinstance(data.get(key), list):
+    This method sets the appropriate scalar string type (either `LiteralScalarString` or `DoubleQuotedScalarString`)
+    for fields of the variable definition model, based on predefined lists of fields.
+
+    It processes both nested dictionaries and lists, ensuring each element is formatted with the correct YAML string type.
+
+    Args:
+        data (dict): A dictionary containing the variable definition data.
+
+    Returns:
+        dict: The updated dictionary with model fields formatted as ruamel.yaml scalar string types.
+    """
+    for key in BLOCK_FIELDS:
+        keys = key.split(".")
+        field = _safe_get(data, keys)
+        if isinstance(field, dict):
+            _apply_literal_scalars(field)
+
+    for key in DOUBLE_QUOTE_FIELDS:
+        keys = key.split(".")
+        field = _safe_get(data, keys)
+        if isinstance(field, list):
             data[key] = [
-                DoubleQuotedScalarString(item) for item in data[key] if item is not None
+                DoubleQuotedScalarString(item) for item in field if item is not None
             ]
-
-    single_line_fields = [
-        "short_name",
-        "classification_reference",
-        "measurement_type",
-        "external_reference_uri",
-        "created_by",
-        "id",
-        "last_updated_by",
-    ]
-    for key in single_line_fields:
-        if data.get(key) is not None:
+        elif isinstance(field, str):
             data[key] = DoubleQuotedScalarString(data[key])
-    # Special case due to complex structure
-    owner = data.get("owner")
-    if isinstance(owner, dict):
-        if owner.get("team") is not None:
-            owner["team"] = DoubleQuotedScalarString(owner["team"])
-        if isinstance(owner.get("groups"), list):
-            owner["groups"] = [
-                DoubleQuotedScalarString(item)
-                for item in owner["groups"]
-                if item is not None
-            ]
+        elif isinstance(field, dict):
+            _apply_double_quotes_to_dict_values(field)
 
     return data
 
@@ -322,8 +330,6 @@ def _model_to_yaml_with_comments(
                 model_instance,
             )
         elif field_name not in {VARIABLE_STATUS_FIELD_NAME, OWNER_FIELD_NAME}:
-            if isinstance(value, str):
-                value.strip()
             _populate_commented_map(field_name, value, commented_map, model_instance)
 
     base_path = (
