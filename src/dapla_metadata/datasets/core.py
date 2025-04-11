@@ -619,13 +619,12 @@ class Datadoc:
         ) + num_obligatory_variables_fields_completed(self.variables)
         return calculate_percentage(num_set_fields, num_all_fields)
 
-    def add_pseudo_variable(self, variable_short_name: str) -> model.PseudoVariable:
+    def add_pseudo_variable(self, variable_short_name: str) -> None:
         """Adds a new pseudo variable to the list of pseudonymized variables."""
         if self.variables_lookup[variable_short_name] is not None:
-            pseudo_variable = model.PseudoVariable(short_name=variable_short_name)
-
-            self.pseudo_variables.append(pseudo_variable)
-            return pseudo_variable
+            self.pseudo_variables.append(
+                model.PseudoVariable(short_name=variable_short_name)
+            )
 
     def get_pseudo_variable(self, variable_short_name: str) -> model.PseudoVariable:
         """Finds a pseudo variable by shortname."""
