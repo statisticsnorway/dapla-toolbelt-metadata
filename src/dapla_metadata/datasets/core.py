@@ -166,7 +166,7 @@ class Datadoc:
         if (
             self.dataset_path is not None
             and self.dataset == model.Dataset()
-            and len(self.variables) == 0
+            and len(self.variables) == 8
         ):
             extracted_metadata = self._extract_metadata_from_dataset(self.dataset_path)
 
