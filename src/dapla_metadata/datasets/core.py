@@ -628,15 +628,4 @@ class Datadoc:
         self, variable_short_name: str
     ) -> model.PseudoVariable | None:
         """Finds a pseudo variable by shortname."""
-        if self.variables_lookup.get(variable_short_name):
-            return next(
-                (
-                    v
-                    for v in self.pseudo_variables
-                    if v.short_name == variable_short_name
-                ),
-                None,
-            )
-
-        msg = f"No pseudo variable was found with short_name={variable_short_name}"
-        raise KeyError(msg)
+        return self.pseudo_variables_lookup.get(variable_short_name, None)
