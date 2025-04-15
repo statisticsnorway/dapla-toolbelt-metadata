@@ -210,6 +210,7 @@ class Datadoc:
         set_default_values_dataset(self.dataset)
         set_dataset_owner(self.dataset)
         self._create_variables_lookup()
+        self._create_pseudo_variables_lookup()
 
     def _get_existing_file_path(
         self,
