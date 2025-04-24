@@ -11,7 +11,8 @@ while [ "$#" -gt 0 ]; do
     --branch|--base-dir) echo "$1 requires an argument" >&2; exit 1;;
 
     -*) echo "$LOG_PREFIX unknown option: $1" >&2; exit 1;;
-    *) echo "$LOG_PREFIX unknown argument: $1"; shift 1;;
+    # Skip positional arguments
+    *) shift 1;;
   esac
 done
 
@@ -25,7 +26,7 @@ fi
 
 mkdir -p "$VARIABLE_DEFINITIONS_DIR"
 
-echo "Retrieve the notebooks from statisticsnorway/dapla-toolbelt-metadata"
+echo "$LOG_PREFIX Retrieve the notebooks from statisticsnorway/dapla-toolbelt-metadata"
 # Retrieve the vardef interface notebooks and put them in the /home/onyxia/work/variable_definitions directory
 git clone -n --filter=tree:0 \
   https://github.com/statisticsnorway/dapla-toolbelt-metadata.git "$TMP_CHECKOUT_DIR"
