@@ -16,6 +16,12 @@ done
 
 TMP_CHECKOUT_DIR="$BASE_DIR"/tmp/dapla-toolbelt-metadata
 VARIABLE_DEFINITIONS_DIR="$BASE_DIR"/work/variable_definitions
+
+if [ -d "$VARIABLE_DEFINITIONS_DIR" ]; then
+  echo "$VARIABLE_DEFINITIONS_DIR already exists. Exiting to avoid overwriting work."
+  exit
+fi
+
 mkdir -p "$VARIABLE_DEFINITIONS_DIR"
 
 echo "Retrieve the notebooks from statisticsnorway/dapla-toolbelt-metadata"
