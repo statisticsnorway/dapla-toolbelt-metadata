@@ -1,5 +1,6 @@
 #! /bin/bash
 
+LOG_PREFIX="[Personal init script] Vardef Forvaltning:"
 BRANCH="main"
 BASE_DIR=$HOME
 
@@ -9,8 +10,8 @@ while [ "$#" -gt 0 ]; do
     --base-dir=*) BASE_DIR="${1#*=}"; shift 1;;
     --branch|--base-dir) echo "$1 requires an argument" >&2; exit 1;;
 
-    -*) echo "unknown option: $1" >&2; exit 1;;
-    *) handle_argument "$1"; shift 1;;
+    -*) echo "$LOG_PREFIX unknown option: $1" >&2; exit 1;;
+    *) echo "$LOG_PREFIX unknown argument: $1"; shift 1;;
   esac
 done
 
@@ -18,7 +19,7 @@ TMP_CHECKOUT_DIR="$BASE_DIR"/tmp/dapla-toolbelt-metadata
 VARIABLE_DEFINITIONS_DIR="$BASE_DIR"/work/variable_definitions
 
 if [ -d "$VARIABLE_DEFINITIONS_DIR" ]; then
-  echo "$VARIABLE_DEFINITIONS_DIR already exists. Exiting to avoid overwriting work."
+  echo "$LOG_PREFIX $VARIABLE_DEFINITIONS_DIR already exists. Exiting to avoid overwriting work."
   exit
 fi
 
@@ -36,14 +37,14 @@ cp vardef-maintenance/vardef-maintenance.toml "$VARIABLE_DEFINITIONS_DIR"/pyproj
 popd || exit
 rm -rf "$TMP_CHECKOUT_DIR"
 
-echo "Run ssb-project build"
+echo "$LOG_PREFIX Run ssb-project build"
 pushd "$VARIABLE_DEFINITIONS_DIR" || exit
 ssb-project build --no-verify
 
-echo "Configure kernel for all Notebooks"
+echo "$LOG_PREFIX Configure kernel for all Notebooks"
 KERNELSPEC_OBJECT='{"kernelspec": {"display_name": "variable_definitions", "language": "python", "name": "variable_definitions"}}'
 for file in ./*.ipynb; do
-    echo "Inserting kernelspec into $file"
+    echo "$LOG_PREFIX Inserting kernelspec into $file"
     # shellcheck disable=SC2005
     input=$(cat "$file") && jq ".metadata += $KERNELSPEC_OBJECT" <<< "$input" > "$file"
 done
