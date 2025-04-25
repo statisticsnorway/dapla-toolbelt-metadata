@@ -42,6 +42,7 @@ from tests.datasets.constants import TEST_EXISTING_METADATA_NAMING_STANDARD_FILE
 from tests.datasets.constants import TEST_NAMING_STANDARD_COMPATIBLE_DATASET
 from tests.datasets.constants import TEST_PARQUET_FILEPATH
 from tests.datasets.constants import TEST_PROCESSED_DATA_POPULATION_DIRECTORY
+from tests.datasets.constants import TEST_PSEUDO_DIRECTORY
 from tests.datasets.constants import TEST_RESOURCES_DIRECTORY
 from tests.datasets.constants import VARIABLE_DATA_TYPES
 from tests.datasets.constants import VARIABLE_SHORT_NAMES
@@ -369,7 +370,7 @@ def test_extract_subject_field_value_from_statistic_structure_xml(
 
 @pytest.mark.parametrize(
     "existing_metadata_path",
-    [TEST_EXISTING_METADATA_DIRECTORY / "pseudo"],
+    [TEST_PSEUDO_DIRECTORY / "pseudo"],
 )
 def test_existing_pseudo_metadata_file(
     existing_metadata_file: Path,
@@ -908,7 +909,7 @@ def test_check_ready_to_merge_inconsistent_variable_data_types(
 
 @pytest.mark.parametrize(
     "existing_metadata_path",
-    [TEST_EXISTING_METADATA_DIRECTORY / "dataset_and_pseudo"],
+    [TEST_PSEUDO_DIRECTORY / "dataset_and_pseudo"],
 )
 def test_add_pseudo_variable(
     existing_metadata_file: Path,  # noqa: ARG001
@@ -921,7 +922,7 @@ def test_add_pseudo_variable(
 
 @pytest.mark.parametrize(
     "existing_metadata_path",
-    [TEST_EXISTING_METADATA_DIRECTORY / "dataset_and_pseudo"],
+    [TEST_PSEUDO_DIRECTORY / "dataset_and_pseudo"],
 )
 def test_add_pseudo_variable_non_existent_variable_name(
     existing_metadata_file: Path,  # noqa: ARG001
@@ -933,7 +934,7 @@ def test_add_pseudo_variable_non_existent_variable_name(
 
 @pytest.mark.parametrize(
     "existing_metadata_path",
-    [TEST_EXISTING_METADATA_DIRECTORY / "dataset_and_pseudo"],
+    [TEST_PSEUDO_DIRECTORY / "dataset_and_pseudo"],
 )
 def test_existing_metadata_file_update_pseudonymization(
     existing_metadata_file: Path,  # noqa: ARG001
@@ -947,3 +948,14 @@ def test_existing_metadata_file_update_pseudonymization(
 
     updated_pseudo_var = metadata.pseudo_variables_lookup["pers_id"]
     assert updated_pseudo_var.encryption_algorithm == "new_encryption_algorithm"
+
+
+@pytest.mark.parametrize(
+    "existing_metadata_path",
+    [TEST_PSEUDO_DIRECTORY / "pseudo_missing_variables"],
+)
+def test_open_pseudo_with_no_variables(
+    existing_metadata_file: Path,  # noqa: ARG001
+    metadata: Datadoc,
+):
+    assert metadata.pseudo_variables == []
