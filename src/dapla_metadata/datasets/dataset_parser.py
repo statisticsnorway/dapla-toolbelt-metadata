@@ -11,14 +11,9 @@ from abc import ABC
 from abc import abstractmethod
 from typing import TYPE_CHECKING
 
-import pandas as pd
 from datadoc_model.model import DataType
-from datadoc_model.model import LanguageStringType
-from datadoc_model.model import LanguageStringTypeItem
 from datadoc_model.model import Variable
 from pyarrow import parquet as pq
-
-from dapla_metadata.datasets.utility.enums import SupportedLanguages
 
 if TYPE_CHECKING:
     import pyarrow as pa
@@ -190,59 +185,8 @@ class DatasetParserParquet(DatasetParser):
         ]
 
 
-class DatasetParserSas7Bdat(DatasetParser):
-    """Concrete implementation for parsing SAS7BDAT files."""
-
-    def __init__(self, dataset: pathlib.Path | CloudPath) -> None:
-        """Call the super init method for initialization.
-
-        Args:
-            dataset: Path to the dataset to parse.
-        """
-        super().__init__(dataset)
-
-    def get_fields(self) -> list[Variable]:
-        """Extract the fields from this dataset."""
-        fields = []
-        with self.dataset.open(mode="rb") as f:
-            # Use an iterator to avoid reading in the entire dataset
-            sas_reader = pd.read_sas(f, format="sas7bdat", iterator=True)
-
-            # Get the first row from the iterator
-            try:
-                row = next(sas_reader)
-            except StopIteration as e:
-                msg = f"Could not read data from {self.dataset}"
-                raise RuntimeError(msg) from e
-
-        # Get all the values from the row and loop through them
-        for i, v in enumerate(row.to_numpy().tolist()[0]):
-            fields.append(
-                Variable(
-                    short_name=sas_reader.columns[i].name,  # type: ignore [attr-defined]
-                    # Assume labels are defined in the default language (NORSK_BOKMÅL)
-                    # If this is not correct, the user may fix it via the UI
-                    name=LanguageStringType(
-                        [
-                            LanguageStringTypeItem(
-                                languageCode=SupportedLanguages.NORSK_BOKMÅL.value,
-                                languageText=sas_reader.columns[  # type: ignore [attr-defined]
-                                    i
-                                ].label,
-                            ),
-                        ],
-                    ),
-                    # Access the python type for the value and transform it to a DataDoc Data type
-                    data_type=self.transform_data_type(type(v).__name__.lower()),  # type: ignore  # noqa: PGH003
-                ),
-            )
-
-        return fields
-
-
 PARQUET_FILE_SUFFIX = ".parquet"
 PARQUET_GZIP_FILE_SUFFIX = ".parquet.gzip"
-SAS7BDAT_FILE_SUFFIX = ".sas7bdat"
 
 SUPPORTED_DATASET_FILE_SUFFIXES: dict[
     str,
@@ -250,5 +194,4 @@ SUPPORTED_DATASET_FILE_SUFFIXES: dict[
 ] = {
     PARQUET_FILE_SUFFIX: DatasetParserParquet,
     PARQUET_GZIP_FILE_SUFFIX: DatasetParserParquet,
-    SAS7BDAT_FILE_SUFFIX: DatasetParserSas7Bdat,
 }

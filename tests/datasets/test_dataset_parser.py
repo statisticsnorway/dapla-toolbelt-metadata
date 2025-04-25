@@ -6,8 +6,6 @@ import pathlib
 import pandas as pd
 import pytest
 from datadoc_model.model import DataType
-from datadoc_model.model import LanguageStringType
-from datadoc_model.model import LanguageStringTypeItem
 from datadoc_model.model import Variable
 
 from dapla_metadata.datasets.dataset_parser import KNOWN_BOOLEAN_TYPES
@@ -19,7 +17,6 @@ from dapla_metadata.datasets.dataset_parser import DatasetParser
 from dapla_metadata.datasets.dataset_parser import DatasetParserParquet
 from tests.datasets.constants import TEST_PARQUET_FILEPATH
 from tests.datasets.constants import TEST_PARQUET_GZIP_FILEPATH
-from tests.datasets.constants import TEST_SAS7BDAT_FILEPATH
 
 
 def test_use_abstract_class_directly():
@@ -47,37 +44,6 @@ def test_get_fields_parquet(local_parser: DatasetParserParquet):
     ]
 
     assert local_parser.get_fields() == expected_fields
-
-
-def test_get_fields_sas7bdat():
-    expected_fields = [
-        Variable(
-            short_name="tekst",
-            name=LanguageStringType(
-                [LanguageStringTypeItem(languageCode="nb", languageText="Tekst")],
-            ),
-            data_type=DataType.STRING,
-        ),
-        Variable(
-            short_name="tall",
-            name=LanguageStringType(
-                [LanguageStringTypeItem(languageCode="nb", languageText="Tall")],
-            ),
-            data_type=DataType.FLOAT,
-        ),
-        Variable(
-            short_name="dato",
-            name=LanguageStringType(
-                [LanguageStringTypeItem(languageCode="nb", languageText="Dato")],
-            ),
-            data_type=DataType.DATETIME,
-        ),
-    ]
-
-    reader = DatasetParser.for_file(TEST_SAS7BDAT_FILEPATH)
-    fields = reader.get_fields()
-
-    assert fields == expected_fields
 
 
 @pytest.mark.parametrize("file", ["my_dataset.csv", "my_dataset.xlsx", "my_dataset"])

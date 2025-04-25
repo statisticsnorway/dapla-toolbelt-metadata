@@ -21,8 +21,6 @@
 !tests/datasets/resources/**/*.parquet
 
 *.sas7bdat
-# Unignore all sas7bdat files under `tests/datasets/resources/`
-!tests/datasets/resources/**/*.sas7bdat
 
 *.xls
 *.xlsx
