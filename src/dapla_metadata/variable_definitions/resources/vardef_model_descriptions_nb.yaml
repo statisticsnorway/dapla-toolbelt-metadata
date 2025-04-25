@@ -5,8 +5,8 @@ name: |
   -------------------------
   >>> EKSEMPEL:
   name:
-    nb: |-
-        Lønnsinntekter
+      nb: |-
+          Lønnsinntekter
 short_name: |
   Dette er variabelens kortnavn, som kan være en mer “teknisk” forkortelse, f.eks. wlonn (kortnavnet til Lønnsinntekter). Kortnavnet til en variabel i Vardef skal være unikt.
   Kravet til kortnavnet er at det kan inneholde a-z (kun små bokstaver), 0-9 og _ (understrek). Minimumslengden på kortnavnet er 2 tegn.
@@ -16,71 +16,80 @@ definition: |
   -------------------------
   >>> EKSEMPEL:
   definition:
-    nb: |-
-        Yrkesinntekter, kapitalinntekter, skattepliktige og skattefrie overføringer, i løpet av kalenderåret.
+      nb: |-
+          Yrkesinntekter, kapitalinntekter, skattepliktige og skattefrie overføringer, i løpet av kalenderåret.
 classification_reference: |
   ID av en klassifikasjon eller kodeliste fra KLASS som beskriver verdiene variabelen kan anta.
   For eksempel vil variabelen 'Sivilstand' ha klassifikasjon 'Standard for sivilstand' (kan vises på https://www.ssb.no/klass/klassifikasjoner/19 ) som har ID 19.
   -------------------------
-  >>> EKSEMPEL: "19"
+  >>> EKSEMPEL:
+  classification_reference: "19"
 unit_types: |
   Enhetstyper - enhetene som beskrives av denne variabelen. Variabelen “sivilstand” vil f.eks. ha enhetstypen person,
   mens f.eks. “Produsentpris for tjenester” vil ha både foretak og bedrift som enhetstyper siden variabelen kan beskrive begge.
   Verdier skal være koder fra: https://www.ssb.no/klass/klassifikasjoner/702.
   -------------------------
   >>> EKSEMPEL:
-    - "20"
+  unit_types:
+      - "20"
 subject_fields: |
   Statistikkområder som variabelen brukes innenfor. For eksempel tilhører variabelen “Sivilstand” statistikkområdet “Befolkning”.
   Verdier skal være koder fra https://www.ssb.no/klass/klassifikasjoner/618.
   -------------------------
   >>> EKSEMPEL:
-    - "bf"
-    - "be"
+  subject_fields:
+      - "bf"
+      - "be"
 contains_special_categories_of_personal_data: |
   Viser om variabelen inneholder spesielt sensitive personopplysninger.
   -------------------------
-  >>> EKSEMPEL: true
+  >>> EKSEMPEL:
+  contains_special_categories_of_personal_data: true
 measurement_type: |
   Måletype som en kvantitativ variabelen tilhører, f.eks.  valuta, areal osv.
   Verdien skal være en kode fra: https://www.ssb.no/klass/klassifikasjoner/303
   -------------------------
-  >>> EKSEMPEL: "03"
+  >>> EKSEMPEL:
+  measurement_type: "03"
 valid_from: |
   Datoen variabeldefinisjonen er gyldig f.o.m.
   -------------------------
-  >>> EKSEMPEL: 1999-01-30
+  >>> EKSEMPEL:
+  valid_from: 1999-01-30
 valid_until: |
   Datoen variabeldefinisjonens var gyldig t.o.m. Settes hvis definisjonen skal erstattet av en ny definisjon (med en ny gyldighetsperiode), eller variabelen ikke lenger skal brukes.
   -------------------------
-  >>> EKSEMPEL: 2024-10-23
+  >>> EKSEMPEL:
+  valid_until: 2024-10-23
 external_reference_uri:  |
   En peker (URI) til ekstern definisjon/dokumentasjon, f.eks. ei webside som er relevant for variabelen.
   -----------------------------------------------------
-  >>> EKSEMPEL: "https://www.landbruksdirektoratet.com"
+  >>> EKSEMPEL:
+  external_reference_uri: "https://www.landbruksdirektoratet.com"
 comment: |
   Her kan en sette inn eventuelle tilleggsopplysninger som ikke hører hjemme i selve definisjonen.
   Variabelen “Landbakgrunn” har f.eks. merknaden “Fra og med 1.1.2003 ble definisjon endret til også å trekke inn besteforeldrenes fødeland”.
   -----------------------------------------------------------------------------------------------
   >>> EKSEMPEL:
   comment:
-    nb: |-
-        Fra og med 1.1.2003 ble definisjon endret til også å trekke inn besteforeldrenes fødeland.
+      nb: |-
+          Fra og med 1.1.2003 ble definisjon endret til også å trekke inn besteforeldrenes fødeland.
 related_variable_definition_uris: |
   Her kan en legge inn URIer til andre variabler som er relevante. Eksempelvis er variabelen “Inntekt etter skatt” en beregnet variabel der  “Yrkesinntekter” og “Kapitalinntekter” inngår i beregningen.
   En kan da legge inn deres URI-er i dette feltet.
   -------------------------
   >>> EKSEMPEL:
-    - "https://example.com/"
+  related_variable_definition_uris:
+      - "https://example.com/"
 contact: |
   Her dokumenterer en navn og epost for person eller gruppe som kan svare på spørsmål.
   -------------------------
   >>> EKSEMPEL:
   contact:
-    title:
-      nb: |-
-          Seksjonsleder
-    email: leder@ssb.no
+      title:
+          nb: |-
+              Seksjonsleder
+      email: leder@ssb.no
 variable_status: |
   Livssyklus for variabelen.
 id: |
