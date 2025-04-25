@@ -242,10 +242,11 @@ class Datadoc:
         existing_pseudonymization: model.PseudonymizationMetadata | None,
     ) -> None:
         if not existing_pseudonymization or not (
-            existing_pseudonymization.pseudo_variables
+            existing_pseudonymization.pseudo_variables is not None
         ):
-            msg = "Could not read pseudonymization metadata"
-            raise ValueError(msg)
+            msg = "Error reading pseudonymization metadata"
+            logger.error(msg)
+            return
         self.pseudo_variables = existing_pseudonymization.pseudo_variables
 
     def _create_variables_lookup(self) -> None:
@@ -254,9 +255,10 @@ class Datadoc:
         }
 
     def _create_pseudo_variables_lookup(self) -> None:
-        self.pseudo_variables_lookup = {
-            v.short_name: v for v in self.pseudo_variables if v.short_name
-        }
+        if self.pseudo_variables:
+            self.pseudo_variables_lookup = {
+                v.short_name: v for v in self.pseudo_variables if v.short_name
+            }
 
     @staticmethod
     def _check_dataset_consistency(
