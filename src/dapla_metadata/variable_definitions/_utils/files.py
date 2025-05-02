@@ -3,12 +3,8 @@
 import logging
 from datetime import datetime
 from pathlib import Path
-from typing import TYPE_CHECKING
-from typing import Any
-from typing import cast
 
 import pytz
-from pydantic.config import JsonDict
 from ruamel.yaml import YAML
 from ruamel.yaml import CommentedMap
 from ruamel.yaml import RoundTripRepresenter
@@ -27,10 +23,7 @@ from dapla_metadata.variable_definitions._utils.constants import DOUBLE_QUOTE_FI
 from dapla_metadata.variable_definitions._utils.constants import (
     MACHINE_GENERATED_FIELDS,
 )
-from dapla_metadata.variable_definitions._utils.constants import NORWEGIAN_DESCRIPTIONS
-from dapla_metadata.variable_definitions._utils.constants import OPTIONAL_FIELD
 from dapla_metadata.variable_definitions._utils.constants import OWNER_FIELD_NAME
-from dapla_metadata.variable_definitions._utils.constants import REQUIRED_FIELD
 from dapla_metadata.variable_definitions._utils.constants import (
     TEMPLATE_SECTION_HEADER_MACHINE_GENERATED,
 )
@@ -48,9 +41,6 @@ from dapla_metadata.variable_definitions._utils.constants import (
 )
 from dapla_metadata.variable_definitions._utils.constants import YAML_STR_TAG
 from dapla_metadata.variable_definitions.exceptions import VardefFileError
-
-if TYPE_CHECKING:
-    from pydantic import JsonValue
 
 logger = logging.getLogger(__name__)
 
@@ -114,41 +104,6 @@ def _get_variable_definitions_dir():
     folder_path = workspace_dir / VARIABLE_DEFINITIONS_DIR
     folder_path.mkdir(parents=True, exist_ok=True)
     return folder_path
-
-
-def _set_field_requirement(field_name: str, field: Any) -> str | None:
-    """Determine the field requirement status."""
-    if field_name not in MACHINE_GENERATED_FIELDS:
-        if field.is_required() or field_name == VARIABLE_STATUS_FIELD_NAME:
-            return REQUIRED_FIELD
-        return OPTIONAL_FIELD
-    return None
-
-
-def _populate_commented_map(
-    field_name: str,
-    value: str,
-    commented_map: CommentedMap,
-    model_instance: CompleteResponse,
-) -> None:
-    """Add data to a CommentedMap."""
-    commented_map[field_name] = value
-    field = type(model_instance).model_fields[field_name]
-    description: JsonValue = cast(
-        JsonDict,
-        field.json_schema_extra,
-    )[NORWEGIAN_DESCRIPTIONS]
-    field_requirement: str | None = _set_field_requirement(field_name, field)
-    if description is not None:
-        new_description = (
-            ("\n" + field_requirement + "\n" + str(description))
-            if field_requirement
-            else ("\n" + str(description))
-        )
-        commented_map.yaml_set_comment_before_after_key(
-            field_name,
-            before=new_description,
-        )
 
 
 def _validate_and_create_directory(custom_directory: Path) -> Path:
