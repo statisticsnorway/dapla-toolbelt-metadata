@@ -277,7 +277,7 @@ def test_create_draft_with_special_characters():
     ) as mock_create_draft:
         result = Vardef.create_draft_from_file(
             file_path=VARIABLE_DEFINITION_EDITING_FILES_DIR
-            / "variable_definition_arbkonfl_qSDlxNVO_2025-02-04T08-46-14.yaml",
+            / "variable_definition_landbak_wypvb3wd_2025-05-02T10-06-20.yaml",
         )
     assert ":" in result.definition["nb"]
     assert result.definition["nn"] == ""
@@ -300,7 +300,7 @@ def test_update_draft_with_special_characters(variable_definition: VariableDefin
         prev_variable_definition = variable_definition
         result = prev_variable_definition.update_draft_from_file(
             file_path=VARIABLE_DEFINITION_EDITING_FILES_DIR
-            / "variable_definition_arbkonfl_qSDlxNVO_2025-02-04T08-46-14.yaml",
+            / "variable_definition_landbak_wypvb3wd_2025-05-02T10-06-20.yaml",
         )
     assert result.definition != prev_variable_definition.definition
     assert ":" in result.definition["nb"]
