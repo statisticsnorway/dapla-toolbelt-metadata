@@ -3,12 +3,8 @@
 import logging
 from datetime import datetime
 from pathlib import Path
-from typing import TYPE_CHECKING
-from typing import Any
-from typing import cast
 
 import pytz
-from pydantic.config import JsonDict
 from ruamel.yaml import YAML
 from ruamel.yaml import CommentedMap
 from ruamel.yaml import RoundTripRepresenter
@@ -27,10 +23,7 @@ from dapla_metadata.variable_definitions._utils.constants import DOUBLE_QUOTE_FI
 from dapla_metadata.variable_definitions._utils.constants import (
     MACHINE_GENERATED_FIELDS,
 )
-from dapla_metadata.variable_definitions._utils.constants import NORWEGIAN_DESCRIPTIONS
-from dapla_metadata.variable_definitions._utils.constants import OPTIONAL_FIELD
 from dapla_metadata.variable_definitions._utils.constants import OWNER_FIELD_NAME
-from dapla_metadata.variable_definitions._utils.constants import REQUIRED_FIELD
 from dapla_metadata.variable_definitions._utils.constants import (
     TEMPLATE_SECTION_HEADER_MACHINE_GENERATED,
 )
@@ -47,13 +40,7 @@ from dapla_metadata.variable_definitions._utils.constants import (
     VARIABLE_STATUS_FIELD_NAME,
 )
 from dapla_metadata.variable_definitions._utils.constants import YAML_STR_TAG
-from dapla_metadata.variable_definitions._utils.descriptions import (
-    apply_norwegian_descriptions_to_model,
-)
 from dapla_metadata.variable_definitions.exceptions import VardefFileError
-
-if TYPE_CHECKING:
-    from pydantic import JsonValue
 
 logger = logging.getLogger(__name__)
 
@@ -117,41 +104,6 @@ def _get_variable_definitions_dir():
     folder_path = workspace_dir / VARIABLE_DEFINITIONS_DIR
     folder_path.mkdir(parents=True, exist_ok=True)
     return folder_path
-
-
-def _set_field_requirement(field_name: str, field: Any) -> str | None:
-    """Determine the field requirement status."""
-    if field_name not in MACHINE_GENERATED_FIELDS:
-        if field.is_required() or field_name == VARIABLE_STATUS_FIELD_NAME:
-            return REQUIRED_FIELD
-        return OPTIONAL_FIELD
-    return None
-
-
-def _populate_commented_map(
-    field_name: str,
-    value: str,
-    commented_map: CommentedMap,
-    model_instance: CompleteResponse,
-) -> None:
-    """Add data to a CommentedMap."""
-    commented_map[field_name] = value
-    field = type(model_instance).model_fields[field_name]
-    description: JsonValue = cast(
-        JsonDict,
-        field.json_schema_extra,
-    )[NORWEGIAN_DESCRIPTIONS]
-    field_requirement: str | None = _set_field_requirement(field_name, field)
-    if description is not None:
-        new_description = (
-            ("\n" + field_requirement + "\n" + str(description))
-            if field_requirement
-            else ("\n" + str(description))
-        )
-        commented_map.yaml_set_comment_before_after_key(
-            field_name,
-            before=new_description,
-        )
 
 
 def _validate_and_create_directory(custom_directory: Path) -> Path:
@@ -290,9 +242,9 @@ def _model_to_yaml_with_comments(
     start_comment: str,
     custom_directory: Path | None = None,
 ) -> Path:
-    """Convert a model instance to a structured YAML file with Norwegian descriptions as comments.
+    """Convert a model instance to a structured YAML file.
 
-    Adds Norwegian descriptions to the model, organizes fields into sections, and saves
+    Organizes fields into sections with headers and saves
     the YAML file with a structured format and timestamped filename.
 
     Args:
@@ -307,13 +259,6 @@ def _model_to_yaml_with_comments(
     yaml = YAML()
     configure_yaml(yaml)
 
-    from dapla_metadata.variable_definitions.variable_definition import (
-        VariableDefinition,
-    )
-
-    # Apply new fields to model
-    apply_norwegian_descriptions_to_model(VariableDefinition)
-
     # Convert Pydantic model instance to dictionary
     data = model_instance.model_dump(
         serialize_as_any=True,
@@ -326,21 +271,16 @@ def _model_to_yaml_with_comments(
     status_map = CommentedMap()
     owner_map = CommentedMap()
 
-    # Loop through all fields in the model and populate the commented maps
+    # Loop through all fields in the model and assigne to commented maps
     for field_name, value in data.items():
         if field_name == VARIABLE_STATUS_FIELD_NAME:
-            _populate_commented_map(field_name, value, status_map, model_instance)
+            status_map[field_name] = value
         elif field_name == OWNER_FIELD_NAME:
-            _populate_commented_map(field_name, value, owner_map, model_instance)
+            owner_map[field_name] = value
         elif field_name in MACHINE_GENERATED_FIELDS:
-            _populate_commented_map(
-                field_name,
-                value,
-                machine_generated_map,
-                model_instance,
-            )
-        elif field_name not in {VARIABLE_STATUS_FIELD_NAME, OWNER_FIELD_NAME}:
-            _populate_commented_map(field_name, value, commented_map, model_instance)
+            machine_generated_map[field_name] = value
+        else:
+            commented_map[field_name] = value
 
     base_path = (
         _get_variable_definitions_dir()

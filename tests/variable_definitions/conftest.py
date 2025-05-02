@@ -44,12 +44,9 @@ from dapla_metadata.variable_definitions._generated.vardef_client.models.variabl
 )
 from dapla_metadata.variable_definitions._utils._client import VardefClient
 from dapla_metadata.variable_definitions._utils.config import WORKSPACE_DIR
-from dapla_metadata.variable_definitions._utils.config import get_descriptions_path
 from dapla_metadata.variable_definitions._utils.constants import (
     VARIABLE_DEFINITIONS_DIR,
 )
-from dapla_metadata.variable_definitions._utils.descriptions import get_package_root
-from dapla_metadata.variable_definitions._utils.descriptions import load_descriptions
 from dapla_metadata.variable_definitions._utils.template_files import (
     create_template_yaml,
 )
@@ -384,12 +381,6 @@ VARIABLE_DEFINITION_DICT = {
         "email": "s320@ssb.no",
     },
 }
-
-
-@pytest.fixture
-def get_norwegian_descriptions_from_file():
-    """Return dict representation of model field descriptions."""
-    return load_descriptions(get_package_root() / get_descriptions_path())
 
 
 @pytest.fixture
