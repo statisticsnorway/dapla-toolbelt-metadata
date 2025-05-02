@@ -47,9 +47,6 @@ from dapla_metadata.variable_definitions._utils.constants import (
     VARIABLE_STATUS_FIELD_NAME,
 )
 from dapla_metadata.variable_definitions._utils.constants import YAML_STR_TAG
-from dapla_metadata.variable_definitions._utils.descriptions import (
-    apply_norwegian_descriptions_to_model,
-)
 from dapla_metadata.variable_definitions.exceptions import VardefFileError
 
 if TYPE_CHECKING:
@@ -290,9 +287,9 @@ def _model_to_yaml_with_comments(
     start_comment: str,
     custom_directory: Path | None = None,
 ) -> Path:
-    """Convert a model instance to a structured YAML file with Norwegian descriptions as comments.
+    """Convert a model instance to a structured YAML file.
 
-    Adds Norwegian descriptions to the model, organizes fields into sections, and saves
+    Organizes fields into sections with headers and saves
     the YAML file with a structured format and timestamped filename.
 
     Args:
@@ -307,13 +304,6 @@ def _model_to_yaml_with_comments(
     yaml = YAML()
     configure_yaml(yaml)
 
-    from dapla_metadata.variable_definitions.variable_definition import (
-        VariableDefinition,
-    )
-
-    # Apply new fields to model
-    apply_norwegian_descriptions_to_model(VariableDefinition)
-
     # Convert Pydantic model instance to dictionary
     data = model_instance.model_dump(
         serialize_as_any=True,
@@ -326,21 +316,16 @@ def _model_to_yaml_with_comments(
     status_map = CommentedMap()
     owner_map = CommentedMap()
 
-    # Loop through all fields in the model and populate the commented maps
+    # Loop through all fields in the model and assigne to commented maps
     for field_name, value in data.items():
         if field_name == VARIABLE_STATUS_FIELD_NAME:
-            _populate_commented_map(field_name, value, status_map, model_instance)
+            status_map[field_name] = value
         elif field_name == OWNER_FIELD_NAME:
-            _populate_commented_map(field_name, value, owner_map, model_instance)
+            owner_map[field_name] = value
         elif field_name in MACHINE_GENERATED_FIELDS:
-            _populate_commented_map(
-                field_name,
-                value,
-                machine_generated_map,
-                model_instance,
-            )
-        elif field_name not in {VARIABLE_STATUS_FIELD_NAME, OWNER_FIELD_NAME}:
-            _populate_commented_map(field_name, value, commented_map, model_instance)
+            machine_generated_map[field_name] = value
+        else:
+            commented_map[field_name] = value
 
     base_path = (
         _get_variable_definitions_dir()
