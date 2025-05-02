@@ -24,8 +24,6 @@ TEMPLATE_SECTION_HEADER_MACHINE_GENERATED_EN = (
     "\n--- Machine generated fields. Do not edit ---\n"
 )
 
-NORWEGIAN_DESCRIPTIONS = "norwegian_description"
-
 DEFAULT_DATE = date(1000, 1, 1)
 
 MACHINE_GENERATED_FIELDS = [

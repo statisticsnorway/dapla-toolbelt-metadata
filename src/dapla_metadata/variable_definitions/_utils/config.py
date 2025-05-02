@@ -9,24 +9,6 @@ from dapla_metadata.variable_definitions._generated.vardef_client.configuration 
 
 VARDEF_HOST_TEST = "https://metadata.intern.test.ssb.no"
 WORKSPACE_DIR = "WORKSPACE_DIR"
-VARDEF_DESCRIPTIONS_FILE_PATH = "VARDEF_DESCRIPTIONS_FILE_PATH"
-VARDEF_DEFAULT_DESCRIPTION_PATH = (
-    "variable_definitions/resources/vardef_model_descriptions_nb.yaml"
-)
-
-
-def get_descriptions_path() -> str:
-    """Get the relative file path from the repo root to the Norwegian descriptions.
-
-    First checks the `VARDEF_DESCRIPTIONS_FILE_PATH` environment variable; if not set, returns a default path.
-
-    Returns:
-        str: The file path to the descriptions.
-    """
-    return (
-        get_config_item(VARDEF_DESCRIPTIONS_FILE_PATH)
-        or VARDEF_DEFAULT_DESCRIPTION_PATH
-    )
 
 
 def get_workspace_dir() -> str | None:

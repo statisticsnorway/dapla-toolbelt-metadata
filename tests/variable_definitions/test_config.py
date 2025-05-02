@@ -4,16 +4,9 @@ from dapla_metadata._shared.config import DAPLA_ENVIRONMENT
 from dapla_metadata._shared.config import DAPLA_GROUP_CONTEXT
 from dapla_metadata._shared.config import OIDC_TOKEN
 from dapla_metadata._shared.enums import DaplaEnvironment
-from dapla_metadata.variable_definitions._utils.config import (
-    VARDEF_DEFAULT_DESCRIPTION_PATH,
-)
-from dapla_metadata.variable_definitions._utils.config import (
-    VARDEF_DESCRIPTIONS_FILE_PATH,
-)
 from dapla_metadata.variable_definitions._utils.config import VARDEF_HOST_TEST
 from dapla_metadata.variable_definitions._utils.config import WORKSPACE_DIR
 from dapla_metadata.variable_definitions._utils.config import get_active_group
-from dapla_metadata.variable_definitions._utils.config import get_descriptions_path
 from dapla_metadata.variable_definitions._utils.config import (
     get_vardef_client_configuration,
 )
@@ -92,13 +85,3 @@ def test_active_group_set(monkeypatch: pytest.MonkeyPatch):
 def test_workspace_dir_set(monkeypatch: pytest.MonkeyPatch):
     monkeypatch.setenv(WORKSPACE_DIR, "home/work")
     assert get_workspace_dir() == "home/work"
-
-
-def test_description_path_set(monkeypatch: pytest.MonkeyPatch):
-    monkeypatch.setenv(VARDEF_DESCRIPTIONS_FILE_PATH, "path/home/file.yaml")
-    assert get_descriptions_path() == "path/home/file.yaml"
-
-
-def test_description_path_unset(monkeypatch: pytest.MonkeyPatch):
-    monkeypatch.delenv(VARDEF_DESCRIPTIONS_FILE_PATH, raising=False)
-    assert get_descriptions_path() == VARDEF_DEFAULT_DESCRIPTION_PATH
