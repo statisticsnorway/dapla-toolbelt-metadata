@@ -293,7 +293,7 @@ def _model_to_yaml_with_comments(
     # It is important to preserve the order of the yaml dump operations when writing to file
     # so that the file is predictable for the user
     with file_path.open("w", encoding="utf-8") as file:
-        commented_map.yaml_set_start_comment(start_comment)
+        commented_map.yaml_set_start_comment(start_comment + "\n")
         yaml.dump(commented_map, file)
 
         status_map.yaml_set_start_comment(TEMPLATE_SECTION_HEADER_STATUS)
