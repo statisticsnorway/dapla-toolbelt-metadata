@@ -173,7 +173,6 @@ class Datadoc:
 
         if (
             self.dataset_path
-            and self.explicitly_defined_metadata_document
             and self.metadata_document is not None
             and self.metadata_document.exists()
             and extracted_metadata is not None
