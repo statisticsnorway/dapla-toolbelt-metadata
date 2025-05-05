@@ -171,6 +171,21 @@ class Datadoc:
         ):
             extracted_metadata = self._extract_metadata_from_dataset(self.dataset_path)
 
+        if extracted_metadata is not None:
+            existing_file_path = self._get_existing_file_path(extracted_metadata)
+            if (
+                self.dataset_path
+                and existing_file_path is not None
+                and extracted_metadata is not None
+                and existing_metadata is not None
+            ):        
+                self.dataset_consistency_status = self._check_dataset_consistency(
+                    self.dataset_path,
+                    Path(existing_file_path),
+                    extracted_metadata,
+                    existing_metadata,
+                )
+
         if (
             self.dataset_path
             and self.explicitly_defined_metadata_document
@@ -179,13 +194,6 @@ class Datadoc:
             and extracted_metadata is not None
             and existing_metadata is not None
         ):
-            existing_file_path = self._get_existing_file_path(extracted_metadata)
-            self.dataset_consistency_status = self._check_dataset_consistency(
-                self.dataset_path,
-                Path(existing_file_path),
-                extracted_metadata,
-                existing_metadata,
-            )
             self._check_ready_to_merge(
                 self.dataset_consistency_status,
                 errors_as_warnings=self.errors_as_warnings,
