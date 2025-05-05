@@ -178,7 +178,7 @@ class Datadoc:
                 and existing_file_path is not None
                 and extracted_metadata is not None
                 and existing_metadata is not None
-            ):        
+            ):
                 self.dataset_consistency_status = self._check_dataset_consistency(
                     self.dataset_path,
                     Path(existing_file_path),
