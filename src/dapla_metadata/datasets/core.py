@@ -85,7 +85,6 @@ class Datadoc:
         dataset_path: str | None = None,
         metadata_document_path: str | None = None,
         statistic_subject_mapping: StatisticSubjectMapping | None = None,
-        *,
         errors_as_warnings: bool = False,
         validate_required_fields_on_existing_metadata: bool = False,
     ) -> None:

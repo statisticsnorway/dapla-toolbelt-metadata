@@ -24,6 +24,7 @@ from datadoc_model.model import DataType
 from datadoc_model.model import IsPersonalData
 from datadoc_model.model import Variable
 from datadoc_model.model import VariableRole
+from pydantic import ValidationError
 
 from dapla_metadata.dapla.user_info import TestUserInfo
 from dapla_metadata.datasets.core import Datadoc
@@ -38,8 +39,8 @@ from tests.datasets.constants import TEST_BUCKET_NAMING_STANDARD_COMPATIBLE_PATH
 from tests.datasets.constants import TEST_DATASETS_DIRECTORY
 from tests.datasets.constants import TEST_EXISTING_METADATA_DIRECTORY
 from tests.datasets.constants import TEST_EXISTING_METADATA_FILE_NAME
-from tests.datasets.constants import TEST_EXISTING_METADATA_FILEPATH
 from tests.datasets.constants import TEST_EXISTING_METADATA_NAMING_STANDARD_FILEPATH
+from tests.datasets.constants import TEST_EXISTING_METADATA_WITH_VALID_ID_DIRECTORY
 from tests.datasets.constants import TEST_NAMING_STANDARD_COMPATIBLE_DATASET
 from tests.datasets.constants import TEST_PARQUET_FILEPATH
 from tests.datasets.constants import TEST_PROCESSED_DATA_POPULATION_DIRECTORY
@@ -209,17 +210,33 @@ def test_existing_metadata_valid_id(
 
 @pytest.mark.parametrize(
     "metadata_document",
-    [TEST_EXISTING_METADATA_FILEPATH],
+    [TEST_EXISTING_METADATA_WITH_VALID_ID_DIRECTORY / TEST_EXISTING_METADATA_FILE_NAME],
 )
 @pytest.mark.usefixtures("_mock_timestamp", "_mock_user_info")
-def test_validate_required_fields(
+def test_validate_required_fields_incomplete_metadata(
+    metadata_document: Path,
+    subject_mapping_fake_statistical_structure: StatisticSubjectMapping,
+):
+    with pytest.raises(ValidationError):
+        Datadoc(
+            metadata_document_path=str(metadata_document),
+            statistic_subject_mapping=subject_mapping_fake_statistical_structure,
+            validate_required_fields_on_existing_metadata=True,
+        )
+
+
+@pytest.mark.parametrize(
+    "metadata_document",
+    [TEST_EXISTING_METADATA_NAMING_STANDARD_FILEPATH],
+)
+@pytest.mark.usefixtures("_mock_timestamp", "_mock_user_info")
+def test_validate_required_fields_complete_metadata(
     metadata_document: Path,
     subject_mapping_fake_statistical_structure: StatisticSubjectMapping,
 ):
     Datadoc(
         metadata_document_path=str(metadata_document),
         statistic_subject_mapping=subject_mapping_fake_statistical_structure,
-        errors_as_warnings=False,
         validate_required_fields_on_existing_metadata=True,
     )
 
