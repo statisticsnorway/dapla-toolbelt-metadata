@@ -133,7 +133,9 @@ def set_default_values_variables(variables: list) -> None:
             v.variable_role = VariableRole.MEASURE
 
 
-def set_default_values_dataset(dataset: model.Dataset) -> None:
+def set_default_values_dataset(
+    dataset: all_optional_model.Dataset | required_model.Dataset,
+) -> None:
     """Set default values on dataset.
 
     Args:
