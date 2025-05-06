@@ -97,7 +97,7 @@ class StatisticSubjectMapping(GetExternalSource):
         """
         for p in self.primary_subjects:
             for s in p.secondary_subjects:
-                if statistic_short_name in s.statistic_short_names_primary and s.statistic_short_names_primary[statistic_short_name] :
+                if s.statistic_short_names_primary.get(statistic_short_name):
                     logger.debug("Got %s from %s", s, statistic_short_name)
                     return s.subject_code
 
