@@ -217,7 +217,7 @@ class Datadoc:
             self._set_pseudonymization_metadata(existing_pseudonymization)
 
         set_default_values_variables(self.variables)
-        set_default_values_dataset(self.dataset)
+        set_default_values_dataset(cast("all_optional_model.Dataset", self.dataset))
         set_dataset_owner(self.dataset)
         self._create_variables_lookup()
         self._create_pseudo_variables_lookup()
