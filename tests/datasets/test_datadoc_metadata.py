@@ -38,6 +38,7 @@ from tests.datasets.constants import TEST_BUCKET_NAMING_STANDARD_COMPATIBLE_PATH
 from tests.datasets.constants import TEST_DATASETS_DIRECTORY
 from tests.datasets.constants import TEST_EXISTING_METADATA_DIRECTORY
 from tests.datasets.constants import TEST_EXISTING_METADATA_FILE_NAME
+from tests.datasets.constants import TEST_EXISTING_METADATA_FILEPATH
 from tests.datasets.constants import TEST_EXISTING_METADATA_NAMING_STANDARD_FILEPATH
 from tests.datasets.constants import TEST_NAMING_STANDARD_COMPATIBLE_DATASET
 from tests.datasets.constants import TEST_PARQUET_FILEPATH
@@ -204,6 +205,23 @@ def test_existing_metadata_valid_id(
     with existing_metadata_file.open() as f:
         post_write_id = json.load(f)["datadoc"]["dataset"]["id"]
     assert post_write_id == pre_open_id
+
+
+@pytest.mark.parametrize(
+    "metadata_document",
+    [TEST_EXISTING_METADATA_FILEPATH],
+)
+@pytest.mark.usefixtures("_mock_timestamp", "_mock_user_info")
+def test_validate_required_fields(
+    metadata_document: Path,
+    subject_mapping_fake_statistical_structure: StatisticSubjectMapping,
+):
+    Datadoc(
+        metadata_document_path=str(metadata_document),
+        statistic_subject_mapping=subject_mapping_fake_statistical_structure,
+        errors_as_warnings=False,
+        validate_required_fields_on_existing_metadata=True,
+    )
 
 
 def test_dataset_short_name(metadata: Datadoc):

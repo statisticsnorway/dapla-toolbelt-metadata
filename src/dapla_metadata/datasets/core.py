@@ -10,7 +10,8 @@ from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 from typing import TYPE_CHECKING
 
-from datadoc_model import model
+import datadoc_model.all_optional.model as all_optional_model
+import datadoc_model.required.model as required_model
 from datadoc_model.model import DataSetStatus
 
 from dapla_metadata._shared import config
@@ -86,6 +87,7 @@ class Datadoc:
         statistic_subject_mapping: StatisticSubjectMapping | None = None,
         *,
         errors_as_warnings: bool = False,
+        validate_required_fields_on_existing_metadata: bool = False,
     ) -> None:
         """Initialize the Datadoc instance.
 
@@ -101,17 +103,23 @@ class Datadoc:
                 Defaults to None
             errors_as_warnings: Disable raising exceptions if inconsistencies
                 are found between existing and extracted metadata.
+            validate_required_fields_on_existing_metadata: Use a Pydantic model
+                which validates whether required fields are present when reading
+                in an existing metadata file.
         """
         self._statistic_subject_mapping = statistic_subject_mapping
         self.errors_as_warnings = errors_as_warnings
+        self.validate_required_fields_on_existing_metadata = (
+            validate_required_fields_on_existing_metadata
+        )
         self.metadata_document: pathlib.Path | CloudPath | None = None
-        self.container: model.MetadataContainer | None = None
+        self.container: all_optional_model.MetadataContainer | None = None
         self.dataset_path: pathlib.Path | CloudPath | None = None
-        self.dataset = model.Dataset()
+        self.dataset = all_optional_model.Dataset()
         self.variables: list = []
-        self.pseudo_variables: list[model.PseudoVariable] = []
-        self.variables_lookup: dict[str, model.Variable] = {}
-        self.pseudo_variables_lookup: dict[str, model.PseudoVariable] = {}
+        self.pseudo_variables: list[all_optional_model.PseudoVariable] = []
+        self.variables_lookup: dict[str, all_optional_model.Variable] = {}
+        self.pseudo_variables_lookup: dict[str, all_optional_model.PseudoVariable] = {}
         self.explicitly_defined_metadata_document = False
         self.dataset_consistency_status: list = []
         if metadata_document_path:
@@ -149,9 +157,11 @@ class Datadoc:
         - The 'contains_personal_data' attribute is set to False if not specified.
         - A lookup dictionary for variables is created based on their short names.
         """
-        extracted_metadata: model.DatadocMetadata | None = None
-        existing_metadata: model.DatadocMetadata | None = None
-        existing_pseudonymization: model.PseudonymizationMetadata | None = None
+        extracted_metadata: all_optional_model.DatadocMetadata | None = None
+        existing_metadata: all_optional_model.DatadocMetadata | None = None
+        existing_pseudonymization: (
+            all_optional_model.PseudonymizationMetadata | None
+        ) = None
 
         if self.metadata_document and self.metadata_document.exists():
             existing_metadata = self._extract_metadata_from_existing_document(
@@ -166,7 +176,7 @@ class Datadoc:
 
         if (
             self.dataset_path is not None
-            and self.dataset == model.Dataset()
+            and self.dataset == all_optional_model.Dataset()
             and len(self.variables) == 0
         ):
             extracted_metadata = self._extract_metadata_from_dataset(self.dataset_path)
@@ -214,7 +224,7 @@ class Datadoc:
 
     def _get_existing_file_path(
         self,
-        extracted_metadata: model.DatadocMetadata | None,
+        extracted_metadata: all_optional_model.DatadocMetadata | None,
     ) -> str:
         if (
             extracted_metadata is not None
@@ -227,7 +237,7 @@ class Datadoc:
 
     def _set_metadata(
         self,
-        merged_metadata: model.DatadocMetadata | None,
+        merged_metadata: all_optional_model.DatadocMetadata | None,
     ) -> None:
         if not merged_metadata or not (
             merged_metadata.dataset and merged_metadata.variables
@@ -239,7 +249,7 @@ class Datadoc:
 
     def _set_pseudonymization_metadata(
         self,
-        existing_pseudonymization: model.PseudonymizationMetadata | None,
+        existing_pseudonymization: all_optional_model.PseudonymizationMetadata | None,
     ) -> None:
         if not existing_pseudonymization or not (
             existing_pseudonymization.pseudo_variables is not None
@@ -264,8 +274,8 @@ class Datadoc:
     def _check_dataset_consistency(
         new_dataset_path: Path | CloudPath,
         existing_dataset_path: Path,
-        extracted_metadata: model.DatadocMetadata,
-        existing_metadata: model.DatadocMetadata,
+        extracted_metadata: all_optional_model.DatadocMetadata,
+        existing_metadata: all_optional_model.DatadocMetadata,
     ) -> list[dict[str, object]]:
         """Run consistency tests.
 
@@ -353,20 +363,20 @@ class Datadoc:
 
     @staticmethod
     def _merge_metadata(
-        extracted_metadata: model.DatadocMetadata | None,
-        existing_metadata: model.DatadocMetadata | None,
-    ) -> model.DatadocMetadata:
+        extracted_metadata: all_optional_model.DatadocMetadata | None,
+        existing_metadata: all_optional_model.DatadocMetadata | None,
+    ) -> all_optional_model.DatadocMetadata:
         if not existing_metadata:
             logger.warning(
                 "No existing metadata found, no merge to perform. Continuing with extracted metadata.",
             )
-            return extracted_metadata or model.DatadocMetadata()
+            return extracted_metadata or all_optional_model.DatadocMetadata()
 
         if not extracted_metadata:
             return existing_metadata
 
         # Use the extracted metadata as a base
-        merged_metadata = model.DatadocMetadata(
+        merged_metadata = all_optional_model.DatadocMetadata(
             dataset=copy.deepcopy(extracted_metadata.dataset),
             variables=[],
         )
@@ -387,7 +397,7 @@ class Datadoc:
     def _extract_metadata_from_existing_document(
         self,
         document: pathlib.Path | CloudPath,
-    ) -> model.DatadocMetadata | None:
+    ) -> all_optional_model.DatadocMetadata | None:
         """Read metadata from an existing metadata document.
 
         If an existing metadata document is available, this method reads and
@@ -403,6 +413,11 @@ class Datadoc:
         Raises:
             json.JSONDecodeError: If the metadata document cannot be parsed.
         """
+        metadata_model = (
+            required_model
+            if self.validate_required_fields_on_existing_metadata
+            else all_optional_model
+        )
         fresh_metadata = {}
         try:
             with document.open(mode="r", encoding="utf-8") as file:
@@ -412,7 +427,7 @@ class Datadoc:
                 fresh_metadata,
             )
             if is_metadata_in_container_structure(fresh_metadata):
-                self.container = model.MetadataContainer.model_validate_json(
+                self.container = metadata_model.MetadataContainer.model_validate_json(
                     json.dumps(fresh_metadata),
                 )
                 datadoc_metadata = fresh_metadata["datadoc"]
@@ -420,7 +435,7 @@ class Datadoc:
                 datadoc_metadata = fresh_metadata
             if datadoc_metadata is None:
                 return None
-            return model.DatadocMetadata.model_validate_json(
+            return metadata_model.DatadocMetadata.model_validate_json(
                 json.dumps(datadoc_metadata),
             )
         except json.JSONDecodeError:
@@ -435,7 +450,7 @@ class Datadoc:
     def _extract_pseudonymization_from_existing_document(
         self,
         document: pathlib.Path | CloudPath,
-    ) -> model.PseudonymizationMetadata | None:
+    ) -> all_optional_model.PseudonymizationMetadata | None:
         """Read pseudo metadata from an existing metadata document.
 
         If there is pseudo metadata in the document supplied, the method validates and returns the pseudonymization structure.
@@ -446,6 +461,12 @@ class Datadoc:
         Raises:
             json.JSONDecodeError: If the metadata document cannot be parsed.
         """
+        metadata_model = (
+            required_model
+            if self.validate_required_fields_on_existing_metadata
+            else all_optional_model
+        )
+
         try:
             with document.open(mode="r", encoding="utf-8") as file:
                 fresh_metadata = json.load(file)
@@ -464,7 +485,7 @@ class Datadoc:
         if pseudonymization_metadata is None:
             return None
 
-        return model.PseudonymizationMetadata.model_validate_json(
+        return metadata_model.PseudonymizationMetadata.model_validate_json(
             json.dumps(pseudonymization_metadata),
         )
 
@@ -500,7 +521,7 @@ class Datadoc:
     def _extract_metadata_from_dataset(
         self,
         dataset: pathlib.Path | CloudPath,
-    ) -> model.DatadocMetadata:
+    ) -> all_optional_model.DatadocMetadata:
         """Obtain what metadata we can from the dataset itself.
 
         This makes it easier for the user by 'pre-filling' certain fields.
@@ -520,9 +541,9 @@ class Datadoc:
                 - variables: A list of fields extracted from the dataset schema.
         """
         dapla_dataset_path_info = DaplaDatasetPathInfo(dataset)
-        metadata = model.DatadocMetadata()
+        metadata = all_optional_model.DatadocMetadata()
 
-        metadata.dataset = model.Dataset(
+        metadata.dataset = all_optional_model.Dataset(
             short_name=dapla_dataset_path_info.dataset_short_name,
             dataset_state=dapla_dataset_path_info.dataset_state,
             dataset_status=DataSetStatus.DRAFT,
@@ -586,12 +607,14 @@ class Datadoc:
         if self.container:
             self.container.datadoc = datadoc
             if not self.container.pseudonymization:
-                self.container.pseudonymization = model.PseudonymizationMetadata(
-                    pseudo_dataset=model.PseudoDataset()
+                self.container.pseudonymization = (
+                    all_optional_model.PseudonymizationMetadata(
+                        pseudo_dataset=all_optional_model.PseudoDataset()
+                    )
                 )
             self.container.pseudonymization.pseudo_variables = self.pseudo_variables
         else:
-            self.container = model.MetadataContainer(datadoc=datadoc)
+            self.container = all_optional_model.MetadataContainer(datadoc=datadoc)
         if self.metadata_document:
             content = self.container.model_dump_json(indent=4)
             self.metadata_document.write_text(content)
@@ -623,12 +646,14 @@ class Datadoc:
     def add_pseudo_variable(self, variable_short_name: str) -> None:
         """Adds a new pseudo variable to the list of pseudonymized variables."""
         if self.variables_lookup[variable_short_name] is not None:
-            pseudo_variable = model.PseudoVariable(short_name=variable_short_name)
+            pseudo_variable = all_optional_model.PseudoVariable(
+                short_name=variable_short_name
+            )
             self.pseudo_variables.append(pseudo_variable)
             self.pseudo_variables_lookup[variable_short_name] = pseudo_variable
 
     def get_pseudo_variable(
         self, variable_short_name: str
-    ) -> model.PseudoVariable | None:
+    ) -> all_optional_model.PseudoVariable | None:
         """Finds a pseudo variable by shortname."""
         return self.pseudo_variables_lookup.get(variable_short_name)
