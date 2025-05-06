@@ -9,6 +9,7 @@ import warnings
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 from typing import TYPE_CHECKING
+from typing import cast
 
 import datadoc_model.all_optional.model as all_optional_model
 import datadoc_model.required.model as required_model
@@ -31,6 +32,8 @@ from dapla_metadata.datasets.utility.constants import INCONSISTENCIES_MESSAGE
 from dapla_metadata.datasets.utility.constants import METADATA_DOCUMENT_FILE_SUFFIX
 from dapla_metadata.datasets.utility.constants import NUM_OBLIGATORY_DATASET_FIELDS
 from dapla_metadata.datasets.utility.constants import NUM_OBLIGATORY_VARIABLES_FIELDS
+from dapla_metadata.datasets.utility.utils import ExistingMetadataType
+from dapla_metadata.datasets.utility.utils import ExistingPseudonymizationMetadataType
 from dapla_metadata.datasets.utility.utils import calculate_percentage
 from dapla_metadata.datasets.utility.utils import derive_assessment_from_state
 from dapla_metadata.datasets.utility.utils import get_timestamp_now
@@ -157,10 +160,8 @@ class Datadoc:
         - A lookup dictionary for variables is created based on their short names.
         """
         extracted_metadata: all_optional_model.DatadocMetadata | None = None
-        existing_metadata: all_optional_model.DatadocMetadata | None = None
-        existing_pseudonymization: (
-            all_optional_model.PseudonymizationMetadata | None
-        ) = None
+        existing_metadata: ExistingMetadataType = None
+        existing_pseudonymization: ExistingPseudonymizationMetadataType = None
 
         if self.metadata_document and self.metadata_document.exists():
             existing_metadata = self._extract_metadata_from_existing_document(
@@ -236,19 +237,19 @@ class Datadoc:
 
     def _set_metadata(
         self,
-        merged_metadata: all_optional_model.DatadocMetadata | None,
+        merged_metadata: ExistingMetadataType,
     ) -> None:
         if not merged_metadata or not (
             merged_metadata.dataset and merged_metadata.variables
         ):
             msg = "Could not read metadata"
             raise ValueError(msg)
-        self.dataset = merged_metadata.dataset
+        self.dataset = cast("all_optional_model.Dataset", merged_metadata.dataset)
         self.variables = merged_metadata.variables
 
     def _set_pseudonymization_metadata(
         self,
-        existing_pseudonymization: all_optional_model.PseudonymizationMetadata | None,
+        existing_pseudonymization: ExistingPseudonymizationMetadataType,
     ) -> None:
         if not existing_pseudonymization or not (
             existing_pseudonymization.pseudo_variables is not None
@@ -274,7 +275,7 @@ class Datadoc:
         new_dataset_path: Path | CloudPath,
         existing_dataset_path: Path,
         extracted_metadata: all_optional_model.DatadocMetadata,
-        existing_metadata: all_optional_model.DatadocMetadata,
+        existing_metadata: ExistingMetadataType,
     ) -> list[dict[str, object]]:
         """Run consistency tests.
 
@@ -321,14 +322,16 @@ class Datadoc:
             {
                 "name": "Variable names",
                 "success": (
-                    {v.short_name for v in extracted_metadata.variables or []}
+                    existing_metadata is not None
+                    and {v.short_name for v in extracted_metadata.variables or []}
                     == {v.short_name for v in existing_metadata.variables or []}
                 ),
             },
             {
                 "name": "Variable datatypes",
                 "success": (
-                    [v.data_type for v in extracted_metadata.variables or []]
+                    existing_metadata is not None
+                    and [v.data_type for v in extracted_metadata.variables or []]
                     == [v.data_type for v in existing_metadata.variables or []]
                 ),
             },
@@ -363,7 +366,7 @@ class Datadoc:
     @staticmethod
     def _merge_metadata(
         extracted_metadata: all_optional_model.DatadocMetadata | None,
-        existing_metadata: all_optional_model.DatadocMetadata | None,
+        existing_metadata: ExistingMetadataType,
     ) -> all_optional_model.DatadocMetadata:
         if not existing_metadata:
             logger.warning(
@@ -372,7 +375,7 @@ class Datadoc:
             return extracted_metadata or all_optional_model.DatadocMetadata()
 
         if not extracted_metadata:
-            return existing_metadata
+            return cast("all_optional_model.DatadocMetadata", existing_metadata)
 
         # Use the extracted metadata as a base
         merged_metadata = all_optional_model.DatadocMetadata(
@@ -382,7 +385,9 @@ class Datadoc:
 
         override_dataset_fields(
             merged_metadata=merged_metadata,
-            existing_metadata=existing_metadata,
+            existing_metadata=cast(
+                "all_optional_model.DatadocMetadata", existing_metadata
+            ),
         )
 
         # Merge variables.
@@ -396,7 +401,7 @@ class Datadoc:
     def _extract_metadata_from_existing_document(
         self,
         document: pathlib.Path | CloudPath,
-    ) -> all_optional_model.DatadocMetadata | None:
+    ) -> ExistingMetadataType:
         """Read metadata from an existing metadata document.
 
         If an existing metadata document is available, this method reads and
@@ -411,6 +416,7 @@ class Datadoc:
 
         Raises:
             json.JSONDecodeError: If the metadata document cannot be parsed.
+            pydantic.ValidationError: If the data does not successfully validate.
         """
         metadata_model = (
             required_model
@@ -449,7 +455,11 @@ class Datadoc:
     def _extract_pseudonymization_from_existing_document(
         self,
         document: pathlib.Path | CloudPath,
-    ) -> all_optional_model.PseudonymizationMetadata | None:
+    ) -> (
+        all_optional_model.PseudonymizationMetadata
+        | required_model.PseudonymizationMetadata
+        | None
+    ):
         """Read pseudo metadata from an existing metadata document.
 
         If there is pseudo metadata in the document supplied, the method validates and returns the pseudonymization structure.
@@ -459,6 +469,7 @@ class Datadoc:
 
         Raises:
             json.JSONDecodeError: If the metadata document cannot be parsed.
+            pydantic.ValidationError: If the data does not successfully validate.
         """
         metadata_model = (
             required_model

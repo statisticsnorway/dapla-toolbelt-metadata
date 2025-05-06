@@ -4,7 +4,11 @@ import datetime  # import is needed in xdoctest
 import logging
 import pathlib
 import uuid
+from typing import cast
 
+import datadoc_model
+import datadoc_model.all_optional.model as all_optional_model
+import datadoc_model.required.model as required_model
 import google.auth
 from cloudpathlib import CloudPath
 from cloudpathlib import GSClient
@@ -33,6 +37,16 @@ from dapla_metadata.datasets.utility.constants import (
 )
 
 logger = logging.getLogger(__name__)
+
+
+ExistingMetadataType = (
+    all_optional_model.DatadocMetadata | required_model.DatadocMetadata | None
+)
+ExistingPseudonymizationMetadataType = (
+    all_optional_model.PseudonymizationMetadata
+    | required_model.PseudonymizationMetadata
+    | None
+)
 
 
 def get_timestamp_now() -> datetime.datetime:
@@ -449,7 +463,7 @@ def override_dataset_fields(
 
 
 def merge_variables(
-    existing_metadata: model.DatadocMetadata,
+    existing_metadata: ExistingMetadataType,
     extracted_metadata: model.DatadocMetadata,
     merged_metadata: model.DatadocMetadata,
 ) -> model.DatadocMetadata:
@@ -470,7 +484,8 @@ def merge_variables(
         and `extracted_metadata`.
     """
     if (
-        existing_metadata.variables is not None
+        existing_metadata is not None
+        and existing_metadata.variables is not None
         and extracted_metadata is not None
         and extracted_metadata.variables is not None
         and merged_metadata.variables is not None
@@ -494,7 +509,9 @@ def merge_variables(
                 existing.contains_data_until = (
                     extracted.contains_data_until or existing.contains_data_until
                 )
-                merged_metadata.variables.append(existing)
+                merged_metadata.variables.append(
+                    cast("datadoc_model.all_optional.model.Variable", existing)
+                )
             else:
                 # If there is no existing metadata for this variable, we just use what we have extracted
                 merged_metadata.variables.append(extracted)
