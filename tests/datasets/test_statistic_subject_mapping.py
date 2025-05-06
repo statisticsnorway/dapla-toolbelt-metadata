@@ -40,6 +40,7 @@ STATISTICAL_SUBJECT_STRUCTURE_DIR = "statistical_subject_structure"
                             titles={"en": "aa00 english", "no": "aa00 norwegian"},
                             subject_code="aa00",
                             statistic_short_names=["aa_kortnvan"],
+                            primary_placement={"aa_kortnvan": True}
                         ),
                     ],
                 ),
@@ -69,6 +70,7 @@ STATISTICAL_SUBJECT_STRUCTURE_DIR = "statistical_subject_structure"
                             statistic_short_names=[
                                 "aa_kortnvan",
                             ],
+                            primary_placement={"aa_kortnvan": True}
                         ),
                         SecondarySubject(
                             titles={
@@ -78,6 +80,7 @@ STATISTICAL_SUBJECT_STRUCTURE_DIR = "statistical_subject_structure"
                             statistic_short_names=[
                                 "aa_kortnvan_01",
                             ],
+                            primary_placement={"aa_kortnvan_01": True}
                         ),
                     ],
                 ),
@@ -96,6 +99,7 @@ STATISTICAL_SUBJECT_STRUCTURE_DIR = "statistical_subject_structure"
                             statistic_short_names=[
                                 "ab_kortnvan",
                             ],
+                            primary_placement={"ab_kortnvan": True}
                         ),
                         SecondarySubject(
                             titles={
@@ -105,6 +109,7 @@ STATISTICAL_SUBJECT_STRUCTURE_DIR = "statistical_subject_structure"
                             statistic_short_names=[
                                 "ab_kortnvan_01",
                             ],
+                            primary_placement={"ab_kortnvan_01": True}
                         ),
                     ],
                 ),
