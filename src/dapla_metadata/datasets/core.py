@@ -257,7 +257,10 @@ class Datadoc:
             msg = "Error reading pseudonymization metadata"
             logger.error(msg)
             return
-        self.pseudo_variables = existing_pseudonymization.pseudo_variables
+        self.pseudo_variables = cast(
+            "list[all_optional_model.PseudoVariable]",
+            existing_pseudonymization.pseudo_variables,
+        )
 
     def _create_variables_lookup(self) -> None:
         self.variables_lookup = {
