@@ -57,6 +57,7 @@ class SecondarySubject(Subject):
     """Data structure for secondary subjects or 'delemne'."""
 
     statistic_short_names: list[str]
+    primary_placement: dict[str, bool]
 
 
 @dataclass
@@ -95,11 +96,24 @@ class StatisticSubjectMapping(GetExternalSource):
 
         Returns the secondary subject string if found, else None.
         """
+        primary: list[SecondarySubject] = []
+        non_primary: list[SecondarySubject] = []
+
         for p in self.primary_subjects:
             for s in p.secondary_subjects:
                 if statistic_short_name in s.statistic_short_names:
-                    logger.debug("Got %s from %s", s, statistic_short_name)
-                    return s.subject_code
+                    if s.primary_placement[statistic_short_name]:
+                        primary.append(s)
+                    else:
+                        non_primary.append(s)
+        
+        priority: list[SecondarySubject] = primary + non_primary
+        if priority:
+            result: SecondarySubject = priority[0]
+            logger.debug("Got %s from %s", result, statistic_short_name)
+            return result.subject_code
+
+        
 
         logger.debug("No secondary subject found for %s", statistic_short_name)
         return None
@@ -141,6 +155,9 @@ class StatisticSubjectMapping(GetExternalSource):
                     self._extract_titles(s.titler),
                     s["emnekode"],
                     [statistikk["kortnavn"] for statistikk in s.find_all("Statistikk")],
+                    {statistikk["kortnavn"]: statistikk["isPrimaerPlassering"] == "true" for statistikk in s.find_all("Statistikk")}
+
+
                 )
                 for s in p.find_all("delemne")
             ]
