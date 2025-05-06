@@ -39,8 +39,7 @@ STATISTICAL_SUBJECT_STRUCTURE_DIR = "statistical_subject_structure"
                         SecondarySubject(
                             titles={"en": "aa00 english", "no": "aa00 norwegian"},
                             subject_code="aa00",
-                            statistic_short_names=["aa_kortnvan"],
-                            primary_placement={"aa_kortnvan": True},
+                            statistic_short_names_primary={"aa_kortnvan": True},
                         ),
                     ],
                 ),
@@ -63,24 +62,18 @@ STATISTICAL_SUBJECT_STRUCTURE_DIR = "statistical_subject_structure"
                     secondary_subjects=[
                         SecondarySubject(
                             titles={
-                                "en": "aa00 english",
                                 "no": "aa00 norwegian",
+                                "en": "aa00 english",
                             },
                             subject_code="aa00",
-                            statistic_short_names=[
-                                "aa_kortnvan",
-                            ],
-                            primary_placement={"aa_kortnvan": True},
+                            statistic_short_names_primary={"aa_kortnvan": True},
                         ),
                         SecondarySubject(
                             titles={
                                 "no": "aa01 norwegian",
                             },
                             subject_code="aa01",
-                            statistic_short_names=[
-                                "aa_kortnvan_01",
-                            ],
-                            primary_placement={"aa_kortnvan_01": True},
+                            statistic_short_names_primary={"aa_kortnvan_01": True},
                         ),
                     ],
                 ),
@@ -92,24 +85,18 @@ STATISTICAL_SUBJECT_STRUCTURE_DIR = "statistical_subject_structure"
                     secondary_subjects=[
                         SecondarySubject(
                             titles={
-                                "en": "ab00 english",
                                 "no": "ab00 norwegian",
+                                "en": "ab00 english",
                             },
                             subject_code="ab00",
-                            statistic_short_names=[
-                                "ab_kortnvan",
-                            ],
-                            primary_placement={"ab_kortnvan": True},
+                            statistic_short_names_primary={"ab_kortnvan": True},
                         ),
                         SecondarySubject(
                             titles={
                                 "en": "ab01 english",
                             },
                             subject_code="ab01",
-                            statistic_short_names=[
-                                "ab_kortnvan_01",
-                            ],
-                            primary_placement={"ab_kortnvan_01": True},
+                            statistic_short_names_primary={"ab_kortnvan_01": True},
                         ),
                     ],
                 ),

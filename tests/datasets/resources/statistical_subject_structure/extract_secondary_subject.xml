@@ -53,7 +53,7 @@
                     <tittel sprak="no">ab00 norwegian</tittel>
                     <tittel sprak="en">ab00 english</tittel>
                 </titler>
-                <Statistikk kortnavn="ab_kortnvan" isPrimaerPlassering="false">
+                <Statistikk kortnavn="ab_kortnvan" isPrimaerPlassering="true">
                     <titler>
                         <tittel sprak="no">ab_kortnvan norwegian</tittel>
                         <tittel sprak="en">ab_kortnvan english</tittel>
