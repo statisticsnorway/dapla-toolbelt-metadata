@@ -156,7 +156,9 @@ def set_default_values_dataset(
         dataset.contains_personal_data = False
 
 
-def set_dataset_owner(dataset: model.Dataset) -> None:
+def set_dataset_owner(
+    dataset: all_optional_model.Dataset | required_model.Dataset,
+) -> None:
     """Sets the owner of the dataset from the DAPLA_GROUP_CONTEXT enviornment variable.
 
     Args:
@@ -169,7 +171,7 @@ def set_dataset_owner(dataset: model.Dataset) -> None:
 
 
 def set_variables_inherit_from_dataset(
-    dataset: model.Dataset,
+    dataset: all_optional_model.Dataset | required_model.Dataset,
     variables: list,
 ) -> None:
     """Set specific dataset values on a list of variable objects.
@@ -299,7 +301,9 @@ def _is_missing_metadata(
     )
 
 
-def num_obligatory_dataset_fields_completed(dataset: model.Dataset) -> int:
+def num_obligatory_dataset_fields_completed(
+    dataset: all_optional_model.Dataset | required_model.Dataset,
+) -> int:
     """Count the number of completed obligatory dataset fields.
 
     This function returns the total count of obligatory fields in the dataset that
@@ -361,7 +365,9 @@ def num_obligatory_variable_fields_completed(variable: model.Variable) -> int:
     return NUM_OBLIGATORY_VARIABLES_FIELDS - len(missing_metadata)
 
 
-def get_missing_obligatory_dataset_fields(dataset: model.Dataset) -> list:
+def get_missing_obligatory_dataset_fields(
+    dataset: all_optional_model.Dataset | required_model.Dataset,
+) -> list:
     """Identify all obligatory dataset fields that are missing values.
 
     This function checks for obligatory fields that are either directly missing
@@ -439,7 +445,7 @@ def running_in_notebook() -> bool:
 
 def override_dataset_fields(
     merged_metadata: model.DatadocMetadata,
-    existing_metadata: model.DatadocMetadata,
+    existing_metadata: ExistingMetadataType,
 ) -> None:
     """Overrides specific fields in the dataset of `merged_metadata` with values from the dataset of `existing_metadata`.
 
