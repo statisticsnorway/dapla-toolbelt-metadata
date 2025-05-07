@@ -5,7 +5,7 @@ from dataclasses import dataclass
 from typing import TYPE_CHECKING
 
 import pytest
-from datadoc_model.model import DataSetState
+from datadoc_model.all_optional.model import DataSetState
 
 from dapla_metadata.datasets.dapla_dataset_path_info import ISO_YEAR
 from dapla_metadata.datasets.dapla_dataset_path_info import ISO_YEAR_MONTH

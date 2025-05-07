@@ -1,7 +1,7 @@
 {
   "document_version": "0.0.1",
   "datadoc": {
-    "percentage_complete": 100,
+    "percentage_complete": 98,
     "document_version": "4.0.0",
     "dataset": {
       "short_name": "person_testdata",
@@ -92,9 +92,9 @@
       "owner": "320",
       "file_path": "tests/resources/datasets/person_testdata_p2021-12-31_p2021-12-31_v1.parquet",
       "metadata_created_date": "2024-07-09T09:47:28.347248Z",
-      "metadata_created_by": null,
-      "metadata_last_updated_date": "2024-08-01T07:18:56.706420Z",
-      "metadata_last_updated_by": null,
+      "metadata_created_by": "kari.nordmann@ssb.no",
+      "metadata_last_updated_date": "2025-05-06T09:12:45.651034Z",
+      "metadata_last_updated_by": "kari.nordmann@ssb.no",
       "contains_data_from": "2021-12-31",
       "contains_data_until": "2021-12-31"
     },

@@ -4,15 +4,19 @@ import datetime  # import is needed in xdoctest
 import logging
 import pathlib
 import uuid
+from typing import cast
 
+import datadoc_model
+import datadoc_model.all_optional.model as all_optional_model
+import datadoc_model.required.model as required_model
 import google.auth
 from cloudpathlib import CloudPath
 from cloudpathlib import GSClient
 from cloudpathlib import GSPath
 from datadoc_model import model
-from datadoc_model.model import Assessment
-from datadoc_model.model import DataSetState
-from datadoc_model.model import VariableRole
+from datadoc_model.all_optional.model import Assessment
+from datadoc_model.all_optional.model import DataSetState
+from datadoc_model.all_optional.model import VariableRole
 
 from dapla_metadata.dapla import user_info
 from dapla_metadata.datasets.utility.constants import (
@@ -33,6 +37,17 @@ from dapla_metadata.datasets.utility.constants import (
 )
 
 logger = logging.getLogger(__name__)
+
+DatadocMetadataType = (
+    all_optional_model.DatadocMetadata | required_model.DatadocMetadata
+)
+DatasetType = all_optional_model.Dataset | required_model.Dataset
+OptionalDatadocMetadataType = DatadocMetadataType | None
+ExistingPseudonymizationMetadataType = (
+    all_optional_model.PseudonymizationMetadata
+    | required_model.PseudonymizationMetadata
+    | None
+)
 
 
 def get_timestamp_now() -> datetime.datetime:
@@ -119,7 +134,9 @@ def set_default_values_variables(variables: list) -> None:
             v.variable_role = VariableRole.MEASURE
 
 
-def set_default_values_dataset(dataset: model.Dataset) -> None:
+def set_default_values_dataset(
+    dataset: DatasetType,
+) -> None:
     """Set default values on dataset.
 
     Args:
@@ -140,7 +157,9 @@ def set_default_values_dataset(dataset: model.Dataset) -> None:
         dataset.contains_personal_data = False
 
 
-def set_dataset_owner(dataset: model.Dataset) -> None:
+def set_dataset_owner(
+    dataset: DatasetType,
+) -> None:
     """Sets the owner of the dataset from the DAPLA_GROUP_CONTEXT enviornment variable.
 
     Args:
@@ -153,7 +172,7 @@ def set_dataset_owner(dataset: model.Dataset) -> None:
 
 
 def set_variables_inherit_from_dataset(
-    dataset: model.Dataset,
+    dataset: DatasetType,
     variables: list,
 ) -> None:
     """Set specific dataset values on a list of variable objects.
@@ -283,7 +302,9 @@ def _is_missing_metadata(
     )
 
 
-def num_obligatory_dataset_fields_completed(dataset: model.Dataset) -> int:
+def num_obligatory_dataset_fields_completed(
+    dataset: DatasetType,
+) -> int:
     """Count the number of completed obligatory dataset fields.
 
     This function returns the total count of obligatory fields in the dataset that
@@ -345,7 +366,9 @@ def num_obligatory_variable_fields_completed(variable: model.Variable) -> int:
     return NUM_OBLIGATORY_VARIABLES_FIELDS - len(missing_metadata)
 
 
-def get_missing_obligatory_dataset_fields(dataset: model.Dataset) -> list:
+def get_missing_obligatory_dataset_fields(
+    dataset: DatasetType,
+) -> list:
     """Identify all obligatory dataset fields that are missing values.
 
     This function checks for obligatory fields that are either directly missing
@@ -422,8 +445,9 @@ def running_in_notebook() -> bool:
 
 
 def override_dataset_fields(
-    merged_metadata: model.DatadocMetadata,
-    existing_metadata: model.DatadocMetadata,
+    merged_metadata: all_optional_model.DatadocMetadata,
+    existing_metadata: all_optional_model.DatadocMetadata
+    | required_model.DatadocMetadata,
 ) -> None:
     """Overrides specific fields in the dataset of `merged_metadata` with values from the dataset of `existing_metadata`.
 
@@ -449,10 +473,10 @@ def override_dataset_fields(
 
 
 def merge_variables(
-    existing_metadata: model.DatadocMetadata,
-    extracted_metadata: model.DatadocMetadata,
-    merged_metadata: model.DatadocMetadata,
-) -> model.DatadocMetadata:
+    existing_metadata: OptionalDatadocMetadataType,
+    extracted_metadata: all_optional_model.DatadocMetadata,
+    merged_metadata: all_optional_model.DatadocMetadata,
+) -> all_optional_model.DatadocMetadata:
     """Merges variables from the extracted metadata into the existing metadata and updates the merged metadata.
 
     This function compares the variables from `extracted_metadata` with those in `existing_metadata`.
@@ -466,11 +490,12 @@ def merge_variables(
         merged_metadata: The metadata object that will contain the result of the merge.
 
     Returns:
-        model.DatadocMetadata: The `merged_metadata` object containing variables from both `existing_metadata`
+        all_optional_model.DatadocMetadata: The `merged_metadata` object containing variables from both `existing_metadata`
         and `extracted_metadata`.
     """
     if (
-        existing_metadata.variables is not None
+        existing_metadata is not None
+        and existing_metadata.variables is not None
         and extracted_metadata is not None
         and extracted_metadata.variables is not None
         and merged_metadata.variables is not None
@@ -494,7 +519,9 @@ def merge_variables(
                 existing.contains_data_until = (
                     extracted.contains_data_until or existing.contains_data_until
                 )
-                merged_metadata.variables.append(existing)
+                merged_metadata.variables.append(
+                    cast("datadoc_model.all_optional.model.Variable", existing)
+                )
             else:
                 # If there is no existing metadata for this variable, we just use what we have extracted
                 merged_metadata.variables.append(extracted)

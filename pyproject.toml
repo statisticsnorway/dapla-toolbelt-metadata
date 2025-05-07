@@ -17,7 +17,7 @@ dependencies = [
     'cloudpathlib[gs] >=0.17.0',
     'pyjwt >=2.8.0',
     'ssb-klass-python >=1.0.1',
-    'ssb-datadoc-model ==6.0.0',
+    'ssb-datadoc-model ==6.1.0',
     'typing-extensions >=4.12.2',
     'ruamel-yaml >=0.18.10',
     'google-auth >=2.38.0',
@@ -112,19 +112,7 @@ disable_error_code = ["unreachable"]
 
 [[tool.mypy.overrides]]
 # Allow missing type hints in third-party libraries without type information.
-module = [
-    "nox",
-    "dapla",
-    "gcsfs",
-    "pyarrow",
-    "pyarrow.parquet",
-    "datadoc_model",
-    "datadoc_model.model",
-    "pytest_mock",
-    "testcontainers.*",
-    "httpx",
-    "ruamel.*",
-]
+module = ["nox", "dapla", "gcsfs", "pyarrow", "pyarrow.parquet", "pytest_mock", "testcontainers.*", "httpx", "ruamel.*"]
 ignore_missing_imports = true
 
 # Disable specific error codes in the 'tests' package
