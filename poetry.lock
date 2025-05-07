@@ -178,14 +178,14 @@ wcwidth = ">=0.1.4"
 
 [[package]]
 name = "bpython"
-version = "0.24"
+version = "0.25"
 description = ""
 optional = false
-python-versions = ">=3.7"
+python-versions = ">=3.9"
 groups = ["dev"]
 files = [
-    {file = "bpython-0.24-py3-none-any.whl", hash = "sha256:0d196ae3d1ce3dcd559a3fb89ed2c468dfbd1504af0d680b906dd65a9c7a32eb"},
-    {file = "bpython-0.24.tar.gz", hash = "sha256:98736ffd7a8c48fd2bfb53d898a475f4241bde0b672125706af04d9d08fd3dbd"},
+    {file = "bpython-0.25-py3-none-any.whl", hash = "sha256:28fd86008ca5ef6100ead407c9743aa60c51293a18ba5b18fcacea7f5b7f2257"},
+    {file = "bpython-0.25.tar.gz", hash = "sha256:c246fc909ef6dcc26e9d8cb4615b0e6b1613f3543d12269b19ffd0782166c65b"},
 ]
 
 [package.dependencies]
@@ -195,6 +195,7 @@ greenlet = "*"
 pygments = "*"
 pyxdg = "*"
 requests = "*"
+typing_extensions = {version = "*", markers = "python_version < \"3.11\""}
 
 [package.extras]
 clipboard = ["pyperclip"]
@@ -915,14 +916,14 @@ grpcio-gcp = ["grpcio-gcp (>=0.2.2,<1.0.dev0)"]
 
 [[package]]
 name = "google-auth"
-version = "2.40.0"
+version = "2.40.1"
 description = "Google Authentication Library"
 optional = false
 python-versions = ">=3.7"
 groups = ["main"]
 files = [
-    {file = "google_auth-2.40.0-py2.py3-none-any.whl", hash = "sha256:dc3a5078acb1043c3e43685c22d628afe40af8559cf561de388e0c939280fcc8"},
-    {file = "google_auth-2.40.0.tar.gz", hash = "sha256:c277cf39f7c192d8540eb6331c08b5a0796e8041af8343ae73dd6b269732ca6c"},
+    {file = "google_auth-2.40.1-py2.py3-none-any.whl", hash = "sha256:ed4cae4f5c46b41bae1d19c036e06f6c371926e97b19e816fc854eff811974ee"},
+    {file = "google_auth-2.40.1.tar.gz", hash = "sha256:58f0e8416a9814c1d86c9b7f6acf6816b51aba167b2c76821965271bac275540"},
 ]
 
 [package.dependencies]
@@ -3123,14 +3124,14 @@ types-setuptools = ">=69.1.0"
 
 [[package]]
 name = "rich"
-version = "13.9.4"
+version = "14.0.0"
 description = "Render rich text, tables, progress bars, syntax highlighting, markdown and more to the terminal"
 optional = false
 python-versions = ">=3.8.0"
 groups = ["dev"]
 files = [
-    {file = "rich-13.9.4-py3-none-any.whl", hash = "sha256:6049d5e6ec054bf2779ab3358186963bac2ea89175919d699e378b99738c2a90"},
-    {file = "rich-13.9.4.tar.gz", hash = "sha256:439594978a49a09530cff7ebc4b5c7103ef57baf48d5ea3184f21d9a2befa098"},
+    {file = "rich-14.0.0-py3-none-any.whl", hash = "sha256:1c9491e1951aac09caffd42f448ee3d04e58923ffe14993f6e83068dc395d7e0"},
+    {file = "rich-14.0.0.tar.gz", hash = "sha256:82f1bc23a6a21ebca4ae0c45af9bdbc492ed20231dcb63f297d6d1021a9d5725"},
 ]
 
 [package.dependencies]
@@ -3911,6 +3912,22 @@ files = [
 ]
 
 [[package]]
+name = "types-docker"
+version = "7.1.0.20250503"
+description = "Typing stubs for docker"
+optional = false
+python-versions = ">=3.9"
+groups = ["dev"]
+files = [
+    {file = "types_docker-7.1.0.20250503-py3-none-any.whl", hash = "sha256:30c343982d35441f9eaf64b6c2a41fd59fc1575d20e5b8c9b8d4a820ed6e5105"},
+    {file = "types_docker-7.1.0.20250503.tar.gz", hash = "sha256:ea183b91cd46669d193d1ac34e2eaa0a0f1ca3b6fb7512f7b7652611fc40c1d3"},
+]
+
+[package.dependencies]
+types-requests = "*"
+urllib3 = ">=2"
+
+[[package]]
 name = "types-docutils"
 version = "0.21.0.20241128"
 description = "Typing stubs for docutils"
@@ -4412,4 +4429,4 @@ tests-strict = ["pytest (==4.6.0) ; python_version < \"3.10.0\" and python_versi
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.10,<4.0"
-content-hash = "a95ddaf458a945da17914010b6f72d4b783e1b46dabee3e47dba2e80c679b23b"
+content-hash = "920625cb79c7fc34c966b7e308d9ba190b0f29c3b220c4c4aac79a281b712aaa"

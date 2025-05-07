@@ -70,11 +70,12 @@ types-colorama = "*"
 types-setuptools = "*"
 types-requests = "*"
 types-beautifulsoup4 = ">=4.12.0.20240511"
-ipykernel = "^6.29.5"
-rich = "^13.9.4"
-bpython = "^0.24"
+ipykernel = ">=6.29.5"
+rich = ">=13.9.4"
+bpython = ">=0.24"
 testcontainers = { version = ">=4.8.2", extras = ["generic"] }
-pytest-asyncio = "^0.26.0"
+pytest-asyncio = ">=0.26.0"
+types-docker = ">=7.1.0.20250503"
 
 [tool.pytest.ini_options]
 pythonpath = ["src"]
