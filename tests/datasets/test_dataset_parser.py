@@ -5,10 +5,10 @@ import pathlib
 
 import pandas as pd
 import pytest
-from datadoc_model.model import DataType
-from datadoc_model.model import LanguageStringType
-from datadoc_model.model import LanguageStringTypeItem
-from datadoc_model.model import Variable
+from datadoc_model.all_optional.model import DataType
+from datadoc_model.all_optional.model import LanguageStringType
+from datadoc_model.all_optional.model import LanguageStringTypeItem
+from datadoc_model.all_optional.model import Variable
 
 from dapla_metadata.datasets.dataset_parser import KNOWN_BOOLEAN_TYPES
 from dapla_metadata.datasets.dataset_parser import KNOWN_DATETIME_TYPES

@@ -15,15 +15,15 @@ from uuid import UUID
 
 import arrow
 import pytest
-from datadoc_model.model import Assessment
-from datadoc_model.model import DatadocMetadata
-from datadoc_model.model import Dataset
-from datadoc_model.model import DataSetState
-from datadoc_model.model import DataSetStatus
-from datadoc_model.model import DataType
-from datadoc_model.model import IsPersonalData
-from datadoc_model.model import Variable
-from datadoc_model.model import VariableRole
+from datadoc_model.all_optional.model import Assessment
+from datadoc_model.all_optional.model import DatadocMetadata
+from datadoc_model.all_optional.model import Dataset
+from datadoc_model.all_optional.model import DataSetState
+from datadoc_model.all_optional.model import DataSetStatus
+from datadoc_model.all_optional.model import DataType
+from datadoc_model.all_optional.model import IsPersonalData
+from datadoc_model.all_optional.model import Variable
+from datadoc_model.all_optional.model import VariableRole
 from pydantic import ValidationError
 
 from dapla_metadata.dapla.user_info import TestUserInfo

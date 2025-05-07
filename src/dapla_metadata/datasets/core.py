@@ -13,7 +13,7 @@ from typing import cast
 
 import datadoc_model.all_optional.model as all_optional_model
 import datadoc_model.required.model as required_model
-from datadoc_model.model import DataSetStatus
+from datadoc_model.all_optional.model import DataSetStatus
 
 from dapla_metadata._shared import config
 from dapla_metadata.dapla import user_info
@@ -32,8 +32,8 @@ from dapla_metadata.datasets.utility.constants import INCONSISTENCIES_MESSAGE
 from dapla_metadata.datasets.utility.constants import METADATA_DOCUMENT_FILE_SUFFIX
 from dapla_metadata.datasets.utility.constants import NUM_OBLIGATORY_DATASET_FIELDS
 from dapla_metadata.datasets.utility.constants import NUM_OBLIGATORY_VARIABLES_FIELDS
-from dapla_metadata.datasets.utility.utils import ExistingMetadataType
 from dapla_metadata.datasets.utility.utils import ExistingPseudonymizationMetadataType
+from dapla_metadata.datasets.utility.utils import OptionalDatadocMetadataType
 from dapla_metadata.datasets.utility.utils import calculate_percentage
 from dapla_metadata.datasets.utility.utils import derive_assessment_from_state
 from dapla_metadata.datasets.utility.utils import get_timestamp_now
@@ -160,7 +160,7 @@ class Datadoc:
         - A lookup dictionary for variables is created based on their short names.
         """
         extracted_metadata: all_optional_model.DatadocMetadata | None = None
-        existing_metadata: ExistingMetadataType = None
+        existing_metadata: OptionalDatadocMetadataType = None
         existing_pseudonymization: ExistingPseudonymizationMetadataType = None
 
         if self.metadata_document and self.metadata_document.exists():
@@ -237,7 +237,7 @@ class Datadoc:
 
     def _set_metadata(
         self,
-        merged_metadata: ExistingMetadataType,
+        merged_metadata: OptionalDatadocMetadataType,
     ) -> None:
         if not merged_metadata or not (
             merged_metadata.dataset and merged_metadata.variables
@@ -278,7 +278,7 @@ class Datadoc:
         new_dataset_path: Path | CloudPath,
         existing_dataset_path: Path,
         extracted_metadata: all_optional_model.DatadocMetadata,
-        existing_metadata: ExistingMetadataType,
+        existing_metadata: OptionalDatadocMetadataType,
     ) -> list[dict[str, object]]:
         """Run consistency tests.
 
@@ -369,7 +369,7 @@ class Datadoc:
     @staticmethod
     def _merge_metadata(
         extracted_metadata: all_optional_model.DatadocMetadata | None,
-        existing_metadata: ExistingMetadataType,
+        existing_metadata: OptionalDatadocMetadataType,
     ) -> all_optional_model.DatadocMetadata:
         if not existing_metadata:
             logger.warning(
@@ -404,7 +404,7 @@ class Datadoc:
     def _extract_metadata_from_existing_document(
         self,
         document: pathlib.Path | CloudPath,
-    ) -> ExistingMetadataType:
+    ) -> OptionalDatadocMetadataType:
         """Read metadata from an existing metadata document.
 
         If an existing metadata document is available, this method reads and

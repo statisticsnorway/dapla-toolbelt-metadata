@@ -14,7 +14,7 @@ from typing import Literal
 
 import arrow
 from cloudpathlib import GSPath
-from datadoc_model.model import DataSetState
+from datadoc_model.all_optional.model import DataSetState
 
 if TYPE_CHECKING:
     import datetime

@@ -12,10 +12,10 @@ from abc import abstractmethod
 from typing import TYPE_CHECKING
 
 import pandas as pd
-from datadoc_model.model import DataType
-from datadoc_model.model import LanguageStringType
-from datadoc_model.model import LanguageStringTypeItem
-from datadoc_model.model import Variable
+from datadoc_model.all_optional.model import DataType
+from datadoc_model.all_optional.model import LanguageStringType
+from datadoc_model.all_optional.model import LanguageStringTypeItem
+from datadoc_model.all_optional.model import Variable
 from pyarrow import parquet as pq
 
 from dapla_metadata.datasets.utility.enums import SupportedLanguages

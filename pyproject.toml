@@ -112,19 +112,7 @@ disable_error_code = ["unreachable"]
 
 [[tool.mypy.overrides]]
 # Allow missing type hints in third-party libraries without type information.
-module = [
-    "nox",
-    "dapla",
-    "gcsfs",
-    "pyarrow",
-    "pyarrow.parquet",
-    "datadoc_model",
-    "datadoc_model.model",
-    "pytest_mock",
-    "testcontainers.*",
-    "httpx",
-    "ruamel.*",
-]
+module = ["nox", "dapla", "gcsfs", "pyarrow", "pyarrow.parquet", "pytest_mock", "testcontainers.*", "httpx", "ruamel.*"]
 ignore_missing_imports = true
 
 # Disable specific error codes in the 'tests' package
