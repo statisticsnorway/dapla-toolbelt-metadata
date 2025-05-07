@@ -665,13 +665,43 @@ class Datadoc:
         return calculate_percentage(num_set_fields, num_all_fields)
 
     def add_pseudo_variable(self, variable_short_name: str) -> None:
-        """Adds a new pseudo variable to the list of pseudonymized variables."""
+        """Adds a new pseudo variable to the list of pseudonymized variables.
+
+        Sets is_personal_data to pseudonymized encrypted personal data.
+        """
         if self.variables_lookup[variable_short_name] is not None:
             pseudo_variable = all_optional_model.PseudoVariable(
                 short_name=variable_short_name
             )
             self.pseudo_variables.append(pseudo_variable)
             self.pseudo_variables_lookup[variable_short_name] = pseudo_variable
+            self.variables_lookup[
+                variable_short_name
+            ].is_personal_data = (
+                model.IsPersonalData.PSEUDONYMISED_ENCRYPTED_PERSONAL_DATA
+            )
+
+    def remove_pseudo_variable(self, variable_short_name: str) -> None:
+        """Removes a pseudo variable by using the shortname.
+
+        Updates the pseudo variable lookup by creating a new one.
+        Sets is_personal_data to non pseudonymized encrypted personal data.
+        """
+        if self.pseudo_variables_lookup[variable_short_name] is not None:
+            pseudo_variable = self.get_pseudo_variable(variable_short_name)
+
+            if pseudo_variable is not None:
+                self.pseudo_variables = [
+                    pseudo_variable
+                    for pseudo_variable in self.pseudo_variables
+                    if pseudo_variable.short_name != variable_short_name
+                ]
+            self._create_pseudo_variables_lookup()
+            self.variables_lookup[
+                variable_short_name
+            ].is_personal_data = (
+                model.IsPersonalData.NON_PSEUDONYMISED_ENCRYPTED_PERSONAL_DATA
+            )
 
     def get_pseudo_variable(
         self, variable_short_name: str

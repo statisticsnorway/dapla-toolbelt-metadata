@@ -950,9 +950,14 @@ def test_add_pseudo_variable(
     existing_metadata_file: Path,  # noqa: ARG001
     metadata: Datadoc,
 ):
+    test_variable = "sykepenger"
     assert len(metadata.pseudo_variables) == 2
-    metadata.add_pseudo_variable("sykepenger")
+    metadata.add_pseudo_variable(test_variable)
     assert len(metadata.pseudo_variables) == 3
+    assert (
+        metadata.variables_lookup[test_variable].is_personal_data
+        is IsPersonalData.PSEUDONYMISED_ENCRYPTED_PERSONAL_DATA.value
+    )
 
 
 @pytest.mark.parametrize(
@@ -994,3 +999,35 @@ def test_open_pseudo_with_no_variables(
     metadata: Datadoc,
 ):
     assert metadata.pseudo_variables == []
+
+
+@pytest.mark.parametrize(
+    "existing_metadata_path",
+    [TEST_PSEUDO_DIRECTORY / "dataset_and_pseudo"],
+)
+def test_remove_pseudo_variable(
+    existing_metadata_file: Path,  # noqa: ARG001
+    metadata: Datadoc,
+):
+    test_variable = "alm_inntekt"
+    assert len(metadata.pseudo_variables) == 2
+    metadata.remove_pseudo_variable(test_variable)
+    assert len(metadata.pseudo_variables) == 1
+    assert (
+        metadata.variables_lookup[test_variable].is_personal_data
+        is IsPersonalData.NON_PSEUDONYMISED_ENCRYPTED_PERSONAL_DATA.value
+    )
+
+
+@pytest.mark.parametrize(
+    "existing_metadata_path",
+    [TEST_PSEUDO_DIRECTORY / "dataset_and_pseudo"],
+)
+def test_remove_pseudo_variable_non_existent_variable_name(
+    existing_metadata_file: Path,  # noqa: ARG001
+    metadata: Datadoc,
+):
+    assert len(metadata.pseudo_variables) == 2
+    with pytest.raises(KeyError):
+        metadata.remove_pseudo_variable("fnr")
+    assert len(metadata.pseudo_variables) == 2
