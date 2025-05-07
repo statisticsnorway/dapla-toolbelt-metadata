@@ -5,6 +5,7 @@ from datetime import datetime
 from pathlib import Path
 from unittest.mock import Mock
 
+import docker
 import pytest
 
 from dapla_metadata._shared.config import DAPLA_GROUP_CONTEXT
@@ -58,6 +59,14 @@ from tests.utils.microcks_testcontainer import MicrocksContainer
 from tests.variable_definitions.constants import OPENAPI_DIR
 
 
+class CouldNotInstantiateTestContainerError(RuntimeError):
+    def __init__(self):
+        """To be raised when the TestContainer cannot be instantiated."""
+        super().__init__(
+            "Could not instantiate the TestContainer. Please check that your local Docker is correctly configured."
+        )
+
+
 @pytest.fixture(autouse=True)
 def _set_dapla_group_context(
     monkeypatch: pytest.MonkeyPatch,
@@ -66,7 +75,23 @@ def _set_dapla_group_context(
 
 
 @pytest.fixture(scope="session")
-def client_configuration(vardef_mock_service) -> Configuration:
+def vardef_mock_service() -> Generator[MicrocksContainer | None]:
+    try:
+        with MicrocksContainer() as container:
+            container.upload_primary_artifact(
+                str(OPENAPI_DIR / "variable-definitions-internal.yml"),
+            )
+            yield container
+    except docker.errors.DockerException:
+        yield None
+
+
+@pytest.fixture(scope="session")
+def client_configuration(
+    vardef_mock_service: MicrocksContainer | None,
+) -> Configuration:
+    if vardef_mock_service is None:
+        raise CouldNotInstantiateTestContainerError
     return vardef_client.Configuration(
         host=vardef_mock_service.get_mock_url(),
         access_token="test_dummy",  # noqa: S106
@@ -225,15 +250,6 @@ def patch_fixture(language_string_type, contact, owner) -> Patch:
         contact=contact,
         owner=owner,
     )
-
-
-@pytest.fixture(scope="session")
-def vardef_mock_service():
-    with MicrocksContainer() as container:
-        container.upload_primary_artifact(
-            str(OPENAPI_DIR / "variable-definitions-internal.yml"),
-        )
-        yield container
 
 
 def sample_complete_patch_output() -> VariableDefinition:
