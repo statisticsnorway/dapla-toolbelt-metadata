@@ -140,7 +140,11 @@ class StatisticSubjectMapping(GetExternalSource):
                 SecondarySubject(
                     self._extract_titles(s.titler),
                     s["emnekode"],
-                    [statistikk["kortnavn"] for statistikk in s.find_all("Statistikk")],
+                    [
+                        statistikk["kortnavn"]
+                        for statistikk in s.find_all("Statistikk")
+                        if statistikk["isPrimaerPlassering"] == "true"
+                    ],
                 )
                 for s in p.find_all("delemne")
             ]
