@@ -2,7 +2,7 @@
 
 from pathlib import Path
 
-from datadoc_model.model import DataType
+from datadoc_model.all_optional.model import DataType
 
 TEST_BUCKET_PARQUET_FILEPATH = "gs://ssb-staging-dapla-felles-data-delt/datadoc/klargjorte_data/person_data_v1.parquet"
 
