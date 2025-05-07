@@ -3910,6 +3910,22 @@ files = [
 ]
 
 [[package]]
+name = "types-docker"
+version = "7.1.0.20250503"
+description = "Typing stubs for docker"
+optional = false
+python-versions = ">=3.9"
+groups = ["dev"]
+files = [
+    {file = "types_docker-7.1.0.20250503-py3-none-any.whl", hash = "sha256:30c343982d35441f9eaf64b6c2a41fd59fc1575d20e5b8c9b8d4a820ed6e5105"},
+    {file = "types_docker-7.1.0.20250503.tar.gz", hash = "sha256:ea183b91cd46669d193d1ac34e2eaa0a0f1ca3b6fb7512f7b7652611fc40c1d3"},
+]
+
+[package.dependencies]
+types-requests = "*"
+urllib3 = ">=2"
+
+[[package]]
 name = "types-docutils"
 version = "0.21.0.20241128"
 description = "Typing stubs for docutils"
@@ -4411,4 +4427,4 @@ tests-strict = ["pytest (==4.6.0) ; python_version < \"3.10.0\" and python_versi
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.10,<4.0"
-content-hash = "4e2826aca1d2c6c0ec9a68295c031d4973da319d635f74176af1fc01ec3f1d17"
+content-hash = "977a07a83dc17106485e536c6d07e1e04cbc07650b06b0db50834630739336d9"

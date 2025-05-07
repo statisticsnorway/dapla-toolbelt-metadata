@@ -160,6 +160,7 @@ def mypy(session: Session) -> None:
         "types-colorama",
         "types-requests",
         "types-beautifulsoup4",
+        "types-docker",
         "faker",
     )
     session.run("mypy", *args)
