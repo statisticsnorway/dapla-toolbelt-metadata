@@ -678,7 +678,7 @@ class Datadoc:
             self.variables_lookup[
                 variable_short_name
             ].is_personal_data = (
-                model.IsPersonalData.PSEUDONYMISED_ENCRYPTED_PERSONAL_DATA
+                all_optional_model.IsPersonalData.PSEUDONYMISED_ENCRYPTED_PERSONAL_DATA
             )
 
     def remove_pseudo_variable(self, variable_short_name: str) -> None:
@@ -699,9 +699,7 @@ class Datadoc:
             self._create_pseudo_variables_lookup()
             self.variables_lookup[
                 variable_short_name
-            ].is_personal_data = (
-                model.IsPersonalData.NON_PSEUDONYMISED_ENCRYPTED_PERSONAL_DATA
-            )
+            ].is_personal_data = all_optional_model.IsPersonalData.NON_PSEUDONYMISED_ENCRYPTED_PERSONAL_DATA
 
     def get_pseudo_variable(
         self, variable_short_name: str
