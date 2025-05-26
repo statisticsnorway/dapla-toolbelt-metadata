@@ -92,3 +92,22 @@ class MicrocksContainer(ServerContainer):
             upload_response.raise_for_status()
         self.primary_artifact = openapi_definition_path
         return self.primary_artifact
+
+    def upload_secondary_artifact(self, metadata_path: str) -> str:
+        """Upload a local APIMetadata file as a secondary artifact.
+
+        Args:
+            metadata_path (str): Path to the APIMetadata YAML file
+
+        Returns:
+            str: Path to the uploaded metadata file
+        """
+        with Path(metadata_path).open("rb") as metadata_file:
+            upload_response = self.get_client().post(
+                "/api/artifact/upload",
+                files={"file": metadata_file},
+                data={"mainArtifact": "false"},
+                timeout=30,
+            )
+            upload_response.raise_for_status()
+        return metadata_path

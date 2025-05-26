@@ -96,10 +96,6 @@ class LanguageStringType(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate(
-            {
-                "nb": obj.get("nb"),
-                "nn": obj.get("nn"),
-                "en": obj.get("en"),
-            }
+            {"nb": obj.get("nb"), "nn": obj.get("nn"), "en": obj.get("en")}
         )
         return _obj

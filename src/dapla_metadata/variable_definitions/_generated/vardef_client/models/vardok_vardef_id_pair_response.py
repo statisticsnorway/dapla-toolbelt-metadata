@@ -14,24 +14,21 @@ from __future__ import annotations
 import json
 import pprint
 import re  # noqa: F401
-from typing import Annotated
 from typing import Any
 from typing import ClassVar
 
 from pydantic import BaseModel
 from pydantic import ConfigDict
-from pydantic import Field
+from pydantic import StrictStr
 from typing_extensions import Self
 
 
-class Owner(BaseModel):
-    """Owner"""
+class VardokVardefIdPairResponse(BaseModel):
+    """VardokVardefIdPairResponse"""
 
-    team: Annotated[str, Field(min_length=1, strict=True)]
-    groups: Annotated[
-        list[Annotated[str, Field(min_length=1, strict=True)]], Field(min_length=1)
-    ]
-    __properties: ClassVar[list[str]] = ["team", "groups"]
+    vardok_id: StrictStr
+    vardef_id: StrictStr
+    __properties: ClassVar[list[str]] = ["vardok_id", "vardef_id"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -50,7 +47,7 @@ class Owner(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Self | None:
-        """Create an instance of Owner from a JSON string"""
+        """Create an instance of VardokVardefIdPairResponse from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> dict[str, Any]:
@@ -74,7 +71,7 @@ class Owner(BaseModel):
 
     @classmethod
     def from_dict(cls, obj: dict[str, Any] | None) -> Self | None:
-        """Create an instance of Owner from a dict"""
+        """Create an instance of VardokVardefIdPairResponse from a dict"""
         if obj is None:
             return None
 
@@ -82,6 +79,6 @@ class Owner(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate(
-            {"team": obj.get("team"), "groups": obj.get("groups")}
+            {"vardok_id": obj.get("vardok_id"), "vardef_id": obj.get("vardef_id")}
         )
         return _obj

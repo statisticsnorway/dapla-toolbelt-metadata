@@ -81,6 +81,7 @@ def vardef_mock_service() -> Generator[MicrocksContainer | None]:
             container.upload_primary_artifact(
                 str(OPENAPI_DIR / "variable-definitions-internal.yml"),
             )
+            container.upload_secondary_artifact(str(OPENAPI_DIR / "apimetadata.yml"))
             yield container
     except docker.errors.DockerException:
         yield None

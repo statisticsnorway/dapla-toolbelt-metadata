@@ -12,8 +12,17 @@ from dapla_metadata.variable_definitions._generated.vardef_client.api.draft_vari
 from dapla_metadata.variable_definitions._generated.vardef_client.api.variable_definitions_api import (
     VariableDefinitionsApi,
 )
+from dapla_metadata.variable_definitions._generated.vardef_client.models.complete_response import (
+    CompleteResponse,
+)
 from dapla_metadata.variable_definitions._generated.vardef_client.models.draft import (
     Draft,
+)
+from dapla_metadata.variable_definitions._generated.vardef_client.models.vardok_id_response import (
+    VardokIdResponse,
+)
+from dapla_metadata.variable_definitions._generated.vardef_client.models.vardok_vardef_id_pair_response import (
+    VardokVardefIdPairResponse,
 )
 from dapla_metadata.variable_definitions._utils import config
 from dapla_metadata.variable_definitions._utils._client import VardefClient
@@ -170,6 +179,42 @@ class Vardef:
             migrated_variable.id,
         )
         return migrated_variable
+
+    @classmethod
+    @vardef_exception_handler
+    def list_vardef_vardok_mapping(cls) -> list[VardokVardefIdPairResponse]:
+        """List the mapping between vardok and vardef.
+
+        Returns:
+            List[VardokVardefIdPairResponse]: The list with mappings between Vardok and Vardef
+        """
+        return DataMigrationApi(
+            VardefClient.get_client(),
+        ).get_vardok_vardef_mapping()
+
+    @classmethod
+    @vardef_exception_handler
+    def get_vardok_vardef_mapping_by_id(
+        cls,
+        id: str,
+    ) -> VariableDefinition | VardokIdResponse:
+        """List the mapping between vardok and vardef.
+
+        Returns:
+            VariableDefinition:
+        """
+        raw_response = DataMigrationApi(
+            VardefClient.get_client()
+        ).get_vardok_vardef_mapping_by_id(
+            id,
+        )
+
+        if isinstance(raw_response.actual_instance, CompleteResponse):
+            return VariableDefinition.from_model(raw_response.actual_instance)
+        if isinstance(raw_response.actual_instance, VardokIdResponse):
+            return raw_response.actual_instance
+        msg = "Unexpected response type"
+        raise ValueError(msg)
 
     @classmethod
     @vardef_exception_handler

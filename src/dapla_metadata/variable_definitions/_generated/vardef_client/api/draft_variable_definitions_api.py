@@ -101,8 +101,7 @@ class DraftVariableDefinitionsApi:
             "409": "Problem",
         }
         response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout,
+            *_param, _request_timeout=_request_timeout
         )
         response_data.read()
         return self.api_client.response_deserialize(
@@ -172,8 +171,7 @@ class DraftVariableDefinitionsApi:
             "409": "Problem",
         }
         response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout,
+            *_param, _request_timeout=_request_timeout
         )
         response_data.read()
         return self.api_client.response_deserialize(
@@ -243,8 +241,7 @@ class DraftVariableDefinitionsApi:
             "409": "Problem",
         }
         response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout,
+            *_param, _request_timeout=_request_timeout
         )
         return response_data.response
 
@@ -266,8 +263,7 @@ class DraftVariableDefinitionsApi:
         _header_params: dict[str, str | None] = _headers or {}
         _form_params: list[tuple[str, str]] = []
         _files: dict[
-            str,
-            str | bytes | list[str] | list[bytes] | list[tuple[str, bytes]],
+            str, str | bytes | list[str] | list[bytes] | list[tuple[str, bytes]]
         ] = {}
         _body_params: bytes | None = None
 
@@ -285,10 +281,7 @@ class DraftVariableDefinitionsApi:
         # set the HTTP header `Accept`
         if "Accept" not in _header_params:
             _header_params["Accept"] = self.api_client.select_header_accept(
-                [
-                    "application/json",
-                    "application/problem+json",
-                ],
+                ["application/json", "application/problem+json"]
             )
 
         # set the HTTP header `Content-Type`
@@ -296,17 +289,13 @@ class DraftVariableDefinitionsApi:
             _header_params["Content-Type"] = _content_type
         else:
             _default_content_type = self.api_client.select_header_content_type(
-                [
-                    "application/json",
-                ],
+                ["application/json"]
             )
             if _default_content_type is not None:
                 _header_params["Content-Type"] = _default_content_type
 
         # authentication setting
-        _auth_settings: list[str] = [
-            "keycloak_token",
-        ]
+        _auth_settings: list[str] = ["keycloak_token"]
 
         return self.api_client.param_serialize(
             method="POST",
@@ -388,8 +377,7 @@ class DraftVariableDefinitionsApi:
             "405": "Problem",
         }
         response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout,
+            *_param, _request_timeout=_request_timeout
         )
         response_data.read()
         return self.api_client.response_deserialize(
@@ -462,8 +450,7 @@ class DraftVariableDefinitionsApi:
             "405": "Problem",
         }
         response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout,
+            *_param, _request_timeout=_request_timeout
         )
         response_data.read()
         return self.api_client.response_deserialize(
@@ -536,8 +523,7 @@ class DraftVariableDefinitionsApi:
             "405": "Problem",
         }
         response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout,
+            *_param, _request_timeout=_request_timeout
         )
         return response_data.response
 
@@ -559,8 +545,7 @@ class DraftVariableDefinitionsApi:
         _header_params: dict[str, str | None] = _headers or {}
         _form_params: list[tuple[str, str]] = []
         _files: dict[
-            str,
-            str | bytes | list[str] | list[bytes] | list[tuple[str, bytes]],
+            str, str | bytes | list[str] | list[bytes] | list[tuple[str, bytes]]
         ] = {}
         _body_params: bytes | None = None
 
@@ -578,16 +563,11 @@ class DraftVariableDefinitionsApi:
         # set the HTTP header `Accept`
         if "Accept" not in _header_params:
             _header_params["Accept"] = self.api_client.select_header_accept(
-                [
-                    "application/json",
-                    "application/problem+json",
-                ],
+                ["application/json", "application/problem+json"]
             )
 
         # authentication setting
-        _auth_settings: list[str] = [
-            "keycloak_token",
-        ]
+        _auth_settings: list[str] = ["keycloak_token"]
 
         return self.api_client.param_serialize(
             method="DELETE",
@@ -675,8 +655,7 @@ class DraftVariableDefinitionsApi:
             "409": "Problem",
         }
         response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout,
+            *_param, _request_timeout=_request_timeout
         )
         response_data.read()
         return self.api_client.response_deserialize(
@@ -755,8 +734,7 @@ class DraftVariableDefinitionsApi:
             "409": "Problem",
         }
         response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout,
+            *_param, _request_timeout=_request_timeout
         )
         response_data.read()
         return self.api_client.response_deserialize(
@@ -835,8 +813,7 @@ class DraftVariableDefinitionsApi:
             "409": "Problem",
         }
         response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout,
+            *_param, _request_timeout=_request_timeout
         )
         return response_data.response
 
@@ -859,8 +836,7 @@ class DraftVariableDefinitionsApi:
         _header_params: dict[str, str | None] = _headers or {}
         _form_params: list[tuple[str, str]] = []
         _files: dict[
-            str,
-            str | bytes | list[str] | list[bytes] | list[tuple[str, bytes]],
+            str, str | bytes | list[str] | list[bytes] | list[tuple[str, bytes]]
         ] = {}
         _body_params: bytes | None = None
 
@@ -880,10 +856,7 @@ class DraftVariableDefinitionsApi:
         # set the HTTP header `Accept`
         if "Accept" not in _header_params:
             _header_params["Accept"] = self.api_client.select_header_accept(
-                [
-                    "application/json",
-                    "application/problem+json",
-                ],
+                ["application/json", "application/problem+json"]
             )
 
         # set the HTTP header `Content-Type`
@@ -891,17 +864,13 @@ class DraftVariableDefinitionsApi:
             _header_params["Content-Type"] = _content_type
         else:
             _default_content_type = self.api_client.select_header_content_type(
-                [
-                    "application/json",
-                ],
+                ["application/json"]
             )
             if _default_content_type is not None:
                 _header_params["Content-Type"] = _default_content_type
 
         # authentication setting
-        _auth_settings: list[str] = [
-            "keycloak_token",
-        ]
+        _auth_settings: list[str] = ["keycloak_token"]
 
         return self.api_client.param_serialize(
             method="PATCH",
