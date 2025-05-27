@@ -196,7 +196,7 @@ class Vardef:
     @vardef_exception_handler
     def get_vardok_vardef_mapping_by_id(
         cls,
-        id: str,
+        vardef_vardok_id: str,
     ) -> VariableDefinition | VardokIdResponse:
         """List the mapping between vardok and vardef.
 
@@ -206,7 +206,7 @@ class Vardef:
         raw_response = DataMigrationApi(
             VardefClient.get_client()
         ).get_vardok_vardef_mapping_by_id(
-            id,
+            vardef_vardok_id,
         )
 
         if isinstance(raw_response.actual_instance, CompleteResponse):

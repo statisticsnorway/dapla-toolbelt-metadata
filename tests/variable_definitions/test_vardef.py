@@ -306,16 +306,18 @@ def test_get_variable_by_vardok_id(
     assert vardok_vardef_mapping.short_name == "landbak"
 
 
-def test_get_variable_by_vardef_id(
-    client_configuration: Configuration,
-):
+def test_get_vardok_id_by_vardef_id(client_configuration: Configuration):
     VardefClient.set_config(client_configuration)
 
-    VardefClient.set_config(client_configuration)
+    response_data = VardokIdResponse(vardok_id="1607")
+    wrapped_response = GetVardokVardefMappingById200Response(
+        actual_instance=response_data
+    )
     with patch(
         "dapla_metadata.variable_definitions._generated.vardef_client.api.data_migration_api.DataMigrationApi.get_vardok_vardef_mapping_by_id",
-        return_value=GetVardokVardefMappingById200Response(vardok_id="1607"),
+        return_value=wrapped_response,
     ):
         vardok_vardef_mapping = Vardef.get_vardok_vardef_mapping_by_id("wypvb3wd")
+
         assert isinstance(vardok_vardef_mapping, VardokIdResponse)
         assert vardok_vardef_mapping.vardok_id == "1607"
