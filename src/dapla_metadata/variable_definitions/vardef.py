@@ -38,6 +38,7 @@ from dapla_metadata.variable_definitions._utils.variable_definition_files import
 from dapla_metadata.variable_definitions.exceptions import VariableNotFoundError
 from dapla_metadata.variable_definitions.exceptions import vardef_exception_handler
 from dapla_metadata.variable_definitions.exceptions import vardef_file_error_handler
+from dapla_metadata.variable_definitions.vardok_id import VardokId
 from dapla_metadata.variable_definitions.variable_definition import VariableDefinition
 
 logger = logging.getLogger(__name__)
@@ -225,7 +226,7 @@ class Vardef:
     def get_vardok_id_by_short_name(
         cls,
         short_name: str,
-    ) -> VardokIdResponse:
+    ) -> VardokId:
         """Retrieve a Vardok id by short name.
 
         Args:
@@ -243,7 +244,7 @@ class Vardef:
         )
 
         if isinstance(raw_response.actual_instance, VardokIdResponse):
-            return raw_response.actual_instance
+            return VardokId.from_model(raw_response.actual_instance)
         msg = "Unexpected response type"
         raise TypeError(msg)
 
