@@ -205,6 +205,9 @@ class Vardef:
 
         Returns:
             VariableDefinition: The Variable Definition.
+
+        Raises:
+            TypeError: If the incorrect type is returned.
         """
         raw_response = DataMigrationApi(
             VardefClient.get_client()
@@ -215,7 +218,7 @@ class Vardef:
         if isinstance(raw_response.actual_instance, CompleteResponse):
             return VariableDefinition.from_model(raw_response.actual_instance)
         msg = "Unexpected response type"
-        raise ValueError(msg)
+        raise TypeError(msg)
 
     @classmethod
     @vardef_exception_handler
@@ -228,8 +231,8 @@ class Vardef:
         Args:
             short_name (str): The short name of the desired Variable Definition
 
-        Returns:
-            VardokIdResponse: The retrieved Vardok ID.
+        Raises:
+            TypeError: If the incorrect type is returned.
         """
         variable_definition = cls.get_variable_definition_by_shortname(short_name)
 
@@ -242,7 +245,7 @@ class Vardef:
         if isinstance(raw_response.actual_instance, VardokIdResponse):
             return raw_response.actual_instance
         msg = "Unexpected response type"
-        raise ValueError(msg)
+        raise TypeError(msg)
 
     @classmethod
     @vardef_exception_handler
