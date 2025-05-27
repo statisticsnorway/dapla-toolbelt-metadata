@@ -6,8 +6,8 @@ import ruamel.yaml
 from pydantic import ConfigDict
 from pydantic import PrivateAttr
 
-from dapla_metadata.variable_definitions._generated.vardef_client.models.vardok_id_response import (
-    VardokIdResponse,
+from dapla_metadata.variable_definitions._generated.vardef_client.models.vardok_vardef_id_pair_response import (
+    VardokVardefIdPairResponse,
 )
 from dapla_metadata.variable_definitions._utils.files import configure_yaml
 from dapla_metadata.variable_definitions._utils.files import pre_process_data
@@ -15,14 +15,14 @@ from dapla_metadata.variable_definitions._utils.files import pre_process_data
 logger = logging.getLogger(__name__)
 
 
-class VardokId(VardokIdResponse):
-    """A Variable Definition.
+class VardokVardefIdPair(VardokVardefIdPairResponse):
+    """A Vardok id.
 
-    - Provides access to the Vardok id filed.
-    - Provides methods allowing maintenance for nicer output of the Vardok id.
+    - Provides access to the fields of a Vardok Vardef id pair.
+    - Provides methods allowing for nicer output of the Vardok Vardef id pair.
 
     Args:
-        VardokIdResponse: The Pydantic model superclass, representing a Vardok id response.
+        VardokVardefIdPairResponse: The Pydantic model superclass, representing a Vardok Vardef id pair response.
     """
 
     _file_path: Path | None = PrivateAttr(None)
@@ -31,10 +31,10 @@ class VardokId(VardokIdResponse):
 
     @staticmethod
     def from_model(
-        model: VardokIdResponse,
-    ) -> "VardokId":
-        """Create a VariableDefinition instance from a CompleteResponse."""
-        return VardokId.model_construct(**model.model_dump())
+        model: VardokVardefIdPairResponse,
+    ) -> "VardokVardefIdPair":
+        """Create a VardokVardefIdPair instance from a VardokVardefIdPairResponse."""
+        return VardokVardefIdPair.model_construct(**model.model_dump())
 
     def __str__(self) -> str:
         """Format as indented YAML."""

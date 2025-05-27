@@ -21,9 +21,6 @@ from dapla_metadata.variable_definitions._generated.vardef_client.models.draft i
 from dapla_metadata.variable_definitions._generated.vardef_client.models.vardok_id_response import (
     VardokIdResponse,
 )
-from dapla_metadata.variable_definitions._generated.vardef_client.models.vardok_vardef_id_pair_response import (
-    VardokVardefIdPairResponse,
-)
 from dapla_metadata.variable_definitions._utils import config
 from dapla_metadata.variable_definitions._utils._client import VardefClient
 from dapla_metadata.variable_definitions._utils.template_files import (
@@ -39,6 +36,7 @@ from dapla_metadata.variable_definitions.exceptions import VariableNotFoundError
 from dapla_metadata.variable_definitions.exceptions import vardef_exception_handler
 from dapla_metadata.variable_definitions.exceptions import vardef_file_error_handler
 from dapla_metadata.variable_definitions.vardok_id import VardokId
+from dapla_metadata.variable_definitions.VardokVardefIdPair import VardokVardefIdPair
 from dapla_metadata.variable_definitions.variable_definition import VariableDefinition
 
 logger = logging.getLogger(__name__)
@@ -183,15 +181,18 @@ class Vardef:
 
     @classmethod
     @vardef_exception_handler
-    def list_vardef_vardok_mapping(cls) -> list[VardokVardefIdPairResponse]:
+    def list_vardef_vardok_mapping(cls) -> list[VardokVardefIdPair]:
         """List the mapping between vardok and vardef.
 
         Returns:
-            List[VardokVardefIdPairResponse]: The list with mappings between Vardok and Vardef
+            List[VardokVardefIdPair]: The list with mappings between Vardok and Vardef
         """
-        return DataMigrationApi(
-            VardefClient.get_client(),
-        ).get_vardok_vardef_mapping()
+        return [
+            VardokVardefIdPair.from_model(definition)
+            for definition in DataMigrationApi(
+                VardefClient.get_client(),
+            ).get_vardok_vardef_mapping()
+        ]
 
     @classmethod
     @vardef_exception_handler
