@@ -194,23 +194,51 @@ class Vardef:
 
     @classmethod
     @vardef_exception_handler
-    def get_vardok_vardef_mapping_by_id(
+    def get_variable_definition_by_vardok_id(
         cls,
-        vardef_vardok_id: str,
-    ) -> VariableDefinition | VardokIdResponse:
-        """List the mapping between vardok and vardef.
+        vardok_id: str,
+    ) -> VariableDefinition:
+        """Get a Variable Definition by its Vardok ID.
+
+        Args:
+            vardok_id (str): The Vardok ID of the desired Variable Definition
 
         Returns:
-            VariableDefinition:
+            VariableDefinition: The Variable Definition.
         """
         raw_response = DataMigrationApi(
             VardefClient.get_client()
         ).get_vardok_vardef_mapping_by_id(
-            vardef_vardok_id,
+            vardok_id,
         )
 
         if isinstance(raw_response.actual_instance, CompleteResponse):
             return VariableDefinition.from_model(raw_response.actual_instance)
+        msg = "Unexpected response type"
+        raise ValueError(msg)
+
+    @classmethod
+    @vardef_exception_handler
+    def get_vardok_id_by_short_name(
+        cls,
+        short_name: str,
+    ) -> VardokIdResponse:
+        """Retrieve a Vardok id by short name.
+
+        Args:
+            short_name (str): The short name of the desired Variable Definition
+
+        Returns:
+            VardokIdResponse: The retrieved Vardok ID.
+        """
+        variable_definition = cls.get_variable_definition_by_shortname(short_name)
+
+        raw_response = DataMigrationApi(
+            VardefClient.get_client()
+        ).get_vardok_vardef_mapping_by_id(
+            variable_definition.id,
+        )
+
         if isinstance(raw_response.actual_instance, VardokIdResponse):
             return raw_response.actual_instance
         msg = "Unexpected response type"
@@ -280,7 +308,7 @@ class Vardef:
         short_name: str,
         date_of_validity: date | None = None,
     ) -> VariableDefinition:
-        """Retrieve a Variable Definition by ID or short name.
+        """Retrieve a Variable Definition by short name.
 
         Args:
             short_name (str): The short name of the Variable Definition.
