@@ -128,19 +128,6 @@ paths:
           Vardok id:
             value: "1607"
       responses:
-        "404":
-          description: Not found
-          content:
-            application/problem+json:
-              schema:
-                $ref: https://opensource.zalando.com/restful-api-guidelines/models/problem-1.0.1.yaml#/Problem
-              examples:
-                Not found:
-                  value:
-                    type: about:blank
-                    status: 404
-                    detail: Not found
-                    parameters: {}
         "200":
           description: OK response
           content:
