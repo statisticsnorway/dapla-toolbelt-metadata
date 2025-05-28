@@ -39,6 +39,7 @@ from dapla_metadata.variable_definitions.exceptions import STATUS_EXPLANATIONS
 from dapla_metadata.variable_definitions.exceptions import VardefClientError
 from dapla_metadata.variable_definitions.exceptions import VariableNotFoundError
 from dapla_metadata.variable_definitions.vardef import Vardef
+from dapla_metadata.variable_definitions.vardok_id import VardokId
 from dapla_metadata.variable_definitions.variable_definition import VariableDefinition
 from tests.utils.constants import VARDEF_EXAMPLE_ACTIVE_GROUP
 from tests.utils.constants import VARDEF_EXAMPLE_DATE
@@ -275,7 +276,7 @@ def test_list_vardok_vardef_mappings(
     client_configuration: Configuration,
 ):
     VardefClient.set_config(client_configuration)
-    vardok_vardef_mapping = Vardef.list_vardef_vardok_mapping()[0]
+    vardok_vardef_mapping = Vardef.list_vardok_vardef_mapping()[0]
     assert isinstance(
         vardok_vardef_mapping,
         VardokVardefIdPairResponse,
@@ -292,7 +293,7 @@ def test_empty_list_vardok_vardef_mappings(
         "dapla_metadata.variable_definitions._generated.vardef_client.api.data_migration_api.DataMigrationApi.get_vardok_vardef_mapping",
         return_value=[],
     ):
-        result = Vardef.list_vardef_vardok_mapping()
+        result = Vardef.list_vardok_vardef_mapping()
         assert len(result) == 0
 
 
@@ -338,5 +339,5 @@ def test_get_vardok_id_by_short_name(client_configuration: Configuration):
     ):
         vardok_vardef_mapping = Vardef.get_vardok_id_by_short_name("landbak")
 
-        assert isinstance(vardok_vardef_mapping, VardokIdResponse)
+        assert isinstance(vardok_vardef_mapping, VardokId)
         assert vardok_vardef_mapping.vardok_id == "1607"
