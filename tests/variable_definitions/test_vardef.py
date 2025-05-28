@@ -276,7 +276,7 @@ def test_list_vardok_vardef_mappings(
     client_configuration: Configuration,
 ):
     VardefClient.set_config(client_configuration)
-    vardok_vardef_mapping = Vardef.list_vardef_vardok_mapping()[0]
+    vardok_vardef_mapping = Vardef.list_vardok_vardef_mapping()[0]
     assert isinstance(
         vardok_vardef_mapping,
         VardokVardefIdPairResponse,
@@ -293,7 +293,7 @@ def test_empty_list_vardok_vardef_mappings(
         "dapla_metadata.variable_definitions._generated.vardef_client.api.data_migration_api.DataMigrationApi.get_vardok_vardef_mapping",
         return_value=[],
     ):
-        result = Vardef.list_vardef_vardok_mapping()
+        result = Vardef.list_vardok_vardef_mapping()
         assert len(result) == 0
 
 

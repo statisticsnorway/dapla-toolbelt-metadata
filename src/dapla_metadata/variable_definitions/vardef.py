@@ -181,7 +181,7 @@ class Vardef:
 
     @classmethod
     @vardef_exception_handler
-    def list_vardef_vardok_mapping(cls) -> list[VardokVardefIdPair]:
+    def list_vardok_vardef_mapping(cls) -> list[VardokVardefIdPair]:
         """List the mapping between vardok and vardef.
 
         Returns:
