@@ -16,7 +16,7 @@ logger = logging.getLogger(__name__)
 
 
 class VardokId(VardokIdResponse):
-    """A Variable Definition.
+    """A Vardok id.
 
     - Provides access to the Vardok id filed.
     - Provides methods allowing maintenance for nicer output of the Vardok id.

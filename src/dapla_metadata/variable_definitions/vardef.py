@@ -36,7 +36,7 @@ from dapla_metadata.variable_definitions.exceptions import VariableNotFoundError
 from dapla_metadata.variable_definitions.exceptions import vardef_exception_handler
 from dapla_metadata.variable_definitions.exceptions import vardef_file_error_handler
 from dapla_metadata.variable_definitions.vardok_id import VardokId
-from dapla_metadata.variable_definitions.VardokVardefIdPair import VardokVardefIdPair
+from dapla_metadata.variable_definitions.Vardok_vardef_id_pair import VardokVardefIdPair
 from dapla_metadata.variable_definitions.variable_definition import VariableDefinition
 
 logger = logging.getLogger(__name__)
