@@ -12,8 +12,17 @@ from dapla_metadata.variable_definitions._generated.vardef_client.api.draft_vari
 from dapla_metadata.variable_definitions._generated.vardef_client.api.variable_definitions_api import (
     VariableDefinitionsApi,
 )
+from dapla_metadata.variable_definitions._generated.vardef_client.models.complete_response import (
+    CompleteResponse,
+)
 from dapla_metadata.variable_definitions._generated.vardef_client.models.draft import (
     Draft,
+)
+from dapla_metadata.variable_definitions._generated.vardef_client.models.vardok_id_response import (
+    VardokIdResponse,
+)
+from dapla_metadata.variable_definitions._generated.vardef_client.models.vardok_vardef_id_pair_response import (
+    VardokVardefIdPairResponse,
 )
 from dapla_metadata.variable_definitions._utils import config
 from dapla_metadata.variable_definitions._utils._client import VardefClient
@@ -173,6 +182,73 @@ class Vardef:
 
     @classmethod
     @vardef_exception_handler
+    def list_vardef_vardok_mapping(cls) -> list[VardokVardefIdPairResponse]:
+        """List the mapping between vardok and vardef.
+
+        Returns:
+            List[VardokVardefIdPairResponse]: The list with mappings between Vardok and Vardef
+        """
+        return DataMigrationApi(
+            VardefClient.get_client(),
+        ).get_vardok_vardef_mapping()
+
+    @classmethod
+    @vardef_exception_handler
+    def get_variable_definition_by_vardok_id(
+        cls,
+        vardok_id: str,
+    ) -> VariableDefinition:
+        """Get a Variable Definition by its Vardok ID.
+
+        Args:
+            vardok_id (str): The Vardok ID of the desired Variable Definition
+
+        Returns:
+            VariableDefinition: The Variable Definition.
+
+        Raises:
+            TypeError: If the incorrect type is returned.
+        """
+        raw_response = DataMigrationApi(
+            VardefClient.get_client()
+        ).get_vardok_vardef_mapping_by_id(
+            vardok_id,
+        )
+
+        if isinstance(raw_response.actual_instance, CompleteResponse):
+            return VariableDefinition.from_model(raw_response.actual_instance)
+        msg = "Unexpected response type"
+        raise TypeError(msg)
+
+    @classmethod
+    @vardef_exception_handler
+    def get_vardok_id_by_short_name(
+        cls,
+        short_name: str,
+    ) -> VardokIdResponse:
+        """Retrieve a Vardok id by short name.
+
+        Args:
+            short_name (str): The short name of the desired Variable Definition
+
+        Raises:
+            TypeError: If the incorrect type is returned.
+        """
+        variable_definition = cls.get_variable_definition_by_shortname(short_name)
+
+        raw_response = DataMigrationApi(
+            VardefClient.get_client()
+        ).get_vardok_vardef_mapping_by_id(
+            variable_definition.id,
+        )
+
+        if isinstance(raw_response.actual_instance, VardokIdResponse):
+            return raw_response.actual_instance
+        msg = "Unexpected response type"
+        raise TypeError(msg)
+
+    @classmethod
+    @vardef_exception_handler
     def list_variable_definitions(
         cls,
         date_of_validity: date | None = None,
@@ -235,7 +311,7 @@ class Vardef:
         short_name: str,
         date_of_validity: date | None = None,
     ) -> VariableDefinition:
-        """Retrieve a Variable Definition by ID or short name.
+        """Retrieve a Variable Definition by short name.
 
         Args:
             short_name (str): The short name of the Variable Definition.
