@@ -577,10 +577,6 @@ class DataMigrationApi:
         )
 
         _response_types_map: dict[str, str | None] = {
-<<<<<<< HEAD
-=======
-            "404": "Problem",
->>>>>>> origin/main
             "200": "GetVardokVardefMappingById200Response",
         }
         response_data = self.api_client.call_api(
@@ -645,10 +641,6 @@ class DataMigrationApi:
         )
 
         _response_types_map: dict[str, str | None] = {
-<<<<<<< HEAD
-=======
-            "404": "Problem",
->>>>>>> origin/main
             "200": "GetVardokVardefMappingById200Response",
         }
         response_data = self.api_client.call_api(
@@ -713,10 +705,6 @@ class DataMigrationApi:
         )
 
         _response_types_map: dict[str, str | None] = {
-<<<<<<< HEAD
-=======
-            "404": "Problem",
->>>>>>> origin/main
             "200": "GetVardokVardefMappingById200Response",
         }
         response_data = self.api_client.call_api(
@@ -756,11 +744,7 @@ class DataMigrationApi:
         # set the HTTP header `Accept`
         if "Accept" not in _header_params:
             _header_params["Accept"] = self.api_client.select_header_accept(
-<<<<<<< HEAD
                 ["application/json"]
-=======
-                ["application/problem+json", "application/json"]
->>>>>>> origin/main
             )
 
         # authentication setting
