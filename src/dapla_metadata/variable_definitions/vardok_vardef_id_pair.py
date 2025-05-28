@@ -26,7 +26,6 @@ class VardokVardefIdPair(VardokVardefIdPairResponse):
     """
 
     _file_path: Path | None = PrivateAttr(None)
-
     model_config = ConfigDict(use_enum_values=True, str_strip_whitespace=True)
 
     @staticmethod
