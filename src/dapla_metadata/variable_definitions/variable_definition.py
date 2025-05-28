@@ -1,10 +1,8 @@
 import logging
 from datetime import date
-from io import StringIO
 from os import PathLike
 from pathlib import Path
 
-import ruamel.yaml
 from pydantic import ConfigDict
 from pydantic import PrivateAttr
 
@@ -34,8 +32,9 @@ from dapla_metadata.variable_definitions._generated.vardef_client.models.variabl
 )
 from dapla_metadata.variable_definitions._utils import config
 from dapla_metadata.variable_definitions._utils._client import VardefClient
-from dapla_metadata.variable_definitions._utils.files import configure_yaml
-from dapla_metadata.variable_definitions._utils.files import pre_process_data
+from dapla_metadata.variable_definitions._utils.variable_definition_files import (
+    _convert_to_yaml_output,
+)
 from dapla_metadata.variable_definitions._utils.variable_definition_files import (
     _read_file_to_model,
 )
@@ -399,20 +398,8 @@ class VariableDefinition(CompleteResponse):
 
     def __str__(self) -> str:
         """Format as indented YAML."""
-        return self._convert_to_yaml_output()
+        return _convert_to_yaml_output(self)
 
     def __repr__(self) -> str:
         """Format as indented YAML."""
-        return self._convert_to_yaml_output()
-
-    def _convert_to_yaml_output(self) -> str:
-        stream = StringIO()
-        with ruamel.yaml.YAML(output=stream) as yaml:
-            configure_yaml(yaml)
-            data = self.model_dump(
-                mode="json",
-                serialize_as_any=True,
-                warnings="error",
-            )
-            yaml.dump(pre_process_data(data))
-        return stream.getvalue()
+        return _convert_to_yaml_output(self)

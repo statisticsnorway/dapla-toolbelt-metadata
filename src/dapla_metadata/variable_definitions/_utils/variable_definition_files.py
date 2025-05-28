@@ -1,6 +1,7 @@
 """Utilities for writing and reading existing variable definition files."""
 
 import logging
+from io import StringIO
 from os import PathLike
 from pathlib import Path
 from typing import Any
@@ -19,6 +20,7 @@ from dapla_metadata.variable_definitions._utils.files import (
     _model_to_yaml_with_comments,
 )
 from dapla_metadata.variable_definitions._utils.files import configure_yaml
+from dapla_metadata.variable_definitions._utils.files import pre_process_data
 
 logger = logging.getLogger(__name__)
 
@@ -118,3 +120,24 @@ def _read_file_to_model(
         msg = f"Could not read data from {file_path}"
         raise FileNotFoundError(msg)
     return model
+
+
+def _convert_to_yaml_output(model: BaseModel) -> str:
+    """Convert a Pydantic model to YAML format.
+
+    Args:
+        model: A Pydantic model instance
+
+    Returns:
+        YAML string representation of the model
+    """
+    stream = StringIO()
+    with YAML(output=stream) as yaml:
+        configure_yaml(yaml)
+        data = model.model_dump(
+            mode="json",
+            serialize_as_any=True,
+            warnings="error",
+        )
+        yaml.dump(pre_process_data(data))
+    return stream.getvalue()
