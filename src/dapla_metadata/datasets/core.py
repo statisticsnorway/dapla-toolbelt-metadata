@@ -23,6 +23,9 @@ from dapla_metadata.datasets.model_backwards_compatibility import (
     is_metadata_in_container_structure,
 )
 from dapla_metadata.datasets.model_backwards_compatibility import upgrade_metadata
+from dapla_metadata.datasets.model_backwards_compatibility import (
+    upgrade_metadata_container,
+)
 from dapla_metadata.datasets.model_validation import ValidateDatadocMetadata
 from dapla_metadata.datasets.statistic_subject_mapping import StatisticSubjectMapping
 from dapla_metadata.datasets.utility.constants import (
@@ -32,7 +35,6 @@ from dapla_metadata.datasets.utility.constants import INCONSISTENCIES_MESSAGE
 from dapla_metadata.datasets.utility.constants import METADATA_DOCUMENT_FILE_SUFFIX
 from dapla_metadata.datasets.utility.constants import NUM_OBLIGATORY_DATASET_FIELDS
 from dapla_metadata.datasets.utility.constants import NUM_OBLIGATORY_VARIABLES_FIELDS
-from dapla_metadata.datasets.utility.utils import ExistingPseudonymizationMetadataType
 from dapla_metadata.datasets.utility.utils import OptionalDatadocMetadataType
 from dapla_metadata.datasets.utility.utils import calculate_percentage
 from dapla_metadata.datasets.utility.utils import derive_assessment_from_state
@@ -119,9 +121,7 @@ class Datadoc:
         self.dataset_path: pathlib.Path | CloudPath | None = None
         self.dataset = all_optional_model.Dataset()
         self.variables: list = []
-        self.pseudo_variables: list[all_optional_model.PseudoVariable] = []
         self.variables_lookup: dict[str, all_optional_model.Variable] = {}
-        self.pseudo_variables_lookup: dict[str, all_optional_model.PseudoVariable] = {}
         self.explicitly_defined_metadata_document = False
         self.dataset_consistency_status: list = []
         if metadata_document_path:
@@ -161,17 +161,10 @@ class Datadoc:
         """
         extracted_metadata: all_optional_model.DatadocMetadata | None = None
         existing_metadata: OptionalDatadocMetadataType = None
-        existing_pseudonymization: ExistingPseudonymizationMetadataType = None
 
         if self.metadata_document and self.metadata_document.exists():
             existing_metadata = self._extract_metadata_from_existing_document(
                 self.metadata_document,
-            )
-
-            existing_pseudonymization = (
-                self._extract_pseudonymization_from_existing_document(
-                    self.metadata_document,
-                )
             )
 
         if (
@@ -221,14 +214,10 @@ class Datadoc:
         else:
             self._set_metadata(existing_metadata or extracted_metadata)
 
-        if existing_pseudonymization:
-            self._set_pseudonymization_metadata(existing_pseudonymization)
-
         set_default_values_variables(self.variables)
         set_default_values_dataset(cast("all_optional_model.Dataset", self.dataset))
         set_dataset_owner(self.dataset)
         self._create_variables_lookup()
-        self._create_pseudo_variables_lookup()
 
     def _get_existing_file_path(
         self,
@@ -255,31 +244,10 @@ class Datadoc:
         self.dataset = cast("all_optional_model.Dataset", merged_metadata.dataset)
         self.variables = merged_metadata.variables
 
-    def _set_pseudonymization_metadata(
-        self,
-        existing_pseudonymization: ExistingPseudonymizationMetadataType,
-    ) -> None:
-        if not existing_pseudonymization or not (
-            existing_pseudonymization.pseudo_variables is not None
-        ):
-            msg = "Error reading pseudonymization metadata"
-            logger.error(msg)
-            return
-        self.pseudo_variables = cast(
-            "list[all_optional_model.PseudoVariable]",
-            existing_pseudonymization.pseudo_variables,
-        )
-
     def _create_variables_lookup(self) -> None:
         self.variables_lookup = {
             v.short_name: v for v in self.variables if v.short_name
         }
-
-    def _create_pseudo_variables_lookup(self) -> None:
-        if self.pseudo_variables:
-            self.pseudo_variables_lookup = {
-                v.short_name: v for v in self.pseudo_variables if v.short_name
-            }
 
     @staticmethod
     def _check_dataset_consistency(
@@ -443,6 +411,7 @@ class Datadoc:
                 fresh_metadata,
             )
             if is_metadata_in_container_structure(fresh_metadata):
+                fresh_metadata = upgrade_metadata_container(fresh_metadata)
                 self.container = metadata_model.MetadataContainer.model_validate_json(
                     json.dumps(fresh_metadata),
                 )
@@ -462,53 +431,6 @@ class Datadoc:
                 exc_info=True,
             )
             return None
-
-    def _extract_pseudonymization_from_existing_document(
-        self,
-        document: pathlib.Path | CloudPath,
-    ) -> (
-        all_optional_model.PseudonymizationMetadata
-        | required_model.PseudonymizationMetadata
-        | None
-    ):
-        """Read pseudo metadata from an existing metadata document.
-
-        If there is pseudo metadata in the document supplied, the method validates and returns the pseudonymization structure.
-
-        Args:
-            document: A path to the existing metadata document.
-
-        Raises:
-            json.JSONDecodeError: If the metadata document cannot be parsed.
-            pydantic.ValidationError: If the data does not successfully validate.
-        """
-        metadata_model = (
-            required_model
-            if self.validate_required_fields_on_existing_metadata
-            else all_optional_model
-        )
-
-        try:
-            with document.open(mode="r", encoding="utf-8") as file:
-                fresh_metadata = json.load(file)
-        except json.JSONDecodeError:
-            logger.warning(
-                "Could not open existing metadata file %s.",
-                document,
-                exc_info=True,
-            )
-            return None
-
-        if not is_metadata_in_container_structure(fresh_metadata):
-            return None
-
-        pseudonymization_metadata = fresh_metadata.get("pseudonymization")
-        if pseudonymization_metadata is None:
-            return None
-
-        return metadata_model.PseudonymizationMetadata.model_validate_json(
-            json.dumps(pseudonymization_metadata),
-        )
 
     def _extract_subject_field_from_path(
         self,
@@ -627,13 +549,6 @@ class Datadoc:
         )
         if self.container:
             self.container.datadoc = datadoc
-            if not self.container.pseudonymization:
-                self.container.pseudonymization = (
-                    all_optional_model.PseudonymizationMetadata(
-                        pseudo_dataset=all_optional_model.PseudoDataset()
-                    )
-                )
-            self.container.pseudonymization.pseudo_variables = self.pseudo_variables
         else:
             self.container = all_optional_model.MetadataContainer(datadoc=datadoc)
         if self.metadata_document:
@@ -664,45 +579,23 @@ class Datadoc:
         ) + num_obligatory_variables_fields_completed(self.variables)
         return calculate_percentage(num_set_fields, num_all_fields)
 
-    def add_pseudo_variable(self, variable_short_name: str) -> None:
+    def add_pseudo_to_variable(self, variable_short_name: str) -> None:
         """Adds a new pseudo variable to the list of pseudonymized variables.
 
         Sets is_personal_data to pseudonymized encrypted personal data.
         """
         if self.variables_lookup[variable_short_name] is not None:
-            pseudo_variable = all_optional_model.PseudoVariable(
-                short_name=variable_short_name
-            )
-            self.pseudo_variables.append(pseudo_variable)
-            self.pseudo_variables_lookup[variable_short_name] = pseudo_variable
             self.variables_lookup[
                 variable_short_name
-            ].is_personal_data = (
-                all_optional_model.IsPersonalData.PSEUDONYMISED_ENCRYPTED_PERSONAL_DATA
-            )
+            ].pseudonymization = all_optional_model.Pseudonymization()
+            self.variables_lookup[variable_short_name].is_personal_data = True
 
-    def remove_pseudo_variable(self, variable_short_name: str) -> None:
+    def remove_pseudo_from_variable(self, variable_short_name: str) -> None:
         """Removes a pseudo variable by using the shortname.
 
         Updates the pseudo variable lookup by creating a new one.
         Sets is_personal_data to non pseudonymized encrypted personal data.
         """
-        if self.pseudo_variables_lookup[variable_short_name] is not None:
-            pseudo_variable = self.get_pseudo_variable(variable_short_name)
-
-            if pseudo_variable is not None:
-                self.pseudo_variables = [
-                    pseudo_variable
-                    for pseudo_variable in self.pseudo_variables
-                    if pseudo_variable.short_name != variable_short_name
-                ]
-            self._create_pseudo_variables_lookup()
-            self.variables_lookup[
-                variable_short_name
-            ].is_personal_data = all_optional_model.IsPersonalData.NON_PSEUDONYMISED_ENCRYPTED_PERSONAL_DATA
-
-    def get_pseudo_variable(
-        self, variable_short_name: str
-    ) -> all_optional_model.PseudoVariable | None:
-        """Finds a pseudo variable by shortname."""
-        return self.pseudo_variables_lookup.get(variable_short_name)
+        if self.variables_lookup[variable_short_name].pseudonymization is not None:
+            self.variables_lookup[variable_short_name].pseudonymization = None
+            self.variables_lookup[variable_short_name].is_personal_data = False

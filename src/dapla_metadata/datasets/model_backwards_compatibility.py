@@ -13,6 +13,7 @@ A test must also be implemented for each new version.
 
 from __future__ import annotations
 
+import logging
 from collections import OrderedDict
 from dataclasses import dataclass
 from datetime import datetime
@@ -22,10 +23,14 @@ from typing import Any
 
 import arrow
 
+logger = logging.getLogger(__name__)
+
+
 if TYPE_CHECKING:
     from collections.abc import Callable
 
 VERSION_FIELD_NAME = "document_version"
+PSEUDONYMIZATION_KEY = "pseudonymization"
 
 
 class UnknownModelVersionError(Exception):
@@ -53,6 +58,10 @@ class UnknownModelVersionError(Exception):
         return f"Document Version ({self.supplied_version}) of discovered file is not supported"
 
 
+SUPPORTED_CONTAINER_VERSIONS: OrderedDict[str, BackwardsCompatibleContainerVersion] = (
+    OrderedDict()
+)
+
 SUPPORTED_VERSIONS: OrderedDict[str, BackwardsCompatibleVersion] = OrderedDict()
 
 
@@ -76,7 +85,43 @@ class BackwardsCompatibleVersion:
         SUPPORTED_VERSIONS[self.version] = self
 
 
+@dataclass()
+class BackwardsCompatibleContainerVersion:
+    """A version which we support with backwards compatibility.
+
+    This class registers a version and its corresponding handler function
+    for backwards compatibility.
+    """
+
+    version: str
+    handler: Callable[[dict[str, Any]], dict[str, Any]]
+
+    def __post_init__(self) -> None:
+        """Register this version in the supported versions map.
+
+        This method adds the instance to the `SUPPORTED_VERSIONS` dictionary
+        using the version as the key.
+        """
+        SUPPORTED_CONTAINER_VERSIONS[self.version] = self
+
+
 def handle_current_version(supplied_metadata: dict[str, Any]) -> dict[str, Any]:
+    """Handle the current version of the metadata.
+
+    This function returns the supplied metadata unmodified.
+
+    Args:
+        supplied_metadata: The metadata for the current version.
+
+    Returns:
+        The unmodified supplied metadata.
+    """
+    return supplied_metadata
+
+
+def handle_current_container_version(
+    supplied_metadata: dict[str, Any],
+) -> dict[str, Any]:
     """Handle the current version of the metadata.
 
     This function returns the supplied metadata unmodified.
@@ -187,6 +232,112 @@ def _cast_to_date_type(value_to_update: str | None) -> str | None:
     )
 
 
+def handle_container_version_0_0_1(supplied_metadata: dict[str, Any]) -> dict[str, Any]:
+    """Handle breaking changes for version 0.0.1.
+
+    This function modifies the supplied metadata to accommodate breaking changes
+    introduced in version 1.0.0. Specifically, it removes the 'pseudonymization'
+    section from the metadata container.
+
+    Args:
+        supplied_metadata: The metadata dictionary to be updated.
+
+    Returns:
+        The updated metadata dictionary.
+    """
+    _remove_element_from_model(supplied_metadata, PSEUDONYMIZATION_KEY)
+    supplied_metadata["document_version"] = "1.0.0"
+    return supplied_metadata
+
+
+def convert_is_personal_data(supplied_metadata: dict[str, Any]) -> None:
+    """Convert 'is_personal_data' values in the supplied metadata to boolean.
+
+    Iterates over variables in the supplied metadata and updates the
+    'is_personal_data' field:
+      - Sets it to True for NON_PSEUDONYMISED_ENCRYPTED_PERSONAL_DATA and PSEUDONYMISED_ENCRYPTED_PERSONAL_DATA.
+      - Sets it to False for NOT_PERSONAL_DATA.
+
+    Args:
+        supplied_metadata: The metadata dictionary to be updated.
+    """
+    for variable in supplied_metadata["datadoc"]["variables"]:
+        value = variable["is_personal_data"]
+        if value in (
+            "NON_PSEUDONYMISED_ENCRYPTED_PERSONAL_DATA",
+            "PSEUDONYMISED_ENCRYPTED_PERSONAL_DATA",
+        ):
+            variable["is_personal_data"] = True
+        elif value == "NOT_PERSONAL_DATA":
+            variable["is_personal_data"] = False
+
+
+def copy_pseudonymization_metadata(supplied_metadata: dict[str, Any]) -> None:
+    """Copies pseudonymization metadata from the old pseudonymization section into the corresponding variable.
+
+    For each variable in `supplied_metadata["datadoc"]["variables"]` that has a matching
+    `short_name` in `supplied_metadata["pseudonymization"]["pseudo_variables"]`, this
+    function copies the following fields into the variable's 'pseudonymization' dictionary:
+
+        - stable_identifier_type
+        - stable_identifier_version
+        - encryption_algorithm
+        - encryption_key_reference
+        - encryption_algorithm_parameters
+
+    Args:
+        supplied_metadata: The metadata dictionary to be updated.
+    """
+    pseudo_vars = supplied_metadata.get(PSEUDONYMIZATION_KEY, {}).get(
+        "pseudo_variables", []
+    )
+    datadoc_vars = supplied_metadata.get("datadoc", {}).get("variables", [])
+    pseudo_lookup = {var.get("short_name"): var for var in pseudo_vars}
+
+    for variable in datadoc_vars:
+        short_name = variable.get("short_name")
+        if short_name in pseudo_lookup:
+            pseudo_var = pseudo_lookup[short_name]
+            variable[PSEUDONYMIZATION_KEY] = variable.get(
+                PSEUDONYMIZATION_KEY, {}
+            ).copy()
+
+            for field in [
+                "stable_identifier_type",
+                "stable_identifier_version",
+                "encryption_algorithm",
+                "encryption_key_reference",
+                "encryption_algorithm_parameters",
+            ]:
+                variable[PSEUDONYMIZATION_KEY][field] = pseudo_var[field]
+        else:
+            variable[PSEUDONYMIZATION_KEY] = None
+
+
+def handle_version_4_0_0(supplied_metadata: dict[str, Any]) -> dict[str, Any]:
+    """Handle breaking changes for version 5.0.1.
+
+    This function modifies the supplied metadata to accommodate breaking changes
+    introduced in version 5.0.1. Specifically, it:
+    - Copies pseudonymization metadata if pseudonymization is enabled.
+    - Converts the 'is_personal_data' fields to be a bool.
+    - Updates the 'document_version' field in the 'datadoc' section to "5.0.1".
+
+    Args:
+        supplied_metadata: The metadata dictionary to be updated.
+
+    Returns:
+        The updated metadata dictionary.
+    """
+    if supplied_metadata[PSEUDONYMIZATION_KEY]:
+        copy_pseudonymization_metadata(supplied_metadata)
+
+    convert_is_personal_data(supplied_metadata)
+
+    supplied_metadata["datadoc"]["document_version"] = "5.0.1"
+    return supplied_metadata
+
+
 def handle_version_3_3_0(supplied_metadata: dict[str, Any]) -> dict[str, Any]:
     """Handle breaking changes for version 3.3.0.
 
@@ -195,17 +346,19 @@ def handle_version_3_3_0(supplied_metadata: dict[str, Any]) -> dict[str, Any]:
     'direct_person_identifying' field from each variable in 'datadoc.variables'
     and updates the 'document_version' field to "4.0.0".
 
+    Version 4.0.0 used an enum for is_personal_data, however this was changed to a bool again for version 5.0.1.
+    We skip setting the enum here and just set the value it was.
+
     Args:
         supplied_metadata: The metadata dictionary to be updated.
 
     Returns:
         The updated metadata dictionary.
     """
-    for i in range(len(supplied_metadata["datadoc"]["variables"])):
-        _remove_element_from_model(
-            supplied_metadata["datadoc"]["variables"][i],
-            "direct_person_identifying",
-        )
+    for variable in supplied_metadata["datadoc"]["variables"]:
+        variable["is_personal_data"] = variable["direct_person_identifying"]
+        _remove_element_from_model(variable, "direct_person_identifying")
+
     supplied_metadata["datadoc"]["document_version"] = "4.0.0"
     return supplied_metadata
 
@@ -457,7 +610,8 @@ BackwardsCompatibleVersion(version="2.2.0", handler=handle_version_2_2_0)
 BackwardsCompatibleVersion(version="3.1.0", handler=handle_version_3_1_0)
 BackwardsCompatibleVersion(version="3.2.0", handler=handle_version_3_2_0)
 BackwardsCompatibleVersion(version="3.3.0", handler=handle_version_3_3_0)
-BackwardsCompatibleVersion(version="4.0.0", handler=handle_current_version)
+BackwardsCompatibleVersion(version="4.0.0", handler=handle_version_4_0_0)
+BackwardsCompatibleVersion(version="5.0.1", handler=handle_current_version)
 
 
 def upgrade_metadata(fresh_metadata: dict[str, Any]) -> dict[str, Any]:
@@ -489,6 +643,47 @@ def upgrade_metadata(fresh_metadata: dict[str, Any]) -> dict[str, Any]:
     start_running_handlers = False
     # Run all the handlers in order from the supplied version onwards
     for k, v in SUPPORTED_VERSIONS.items():
+        if k == supplied_version:
+            start_running_handlers = True
+        if start_running_handlers:
+            fresh_metadata = v.handler(fresh_metadata)
+    if not start_running_handlers:
+        raise UnknownModelVersionError(supplied_version)
+    return fresh_metadata
+
+
+BackwardsCompatibleContainerVersion(
+    version="0.0.1",
+    handler=handle_container_version_0_0_1,
+)
+BackwardsCompatibleContainerVersion(
+    version="1.0.0", handler=handle_current_container_version
+)
+
+
+def upgrade_metadata_container(fresh_metadata: dict[str, Any]) -> dict[str, Any]:
+    """Upgrade the metadata container to the latest version using registered handlers.
+
+    This function checks the version of the provided metadata container and applies a series
+    of upgrade handlers to migrate the metadata to the latest version.
+    It starts from the provided version and applies all subsequent handlers in
+    sequence. If the metadata is already in the latest version or the version
+    cannot be determined, appropriate actions are taken.
+
+    Args:
+        fresh_metadata: The metadata dictionary to be upgraded. This dictionary
+        must include container version information that determines which handlers to apply.
+
+    Returns:
+        The upgraded metadata dictionary, after applying all necessary handlers.
+
+    Raises:
+        UnknownModelVersionError: If the metadata container's version is unknown or unsupported.
+    """
+    supplied_version = fresh_metadata[VERSION_FIELD_NAME]
+    start_running_handlers = False
+
+    for k, v in SUPPORTED_CONTAINER_VERSIONS.items():
         if k == supplied_version:
             start_running_handlers = True
         if start_running_handlers:

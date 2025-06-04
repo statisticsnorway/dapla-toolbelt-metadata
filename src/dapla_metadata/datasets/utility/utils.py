@@ -43,11 +43,6 @@ DatadocMetadataType = (
 )
 DatasetType = all_optional_model.Dataset | required_model.Dataset
 OptionalDatadocMetadataType = DatadocMetadataType | None
-ExistingPseudonymizationMetadataType = (
-    all_optional_model.PseudonymizationMetadata
-    | required_model.PseudonymizationMetadata
-    | None
-)
 
 
 def get_timestamp_now() -> datetime.datetime:
@@ -129,7 +124,7 @@ def set_default_values_variables(variables: list) -> None:
         if v.id is None:
             v.id = uuid.uuid4()
         if v.is_personal_data is None:
-            v.is_personal_data = model.IsPersonalData.NOT_PERSONAL_DATA
+            v.is_personal_data = False
         if v.variable_role is None:
             v.variable_role = VariableRole.MEASURE
 
