@@ -58,10 +58,6 @@ class UnknownModelVersionError(Exception):
         return f"Document Version ({self.supplied_version}) of discovered file is not supported"
 
 
-SUPPORTED_CONTAINER_VERSIONS: OrderedDict[str, BackwardsCompatibleContainerVersion] = (
-    OrderedDict()
-)
-
 SUPPORTED_VERSIONS: OrderedDict[str, BackwardsCompatibleVersion] = OrderedDict()
 
 
@@ -85,43 +81,7 @@ class BackwardsCompatibleVersion:
         SUPPORTED_VERSIONS[self.version] = self
 
 
-@dataclass()
-class BackwardsCompatibleContainerVersion:
-    """A version which we support with backwards compatibility.
-
-    This class registers a version and its corresponding handler function
-    for backwards compatibility.
-    """
-
-    version: str
-    handler: Callable[[dict[str, Any]], dict[str, Any]]
-
-    def __post_init__(self) -> None:
-        """Register this version in the supported versions map.
-
-        This method adds the instance to the `SUPPORTED_VERSIONS` dictionary
-        using the version as the key.
-        """
-        SUPPORTED_CONTAINER_VERSIONS[self.version] = self
-
-
 def handle_current_version(supplied_metadata: dict[str, Any]) -> dict[str, Any]:
-    """Handle the current version of the metadata.
-
-    This function returns the supplied metadata unmodified.
-
-    Args:
-        supplied_metadata: The metadata for the current version.
-
-    Returns:
-        The unmodified supplied metadata.
-    """
-    return supplied_metadata
-
-
-def handle_current_container_version(
-    supplied_metadata: dict[str, Any],
-) -> dict[str, Any]:
     """Handle the current version of the metadata.
 
     This function returns the supplied metadata unmodified.
