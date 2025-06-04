@@ -254,12 +254,8 @@ def test_variable_role_default_value(metadata: Datadoc):
     )
 
 
-# TODO: Moved to variable
-# def test_is_personal_data_value(metadata: Datadoc):
-#     assert all(
-#         v.is_personal_data == IsPersonalData.NOT_PERSONAL_DATA.value
-#         for v in metadata.variables
-#     )
+def test_is_personal_data_value(metadata: Datadoc):
+    assert all(not v.is_personal_data for v in metadata.variables)
 
 
 def test_save_file_path_metadata_field(
