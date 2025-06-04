@@ -23,9 +23,6 @@ from dapla_metadata.datasets.model_backwards_compatibility import (
     is_metadata_in_container_structure,
 )
 from dapla_metadata.datasets.model_backwards_compatibility import upgrade_metadata
-from dapla_metadata.datasets.model_backwards_compatibility import (
-    upgrade_metadata_container,
-)
 from dapla_metadata.datasets.model_validation import ValidateDatadocMetadata
 from dapla_metadata.datasets.statistic_subject_mapping import StatisticSubjectMapping
 from dapla_metadata.datasets.utility.constants import (
@@ -411,7 +408,6 @@ class Datadoc:
                 fresh_metadata,
             )
             if is_metadata_in_container_structure(fresh_metadata):
-                fresh_metadata = upgrade_metadata_container(fresh_metadata)
                 self.container = metadata_model.MetadataContainer.model_validate_json(
                     json.dumps(fresh_metadata),
                 )
@@ -582,7 +578,7 @@ class Datadoc:
     def add_pseudo_to_variable(self, variable_short_name: str) -> None:
         """Adds a new pseudo variable to the list of pseudonymized variables.
 
-        Sets is_personal_data to pseudonymized encrypted personal data.
+        Sets is_personal_data to true.
         """
         if self.variables_lookup[variable_short_name] is not None:
             self.variables_lookup[

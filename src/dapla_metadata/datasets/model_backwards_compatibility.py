@@ -232,24 +232,6 @@ def _cast_to_date_type(value_to_update: str | None) -> str | None:
     )
 
 
-def handle_container_version_0_0_1(supplied_metadata: dict[str, Any]) -> dict[str, Any]:
-    """Handle breaking changes for version 0.0.1.
-
-    This function modifies the supplied metadata to accommodate breaking changes
-    introduced in version 1.0.0. Specifically, it removes the 'pseudonymization'
-    section from the metadata container.
-
-    Args:
-        supplied_metadata: The metadata dictionary to be updated.
-
-    Returns:
-        The updated metadata dictionary.
-    """
-    _remove_element_from_model(supplied_metadata, PSEUDONYMIZATION_KEY)
-    supplied_metadata["document_version"] = "1.0.0"
-    return supplied_metadata
-
-
 def convert_is_personal_data(supplied_metadata: dict[str, Any]) -> None:
     """Convert 'is_personal_data' values in the supplied metadata to boolean.
 
@@ -335,6 +317,8 @@ def handle_version_4_0_0(supplied_metadata: dict[str, Any]) -> dict[str, Any]:
     convert_is_personal_data(supplied_metadata)
 
     supplied_metadata["datadoc"]["document_version"] = "5.0.1"
+    _remove_element_from_model(supplied_metadata, PSEUDONYMIZATION_KEY)
+    supplied_metadata["document_version"] = "1.0.0"
     return supplied_metadata
 
 
@@ -643,47 +627,6 @@ def upgrade_metadata(fresh_metadata: dict[str, Any]) -> dict[str, Any]:
     start_running_handlers = False
     # Run all the handlers in order from the supplied version onwards
     for k, v in SUPPORTED_VERSIONS.items():
-        if k == supplied_version:
-            start_running_handlers = True
-        if start_running_handlers:
-            fresh_metadata = v.handler(fresh_metadata)
-    if not start_running_handlers:
-        raise UnknownModelVersionError(supplied_version)
-    return fresh_metadata
-
-
-BackwardsCompatibleContainerVersion(
-    version="0.0.1",
-    handler=handle_container_version_0_0_1,
-)
-BackwardsCompatibleContainerVersion(
-    version="1.0.0", handler=handle_current_container_version
-)
-
-
-def upgrade_metadata_container(fresh_metadata: dict[str, Any]) -> dict[str, Any]:
-    """Upgrade the metadata container to the latest version using registered handlers.
-
-    This function checks the version of the provided metadata container and applies a series
-    of upgrade handlers to migrate the metadata to the latest version.
-    It starts from the provided version and applies all subsequent handlers in
-    sequence. If the metadata is already in the latest version or the version
-    cannot be determined, appropriate actions are taken.
-
-    Args:
-        fresh_metadata: The metadata dictionary to be upgraded. This dictionary
-        must include container version information that determines which handlers to apply.
-
-    Returns:
-        The upgraded metadata dictionary, after applying all necessary handlers.
-
-    Raises:
-        UnknownModelVersionError: If the metadata container's version is unknown or unsupported.
-    """
-    supplied_version = fresh_metadata[VERSION_FIELD_NAME]
-    start_running_handlers = False
-
-    for k, v in SUPPORTED_CONTAINER_VERSIONS.items():
         if k == supplied_version:
             start_running_handlers = True
         if start_running_handlers:

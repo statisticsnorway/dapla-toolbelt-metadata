@@ -10,9 +10,6 @@ from dapla_metadata.datasets.model_backwards_compatibility import (
     UnknownModelVersionError,
 )
 from dapla_metadata.datasets.model_backwards_compatibility import add_container
-from dapla_metadata.datasets.model_backwards_compatibility import (
-    handle_container_version_0_0_1,
-)
 from dapla_metadata.datasets.model_backwards_compatibility import handle_version_2_2_0
 from dapla_metadata.datasets.model_backwards_compatibility import handle_version_3_3_0
 from dapla_metadata.datasets.model_backwards_compatibility import handle_version_4_0_0
@@ -93,21 +90,6 @@ def test_handle_version_4_0_0() -> None:
         {"keyId": "ssb-common-key-1"}
     ]
     assert upgraded_metadata["datadoc"]["variables"][1]["pseudonymization"] is None
-
-
-def test_handle_container_version_0_0_1() -> None:
-    pydir: Path = Path(__file__).resolve().parent
-    rootdir: Path = pydir.parent.parent
-    existing_metadata_file: Path = (
-        rootdir
-        / TEST_PSEUDO_DIRECTORY
-        / "dataset_and_pseudo"
-        / "container_v_0_0_1_person_data_v1__DOC.json"
-    )
-    with existing_metadata_file.open(mode="r", encoding="utf-8") as file:
-        fresh_metadata = json.load(file)
-    upgraded_metadata = handle_container_version_0_0_1(fresh_metadata)
-    assert "pseudonymization" not in upgraded_metadata
 
 
 def test_existing_metadata_unknown_model_version():
