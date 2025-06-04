@@ -928,7 +928,7 @@ def test_check_ready_to_merge_inconsistent_variable_data_types(
     [TEST_PSEUDO_DIRECTORY / "dataset_and_pseudo"],
 )
 def test_add_pseudo_variable(
-    existing_metadata_file: Path,
+    existing_metadata_file: Path,  # noqa: ARG001
     metadata: Datadoc,
 ):
     test_variable = "sykepenger"
@@ -942,7 +942,7 @@ def test_add_pseudo_variable(
     [TEST_PSEUDO_DIRECTORY / "dataset_and_pseudo"],
 )
 def test_add_pseudo_variable_non_existent_variable_name(
-    existing_metadata_file: Path,
+    existing_metadata_file: Path,  # noqa: ARG001
     metadata: Datadoc,
 ):
     with pytest.raises(KeyError):
@@ -954,7 +954,7 @@ def test_add_pseudo_variable_non_existent_variable_name(
     [TEST_PSEUDO_DIRECTORY / "dataset_and_pseudo"],
 )
 def test_existing_metadata_file_update_pseudonymization(
-    existing_metadata_file: Path,
+    existing_metadata_file: Path,  # noqa: ARG001
     metadata: Datadoc,
 ):
     metadata.add_pseudo_to_variable("pers_id")
@@ -970,7 +970,7 @@ def test_existing_metadata_file_update_pseudonymization(
     [TEST_PSEUDO_DIRECTORY / "dataset_and_pseudo"],
 )
 def test_remove_pseudo_variable(
-    existing_metadata_file: Path,
+    existing_metadata_file: Path,  # noqa: ARG001
     metadata: Datadoc,
 ):
     test_variable = "alm_inntekt"
@@ -984,7 +984,7 @@ def test_remove_pseudo_variable(
     [TEST_PSEUDO_DIRECTORY / "dataset_and_pseudo"],
 )
 def test_remove_pseudo_variable_non_existent_variable_name(
-    existing_metadata_file: Path,
+    existing_metadata_file: Path,  # noqa: ARG001
     metadata: Datadoc,
 ):
     with pytest.raises(KeyError):
