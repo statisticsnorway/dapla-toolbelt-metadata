@@ -109,15 +109,15 @@ def set_default_values_variables(variables: list) -> None:
         variables: A list of variable objects to set default values on.
 
     Example:
-        >>> variables = [model.Variable(short_name="pers",id=None, is_personal_data = None), model.Variable(short_name="fnr",id='9662875c-c245-41de-b667-12ad2091a1ee', is_personal_data='PSEUDONYMISED_ENCRYPTED_PERSONAL_DATA')]
+        >>> variables = [model.Variable(short_name="pers",id=None, is_personal_data = None), model.Variable(short_name="fnr",id='9662875c-c245-41de-b667-12ad2091a1ee', is_personal_data=True)]
         >>> set_default_values_variables(variables)
         >>> isinstance(variables[0].id, uuid.UUID)
         True
 
-        >>> variables[1].is_personal_data == 'PSEUDONYMISED_ENCRYPTED_PERSONAL_DATA'
+        >>> variables[1].is_personal_data == True
         True
 
-        >>> variables[0].is_personal_data == 'NOT_PERSONAL_DATA'
+        >>> variables[0].is_personal_data == False
         True
     """
     for v in variables:
