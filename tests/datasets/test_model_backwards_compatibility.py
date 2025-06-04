@@ -28,13 +28,9 @@ BACKWARDS_COMPATIBLE_VERSION_DIRECTORIES = [
     d for d in TEST_COMPATIBILITY_DIRECTORY.iterdir() if d.is_dir()
 ]
 
-metadata_files = [
-    json_file
-    for version_dir in TEST_COMPATIBILITY_DIRECTORY.iterdir()
-    if version_dir.is_dir()
-    for json_file in version_dir.glob("*.json")
+BACKWARDS_COMPATIBLE_VERSION_NAMES = [
+    d.stem for d in BACKWARDS_COMPATIBLE_VERSION_DIRECTORIES
 ]
-metadata_ids = [f"{file.parent.stem}::{file.name}" for file in metadata_files]
 
 
 def test_existing_metadata_current_model_version():
@@ -120,7 +116,11 @@ def test_existing_metadata_unknown_model_version():
         upgrade_metadata(fresh_metadata)
 
 
-@pytest.mark.parametrize("existing_metadata_file", metadata_files, ids=metadata_ids)
+@pytest.mark.parametrize(
+    "existing_metadata_path",
+    BACKWARDS_COMPATIBLE_VERSION_DIRECTORIES,
+    ids=BACKWARDS_COMPATIBLE_VERSION_NAMES,
+)
 def test_backwards_compatibility(
     existing_metadata_file: Path,
     metadata: Datadoc,
