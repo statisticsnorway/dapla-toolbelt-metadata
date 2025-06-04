@@ -956,6 +956,7 @@ def test_existing_metadata_file_update_pseudonymization(
     metadata.add_pseudo_to_variable("pers_id")
     variable = metadata.variables_lookup["pers_id"]
 
+    assert variable.pseudonymization is not None
     assert variable.pseudonymization.encryption_algorithm is None
     variable.pseudonymization.encryption_algorithm = "new_encryption_algorithm"
     assert variable.pseudonymization.encryption_algorithm == "new_encryption_algorithm"
