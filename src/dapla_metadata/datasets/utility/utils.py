@@ -17,7 +17,6 @@ from datadoc_model import model
 from datadoc_model.all_optional.model import Assessment
 from datadoc_model.all_optional.model import DataSetState
 from datadoc_model.all_optional.model import VariableRole
-from typing_extensions import TypedDict
 
 from dapla_metadata.dapla import user_info
 from dapla_metadata.datasets.utility.constants import (
@@ -522,13 +521,3 @@ def merge_variables(
                 # If there is no existing metadata for this variable, we just use what we have extracted
                 merged_metadata.variables.append(extracted)
     return merged_metadata
-
-
-PseudonymizationFields = TypedDict(
-    "PseudonymizationFields",
-    {
-        k: v.annotation
-        for k, v in all_optional_model.Pseudonymization.model_fields.items()
-    },
-    total=False,
-)

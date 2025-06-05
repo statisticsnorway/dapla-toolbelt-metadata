@@ -991,7 +991,7 @@ def test_remove_pseudo_variable(
     metadata: Datadoc,
 ):
     test_variable = "alm_inntekt"
-    metadata.remove_pseudo_from_variable(test_variable)
+    metadata.remove_pseudonymization(test_variable)
     assert metadata.variables_lookup[test_variable].is_personal_data is False
     assert metadata.variables_lookup[test_variable].pseudonymization is None
 
@@ -1005,4 +1005,4 @@ def test_remove_pseudo_variable_non_existent_variable_name(
     metadata: Datadoc,
 ):
     with pytest.raises(KeyError):
-        metadata.remove_pseudo_from_variable("fnr")
+        metadata.remove_pseudonymization("fnr")
