@@ -10,25 +10,34 @@ from dapla_metadata.datasets.model_backwards_compatibility import (
     UnknownModelVersionError,
 )
 from dapla_metadata.datasets.model_backwards_compatibility import add_container
+from dapla_metadata.datasets.model_backwards_compatibility import (
+    convert_is_personal_data,
+)
+from dapla_metadata.datasets.model_backwards_compatibility import (
+    copy_pseudonymization_metadata,
+)
 from dapla_metadata.datasets.model_backwards_compatibility import handle_version_2_2_0
 from dapla_metadata.datasets.model_backwards_compatibility import handle_version_3_3_0
+from dapla_metadata.datasets.model_backwards_compatibility import handle_version_4_0_0
 from dapla_metadata.datasets.model_backwards_compatibility import (
     is_metadata_in_container_structure,
 )
 from dapla_metadata.datasets.model_backwards_compatibility import upgrade_metadata
 from tests.datasets.constants import TEST_COMPATIBILITY_DIRECTORY
 from tests.datasets.constants import TEST_EXISTING_METADATA_FILE_NAME
+from tests.datasets.constants import TEST_PSEUDO_DIRECTORY
 
 BACKWARDS_COMPATIBLE_VERSION_DIRECTORIES = [
     d for d in TEST_COMPATIBILITY_DIRECTORY.iterdir() if d.is_dir()
 ]
+
 BACKWARDS_COMPATIBLE_VERSION_NAMES = [
     d.stem for d in BACKWARDS_COMPATIBLE_VERSION_DIRECTORIES
 ]
 
 
 def test_existing_metadata_current_model_version():
-    current_model_version = "4.0.0"
+    current_model_version = "5.0.1"
     fresh_metadata = {"document_version": current_model_version}
     upgraded_metadata = upgrade_metadata(fresh_metadata)
     assert upgraded_metadata == fresh_metadata
@@ -68,6 +77,28 @@ def test_handle_version_3_3_0() -> None:
     )
 
 
+def test_handle_version_4_0_0() -> None:
+    pydir: Path = Path(__file__).resolve().parent
+    rootdir: Path = pydir.parent.parent
+    existing_metadata_file: Path = (
+        rootdir
+        / TEST_PSEUDO_DIRECTORY
+        / "dataset_and_pseudo"
+        / "v0_4_0_person_data_v1__DOC.json"
+    )
+    with existing_metadata_file.open(mode="r", encoding="utf-8") as file:
+        fresh_metadata = json.load(file)
+    upgraded_metadata = handle_version_4_0_0(fresh_metadata)
+    pseudo_field = upgraded_metadata["datadoc"]["variables"][0]["pseudonymization"]
+    assert pseudo_field["encryption_algorithm"] == "TINK-DAEAD"
+    assert pseudo_field["encryption_key_reference"] == "ssb-common-key-1"
+    assert pseudo_field["pseudonymization_time"] == "2010-09-05"
+    assert pseudo_field["encryption_algorithm_parameters"] == [
+        {"keyId": "ssb-common-key-1"}
+    ]
+    assert upgraded_metadata["datadoc"]["variables"][1]["pseudonymization"] is None
+
+
 def test_existing_metadata_unknown_model_version():
     fresh_metadata = {"document_version": "0.27.65"}
     with pytest.raises(UnknownModelVersionError):
@@ -103,3 +134,54 @@ def test_add_container():
     assert doc_with_container["document_version"] == "0.0.1"
     assert doc_with_container["datadoc"]["document_version"] == "2.1.0"
     assert "pseudonymization" in doc_with_container
+
+
+@pytest.mark.parametrize(
+    ("input_value", "expected_result"),
+    [
+        ("NON_PSEUDONYMISED_ENCRYPTED_PERSONAL_DATA", True),
+        ("PSEUDONYMISED_ENCRYPTED_PERSONAL_DATA", True),
+        ("NOT_PERSONAL_DATA", False),
+        (None, None),
+        (False, False),
+        (True, True),
+    ],
+)
+def test_convert_is_personal_data(input_value, expected_result):
+    supplied_metadata = {"datadoc": {"variables": [{"is_personal_data": input_value}]}}
+
+    convert_is_personal_data(supplied_metadata)
+
+    assert (
+        supplied_metadata["datadoc"]["variables"][0]["is_personal_data"]
+        == expected_result
+    )
+
+
+def test_copy_pseudonymization_metadata_shortname_mismatch():
+    supplied_metadata = {
+        "datadoc": {"variables": [{"short_name": "pers_id"}]},
+        "pseudonymization": {
+            "document_version": "0.1.0",
+            "pseudo_dataset": None,
+            "pseudo_variables": [
+                {
+                    "short_name": "fnr",
+                    "data_element_path": "fnr",
+                    "data_element_pattern": "**/fnr",
+                    "stable_identifier_type": None,
+                    "stable_identifier_version": None,
+                    "encryption_algorithm": "TINK-DAEAD",
+                    "encryption_key_reference": "ssb-common-key-1",
+                    "encryption_algorithm_parameters": [{"keyId": "ssb-common-key-1"}],
+                    "source_variable": None,
+                    "source_variable_datatype": None,
+                }
+            ],
+        },
+    }
+
+    copy_pseudonymization_metadata(supplied_metadata)
+
+    assert len(supplied_metadata["datadoc"]["variables"]) == 1
+    assert supplied_metadata["datadoc"]["variables"][0]["pseudonymization"] is None
