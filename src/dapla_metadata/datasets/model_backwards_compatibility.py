@@ -226,15 +226,18 @@ def copy_pseudonymization_metadata(supplied_metadata: dict[str, Any]) -> None:
         - encryption_key_reference
         - encryption_algorithm_parameters
 
+    From the pseudo_dataset the value dataset_pseudo_time is copied to each variable as pseudonymization_time.
+
     Args:
         supplied_metadata: The metadata dictionary to be updated.
     """
     pseudo_vars = supplied_metadata.get(PSEUDONYMIZATION_KEY, {}).get(
         "pseudo_variables", []
     )
-    pseudo_dataset = supplied_metadata.get(PSEUDONYMIZATION_KEY, {}).get(
-        "pseudo_dataset", []
+    pseudo_dataset = (
+        supplied_metadata.get(PSEUDONYMIZATION_KEY, {}).get("pseudo_dataset") or {}
     )
+    pseudo_time = pseudo_dataset.get("dataset_pseudo_time", None)
     datadoc_vars = supplied_metadata.get("datadoc", {}).get("variables", [])
     pseudo_lookup = {var.get("short_name"): var for var in pseudo_vars}
 
@@ -254,10 +257,7 @@ def copy_pseudonymization_metadata(supplied_metadata: dict[str, Any]) -> None:
                 "encryption_algorithm_parameters",
             ]:
                 variable[PSEUDONYMIZATION_KEY][field] = pseudo_var[field]
-
-            variable[PSEUDONYMIZATION_KEY]["pseudonymization_time"] = (
-                pseudo_dataset.get("dataset_pseudo_time", None)
-            )
+            variable[PSEUDONYMIZATION_KEY]["pseudonymization_time"] = pseudo_time
 
         else:
             variable[PSEUDONYMIZATION_KEY] = None
