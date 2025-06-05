@@ -575,22 +575,34 @@ class Datadoc:
         ) + num_obligatory_variables_fields_completed(self.variables)
         return calculate_percentage(num_set_fields, num_all_fields)
 
-    def add_pseudo_to_variable(self, variable_short_name: str) -> None:
-        """Adds a new pseudo variable to the list of pseudonymized variables.
+    def add_pseudonymization(
+        self,
+        variable_short_name: str,
+        pseudonymization: all_optional_model.Pseudonymization | None = None,
+    ) -> None:
+        """Adds a new pseudo variable to the list of pseudonymized variables also sets is_personal_data to true.
 
-        Sets is_personal_data to true.
+        If there is no pseudonymization supplied an empty Pseudonymization structure will be added to the model.
+
+        Args:
+            variable_short_name: The short name for the variable that one wants to update the pseudo for.
+            pseudonymization: The updated pseudonymization.
+
         """
-        if self.variables_lookup[variable_short_name] is not None:
-            self.variables_lookup[
-                variable_short_name
-            ].pseudonymization = all_optional_model.Pseudonymization()
-            self.variables_lookup[variable_short_name].is_personal_data = True
+        variable = self.variables_lookup[variable_short_name]
+        variable.pseudonymization = (
+            pseudonymization or all_optional_model.Pseudonymization()
+        )
+        variable.is_personal_data = True
 
-    def remove_pseudo_from_variable(self, variable_short_name: str) -> None:
+    def remove_pseudonymization(self, variable_short_name: str) -> None:
         """Removes a pseudo variable by using the shortname.
 
         Updates the pseudo variable lookup by creating a new one.
         Sets is_personal_data to non pseudonymized encrypted personal data.
+
+        Args:
+            variable_short_name: The short name for the variable that one wants to remove the pseudo for.
         """
         if self.variables_lookup[variable_short_name].pseudonymization is not None:
             self.variables_lookup[variable_short_name].pseudonymization = None

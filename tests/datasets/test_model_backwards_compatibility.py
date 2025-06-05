@@ -10,6 +10,12 @@ from dapla_metadata.datasets.model_backwards_compatibility import (
     UnknownModelVersionError,
 )
 from dapla_metadata.datasets.model_backwards_compatibility import add_container
+from dapla_metadata.datasets.model_backwards_compatibility import (
+    convert_is_personal_data,
+)
+from dapla_metadata.datasets.model_backwards_compatibility import (
+    copy_pseudonymization_metadata,
+)
 from dapla_metadata.datasets.model_backwards_compatibility import handle_version_2_2_0
 from dapla_metadata.datasets.model_backwards_compatibility import handle_version_3_3_0
 from dapla_metadata.datasets.model_backwards_compatibility import handle_version_4_0_0
@@ -127,3 +133,54 @@ def test_add_container():
     assert doc_with_container["document_version"] == "0.0.1"
     assert doc_with_container["datadoc"]["document_version"] == "2.1.0"
     assert "pseudonymization" in doc_with_container
+
+
+@pytest.mark.parametrize(
+    ("input_value", "expected_result"),
+    [
+        ("NON_PSEUDONYMISED_ENCRYPTED_PERSONAL_DATA", True),
+        ("PSEUDONYMISED_ENCRYPTED_PERSONAL_DATA", True),
+        ("NOT_PERSONAL_DATA", False),
+        (None, None),
+        (False, False),
+        (True, True),
+    ],
+)
+def test_convert_is_personal_data(input_value, expected_result):
+    supplied_metadata = {"datadoc": {"variables": [{"is_personal_data": input_value}]}}
+
+    convert_is_personal_data(supplied_metadata)
+
+    assert (
+        supplied_metadata["datadoc"]["variables"][0]["is_personal_data"]
+        == expected_result
+    )
+
+
+def test_copy_pseudonymization_metadata_shortname_mismatch():
+    supplied_metadata = {
+        "datadoc": {"variables": [{"short_name": "pers_id"}]},
+        "pseudonymization": {
+            "document_version": "0.1.0",
+            "pseudo_dataset": None,
+            "pseudo_variables": [
+                {
+                    "short_name": "fnr",
+                    "data_element_path": "fnr",
+                    "data_element_pattern": "**/fnr",
+                    "stable_identifier_type": None,
+                    "stable_identifier_version": None,
+                    "encryption_algorithm": "TINK-DAEAD",
+                    "encryption_key_reference": "ssb-common-key-1",
+                    "encryption_algorithm_parameters": [{"keyId": "ssb-common-key-1"}],
+                    "source_variable": None,
+                    "source_variable_datatype": None,
+                }
+            ],
+        },
+    }
+
+    copy_pseudonymization_metadata(supplied_metadata)
+
+    assert len(supplied_metadata["datadoc"]["variables"]) == 1
+    assert supplied_metadata["datadoc"]["variables"][0]["pseudonymization"] is None

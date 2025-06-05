@@ -264,6 +264,8 @@ def handle_version_4_0_0(supplied_metadata: dict[str, Any]) -> dict[str, Any]:
     - Copies pseudonymization metadata if pseudonymization is enabled.
     - Converts the 'is_personal_data' fields to be a bool.
     - Updates the 'document_version' field in the 'datadoc' section to "5.0.1".
+    - All 'pseudonymization' from the container is removed.
+    - It also updates the container version to 1.0.0 from 0.0.1
 
     Args:
         supplied_metadata: The metadata dictionary to be updated.
