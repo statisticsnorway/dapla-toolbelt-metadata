@@ -25,7 +25,6 @@ import arrow
 
 logger = logging.getLogger(__name__)
 
-
 if TYPE_CHECKING:
     from collections.abc import Callable
 
