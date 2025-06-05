@@ -378,7 +378,9 @@
   },
     "pseudonymization": {
     "document_version": "0.1.0",
-    "pseudo_dataset": null,
+    "pseudo_dataset": {
+      "dataset_pseudo_time": "2010-09-05"
+    },
     "pseudo_variables": [
       {
         "short_name": "pers_id",

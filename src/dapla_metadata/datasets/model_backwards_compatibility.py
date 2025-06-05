@@ -232,6 +232,9 @@ def copy_pseudonymization_metadata(supplied_metadata: dict[str, Any]) -> None:
     pseudo_vars = supplied_metadata.get(PSEUDONYMIZATION_KEY, {}).get(
         "pseudo_variables", []
     )
+    pseudo_dataset = supplied_metadata.get(PSEUDONYMIZATION_KEY, {}).get(
+        "pseudo_dataset", []
+    )
     datadoc_vars = supplied_metadata.get("datadoc", {}).get("variables", [])
     pseudo_lookup = {var.get("short_name"): var for var in pseudo_vars}
 
@@ -251,6 +254,11 @@ def copy_pseudonymization_metadata(supplied_metadata: dict[str, Any]) -> None:
                 "encryption_algorithm_parameters",
             ]:
                 variable[PSEUDONYMIZATION_KEY][field] = pseudo_var[field]
+
+            variable[PSEUDONYMIZATION_KEY]["pseudonymization_time"] = (
+                pseudo_dataset.get("dataset_pseudo_time", None)
+            )
+
         else:
             variable[PSEUDONYMIZATION_KEY] = None
 
@@ -292,7 +300,7 @@ def handle_version_3_3_0(supplied_metadata: dict[str, Any]) -> dict[str, Any]:
     and updates the 'document_version' field to "4.0.0".
 
     Version 4.0.0 used an enum for is_personal_data, however this was changed to a bool again for version 5.0.1.
-    We skip setting the enum here and just set the value it was.
+    We skip setting the enum here and just keep the value it has.
 
     Args:
         supplied_metadata: The metadata dictionary to be updated.

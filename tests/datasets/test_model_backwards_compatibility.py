@@ -92,6 +92,7 @@ def test_handle_version_4_0_0() -> None:
     pseudo_field = upgraded_metadata["datadoc"]["variables"][0]["pseudonymization"]
     assert pseudo_field["encryption_algorithm"] == "TINK-DAEAD"
     assert pseudo_field["encryption_key_reference"] == "ssb-common-key-1"
+    assert pseudo_field["pseudonymization_time"] == "2010-09-05"
     assert pseudo_field["encryption_algorithm_parameters"] == [
         {"keyId": "ssb-common-key-1"}
     ]
