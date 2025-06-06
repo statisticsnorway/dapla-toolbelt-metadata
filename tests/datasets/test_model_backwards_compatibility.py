@@ -84,7 +84,7 @@ def test_handle_version_4_0_0() -> None:
         rootdir
         / TEST_PSEUDO_DIRECTORY
         / "dataset_and_pseudo"
-        / "v0_4_0_person_data_v1__DOC.json"
+        / "v4_0_0_person_data_v1__DOC.json"
     )
     with existing_metadata_file.open(mode="r", encoding="utf-8") as file:
         fresh_metadata = json.load(file)
@@ -97,6 +97,21 @@ def test_handle_version_4_0_0() -> None:
         {"keyId": "ssb-common-key-1"}
     ]
     assert upgraded_metadata["datadoc"]["variables"][1]["pseudonymization"] is None
+
+
+def test_handle_version_4_0_0_without_pseudo() -> None:
+    pydir: Path = Path(__file__).resolve().parent
+    rootdir: Path = pydir.parent.parent
+    existing_metadata_file: Path = (
+        rootdir
+        / TEST_PSEUDO_DIRECTORY
+        / "dataset_and_pseudo"
+        / "no_pseudo_v4_0_0_person_data_v1__DOC.json"
+    )
+    with existing_metadata_file.open(mode="r", encoding="utf-8") as file:
+        fresh_metadata = json.load(file)
+    upgraded_metadata = handle_version_4_0_0(fresh_metadata)
+    assert upgraded_metadata["datadoc"]["document_version"] == "5.0.1"
 
 
 def test_existing_metadata_unknown_model_version():

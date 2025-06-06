@@ -280,7 +280,7 @@ def handle_version_4_0_0(supplied_metadata: dict[str, Any]) -> dict[str, Any]:
     Returns:
         The updated metadata dictionary.
     """
-    if supplied_metadata[PSEUDONYMIZATION_KEY]:
+    if supplied_metadata.get(PSEUDONYMIZATION_KEY):
         copy_pseudonymization_metadata(supplied_metadata)
 
     convert_is_personal_data(supplied_metadata)
