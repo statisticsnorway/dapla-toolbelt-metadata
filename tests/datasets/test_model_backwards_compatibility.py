@@ -111,7 +111,7 @@ def test_handle_version_4_0_0_without_pseudo() -> None:
     with existing_metadata_file.open(mode="r", encoding="utf-8") as file:
         fresh_metadata = json.load(file)
     upgraded_metadata = handle_version_4_0_0(fresh_metadata)
-    assert upgraded_metadata["datadoc"]["document_version"] == "4.0.0"
+    assert upgraded_metadata["datadoc"]["document_version"] == "5.0.1"
 
 
 def test_existing_metadata_unknown_model_version():
