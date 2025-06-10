@@ -19,7 +19,7 @@ from dapla_metadata.variable_definitions._utils.config import get_workspace_dir
     "env",
     [DaplaEnvironment.PROD.value],
 )
-def test_vardef_host_unavailable(monkeypatch: pytest.MonkeyPatch, env: str):
+def test_vardef_host_prod(monkeypatch: pytest.MonkeyPatch, env: str):
     monkeypatch.setenv(DAPLA_ENVIRONMENT, env)
     assert get_vardef_host() == VARDEF_HOST_PROD
 
