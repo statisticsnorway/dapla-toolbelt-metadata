@@ -16,17 +16,11 @@ from dapla_metadata.variable_definitions._utils.config import get_workspace_dir
 
 @pytest.mark.parametrize(
     "env",
-    [DaplaEnvironment.PROD.value],
-)
-def test_vardef_host_unavailable(monkeypatch: pytest.MonkeyPatch, env: str):
-    monkeypatch.setenv(DAPLA_ENVIRONMENT, env)
-    with pytest.raises(NotImplementedError):
-        get_vardef_host()
-
-
-@pytest.mark.parametrize(
-    "env",
-    [DaplaEnvironment.TEST.value, DaplaEnvironment.DEV.value],
+    [
+        DaplaEnvironment.PROD.value,
+        DaplaEnvironment.TEST.value,
+        DaplaEnvironment.DEV.value,
+    ],
 )
 def test_vardef_host_test(monkeypatch: pytest.MonkeyPatch, env: str):
     monkeypatch.setenv(DAPLA_ENVIRONMENT, env)
