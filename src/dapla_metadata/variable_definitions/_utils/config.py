@@ -7,6 +7,7 @@ from dapla_metadata.variable_definitions._generated.vardef_client.configuration 
     Configuration,
 )
 
+VARDEF_HOST_PROD = "https://metadata.intern.ssb.no"
 VARDEF_HOST_TEST = "https://metadata.intern.test.ssb.no"
 WORKSPACE_DIR = "WORKSPACE_DIR"
 
@@ -36,8 +37,7 @@ def get_vardef_host() -> str:
     """
     match get_dapla_environment():
         case DaplaEnvironment.PROD:
-            msg = "Vardef is not available in prod."
-            raise NotImplementedError(msg)
+            return VARDEF_HOST_PROD
         case DaplaEnvironment.TEST:
             return VARDEF_HOST_TEST
         case DaplaEnvironment.DEV:
