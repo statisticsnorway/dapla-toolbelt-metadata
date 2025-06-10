@@ -4,6 +4,7 @@ from dapla_metadata._shared.config import DAPLA_ENVIRONMENT
 from dapla_metadata._shared.config import DAPLA_GROUP_CONTEXT
 from dapla_metadata._shared.config import OIDC_TOKEN
 from dapla_metadata._shared.enums import DaplaEnvironment
+from dapla_metadata.variable_definitions._utils.config import VARDEF_HOST_PROD
 from dapla_metadata.variable_definitions._utils.config import VARDEF_HOST_TEST
 from dapla_metadata.variable_definitions._utils.config import WORKSPACE_DIR
 from dapla_metadata.variable_definitions._utils.config import get_active_group
@@ -18,15 +19,17 @@ from dapla_metadata.variable_definitions._utils.config import get_workspace_dir
     "env",
     [DaplaEnvironment.PROD.value],
 )
-def test_vardef_host_unavailable(monkeypatch: pytest.MonkeyPatch, env: str):
+def test_vardef_host_prod(monkeypatch: pytest.MonkeyPatch, env: str):
     monkeypatch.setenv(DAPLA_ENVIRONMENT, env)
-    with pytest.raises(NotImplementedError):
-        get_vardef_host()
+    assert get_vardef_host() == VARDEF_HOST_PROD
 
 
 @pytest.mark.parametrize(
     "env",
-    [DaplaEnvironment.TEST.value, DaplaEnvironment.DEV.value],
+    [
+        DaplaEnvironment.TEST.value,
+        DaplaEnvironment.DEV.value,
+    ],
 )
 def test_vardef_host_test(monkeypatch: pytest.MonkeyPatch, env: str):
     monkeypatch.setenv(DAPLA_ENVIRONMENT, env)
