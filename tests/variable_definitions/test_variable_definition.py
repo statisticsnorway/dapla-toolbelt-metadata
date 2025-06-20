@@ -1,3 +1,4 @@
+import contextlib
 from pathlib import Path
 from unittest.mock import MagicMock
 from unittest.mock import patch
@@ -17,6 +18,8 @@ from dapla_metadata.variable_definitions._generated.vardef_client.models.validit
 from dapla_metadata.variable_definitions._generated.vardef_client.models.variable_status import (
     VariableStatus,
 )
+from dapla_metadata.variable_definitions._utils._client import VardefClient
+from dapla_metadata.variable_definitions.exceptions import PublishingBlockedError
 from dapla_metadata.variable_definitions.exceptions import VardefFileError
 from dapla_metadata.variable_definitions.vardef import Vardef
 from dapla_metadata.variable_definitions.variable_definition import VariableDefinition
@@ -365,6 +368,53 @@ def test_publish_methods(
         mock_create_patch.assert_called_once_with(
             Patch(variable_status=VariableStatus.PUBLISHED_EXTERNAL),
         )
+
+
+@pytest.mark.parametrize("method_name", ["publish_internal", "publish_external"])
+@pytest.mark.parametrize(
+    ("mocked_host", "should_raise"),
+    [
+        ("https://metadata.intern.ssb.no", True),
+        ("https://metadata.intern.test.ssb.no", False),
+    ],
+)
+@pytest.mark.parametrize(("initial_status"), list(VariableStatus))
+@patch.object(VariableDefinition, "update_draft")
+@patch.object(VariableDefinition, "create_patch")
+@patch("dapla_metadata.variable_definitions._utils._client.VardefClient.get_config")
+def test_blocked_publish_methods(
+    mock_get_config: MagicMock,
+    mock_create_patch: MagicMock,  # noqa: ARG001
+    mock_update_draft: MagicMock,  # noqa: ARG001
+    method_name: str,
+    mocked_host: str,
+    should_raise: bool,
+    variable_definition: VariableDefinition,
+    initial_status: VariableStatus,
+):
+    mock_config = MagicMock()
+    mock_config.host = mocked_host
+    mock_get_config.return_value = mock_config
+
+    client = VardefClient()
+    config = client.get_config()
+
+    assert config.host == mocked_host
+
+    variable_definition.variable_status = initial_status
+    method = getattr(variable_definition, method_name)
+
+    if should_raise:
+        with pytest.raises(
+            PublishingBlockedError, match="Publishing blocked: Prod is blocked"
+        ):
+            method()
+    else:
+        try:
+            method()
+        except ValueError:
+            # This is expected for invalid statuses
+            contextlib.suppress(ValueError)
 
 
 def test_str(variable_definition):
