@@ -15,6 +15,7 @@ from dapla_metadata.variable_definitions._generated.vardef_client.exceptions imp
 from dapla_metadata.variable_definitions._generated.vardef_client.exceptions import (
     UnauthorizedException,
 )
+from dapla_metadata.variable_definitions._utils._client import VardefClient
 
 # Use MappingProxyType so the dict is immutable
 STATUS_EXPLANATIONS: MappingProxyType[HTTPStatus | None, str] = MappingProxyType(
@@ -192,5 +193,47 @@ def vardef_file_error_handler(method):  # noqa: ANN201, ANN001
         except NotADirectoryError as e:
             msg = f"Path is not a directory: {method_kwargs.get('file_path', 'unknown file path')}. Original error: {e!s}"
             raise VardefFileError(msg) from e
+
+    return _impl
+
+
+class PublishingBlockedError(RuntimeError):
+    """Custom exception for handling publishing is not allowed in prod environment.
+
+    Attributes:
+        message (str): Message describing the error.
+    """
+
+    def __init__(self, message: str, *args) -> None:  # noqa: ANN002
+        """Accepting the message and any additional arguments."""
+        super().__init__(*args)
+        self.message = message
+        self.args = args
+
+    def __str__(self) -> str:
+        """Returning a custom string representation of the exception."""
+        return f"Publishing blocked: {self.message}"
+
+
+def publishing_blocked_error_handler(method):  # noqa: ANN201, ANN001
+    """Decorator for handling exceptions publish variable definitions."""
+
+    @wraps(method)
+    def _impl(*method_args, **method_kwargs):  # noqa: ANN002, ANN003
+        vardef_prod = "https://metadata.intern.ssb.no"
+        try:
+            client = VardefClient()
+            host = client.get_config().host
+        except VardefClientError as e:
+            msg = f"Failed to get VardefClient config: {e}"
+            raise RuntimeError(msg) from e
+
+        if host == vardef_prod:
+            msg = "Prod is blocked"
+            raise PublishingBlockedError(msg)
+        return method(
+            *method_args,
+            **method_kwargs,
+        )
 
     return _impl
