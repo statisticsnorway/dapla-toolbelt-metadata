@@ -413,7 +413,7 @@ def test_blocked_publish_methods(
         try:
             method()
         except ValueError:
-            # This is expected for invalid statuses
+            # Ignore other exceptions for publishing
             contextlib.suppress(ValueError)
 
 
