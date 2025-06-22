@@ -465,8 +465,9 @@ def test_block_publish_methods(
 
     client = VardefClient()
     config = client.get_config()
-
+    assert config is not None
     assert config.host == mocked_host
+
     variable_definition.variable_status = initial_status
 
     method = getattr(variable_definition, method_name)
@@ -528,7 +529,7 @@ def test_block_update_variable_status(
 
     client = VardefClient()
     config = client.get_config()
-
+    assert config is not None
     assert config.host == mocked_host
 
     variable_definition.variable_status = VariableStatus.DRAFT
