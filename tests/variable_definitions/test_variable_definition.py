@@ -19,6 +19,11 @@ from dapla_metadata.variable_definitions._generated.vardef_client.models.variabl
     VariableStatus,
 )
 from dapla_metadata.variable_definitions._utils._client import VardefClient
+from dapla_metadata.variable_definitions._utils.constants import (
+    PUBLISHING_BLOCKED_ERROR_MESSAGE,
+)
+from dapla_metadata.variable_definitions._utils.constants import VARDEF_PROD_URL
+from dapla_metadata.variable_definitions._utils.constants import VARDEF_TEST_URL
 from dapla_metadata.variable_definitions.exceptions import PublishingBlockedError
 from dapla_metadata.variable_definitions.exceptions import VardefFileError
 from dapla_metadata.variable_definitions.vardef import Vardef
@@ -405,7 +410,7 @@ def test_block_publish_methods(
     method = getattr(variable_definition, method_name)
     if should_raise:
         with pytest.raises(
-            PublishingBlockedError, match="Publishing blocked: Prod is blocked"
+            PublishingBlockedError, match=PUBLISHING_BLOCKED_ERROR_MESSAGE
         ):
             method()
         mock_update_draft.assert_not_called()
@@ -414,7 +419,7 @@ def test_block_publish_methods(
     else:
         try:
             method()
-            assert mock_update_draft.called() or mock_create_patch.called()
+            assert mock_update_draft.called or mock_create_patch.called
         except ValueError:
             # Ignore other exceptions for publishing
             contextlib.suppress(ValueError)
@@ -424,23 +429,24 @@ def test_block_publish_methods(
     ("mocked_host", "update_status", "should_raise"),
     [
         (
-            "https://metadata.intern.ssb.no",
+            VARDEF_PROD_URL,
             VariableStatus.PUBLISHED_INTERNAL.value,
             True,
         ),
         (
-            "https://metadata.intern.ssb.no",
+            VARDEF_PROD_URL,
             VariableStatus.PUBLISHED_EXTERNAL.value,
             True,
         ),
-        ("https://metadata.intern.ssb.no", VariableStatus.DRAFT.value, False),
+        (VARDEF_PROD_URL, VariableStatus.DRAFT.value, False),
+        (VARDEF_TEST_URL, VariableStatus.DRAFT.value, False),
         (
-            "https://metadata.intern.test.ssb.no",
+            VARDEF_TEST_URL,
             VariableStatus.PUBLISHED_INTERNAL.value,
             False,
         ),
         (
-            "https://metadata.intern.test.ssb.no",
+            VARDEF_TEST_URL,
             VariableStatus.PUBLISHED_EXTERNAL.value,
             False,
         ),
@@ -472,7 +478,7 @@ def test_block_update_variable_status(
 
         if should_raise:
             with pytest.raises(
-                PublishingBlockedError, match="Publishing blocked: Prod is blocked"
+                PublishingBlockedError, match=PUBLISHING_BLOCKED_ERROR_MESSAGE
             ):
                 variable_definition.update_draft(update)
         else:
