@@ -229,6 +229,16 @@ def publishing_blocked_error_handler(method):  # noqa: ANN201, ANN001
             raise RuntimeError(msg) from e
 
         if host == vardef_prod:
+            if len(method_args) > 1:
+                status = method_args[1].variable_status
+                if status == "DRAFT":
+                    return method(
+                        *method_args,
+                        **method_kwargs,
+                    )
+                if status in ("PUBLISHED_INTERNAL", "PUBLISHED_EXTERNAL"):
+                    msg = "Prod is blocked"
+                    raise PublishingBlockedError(msg)
             msg = "Prod is blocked"
             raise PublishingBlockedError(msg)
         return method(
