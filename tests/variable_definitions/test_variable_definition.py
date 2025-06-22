@@ -384,8 +384,8 @@ def test_publish_methods(
 @patch("dapla_metadata.variable_definitions._utils._client.VardefClient.get_config")
 def test_blocked_publish_methods(
     mock_get_config: MagicMock,
-    mock_create_patch: MagicMock,  # noqa: ARG001
     mock_update_draft: MagicMock,  # noqa: ARG001
+    mock_create_patch: MagicMock,  # noqa: ARG001
     method_name: str,
     mocked_host: str,
     should_raise: bool,
@@ -400,21 +400,84 @@ def test_blocked_publish_methods(
     config = client.get_config()
 
     assert config.host == mocked_host
-
     variable_definition.variable_status = initial_status
-    method = getattr(variable_definition, method_name)
 
+    method = getattr(variable_definition, method_name)
     if should_raise:
         with pytest.raises(
             PublishingBlockedError, match="Publishing blocked: Prod is blocked"
         ):
             method()
+
     else:
         try:
             method()
         except ValueError:
             # Ignore other exceptions for publishing
             contextlib.suppress(ValueError)
+
+
+@pytest.mark.parametrize(
+    ("mocked_host", "update_status", "should_raise"),
+    [
+        (
+            "https://metadata.intern.ssb.no",
+            VariableStatus.PUBLISHED_INTERNAL.value,
+            True,
+        ),
+        (
+            "https://metadata.intern.ssb.no",
+            VariableStatus.PUBLISHED_EXTERNAL.value,
+            True,
+        ),
+        ("https://metadata.intern.ssb.no", VariableStatus.DRAFT.value, False),
+        (
+            "https://metadata.intern.test.ssb.no",
+            VariableStatus.PUBLISHED_INTERNAL.value,
+            False,
+        ),
+        (
+            "https://metadata.intern.test.ssb.no",
+            VariableStatus.PUBLISHED_EXTERNAL.value,
+            False,
+        ),
+    ],
+)
+@patch("dapla_metadata.variable_definitions._utils._client.VardefClient.get_config")
+def test_block_publishing_from_draft(
+    mock_get_config: MagicMock,
+    mocked_host: str,
+    update_status,
+    should_raise: bool,
+    variable_definition: VariableDefinition,
+):
+    mock_config = MagicMock()
+    mock_config.host = mocked_host
+    mock_get_config.return_value = mock_config
+
+    client = VardefClient()
+    config = client.get_config()
+
+    assert config.host == mocked_host
+
+    variable_definition.variable_status = VariableStatus.DRAFT
+
+    with patch.object(
+        VariableDefinition, "update_draft", wraps=variable_definition.update_draft
+    ):
+        update = UpdateDraft(variable_status=update_status)
+
+        if should_raise:
+            with pytest.raises(
+                PublishingBlockedError, match="Publishing blocked: Prod is blocked"
+            ):
+                variable_definition.update_draft(update)
+        else:
+            try:
+                variable_definition.update_draft(update)
+            except ValueError:
+                # Ignore other exceptions for publishing
+                contextlib.suppress(ValueError)
 
 
 def test_str(variable_definition):
