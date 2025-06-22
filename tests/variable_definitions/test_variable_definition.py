@@ -382,10 +382,10 @@ def test_publish_methods(
 @patch.object(VariableDefinition, "update_draft")
 @patch.object(VariableDefinition, "create_patch")
 @patch("dapla_metadata.variable_definitions._utils._client.VardefClient.get_config")
-def test_blocked_publish_methods(
+def test_block_publish_methods(
     mock_get_config: MagicMock,
-    mock_update_draft: MagicMock,  # noqa: ARG001
-    mock_create_patch: MagicMock,  # noqa: ARG001
+    mock_update_draft: MagicMock,
+    mock_create_patch: MagicMock,
     method_name: str,
     mocked_host: str,
     should_raise: bool,
@@ -408,10 +408,13 @@ def test_blocked_publish_methods(
             PublishingBlockedError, match="Publishing blocked: Prod is blocked"
         ):
             method()
+        mock_update_draft.assert_not_called()
+        mock_create_patch.assert_not_called()
 
     else:
         try:
             method()
+            assert mock_update_draft.called() or mock_create_patch.called()
         except ValueError:
             # Ignore other exceptions for publishing
             contextlib.suppress(ValueError)
@@ -444,7 +447,7 @@ def test_blocked_publish_methods(
     ],
 )
 @patch("dapla_metadata.variable_definitions._utils._client.VardefClient.get_config")
-def test_block_publishing_from_draft(
+def test_block_update_variable_status(
     mock_get_config: MagicMock,
     mocked_host: str,
     update_status,
