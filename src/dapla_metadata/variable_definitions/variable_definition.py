@@ -102,6 +102,7 @@ class VariableDefinition(CompleteResponse):
             )
         ]
 
+    @publishing_blocked_error_handler
     @vardef_exception_handler
     def update_draft(
         self,
