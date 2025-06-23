@@ -15,6 +15,14 @@ from dapla_metadata.variable_definitions._generated.vardef_client.exceptions imp
 from dapla_metadata.variable_definitions._generated.vardef_client.exceptions import (
     UnauthorizedException,
 )
+from dapla_metadata.variable_definitions._generated.vardef_client.models.variable_status import (
+    VariableStatus,
+)
+from dapla_metadata.variable_definitions._utils._client import VardefClient
+from dapla_metadata.variable_definitions._utils.constants import (
+    PUBLISHING_BLOCKED_ERROR_MESSAGE,
+)
+from dapla_metadata.variable_definitions._utils.constants import VARDEF_PROD_URL
 
 # Use MappingProxyType so the dict is immutable
 STATUS_EXPLANATIONS: MappingProxyType[HTTPStatus | None, str] = MappingProxyType(
@@ -192,5 +200,56 @@ def vardef_file_error_handler(method):  # noqa: ANN201, ANN001
         except NotADirectoryError as e:
             msg = f"Path is not a directory: {method_kwargs.get('file_path', 'unknown file path')}. Original error: {e!s}"
             raise VardefFileError(msg) from e
+
+    return _impl
+
+
+class PublishingBlockedError(RuntimeError):
+    """Exception raised when publishing variable definitions is blocked in the production environment."""
+
+    default_message = PUBLISHING_BLOCKED_ERROR_MESSAGE
+
+    def __str__(self) -> str:
+        """Return the default publishing blocked error message."""
+        return self.default_message
+
+
+def publishing_blocked_error_handler(method):  # noqa: ANN201, ANN001
+    """Decorator that blocks publishing variable definitions in production.
+
+    - If the environment is production:
+        - If `variable_status` is present in the arguments and set to `PUBLISHED_INTERNAL` or `PUBLISHED_EXTERNAL`,
+        publishing is blocked by raising a `PublishingBlockedError`.
+        - If `variable_status` is set to `DRAFT`, the method is allowed to proceed.
+        - If no arguments are provided, all publishing attempts are blocked.
+    """
+
+    @wraps(method)
+    def _impl(*method_args, **method_kwargs):  # noqa: ANN002, ANN003
+        try:
+            client = VardefClient()
+            host = client.get_config().host
+        except VardefClientError as e:
+            msg = f"Failed to get VardefClient config: {e}"
+            raise RuntimeError(msg) from e
+
+        if host == VARDEF_PROD_URL:
+            if len(method_args) > 1:
+                status = method_args[1].variable_status
+                if status == VariableStatus.DRAFT:
+                    return method(
+                        *method_args,
+                        **method_kwargs,
+                    )
+                if status in (
+                    VariableStatus.PUBLISHED_INTERNAL,
+                    VariableStatus.PUBLISHED_EXTERNAL,
+                ):
+                    raise PublishingBlockedError
+            raise PublishingBlockedError
+        return method(
+            *method_args,
+            **method_kwargs,
+        )
 
     return _impl

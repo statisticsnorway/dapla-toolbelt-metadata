@@ -60,3 +60,7 @@ DOUBLE_QUOTE_FIELDS = [
     "id",
     "last_updated_by",
 ]
+
+PUBLISHING_BLOCKED_ERROR_MESSAGE = "Publishing blocked: Publishing variable definitions is not allowed until further notice."
+VARDEF_PROD_URL = "https://metadata.intern.ssb.no"
+VARDEF_TEST_URL = "https://metadata.intern.test.ssb.no"
