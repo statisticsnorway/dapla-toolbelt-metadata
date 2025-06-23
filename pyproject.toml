@@ -2,7 +2,7 @@
 name = "dapla-toolbelt-metadata"
 description = "Dapla Toolbelt Metadata"
 license = "MIT"
-version = "0.8.1"
+version = "0.8.2"
 dynamic = ["classifiers"]
 readme = "README.md"
 authors = [{ name = "Team Metadata", email = "metadata@ssb.no" }]
