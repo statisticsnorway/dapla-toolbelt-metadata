@@ -517,7 +517,7 @@ class Datadoc:
         """
         return dataset_path.parent / (dataset_path.stem + METADATA_DOCUMENT_FILE_SUFFIX)
 
-    def datadoc_model(self) -> MetadataContainer:
+    def datadoc_model(self) -> all_optional_model.MetadataContainer:
         """Return the underlying datadoc model."""
         datadoc: ValidateDatadocMetadata = ValidateDatadocMetadata(
             percentage_complete=self.percent_complete,
