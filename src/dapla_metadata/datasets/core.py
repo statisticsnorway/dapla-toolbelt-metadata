@@ -517,6 +517,18 @@ class Datadoc:
         """
         return dataset_path.parent / (dataset_path.stem + METADATA_DOCUMENT_FILE_SUFFIX)
 
+    def datadoc_model(self) -> MetadataContainer:
+        """Return the underlying datadoc model."""
+        datadoc: ValidateDatadocMetadata = ValidateDatadocMetadata(
+            percentage_complete=self.percent_complete,
+            dataset=self.dataset,
+            variables=self.variables,
+        )
+        if self.container:
+            return datadoc
+        else:
+            return all_optional_model.MetadataContainer(datadoc=datadoc)
+
     def write_metadata_document(self) -> None:
         """Write all currently known metadata to file.
 
