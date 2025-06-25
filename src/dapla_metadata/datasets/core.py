@@ -525,7 +525,9 @@ class Datadoc:
             variables=self.variables,
         )
         if self.container:
-            return datadoc
+            res = copy.deepcopy(self.container)
+            res.datadoc = datadoc
+            return res
         else:
             return all_optional_model.MetadataContainer(datadoc=datadoc)
 
