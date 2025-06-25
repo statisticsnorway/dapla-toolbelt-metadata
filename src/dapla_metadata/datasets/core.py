@@ -528,8 +528,7 @@ class Datadoc:
             res = copy.deepcopy(self.container)
             res.datadoc = datadoc
             return res
-        else:
-            return all_optional_model.MetadataContainer(datadoc=datadoc)
+        return all_optional_model.MetadataContainer(datadoc=datadoc)
 
     def write_metadata_document(self) -> None:
         """Write all currently known metadata to file.
