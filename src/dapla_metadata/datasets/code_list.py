@@ -90,10 +90,6 @@ class CodeList(GetExternalSource):
                 execution of data fetching.
             classification_id: The ID of the classification to retrieve.
         """
-        self.supported_languages = [
-            SupportedLanguages.NORSK_BOKMÅL,
-            SupportedLanguages.ENGLISH,
-        ]
         self._classifications: list[CodeListItem] = []
         self.classification_id = classification_id
         self.classifications_dataframes: (
@@ -117,12 +113,15 @@ class CodeList(GetExternalSource):
             and returns None.
         """
         classifications_dataframes: dict[SupportedLanguages, pd.DataFrame] = {}
-        for i in self.supported_languages:
+        for i in [
+            SupportedLanguages.NORSK_BOKMÅL,
+            SupportedLanguages.ENGLISH,
+        ]:
             try:
                 classifications_dataframes[i] = (
                     KlassClassification(
                         str(self.classification_id),
-                        i,
+                        str(i),  # type: ignore [arg-type]
                     )
                     .get_codes()
                     .data
