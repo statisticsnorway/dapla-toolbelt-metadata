@@ -17,7 +17,7 @@ dependencies = [
     'cloudpathlib[gs] >=0.17.0',
     'pyjwt >=2.8.0',
     'ssb-klass-python >=1.0.1',
-    'ssb-datadoc-model ==7.0.1',
+    'ssb-datadoc-model ==7.0.2',
     'typing-extensions >=4.12.2',
     'ruamel-yaml >=0.18.10',
     'google-auth >=2.38.0',
