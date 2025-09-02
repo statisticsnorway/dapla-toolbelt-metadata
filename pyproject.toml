@@ -3,9 +3,9 @@ name = "dapla-toolbelt-metadata"
 description = "Dapla Toolbelt Metadata"
 license = "MIT"
 version = "0.8.4"
-dynamic = ["classifiers"]
+classifiers = ["Development Status :: 4 - Beta"]
 readme = "README.md"
-authors = [{ name = "Team Metadata", email = "metadata@ssb.no" }]
+authors = [{ name = "Statistics Norway", email = "metadata@ssb.no" }]
 requires-python = '>=3.10'
 dependencies = [
     'pyarrow >=8.0.0',
@@ -30,52 +30,46 @@ repository = "https://github.com/statisticsnorway/dapla-toolbelt-metadata"
 documentation = "https://statisticsnorway.github.io/dapla-toolbelt-metadata"
 Changelog = "https://github.com/statisticsnorway/dapla-toolbelt-metadata/releases"
 
-[tool.poetry]
-requires-poetry = '>=2.0,<3.0'
-packages = [{ include = "dapla_metadata", from = "src" }]
-classifiers = ["Development Status :: 4 - Beta"]
+[tool.hatch.build.targets.wheel]
+packages = ["src/dapla_metadata"]
 
-[tool.poetry.requires-plugins]
-poetry-plugin-export = ">=1.9.0" # Used with nox
-
-[tool.poetry.dependencies]
-python = ">=3.10,<4.0" # This is currently needed for compatibility with ssb-klass-python
-
-[tool.poetry.group.dev.dependencies]
-pygments = ">=2.18.0"
-coverage = { extras = ["toml"], version = ">=6.2" }
-faker = ">=26.1.0"
-furo = ">=2024.7.18"
-pre-commit = ">=3.8.0"
-ruff = ">=0.5.6"
-pytest = ">=8.3.2"
-sphinx = ">=6.2.1"
-sphinx-autobuild = ">=2021.3.14"
-sphinx-autodoc-typehints = ">=1.24.0"
-sphinx-click = ">=3.0.2"
-typeguard = ">=2.13.3"
-xdoctest = { extras = ["colors"], version = ">=0.15.10" }
-myst-parser = { version = ">=0.16.1" }
-mypy = ">=0.950"
-pandas = ">=1.4.2"
-pytest-cov = ">=3.0.0"
-python-kacl = "*"
-pytest-mock = ">=3.14.0"
-deptry = ">=0.12.0"
-pandas-stubs = "*"
-pyarrow-stubs = ">=10.0.1.9"
-requests-mock = ">=1.12.1"
-types-Pygments = "*"
-types-colorama = "*"
-types-setuptools = "*"
-types-requests = "*"
-types-beautifulsoup4 = ">=4.12.0.20240511"
-ipykernel = ">=6.29.5"
-rich = ">=13.9.4"
-bpython = ">=0.24"
-testcontainers = { version = ">=4.8.2", extras = ["generic"] }
-pytest-asyncio = ">=0.26.0"
-types-docker = ">=7.1.0.20250503"
+[dependency-groups]
+dev = [
+    "pygments>=2.18.0",
+    "coverage[toml]>=6.2",
+    "faker>=26.1.0",
+    "furo>=2024.7.18",
+    "pre-commit>=3.8.0",
+    "ruff>=0.5.6",
+    "pytest>=8.3.2",
+    "sphinx>=6.2.1",
+    "sphinx-autobuild>=2021.3.14",
+    "sphinx-autodoc-typehints>=1.24.0",
+    "sphinx-click>=3.0.2",
+    "typeguard>=2.13.3",
+    "xdoctest[colors]>=0.15.10",
+    "myst-parser>=0.16.1",
+    "mypy>=0.950",
+    "pandas>=1.4.2",
+    "pytest-cov>=3.0.0",
+    "python-kacl",
+    "pytest-mock>=3.14.0",
+    "deptry>=0.12.0",
+    "pandas-stubs",
+    "pyarrow-stubs>=10.0.1.9",
+    "requests-mock>=1.12.1",
+    "types-Pygments",
+    "types-colorama",
+    "types-setuptools",
+    "types-requests",
+    "types-beautifulsoup4>=4.12.0.20240511",
+    "ipykernel>=6.29.5",
+    "rich>=13.9.4",
+    "bpython>=0.24",
+    "testcontainers[generic]>=4.8.2",
+    "pytest-asyncio>=0.26.0",
+    "types-docker>=7.1.0.20250503",
+]
 
 [tool.pytest.ini_options]
 pythonpath = ["src"]
@@ -182,5 +176,5 @@ classmethod-decorators = ["classmethod", "validator", "root_validator", "pydanti
 ]
 
 [build-system]
-requires = ["poetry-core>=2.0"]
-build-backend = "poetry.core.masonry.api"
+requires = ["hatchling"]
+build-backend = "hatchling.build"
