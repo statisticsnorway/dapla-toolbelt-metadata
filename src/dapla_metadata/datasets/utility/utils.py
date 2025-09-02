@@ -4,6 +4,7 @@ import datetime  # import is needed in xdoctest
 import logging
 import pathlib
 import uuid
+from typing import TypeAlias
 from typing import cast
 
 import datadoc_model
@@ -38,11 +39,11 @@ from dapla_metadata.datasets.utility.constants import (
 
 logger = logging.getLogger(__name__)
 
-DatadocMetadataType = (
+DatadocMetadataType: TypeAlias = (
     all_optional_model.DatadocMetadata | required_model.DatadocMetadata
 )
-DatasetType = all_optional_model.Dataset | required_model.Dataset
-OptionalDatadocMetadataType = DatadocMetadataType | None
+DatasetType: TypeAlias = all_optional_model.Dataset | required_model.Dataset
+OptionalDatadocMetadataType: TypeAlias = DatadocMetadataType | None
 
 
 def get_timestamp_now() -> datetime.datetime:
@@ -142,14 +143,9 @@ def set_default_values_dataset(
         >>> set_default_values_dataset(dataset)
         >>> dataset.id is not None
         True
-
-        >>> dataset.contains_personal_data == False
-        True
     """
     if not dataset.id:
         dataset.id = uuid.uuid4()
-    if dataset.contains_personal_data is None:
-        dataset.contains_personal_data = False
 
 
 def set_dataset_owner(
@@ -199,8 +195,6 @@ def set_variables_inherit_from_dataset(
     for v in variables:
         v.contains_data_from = v.contains_data_from or dataset.contains_data_from
         v.contains_data_until = v.contains_data_until or dataset.contains_data_until
-        v.temporality_type = v.temporality_type or dataset.temporality_type
-        v.data_source = v.data_source or dataset.data_source
 
 
 def incorrect_date_order(

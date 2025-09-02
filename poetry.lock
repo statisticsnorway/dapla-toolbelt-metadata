@@ -3633,8 +3633,8 @@ pydantic = ">=2.5.2"
 [package.source]
 type = "git"
 url = "https://github.com/statisticsnorway/ssb-datadoc-model.git"
-reference = "dpmeta-1038-update-model"
-resolved_reference = "bc8e337e15f59c8cd36f986939996fc42b5cbe77"
+reference = "HEAD"
+resolved_reference = "c367ca7042daf1ccf220a37a860953c0c1a4f38e"
 subdirectory = "generated/python/datadoc_model"
 
 [[package]]
@@ -4438,4 +4438,4 @@ tests-strict = ["pytest (==4.6.0) ; python_version < \"3.10.0\" and python_versi
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.10,<4.0"
-content-hash = "b2e712a76dc5cddbecf8f60a84c5ea1609f53e4f5301f02d75eccf1b17fcecb0"
+content-hash = "459ef7529858431bce33e077f588ed5c4a3c6c887937e18b9c61c142130e8978"
