@@ -297,9 +297,7 @@ def handle_version_5_0_1(supplied_metadata: dict[str, Any]) -> dict[str, Any]:
                 # Don't override any set values
                 v[f[1]] = dataset_level_field_value
 
-    # TODO @mmwinther: Correct document version in model
-    # DPMETA-1042
-    # supplied_metadata["datadoc"]["document_version"] = "6.0.0"  # noqa: ERA001
+    supplied_metadata["datadoc"]["document_version"] = "6.0.0"
     return supplied_metadata
 
 
