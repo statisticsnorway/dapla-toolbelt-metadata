@@ -139,7 +139,7 @@ def set_default_values_dataset(
         dataset: The dataset object to set default values on.
 
     Example:
-        >>> dataset = model.Dataset(id=None, contains_personal_data=None)
+        >>> dataset = model.Dataset(id=None)
         >>> set_default_values_dataset(dataset)
         >>> dataset.id is not None
         True
@@ -177,14 +177,9 @@ def set_variables_inherit_from_dataset(
         variables: A list of variable objects to update with dataset values.
 
     Example:
-        >>> dataset = model.Dataset(short_name='person_data_v1',data_source='01',temporality_type='STATUS',id='9662875c-c245-41de-b667-12ad2091a1ee',contains_data_from="2010-09-05",contains_data_until="2022-09-05")
-        >>> variables = [model.Variable(short_name="pers",data_source =None,temporality_type = None, contains_data_from = None,contains_data_until = None)]
+        >>> dataset = model.Dataset(short_name='person_data_v1', id='9662875c-c245-41de-b667-12ad2091a1ee', contains_data_from="2010-09-05", contains_data_until="2022-09-05")
+        >>> variables = [model.Variable(short_name="pers", data_source=None, temporality_type=None, contains_data_from=None, contains_data_until=None)]
         >>> set_variables_inherit_from_dataset(dataset, variables)
-        >>> variables[0].data_source == dataset.data_source
-        True
-
-        >>> variables[0].temporality_type is None
-        False
 
         >>> variables[0].contains_data_from == dataset.contains_data_from
         True
