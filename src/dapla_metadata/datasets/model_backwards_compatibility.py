@@ -263,6 +263,44 @@ def copy_pseudonymization_metadata(supplied_metadata: dict[str, Any]) -> None:
             variable[PSEUDONYMIZATION_KEY] = None
 
 
+def handle_version_5_0_1(supplied_metadata: dict[str, Any]) -> dict[str, Any]:
+    """Handle breaking changes for version 6.0.0.
+
+    This function modifies the supplied metadata to accommodate breaking changes
+    introduced in version 6.0.0. Specifically, it:
+    - Moves the following fields from dataset to variable level:
+        - contains_personal_data (becomes is_personal_data)
+        - unit_type
+        - data_source
+        - temporality_type
+
+    Args:
+        supplied_metadata: The metadata dictionary to be updated.
+
+    Returns:
+        The updated metadata dictionary.
+    """
+    fields = [
+        ("contains_personal_data", "is_personal_data"),
+        ("unit_type", "unit_type"),
+        ("data_source", "data_source"),
+        ("temporality_type", "temporality_type"),
+    ]
+
+    dataset: dict[str, Any] = supplied_metadata["datadoc"]["dataset"]
+    variables: list[dict[str, Any]] = supplied_metadata["datadoc"]["variables"]
+
+    for f in fields:
+        dataset_level_field_value = dataset.pop(f[0], None)
+        for v in variables:
+            if v.get(f[1]) is None:
+                # Don't override any set values
+                v[f[1]] = dataset_level_field_value
+
+    supplied_metadata["datadoc"]["document_version"] = "6.0.0"
+    return supplied_metadata
+
+
 def handle_version_4_0_0(supplied_metadata: dict[str, Any]) -> dict[str, Any]:
     """Handle breaking changes for version 5.0.1.
 
@@ -564,7 +602,8 @@ BackwardsCompatibleVersion(version="3.1.0", handler=handle_version_3_1_0)
 BackwardsCompatibleVersion(version="3.2.0", handler=handle_version_3_2_0)
 BackwardsCompatibleVersion(version="3.3.0", handler=handle_version_3_3_0)
 BackwardsCompatibleVersion(version="4.0.0", handler=handle_version_4_0_0)
-BackwardsCompatibleVersion(version="5.0.1", handler=handle_current_version)
+BackwardsCompatibleVersion(version="5.0.1", handler=handle_version_5_0_1)
+BackwardsCompatibleVersion(version="6.0.0", handler=handle_current_version)
 
 
 def upgrade_metadata(fresh_metadata: dict[str, Any]) -> dict[str, Any]:
@@ -586,7 +625,6 @@ def upgrade_metadata(fresh_metadata: dict[str, Any]) -> dict[str, Any]:
     Raises:
         UnknownModelVersionError: If the metadata's version is unknown or unsupported.
     """
-    # Special case for current version, we expose the current_model_version parameter for test purposes
     if is_metadata_in_container_structure(fresh_metadata):
         if fresh_metadata["datadoc"] is None:
             return fresh_metadata
