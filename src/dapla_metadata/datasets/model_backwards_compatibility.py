@@ -263,6 +263,29 @@ def copy_pseudonymization_metadata(supplied_metadata: dict[str, Any]) -> None:
             variable[PSEUDONYMIZATION_KEY] = None
 
 
+def handle_version_5_0_1(supplied_metadata: dict[str, Any]) -> dict[str, Any]:
+    """Handle breaking changes for version 6.0.1.
+
+    Args:
+        supplied_metadata: The metadata dictionary to be updated.
+
+    Returns:
+        The updated metadata dictionary.
+    """
+    if "use_restriction" in supplied_metadata["datadoc"]:
+        supplied_metadata["datadoc"]["use_restrictions"] = [
+            {"use_restriction_type": supplied_metadata["datadoc"]["use_restriction"]},
+            {
+                "use_restriction_date": supplied_metadata["datadoc"][
+                    "use_restriction_date"
+                ]
+            },
+        ]
+
+    supplied_metadata["datadoc"]["document_version"] = "6.0.1"
+    return supplied_metadata
+
+
 def handle_version_4_0_0(supplied_metadata: dict[str, Any]) -> dict[str, Any]:
     """Handle breaking changes for version 5.0.1.
 
@@ -564,7 +587,8 @@ BackwardsCompatibleVersion(version="3.1.0", handler=handle_version_3_1_0)
 BackwardsCompatibleVersion(version="3.2.0", handler=handle_version_3_2_0)
 BackwardsCompatibleVersion(version="3.3.0", handler=handle_version_3_3_0)
 BackwardsCompatibleVersion(version="4.0.0", handler=handle_version_4_0_0)
-BackwardsCompatibleVersion(version="5.0.1", handler=handle_current_version)
+BackwardsCompatibleVersion(version="5.0.1", handler=handle_version_5_0_1)
+BackwardsCompatibleVersion(version="6.0.1", handler=handle_current_version)
 
 
 def upgrade_metadata(fresh_metadata: dict[str, Any]) -> dict[str, Any]:
