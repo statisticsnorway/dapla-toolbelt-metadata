@@ -280,37 +280,22 @@ def handle_version_5_0_1(supplied_metadata: dict[str, Any]) -> dict[str, Any]:
     Returns:
         The updated metadata dictionary.
     """
-
-    @dataclass
-    class ConversionHelperV6:
-        dataset_level_field_name: str
-        variables_level_field_name: str
-
     fields = [
-        ConversionHelperV6("contains_personal_data", "is_personal_data"),
-        ConversionHelperV6("unit_type", "unit_type"),
-        ConversionHelperV6("data_source", "data_source"),
-        ConversionHelperV6("temporality_type", "temporality_type"),
+        ("contains_personal_data", "is_personal_data"),
+        ("unit_type", "unit_type"),
+        ("data_source", "data_source"),
+        ("temporality_type", "temporality_type"),
     ]
 
-    for f in fields:
-        try:
-            dataset_level_field_value = supplied_metadata["datadoc"]["dataset"][
-                f.dataset_level_field_name
-            ]
-        except KeyError:
-            dataset_level_field_value = None
-        for v in supplied_metadata["datadoc"]["variables"]:
-            try:
-                if v[f.variables_level_field_name] is None:
-                    v[f.variables_level_field_name] = dataset_level_field_value
-            except KeyError:  # noqa: PERF203
-                v[f.variables_level_field_name] = dataset_level_field_value
+    dataset: dict[str, Any] = supplied_metadata["datadoc"]["dataset"]
+    variables: list[dict[str, Any]] = supplied_metadata["datadoc"]["variables"]
 
-        try:
-            del supplied_metadata["datadoc"]["dataset"][f.dataset_level_field_name]
-        except KeyError:
-            continue
+    for f in fields:
+        dataset_level_field_value = dataset.pop(f[0], None)
+        for v in variables:
+            if v.get(f[1]) is None:
+                # Don't override any set values
+                v[f[1]] = dataset_level_field_value
 
     # TODO @mmwinther: Correct document version in model
     # DPMETA-1042
@@ -642,7 +627,6 @@ def upgrade_metadata(fresh_metadata: dict[str, Any]) -> dict[str, Any]:
     Raises:
         UnknownModelVersionError: If the metadata's version is unknown or unsupported.
     """
-    # Special case for current version, we expose the current_model_version parameter for test purposes
     if is_metadata_in_container_structure(fresh_metadata):
         if fresh_metadata["datadoc"] is None:
             return fresh_metadata
