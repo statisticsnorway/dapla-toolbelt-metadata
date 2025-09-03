@@ -263,6 +263,61 @@ def copy_pseudonymization_metadata(supplied_metadata: dict[str, Any]) -> None:
             variable[PSEUDONYMIZATION_KEY] = None
 
 
+def handle_version_5_0_1(supplied_metadata: dict[str, Any]) -> dict[str, Any]:
+    """Handle breaking changes for version 6.0.0.
+
+    This function modifies the supplied metadata to accommodate breaking changes
+    introduced in version 6.0.0. Specifically, it:
+    - Moves the following fields from dataset to variable level:
+        - contains_personal_data (becomes is_personal_data)
+        - unit_type
+        - data_source
+        - temporality_type
+
+    Args:
+        supplied_metadata: The metadata dictionary to be updated.
+
+    Returns:
+        The updated metadata dictionary.
+    """
+
+    @dataclass
+    class ConversionHelperV6:
+        dataset_level_field_name: str
+        variables_level_field_name: str
+
+    fields = [
+        ConversionHelperV6("contains_personal_data", "is_personal_data"),
+        ConversionHelperV6("unit_type", "unit_type"),
+        ConversionHelperV6("data_source", "data_source"),
+        ConversionHelperV6("temporality_type", "temporality_type"),
+    ]
+
+    for f in fields:
+        try:
+            dataset_level_field_value = supplied_metadata["datadoc"]["dataset"][
+                f.dataset_level_field_name
+            ]
+        except KeyError:
+            dataset_level_field_value = None
+        for v in supplied_metadata["datadoc"]["variables"]:
+            try:
+                if v[f.variables_level_field_name] is None:
+                    v[f.variables_level_field_name] = dataset_level_field_value
+            except KeyError:  # noqa: PERF203
+                v[f.variables_level_field_name] = dataset_level_field_value
+
+        try:
+            del supplied_metadata["datadoc"]["dataset"][f.dataset_level_field_name]
+        except KeyError:
+            continue
+
+    # TODO @mmwinther: Correct document version in model
+    # DPMETA-1042
+    # supplied_metadata["datadoc"]["document_version"] = "6.0.0"  # noqa: ERA001
+    return supplied_metadata
+
+
 def handle_version_4_0_0(supplied_metadata: dict[str, Any]) -> dict[str, Any]:
     """Handle breaking changes for version 5.0.1.
 
@@ -564,7 +619,8 @@ BackwardsCompatibleVersion(version="3.1.0", handler=handle_version_3_1_0)
 BackwardsCompatibleVersion(version="3.2.0", handler=handle_version_3_2_0)
 BackwardsCompatibleVersion(version="3.3.0", handler=handle_version_3_3_0)
 BackwardsCompatibleVersion(version="4.0.0", handler=handle_version_4_0_0)
-BackwardsCompatibleVersion(version="5.0.1", handler=handle_current_version)
+BackwardsCompatibleVersion(version="5.0.1", handler=handle_version_5_0_1)
+BackwardsCompatibleVersion(version="6.0.0", handler=handle_current_version)
 
 
 def upgrade_metadata(fresh_metadata: dict[str, Any]) -> dict[str, Any]:
