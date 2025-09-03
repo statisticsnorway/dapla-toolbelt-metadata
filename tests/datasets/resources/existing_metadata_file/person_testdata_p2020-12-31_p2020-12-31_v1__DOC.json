@@ -1,8 +1,8 @@
 {
-  "document_version": "0.0.1",
+  "document_version": "1.0.0",
   "datadoc": {
-    "percentage_complete": 98,
-    "document_version": "4.0.0",
+    "percentage_complete": 100,
+    "document_version": "6.0.0",
     "dataset": {
       "short_name": "person_testdata",
       "assessment": "PROTECTED",
@@ -36,7 +36,6 @@
           "languageText": "For testing purposes only"
         }
       ],
-      "data_source": "23",
       "population_description": [
         {
           "languageCode": "nb",
@@ -66,8 +65,6 @@
           "languageText": "Initial version"
         }
       ],
-      "unit_type": "17",
-      "temporality_type": "ACCUMULATED",
       "subject_field": "al04",
       "keyword": ["sykepenger", "inntekt"],
       "spatial_coverage_description": [
@@ -84,16 +81,15 @@
           "languageText": "Norway"
         }
       ],
-      "contains_personal_data": true,
       "use_restriction": "PROCESS_LIMITATIONS",
       "use_restriction_date": "2024-12-31T23:59:59Z",
       "custom_type": null,
       "id": "77346986-a2b4-4211-8d74-817e8b1f99d4",
-      "owner": "320",
-      "file_path": "tests/resources/datasets/person_testdata_p2021-12-31_p2021-12-31_v1.parquet",
+      "owner": "",
+      "file_path": "None",
       "metadata_created_date": "2024-07-09T09:47:28.347248Z",
       "metadata_created_by": "kari.nordmann@ssb.no",
-      "metadata_last_updated_date": "2025-05-06T09:12:45.651034Z",
+      "metadata_last_updated_date": "2025-09-03T12:15:39.929634Z",
       "metadata_last_updated_by": "kari.nordmann@ssb.no",
       "contains_data_from": "2021-12-31",
       "contains_data_until": "2021-12-31"
@@ -119,7 +115,9 @@
         "data_type": "STRING",
         "variable_role": "MEASURE",
         "definition_uri": null,
-        "is_personal_data": "PSEUDONYMISED_ENCRYPTED_PERSONAL_DATA",
+        "is_personal_data": true,
+        "pseudonymization": null,
+        "unit_type": "17",
         "data_source": "23",
         "population_description": [
           {
@@ -168,7 +166,9 @@
         "data_type": "STRING",
         "variable_role": "MEASURE",
         "definition_uri": null,
-        "is_personal_data": "NON_PSEUDONYMISED_ENCRYPTED_PERSONAL_DATA",
+        "is_personal_data": true,
+        "pseudonymization": null,
+        "unit_type": "17",
         "data_source": "23",
         "population_description": [
           {
@@ -217,7 +217,9 @@
         "data_type": "STRING",
         "variable_role": "MEASURE",
         "definition_uri": null,
-        "is_personal_data": "NON_PSEUDONYMISED_ENCRYPTED_PERSONAL_DATA",
+        "is_personal_data": true,
+        "pseudonymization": null,
+        "unit_type": "17",
         "data_source": "23",
         "population_description": [
           {
@@ -266,7 +268,9 @@
         "data_type": "INTEGER",
         "variable_role": "MEASURE",
         "definition_uri": null,
-        "is_personal_data": "NOT_PERSONAL_DATA",
+        "is_personal_data": false,
+        "pseudonymization": null,
+        "unit_type": "17",
         "data_source": "23",
         "population_description": [
           {
@@ -315,7 +319,9 @@
         "data_type": "INTEGER",
         "variable_role": "MEASURE",
         "definition_uri": null,
-        "is_personal_data": "NOT_PERSONAL_DATA",
+        "is_personal_data": false,
+        "pseudonymization": null,
+        "unit_type": "17",
         "data_source": "23",
         "population_description": [
           {
@@ -364,7 +370,9 @@
         "data_type": "STRING",
         "variable_role": "MEASURE",
         "definition_uri": null,
-        "is_personal_data": "NOT_PERSONAL_DATA",
+        "is_personal_data": false,
+        "pseudonymization": null,
+        "unit_type": "17",
         "data_source": "23",
         "population_description": [
           {
@@ -394,6 +402,5 @@
         "contains_data_until": "2021-12-31"
       }
     ]
-  },
-  "pseudonymization": null
+  }
 }
