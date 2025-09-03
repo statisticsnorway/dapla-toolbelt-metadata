@@ -76,8 +76,8 @@
               }
           ],
           "contains_personal_data": false,
-          "use_restriction": null,
-          "use_restriction_date": null,
+          "use_restriction": "DELETION_ANONYMIZATION",
+          "use_restriction_date": "2022-09-05",
           "custom_type": null,
           "id": "143fca77-ef56-419c-a1e1-d69c4199f020",
           "owner": "",
