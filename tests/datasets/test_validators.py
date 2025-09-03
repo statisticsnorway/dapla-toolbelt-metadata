@@ -7,10 +7,8 @@ import re
 import warnings
 from typing import TYPE_CHECKING
 
-import datadoc_model
 import pytest
 from datadoc_model import model
-from datadoc_model.all_optional.model import TemporalityTypeType
 from pydantic import ValidationError
 
 from dapla_metadata.datasets.model_validation import ObligatoryDatasetWarning
@@ -97,20 +95,6 @@ def test_variables_inherit_dates(
         else:
             assert v.contains_data_from == variable_date
             assert v.contains_data_until == variable_date
-
-
-def test_variables_inherit_temporality_type_value(metadata: Datadoc):
-    assert all(v.temporality_type is None for v in metadata.variables)
-    metadata.dataset.temporality_type = (
-        datadoc_model.all_optional.model.TemporalityTypeType(
-            TemporalityTypeType.FIXED.value,
-        )
-    )
-    metadata.write_metadata_document()
-    assert all(
-        v.temporality_type == metadata.dataset.temporality_type
-        for v in metadata.variables
-    )
 
 
 def test_obligatory_metadata_dataset_warning(metadata: Datadoc):

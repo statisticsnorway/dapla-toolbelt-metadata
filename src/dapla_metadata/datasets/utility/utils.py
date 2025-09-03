@@ -4,6 +4,7 @@ import datetime  # import is needed in xdoctest
 import logging
 import pathlib
 import uuid
+from typing import TypeAlias
 from typing import cast
 
 import datadoc_model
@@ -38,11 +39,11 @@ from dapla_metadata.datasets.utility.constants import (
 
 logger = logging.getLogger(__name__)
 
-DatadocMetadataType = (
+DatadocMetadataType: TypeAlias = (
     all_optional_model.DatadocMetadata | required_model.DatadocMetadata
 )
-DatasetType = all_optional_model.Dataset | required_model.Dataset
-OptionalDatadocMetadataType = DatadocMetadataType | None
+DatasetType: TypeAlias = all_optional_model.Dataset | required_model.Dataset
+OptionalDatadocMetadataType: TypeAlias = DatadocMetadataType | None
 
 
 def get_timestamp_now() -> datetime.datetime:
@@ -138,18 +139,13 @@ def set_default_values_dataset(
         dataset: The dataset object to set default values on.
 
     Example:
-        >>> dataset = model.Dataset(id=None, contains_personal_data=None)
+        >>> dataset = model.Dataset(id=None)
         >>> set_default_values_dataset(dataset)
         >>> dataset.id is not None
-        True
-
-        >>> dataset.contains_personal_data == False
         True
     """
     if not dataset.id:
         dataset.id = uuid.uuid4()
-    if dataset.contains_personal_data is None:
-        dataset.contains_personal_data = False
 
 
 def set_dataset_owner(
@@ -181,14 +177,9 @@ def set_variables_inherit_from_dataset(
         variables: A list of variable objects to update with dataset values.
 
     Example:
-        >>> dataset = model.Dataset(short_name='person_data_v1',data_source='01',temporality_type='STATUS',id='9662875c-c245-41de-b667-12ad2091a1ee',contains_data_from="2010-09-05",contains_data_until="2022-09-05")
-        >>> variables = [model.Variable(short_name="pers",data_source =None,temporality_type = None, contains_data_from = None,contains_data_until = None)]
+        >>> dataset = model.Dataset(short_name='person_data_v1', id='9662875c-c245-41de-b667-12ad2091a1ee', contains_data_from="2010-09-05", contains_data_until="2022-09-05")
+        >>> variables = [model.Variable(short_name="pers", data_source=None, temporality_type=None, contains_data_from=None, contains_data_until=None)]
         >>> set_variables_inherit_from_dataset(dataset, variables)
-        >>> variables[0].data_source == dataset.data_source
-        True
-
-        >>> variables[0].temporality_type is None
-        False
 
         >>> variables[0].contains_data_from == dataset.contains_data_from
         True
@@ -199,8 +190,6 @@ def set_variables_inherit_from_dataset(
     for v in variables:
         v.contains_data_from = v.contains_data_from or dataset.contains_data_from
         v.contains_data_until = v.contains_data_until or dataset.contains_data_until
-        v.temporality_type = v.temporality_type or dataset.temporality_type
-        v.data_source = v.data_source or dataset.data_source
 
 
 def incorrect_date_order(
