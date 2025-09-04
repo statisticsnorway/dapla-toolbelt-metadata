@@ -3669,23 +3669,18 @@ test = ["pytest"]
 
 [[package]]
 name = "ssb-datadoc-model"
-version = "7.0.2"
+version = "8.0.0"
 description = "Data Model for use in Statistics Norway's Metadata system"
 optional = false
 python-versions = ">=3.10"
 groups = ["main"]
-files = []
-develop = false
+files = [
+    {file = "ssb_datadoc_model-8.0.0-py3-none-any.whl", hash = "sha256:f5a413d6f9ef054275f9af61182795597016b91882ac3fae9c6b01a48942bea8"},
+    {file = "ssb_datadoc_model-8.0.0.tar.gz", hash = "sha256:a3136a98fef5158ba1e04748122a9ed730066de0dc00db3f2d49d4b9b57c352f"},
+]
 
 [package.dependencies]
 pydantic = ">=2.5.2"
-
-[package.source]
-type = "git"
-url = "https://github.com/statisticsnorway/ssb-datadoc-model.git"
-reference = "main"
-resolved_reference = "57af059f248a4e8eaeeff59dd079e914593fa251"
-subdirectory = "generated/python/datadoc_model"
 
 [[package]]
 name = "ssb-klass-python"
@@ -4492,4 +4487,4 @@ tests-strict = ["pytest (==4.6.0) ; python_version < \"3.10.0\" and python_versi
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.10,<4.0"
-content-hash = "76b7d8942353494ecfc7468eae405a6eb4f3cb4369a484d0127749ab2b7c1b70"
+content-hash = "cfc539a1396faf569f1732253a6c08ad9d43b519cedb394f17c6376b1c7c24ee"
