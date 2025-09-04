@@ -67,6 +67,9 @@ class BackwardsCompatibleVersion:
     def upgrade(self, metadata: dict[str, Any]) -> dict[str, Any]:
         """Upgrade metadata from the format of the previous version to the format of this version.
 
+        This method handles bumping the Document Version field so it's not necessary to do this in
+        the individual handler functions.
+
         Args:
             metadata (dict[str, Any]): Metadata in the format of the previous version, to be upgraded.
 
@@ -84,10 +87,7 @@ class BackwardsCompatibleVersion:
 # Register all the supported versions and their handlers.
 BackwardsCompatibleVersion(version="0.1.1", handler=handle_version_0_1_1)
 BackwardsCompatibleVersion(version="1.0.0", handler=handle_version_1_0_0)
-BackwardsCompatibleVersion(
-    version="2.1.0",
-    handler=handle_version_2_1_0,
-)  # A container must be created at this version
+BackwardsCompatibleVersion(version="2.1.0", handler=handle_version_2_1_0)
 BackwardsCompatibleVersion(version="2.2.0", handler=handle_version_2_2_0)
 BackwardsCompatibleVersion(version="3.1.0", handler=handle_version_3_1_0)
 BackwardsCompatibleVersion(version="3.2.0", handler=handle_version_3_2_0)
