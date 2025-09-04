@@ -21,41 +21,26 @@ from datetime import timezone
 from typing import TYPE_CHECKING
 from typing import Any
 
-import arrow
+from dapla_metadata.datasets.compatibility._utils import PSEUDONYMIZATION_KEY
+from dapla_metadata.datasets.compatibility._utils import VERSION_FIELD_NAME
+from dapla_metadata.datasets.compatibility._utils import UnknownModelVersionError
+from dapla_metadata.datasets.compatibility._utils import add_container
+from dapla_metadata.datasets.compatibility._utils import cast_to_date_type
+from dapla_metadata.datasets.compatibility._utils import convert_datetime_to_date
+from dapla_metadata.datasets.compatibility._utils import convert_is_personal_data
+from dapla_metadata.datasets.compatibility._utils import copy_pseudonymization_metadata
+from dapla_metadata.datasets.compatibility._utils import (
+    find_and_update_language_strings,
+)
+from dapla_metadata.datasets.compatibility._utils import (
+    is_metadata_in_container_structure,
+)
+from dapla_metadata.datasets.compatibility._utils import remove_element_from_model
 
 logger = logging.getLogger(__name__)
 
 if TYPE_CHECKING:
     from collections.abc import Callable
-
-VERSION_FIELD_NAME = "document_version"
-PSEUDONYMIZATION_KEY = "pseudonymization"
-
-
-class UnknownModelVersionError(Exception):
-    """Exception raised for unknown model versions.
-
-    This error is thrown when an unrecognized model version is encountered.
-    """
-
-    def __init__(
-        self,
-        supplied_version: str,
-        *args: tuple[Any, ...],
-    ) -> None:
-        """Initialize the exception with the supplied version.
-
-        Args:
-            supplied_version: The version of the model that was not recognized.
-            *args: Additional arguments for the Exception base class.
-        """
-        super().__init__(args)
-        self.supplied_version = supplied_version
-
-    def __str__(self) -> str:
-        """Return string representation."""
-        return f"Document Version ({self.supplied_version}) of discovered file is not supported"
-
 
 SUPPORTED_VERSIONS: OrderedDict[str, BackwardsCompatibleVersion] = OrderedDict()
 
@@ -94,187 +79,6 @@ def handle_current_version(supplied_metadata: dict[str, Any]) -> dict[str, Any]:
     return supplied_metadata
 
 
-def _find_and_update_language_strings(supplied_metadata: dict | None) -> dict | None:
-    """Find and update language-specific strings in the supplied metadata.
-
-    This function iterates through the supplied metadata dictionary.
-    For each key-value pair, if the value is a dictionary containing "en"
-    it is passed to the `_convert_language_string_type` function to potentially
-    update its format.
-
-    Args:
-        supplied_metadata: A metadata dictionary where values may include nested
-            dictionaries with language-specific strings.
-
-    Returns:
-        The updated metadata dictionary. If the supplied metadata is not a
-        dictionary, it returns `None`.
-    """
-    if isinstance(supplied_metadata, dict):
-        for key, value in supplied_metadata.items():
-            if isinstance(value, dict) and "en" in value:
-                supplied_metadata[key] = _convert_language_string_type(value)
-        return supplied_metadata
-    return None
-
-
-def _convert_language_string_type(supplied_value: dict) -> list[dict[str, str]]:
-    """Convert a dictionary of language-specific strings to a list of dictionaries.
-
-    This function takes a dictionary with language codes as keys and
-    corresponding language-specific strings as values, and converts it to a list
-    of dictionaries with 'languageCode' and 'languageText' keys.
-
-    Args:
-        supplied_value: A dictionary containing language codes as keys and
-            language strings as values.
-
-    Returns:
-        A list of dictionaries, each containing 'languageCode' and 'languageText'
-        keys, representing the converted language strings.
-    """
-    return [
-        {
-            "languageCode": "en",
-            "languageText": supplied_value["en"],
-        },
-        {
-            "languageCode": "nn",
-            "languageText": supplied_value["nn"],
-        },
-        {
-            "languageCode": "nb",
-            "languageText": supplied_value["nb"],
-        },
-    ]
-
-
-def _remove_element_from_model(
-    supplied_metadata: dict[str, Any],
-    element_to_remove: str,
-) -> None:
-    """Remove an element from the supplied metadata dictionary.
-
-    This function deletes a specified element from the supplied metadata dictionary
-    if it exists.
-
-    Args:
-        supplied_metadata: The metadata dictionary from which the element will be
-            removed.
-        element_to_remove: The key of the element to be removed from the metadata
-            dictionary.
-    """
-    supplied_metadata.pop(element_to_remove, None)
-
-
-def _cast_to_date_type(value_to_update: str | None) -> str | None:
-    """Convert a string to a date string in ISO format.
-
-    This function takes a string representing a date and converts it to a
-    date string in ISO format. If the input is `None`, it returns `None` without
-    modification.
-
-    Args:
-        value_to_update: A string representing a date or `None`.
-
-    Returns:
-        The date string in ISO format if the input was a valid date string, or
-        `None` if the input was `None`.
-    """
-    if value_to_update is None:
-        return value_to_update
-
-    return str(
-        arrow.get(
-            value_to_update,
-        ).date(),
-    )
-
-
-def convert_is_personal_data(supplied_metadata: dict[str, Any]) -> None:
-    """Convert 'is_personal_data' values in the supplied metadata to boolean.
-
-    Iterates over variables in the supplied metadata and updates the
-    'is_personal_data' field:
-      - Sets it to True for NON_PSEUDONYMISED_ENCRYPTED_PERSONAL_DATA and PSEUDONYMISED_ENCRYPTED_PERSONAL_DATA.
-      - Sets it to False for NOT_PERSONAL_DATA.
-
-    Args:
-        supplied_metadata: The metadata dictionary to be updated.
-    """
-    for variable in supplied_metadata["datadoc"]["variables"]:
-        value = variable["is_personal_data"]
-        if value in (
-            "NON_PSEUDONYMISED_ENCRYPTED_PERSONAL_DATA",
-            "PSEUDONYMISED_ENCRYPTED_PERSONAL_DATA",
-        ):
-            variable["is_personal_data"] = True
-        elif value == "NOT_PERSONAL_DATA":
-            variable["is_personal_data"] = False
-
-
-def copy_pseudonymization_metadata(supplied_metadata: dict[str, Any]) -> None:
-    """Copies pseudonymization metadata from the old pseudonymization section into the corresponding variable.
-
-    For each variable in `supplied_metadata["datadoc"]["variables"]` that has a matching
-    `short_name` in `supplied_metadata["pseudonymization"]["pseudo_variables"]`, this
-    function copies the following fields into the variable's 'pseudonymization' dictionary:
-
-        - stable_identifier_type
-        - stable_identifier_version
-        - encryption_algorithm
-        - encryption_key_reference
-        - encryption_algorithm_parameters
-
-    From the pseudo_dataset the value dataset_pseudo_time is copied to each variable as pseudonymization_time.
-
-    Args:
-        supplied_metadata: The metadata dictionary to be updated.
-    """
-    pseudo_vars = supplied_metadata.get(PSEUDONYMIZATION_KEY, {}).get(
-        "pseudo_variables", []
-    )
-    pseudo_dataset = (
-        supplied_metadata.get(PSEUDONYMIZATION_KEY, {}).get("pseudo_dataset") or {}
-    )
-    pseudo_time = pseudo_dataset.get("dataset_pseudo_time", None)
-    datadoc_vars = supplied_metadata.get("datadoc", {}).get("variables", [])
-    pseudo_lookup = {var.get("short_name"): var for var in pseudo_vars}
-
-    for variable in datadoc_vars:
-        short_name = variable.get("short_name")
-        if short_name in pseudo_lookup:
-            pseudo_var = pseudo_lookup[short_name]
-            variable[PSEUDONYMIZATION_KEY] = variable.get(
-                PSEUDONYMIZATION_KEY, {}
-            ).copy()
-
-            for field in [
-                "stable_identifier_type",
-                "stable_identifier_version",
-                "encryption_algorithm",
-                "encryption_key_reference",
-                "encryption_algorithm_parameters",
-            ]:
-                variable[PSEUDONYMIZATION_KEY][field] = pseudo_var[field]
-            variable[PSEUDONYMIZATION_KEY]["pseudonymization_time"] = pseudo_time
-
-        else:
-            variable[PSEUDONYMIZATION_KEY] = None
-
-
-def convert_datetime_to_date(date_value: str | None) -> str | None:
-    """Convert ISO datetime string to date string, handling None and invalid values."""
-    if not date_value or not isinstance(date_value, str):
-        return date_value
-
-    try:
-        dt = datetime.fromisoformat(date_value.replace("Z", "+00:00"))
-        return dt.date().isoformat()
-    except ValueError:
-        return date_value
-
-
 def handle_version_6_0_0(supplied_metadata: dict[str, Any]) -> dict[str, Any]:
     """Handle breaking changes for version 6.1.0.
 
@@ -306,7 +110,7 @@ def handle_version_6_0_0(supplied_metadata: dict[str, Any]) -> dict[str, Any]:
         dataset["use_restrictions"] = []
 
     for field in ("use_restriction", "use_restriction_date"):
-        _remove_element_from_model(dataset, field)
+        remove_element_from_model(dataset, field)
 
     supplied_metadata["datadoc"]["document_version"] = "6.1.0"
     return supplied_metadata
@@ -373,7 +177,7 @@ def handle_version_4_0_0(supplied_metadata: dict[str, Any]) -> dict[str, Any]:
     convert_is_personal_data(supplied_metadata)
 
     supplied_metadata["datadoc"]["document_version"] = "5.0.1"
-    _remove_element_from_model(supplied_metadata, PSEUDONYMIZATION_KEY)
+    remove_element_from_model(supplied_metadata, PSEUDONYMIZATION_KEY)
     supplied_metadata["document_version"] = "1.0.0"
     return supplied_metadata
 
@@ -397,7 +201,7 @@ def handle_version_3_3_0(supplied_metadata: dict[str, Any]) -> dict[str, Any]:
     """
     for variable in supplied_metadata["datadoc"]["variables"]:
         variable["is_personal_data"] = variable["direct_person_identifying"]
-        _remove_element_from_model(variable, "direct_person_identifying")
+        remove_element_from_model(variable, "direct_person_identifying")
 
     supplied_metadata["datadoc"]["document_version"] = "4.0.0"
     return supplied_metadata
@@ -421,11 +225,11 @@ def handle_version_3_2_0(supplied_metadata: dict[str, Any]) -> dict[str, Any]:
     """
     fields = ["contains_data_from", "contains_data_until"]
     for field in fields:
-        supplied_metadata["datadoc"]["dataset"][field] = _cast_to_date_type(
+        supplied_metadata["datadoc"]["dataset"][field] = cast_to_date_type(
             supplied_metadata["datadoc"]["dataset"].get(field, None),
         )
         for v in supplied_metadata["datadoc"]["variables"]:
-            v[field] = _cast_to_date_type(v.get(field, None))
+            v[field] = cast_to_date_type(v.get(field, None))
 
     supplied_metadata["datadoc"]["document_version"] = "3.3.0"
     return supplied_metadata
@@ -488,48 +292,24 @@ def handle_version_2_2_0(supplied_metadata: dict[str, Any]) -> dict[str, Any]:
             data["nb"] or data["nn"] or data["en"],
         )
 
-    _remove_element_from_model(supplied_metadata["datadoc"]["dataset"], "register_uri")
+    remove_element_from_model(supplied_metadata["datadoc"]["dataset"], "register_uri")
 
     for i in range(len(supplied_metadata["datadoc"]["variables"])):
-        _remove_element_from_model(
+        remove_element_from_model(
             supplied_metadata["datadoc"]["variables"][i],
             "sentinel_value_uri",
         )
         supplied_metadata["datadoc"]["variables"][i]["special_value"] = None
         supplied_metadata["datadoc"]["variables"][i]["custom_type"] = None
-        supplied_metadata["datadoc"]["variables"][i] = (
-            _find_and_update_language_strings(
-                supplied_metadata["datadoc"]["variables"][i],
-            )
+        supplied_metadata["datadoc"]["variables"][i] = find_and_update_language_strings(
+            supplied_metadata["datadoc"]["variables"][i],
         )
     supplied_metadata["datadoc"]["dataset"]["custom_type"] = None
-    supplied_metadata["datadoc"]["dataset"] = _find_and_update_language_strings(
+    supplied_metadata["datadoc"]["dataset"] = find_and_update_language_strings(
         supplied_metadata["datadoc"]["dataset"],
     )
     supplied_metadata["datadoc"]["document_version"] = "3.1.0"
     return supplied_metadata
-
-
-def add_container(existing_metadata: dict) -> dict:
-    """Add container for previous versions.
-
-    Adds a container structure for previous versions of metadata.
-    This function wraps the existing metadata in a new container structure
-    that includes the 'document_version', 'datadoc', and 'pseudonymization'
-    fields. The 'document_version' is set to "0.0.1" and 'pseudonymization'
-    is set to None.
-
-    Args:
-        existing_metadata: The original metadata dictionary to be wrapped.
-
-    Returns:
-        A new dictionary containing the wrapped metadata with additional fields.
-    """
-    return {
-        "document_version": "0.0.1",
-        "datadoc": existing_metadata,
-        "pseudonymization": None,
-    }
 
 
 def handle_version_2_1_0(supplied_metadata: dict[str, Any]) -> dict[str, Any]:
@@ -587,7 +367,7 @@ def handle_version_1_0_0(supplied_metadata: dict[str, Any]) -> dict[str, Any]:
             "nb": "",
         }
 
-    _remove_element_from_model(supplied_metadata["dataset"], "data_source_path")
+    remove_element_from_model(supplied_metadata["dataset"], "data_source_path")
 
     supplied_metadata["document_version"] = "2.1.0"
     return supplied_metadata
@@ -691,24 +471,3 @@ def upgrade_metadata(fresh_metadata: dict[str, Any]) -> dict[str, Any]:
     if not start_running_handlers:
         raise UnknownModelVersionError(supplied_version)
     return fresh_metadata
-
-
-def is_metadata_in_container_structure(
-    metadata: dict,
-) -> bool:
-    """Check if the metadata is in the container structure.
-
-    At a certain point a metadata 'container' was introduced.
-    The container provides a structure for different 'types' of metadata, such as
-    'datadoc', 'pseudonymization' etc.
-    This function determines if the given metadata dictionary follows this container
-    structure by checking for the presence of the 'datadoc' field.
-
-    Args:
-        metadata: The metadata dictionary to check.
-
-    Returns:
-        True if the metadata is in the container structure (i.e., contains the
-        'datadoc' field), False otherwise.
-    """
-    return "datadoc" in metadata

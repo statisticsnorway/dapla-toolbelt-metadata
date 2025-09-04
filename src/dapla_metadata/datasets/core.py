@@ -17,7 +17,7 @@ from datadoc_model.all_optional.model import DataSetStatus
 
 from dapla_metadata._shared import config
 from dapla_metadata.dapla import user_info
-from dapla_metadata.datasets.compatibility.model_backwards_compatibility import (
+from dapla_metadata.datasets.compatibility._utils import (
     is_metadata_in_container_structure,
 )
 from dapla_metadata.datasets.compatibility.model_backwards_compatibility import (
