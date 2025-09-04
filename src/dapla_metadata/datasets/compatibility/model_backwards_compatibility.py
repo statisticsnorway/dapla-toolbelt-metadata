@@ -74,7 +74,10 @@ class BackwardsCompatibleVersion:
             dict[str, Any]: The metadata upgraded to the version specified
         """
         metadata = self.handler(metadata)
-        metadata[DATADOC_KEY][DOCUMENT_VERSION_KEY] = self.version
+        if is_metadata_in_container_structure(metadata):
+            metadata[DATADOC_KEY][DOCUMENT_VERSION_KEY] = self.version
+        else:
+            metadata[DOCUMENT_VERSION_KEY] = self.version
         return metadata
 
 

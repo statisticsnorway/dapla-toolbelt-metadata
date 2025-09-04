@@ -11,6 +11,11 @@ from dapla_metadata.datasets.compatibility._handlers import handle_version_2_2_0
 from dapla_metadata.datasets.compatibility._handlers import handle_version_3_3_0
 from dapla_metadata.datasets.compatibility._handlers import handle_version_4_0_0
 from dapla_metadata.datasets.compatibility._handlers import handle_version_5_0_1
+from dapla_metadata.datasets.compatibility._utils import DATADOC_KEY
+from dapla_metadata.datasets.compatibility._utils import DATASET_KEY
+from dapla_metadata.datasets.compatibility._utils import DOCUMENT_VERSION_KEY
+from dapla_metadata.datasets.compatibility._utils import PSEUDONYMIZATION_KEY
+from dapla_metadata.datasets.compatibility._utils import VARIABLES_KEY
 from dapla_metadata.datasets.compatibility._utils import UnknownModelVersionError
 from dapla_metadata.datasets.compatibility._utils import add_container
 from dapla_metadata.datasets.compatibility._utils import convert_is_personal_data
@@ -31,7 +36,7 @@ BACKWARDS_COMPATIBLE_VERSION_NAMES = [
 
 def test_existing_metadata_current_model_version():
     current_model_version = "6.1.0"
-    fresh_metadata = {"document_version": current_model_version}
+    fresh_metadata = {DATADOC_KEY: {DOCUMENT_VERSION_KEY: current_model_version}}
     upgraded_metadata = upgrade_metadata(fresh_metadata)
     assert upgraded_metadata == fresh_metadata
 
@@ -48,9 +53,9 @@ def test_handle_version_2_2_0() -> None:
     with existing_metadata_file.open(mode="r", encoding="utf-8") as file:
         fresh_metadata = json.load(file)
     upgraded_metadata = handle_version_2_2_0(fresh_metadata)
-    assert "custom_type" in upgraded_metadata["datadoc"]["dataset"]
-    assert "custom_type" in upgraded_metadata["datadoc"]["variables"][0]
-    assert "special_value" in upgraded_metadata["datadoc"]["variables"][0]
+    assert "custom_type" in upgraded_metadata[DATADOC_KEY][DATASET_KEY]
+    assert "custom_type" in upgraded_metadata[DATADOC_KEY][VARIABLES_KEY][0]
+    assert "special_value" in upgraded_metadata[DATADOC_KEY][VARIABLES_KEY][0]
 
 
 def test_handle_version_3_3_0() -> None:
@@ -66,7 +71,8 @@ def test_handle_version_3_3_0() -> None:
         fresh_metadata = json.load(file)
     upgraded_metadata = handle_version_3_3_0(fresh_metadata)
     assert (
-        "direct_person_identifying" not in upgraded_metadata["datadoc"]["variables"][0]
+        "direct_person_identifying"
+        not in upgraded_metadata[DATADOC_KEY][VARIABLES_KEY][0]
     )
 
 
@@ -82,14 +88,18 @@ def test_handle_version_4_0_0() -> None:
     with existing_metadata_file.open(mode="r", encoding="utf-8") as file:
         fresh_metadata = json.load(file)
     upgraded_metadata = handle_version_4_0_0(fresh_metadata)
-    pseudo_field = upgraded_metadata["datadoc"]["variables"][0]["pseudonymization"]
+    pseudo_field = upgraded_metadata[DATADOC_KEY][VARIABLES_KEY][0][
+        PSEUDONYMIZATION_KEY
+    ]
     assert pseudo_field["encryption_algorithm"] == "TINK-DAEAD"
     assert pseudo_field["encryption_key_reference"] == "ssb-common-key-1"
     assert pseudo_field["pseudonymization_time"] == "2010-09-05"
     assert pseudo_field["encryption_algorithm_parameters"] == [
         {"keyId": "ssb-common-key-1"}
     ]
-    assert upgraded_metadata["datadoc"]["variables"][1]["pseudonymization"] is None
+    assert (
+        upgraded_metadata[DATADOC_KEY][VARIABLES_KEY][1][PSEUDONYMIZATION_KEY] is None
+    )
 
 
 def test_handle_version_4_0_0_without_pseudo() -> None:
@@ -104,7 +114,11 @@ def test_handle_version_4_0_0_without_pseudo() -> None:
     with existing_metadata_file.open(mode="r", encoding="utf-8") as file:
         fresh_metadata = json.load(file)
     upgraded_metadata = handle_version_4_0_0(fresh_metadata)
-    assert upgraded_metadata["datadoc"]["document_version"] == "5.0.1"
+    assert PSEUDONYMIZATION_KEY not in upgraded_metadata
+    assert all(
+        PSEUDONYMIZATION_KEY not in v
+        for v in upgraded_metadata[DATADOC_KEY][VARIABLES_KEY]
+    )
 
 
 def test_handle_version_5_0_1() -> None:
@@ -119,7 +133,6 @@ def test_handle_version_5_0_1() -> None:
     with existing_metadata_file.open(mode="r", encoding="utf-8") as file:
         fresh_metadata = json.load(file)
     upgraded_metadata = handle_version_5_0_1(fresh_metadata)
-    assert upgraded_metadata["datadoc"]["document_version"] == "6.0.0"
     removed_dataset_fields = [
         "contains_personal_data",
         "unit_type",
@@ -127,7 +140,7 @@ def test_handle_version_5_0_1() -> None:
         "temporality_type",
     ]
     for f in removed_dataset_fields:
-        assert f not in upgraded_metadata["datadoc"]["dataset"]
+        assert f not in upgraded_metadata[DATADOC_KEY][DATASET_KEY]
     added_variables_fields = [
         "is_personal_data",
         "unit_type",
@@ -135,11 +148,11 @@ def test_handle_version_5_0_1() -> None:
         "temporality_type",
     ]
     for f in added_variables_fields:
-        assert all(f in v for v in upgraded_metadata["datadoc"]["variables"])
+        assert all(f in v for v in upgraded_metadata[DATADOC_KEY][VARIABLES_KEY])
 
 
 def test_existing_metadata_unknown_model_version():
-    fresh_metadata = {"document_version": "0.27.65"}
+    fresh_metadata = {DATADOC_KEY: {DOCUMENT_VERSION_KEY: "0.27.65"}}
     with pytest.raises(UnknownModelVersionError):
         upgrade_metadata(fresh_metadata)
 
@@ -157,22 +170,22 @@ def test_backwards_compatibility(
         file_metadata = json.loads(f.read())
 
     if is_metadata_in_container_structure(file_metadata):
-        file_metadata = file_metadata["datadoc"]
+        file_metadata = file_metadata[DATADOC_KEY]
 
     # Just test a single value to make sure we have a working model
-    assert metadata.dataset.short_name == file_metadata["dataset"]["short_name"]  # type: ignore [union-attr, index]
+    assert metadata.dataset.short_name == file_metadata[DATASET_KEY]["short_name"]  # type: ignore [union-attr, index]
 
 
 def test_add_container():
     doc = {
         "percentage_complete": 98,
-        "document_version": "2.1.0",
-        "dataset": {"short_name": "person_data_v1", "assessment": "SENSITIVE"},
+        DOCUMENT_VERSION_KEY: "2.1.0",
+        DATASET_KEY: {"short_name": "person_data_v1", "assessment": "SENSITIVE"},
     }
     doc_with_container = add_container(doc)
-    assert doc_with_container["document_version"] == "0.0.1"
-    assert doc_with_container["datadoc"]["document_version"] == "2.1.0"
-    assert "pseudonymization" in doc_with_container
+    assert doc_with_container[DOCUMENT_VERSION_KEY] == "0.0.1"
+    assert doc_with_container[DATADOC_KEY][DOCUMENT_VERSION_KEY] == "2.1.0"
+    assert PSEUDONYMIZATION_KEY in doc_with_container
 
 
 @pytest.mark.parametrize(
@@ -187,21 +200,23 @@ def test_add_container():
     ],
 )
 def test_convert_is_personal_data(input_value, expected_result):
-    supplied_metadata = {"datadoc": {"variables": [{"is_personal_data": input_value}]}}
+    supplied_metadata = {
+        DATADOC_KEY: {VARIABLES_KEY: [{"is_personal_data": input_value}]}
+    }
 
     convert_is_personal_data(supplied_metadata)
 
     assert (
-        supplied_metadata["datadoc"]["variables"][0]["is_personal_data"]
+        supplied_metadata[DATADOC_KEY][VARIABLES_KEY][0]["is_personal_data"]
         == expected_result
     )
 
 
 def test_copy_pseudonymization_metadata_shortname_mismatch():
     supplied_metadata = {
-        "datadoc": {"variables": [{"short_name": "pers_id"}]},
-        "pseudonymization": {
-            "document_version": "0.1.0",
+        DATADOC_KEY: {VARIABLES_KEY: [{"short_name": "pers_id"}]},
+        PSEUDONYMIZATION_KEY: {
+            DOCUMENT_VERSION_KEY: "0.1.0",
             "pseudo_dataset": None,
             "pseudo_variables": [
                 {
@@ -222,5 +237,7 @@ def test_copy_pseudonymization_metadata_shortname_mismatch():
 
     copy_pseudonymization_metadata(supplied_metadata)
 
-    assert len(supplied_metadata["datadoc"]["variables"]) == 1
-    assert supplied_metadata["datadoc"]["variables"][0]["pseudonymization"] is None
+    assert len(supplied_metadata[DATADOC_KEY][VARIABLES_KEY]) == 1
+    assert (
+        supplied_metadata[DATADOC_KEY][VARIABLES_KEY][0][PSEUDONYMIZATION_KEY] is None
+    )

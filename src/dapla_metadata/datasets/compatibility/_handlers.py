@@ -46,7 +46,7 @@ def handle_version_6_0_0(supplied_metadata: dict[str, Any]) -> dict[str, Any]:
         supplied_metadata: The metadata dictionary to be updated.
 
     Returns:
-        The updated metadata dictionary with `document_version` set to "6.1.0".
+        The upgraded metadata dictionary.
     """
     dataset = supplied_metadata[DATADOC_KEY][DATASET_KEY]
 
@@ -65,7 +65,6 @@ def handle_version_6_0_0(supplied_metadata: dict[str, Any]) -> dict[str, Any]:
     for field in ("use_restriction", "use_restriction_date"):
         remove_element_from_model(dataset, field)
 
-    supplied_metadata[DATADOC_KEY][DOCUMENT_VERSION_KEY] = "6.1.0"
     return supplied_metadata
 
 
@@ -103,7 +102,6 @@ def handle_version_5_0_1(supplied_metadata: dict[str, Any]) -> dict[str, Any]:
                 # Don't override any set values
                 v[f[1]] = dataset_level_field_value
 
-    supplied_metadata[DATADOC_KEY][DOCUMENT_VERSION_KEY] = "6.0.0"
     return supplied_metadata
 
 
@@ -114,7 +112,6 @@ def handle_version_4_0_0(supplied_metadata: dict[str, Any]) -> dict[str, Any]:
     introduced in version 5.0.1. Specifically, it:
     - Copies pseudonymization metadata if pseudonymization is enabled.
     - Converts the 'is_personal_data' fields to be a bool.
-    - Updates the 'document_version' field in the 'datadoc' section to "5.0.1".
     - All 'pseudonymization' from the container is removed.
     - It also updates the container version to 1.0.0 from 0.0.1
 
@@ -129,7 +126,6 @@ def handle_version_4_0_0(supplied_metadata: dict[str, Any]) -> dict[str, Any]:
 
     convert_is_personal_data(supplied_metadata)
 
-    supplied_metadata[DATADOC_KEY][DOCUMENT_VERSION_KEY] = "5.0.1"
     remove_element_from_model(supplied_metadata, PSEUDONYMIZATION_KEY)
     supplied_metadata[DOCUMENT_VERSION_KEY] = "1.0.0"
     return supplied_metadata
@@ -140,8 +136,7 @@ def handle_version_3_3_0(supplied_metadata: dict[str, Any]) -> dict[str, Any]:
 
     This function modifies the supplied metadata to accommodate breaking changes
     introduced in version 4.0.0. Specifically, it removes the
-    'direct_person_identifying' field from each variable in 'datadoc.variables'
-    and updates the 'document_version' field to "4.0.0".
+    'direct_person_identifying' field from each variable in 'datadoc.variables'.
 
     Version 4.0.0 used an enum for is_personal_data, however this was changed to a bool again for version 5.0.1.
     We skip setting the enum here and just keep the value it has.
@@ -156,7 +151,6 @@ def handle_version_3_3_0(supplied_metadata: dict[str, Any]) -> dict[str, Any]:
         variable["is_personal_data"] = variable["direct_person_identifying"]
         remove_element_from_model(variable, "direct_person_identifying")
 
-    supplied_metadata[DATADOC_KEY][DOCUMENT_VERSION_KEY] = "4.0.0"
     return supplied_metadata
 
 
@@ -168,7 +162,6 @@ def handle_version_3_2_0(supplied_metadata: dict[str, Any]) -> dict[str, Any]:
     'contains_data_from' and 'contains_data_until' fields in both the 'dataset'
     and 'variables' sections of the supplied metadata dictionary to ensure they
     are stored as date strings.
-    It also updates the 'document_version' field to "3.3.0".
 
     Args:
         supplied_metadata: The metadata dictionary to be updated.
@@ -184,7 +177,6 @@ def handle_version_3_2_0(supplied_metadata: dict[str, Any]) -> dict[str, Any]:
         for v in supplied_metadata[DATADOC_KEY][VARIABLES_KEY]:
             v[field] = cast_to_date_type(v.get(field, None))
 
-    supplied_metadata[DATADOC_KEY][DOCUMENT_VERSION_KEY] = "3.3.0"
     return supplied_metadata
 
 
@@ -195,7 +187,6 @@ def handle_version_3_1_0(supplied_metadata: dict[str, Any]) -> dict[str, Any]:
     changes introduced in version 3.2.0. Specifically, it updates the
     'data_source' field in both the 'dataset' and 'variables' sections of the
     supplied metadata dictionary by converting value to string.
-    The 'document_version' field is also updated to "3.2.0".
 
     Args:
         supplied_metadata: The metadata dictionary to be updated.
@@ -217,7 +208,6 @@ def handle_version_3_1_0(supplied_metadata: dict[str, Any]) -> dict[str, Any]:
                 data[0]["languageText"],
             )
 
-    supplied_metadata[DATADOC_KEY][DOCUMENT_VERSION_KEY] = "3.2.0"
     return supplied_metadata
 
 
@@ -231,7 +221,6 @@ def handle_version_2_2_0(supplied_metadata: dict[str, Any]) -> dict[str, Any]:
     Additionally, it removes 'sentinel_value_uri' from each variable,
     sets 'special_value' and 'custom_type' fields to None, and updates
     language strings in the 'variables' and 'dataset' sections.
-    The 'document_version' is updated to "3.1.0".
 
     Args:
         supplied_metadata: The metadata dictionary to be updated.
@@ -265,7 +254,6 @@ def handle_version_2_2_0(supplied_metadata: dict[str, Any]) -> dict[str, Any]:
     supplied_metadata[DATADOC_KEY][DATASET_KEY] = find_and_update_language_strings(
         supplied_metadata[DATADOC_KEY][DATASET_KEY],
     )
-    supplied_metadata[DATADOC_KEY][DOCUMENT_VERSION_KEY] = "3.1.0"
     return supplied_metadata
 
 
@@ -276,7 +264,6 @@ def handle_version_2_1_0(supplied_metadata: dict[str, Any]) -> dict[str, Any]:
     introduced in version 2.2.0. Specifically, it updates the 'owner' field in
     the 'dataset' section of the supplied metadata dictionary by converting it
     from a LanguageStringType to a string.
-    The 'document_version' is updated to "2.2.0".
 
     Args:
         supplied_metadata: The metadata dictionary to be updated.
@@ -288,7 +275,6 @@ def handle_version_2_1_0(supplied_metadata: dict[str, Any]) -> dict[str, Any]:
     supplied_metadata[DATASET_KEY]["owner"] = str(
         data["nb"] or data["nn"] or data["en"]
     )
-    supplied_metadata[DOCUMENT_VERSION_KEY] = "2.2.0"
     return add_container(supplied_metadata)
 
 
@@ -301,7 +287,6 @@ def handle_version_1_0_0(supplied_metadata: dict[str, Any]) -> dict[str, Any]:
     with UTC timezone. It also converts the 'data_source' field from a string to a
     dictionary with language keys if necessary and removes the 'data_source_path'
     field.
-    The 'document_version' is updated to "2.1.0".
 
     Args:
         supplied_metadata: The metadata dictionary to be updated.
@@ -330,7 +315,6 @@ def handle_version_1_0_0(supplied_metadata: dict[str, Any]) -> dict[str, Any]:
 
     remove_element_from_model(supplied_metadata[DATASET_KEY], "data_source_path")
 
-    supplied_metadata[DOCUMENT_VERSION_KEY] = "2.1.0"
     return supplied_metadata
 
 
