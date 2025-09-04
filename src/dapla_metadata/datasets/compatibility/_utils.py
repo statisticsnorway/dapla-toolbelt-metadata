@@ -3,6 +3,12 @@ from typing import Any
 
 import arrow
 
+DOCUMENT_VERSION_KEY = "document_version"
+DATADOC_KEY = "datadoc"
+DATASET_KEY = "dataset"
+VARIABLES_KEY = "variables"
+PSEUDONYMIZATION_KEY = "pseudonymization"
+
 
 class UnknownModelVersionError(Exception):
     """Exception raised for unknown model versions.
@@ -137,7 +143,7 @@ def convert_is_personal_data(supplied_metadata: dict[str, Any]) -> None:
     Args:
         supplied_metadata: The metadata dictionary to be updated.
     """
-    for variable in supplied_metadata["datadoc"]["variables"]:
+    for variable in supplied_metadata[DATADOC_KEY][VARIABLES_KEY]:
         value = variable["is_personal_data"]
         if value in (
             "NON_PSEUDONYMISED_ENCRYPTED_PERSONAL_DATA",
@@ -148,14 +154,11 @@ def convert_is_personal_data(supplied_metadata: dict[str, Any]) -> None:
             variable["is_personal_data"] = False
 
 
-PSEUDONYMIZATION_KEY = "pseudonymization"
-
-
 def copy_pseudonymization_metadata(supplied_metadata: dict[str, Any]) -> None:
     """Copies pseudonymization metadata from the old pseudonymization section into the corresponding variable.
 
-    For each variable in `supplied_metadata["datadoc"]["variables"]` that has a matching
-    `short_name` in `supplied_metadata["pseudonymization"]["pseudo_variables"]`, this
+    For each variable in `supplied_metadata[DATADOC_KEY][VARIABLES_KEY]` that has a matching
+    `short_name` in `supplied_metadata[PSEUDONYMIZATION_KEY]["pseudo_variables"]`, this
     function copies the following fields into the variable's 'pseudonymization' dictionary:
 
         - stable_identifier_type
@@ -176,7 +179,7 @@ def copy_pseudonymization_metadata(supplied_metadata: dict[str, Any]) -> None:
         supplied_metadata.get(PSEUDONYMIZATION_KEY, {}).get("pseudo_dataset") or {}
     )
     pseudo_time = pseudo_dataset.get("dataset_pseudo_time", None)
-    datadoc_vars = supplied_metadata.get("datadoc", {}).get("variables", [])
+    datadoc_vars = supplied_metadata.get(DATADOC_KEY, {}).get(VARIABLES_KEY, [])
     pseudo_lookup = {var.get("short_name"): var for var in pseudo_vars}
 
     for variable in datadoc_vars:
@@ -229,9 +232,9 @@ def add_container(existing_metadata: dict) -> dict:
         A new dictionary containing the wrapped metadata with additional fields.
     """
     return {
-        "document_version": "0.0.1",
-        "datadoc": existing_metadata,
-        "pseudonymization": None,
+        DOCUMENT_VERSION_KEY: "0.0.1",
+        DATADOC_KEY: existing_metadata,
+        PSEUDONYMIZATION_KEY: None,
     }
 
 
@@ -253,7 +256,4 @@ def is_metadata_in_container_structure(
         True if the metadata is in the container structure (i.e., contains the
         'datadoc' field), False otherwise.
     """
-    return "datadoc" in metadata
-
-
-VERSION_FIELD_NAME = "document_version"
+    return DATADOC_KEY in metadata

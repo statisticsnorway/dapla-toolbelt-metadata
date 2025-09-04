@@ -1,4 +1,4 @@
-"""Tests for the ModelBackwardsCompatibility class."""
+"""Tests for the compatibility package."""
 
 import json
 from pathlib import Path

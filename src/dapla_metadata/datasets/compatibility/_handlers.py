@@ -2,7 +2,11 @@ from datetime import datetime
 from datetime import timezone
 from typing import Any
 
+from dapla_metadata.datasets.compatibility._utils import DATADOC_KEY
+from dapla_metadata.datasets.compatibility._utils import DATASET_KEY
+from dapla_metadata.datasets.compatibility._utils import DOCUMENT_VERSION_KEY
 from dapla_metadata.datasets.compatibility._utils import PSEUDONYMIZATION_KEY
+from dapla_metadata.datasets.compatibility._utils import VARIABLES_KEY
 from dapla_metadata.datasets.compatibility._utils import add_container
 from dapla_metadata.datasets.compatibility._utils import cast_to_date_type
 from dapla_metadata.datasets.compatibility._utils import convert_datetime_to_date
@@ -44,7 +48,7 @@ def handle_version_6_0_0(supplied_metadata: dict[str, Any]) -> dict[str, Any]:
     Returns:
         The updated metadata dictionary with `document_version` set to "6.1.0".
     """
-    dataset = supplied_metadata["datadoc"]["dataset"]
+    dataset = supplied_metadata[DATADOC_KEY][DATASET_KEY]
 
     use_restriction = dataset.get("use_restriction")
     if use_restriction is not None:
@@ -61,7 +65,7 @@ def handle_version_6_0_0(supplied_metadata: dict[str, Any]) -> dict[str, Any]:
     for field in ("use_restriction", "use_restriction_date"):
         remove_element_from_model(dataset, field)
 
-    supplied_metadata["datadoc"]["document_version"] = "6.1.0"
+    supplied_metadata[DATADOC_KEY][DOCUMENT_VERSION_KEY] = "6.1.0"
     return supplied_metadata
 
 
@@ -89,8 +93,8 @@ def handle_version_5_0_1(supplied_metadata: dict[str, Any]) -> dict[str, Any]:
         ("temporality_type", "temporality_type"),
     ]
 
-    dataset: dict[str, Any] = supplied_metadata["datadoc"]["dataset"]
-    variables: list[dict[str, Any]] = supplied_metadata["datadoc"]["variables"]
+    dataset: dict[str, Any] = supplied_metadata[DATADOC_KEY][DATASET_KEY]
+    variables: list[dict[str, Any]] = supplied_metadata[DATADOC_KEY][VARIABLES_KEY]
 
     for f in fields:
         dataset_level_field_value = dataset.pop(f[0], None)
@@ -99,7 +103,7 @@ def handle_version_5_0_1(supplied_metadata: dict[str, Any]) -> dict[str, Any]:
                 # Don't override any set values
                 v[f[1]] = dataset_level_field_value
 
-    supplied_metadata["datadoc"]["document_version"] = "6.0.0"
+    supplied_metadata[DATADOC_KEY][DOCUMENT_VERSION_KEY] = "6.0.0"
     return supplied_metadata
 
 
@@ -125,9 +129,9 @@ def handle_version_4_0_0(supplied_metadata: dict[str, Any]) -> dict[str, Any]:
 
     convert_is_personal_data(supplied_metadata)
 
-    supplied_metadata["datadoc"]["document_version"] = "5.0.1"
+    supplied_metadata[DATADOC_KEY][DOCUMENT_VERSION_KEY] = "5.0.1"
     remove_element_from_model(supplied_metadata, PSEUDONYMIZATION_KEY)
-    supplied_metadata["document_version"] = "1.0.0"
+    supplied_metadata[DOCUMENT_VERSION_KEY] = "1.0.0"
     return supplied_metadata
 
 
@@ -148,11 +152,11 @@ def handle_version_3_3_0(supplied_metadata: dict[str, Any]) -> dict[str, Any]:
     Returns:
         The updated metadata dictionary.
     """
-    for variable in supplied_metadata["datadoc"]["variables"]:
+    for variable in supplied_metadata[DATADOC_KEY][VARIABLES_KEY]:
         variable["is_personal_data"] = variable["direct_person_identifying"]
         remove_element_from_model(variable, "direct_person_identifying")
 
-    supplied_metadata["datadoc"]["document_version"] = "4.0.0"
+    supplied_metadata[DATADOC_KEY][DOCUMENT_VERSION_KEY] = "4.0.0"
     return supplied_metadata
 
 
@@ -174,13 +178,13 @@ def handle_version_3_2_0(supplied_metadata: dict[str, Any]) -> dict[str, Any]:
     """
     fields = ["contains_data_from", "contains_data_until"]
     for field in fields:
-        supplied_metadata["datadoc"]["dataset"][field] = cast_to_date_type(
-            supplied_metadata["datadoc"]["dataset"].get(field, None),
+        supplied_metadata[DATADOC_KEY][DATASET_KEY][field] = cast_to_date_type(
+            supplied_metadata[DATADOC_KEY][DATASET_KEY].get(field, None),
         )
-        for v in supplied_metadata["datadoc"]["variables"]:
+        for v in supplied_metadata[DATADOC_KEY][VARIABLES_KEY]:
             v[field] = cast_to_date_type(v.get(field, None))
 
-    supplied_metadata["datadoc"]["document_version"] = "3.3.0"
+    supplied_metadata[DATADOC_KEY][DOCUMENT_VERSION_KEY] = "3.3.0"
     return supplied_metadata
 
 
@@ -199,21 +203,21 @@ def handle_version_3_1_0(supplied_metadata: dict[str, Any]) -> dict[str, Any]:
     Returns:
         The updated metadata dictionary.
     """
-    data = supplied_metadata["datadoc"]["dataset"]["data_source"]
+    data = supplied_metadata[DATADOC_KEY][DATASET_KEY]["data_source"]
 
     if data is not None:
-        supplied_metadata["datadoc"]["dataset"]["data_source"] = str(
+        supplied_metadata[DATADOC_KEY][DATASET_KEY]["data_source"] = str(
             data[0]["languageText"],
         )
 
-    for i in range(len(supplied_metadata["datadoc"]["variables"])):
-        data = supplied_metadata["datadoc"]["variables"][i]["data_source"]
+    for i in range(len(supplied_metadata[DATADOC_KEY][VARIABLES_KEY])):
+        data = supplied_metadata[DATADOC_KEY][VARIABLES_KEY][i]["data_source"]
         if data is not None:
-            supplied_metadata["datadoc"]["variables"][i]["data_source"] = str(
+            supplied_metadata[DATADOC_KEY][VARIABLES_KEY][i]["data_source"] = str(
                 data[0]["languageText"],
             )
 
-    supplied_metadata["datadoc"]["document_version"] = "3.2.0"
+    supplied_metadata[DATADOC_KEY][DOCUMENT_VERSION_KEY] = "3.2.0"
     return supplied_metadata
 
 
@@ -235,29 +239,33 @@ def handle_version_2_2_0(supplied_metadata: dict[str, Any]) -> dict[str, Any]:
     Returns:
         The updated metadata dictionary.
     """
-    if supplied_metadata["datadoc"]["dataset"]["subject_field"] is not None:
-        data = supplied_metadata["datadoc"]["dataset"]["subject_field"]
-        supplied_metadata["datadoc"]["dataset"]["subject_field"] = str(
+    if supplied_metadata[DATADOC_KEY][DATASET_KEY]["subject_field"] is not None:
+        data = supplied_metadata[DATADOC_KEY][DATASET_KEY]["subject_field"]
+        supplied_metadata[DATADOC_KEY][DATASET_KEY]["subject_field"] = str(
             data["nb"] or data["nn"] or data["en"],
         )
 
-    remove_element_from_model(supplied_metadata["datadoc"]["dataset"], "register_uri")
+    remove_element_from_model(
+        supplied_metadata[DATADOC_KEY][DATASET_KEY], "register_uri"
+    )
 
-    for i in range(len(supplied_metadata["datadoc"]["variables"])):
+    for i in range(len(supplied_metadata[DATADOC_KEY][VARIABLES_KEY])):
         remove_element_from_model(
-            supplied_metadata["datadoc"]["variables"][i],
+            supplied_metadata[DATADOC_KEY][VARIABLES_KEY][i],
             "sentinel_value_uri",
         )
-        supplied_metadata["datadoc"]["variables"][i]["special_value"] = None
-        supplied_metadata["datadoc"]["variables"][i]["custom_type"] = None
-        supplied_metadata["datadoc"]["variables"][i] = find_and_update_language_strings(
-            supplied_metadata["datadoc"]["variables"][i],
+        supplied_metadata[DATADOC_KEY][VARIABLES_KEY][i]["special_value"] = None
+        supplied_metadata[DATADOC_KEY][VARIABLES_KEY][i]["custom_type"] = None
+        supplied_metadata[DATADOC_KEY][VARIABLES_KEY][i] = (
+            find_and_update_language_strings(
+                supplied_metadata[DATADOC_KEY][VARIABLES_KEY][i],
+            )
         )
-    supplied_metadata["datadoc"]["dataset"]["custom_type"] = None
-    supplied_metadata["datadoc"]["dataset"] = find_and_update_language_strings(
-        supplied_metadata["datadoc"]["dataset"],
+    supplied_metadata[DATADOC_KEY][DATASET_KEY]["custom_type"] = None
+    supplied_metadata[DATADOC_KEY][DATASET_KEY] = find_and_update_language_strings(
+        supplied_metadata[DATADOC_KEY][DATASET_KEY],
     )
-    supplied_metadata["datadoc"]["document_version"] = "3.1.0"
+    supplied_metadata[DATADOC_KEY][DOCUMENT_VERSION_KEY] = "3.1.0"
     return supplied_metadata
 
 
@@ -276,9 +284,11 @@ def handle_version_2_1_0(supplied_metadata: dict[str, Any]) -> dict[str, Any]:
     Returns:
         The updated metadata dictionary.
     """
-    data = supplied_metadata["dataset"]["owner"]
-    supplied_metadata["dataset"]["owner"] = str(data["nb"] or data["nn"] or data["en"])
-    supplied_metadata["document_version"] = "2.2.0"
+    data = supplied_metadata[DATASET_KEY]["owner"]
+    supplied_metadata[DATASET_KEY]["owner"] = str(
+        data["nb"] or data["nn"] or data["en"]
+    )
+    supplied_metadata[DOCUMENT_VERSION_KEY] = "2.2.0"
     return add_container(supplied_metadata)
 
 
@@ -302,23 +312,25 @@ def handle_version_1_0_0(supplied_metadata: dict[str, Any]) -> dict[str, Any]:
     """
     datetime_fields = [("metadata_created_date"), ("metadata_last_updated_date")]
     for field in datetime_fields:
-        if supplied_metadata["dataset"][field]:
-            supplied_metadata["dataset"][field] = datetime.isoformat(
-                datetime.fromisoformat(supplied_metadata["dataset"][field]).astimezone(
+        if supplied_metadata[DATASET_KEY][field]:
+            supplied_metadata[DATASET_KEY][field] = datetime.isoformat(
+                datetime.fromisoformat(
+                    supplied_metadata[DATASET_KEY][field]
+                ).astimezone(
                     tz=timezone.utc,
                 ),
                 timespec="seconds",
             )
-    if isinstance(supplied_metadata["dataset"]["data_source"], str):
-        supplied_metadata["dataset"]["data_source"] = {
-            "en": supplied_metadata["dataset"]["data_source"],
+    if isinstance(supplied_metadata[DATASET_KEY]["data_source"], str):
+        supplied_metadata[DATASET_KEY]["data_source"] = {
+            "en": supplied_metadata[DATASET_KEY]["data_source"],
             "nn": "",
             "nb": "",
         }
 
-    remove_element_from_model(supplied_metadata["dataset"], "data_source_path")
+    remove_element_from_model(supplied_metadata[DATASET_KEY], "data_source_path")
 
-    supplied_metadata["document_version"] = "2.1.0"
+    supplied_metadata[DOCUMENT_VERSION_KEY] = "2.1.0"
     return supplied_metadata
 
 
@@ -346,21 +358,21 @@ def handle_version_0_1_1(supplied_metadata: dict[str, Any]) -> dict[str, Any]:
         ("metadata_last_updated_by", "last_updated_by"),
     ]
     for new_key, old_key in key_renaming:
-        supplied_metadata["dataset"][new_key] = supplied_metadata["dataset"].pop(
+        supplied_metadata[DATASET_KEY][new_key] = supplied_metadata[DATASET_KEY].pop(
             old_key,
         )
     # Replace empty strings with None, empty strings are not valid for LanguageStrings values
-    supplied_metadata["dataset"] = {
-        k: None if v == "" else v for k, v in supplied_metadata["dataset"].items()
+    supplied_metadata[DATASET_KEY] = {
+        k: None if v == "" else v for k, v in supplied_metadata[DATASET_KEY].items()
     }
 
     key_renaming = [("data_type", "datatype")]
 
-    for i in range(len(supplied_metadata["variables"])):
+    for i in range(len(supplied_metadata[VARIABLES_KEY])):
         for new_key, old_key in key_renaming:
-            supplied_metadata["variables"][i][new_key] = supplied_metadata["variables"][
-                i
-            ].pop(
+            supplied_metadata[VARIABLES_KEY][i][new_key] = supplied_metadata[
+                VARIABLES_KEY
+            ][i].pop(
                 old_key,
             )
 

@@ -30,7 +30,8 @@ from dapla_metadata.datasets.compatibility._handlers import handle_version_3_3_0
 from dapla_metadata.datasets.compatibility._handlers import handle_version_4_0_0
 from dapla_metadata.datasets.compatibility._handlers import handle_version_5_0_1
 from dapla_metadata.datasets.compatibility._handlers import handle_version_6_0_0
-from dapla_metadata.datasets.compatibility._utils import VERSION_FIELD_NAME
+from dapla_metadata.datasets.compatibility._utils import DATADOC_KEY
+from dapla_metadata.datasets.compatibility._utils import DOCUMENT_VERSION_KEY
 from dapla_metadata.datasets.compatibility._utils import UnknownModelVersionError
 from dapla_metadata.datasets.compatibility._utils import (
     is_metadata_in_container_structure,
@@ -73,7 +74,7 @@ class BackwardsCompatibleVersion:
             dict[str, Any]: The metadata upgraded to the version specified
         """
         metadata = self.handler(metadata)
-        metadata["datadoc"]["document_version"] = self.version
+        metadata[DATADOC_KEY][DOCUMENT_VERSION_KEY] = self.version
         return metadata
 
 
@@ -114,11 +115,11 @@ def upgrade_metadata(fresh_metadata: dict[str, Any]) -> dict[str, Any]:
         UnknownModelVersionError: If the metadata's version is unknown or unsupported.
     """
     if is_metadata_in_container_structure(fresh_metadata):
-        if fresh_metadata["datadoc"] is None:
+        if fresh_metadata[DATADOC_KEY] is None:
             return fresh_metadata
-        supplied_version = fresh_metadata["datadoc"][VERSION_FIELD_NAME]
+        supplied_version = fresh_metadata[DATADOC_KEY][DOCUMENT_VERSION_KEY]
     else:
-        supplied_version = fresh_metadata[VERSION_FIELD_NAME]
+        supplied_version = fresh_metadata[DOCUMENT_VERSION_KEY]
     start_running_handlers = False
     # Run all the handlers in order from the supplied version onwards
     for k, v in SUPPORTED_VERSIONS.items():
