@@ -283,6 +283,7 @@ def handle_version_6_0_0(supplied_metadata: dict[str, Any]) -> dict[str, Any]:
     - Consolidates `use_restriction` and `use_restriction_date` into a list of
       dictionaries under `use_restrictions`.
     - Removes the old `use_restriction` and `use_restriction_date` fields.
+    - It also converts `use_restriction_date` from datetime to date.
 
     Args:
         supplied_metadata: The metadata dictionary to be updated.
