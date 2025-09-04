@@ -12,7 +12,7 @@
 
 [![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)][pre-commit]
 [![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
-[![Poetry](https://img.shields.io/endpoint?url=https://python-poetry.org/badge/v0.json)][poetry]
+[![uv](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/uv/main/assets/badge/v0.json)][uv]
 
 [pypi status]: https://pypi.org/project/dapla-toolbelt-metadata/
 [documentation]: https://statisticsnorway.github.io/dapla-toolbelt-metadata
@@ -20,7 +20,7 @@
 [sonarcov]: https://sonarcloud.io/summary/overall?id=statisticsnorway_dapla-toolbelt-metadata
 [sonarquality]: https://sonarcloud.io/summary/overall?id=statisticsnorway_dapla-toolbelt-metadata
 [pre-commit]: https://github.com/pre-commit/pre-commit
-[poetry]: https://python-poetry.org/
+[uv]: https://docs.astral.sh/uv/
 
 Tools and clients for working with the Dapla Metadata system.
 

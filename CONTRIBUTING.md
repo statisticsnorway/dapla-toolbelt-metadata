@@ -35,7 +35,6 @@ Request features on the [Issue Tracker].
 You need Python 3.10+ and the following tools:
 
 - [uv]
-- poetry-plugin-export
 - [Nox]
 - nbstripout
 
@@ -109,7 +108,7 @@ We keep the version of `ssb-datadoc-model` pinned since almost all changes there
    1. Register the handler function as a `BackwardsCompatibleVersion` instance
    1. Add a metadata document under `tests/datasets/resources/existing_metadata_file/compatibility/v<YOUR_VERSION>` for use in testing.
 1. Fix any source or test code which refers to outdated fields
-1. Upgrade all the documents in the [tests/datasets/resources/existing_metadata_file](tests/datasets/resources/existing_metadata_file) directory (NOT those in the `compatibility` directory) to the latest version. This can be done using the script e.g. `poetry run python bin/upgrade_metadata_file.py --path tests/datasets/resources/existing_metadata_file/person_data_v1__DOC.json`
+1. Upgrade all the documents in the [tests/datasets/resources/existing_metadata_file](tests/datasets/resources/existing_metadata_file) directory (NOT those in the `compatibility` directory) to the latest version. This can be done using the script e.g. `uv run python bin/upgrade_metadata_file.py --path tests/datasets/resources/existing_metadata_file/person_data_v1__DOC.json`
 
 ## How to submit changes
 
