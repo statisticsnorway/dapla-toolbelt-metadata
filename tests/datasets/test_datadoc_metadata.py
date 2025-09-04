@@ -93,7 +93,7 @@ def test_metadata_document_percent_complete(metadata: Datadoc):
     metadata.dataset = document.dataset  # type: ignore [assignment]
     metadata.variables = document.variables  # type: ignore [assignment]
 
-    assert metadata.percent_complete == 12
+    assert metadata.percent_complete == 28
 
 
 def test_write_metadata_document(
