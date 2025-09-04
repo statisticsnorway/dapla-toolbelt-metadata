@@ -17,7 +17,6 @@
 [pypi status]: https://pypi.org/project/dapla-toolbelt-metadata/
 [documentation]: https://statisticsnorway.github.io/dapla-toolbelt-metadata
 [tests]: https://github.com/statisticsnorway/dapla-toolbelt-metadata/actions?workflow=Tests
-
 [sonarcov]: https://sonarcloud.io/summary/overall?id=statisticsnorway_dapla-toolbelt-metadata
 [sonarquality]: https://sonarcloud.io/summary/overall?id=statisticsnorway_dapla-toolbelt-metadata
 [pre-commit]: https://github.com/pre-commit/pre-commit
@@ -27,12 +26,14 @@ Tools and clients for working with the Dapla Metadata system.
 
 ## Features
 
-- Create and update metadata for datasets (Datadoc).
+- Create and update metadata for datasets (aka Datadoc).
+- Read, create and update variable definitions (aka Vardef).
+- Check compliance with SSBs naming standard.
 
 ### Coming
 
-- Read, create and update variable definitions.
 - Publish dataset metadata to Statistics Norway's data catalogue.
+- Maintain classifications and code lists.
 
 ## Installation
 
