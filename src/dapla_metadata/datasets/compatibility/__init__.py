@@ -5,3 +5,6 @@ This is analogous to a Database Migration where the structure of the data has ch
 retain already persisted information.
 
 """
+
+from ._utils import is_metadata_in_container_structure
+from .model_backwards_compatibility import upgrade_metadata
