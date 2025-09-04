@@ -5,25 +5,37 @@ from pathlib import Path
 
 import pytest
 
-from dapla_metadata.datasets.core import Datadoc
-from dapla_metadata.datasets.model_backwards_compatibility import (
+from dapla_metadata.datasets.compatibility.model_backwards_compatibility import (
     UnknownModelVersionError,
 )
-from dapla_metadata.datasets.model_backwards_compatibility import add_container
-from dapla_metadata.datasets.model_backwards_compatibility import (
+from dapla_metadata.datasets.compatibility.model_backwards_compatibility import (
+    add_container,
+)
+from dapla_metadata.datasets.compatibility.model_backwards_compatibility import (
     convert_is_personal_data,
 )
-from dapla_metadata.datasets.model_backwards_compatibility import (
+from dapla_metadata.datasets.compatibility.model_backwards_compatibility import (
     copy_pseudonymization_metadata,
 )
-from dapla_metadata.datasets.model_backwards_compatibility import handle_version_2_2_0
-from dapla_metadata.datasets.model_backwards_compatibility import handle_version_3_3_0
-from dapla_metadata.datasets.model_backwards_compatibility import handle_version_4_0_0
-from dapla_metadata.datasets.model_backwards_compatibility import handle_version_5_0_1
-from dapla_metadata.datasets.model_backwards_compatibility import (
+from dapla_metadata.datasets.compatibility.model_backwards_compatibility import (
+    handle_version_2_2_0,
+)
+from dapla_metadata.datasets.compatibility.model_backwards_compatibility import (
+    handle_version_3_3_0,
+)
+from dapla_metadata.datasets.compatibility.model_backwards_compatibility import (
+    handle_version_4_0_0,
+)
+from dapla_metadata.datasets.compatibility.model_backwards_compatibility import (
+    handle_version_5_0_1,
+)
+from dapla_metadata.datasets.compatibility.model_backwards_compatibility import (
     is_metadata_in_container_structure,
 )
-from dapla_metadata.datasets.model_backwards_compatibility import upgrade_metadata
+from dapla_metadata.datasets.compatibility.model_backwards_compatibility import (
+    upgrade_metadata,
+)
+from dapla_metadata.datasets.core import Datadoc
 from tests.datasets.constants import TEST_COMPATIBILITY_DIRECTORY
 from tests.datasets.constants import TEST_EXISTING_METADATA_FILE_NAME
 from tests.datasets.constants import TEST_PSEUDO_DIRECTORY
