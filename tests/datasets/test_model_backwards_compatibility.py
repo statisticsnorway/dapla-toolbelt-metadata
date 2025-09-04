@@ -5,24 +5,16 @@ from pathlib import Path
 
 import pytest
 
+from dapla_metadata.datasets.compatibility._handlers import handle_version_2_2_0
+from dapla_metadata.datasets.compatibility._handlers import handle_version_3_3_0
+from dapla_metadata.datasets.compatibility._handlers import handle_version_4_0_0
+from dapla_metadata.datasets.compatibility._handlers import handle_version_5_0_1
 from dapla_metadata.datasets.compatibility._utils import UnknownModelVersionError
 from dapla_metadata.datasets.compatibility._utils import add_container
 from dapla_metadata.datasets.compatibility._utils import convert_is_personal_data
 from dapla_metadata.datasets.compatibility._utils import copy_pseudonymization_metadata
 from dapla_metadata.datasets.compatibility._utils import (
     is_metadata_in_container_structure,
-)
-from dapla_metadata.datasets.compatibility.model_backwards_compatibility import (
-    handle_version_2_2_0,
-)
-from dapla_metadata.datasets.compatibility.model_backwards_compatibility import (
-    handle_version_3_3_0,
-)
-from dapla_metadata.datasets.compatibility.model_backwards_compatibility import (
-    handle_version_4_0_0,
-)
-from dapla_metadata.datasets.compatibility.model_backwards_compatibility import (
-    handle_version_5_0_1,
 )
 from dapla_metadata.datasets.compatibility.model_backwards_compatibility import (
     upgrade_metadata,
