@@ -116,9 +116,8 @@ We keep the version of `ssb-datadoc-model` pinned since almost all changes there
 
 1. Bump the package version
 1. Run the tests and see what fails
-1. Handle upgrading older document versions by adding code in: [src/dapla_metadata/datasets/model_backwards_compatibility.py](src/dapla_metadata/datasets/model_backwards_compatibility.py)
+1. Handle upgrading older document versions by adding code in: [src/dapla_metadata/datasets/compatibility](src/dapla_metadata/datasets/compatibility)
    1. Write a handler function to make the necessary changes
-   1. Remember to BUMP the `document_version` field in your handler function
    1. Register the handler function as a `BackwardsCompatibleVersion` instance
    1. Add a metadata document under `tests/datasets/resources/existing_metadata_file/compatibility/v<YOUR_VERSION>` for use in testing.
 1. Fix any source or test code which refers to outdated fields
