@@ -497,7 +497,7 @@ wheels = [
 
 [[package]]
 name = "dapla-toolbelt-metadata"
-version = "0.8.4"
+version = "0.8.5"
 source = { editable = "." }
 dependencies = [
     { name = "arrow" },
@@ -569,7 +569,7 @@ requires-dist = [
     { name = "python-dotenv", specifier = ">=1.0.1" },
     { name = "requests", specifier = ">=2.31.0" },
     { name = "ruamel-yaml", specifier = ">=0.18.10" },
-    { name = "ssb-datadoc-model", specifier = "==7.0.1" },
+    { name = "ssb-datadoc-model", specifier = ">=8.0.0,<9.0.0" },
     { name = "ssb-klass-python", specifier = ">=1.0.1" },
     { name = "typing-extensions", specifier = ">=4.12.2" },
 ]
@@ -2711,14 +2711,14 @@ wheels = [
 
 [[package]]
 name = "ssb-datadoc-model"
-version = "7.0.1"
+version = "8.0.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "pydantic" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/7f/6a/3927508823df3d4fe59932b52a89d97a74aa8c8b3a1ac7270f8aa1362c8f/ssb_datadoc_model-7.0.1.tar.gz", hash = "sha256:e01a3097d5d96e7507a52da7c384dffa99ff553d2fdcc5477207f6a94cb38bbc", size = 28743, upload-time = "2025-05-28T11:14:34.093Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/4c/33/64bde32cea745b9053c64d92003305e6997d0bcf25d7d2fcefb30d035488/ssb_datadoc_model-8.0.0.tar.gz", hash = "sha256:a3136a98fef5158ba1e04748122a9ed730066de0dc00db3f2d49d4b9b57c352f", size = 29146, upload-time = "2025-09-04T06:58:45.104Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/d6/20/ea3571837b6da2e9b237dc8a8e0f58fa7a11426eb099ede0917972478dc3/ssb_datadoc_model-7.0.1-py3-none-any.whl", hash = "sha256:8495285da6d641855281d018fb5f207464f61227d655ad1e7281569843ace6f0", size = 11289, upload-time = "2025-05-28T11:14:32.789Z" },
+    { url = "https://files.pythonhosted.org/packages/34/96/8a5d3fad04ba4dc27e766de2a264845da9fe007a8b0d14d619000b6a2f6b/ssb_datadoc_model-8.0.0-py3-none-any.whl", hash = "sha256:f5a413d6f9ef054275f9af61182795597016b91882ac3fae9c6b01a48942bea8", size = 11308, upload-time = "2025-09-04T06:58:43.369Z" },
 ]
 
 [[package]]

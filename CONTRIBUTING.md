@@ -34,10 +34,9 @@ Request features on the [Issue Tracker].
 
 You need Python 3.10+ and the following tools:
 
-- [Poetry]
+- [uv]
 - poetry-plugin-export
 - [Nox]
-- [nox-poetry]
 - nbstripout
 
 ### Install [pipx]
@@ -47,18 +46,14 @@ python -m pip install --user pipx
 python -m pipx ensurepath
 ```
 
-### Install [Poetry] and poetry-plugin-export
+### Install [uv]
 
-```console
-pipx install poetry
-pipx inject poetry poetry-plugin-export
-```
+Instructions: <https://docs.astral.sh/uv/getting-started/installation/>
 
-### Install [Nox] and [nox-poetry]
+### Install [Nox]
 
 ```console
 pipx install nox
-pipx inject nox nox-poetry
 ```
 
 ### Install nbstripout
@@ -76,14 +71,7 @@ nox --session=pre-commit -- install
 ### Install the package with development requirements
 
 ```console
-poetry install
-```
-
-### Run python or your app
-
-```console
-poetry run python
-poetry run dapla-toolbelt-metadata
+uv sync --dev
 ```
 
 ## How to test the project
@@ -148,10 +136,9 @@ This will allow a chance to talk it over with the owners and validate your appro
 [source code]: https://github.com/statisticsnorway/dapla-toolbelt-metadata
 [documentation]: https://statisticsnorway.github.io/dapla-toolbelt-metadata
 [issue tracker]: https://github.com/statisticsnorway/dapla-toolbelt-metadata/issues
+[uv]: https://docs.astral.sh/uv/
 [pipx]: https://pipx.pypa.io/
-[poetry]: https://python-poetry.org/
 [nox]: https://nox.thea.codes/
-[nox-poetry]: https://nox-poetry.readthedocs.io/
 [pytest]: https://pytest.readthedocs.io/
 [pull request]: https://github.com/statisticsnorway/dapla-toolbelt-metadata/pulls
 
