@@ -263,6 +263,55 @@ def copy_pseudonymization_metadata(supplied_metadata: dict[str, Any]) -> None:
             variable[PSEUDONYMIZATION_KEY] = None
 
 
+def convert_datetime_to_date(date_value: str | None) -> str | None:
+    """Convert ISO datetime string to date string, handling None and invalid values."""
+    if not date_value or not isinstance(date_value, str):
+        return date_value
+
+    try:
+        dt = datetime.fromisoformat(date_value.replace("Z", "+00:00"))
+        return dt.date().isoformat()
+    except ValueError:
+        return date_value
+
+
+def handle_version_6_0_0(supplied_metadata: dict[str, Any]) -> dict[str, Any]:
+    """Handle breaking changes for version 6.1.0.
+
+    This function modifies the supplied metadata to accommodate breaking changes
+    introduced in version 6.1.0. Specifically, it:
+    - Consolidates `use_restriction` and `use_restriction_date` into a list of
+      dictionaries under `use_restrictions`.
+    - Removes the old `use_restriction` and `use_restriction_date` fields.
+    - It also converts `use_restriction_date` from datetime to date.
+
+    Args:
+        supplied_metadata: The metadata dictionary to be updated.
+
+    Returns:
+        The updated metadata dictionary with `document_version` set to "6.1.0".
+    """
+    dataset = supplied_metadata["datadoc"]["dataset"]
+
+    use_restriction = dataset.get("use_restriction")
+    if use_restriction is not None:
+        converted_date = convert_datetime_to_date(dataset.get("use_restriction_date"))
+        dataset["use_restrictions"] = [
+            {
+                "use_restriction_type": use_restriction,
+                "use_restriction_date": converted_date,
+            }
+        ]
+    else:
+        dataset["use_restrictions"] = []
+
+    for field in ("use_restriction", "use_restriction_date"):
+        _remove_element_from_model(dataset, field)
+
+    supplied_metadata["datadoc"]["document_version"] = "6.1.0"
+    return supplied_metadata
+
+
 def handle_version_5_0_1(supplied_metadata: dict[str, Any]) -> dict[str, Any]:
     """Handle breaking changes for version 6.0.0.
 
@@ -603,7 +652,8 @@ BackwardsCompatibleVersion(version="3.2.0", handler=handle_version_3_2_0)
 BackwardsCompatibleVersion(version="3.3.0", handler=handle_version_3_3_0)
 BackwardsCompatibleVersion(version="4.0.0", handler=handle_version_4_0_0)
 BackwardsCompatibleVersion(version="5.0.1", handler=handle_version_5_0_1)
-BackwardsCompatibleVersion(version="6.0.0", handler=handle_current_version)
+BackwardsCompatibleVersion(version="6.0.0", handler=handle_version_6_0_0)
+BackwardsCompatibleVersion(version="6.1.0", handler=handle_current_version)
 
 
 def upgrade_metadata(fresh_metadata: dict[str, Any]) -> dict[str, Any]:
