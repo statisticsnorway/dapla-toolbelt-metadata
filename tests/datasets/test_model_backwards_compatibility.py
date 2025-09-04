@@ -19,6 +19,7 @@ from dapla_metadata.datasets.model_backwards_compatibility import (
 from dapla_metadata.datasets.model_backwards_compatibility import handle_version_2_2_0
 from dapla_metadata.datasets.model_backwards_compatibility import handle_version_3_3_0
 from dapla_metadata.datasets.model_backwards_compatibility import handle_version_4_0_0
+from dapla_metadata.datasets.model_backwards_compatibility import handle_version_5_0_1
 from dapla_metadata.datasets.model_backwards_compatibility import (
     is_metadata_in_container_structure,
 )
@@ -112,6 +113,37 @@ def test_handle_version_4_0_0_without_pseudo() -> None:
         fresh_metadata = json.load(file)
     upgraded_metadata = handle_version_4_0_0(fresh_metadata)
     assert upgraded_metadata["datadoc"]["document_version"] == "5.0.1"
+
+
+def test_handle_version_5_0_1() -> None:
+    pydir: Path = Path(__file__).resolve().parent
+    rootdir: Path = pydir.parent.parent
+    existing_metadata_file: Path = (
+        rootdir
+        / TEST_COMPATIBILITY_DIRECTORY
+        / "v5_0_1"
+        / TEST_EXISTING_METADATA_FILE_NAME
+    )
+    with existing_metadata_file.open(mode="r", encoding="utf-8") as file:
+        fresh_metadata = json.load(file)
+    upgraded_metadata = handle_version_5_0_1(fresh_metadata)
+    assert upgraded_metadata["datadoc"]["document_version"] == "6.0.0"
+    removed_dataset_fields = [
+        "contains_personal_data",
+        "unit_type",
+        "data_source",
+        "temporality_type",
+    ]
+    for f in removed_dataset_fields:
+        assert f not in upgraded_metadata["datadoc"]["dataset"]
+    added_variables_fields = [
+        "is_personal_data",
+        "unit_type",
+        "data_source",
+        "temporality_type",
+    ]
+    for f in added_variables_fields:
+        assert all(f in v for v in upgraded_metadata["datadoc"]["variables"])
 
 
 def test_existing_metadata_unknown_model_version():
