@@ -34,10 +34,8 @@ Request features on the [Issue Tracker].
 
 You need Python 3.10+ and the following tools:
 
-- [Poetry]
-- poetry-plugin-export
+- [uv]
 - [Nox]
-- [nox-poetry]
 - nbstripout
 
 ### Install [pipx]
@@ -47,18 +45,14 @@ python -m pip install --user pipx
 python -m pipx ensurepath
 ```
 
-### Install [Poetry] and poetry-plugin-export
+### Install [uv]
 
-```console
-pipx install poetry
-pipx inject poetry poetry-plugin-export
-```
+Instructions: <https://docs.astral.sh/uv/getting-started/installation/>
 
-### Install [Nox] and [nox-poetry]
+### Install [Nox]
 
 ```console
 pipx install nox
-pipx inject nox nox-poetry
 ```
 
 ### Install nbstripout
@@ -76,14 +70,7 @@ nox --session=pre-commit -- install
 ### Install the package with development requirements
 
 ```console
-poetry install
-```
-
-### Run python or your app
-
-```console
-poetry run python
-poetry run dapla-toolbelt-metadata
+uv sync --dev
 ```
 
 ## How to test the project
@@ -121,7 +108,7 @@ We keep the version of `ssb-datadoc-model` pinned since almost all changes there
    1. Register the handler function as a `BackwardsCompatibleVersion` instance
    1. Add a metadata document under `tests/datasets/resources/existing_metadata_file/compatibility/v<YOUR_VERSION>` for use in testing.
 1. Fix any source or test code which refers to outdated fields
-1. Upgrade all the documents in the [tests/datasets/resources/existing_metadata_file](tests/datasets/resources/existing_metadata_file) directory (NOT those in the `compatibility` directory) to the latest version. This can be done using the script e.g. `poetry run python bin/upgrade_metadata_file.py --path tests/datasets/resources/existing_metadata_file/person_data_v1__DOC.json`
+1. Upgrade all the documents in the [tests/datasets/resources/existing_metadata_file](tests/datasets/resources/existing_metadata_file) directory (NOT those in the `compatibility` directory) to the latest version. This can be done using the script e.g. `uv run python bin/upgrade_metadata_file.py --path tests/datasets/resources/existing_metadata_file/person_data_v1__DOC.json`
 
 ## How to submit changes
 
@@ -148,10 +135,9 @@ This will allow a chance to talk it over with the owners and validate your appro
 [source code]: https://github.com/statisticsnorway/dapla-toolbelt-metadata
 [documentation]: https://statisticsnorway.github.io/dapla-toolbelt-metadata
 [issue tracker]: https://github.com/statisticsnorway/dapla-toolbelt-metadata/issues
+[uv]: https://docs.astral.sh/uv/
 [pipx]: https://pipx.pypa.io/
-[poetry]: https://python-poetry.org/
 [nox]: https://nox.thea.codes/
-[nox-poetry]: https://nox-poetry.readthedocs.io/
 [pytest]: https://pytest.readthedocs.io/
 [pull request]: https://github.com/statisticsnorway/dapla-toolbelt-metadata/pulls
 
