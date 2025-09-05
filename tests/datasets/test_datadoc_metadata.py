@@ -994,8 +994,8 @@ def test_remove_pseudo_variable(
     test_variable = "alm_inntekt"
     is_personal_data = metadata.variables_lookup[test_variable].is_personal_data
     metadata.remove_pseudonymization(test_variable)
-    assert metadata.variables_lookup[test_variable].is_personal_data is True
-    assert metadata.variables_lookup[test_variable].pseudonymization == is_personal_data
+    assert metadata.variables_lookup[test_variable].is_personal_data == is_personal_data
+    assert metadata.variables_lookup[test_variable].pseudonymization is None
 
 
 @pytest.mark.parametrize(
