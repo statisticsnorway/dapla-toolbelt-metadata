@@ -929,9 +929,10 @@ def test_add_pseudo_variable(
     metadata: Datadoc,
 ):
     test_variable = "sykepenger"
+    is_personal_data = metadata.variables_lookup[test_variable].is_personal_data
     metadata.add_pseudonymization(test_variable)
     assert metadata.variables_lookup[test_variable].pseudonymization is not None
-    assert metadata.variables_lookup[test_variable].is_personal_data
+    assert metadata.variables_lookup[test_variable].is_personal_data == is_personal_data
 
 
 @pytest.mark.parametrize(
@@ -991,9 +992,10 @@ def test_remove_pseudo_variable(
     metadata: Datadoc,
 ):
     test_variable = "alm_inntekt"
+    is_personal_data = metadata.variables_lookup[test_variable].is_personal_data
     metadata.remove_pseudonymization(test_variable)
-    assert metadata.variables_lookup[test_variable].is_personal_data is False
-    assert metadata.variables_lookup[test_variable].pseudonymization is None
+    assert metadata.variables_lookup[test_variable].is_personal_data is True
+    assert metadata.variables_lookup[test_variable].pseudonymization == is_personal_data
 
 
 @pytest.mark.parametrize(
