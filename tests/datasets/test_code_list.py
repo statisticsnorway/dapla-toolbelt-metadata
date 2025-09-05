@@ -62,6 +62,6 @@ def test_instantiate_classification(language: SupportedLanguages):
     # This started failing when casting the enum language argument
     # to a str, so we write a test to cover this eventuality.
     assert isinstance(
-        KlassClassification("6", language),  # type: ignore [arg-type]
+        KlassClassification("6", language.lower()),  # type: ignore [arg-type]
         KlassClassification,
     )

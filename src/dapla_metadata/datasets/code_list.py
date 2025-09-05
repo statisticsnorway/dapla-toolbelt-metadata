@@ -121,7 +121,7 @@ class CodeList(GetExternalSource):
                 classifications_dataframes[i] = (
                     KlassClassification(
                         str(self.classification_id),
-                        i,  # type: ignore [arg-type]
+                        i.lower(),  # type: ignore [arg-type]
                     )
                     .get_codes()
                     .data
