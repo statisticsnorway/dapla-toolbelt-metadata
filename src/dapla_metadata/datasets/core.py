@@ -604,7 +604,6 @@ class Datadoc:
         variable.pseudonymization = (
             pseudonymization or all_optional_model.Pseudonymization()
         )
-        variable.is_personal_data = True
 
     def remove_pseudonymization(self, variable_short_name: str) -> None:
         """Removes a pseudo variable by using the shortname.
@@ -617,4 +616,3 @@ class Datadoc:
         """
         if self.variables_lookup[variable_short_name].pseudonymization is not None:
             self.variables_lookup[variable_short_name].pseudonymization = None
-            self.variables_lookup[variable_short_name].is_personal_data = False
