@@ -1,4 +1,5 @@
 import pytest
+from klass import KlassClassification
 
 from dapla_metadata.datasets.code_list import CodeList
 from dapla_metadata.datasets.utility.enums import SupportedLanguages
@@ -54,3 +55,13 @@ def test_non_existent_code(thread_pool_executor):
     code_list = CodeList(thread_pool_executor, 0)
     code_list.wait_for_external_result()
     assert code_list.classifications == []
+
+
+@pytest.mark.parametrize("language", list(SupportedLanguages))
+def test_instantiate_classification(language: SupportedLanguages):
+    # This started failing when casting the enum language argument
+    # to a str, so we write a test to cover this eventuality.
+    assert isinstance(
+        KlassClassification("6", language.lower()),  # type: ignore [arg-type]
+        KlassClassification,
+    )
