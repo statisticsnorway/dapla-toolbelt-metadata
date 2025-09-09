@@ -33,6 +33,7 @@ if TYPE_CHECKING:
 
 
 def _get_default_template() -> "VariableDefinition":
+    # Import is needed here to avoid circular imports
     from dapla_metadata.variable_definitions.variable_definition import (
         VariableDefinition,
     )
