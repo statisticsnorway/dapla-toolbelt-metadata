@@ -4,9 +4,6 @@ from typing import TYPE_CHECKING
 from dapla_metadata.variable_definitions._generated.vardef_client.models.complete_response import (
     CompleteResponse,
 )
-from dapla_metadata.variable_definitions._generated.vardef_client.models.contact import (
-    Contact,
-)
 from dapla_metadata.variable_definitions._generated.vardef_client.models.language_string_type import (
     LanguageStringType,
 )
@@ -17,6 +14,7 @@ from dapla_metadata.variable_definitions._generated.vardef_client.models.variabl
     VariableStatus,
 )
 from dapla_metadata.variable_definitions._utils.constants import DEFAULT_DATE
+from dapla_metadata.variable_definitions._utils.constants import GENERATED_CONTACT
 from dapla_metadata.variable_definitions._utils.constants import TEMPLATE_HEADER
 from dapla_metadata.variable_definitions._utils.files import _create_file_name
 from dapla_metadata.variable_definitions._utils.files import _get_current_time
@@ -52,12 +50,7 @@ def _get_default_template() -> "VariableDefinition":
         subject_fields=[""],
         contains_special_categories_of_personal_data=False,
         owner=Owner(team="default team", groups=["default group"]),
-        contact=Contact(
-            title=LanguageStringType(
-                nb="generert tittel",
-            ),
-            email="generert@ssb.no",
-        ),
+        contact=GENERATED_CONTACT,
         variable_status=VariableStatus.DRAFT.value,
         id="",
         patch_id=0,

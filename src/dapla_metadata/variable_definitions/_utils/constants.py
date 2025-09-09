@@ -2,6 +2,13 @@
 
 from datetime import date
 
+from dapla_metadata.variable_definitions._generated.vardef_client.models.contact import (
+    Contact,
+)
+from dapla_metadata.variable_definitions._generated.vardef_client.models.language_string_type import (
+    LanguageStringType,
+)
+
 VARIABLE_DEFINITIONS_DIR = "variable_definitions"
 
 VARIABLE_STATUS_FIELD_NAME = "variable_status"
@@ -25,6 +32,13 @@ TEMPLATE_SECTION_HEADER_MACHINE_GENERATED_EN = (
 )
 
 DEFAULT_DATE = date(1000, 1, 1)
+
+GENERATED_CONTACT = Contact(
+    title=LanguageStringType(
+        nb="generert tittel",
+    ),
+    email="generert@ssb.no",
+)
 
 MACHINE_GENERATED_FIELDS = [
     "id",
