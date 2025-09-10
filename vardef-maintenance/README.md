@@ -17,3 +17,7 @@ The service vardef-forvaltning is a copy of the existing Jupyter service, with t
 It is also possible to supply arguments to the init script with `personalInitArgs`, for example to specify the branch from which to retrieve files with `"--branch=dpmeta-837-vardef-init-script"`
 
 In the future we may wish to make further changes, such as reducing the options available to the user.
+
+## Dependency specification
+
+In [./vardef-maintenance.toml](./vardef-maintenance.toml) we use a Poetry compatible configuration. This is becayse we use the `ssb-project` tool to install the dependencies and a kernel and that supports Poetry. It is desirable to change to using `uv` for installation and configuration once this is supported.
