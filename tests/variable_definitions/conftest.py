@@ -1,4 +1,5 @@
 import os
+import traceback
 from collections.abc import Generator
 from datetime import date
 from datetime import datetime
@@ -82,7 +83,8 @@ def vardef_mock_service() -> Generator[MicrocksContainer | None]:
                 str(OPENAPI_DIR / "variable-definitions-internal.yml"),
             )
             yield container
-    except docker.errors.DockerException:
+    except docker.errors.DockerException as e:
+        traceback.print_exception(e)
         yield None
 
 
