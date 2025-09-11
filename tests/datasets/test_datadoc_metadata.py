@@ -925,22 +925,34 @@ def test_check_ready_to_merge_inconsistent_variable_data_types(
 
 
 @pytest.mark.parametrize(
-    ("pseudonymization_algorithm", "stable_identifier_type", "encryption_key"),
+    (
+        "pseudonymization",
+        "expected_pseudonymization_algorithm",
+        "expected_encryption_key",
+    ),
     [
         (None, None, None),
         (
+            Pseudonymization(
+                encryption_algorithm=EncryptionAlgorithm.PAPIS_ENCRYPTION_ALGORITHM.value,
+                stable_identifier_type=None,
+            ),
             EncryptionAlgorithm.PAPIS_ENCRYPTION_ALGORITHM.value,
-            None,
             PAPIS_ENCRYPTION_KEY_REFERENCE,
         ),
         (
+            Pseudonymization(
+                encryption_algorithm=EncryptionAlgorithm.PAPIS_ENCRYPTION_ALGORITHM.value,
+                stable_identifier_type=PAPIS_STABLE_IDENTIFIER_TYPE,
+            ),
             EncryptionAlgorithm.PAPIS_ENCRYPTION_ALGORITHM.value,
-            PAPIS_STABLE_IDENTIFIER_TYPE,
             PAPIS_ENCRYPTION_KEY_REFERENCE,
         ),
         (
+            Pseudonymization(
+                encryption_algorithm=EncryptionAlgorithm.DAED_ENCRYPTION_ALGORITHM.value
+            ),
             EncryptionAlgorithm.DAED_ENCRYPTION_ALGORITHM.value,
-            None,
             DAED_ENCRYPTION_KEY_REFERENCE,
         ),
     ],
@@ -952,24 +964,23 @@ def test_check_ready_to_merge_inconsistent_variable_data_types(
     ],
 )
 def test_pseudonymization(
-    pseudonymization_algorithm,
-    stable_identifier_type,
-    encryption_key,
+    pseudonymization,
+    expected_pseudonymization_algorithm,
+    expected_encryption_key,
     metadata: Datadoc,
 ):
     variable = metadata.variables_lookup["sykepenger"]
-    pseudonymization = Pseudonymization(
-        encryption_algorithm=pseudonymization_algorithm,
-        stable_identifier_type=stable_identifier_type,
-    )
     if variable.short_name:
         metadata.add_pseudonymization(variable.short_name, pseudonymization)
         if variable.pseudonymization:
             assert (
                 variable.pseudonymization.encryption_algorithm
-                == pseudonymization_algorithm
+                == expected_pseudonymization_algorithm
             )
-            assert variable.pseudonymization.encryption_key_reference == encryption_key
+            assert (
+                variable.pseudonymization.encryption_key_reference
+                == expected_encryption_key
+            )
             assert True, f"Test for variable '{variable.short_name}' executed"
 
 
