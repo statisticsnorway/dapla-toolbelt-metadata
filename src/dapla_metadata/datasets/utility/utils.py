@@ -544,7 +544,11 @@ def set_default_values_pseudonymization(
     variable: VariableType,
     pseudonymization: all_optional_model.Pseudonymization | None,
 ) -> None:
-    """Set default values based on pseudonymization algorithm."""
+    """Populate missing pseudonymization fields with defaults based on the encryption algorithm.
+
+    Updates the encryption key reference and encryption parameters if they are not set,
+    handling both PAPIS and DAED algorithms. Leaves unknown algorithms unchanged.
+    """
     if pseudonymization is None:
         return
     match pseudonymization.encryption_algorithm:

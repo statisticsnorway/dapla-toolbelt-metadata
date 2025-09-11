@@ -592,11 +592,12 @@ class Datadoc:
         variable_short_name: str,
         pseudonymization: all_optional_model.Pseudonymization | None = None,
     ) -> None:
-        """Adds a new pseudo variable to the list of pseudonymized variables.
+        """Add or update pseudonymization for a variable.
 
-        If there is no pseudonymization supplied an empty Pseudonymization structure will be added to the model.
-        If encryption algorithm is one of three standard algorithms on Dapla default values according to
-        is set if no values.
+        If `pseudonymization` is not supplied, an empty Pseudonymization structure
+        will be created and assigned to the variable.
+        If an encryption algorithm is recognized (one of the standard Dapla algorithms), default values are filled
+        for any missing fields.
 
         Args:
             variable_short_name: The short name for the variable that one wants to update the pseudo for.
