@@ -132,7 +132,7 @@ def test_check_dataset_consistency_inconsistent_paths(
     ids=["warnings", "errors"],
 )
 def test_check_ready_to_merge_errors_as_warnings(
-    dataset_consistency_status: list[dict[str, object]],
+    dataset_consistency_status: list[DatasetConsistencyStatus],
     errors_as_warnings: bool,
 ):
     with contextlib.ExitStack() as stack:
@@ -154,14 +154,18 @@ def test_check_dataset_consistency_inconsistent_variable_data_types():
         ]
 
     metadata1 = DatadocMetadata(
-        variables=create_variables(VARIABLE_DATA_TYPES[:-1] + [DataType.BOOLEAN])
+        variables=create_variables([*VARIABLE_DATA_TYPES[:-1], DataType.BOOLEAN])
     )
     metadata2 = DatadocMetadata(variables=create_variables(VARIABLE_DATA_TYPES))
     result = check_variables_consistency(
         metadata1.variables,
         metadata2.variables,
     )
-    assert any("Variable datatypes" in r.message and not r.success for r in result)
+    for r in result:
+        if "Variable datatypes" in r.message:
+            assert not r.success, f"'{r.message}' passed but should have failed"
+        else:
+            assert r.success, f"'{r.message}' failed but should have passed"
 
 
 @pytest.mark.parametrize(
@@ -180,7 +184,7 @@ def test_check_dataset_consistency_inconsistent_variable_data_types():
         (
             VARIABLE_SHORT_NAMES,
             [*VARIABLE_SHORT_NAMES[:-1], "blah"],
-            "A variable has been renamed in the dataset",
+            "Variables have been renamed in the dataset",
         ),
         (
             sorted(VARIABLE_SHORT_NAMES),
@@ -204,11 +208,17 @@ def test_check_dataset_consistency_inconsistent_variable_data_types():
 def test_check_variables_consistency(
     extracted_variable_names: list[str],
     existing_variable_names: list[str],
-    expected_message: str,
+    expected_message: str | None,
 ):
     results = check_variables_consistency(
         [Variable(short_name=name) for name in extracted_variable_names],
         [Variable(short_name=name) for name in existing_variable_names],
     )
-    result = next(r for r in results if expected_message in r.message)
-    assert not result.success
+    if expected_message:
+        for r in results:
+            if expected_message in r.message:
+                assert not r.success, f"'{r.message}' passed but should have failed"
+            else:
+                assert r.success, f"'{r.message}' failed but should have passed"
+    else:
+        assert all(r.success for r in results)

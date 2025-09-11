@@ -107,16 +107,52 @@ def check_variables_consistency(
     extracted_variables: list[all_optional_model.Variable],
     existing_variables: list[all_optional_model.Variable | required_model.Variable],
 ) -> list[DatasetConsistencyStatus]:
-    extracted_names = (v.short_name or "" for v in extracted_variables)
-    existing_names = (v.short_name or "" for v in existing_variables)
-    more_extracted_variables = set(extracted_names).difference(set(existing_names))
-    return [
-        DatasetConsistencyStatus(
-            message=DATASET_ADDITIONAL_VARIABLES_MESSAGE,
-            detail=", ".join(more_extracted_variables),
-            success=not bool(more_extracted_variables),
+    extracted_names_set = {v.short_name or "" for v in extracted_variables}
+    existing_names_set = {v.short_name or "" for v in existing_variables}
+    same_length = len(extracted_variables) == len(existing_variables)
+    more_extracted_variables = extracted_names_set.difference(existing_names_set)
+    fewer_extracted_variables = existing_names_set.difference(extracted_names_set)
+    results = []
+    if same_length:
+        if more_extracted_variables:
+            results.append(
+                DatasetConsistencyStatus(
+                    message="Variables have been renamed in the dataset",
+                    detail=", ".join(more_extracted_variables),
+                    success=not bool(more_extracted_variables),
+                )
+            )
+        else:
+            results.append(
+                DatasetConsistencyStatus(
+                    message="The order of variables in the dataset has changed",
+                    success=[v.short_name or "" for v in extracted_variables]
+                    == [v.short_name or "" for v in existing_variables],
+                )
+            )
+            results.append(
+                DatasetConsistencyStatus(
+                    message="Variable datatypes",
+                    success=[v.data_type for v in extracted_variables]
+                    == [v.data_type for v in existing_variables],
+                )
+            )
+    else:
+        results.extend(
+            [
+                DatasetConsistencyStatus(
+                    message=DATASET_ADDITIONAL_VARIABLES_MESSAGE,
+                    detail=", ".join(more_extracted_variables),
+                    success=not bool(more_extracted_variables),
+                ),
+                DatasetConsistencyStatus(
+                    message="Dataset has fewer variables than defined in metadata",
+                    detail=", ".join(fewer_extracted_variables),
+                    success=not bool(fewer_extracted_variables),
+                ),
+            ]
         )
-    ]
+    return results
 
 
 def check_ready_to_merge(
