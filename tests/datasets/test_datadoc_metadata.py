@@ -31,9 +31,13 @@ from dapla_metadata.datasets.core import Datadoc
 from dapla_metadata.datasets.core import InconsistentDatasetsError
 from dapla_metadata.datasets.core import InconsistentDatasetsWarning
 from dapla_metadata.datasets.statistic_subject_mapping import StatisticSubjectMapping
+from dapla_metadata.datasets.utility.constants import DAED_ENCRYPTION_KEY_REFERENCE
 from dapla_metadata.datasets.utility.constants import (
     DATASET_FIELDS_FROM_EXISTING_METADATA,
 )
+from dapla_metadata.datasets.utility.constants import PAPIS_ENCRYPTION_KEY_REFERENCE
+from dapla_metadata.datasets.utility.constants import PAPIS_STABLE_IDENTIFIER_TYPE
+from dapla_metadata.datasets.utility.enums import EncryptionAlgorithm
 from tests.datasets.constants import DATADOC_METADATA_MODULE_CORE
 from tests.datasets.constants import TEST_BUCKET_NAMING_STANDARD_COMPATIBLE_PATH
 from tests.datasets.constants import TEST_DATASETS_DIRECTORY
@@ -918,6 +922,49 @@ def test_check_ready_to_merge_inconsistent_variable_data_types(
             ],
             errors_as_warnings=errors_as_warnings,
         )
+
+
+@pytest.mark.parametrize(
+    ("pseudonymization_algorithm", "stable_identifier_type", "encryption_key"),
+    [
+        (None, None, None),
+        (
+            EncryptionAlgorithm.PAPIS_ENCRYPTION_ALGORITHM.value,
+            None,
+            PAPIS_ENCRYPTION_KEY_REFERENCE,
+        ),
+        (
+            EncryptionAlgorithm.PAPIS_ENCRYPTION_ALGORITHM.value,
+            PAPIS_STABLE_IDENTIFIER_TYPE,
+            PAPIS_ENCRYPTION_KEY_REFERENCE,
+        ),
+        (
+            EncryptionAlgorithm.DAED_ENCRYPTION_ALGORITHM.value,
+            None,
+            DAED_ENCRYPTION_KEY_REFERENCE,
+        ),
+    ],
+    ids=[
+        "Add pseudonymization",
+        "Pseudonymization algorithm is PAPIS without stable ID",
+        "Pseudonymization algorithm is PAPIS with stable ID",
+        "Pseudonymization algorithm is DAED",
+    ],
+)
+def test_pseudonymization(
+    pseudonymization_algorithm,
+    stable_identifier_type,
+    encryption_key,
+    metadata: Datadoc,
+):
+    variable = metadata.variables_lookup["sykepenger"]
+    pseudonymization = Pseudonymization(
+        encryption_algorithm=pseudonymization_algorithm,
+        stable_identifier_type=stable_identifier_type,
+    )
+    metadata.add_pseudonymization(variable.short_name, pseudonymization)
+    assert variable.pseudonymization.encryption_algorithm == pseudonymization_algorithm
+    assert variable.pseudonymization.encryption_key_reference == encryption_key
 
 
 @pytest.mark.parametrize(
