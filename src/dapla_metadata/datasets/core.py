@@ -591,7 +591,7 @@ class Datadoc:
         variable_short_name: str,
         pseudonymization: all_optional_model.Pseudonymization | None = None,
     ) -> None:
-        """Adds a new pseudo variable to the list of pseudonymized variables also sets is_personal_data to true.
+        """Adds a new pseudo variable to the list of pseudonymized variables.
 
         If there is no pseudonymization supplied an empty Pseudonymization structure will be added to the model.
 
