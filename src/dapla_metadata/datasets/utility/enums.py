@@ -14,3 +14,10 @@ class SupportedLanguages(str, Enum):
     NORSK_BOKMÅL = "nb"  # noqa: PLC2401 the listed problems do not apply in this case
     NORSK_NYNORSK = "nn"
     ENGLISH = "en"
+
+
+class EncryptionAlgorithm(str, Enum):
+    """Encryption algorithm values for pseudonymization algoprithms offered on Dapla."""
+
+    PAPIS_ENCRYPTION_ALGORITHM = "TINK-FPE"
+    DAED_ENCRYPTION_ALGORITHM = "TINK-DAED"
