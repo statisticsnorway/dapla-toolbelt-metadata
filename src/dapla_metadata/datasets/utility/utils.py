@@ -529,15 +529,16 @@ def merge_variables(
 
 
 def _ensure_encryption_parameters(
-    p: dict[str, Any] | None, required: dict[str, Any]
-) -> dict[str, Any]:
-    """Ensure required key/value pairs exist in parameters dict."""
-    if p is None:
-        p = {}
+    parameters: list[dict[str, Any]] | None, required: dict[str, Any]
+) -> list[dict[str, Any]]:
+    """Ensure required key/value pairs exist in parameters list."""
+    if parameters is None:
+        parameters = []
+    existing_keys = {key for dict_keys in parameters for key in dict_keys}
     for key, value in required.items():
-        if key not in p:
-            p[key] = value
-    return p
+        if key not in existing_keys:
+            parameters.append({key: value})
+    return parameters
 
 
 def set_default_values_pseudonymization(
