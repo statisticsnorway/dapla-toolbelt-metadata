@@ -609,7 +609,6 @@ class Datadoc:
         """Removes a pseudo variable by using the shortname.
 
         Updates the pseudo variable lookup by creating a new one.
-        Sets is_personal_data to non pseudonymized encrypted personal data.
 
         Args:
             variable_short_name: The short name for the variable that one wants to remove the pseudo for.
