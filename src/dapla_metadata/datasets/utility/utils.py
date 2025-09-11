@@ -4,6 +4,7 @@ import datetime  # import is needed in xdoctest
 import logging
 import pathlib
 import uuid
+from typing import Any
 from typing import TypeAlias
 from typing import cast
 
@@ -20,9 +21,11 @@ from datadoc_model.all_optional.model import DataSetState
 from datadoc_model.all_optional.model import VariableRole
 
 from dapla_metadata.dapla import user_info
+from dapla_metadata.datasets.utility.constants import DAED_ENCRYPTION_KEY_REFERENCE
 from dapla_metadata.datasets.utility.constants import (
     DATASET_FIELDS_FROM_EXISTING_METADATA,
 )
+from dapla_metadata.datasets.utility.constants import ENCRYPTION_PARAMETER_KEY_ID
 from dapla_metadata.datasets.utility.constants import NUM_OBLIGATORY_VARIABLES_FIELDS
 from dapla_metadata.datasets.utility.constants import (
     OBLIGATORY_DATASET_METADATA_IDENTIFIERS,
@@ -36,6 +39,18 @@ from dapla_metadata.datasets.utility.constants import (
 from dapla_metadata.datasets.utility.constants import (
     OBLIGATORY_VARIABLES_METADATA_IDENTIFIERS_MULTILANGUAGE,
 )
+from dapla_metadata.datasets.utility.constants import PAPIS_ENCRYPTION_KEY_REFERENCE
+from dapla_metadata.datasets.utility.constants import (
+    PAPIS_ENCRYPTION_PARAMETER_STRATEGY,
+)
+from dapla_metadata.datasets.utility.constants import (
+    PAPIS_ENCRYPTION_PARAMETER_STRATEGY_SKIP,
+)
+from dapla_metadata.datasets.utility.constants import PAPIS_STABLE_IDENTIFIER_TYPE
+from dapla_metadata.datasets.utility.constants import (
+    PAPIS_WITH_STABLE_ID_ENCRYPTION_PARAMETER_SNAPSHOT_DATE,
+)
+from dapla_metadata.datasets.utility.enums import EncryptionAlgorithm
 
 logger = logging.getLogger(__name__)
 
@@ -43,6 +58,7 @@ DatadocMetadataType: TypeAlias = (
     all_optional_model.DatadocMetadata | required_model.DatadocMetadata
 )
 DatasetType: TypeAlias = all_optional_model.Dataset | required_model.Dataset
+VariableType: TypeAlias = all_optional_model.Variable | required_model.Variable
 OptionalDatadocMetadataType: TypeAlias = DatadocMetadataType | None
 
 
@@ -510,3 +526,63 @@ def merge_variables(
                 # If there is no existing metadata for this variable, we just use what we have extracted
                 merged_metadata.variables.append(extracted)
     return merged_metadata
+
+
+def _ensure_encryption_parameters(
+    p: dict[str, Any] | None, required: dict[str, Any]
+) -> dict[str, Any]:
+    """Ensure required key/value pairs exist in parameters dict."""
+    if p is None:
+        p = {}
+    for key, value in required.items():
+        if key not in p:
+            p[key] = value
+    return p
+
+
+def set_default_values_pseudonymization(
+    variable: VariableType,
+    pseudonymization: all_optional_model.Pseudonymization | None,
+) -> None:
+    """Set default values based on pseudonymization algorithm."""
+    if pseudonymization is None:
+        return
+    match pseudonymization.encryption_algorithm:
+        case EncryptionAlgorithm.PAPIS_ENCRYPTION_ALGORITHM.value:
+            if not pseudonymization.encryption_key_reference:
+                pseudonymization.encryption_key_reference = (
+                    PAPIS_ENCRYPTION_KEY_REFERENCE
+                )
+            if pseudonymization.stable_identifier_type == PAPIS_STABLE_IDENTIFIER_TYPE:
+                pseudonymization.encryption_algorithm_parameters = _ensure_encryption_parameters(
+                    pseudonymization.encryption_algorithm_parameters,
+                    {
+                        ENCRYPTION_PARAMETER_KEY_ID: PAPIS_ENCRYPTION_KEY_REFERENCE,
+                        PAPIS_WITH_STABLE_ID_ENCRYPTION_PARAMETER_SNAPSHOT_DATE: get_timestamp_now(),
+                        PAPIS_ENCRYPTION_PARAMETER_STRATEGY: PAPIS_ENCRYPTION_PARAMETER_STRATEGY_SKIP,
+                    },
+                )
+            else:
+                pseudonymization.encryption_algorithm_parameters = _ensure_encryption_parameters(
+                    pseudonymization.encryption_algorithm_parameters,
+                    {
+                        ENCRYPTION_PARAMETER_KEY_ID: PAPIS_ENCRYPTION_KEY_REFERENCE,
+                        PAPIS_ENCRYPTION_PARAMETER_STRATEGY: PAPIS_ENCRYPTION_PARAMETER_STRATEGY_SKIP,
+                    },
+                )
+        case EncryptionAlgorithm.DAED_ENCRYPTION_ALGORITHM.value:
+            if not pseudonymization.encryption_key_reference:
+                pseudonymization.encryption_key_reference = (
+                    DAED_ENCRYPTION_KEY_REFERENCE
+                )
+            pseudonymization.encryption_algorithm_parameters = (
+                _ensure_encryption_parameters(
+                    pseudonymization.encryption_algorithm_parameters,
+                    {
+                        ENCRYPTION_PARAMETER_KEY_ID: PAPIS_ENCRYPTION_KEY_REFERENCE,
+                    },
+                )
+            )
+        case _:
+            pass
+    variable.pseudonymization = pseudonymization
