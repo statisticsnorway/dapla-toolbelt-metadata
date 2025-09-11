@@ -16,8 +16,10 @@ from datadoc_model.all_optional.model import DataSetStatus
 
 from dapla_metadata._shared import config
 from dapla_metadata.dapla import user_info
+from dapla_metadata.datasets._merge import DatasetConsistencyStatus
 from dapla_metadata.datasets._merge import check_dataset_consistency
 from dapla_metadata.datasets._merge import check_ready_to_merge
+from dapla_metadata.datasets._merge import check_variables_consistency
 from dapla_metadata.datasets._merge import merge_metadata
 from dapla_metadata.datasets.compatibility import is_metadata_in_container_structure
 from dapla_metadata.datasets.compatibility import upgrade_metadata
@@ -108,7 +110,7 @@ class Datadoc:
         self.variables: list = []
         self.variables_lookup: dict[str, all_optional_model.Variable] = {}
         self.explicitly_defined_metadata_document = False
-        self.dataset_consistency_status: list = []
+        self.dataset_consistency_status: list[DatasetConsistencyStatus] = []
         if metadata_document_path:
             self.metadata_document = normalize_path(metadata_document_path)
             self.explicitly_defined_metadata_document = True
@@ -170,8 +172,12 @@ class Datadoc:
                 self.dataset_consistency_status = check_dataset_consistency(
                     self.dataset_path,
                     Path(existing_file_path),
-                    extracted_metadata,
-                    existing_metadata,
+                )
+                self.dataset_consistency_status.extend(
+                    check_variables_consistency(
+                        extracted_metadata.variables or [],
+                        existing_metadata.variables or [],
+                    )
                 )
 
         if (

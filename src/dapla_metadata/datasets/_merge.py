@@ -12,6 +12,7 @@ make changes as appropriate.
 import copy
 import logging
 import warnings
+from dataclasses import dataclass
 from pathlib import Path
 from typing import cast
 
@@ -29,6 +30,14 @@ from dapla_metadata.datasets.utility.utils import OptionalDatadocMetadataType
 
 logger = logging.getLogger(__name__)
 
+BUCKET_NAME_MESSAGE = "Bucket name"
+DATA_PRODUCT_NAME_MESSAGE = "Data product name"
+DATASET_STATE_MESSAGE = "Dataset state"
+DATASET_SHORT_NAME_MESSAGE = "Dataset short name"
+DATASET_ADDITIONAL_VARIABLES_MESSAGE = (
+    "Dataset has additional variables than defined in metadata"
+)
+
 
 class InconsistentDatasetsWarning(UserWarning):
     """Existing and new datasets differ significantly from one another."""
@@ -38,12 +47,17 @@ class InconsistentDatasetsError(ValueError):
     """Existing and new datasets differ significantly from one another."""
 
 
+@dataclass
+class DatasetConsistencyStatus:
+    message: str
+    success: bool
+    detail: str = ""
+
+
 def check_dataset_consistency(
     new_dataset_path: Path | CloudPath,
     existing_dataset_path: Path,
-    extracted_metadata: all_optional_model.DatadocMetadata,
-    existing_metadata: OptionalDatadocMetadataType,
-) -> list[dict[str, object]]:
+) -> list[DatasetConsistencyStatus]:
     """Run consistency tests.
 
     Args:
@@ -58,55 +72,55 @@ def check_dataset_consistency(
     new_dataset_path_info = DaplaDatasetPathInfo(new_dataset_path)
     existing_dataset_path_info = DaplaDatasetPathInfo(existing_dataset_path)
     return [
-        {
-            "name": "Bucket name",
-            "success": (
+        DatasetConsistencyStatus(
+            message=BUCKET_NAME_MESSAGE,
+            success=(
                 new_dataset_path_info.bucket_name
                 == existing_dataset_path_info.bucket_name
             ),
-        },
-        {
-            "name": "Data product name",
-            "success": (
+        ),
+        DatasetConsistencyStatus(
+            message=DATA_PRODUCT_NAME_MESSAGE,
+            success=(
                 new_dataset_path_info.statistic_short_name
                 == existing_dataset_path_info.statistic_short_name
             ),
-        },
-        {
-            "name": "Dataset state",
-            "success": (
+        ),
+        DatasetConsistencyStatus(
+            message=DATASET_STATE_MESSAGE,
+            success=(
                 new_dataset_path_info.dataset_state
                 == existing_dataset_path_info.dataset_state
             ),
-        },
-        {
-            "name": "Dataset short name",
-            "success": (
+        ),
+        DatasetConsistencyStatus(
+            message=DATASET_SHORT_NAME_MESSAGE,
+            success=(
                 new_dataset_path_info.dataset_short_name
                 == existing_dataset_path_info.dataset_short_name
             ),
-        },
-        {
-            "name": "Variable names",
-            "success": (
-                existing_metadata is not None
-                and {v.short_name for v in extracted_metadata.variables or []}
-                == {v.short_name for v in existing_metadata.variables or []}
-            ),
-        },
-        {
-            "name": "Variable datatypes",
-            "success": (
-                existing_metadata is not None
-                and [v.data_type for v in extracted_metadata.variables or []]
-                == [v.data_type for v in existing_metadata.variables or []]
-            ),
-        },
+        ),
+    ]
+
+
+def check_variables_consistency(
+    extracted_variables: list[all_optional_model.Variable],
+    existing_variables: list[all_optional_model.Variable | required_model.Variable],
+) -> list[DatasetConsistencyStatus]:
+    extracted_names = (v.short_name or "" for v in extracted_variables)
+    existing_names = (v.short_name or "" for v in existing_variables)
+    more_extracted_variables = set(extracted_names).difference(set(existing_names))
+    return [
+        DatasetConsistencyStatus(
+            message=DATASET_ADDITIONAL_VARIABLES_MESSAGE,
+            detail=", ".join(more_extracted_variables),
+            success=not bool(more_extracted_variables),
+        )
     ]
 
 
 def check_ready_to_merge(
-    results: list[dict[str, object]], *, errors_as_warnings: bool
+    results: list[DatasetConsistencyStatus], *, errors_as_warnings: bool
 ) -> None:
     """Check if the datasets are consistent enough to make a successful merge of metadata.
 
@@ -117,8 +131,8 @@ def check_ready_to_merge(
     Raises:
         InconsistentDatasetsError: If inconsistencies are found and `errors_as_warnings == False`
     """
-    if failures := [result for result in results if not result["success"]]:
-        msg = f"{INCONSISTENCIES_MESSAGE} {', '.join(str(f['name']) for f in failures)}"
+    if failures := [result for result in results if not result.success]:
+        msg = f"{INCONSISTENCIES_MESSAGE} {', '.join(str(f.message) for f in failures)}"
         if errors_as_warnings:
             warnings.warn(
                 message=msg,

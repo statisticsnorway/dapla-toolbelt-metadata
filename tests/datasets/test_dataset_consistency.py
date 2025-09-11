@@ -1,5 +1,4 @@
 import contextlib
-import warnings
 from pathlib import Path
 
 import pytest
@@ -7,11 +6,16 @@ from datadoc_model.all_optional.model import DatadocMetadata
 from datadoc_model.all_optional.model import DataType
 from datadoc_model.all_optional.model import Variable
 
+from dapla_metadata.datasets._merge import BUCKET_NAME_MESSAGE
+from dapla_metadata.datasets._merge import DATA_PRODUCT_NAME_MESSAGE
+from dapla_metadata.datasets._merge import DATASET_SHORT_NAME_MESSAGE
+from dapla_metadata.datasets._merge import DATASET_STATE_MESSAGE
+from dapla_metadata.datasets._merge import DatasetConsistencyStatus
 from dapla_metadata.datasets._merge import InconsistentDatasetsError
 from dapla_metadata.datasets._merge import InconsistentDatasetsWarning
 from dapla_metadata.datasets._merge import check_dataset_consistency
 from dapla_metadata.datasets._merge import check_ready_to_merge
-from dapla_metadata.datasets.core import Datadoc
+from dapla_metadata.datasets._merge import check_variables_consistency
 from tests.datasets.constants import TEST_BUCKET_NAMING_STANDARD_COMPATIBLE_PATH
 from tests.datasets.constants import VARIABLE_DATA_TYPES
 from tests.datasets.constants import VARIABLE_SHORT_NAMES
@@ -54,10 +58,9 @@ def test_check_dataset_consistency_consistent_paths(
     result = check_dataset_consistency(
         Path(new_dataset_path),
         Path(existing_dataset_path),
-        DatadocMetadata(variables=[]),
-        DatadocMetadata(variables=[]),
     )
-    assert all(item["success"] for item in result), "Not all 'success' is True"
+    for r in result:
+        assert r.success, f"'{r.message}' failed"
 
 
 @pytest.mark.parametrize(
@@ -94,48 +97,32 @@ def test_check_dataset_consistency_inconsistent_paths(
     result = check_dataset_consistency(
         Path(new_dataset_path),
         Path(existing_dataset_path),
-        DatadocMetadata(variables=[]),
-        DatadocMetadata(variables=[]),
     )
     test_id = request.node.callspec.id
-    result_entry = next(item for item in result if item["name"].lower() == test_id)  # type: ignore[attr-defined]
-    assert not result_entry["success"]
+    result_entry = next(r for r in result if r.message.lower() == test_id)  # type: ignore[attr-defined]
+    assert not result_entry.success
 
 
 @pytest.mark.parametrize(
     ("dataset_consistency_status"),
     [
         [
-            {"name": "Bucket name", "success": False},
-            {"name": "Data product name", "success": True},
-            {"name": "Dataset state", "success": True},
-            {"name": "Dataset short name", "success": True},
-            {"name": "Variable names", "success": True},
-            {"name": "Variable datatypes", "success": True},
-        ],
-        [
-            {"name": "Bucket name", "success": True},
-            {"name": "Data product name", "success": False},
-            {"name": "Dataset state", "success": True},
-            {"name": "Dataset short name", "success": True},
-            {"name": "Variable names", "success": True},
-            {"name": "Variable datatypes", "success": True},
-        ],
-        [
-            {"name": "Bucket name", "success": True},
-            {"name": "Data product name", "success": True},
-            {"name": "Dataset state", "success": False},
-            {"name": "Dataset short name", "success": True},
-            {"name": "Variable names", "success": True},
-            {"name": "Variable datatypes", "success": True},
-        ],
-        [
-            {"name": "Bucket name", "success": True},
-            {"name": "Data product name", "success": True},
-            {"name": "Dataset state", "success": True},
-            {"name": "Dataset short name", "success": False},
-            {"name": "Variable names", "success": True},
-            {"name": "Variable datatypes", "success": True},
+            DatasetConsistencyStatus(
+                message=BUCKET_NAME_MESSAGE,
+                success=False,
+            ),
+            DatasetConsistencyStatus(
+                message=DATA_PRODUCT_NAME_MESSAGE,
+                success=True,
+            ),
+            DatasetConsistencyStatus(
+                message=DATASET_STATE_MESSAGE,
+                success=True,
+            ),
+            DatasetConsistencyStatus(
+                message=DATASET_SHORT_NAME_MESSAGE,
+                success=True,
+            ),
         ],
     ],
 )
@@ -159,52 +146,6 @@ def test_check_ready_to_merge_errors_as_warnings(
         )
 
 
-expected_dataset_consistency_status = [
-    {"name": "Bucket name", "success": True},
-    {"name": "Data product name", "success": True},
-    {"name": "Dataset state", "success": True},
-    {"name": "Dataset short name", "success": True},
-    {"name": "Variable names", "success": True},
-    {"name": "Variable datatypes", "success": True},
-]
-
-
-def test_check_dataset_consistency_consistent_variables():
-    variables = [
-        Variable(short_name=name, data_type=data_type)
-        for name, data_type in zip(
-            VARIABLE_SHORT_NAMES,
-            VARIABLE_DATA_TYPES,
-            strict=False,
-        )
-    ]
-    metadata = DatadocMetadata(variables=variables)
-    result = check_dataset_consistency(
-        Path(TEST_BUCKET_NAMING_STANDARD_COMPATIBLE_PATH),
-        Path(TEST_BUCKET_NAMING_STANDARD_COMPATIBLE_PATH),
-        metadata,
-        metadata,
-    )
-    assert result == expected_dataset_consistency_status
-
-
-@pytest.mark.parametrize(
-    "errors_as_warnings",
-    [True, False],
-    ids=["warnings", "errors"],
-)
-def test_check_ready_to_merge_consistent_variables(
-    errors_as_warnings: bool,
-):
-    with warnings.catch_warnings() if errors_as_warnings else contextlib.nullcontext():  # type: ignore [attr-defined]
-        if errors_as_warnings:
-            warnings.simplefilter("error")
-        check_ready_to_merge(
-            expected_dataset_consistency_status,
-            errors_as_warnings=errors_as_warnings,
-        )
-
-
 def test_check_dataset_consistency_inconsistent_variable_data_types():
     def create_variables(data_types):
         return [
@@ -216,15 +157,11 @@ def test_check_dataset_consistency_inconsistent_variable_data_types():
         variables=create_variables(VARIABLE_DATA_TYPES[:-1] + [DataType.BOOLEAN])
     )
     metadata2 = DatadocMetadata(variables=create_variables(VARIABLE_DATA_TYPES))
-    result = check_dataset_consistency(
-        Path(TEST_BUCKET_NAMING_STANDARD_COMPATIBLE_PATH),
-        Path(TEST_BUCKET_NAMING_STANDARD_COMPATIBLE_PATH),
-        metadata1,
-        metadata2,
+    result = check_variables_consistency(
+        metadata1.variables,
+        metadata2.variables,
     )
-    assert any(
-        item["name"] == "Variable datatypes" and not item["success"] for item in result
-    )
+    assert any("Variable datatypes" in r.message and not r.success for r in result)
 
 
 @pytest.mark.parametrize(
@@ -250,22 +187,28 @@ def test_check_dataset_consistency_inconsistent_variable_data_types():
             VARIABLE_SHORT_NAMES,
             "The order of variables in the dataset has changed",
         ),
+        (
+            VARIABLE_SHORT_NAMES,
+            VARIABLE_SHORT_NAMES,
+            None,
+        ),
     ],
-    ids=["additional extracted", "fewer extracted", "renamed", "order changed"],
+    ids=[
+        "additional extracted",
+        "fewer extracted",
+        "renamed",
+        "order changed",
+        "identical",
+    ],
 )
-def test_check_dataset_consistency_inconsistent_variables(
+def test_check_variables_consistency(
     extracted_variable_names: list[str],
     existing_variable_names: list[str],
     expected_message: str,
 ):
-    result = Datadoc._check_variables_consistency(  # noqa: SLF001
-        DatadocMetadata(
-            variables=[Variable(short_name=name) for name in extracted_variable_names]
-        ),
-        DatadocMetadata(
-            variables=[Variable(short_name=name) for name in existing_variable_names]
-        ),
+    results = check_variables_consistency(
+        [Variable(short_name=name) for name in extracted_variable_names],
+        [Variable(short_name=name) for name in existing_variable_names],
     )
-    assert any(
-        item["name"] == expected_message and not item["success"] for item in result
-    )
+    result = next(r for r in results if expected_message in r.message)
+    assert not result.success
