@@ -46,6 +46,12 @@ OBLIGATORY_VARIABLES_METADATA_IDENTIFIERS = [
     "is_personal_data",
 ]
 
+OBLIGATORY_VARIABLES_PESUODONYMIZATION_IDENTIFIERS = [
+    "encryption_algorithm",
+    "encryption_key_refrence",
+]
+
+
 OBLIGATORY_VARIABLES_METADATA_IDENTIFIERS_MULTILANGUAGE = [
     "name",
 ]
