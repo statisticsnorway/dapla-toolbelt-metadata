@@ -45,6 +45,7 @@ from dapla_metadata.datasets.utility.utils import (
 from dapla_metadata.datasets.utility.utils import override_dataset_fields
 from dapla_metadata.datasets.utility.utils import set_dataset_owner
 from dapla_metadata.datasets.utility.utils import set_default_values_dataset
+from dapla_metadata.datasets.utility.utils import set_default_values_pseudonymization
 from dapla_metadata.datasets.utility.utils import set_default_values_variables
 
 if TYPE_CHECKING:
@@ -594,6 +595,8 @@ class Datadoc:
         """Adds a new pseudo variable to the list of pseudonymized variables.
 
         If there is no pseudonymization supplied an empty Pseudonymization structure will be added to the model.
+        If encryption algorithm is one of three standard algorithms on Dapla default values according to
+        is set if no values.
 
         Args:
             variable_short_name: The short name for the variable that one wants to update the pseudo for.
@@ -601,9 +604,10 @@ class Datadoc:
 
         """
         variable = self.variables_lookup[variable_short_name]
-        variable.pseudonymization = (
-            pseudonymization or all_optional_model.Pseudonymization()
-        )
+        if pseudonymization is not None:
+            set_default_values_pseudonymization(variable, pseudonymization)
+        else:
+            variable.pseudonymization = all_optional_model.Pseudonymization()
 
     def remove_pseudonymization(self, variable_short_name: str) -> None:
         """Removes a pseudo variable by using the shortname.
