@@ -38,6 +38,10 @@ DatadocMetadataType: TypeAlias = (
     all_optional_model.DatadocMetadata | required_model.DatadocMetadata
 )
 DatasetType: TypeAlias = all_optional_model.Dataset | required_model.Dataset
+VariableType: TypeAlias = all_optional_model.Variable | required_model.Variable
+VariableListType: TypeAlias = (
+    list[all_optional_model.Variable] | list[required_model.Variable]
+)
 OptionalDatadocMetadataType: TypeAlias = DatadocMetadataType | None
 
 

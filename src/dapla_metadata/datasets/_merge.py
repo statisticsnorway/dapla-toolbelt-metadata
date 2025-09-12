@@ -29,6 +29,7 @@ from dapla_metadata.datasets.utility.constants import (
 )
 from dapla_metadata.datasets.utility.constants import INCONSISTENCIES_MESSAGE
 from dapla_metadata.datasets.utility.utils import OptionalDatadocMetadataType
+from dapla_metadata.datasets.utility.utils import VariableListType
 
 logger = logging.getLogger(__name__)
 
@@ -112,8 +113,8 @@ def check_dataset_consistency(
 
 
 def check_variables_consistency(
-    extracted_variables: list[all_optional_model.Variable],
-    existing_variables: list[all_optional_model.Variable | required_model.Variable],
+    extracted_variables: VariableListType,
+    existing_variables: VariableListType,
 ) -> list[DatasetConsistencyStatus]:
     extracted_names_set = {v.short_name or "" for v in extracted_variables}
     existing_names_set = {v.short_name or "" for v in existing_variables}
@@ -295,7 +296,7 @@ def merge_metadata(
 
     override_dataset_fields(
         merged_metadata=merged_metadata,
-        existing_metadata=cast("all_optional_model.DatadocMetadata", existing_metadata),
+        existing_metadata=existing_metadata,
     )
 
     # Merge variables.
