@@ -161,24 +161,22 @@ class Datadoc:
         ):
             extracted_metadata = self._extract_metadata_from_dataset(self.dataset_path)
 
-        if extracted_metadata is not None:
-            existing_file_path = self._get_existing_file_path(extracted_metadata)
-            if (
-                self.dataset_path
-                and existing_file_path is not None
-                and extracted_metadata is not None
-                and existing_metadata is not None
-            ):
-                self.dataset_consistency_status = check_dataset_consistency(
-                    self.dataset_path,
-                    Path(existing_file_path),
+        if (
+            self.dataset_path
+            and self.metadata_document
+            and extracted_metadata
+            and existing_metadata
+        ):
+            self.dataset_consistency_status = check_dataset_consistency(
+                self.dataset_path,
+                Path(self.metadata_document),
+            )
+            self.dataset_consistency_status.extend(
+                check_variables_consistency(
+                    extracted_metadata.variables or [],
+                    existing_metadata.variables or [],
                 )
-                self.dataset_consistency_status.extend(
-                    check_variables_consistency(
-                        extracted_metadata.variables or [],
-                        existing_metadata.variables or [],
-                    )
-                )
+            )
 
         if (
             self.dataset_path
@@ -209,19 +207,6 @@ class Datadoc:
         set_default_values_dataset(cast("all_optional_model.Dataset", self.dataset))
         set_dataset_owner(self.dataset)
         self._create_variables_lookup()
-
-    def _get_existing_file_path(
-        self,
-        extracted_metadata: all_optional_model.DatadocMetadata | None,
-    ) -> str:
-        if (
-            extracted_metadata is not None
-            and extracted_metadata.dataset is not None
-            and extracted_metadata.dataset.file_path is not None
-        ):
-            return extracted_metadata.dataset.file_path
-        msg = "Could not access existing dataset file path"
-        raise ValueError(msg)
 
     def _set_metadata(
         self,
