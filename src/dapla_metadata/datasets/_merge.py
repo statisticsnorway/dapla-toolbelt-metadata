@@ -12,7 +12,9 @@ make changes as appropriate.
 import copy
 import logging
 import warnings
+from collections.abc import Iterable
 from dataclasses import dataclass
+from dataclasses import field
 from pathlib import Path
 from typing import cast
 
@@ -51,7 +53,13 @@ class InconsistentDatasetsError(ValueError):
 class DatasetConsistencyStatus:
     message: str
     success: bool
-    detail: str = ""
+    variables: Iterable[str] = field(default_factory=list)
+
+    def __str__(self) -> str:
+        message = self.message
+        if self.variables:
+            message += f"\n\tVariables: {self.variables}"
+        return message
 
 
 def check_dataset_consistency(
@@ -118,7 +126,7 @@ def check_variables_consistency(
             results.append(
                 DatasetConsistencyStatus(
                     message="Variables have been renamed in the dataset",
-                    detail=", ".join(more_extracted_variables),
+                    variables=more_extracted_variables,
                     success=not bool(more_extracted_variables),
                 )
             )
@@ -142,12 +150,12 @@ def check_variables_consistency(
             [
                 DatasetConsistencyStatus(
                     message=DATASET_ADDITIONAL_VARIABLES_MESSAGE,
-                    detail=", ".join(more_extracted_variables),
+                    variables=more_extracted_variables,
                     success=not bool(more_extracted_variables),
                 ),
                 DatasetConsistencyStatus(
                     message="Dataset has fewer variables than defined in metadata",
-                    detail=", ".join(fewer_extracted_variables),
+                    variables=fewer_extracted_variables,
                     success=not bool(fewer_extracted_variables),
                 ),
             ]
@@ -168,7 +176,8 @@ def check_ready_to_merge(
         InconsistentDatasetsError: If inconsistencies are found and `errors_as_warnings == False`
     """
     if failures := [result for result in results if not result.success]:
-        msg = f"{INCONSISTENCIES_MESSAGE} {', '.join(str(f.message) for f in failures)}"
+        messages_list = "\n - ".join(str(f) for f in failures)
+        msg = f"{INCONSISTENCIES_MESSAGE}\n - {messages_list}"
         if errors_as_warnings:
             warnings.warn(
                 message=msg,
