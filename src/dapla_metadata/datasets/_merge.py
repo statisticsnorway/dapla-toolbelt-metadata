@@ -56,11 +56,20 @@ class InconsistentDatasetsError(ValueError):
 
 @dataclass
 class DatasetConsistencyStatus:
+    """Store the status for different aspects of dataset consistency.
+
+    Attributes:
+        message: Communicates to the user what aspect is inconsistent.
+        success: False if inconsistency is detected.
+        variables: Optionally communicate which variables are affected.
+    """
+
     message: str
     success: bool
     variables: Iterable[str] = field(default_factory=list)
 
     def __str__(self) -> str:
+        """Format the user message."""
         message = self.message
         if self.variables:
             message += f"\n\tVariables: {self.variables}"
@@ -76,11 +85,9 @@ def check_dataset_consistency(
     Args:
         new_dataset_path: Path to the dataset to be documented.
         existing_dataset_path: Path stored in the existing metadata.
-        extracted_metadata: Metadata extracted from a physical dataset.
-        existing_metadata: Metadata from a previously created metadata document.
 
     Returns:
-        List if dict with property name and boolean success flag
+        List of consistency check results.
     """
     new_dataset_path_info = DaplaDatasetPathInfo(new_dataset_path)
     existing_dataset_path_info = DaplaDatasetPathInfo(existing_dataset_path)
@@ -120,6 +127,20 @@ def check_variables_consistency(
     extracted_variables: VariableListType,
     existing_variables: VariableListType,
 ) -> list[DatasetConsistencyStatus]:
+    """Check for consistency in variables structure.
+
+    Compares the existing metadata and that extracted from the new dataset and provides
+    highly detailed feedback on what is different between them.
+
+    We don't return all the results because that could create conflicting messages and false positives.
+
+    Args:
+        extracted_variables (VariableListType): Variables extracted from the new dataset.
+        existing_variables (VariableListType): Variables already documented in existing metadata
+
+    Returns:
+        list[DatasetConsistencyStatus]: The list of checks and whether they were successful.
+    """
     extracted_names_set = {v.short_name or "" for v in extracted_variables}
     existing_names_set = {v.short_name or "" for v in existing_variables}
     same_length = len(extracted_variables) == len(existing_variables)
