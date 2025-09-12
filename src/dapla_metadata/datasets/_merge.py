@@ -37,9 +37,13 @@ BUCKET_NAME_MESSAGE = "Bucket name"
 DATA_PRODUCT_NAME_MESSAGE = "Data product name"
 DATASET_STATE_MESSAGE = "Dataset state"
 DATASET_SHORT_NAME_MESSAGE = "Dataset short name"
-DATASET_ADDITIONAL_VARIABLES_MESSAGE = (
+VARIABLES_ADDITIONAL_MESSAGE = (
     "Dataset has additional variables than defined in metadata"
 )
+VARIABLE_RENAME_MESSAGE = "Variables have been renamed in the dataset"
+VARIABLE_ORDER_MESSAGE = "The order of variables in the dataset has changed"
+VARIABLE_DATATYPES_MESSAGE = "Variable datatypes differ"
+VARIABLES_FEWER_MESSAGE = "Dataset has fewer variables than defined in metadata"
 
 
 class InconsistentDatasetsWarning(UserWarning):
@@ -126,7 +130,7 @@ def check_variables_consistency(
         if more_extracted_variables:
             results.append(
                 DatasetConsistencyStatus(
-                    message="Variables have been renamed in the dataset",
+                    message=VARIABLE_RENAME_MESSAGE,
                     variables=more_extracted_variables,
                     success=not bool(more_extracted_variables),
                 )
@@ -134,14 +138,14 @@ def check_variables_consistency(
         else:
             results.append(
                 DatasetConsistencyStatus(
-                    message="The order of variables in the dataset has changed",
+                    message=VARIABLE_ORDER_MESSAGE,
                     success=[v.short_name or "" for v in extracted_variables]
                     == [v.short_name or "" for v in existing_variables],
                 )
             )
             results.append(
                 DatasetConsistencyStatus(
-                    message="Variable datatypes",
+                    message=VARIABLE_DATATYPES_MESSAGE,
                     success=[v.data_type for v in extracted_variables]
                     == [v.data_type for v in existing_variables],
                 )
@@ -150,12 +154,12 @@ def check_variables_consistency(
         results.extend(
             [
                 DatasetConsistencyStatus(
-                    message=DATASET_ADDITIONAL_VARIABLES_MESSAGE,
+                    message=VARIABLES_ADDITIONAL_MESSAGE,
                     variables=more_extracted_variables,
                     success=not bool(more_extracted_variables),
                 ),
                 DatasetConsistencyStatus(
-                    message="Dataset has fewer variables than defined in metadata",
+                    message=VARIABLES_FEWER_MESSAGE,
                     variables=fewer_extracted_variables,
                     success=not bool(fewer_extracted_variables),
                 ),

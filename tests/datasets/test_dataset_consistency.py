@@ -10,6 +10,11 @@ from dapla_metadata.datasets._merge import BUCKET_NAME_MESSAGE
 from dapla_metadata.datasets._merge import DATA_PRODUCT_NAME_MESSAGE
 from dapla_metadata.datasets._merge import DATASET_SHORT_NAME_MESSAGE
 from dapla_metadata.datasets._merge import DATASET_STATE_MESSAGE
+from dapla_metadata.datasets._merge import VARIABLE_DATATYPES_MESSAGE
+from dapla_metadata.datasets._merge import VARIABLE_ORDER_MESSAGE
+from dapla_metadata.datasets._merge import VARIABLE_RENAME_MESSAGE
+from dapla_metadata.datasets._merge import VARIABLES_ADDITIONAL_MESSAGE
+from dapla_metadata.datasets._merge import VARIABLES_FEWER_MESSAGE
 from dapla_metadata.datasets._merge import DatasetConsistencyStatus
 from dapla_metadata.datasets._merge import InconsistentDatasetsError
 from dapla_metadata.datasets._merge import InconsistentDatasetsWarning
@@ -162,7 +167,7 @@ def test_check_dataset_consistency_inconsistent_variable_data_types():
         metadata2.variables,
     )
     for r in result:
-        if "Variable datatypes" in r.message:
+        if VARIABLE_DATATYPES_MESSAGE in r.message:
             assert not r.success, f"'{r.message}' passed but should have failed"
         else:
             assert r.success, f"'{r.message}' failed but should have passed"
@@ -174,22 +179,22 @@ def test_check_dataset_consistency_inconsistent_variable_data_types():
         (
             VARIABLE_SHORT_NAMES,
             VARIABLE_SHORT_NAMES[:-2],
-            "Dataset has additional variables than defined in metadata",
+            VARIABLES_ADDITIONAL_MESSAGE,
         ),
         (
             VARIABLE_SHORT_NAMES[:-2],
             VARIABLE_SHORT_NAMES,
-            "Dataset has fewer variables than defined in metadata",
+            VARIABLES_FEWER_MESSAGE,
         ),
         (
             VARIABLE_SHORT_NAMES,
             [*VARIABLE_SHORT_NAMES[:-1], "blah"],
-            "Variables have been renamed in the dataset",
+            VARIABLE_RENAME_MESSAGE,
         ),
         (
             sorted(VARIABLE_SHORT_NAMES),
             VARIABLE_SHORT_NAMES,
-            "The order of variables in the dataset has changed",
+            VARIABLE_ORDER_MESSAGE,
         ),
         (
             VARIABLE_SHORT_NAMES,
