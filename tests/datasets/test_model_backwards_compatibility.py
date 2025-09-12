@@ -153,32 +153,25 @@ def test_handle_version_5_0_1() -> None:
 
 
 def test_handle_version_6_0_0() -> None:
-    pydir: Path = Path(__file__).resolve().parent
-    rootdir: Path = pydir.parent.parent
-    existing_metadata_file: Path = (
-        rootdir
+    existing_metadata_file = (
+        Path(__file__).resolve().parents[2]
         / TEST_COMPATIBILITY_DIRECTORY
         / "v6_0_0"
         / TEST_EXISTING_METADATA_FILE_NAME
     )
-    with existing_metadata_file.open(mode="r", encoding="utf-8") as file:
-        fresh_metadata = json.load(file)
-    upgraded_metadata = handle_version_6_0_0(fresh_metadata)
-    removed_dataset_fields = [
-        "use_restriction",
-        "use_restriction_date",
-    ]
-    for f in removed_dataset_fields:
-        assert f not in upgraded_metadata[DATADOC_KEY][DATASET_KEY]
+    fresh_metadata = json.loads(existing_metadata_file.read_text(encoding="utf-8"))
 
-    new_field = "use_restrictions"
-    assert (new_field in f for f in upgraded_metadata[DATADOC_KEY][DATASET_KEY])
+    upgraded = handle_version_6_0_0(fresh_metadata)
 
-    new_sub_fields = ["use_restriction_type", "use_restriction_date"]
-    assert all(
-        new_sub_fields in f
-        for f in upgraded_metadata[DATADOC_KEY][DATASET_KEY][new_field]
-    )
+    dataset = upgraded[DATADOC_KEY][DATASET_KEY]
+
+    assert all(f not in dataset for f in ["use_restriction", "use_restriction_date"])
+
+    assert "use_restrictions" in dataset
+
+    first_use_restriction = dataset["use_restrictions"][0]
+    assert first_use_restriction["use_restriction_type"] == "DELETION_ANONYMIZATION"
+    assert first_use_restriction["use_restriction_date"] == "2022-09-05"
 
 
 def test_existing_metadata_unknown_model_version():
