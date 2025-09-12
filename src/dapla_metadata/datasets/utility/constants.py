@@ -17,12 +17,9 @@ OBLIGATORY_DATASET_METADATA_IDENTIFIERS: list = [
     "dataset_status",
     "name",
     "description",
-    "data_source",
     "population_description",
     "version",
     "version_description",
-    "unit_type",
-    "temporality_type",
     "subject_field",
     "spatial_coverage_description",
     "owner",
@@ -44,6 +41,10 @@ OBLIGATORY_VARIABLES_METADATA_IDENTIFIERS = [
     "data_type",
     "variable_role",
     "is_personal_data",
+    "unit_type",
+    "population_description",
+    "data_source",
+    "temporality_type",
 ]
 
 OBLIGATORY_VARIABLES_METADATA_IDENTIFIERS_MULTILANGUAGE = [
