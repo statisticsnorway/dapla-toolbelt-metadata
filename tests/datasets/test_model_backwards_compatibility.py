@@ -11,6 +11,7 @@ from dapla_metadata.datasets.compatibility._handlers import handle_version_2_2_0
 from dapla_metadata.datasets.compatibility._handlers import handle_version_3_3_0
 from dapla_metadata.datasets.compatibility._handlers import handle_version_4_0_0
 from dapla_metadata.datasets.compatibility._handlers import handle_version_5_0_1
+from dapla_metadata.datasets.compatibility._handlers import handle_version_6_0_0
 from dapla_metadata.datasets.compatibility._utils import DATADOC_KEY
 from dapla_metadata.datasets.compatibility._utils import DATASET_KEY
 from dapla_metadata.datasets.compatibility._utils import DOCUMENT_VERSION_KEY
@@ -149,6 +150,28 @@ def test_handle_version_5_0_1() -> None:
     ]
     for f in added_variables_fields:
         assert all(f in v for v in upgraded_metadata[DATADOC_KEY][VARIABLES_KEY])
+
+
+def test_handle_version_6_0_0() -> None:
+    existing_metadata_file = (
+        Path(__file__).resolve().parents[2]
+        / TEST_COMPATIBILITY_DIRECTORY
+        / "v6_0_0"
+        / TEST_EXISTING_METADATA_FILE_NAME
+    )
+    fresh_metadata = json.loads(existing_metadata_file.read_text(encoding="utf-8"))
+
+    upgraded = handle_version_6_0_0(fresh_metadata)
+
+    dataset = upgraded[DATADOC_KEY][DATASET_KEY]
+
+    assert all(f not in dataset for f in ["use_restriction", "use_restriction_date"])
+
+    assert "use_restrictions" in dataset
+
+    first_use_restriction = dataset["use_restrictions"][0]
+    assert first_use_restriction["use_restriction_type"] == "DELETION_ANONYMIZATION"
+    assert first_use_restriction["use_restriction_date"] == "2022-09-05"
 
 
 def test_existing_metadata_unknown_model_version():
