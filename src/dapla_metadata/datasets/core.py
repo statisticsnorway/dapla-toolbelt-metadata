@@ -5,7 +5,6 @@ from __future__ import annotations
 import copy
 import json
 import logging
-import warnings
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 from typing import TYPE_CHECKING
@@ -17,6 +16,11 @@ from datadoc_model.all_optional.model import DataSetStatus
 
 from dapla_metadata._shared import config
 from dapla_metadata.dapla import user_info
+from dapla_metadata.datasets._merge import DatasetConsistencyStatus
+from dapla_metadata.datasets._merge import check_dataset_consistency
+from dapla_metadata.datasets._merge import check_ready_to_merge
+from dapla_metadata.datasets._merge import check_variables_consistency
+from dapla_metadata.datasets._merge import merge_metadata
 from dapla_metadata.datasets.compatibility import is_metadata_in_container_structure
 from dapla_metadata.datasets.compatibility import upgrade_metadata
 from dapla_metadata.datasets.dapla_dataset_path_info import DaplaDatasetPathInfo
@@ -26,7 +30,6 @@ from dapla_metadata.datasets.statistic_subject_mapping import StatisticSubjectMa
 from dapla_metadata.datasets.utility.constants import (
     DEFAULT_SPATIAL_COVERAGE_DESCRIPTION,
 )
-from dapla_metadata.datasets.utility.constants import INCONSISTENCIES_MESSAGE
 from dapla_metadata.datasets.utility.constants import METADATA_DOCUMENT_FILE_SUFFIX
 from dapla_metadata.datasets.utility.constants import NUM_OBLIGATORY_DATASET_FIELDS
 from dapla_metadata.datasets.utility.constants import NUM_OBLIGATORY_VARIABLES_FIELDS
@@ -34,7 +37,6 @@ from dapla_metadata.datasets.utility.utils import OptionalDatadocMetadataType
 from dapla_metadata.datasets.utility.utils import calculate_percentage
 from dapla_metadata.datasets.utility.utils import derive_assessment_from_state
 from dapla_metadata.datasets.utility.utils import get_timestamp_now
-from dapla_metadata.datasets.utility.utils import merge_variables
 from dapla_metadata.datasets.utility.utils import normalize_path
 from dapla_metadata.datasets.utility.utils import (
     num_obligatory_dataset_fields_completed,
@@ -42,7 +44,6 @@ from dapla_metadata.datasets.utility.utils import (
 from dapla_metadata.datasets.utility.utils import (
     num_obligatory_variables_fields_completed,
 )
-from dapla_metadata.datasets.utility.utils import override_dataset_fields
 from dapla_metadata.datasets.utility.utils import set_dataset_owner
 from dapla_metadata.datasets.utility.utils import set_default_values_dataset
 from dapla_metadata.datasets.utility.utils import set_default_values_variables
@@ -53,16 +54,7 @@ if TYPE_CHECKING:
 
     from cloudpathlib import CloudPath
 
-
 logger = logging.getLogger(__name__)
-
-
-class InconsistentDatasetsWarning(UserWarning):
-    """Existing and new datasets differ significantly from one another."""
-
-
-class InconsistentDatasetsError(ValueError):
-    """Existing and new datasets differ significantly from one another."""
 
 
 class Datadoc:
@@ -118,7 +110,7 @@ class Datadoc:
         self.variables: list = []
         self.variables_lookup: dict[str, all_optional_model.Variable] = {}
         self.explicitly_defined_metadata_document = False
-        self.dataset_consistency_status: list = []
+        self.dataset_consistency_status: list[DatasetConsistencyStatus] = []
         if metadata_document_path:
             self.metadata_document = normalize_path(metadata_document_path)
             self.explicitly_defined_metadata_document = True
@@ -169,20 +161,22 @@ class Datadoc:
         ):
             extracted_metadata = self._extract_metadata_from_dataset(self.dataset_path)
 
-        if extracted_metadata is not None:
-            existing_file_path = self._get_existing_file_path(extracted_metadata)
-            if (
-                self.dataset_path
-                and existing_file_path is not None
-                and extracted_metadata is not None
-                and existing_metadata is not None
-            ):
-                self.dataset_consistency_status = self._check_dataset_consistency(
-                    self.dataset_path,
-                    Path(existing_file_path),
-                    extracted_metadata,
-                    existing_metadata,
+        if (
+            self.dataset_path
+            and self.metadata_document
+            and extracted_metadata
+            and existing_metadata
+        ):
+            self.dataset_consistency_status = check_dataset_consistency(
+                self.dataset_path,
+                Path(self.metadata_document),
+            )
+            self.dataset_consistency_status.extend(
+                check_variables_consistency(
+                    extracted_metadata.variables or [],
+                    existing_metadata.variables or [],
                 )
+            )
 
         if (
             self.dataset_path
@@ -192,11 +186,11 @@ class Datadoc:
             and extracted_metadata is not None
             and existing_metadata is not None
         ):
-            self._check_ready_to_merge(
+            check_ready_to_merge(
                 self.dataset_consistency_status,
                 errors_as_warnings=self.errors_as_warnings,
             )
-            merged_metadata = self._merge_metadata(
+            merged_metadata = merge_metadata(
                 extracted_metadata,
                 existing_metadata,
             )
@@ -214,19 +208,6 @@ class Datadoc:
         set_dataset_owner(self.dataset)
         self._create_variables_lookup()
 
-    def _get_existing_file_path(
-        self,
-        extracted_metadata: all_optional_model.DatadocMetadata | None,
-    ) -> str:
-        if (
-            extracted_metadata is not None
-            and extracted_metadata.dataset is not None
-            and extracted_metadata.dataset.file_path is not None
-        ):
-            return extracted_metadata.dataset.file_path
-        msg = "Could not access existing dataset file path"
-        raise ValueError(msg)
-
     def _set_metadata(
         self,
         merged_metadata: OptionalDatadocMetadataType,
@@ -243,134 +224,6 @@ class Datadoc:
         self.variables_lookup = {
             v.short_name: v for v in self.variables if v.short_name
         }
-
-    @staticmethod
-    def _check_dataset_consistency(
-        new_dataset_path: Path | CloudPath,
-        existing_dataset_path: Path,
-        extracted_metadata: all_optional_model.DatadocMetadata,
-        existing_metadata: OptionalDatadocMetadataType,
-    ) -> list[dict[str, object]]:
-        """Run consistency tests.
-
-        Args:
-            new_dataset_path: Path to the dataset to be documented.
-            existing_dataset_path: Path stored in the existing metadata.
-            extracted_metadata: Metadata extracted from a physical dataset.
-            existing_metadata: Metadata from a previously created metadata document.
-
-        Returns:
-            List if dict with property name and boolean success flag
-        """
-        new_dataset_path_info = DaplaDatasetPathInfo(new_dataset_path)
-        existing_dataset_path_info = DaplaDatasetPathInfo(existing_dataset_path)
-        return [
-            {
-                "name": "Bucket name",
-                "success": (
-                    new_dataset_path_info.bucket_name
-                    == existing_dataset_path_info.bucket_name
-                ),
-            },
-            {
-                "name": "Data product name",
-                "success": (
-                    new_dataset_path_info.statistic_short_name
-                    == existing_dataset_path_info.statistic_short_name
-                ),
-            },
-            {
-                "name": "Dataset state",
-                "success": (
-                    new_dataset_path_info.dataset_state
-                    == existing_dataset_path_info.dataset_state
-                ),
-            },
-            {
-                "name": "Dataset short name",
-                "success": (
-                    new_dataset_path_info.dataset_short_name
-                    == existing_dataset_path_info.dataset_short_name
-                ),
-            },
-            {
-                "name": "Variable names",
-                "success": (
-                    existing_metadata is not None
-                    and {v.short_name for v in extracted_metadata.variables or []}
-                    == {v.short_name for v in existing_metadata.variables or []}
-                ),
-            },
-            {
-                "name": "Variable datatypes",
-                "success": (
-                    existing_metadata is not None
-                    and [v.data_type for v in extracted_metadata.variables or []]
-                    == [v.data_type for v in existing_metadata.variables or []]
-                ),
-            },
-        ]
-
-    @staticmethod
-    def _check_ready_to_merge(
-        results: list[dict[str, object]], *, errors_as_warnings: bool
-    ) -> None:
-        """Check if the datasets are consistent enough to make a successful merge of metadata.
-
-        Args:
-            results: List if dict with property name and boolean success flag
-            errors_as_warnings: True if failing checks should be raised as warnings, not errors.
-
-        Raises:
-            InconsistentDatasetsError: If inconsistencies are found and `errors_as_warnings == False`
-        """
-        if failures := [result for result in results if not result["success"]]:
-            msg = f"{INCONSISTENCIES_MESSAGE} {', '.join(str(f['name']) for f in failures)}"
-            if errors_as_warnings:
-                warnings.warn(
-                    message=msg,
-                    category=InconsistentDatasetsWarning,
-                    stacklevel=2,
-                )
-            else:
-                raise InconsistentDatasetsError(
-                    msg,
-                )
-
-    @staticmethod
-    def _merge_metadata(
-        extracted_metadata: all_optional_model.DatadocMetadata | None,
-        existing_metadata: OptionalDatadocMetadataType,
-    ) -> all_optional_model.DatadocMetadata:
-        if not existing_metadata:
-            logger.warning(
-                "No existing metadata found, no merge to perform. Continuing with extracted metadata.",
-            )
-            return extracted_metadata or all_optional_model.DatadocMetadata()
-
-        if not extracted_metadata:
-            return cast("all_optional_model.DatadocMetadata", existing_metadata)
-
-        # Use the extracted metadata as a base
-        merged_metadata = all_optional_model.DatadocMetadata(
-            dataset=copy.deepcopy(extracted_metadata.dataset),
-            variables=[],
-        )
-
-        override_dataset_fields(
-            merged_metadata=merged_metadata,
-            existing_metadata=cast(
-                "all_optional_model.DatadocMetadata", existing_metadata
-            ),
-        )
-
-        # Merge variables.
-        # For each extracted variable, copy existing metadata into the merged metadata
-        return merge_variables(
-            existing_metadata=existing_metadata,
-            extracted_metadata=extracted_metadata,
-            merged_metadata=merged_metadata,
-        )
 
     def _extract_metadata_from_existing_document(
         self,

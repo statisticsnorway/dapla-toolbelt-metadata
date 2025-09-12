@@ -9,7 +9,7 @@ DATE_VALIDATION_MESSAGE = f"{VALIDATION_ERROR}contains_data_from must be the sam
 
 OBLIGATORY_METADATA_WARNING = "Obligatory metadata is missing: "
 
-INCONSISTENCIES_MESSAGE = "Inconsistencies found between extracted and existing metadata. Inconsistencies are:"
+INCONSISTENCIES_MESSAGE = "Inconsistencies found between extracted and existing metadata! This usually means that the new dataset has a different structure and that the version number should be incremented.\nDetails:"
 
 OBLIGATORY_DATASET_METADATA_IDENTIFIERS: list = [
     "assessment",
