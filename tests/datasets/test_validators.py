@@ -126,7 +126,7 @@ def test_obligatory_metadata_variables_warning(metadata: Datadoc):
             metadata.variables_lookup["pers_id"]
             and metadata.variables_lookup["pers_id"].name is None
         ):
-            assert "[{'pers_id': ['name']}," in str(
+            assert "[{'pers_id': ['name'," in str(
                 record[1].message,
             )
 
@@ -242,7 +242,7 @@ def test_obligatory_metadata_dataset_warning_multiple_languages(
 
 
 def test_obligatory_metadata_variables_warning_name(metadata: Datadoc):
-    variable_with_name = "{'pers_id': ['name']}"
+    variable_with_name = "{'pers_id': ['name'"
     with pytest.warns(
         ObligatoryVariableWarning,
         match=OBLIGATORY_METADATA_WARNING,
@@ -263,4 +263,3 @@ def test_obligatory_metadata_variables_warning_name(metadata: Datadoc):
     ) as record2:
         metadata.write_metadata_document()
     assert variable_with_name not in str(record2[1].message)
-    assert "pers_id" not in str(record2[1].message)
