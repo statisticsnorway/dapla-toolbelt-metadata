@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import contextlib
+import datetime
 import json
 import pathlib
 import shutil
@@ -36,8 +37,18 @@ from dapla_metadata.datasets.utility.constants import (
     DATASET_FIELDS_FROM_EXISTING_METADATA,
 )
 from dapla_metadata.datasets.utility.constants import PAPIS_ENCRYPTION_KEY_REFERENCE
+from dapla_metadata.datasets.utility.constants import (
+    PAPIS_ENCRYPTION_PARAMETER_STRATEGY,
+)
+from dapla_metadata.datasets.utility.constants import (
+    PAPIS_ENCRYPTION_PARAMETER_STRATEGY_SKIP,
+)
 from dapla_metadata.datasets.utility.constants import PAPIS_STABLE_IDENTIFIER_TYPE
+from dapla_metadata.datasets.utility.constants import (
+    PAPIS_WITH_STABLE_ID_ENCRYPTION_PARAMETER_SNAPSHOT_DATE,
+)
 from dapla_metadata.datasets.utility.enums import EncryptionAlgorithm
+from dapla_metadata.datasets.utility.utils import get_current_date
 from tests.datasets.constants import DATADOC_METADATA_MODULE_CORE
 from tests.datasets.constants import TEST_BUCKET_NAMING_STANDARD_COMPATIBLE_PATH
 from tests.datasets.constants import TEST_DATASETS_DIRECTORY
@@ -55,7 +66,7 @@ from tests.datasets.constants import VARIABLE_SHORT_NAMES
 
 if TYPE_CHECKING:
     from collections.abc import Generator
-    from datetime import datetime
+    from datetime import datetime  # noqa: TC004
 
 
 @pytest.fixture
@@ -926,52 +937,285 @@ def test_check_ready_to_merge_inconsistent_variable_data_types(
 
 @pytest.mark.parametrize(
     (
-        "pseudonymization",
+        "existing_pseudonymization",
+        "new_pseudonymization",
         "expected_pseudonymization_algorithm",
         "expected_encryption_key",
+        "expected_in_agorithm_parameters",
+        "expected_pseudonymization_time",
+        "expected_stable_identifier_version",
     ),
     [
-        (None, None, None),
         (
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+        ),
+        (
+            Pseudonymization(
+                encryption_algorithm=EncryptionAlgorithm.PAPIS_ENCRYPTION_ALGORITHM.value,
+                encryption_key_reference=PAPIS_ENCRYPTION_KEY_REFERENCE,
+                stable_identifier_type=None,
+                pseudonymization_time=datetime.datetime(
+                    2018, 3, 3, 12, 30, 0, tzinfo=datetime.timezone.utc
+                ),
+            ),
+            None,
+            EncryptionAlgorithm.PAPIS_ENCRYPTION_ALGORITHM.value,
+            PAPIS_ENCRYPTION_KEY_REFERENCE,
+            [
+                {"keyId": PAPIS_ENCRYPTION_KEY_REFERENCE},
+                {
+                    PAPIS_ENCRYPTION_PARAMETER_STRATEGY: PAPIS_ENCRYPTION_PARAMETER_STRATEGY_SKIP
+                },
+            ],
+            "2018-03-03T12:30:00+00:00",
+            None,
+        ),
+        (
+            None,
             Pseudonymization(
                 encryption_algorithm=EncryptionAlgorithm.PAPIS_ENCRYPTION_ALGORITHM.value,
                 stable_identifier_type=None,
             ),
             EncryptionAlgorithm.PAPIS_ENCRYPTION_ALGORITHM.value,
             PAPIS_ENCRYPTION_KEY_REFERENCE,
+            [
+                {"keyId": PAPIS_ENCRYPTION_KEY_REFERENCE},
+                {
+                    PAPIS_ENCRYPTION_PARAMETER_STRATEGY: PAPIS_ENCRYPTION_PARAMETER_STRATEGY_SKIP
+                },
+            ],
+            None,
+            None,
         ),
         (
+            Pseudonymization(encryption_key_reference="some-other-key"),
+            Pseudonymization(
+                encryption_algorithm=EncryptionAlgorithm.PAPIS_ENCRYPTION_ALGORITHM.value,
+                stable_identifier_type=None,
+            ),
+            EncryptionAlgorithm.PAPIS_ENCRYPTION_ALGORITHM.value,
+            "some-other-key",
+            [
+                {"keyId": PAPIS_ENCRYPTION_KEY_REFERENCE},
+                {
+                    PAPIS_ENCRYPTION_PARAMETER_STRATEGY: PAPIS_ENCRYPTION_PARAMETER_STRATEGY_SKIP
+                },
+            ],
+            None,
+            None,
+        ),
+        (
+            Pseudonymization(
+                pseudonymization_time=datetime.datetime(
+                    2023, 6, 30, 12, 30, 0, tzinfo=datetime.timezone.utc
+                )
+            ),
+            Pseudonymization(
+                encryption_algorithm=EncryptionAlgorithm.PAPIS_ENCRYPTION_ALGORITHM.value,
+                stable_identifier_type=None,
+            ),
+            EncryptionAlgorithm.PAPIS_ENCRYPTION_ALGORITHM.value,
+            PAPIS_ENCRYPTION_KEY_REFERENCE,
+            [
+                {"keyId": PAPIS_ENCRYPTION_KEY_REFERENCE},
+                {
+                    PAPIS_ENCRYPTION_PARAMETER_STRATEGY: PAPIS_ENCRYPTION_PARAMETER_STRATEGY_SKIP
+                },
+            ],
+            "2023-06-30T12:30:00+00:00",
+            None,
+        ),
+        (
+            Pseudonymization(
+                pseudonymization_time=datetime.datetime(
+                    2023, 2, 3, 12, 30, 0, tzinfo=datetime.timezone.utc
+                )
+            ),
+            Pseudonymization(
+                encryption_algorithm=EncryptionAlgorithm.PAPIS_ENCRYPTION_ALGORITHM.value,
+                stable_identifier_type=None,
+                pseudonymization_time=datetime.datetime(
+                    2025, 8, 1, 12, 30, 0, tzinfo=datetime.timezone.utc
+                ),
+            ),
+            EncryptionAlgorithm.PAPIS_ENCRYPTION_ALGORITHM.value,
+            PAPIS_ENCRYPTION_KEY_REFERENCE,
+            [
+                {"keyId": PAPIS_ENCRYPTION_KEY_REFERENCE},
+                {
+                    PAPIS_ENCRYPTION_PARAMETER_STRATEGY: PAPIS_ENCRYPTION_PARAMETER_STRATEGY_SKIP
+                },
+            ],
+            "2025-08-01T12:30:00+00:00",
+            None,
+        ),
+        (
+            Pseudonymization(
+                encryption_algorithm_parameters=[{"someKey": "some_text"}]
+            ),
+            Pseudonymization(
+                encryption_algorithm=EncryptionAlgorithm.PAPIS_ENCRYPTION_ALGORITHM.value,
+                stable_identifier_type=None,
+            ),
+            EncryptionAlgorithm.PAPIS_ENCRYPTION_ALGORITHM.value,
+            PAPIS_ENCRYPTION_KEY_REFERENCE,
+            [
+                {"someKey": "some_text"},
+                {"keyId": PAPIS_ENCRYPTION_KEY_REFERENCE},
+                {
+                    PAPIS_ENCRYPTION_PARAMETER_STRATEGY: PAPIS_ENCRYPTION_PARAMETER_STRATEGY_SKIP
+                },
+            ],
+            None,
+            None,
+        ),
+        (
+            None,
             Pseudonymization(
                 encryption_algorithm=EncryptionAlgorithm.PAPIS_ENCRYPTION_ALGORITHM.value,
                 stable_identifier_type=PAPIS_STABLE_IDENTIFIER_TYPE,
             ),
             EncryptionAlgorithm.PAPIS_ENCRYPTION_ALGORITHM.value,
             PAPIS_ENCRYPTION_KEY_REFERENCE,
+            [
+                {"keyId": PAPIS_ENCRYPTION_KEY_REFERENCE},
+                {
+                    PAPIS_WITH_STABLE_ID_ENCRYPTION_PARAMETER_SNAPSHOT_DATE: get_current_date()
+                },
+                {
+                    PAPIS_ENCRYPTION_PARAMETER_STRATEGY: PAPIS_ENCRYPTION_PARAMETER_STRATEGY_SKIP
+                },
+            ],
+            None,
+            None,
         ),
         (
+            Pseudonymization(
+                encryption_algorithm=EncryptionAlgorithm.PAPIS_ENCRYPTION_ALGORITHM.value,
+                stable_identifier_type=PAPIS_STABLE_IDENTIFIER_TYPE,
+                stable_identifier_version="2020-8-8",
+            ),
+            Pseudonymization(
+                encryption_algorithm=EncryptionAlgorithm.PAPIS_ENCRYPTION_ALGORITHM.value,
+                stable_identifier_type=PAPIS_STABLE_IDENTIFIER_TYPE,
+            ),
+            EncryptionAlgorithm.PAPIS_ENCRYPTION_ALGORITHM.value,
+            PAPIS_ENCRYPTION_KEY_REFERENCE,
+            [
+                {"keyId": PAPIS_ENCRYPTION_KEY_REFERENCE},
+                {
+                    PAPIS_WITH_STABLE_ID_ENCRYPTION_PARAMETER_SNAPSHOT_DATE: get_current_date()
+                },
+                {
+                    PAPIS_ENCRYPTION_PARAMETER_STRATEGY: PAPIS_ENCRYPTION_PARAMETER_STRATEGY_SKIP
+                },
+            ],
+            None,
+            "2020-8-8",
+        ),
+        (
+            Pseudonymization(
+                encryption_algorithm=EncryptionAlgorithm.PAPIS_ENCRYPTION_ALGORITHM.value,
+                stable_identifier_type=PAPIS_STABLE_IDENTIFIER_TYPE,
+                stable_identifier_version="2020-8-8",
+            ),
+            Pseudonymization(
+                encryption_algorithm=EncryptionAlgorithm.PAPIS_ENCRYPTION_ALGORITHM.value,
+                stable_identifier_type=PAPIS_STABLE_IDENTIFIER_TYPE,
+                stable_identifier_version="2023-1-1",
+            ),
+            EncryptionAlgorithm.PAPIS_ENCRYPTION_ALGORITHM.value,
+            PAPIS_ENCRYPTION_KEY_REFERENCE,
+            [
+                {"keyId": PAPIS_ENCRYPTION_KEY_REFERENCE},
+                {
+                    PAPIS_WITH_STABLE_ID_ENCRYPTION_PARAMETER_SNAPSHOT_DATE: get_current_date()
+                },
+                {
+                    PAPIS_ENCRYPTION_PARAMETER_STRATEGY: PAPIS_ENCRYPTION_PARAMETER_STRATEGY_SKIP
+                },
+            ],
+            None,
+            "2023-1-1",
+        ),
+        (
+            None,
             Pseudonymization(
                 encryption_algorithm=EncryptionAlgorithm.DAED_ENCRYPTION_ALGORITHM.value
             ),
             EncryptionAlgorithm.DAED_ENCRYPTION_ALGORITHM.value,
             DAED_ENCRYPTION_KEY_REFERENCE,
+            [{"keyId": DAED_ENCRYPTION_KEY_REFERENCE}],
+            None,
+            None,
+        ),
+        (
+            Pseudonymization(
+                pseudonymization_time=datetime.datetime(
+                    2026, 10, 3, 11, 30, 0, tzinfo=datetime.timezone.utc
+                )
+            ),
+            Pseudonymization(
+                encryption_algorithm=EncryptionAlgorithm.DAED_ENCRYPTION_ALGORITHM.value
+            ),
+            EncryptionAlgorithm.DAED_ENCRYPTION_ALGORITHM.value,
+            DAED_ENCRYPTION_KEY_REFERENCE,
+            [{"keyId": DAED_ENCRYPTION_KEY_REFERENCE}],
+            "2026-10-03T11:30:00+00:00",
+            None,
+        ),
+        (
+            None,
+            Pseudonymization(
+                encryption_algorithm="unknown_algorithm",
+                stable_identifier_type="PPP",
+                encryption_key_reference="my-own-ref",
+                encryption_algorithm_parameters=None,
+            ),
+            "unknown_algorithm",
+            "my-own-ref",
+            None,
+            None,
+            None,
         ),
     ],
     ids=[
-        "Add pseudonymization",
-        "Pseudonymization algorithm is PAPIS without stable ID",
-        "Pseudonymization algorithm is PAPIS with stable ID",
-        "Pseudonymization algorithm is DAED",
+        "No algorithm: no saved nor new pseudonymization",
+        "Pseudonymization algorithm is PAPIS without stable ID: saved pseudonymization and none new pseudonymization",
+        "Pseudonymization algorithm is PAPIS without stable ID: no saved pseudonymization",
+        "Pseudonymization algorithm is PAPIS without stable ID: saved encryption key",
+        "Pseudonymization algorithm is PAPIS without stable ID: saved algorithm parameters",
+        "Pseudonymization algorithm is PAPIS without stable ID: saved pseudonymization time",
+        "Pseudonymization algorithm is PAPIS without stable ID: saved pseudonymization time and new pseudonymization time",
+        "Pseudonymization algorithm is PAPIS with stable ID: no saved pseudonymization",
+        "Pseudonymization algorithm is PAPIS with stable ID: saved stable identifier version and new pseudo algorithm",
+        "Pseudonymization algorithm is PAPIS with stable ID: saved algorithm and new  algorithm is the same - new stable identifier version",
+        "Pseudonymization algorithm is DAED: no saved pseudonymization",
+        "Pseudonymization algorithm is DAED: saved pseudonymization time",
+        "Unknown algorithm: unchanged",
     ],
 )
-def test_pseudonymization(
-    pseudonymization,
+def test_add_pseudonymization(
+    existing_pseudonymization,
+    new_pseudonymization,
     expected_pseudonymization_algorithm,
     expected_encryption_key,
+    expected_in_agorithm_parameters,
+    expected_pseudonymization_time,
+    expected_stable_identifier_version,
     metadata: Datadoc,
 ):
     variable = metadata.variables_lookup["sykepenger"]
+    variable.pseudonymization = existing_pseudonymization
+    assert variable.pseudonymization == existing_pseudonymization
     if variable.short_name:
-        metadata.add_pseudonymization(variable.short_name, pseudonymization)
+        metadata.add_pseudonymization(variable.short_name, new_pseudonymization)
         if variable.pseudonymization:
             assert (
                 variable.pseudonymization.encryption_algorithm
@@ -981,6 +1225,33 @@ def test_pseudonymization(
                 variable.pseudonymization.encryption_key_reference
                 == expected_encryption_key
             )
+            assert (
+                variable.pseudonymization.stable_identifier_version
+                == expected_stable_identifier_version
+            )
+            if variable.pseudonymization.pseudonymization_time:
+                assertion_time = (
+                    variable.pseudonymization.pseudonymization_time.isoformat()
+                )
+            else:
+                assertion_time = variable.pseudonymization.pseudonymization_time
+            assert assertion_time == expected_pseudonymization_time
+            if variable.pseudonymization.encryption_algorithm_parameters:
+                params = (
+                    getattr(
+                        variable.pseudonymization, "encryption_algorithm_parameters", []
+                    )
+                    or []
+                )
+                missing = [
+                    expected_dict
+                    for expected_dict in expected_in_agorithm_parameters
+                    if expected_dict not in params
+                ]
+
+                assert not missing, (
+                    f"The following expected algorithm parameters are missing: {missing}"
+                )
             assert True, f"Test for variable '{variable.short_name}' executed"
 
 
