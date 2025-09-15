@@ -59,6 +59,9 @@ DatadocMetadataType: TypeAlias = (
 )
 DatasetType: TypeAlias = all_optional_model.Dataset | required_model.Dataset
 VariableType: TypeAlias = all_optional_model.Variable | required_model.Variable
+PseudonymizationType: TypeAlias = (
+    all_optional_model.Pseudonymization | required_model.Pseudonymization
+)
 OptionalDatadocMetadataType: TypeAlias = DatadocMetadataType | None
 
 
@@ -553,7 +556,7 @@ def _ensure_encryption_parameters(
 
 
 def _set_key_reference(
-    pseudonymization: all_optional_model.Pseudonymization,
+    pseudonymization: PseudonymizationType,
     variable: VariableType,
     default_ref: str,
 ) -> None:
@@ -568,7 +571,7 @@ def _set_key_reference(
 
 
 def _set_parameters(
-    pseudonymization: all_optional_model.Pseudonymization,
+    pseudonymization: PseudonymizationType,
     variable: VariableType,
     default_params: dict,
 ) -> None:
@@ -584,7 +587,7 @@ def _set_parameters(
 
 def set_default_values_pseudonymization(
     variable: VariableType,
-    pseudonymization: all_optional_model.Pseudonymization | None,
+    pseudonymization: PseudonymizationType | None,
 ) -> None:
     """Populate missing pseudonymization fields with defaults based on the encryption algorithm.
 
