@@ -605,7 +605,7 @@ class Datadoc:
 
         """
         variable = self.variables_lookup[variable_short_name]
-        if pseudonymization is not None:
+        if pseudonymization or variable.pseudonymization:
             set_default_values_pseudonymization(variable, pseudonymization)
         else:
             variable.pseudonymization = all_optional_model.Pseudonymization()
