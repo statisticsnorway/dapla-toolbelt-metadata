@@ -62,6 +62,11 @@ VariableType: TypeAlias = all_optional_model.Variable | required_model.Variable
 OptionalDatadocMetadataType: TypeAlias = DatadocMetadataType | None
 
 
+def get_current_date() -> datetime.datetime.date:
+    """Return a current date as str."""
+    return datetime.datetime.now(tz=datetime.timezone.utc).date()
+
+
 def get_timestamp_now() -> datetime.datetime:
     """Return a timestamp for the current moment."""
     return datetime.datetime.now(tz=datetime.timezone.utc)
@@ -529,16 +534,52 @@ def merge_variables(
 
 
 def _ensure_encryption_parameters(
-    parameters: list[dict[str, Any]] | None, required: dict[str, Any]
+    saved_parameters: list[dict[str, Any]] | None,
+    new_parameters: list[dict[str, Any]] | None,
+    required: dict[str, Any],
 ) -> list[dict[str, Any]]:
     """Ensure required key/value pairs exist in parameters list."""
-    if parameters is None:
-        parameters = []
-    existing_keys = {key for dict_keys in parameters for key in dict_keys}
+    result = list(saved_parameters or [])
+    for p in new_parameters or []:
+        if p not in result:
+            result.append(p)
+
+    # Ensure each required key is present in at least one dict
     for key, value in required.items():
-        if key not in existing_keys:
-            parameters.append({key: value})
-    return parameters
+        if not any(key in d for d in result):
+            result.append({key: value})
+
+    return result
+
+
+def _set_key_reference(
+    pseudonymization: all_optional_model.Pseudonymization,
+    variable: VariableType,
+    default_ref: str,
+) -> None:
+    """Set default encryption key reference based on selected algorithm if none."""
+    if not pseudonymization.encryption_key_reference:
+        pseudonymization.encryption_key_reference = (
+            variable.pseudonymization.encryption_key_reference
+            if variable.pseudonymization
+            and variable.pseudonymization.encryption_key_reference
+            else default_ref
+        )
+
+
+def _set_parameters(
+    pseudonymization: all_optional_model.Pseudonymization,
+    variable: VariableType,
+    default_params: dict,
+) -> None:
+    """Add default encryption algorithm parameters based on selected algorithm."""
+    pseudonymization.encryption_algorithm_parameters = _ensure_encryption_parameters(
+        variable.pseudonymization.encryption_algorithm_parameters
+        if variable.pseudonymization
+        else None,
+        pseudonymization.encryption_algorithm_parameters,
+        default_params,
+    )
 
 
 def set_default_values_pseudonymization(
@@ -552,42 +593,38 @@ def set_default_values_pseudonymization(
     """
     if pseudonymization is None:
         return
+    if variable.pseudonymization is None:
+        variable.pseudonymization = pseudonymization
+    else:
+        for attr in vars(pseudonymization):
+            new_value = getattr(pseudonymization, attr)
+            if new_value is not None:
+                setattr(variable.pseudonymization, attr, new_value)
+    pseudonymization = variable.pseudonymization
     match pseudonymization.encryption_algorithm:
         case EncryptionAlgorithm.PAPIS_ENCRYPTION_ALGORITHM.value:
-            if not pseudonymization.encryption_key_reference:
-                pseudonymization.encryption_key_reference = (
-                    PAPIS_ENCRYPTION_KEY_REFERENCE
-                )
+            _set_key_reference(
+                pseudonymization, variable, PAPIS_ENCRYPTION_KEY_REFERENCE
+            )
+            base_params = {
+                ENCRYPTION_PARAMETER_KEY_ID: PAPIS_ENCRYPTION_KEY_REFERENCE,
+                PAPIS_ENCRYPTION_PARAMETER_STRATEGY: PAPIS_ENCRYPTION_PARAMETER_STRATEGY_SKIP,
+            }
             if pseudonymization.stable_identifier_type == PAPIS_STABLE_IDENTIFIER_TYPE:
-                pseudonymization.encryption_algorithm_parameters = _ensure_encryption_parameters(
-                    pseudonymization.encryption_algorithm_parameters,
-                    {
-                        ENCRYPTION_PARAMETER_KEY_ID: PAPIS_ENCRYPTION_KEY_REFERENCE,
-                        PAPIS_WITH_STABLE_ID_ENCRYPTION_PARAMETER_SNAPSHOT_DATE: get_timestamp_now(),
-                        PAPIS_ENCRYPTION_PARAMETER_STRATEGY: PAPIS_ENCRYPTION_PARAMETER_STRATEGY_SKIP,
-                    },
+                base_params[PAPIS_WITH_STABLE_ID_ENCRYPTION_PARAMETER_SNAPSHOT_DATE] = (
+                    get_current_date()
                 )
-            else:
-                pseudonymization.encryption_algorithm_parameters = _ensure_encryption_parameters(
-                    pseudonymization.encryption_algorithm_parameters,
-                    {
-                        ENCRYPTION_PARAMETER_KEY_ID: PAPIS_ENCRYPTION_KEY_REFERENCE,
-                        PAPIS_ENCRYPTION_PARAMETER_STRATEGY: PAPIS_ENCRYPTION_PARAMETER_STRATEGY_SKIP,
-                    },
-                )
+            _set_parameters(pseudonymization, variable, base_params)
         case EncryptionAlgorithm.DAED_ENCRYPTION_ALGORITHM.value:
-            if not pseudonymization.encryption_key_reference:
-                pseudonymization.encryption_key_reference = (
-                    DAED_ENCRYPTION_KEY_REFERENCE
-                )
-            pseudonymization.encryption_algorithm_parameters = (
-                _ensure_encryption_parameters(
-                    pseudonymization.encryption_algorithm_parameters,
-                    {
-                        ENCRYPTION_PARAMETER_KEY_ID: PAPIS_ENCRYPTION_KEY_REFERENCE,
-                    },
-                )
+            _set_key_reference(
+                pseudonymization, variable, DAED_ENCRYPTION_KEY_REFERENCE
+            )
+            _set_parameters(
+                pseudonymization,
+                variable,
+                {
+                    ENCRYPTION_PARAMETER_KEY_ID: DAED_ENCRYPTION_KEY_REFERENCE,
+                },
             )
         case _:
             pass
-    variable.pseudonymization = pseudonymization
