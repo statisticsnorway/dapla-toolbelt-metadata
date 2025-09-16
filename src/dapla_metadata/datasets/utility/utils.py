@@ -589,7 +589,7 @@ def set_default_values_pseudonymization(
     variable: VariableType,
     pseudonymization: PseudonymizationType | None,
 ) -> None:
-    """Populate missing pseudonymization fields with defaults based on the encryption algorithm.
+    """Populate pseudonymization fields with defaults based on the encryption algorithm.
 
     Updates the encryption key reference and encryption parameters if they are not set,
     handling both PAPIS and DAED algorithms. Leaves unknown algorithms unchanged.
