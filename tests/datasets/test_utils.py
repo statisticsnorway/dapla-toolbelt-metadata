@@ -7,6 +7,7 @@ from cloudpathlib.local import LocalGSClient
 from cloudpathlib.local import LocalGSPath
 
 from dapla_metadata.datasets.utility.utils import calculate_percentage
+from dapla_metadata.datasets.utility.utils import get_current_date
 from dapla_metadata.datasets.utility.utils import incorrect_date_order
 from dapla_metadata.datasets.utility.utils import normalize_path
 from dapla_metadata.datasets.utility.utils import running_in_notebook
@@ -64,3 +65,9 @@ def test_incorrect_date_order(date_from, date_until, expected):
 
 def test_not_running_in_notebook():
     assert not running_in_notebook()
+
+
+def test_get_current_date():
+    date = get_current_date()
+    assert isinstance(date, str)
+    datetime.datetime.strptime(date, "%Y-%m-%d").date()  # noqa: DTZ007

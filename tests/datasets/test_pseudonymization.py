@@ -41,13 +41,14 @@ class PseudoCase:
     expected_stable_type: str | None = None
     expected_key: str | None = None
     expected_params: list[dict] | None = None
-    expected_pseudo_time: str | None = None
+    expected_pseudo_time: datetime | None = None
     expected_stable_version: str | None = None
 
 
-def _assert_dicts_in_list(expected: list[dict], actual: list[dict]):
-    for d in expected:
-        assert d in actual, f"Missing expected dict: {d}"
+def _assert_dicts_in_list(expected: list[dict] | None, actual: list[dict]):
+    if expected:
+        for d in expected:
+            assert d in actual, f"Missing expected dict: {d}"
 
 
 @pytest.mark.parametrize(
@@ -166,19 +167,22 @@ def test_add_default_pseudonymization_values_papis_without_stable_id(
     assert sykepenger.short_name is not None
 
     metadata.add_pseudonymization(sykepenger.short_name, case.new_pseudo)
-
-    assert sykepenger.pseudonymization.encryption_algorithm == case.expected_algorithm
-    assert sykepenger.pseudonymization.encryption_key_reference == case.expected_key
-    assert (
-        sykepenger.pseudonymization.pseudonymization_time == case.expected_pseudo_time
-    )
-    if sykepenger.pseudonymization.encryption_algorithm_parameters is None:
-        assert case.expected_params is None
-    else:
-        _assert_dicts_in_list(
-            case.expected_params,
-            sykepenger.pseudonymization.encryption_algorithm_parameters,
+    if sykepenger.pseudonymization:
+        assert (
+            sykepenger.pseudonymization.encryption_algorithm == case.expected_algorithm
         )
+        assert sykepenger.pseudonymization.encryption_key_reference == case.expected_key
+        assert (
+            sykepenger.pseudonymization.pseudonymization_time
+            == case.expected_pseudo_time
+        )
+        if sykepenger.pseudonymization.encryption_algorithm_parameters is None:
+            assert case.expected_params is None
+        else:
+            _assert_dicts_in_list(
+                case.expected_params,
+                sykepenger.pseudonymization.encryption_algorithm_parameters,
+            )
 
 
 @pytest.mark.parametrize(
@@ -385,25 +389,31 @@ def test_add_default_pseudonymization_values_papis_with_stable_id(
     assert sykepenger.short_name is not None
 
     metadata.add_pseudonymization(sykepenger.short_name, case.new_pseudo)
-    assert (
-        sykepenger.pseudonymization.stable_identifier_type == case.expected_stable_type
-    )
-    assert sykepenger.pseudonymization.encryption_algorithm == case.expected_algorithm
-    assert sykepenger.pseudonymization.encryption_key_reference == case.expected_key
-    assert (
-        sykepenger.pseudonymization.stable_identifier_version
-        == case.expected_stable_version
-    )
-    assert (
-        sykepenger.pseudonymization.pseudonymization_time == case.expected_pseudo_time
-    )
-    if sykepenger.pseudonymization.encryption_algorithm_parameters is None:
-        assert case.expected_params is None
-    else:
-        _assert_dicts_in_list(
-            case.expected_params,
-            sykepenger.pseudonymization.encryption_algorithm_parameters,
+    if sykepenger.pseudonymization:
+        assert (
+            sykepenger.pseudonymization.stable_identifier_type
+            == case.expected_stable_type
         )
+        assert (
+            sykepenger.pseudonymization.encryption_algorithm == case.expected_algorithm
+        )
+        assert sykepenger.pseudonymization.encryption_key_reference == case.expected_key
+        assert (
+            sykepenger.pseudonymization.stable_identifier_version
+            == case.expected_stable_version
+        )
+        assert (
+            sykepenger.pseudonymization.pseudonymization_time
+            == case.expected_pseudo_time
+        )
+        algorithm_params = sykepenger.pseudonymization.encryption_algorithm_parameters
+        if algorithm_params is None:
+            assert case.expected_params is None
+        else:
+            _assert_dicts_in_list(
+                case.expected_params,
+                algorithm_params,
+            )
 
 
 @pytest.mark.parametrize(
@@ -495,21 +505,24 @@ def test_add_default_pseudonymization_values_daed(case: PseudoCase, metadata: Da
     sykepenger.pseudonymization = case.existing_pseudo
 
     assert sykepenger.short_name is not None
-
     metadata.add_pseudonymization(sykepenger.short_name, case.new_pseudo)
-    assert sykepenger.pseudonymization.encryption_algorithm == case.expected_algorithm
-    assert sykepenger.pseudonymization.encryption_key_reference == case.expected_key
-    assert (
-        sykepenger.pseudonymization.stable_identifier_version
-        == case.expected_stable_version
-    )
-    if sykepenger.pseudonymization.encryption_algorithm_parameters is None:
-        assert case.expected_params is None
-    else:
-        _assert_dicts_in_list(
-            case.expected_params,
-            sykepenger.pseudonymization.encryption_algorithm_parameters,
+    if sykepenger.pseudonymization:
+        assert (
+            sykepenger.pseudonymization.encryption_algorithm == case.expected_algorithm
         )
+        assert sykepenger.pseudonymization.encryption_key_reference == case.expected_key
+        assert (
+            sykepenger.pseudonymization.stable_identifier_version
+            == case.expected_stable_version
+        )
+        algorithm_params = sykepenger.pseudonymization.encryption_algorithm_parameters
+        if algorithm_params is None:
+            assert case.expected_params is None
+        else:
+            _assert_dicts_in_list(
+                case.expected_params,
+                algorithm_params,
+            )
 
 
 @pytest.mark.parametrize(
@@ -534,19 +547,23 @@ def test_add_pseudonymization_unknown_algorithm(case: PseudoCase, metadata: Data
     assert sykepenger.short_name is not None
 
     metadata.add_pseudonymization(sykepenger.short_name, case.new_pseudo)
-    assert sykepenger.pseudonymization.encryption_algorithm == case.expected_algorithm
-    assert sykepenger.pseudonymization.encryption_key_reference == case.expected_key
-    assert (
-        sykepenger.pseudonymization.stable_identifier_version
-        == case.expected_stable_version
-    )
-    if sykepenger.pseudonymization.encryption_algorithm_parameters is None:
-        assert case.expected_params is None
-    else:
-        _assert_dicts_in_list(
-            case.expected_params,
-            sykepenger.pseudonymization.encryption_algorithm_parameters,
+    if sykepenger.pseudonymization:
+        assert (
+            sykepenger.pseudonymization.encryption_algorithm == case.expected_algorithm
         )
+        assert sykepenger.pseudonymization.encryption_key_reference == case.expected_key
+        assert (
+            sykepenger.pseudonymization.stable_identifier_version
+            == case.expected_stable_version
+        )
+        algorithm_params = sykepenger.pseudonymization.encryption_algorithm_parameters
+        if algorithm_params is None:
+            assert case.expected_params is None
+        else:
+            _assert_dicts_in_list(
+                case.expected_params,
+                algorithm_params,
+            )
 
 
 @pytest.mark.parametrize(

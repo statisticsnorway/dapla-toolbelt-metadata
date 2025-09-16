@@ -65,9 +65,9 @@ PseudonymizationType: TypeAlias = (
 OptionalDatadocMetadataType: TypeAlias = DatadocMetadataType | None
 
 
-def get_current_date() -> datetime.datetime.date:
+def get_current_date() -> str:
     """Return a current date as str."""
-    return datetime.datetime.now(tz=datetime.timezone.utc).date()
+    return datetime.datetime.now(tz=datetime.timezone.utc).date().isoformat()
 
 
 def get_timestamp_now() -> datetime.datetime:
