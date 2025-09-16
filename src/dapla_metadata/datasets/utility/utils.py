@@ -6,9 +6,7 @@ import pathlib
 import uuid
 from typing import Any
 from typing import TypeAlias
-from typing import cast
 
-import datadoc_model
 import datadoc_model.all_optional.model as all_optional_model
 import datadoc_model.required.model as required_model
 import google.auth
@@ -22,9 +20,6 @@ from datadoc_model.all_optional.model import VariableRole
 
 from dapla_metadata.dapla import user_info
 from dapla_metadata.datasets.utility.constants import DAED_ENCRYPTION_KEY_REFERENCE
-from dapla_metadata.datasets.utility.constants import (
-    DATASET_FIELDS_FROM_EXISTING_METADATA,
-)
 from dapla_metadata.datasets.utility.constants import KEY_ID
 from dapla_metadata.datasets.utility.constants import NUM_OBLIGATORY_VARIABLES_FIELDS
 from dapla_metadata.datasets.utility.constants import (
@@ -61,6 +56,10 @@ DatasetType: TypeAlias = all_optional_model.Dataset | required_model.Dataset
 VariableType: TypeAlias = all_optional_model.Variable | required_model.Variable
 PseudonymizationType: TypeAlias = (
     all_optional_model.Pseudonymization | required_model.Pseudonymization
+)
+VariableType: TypeAlias = all_optional_model.Variable | required_model.Variable
+VariableListType: TypeAlias = (
+    list[all_optional_model.Variable] | list[required_model.Variable]
 )
 OptionalDatadocMetadataType: TypeAlias = DatadocMetadataType | None
 
@@ -450,90 +449,6 @@ def running_in_notebook() -> bool:
         # interpreters and will throw a NameError. Therefore we're not running
         # in Jupyter.
         return False
-
-
-def override_dataset_fields(
-    merged_metadata: all_optional_model.DatadocMetadata,
-    existing_metadata: all_optional_model.DatadocMetadata
-    | required_model.DatadocMetadata,
-) -> None:
-    """Overrides specific fields in the dataset of `merged_metadata` with values from the dataset of `existing_metadata`.
-
-    This function iterates over a predefined list of fields, `DATASET_FIELDS_FROM_EXISTING_METADATA`,
-    and sets the corresponding fields in the `merged_metadata.dataset` object to the values
-    from the `existing_metadata.dataset` object.
-
-    Args:
-        merged_metadata: An instance of `DatadocMetadata` containing the dataset to be updated.
-        existing_metadata: An instance of `DatadocMetadata` containing the dataset whose values are used to update `merged_metadata.dataset`.
-
-    Returns:
-        `None`.
-    """
-    if merged_metadata.dataset and existing_metadata.dataset:
-        # Override the fields as defined
-        for field in DATASET_FIELDS_FROM_EXISTING_METADATA:
-            setattr(
-                merged_metadata.dataset,
-                field,
-                getattr(existing_metadata.dataset, field),
-            )
-
-
-def merge_variables(
-    existing_metadata: OptionalDatadocMetadataType,
-    extracted_metadata: all_optional_model.DatadocMetadata,
-    merged_metadata: all_optional_model.DatadocMetadata,
-) -> all_optional_model.DatadocMetadata:
-    """Merges variables from the extracted metadata into the existing metadata and updates the merged metadata.
-
-    This function compares the variables from `extracted_metadata` with those in `existing_metadata`.
-    For each variable in `extracted_metadata`, it checks if a variable with the same `short_name` exists
-    in `existing_metadata`. If a match is found, it updates the existing variable with information from
-    `extracted_metadata`. If no match is found, the variable from `extracted_metadata` is directly added to `merged_metadata`.
-
-    Args:
-        existing_metadata: The metadata object containing the current state of variables.
-        extracted_metadata: The metadata object containing new or updated variables to merge.
-        merged_metadata: The metadata object that will contain the result of the merge.
-
-    Returns:
-        all_optional_model.DatadocMetadata: The `merged_metadata` object containing variables from both `existing_metadata`
-        and `extracted_metadata`.
-    """
-    if (
-        existing_metadata is not None
-        and existing_metadata.variables is not None
-        and extracted_metadata is not None
-        and extracted_metadata.variables is not None
-        and merged_metadata.variables is not None
-    ):
-        for extracted in extracted_metadata.variables:
-            existing = next(
-                (
-                    existing
-                    for existing in existing_metadata.variables
-                    if existing.short_name == extracted.short_name
-                ),
-                None,
-            )
-            if existing:
-                existing.id = (
-                    None  # Set to None so that it will be set assigned a fresh ID later
-                )
-                existing.contains_data_from = (
-                    extracted.contains_data_from or existing.contains_data_from
-                )
-                existing.contains_data_until = (
-                    extracted.contains_data_until or existing.contains_data_until
-                )
-                merged_metadata.variables.append(
-                    cast("datadoc_model.all_optional.model.Variable", existing)
-                )
-            else:
-                # If there is no existing metadata for this variable, we just use what we have extracted
-                merged_metadata.variables.append(extracted)
-    return merged_metadata
 
 
 def _ensure_encryption_parameters(

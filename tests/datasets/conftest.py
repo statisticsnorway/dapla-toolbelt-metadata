@@ -104,6 +104,7 @@ def metadata_merged(
         str(target),
         str(TEST_EXISTING_METADATA_NAMING_STANDARD_FILEPATH),
         statistic_subject_mapping=subject_mapping_fake_statistical_structure,
+        errors_as_warnings=True,
     )
 
 

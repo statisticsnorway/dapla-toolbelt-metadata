@@ -9,7 +9,7 @@ DATE_VALIDATION_MESSAGE = f"{VALIDATION_ERROR}contains_data_from must be the sam
 
 OBLIGATORY_METADATA_WARNING = "Obligatory metadata is missing: "
 
-INCONSISTENCIES_MESSAGE = "Inconsistencies found between extracted and existing metadata. Inconsistencies are:"
+INCONSISTENCIES_MESSAGE = "Inconsistencies found between extracted and existing metadata! This usually means that the new dataset has a different structure and that the version number should be incremented.\nDetails:"
 
 OBLIGATORY_DATASET_METADATA_IDENTIFIERS: list = [
     "assessment",
@@ -17,12 +17,9 @@ OBLIGATORY_DATASET_METADATA_IDENTIFIERS: list = [
     "dataset_status",
     "name",
     "description",
-    "data_source",
     "population_description",
     "version",
     "version_description",
-    "unit_type",
-    "temporality_type",
     "subject_field",
     "spatial_coverage_description",
     "owner",
@@ -44,6 +41,10 @@ OBLIGATORY_VARIABLES_METADATA_IDENTIFIERS = [
     "data_type",
     "variable_role",
     "is_personal_data",
+    "unit_type",
+    "population_description",
+    "data_source",
+    "temporality_type",
 ]
 
 OBLIGATORY_VARIABLES_PESUODONYMIZATION_IDENTIFIERS = [
