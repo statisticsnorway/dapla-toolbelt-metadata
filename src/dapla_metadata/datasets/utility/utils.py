@@ -25,7 +25,7 @@ from dapla_metadata.datasets.utility.constants import DAED_ENCRYPTION_KEY_REFERE
 from dapla_metadata.datasets.utility.constants import (
     DATASET_FIELDS_FROM_EXISTING_METADATA,
 )
-from dapla_metadata.datasets.utility.constants import ENCRYPTION_PARAMETER_KEY_ID
+from dapla_metadata.datasets.utility.constants import KEY_ID
 from dapla_metadata.datasets.utility.constants import NUM_OBLIGATORY_VARIABLES_FIELDS
 from dapla_metadata.datasets.utility.constants import (
     OBLIGATORY_DATASET_METADATA_IDENTIFIERS,
@@ -555,21 +555,6 @@ def _ensure_encryption_parameters(
     return result
 
 
-def _set_key_reference(
-    pseudonymization: PseudonymizationType,
-    variable: VariableType,
-    default_ref: str,
-) -> None:
-    """Set default encryption key reference based on selected algorithm if none."""
-    if not pseudonymization.encryption_key_reference:
-        pseudonymization.encryption_key_reference = (
-            variable.pseudonymization.encryption_key_reference
-            if variable.pseudonymization
-            and variable.pseudonymization.encryption_key_reference
-            else default_ref
-        )
-
-
 def _set_parameters(
     pseudonymization: PseudonymizationType,
     variable: VariableType,
@@ -598,19 +583,14 @@ def set_default_values_pseudonymization(
         return
     if variable.pseudonymization is None:
         variable.pseudonymization = pseudonymization
-    else:
-        for attr in vars(pseudonymization):
-            new_value = getattr(pseudonymization, attr)
-            if new_value is not None:
-                setattr(variable.pseudonymization, attr, new_value)
-    pseudonymization = variable.pseudonymization
     match pseudonymization.encryption_algorithm:
         case EncryptionAlgorithm.PAPIS_ENCRYPTION_ALGORITHM.value:
-            _set_key_reference(
-                pseudonymization, variable, PAPIS_ENCRYPTION_KEY_REFERENCE
-            )
+            if not pseudonymization.encryption_key_reference:
+                pseudonymization.encryption_key_reference = (
+                    PAPIS_ENCRYPTION_KEY_REFERENCE
+                )
             base_params = {
-                ENCRYPTION_PARAMETER_KEY_ID: PAPIS_ENCRYPTION_KEY_REFERENCE,
+                KEY_ID: PAPIS_ENCRYPTION_KEY_REFERENCE,
                 PAPIS_ENCRYPTION_PARAMETER_STRATEGY: PAPIS_ENCRYPTION_PARAMETER_STRATEGY_SKIP,
             }
             if pseudonymization.stable_identifier_type == PAPIS_STABLE_IDENTIFIER_TYPE:
@@ -619,14 +599,15 @@ def set_default_values_pseudonymization(
                 )
             _set_parameters(pseudonymization, variable, base_params)
         case EncryptionAlgorithm.DAED_ENCRYPTION_ALGORITHM.value:
-            _set_key_reference(
-                pseudonymization, variable, DAED_ENCRYPTION_KEY_REFERENCE
-            )
+            if not pseudonymization.encryption_key_reference:
+                pseudonymization.encryption_key_reference = (
+                    DAED_ENCRYPTION_KEY_REFERENCE
+                )
             _set_parameters(
                 pseudonymization,
                 variable,
                 {
-                    ENCRYPTION_PARAMETER_KEY_ID: DAED_ENCRYPTION_KEY_REFERENCE,
+                    KEY_ID: DAED_ENCRYPTION_KEY_REFERENCE,
                 },
             )
         case _:
