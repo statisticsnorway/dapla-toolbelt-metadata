@@ -592,7 +592,7 @@ class Datadoc:
         variable_short_name: str,
         pseudonymization: all_optional_model.Pseudonymization | None = None,
     ) -> None:
-        """Add or update pseudonymization for a variable.
+        """Adds a new pseudo variable to the list of pseudonymized variables.
 
         If `pseudonymization` is not supplied, an empty Pseudonymization structure
         will be created and assigned to the variable.
