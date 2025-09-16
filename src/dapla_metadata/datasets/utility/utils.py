@@ -57,7 +57,6 @@ VariableType: TypeAlias = all_optional_model.Variable | required_model.Variable
 PseudonymizationType: TypeAlias = (
     all_optional_model.Pseudonymization | required_model.Pseudonymization
 )
-VariableType: TypeAlias = all_optional_model.Variable | required_model.Variable
 VariableListType: TypeAlias = (
     list[all_optional_model.Variable] | list[required_model.Variable]
 )
