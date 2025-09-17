@@ -451,15 +451,11 @@ def running_in_notebook() -> bool:
 
 
 def _ensure_encryption_parameters(
-    saved_parameters: list[dict[str, Any]] | None,
-    new_parameters: list[dict[str, Any]] | None,
+    existing: list[dict[str, Any]] | None,
     required: dict[str, Any],
 ) -> list[dict[str, Any]]:
     """Ensure required key/value pairs exist in parameters list."""
-    result = list(saved_parameters or [])
-    for p in new_parameters or []:
-        if p not in result:
-            result.append(p)
+    result = list(existing or [])
 
     # Ensure each required key is present in at least one dict
     for key, value in required.items():
@@ -467,21 +463,6 @@ def _ensure_encryption_parameters(
             result.append({key: value})
 
     return result
-
-
-def _set_parameters(
-    pseudonymization: PseudonymizationType,
-    variable: VariableType,
-    default_params: dict,
-) -> None:
-    """Add default encryption algorithm parameters based on selected algorithm."""
-    pseudonymization.encryption_algorithm_parameters = _ensure_encryption_parameters(
-        variable.pseudonymization.encryption_algorithm_parameters
-        if variable.pseudonymization
-        else None,
-        pseudonymization.encryption_algorithm_parameters,
-        default_params,
-    )
 
 
 def set_default_values_pseudonymization(
@@ -511,18 +492,24 @@ def set_default_values_pseudonymization(
                 base_params[PAPIS_WITH_STABLE_ID_ENCRYPTION_PARAMETER_SNAPSHOT_DATE] = (
                     get_current_date()
                 )
-            _set_parameters(pseudonymization, variable, base_params)
+            pseudonymization.encryption_algorithm_parameters = (
+                _ensure_encryption_parameters(
+                    pseudonymization.encryption_algorithm_parameters,
+                    base_params,
+                )
+            )
         case EncryptionAlgorithm.DAED_ENCRYPTION_ALGORITHM.value:
             if not pseudonymization.encryption_key_reference:
                 pseudonymization.encryption_key_reference = (
                     DAED_ENCRYPTION_KEY_REFERENCE
                 )
-            _set_parameters(
-                pseudonymization,
-                variable,
-                {
-                    KEY_ID: DAED_ENCRYPTION_KEY_REFERENCE,
-                },
+            pseudonymization.encryption_algorithm_parameters = (
+                _ensure_encryption_parameters(
+                    pseudonymization.encryption_algorithm_parameters,
+                    {
+                        KEY_ID: DAED_ENCRYPTION_KEY_REFERENCE,
+                    },
+                )
             )
         case _:
             pass
