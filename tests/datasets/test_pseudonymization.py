@@ -10,19 +10,13 @@ from typing import TYPE_CHECKING
 import pytest
 from datadoc_model.all_optional.model import Pseudonymization
 
-from dapla_metadata.datasets.utility.constants import DAED_ENCRYPTION_KEY_REFERENCE
-from dapla_metadata.datasets.utility.constants import KEY_ID
+from dapla_metadata.datasets.utility.constants import DAEAD_ENCRYPTION_KEY_REFERENCE
+from dapla_metadata.datasets.utility.constants import ENCRYPTION_PARAMETER_KEY_ID
+from dapla_metadata.datasets.utility.constants import ENCRYPTION_PARAMETER_SNAPSHOT_DATE
+from dapla_metadata.datasets.utility.constants import ENCRYPTION_PARAMETER_STRATEGY
+from dapla_metadata.datasets.utility.constants import ENCRYPTION_PARAMETER_STRATEGY_SKIP
 from dapla_metadata.datasets.utility.constants import PAPIS_ENCRYPTION_KEY_REFERENCE
-from dapla_metadata.datasets.utility.constants import (
-    PAPIS_ENCRYPTION_PARAMETER_STRATEGY,
-)
-from dapla_metadata.datasets.utility.constants import (
-    PAPIS_ENCRYPTION_PARAMETER_STRATEGY_SKIP,
-)
 from dapla_metadata.datasets.utility.constants import PAPIS_STABLE_IDENTIFIER_TYPE
-from dapla_metadata.datasets.utility.constants import (
-    PAPIS_WITH_STABLE_ID_ENCRYPTION_PARAMETER_SNAPSHOT_DATE,
-)
 from dapla_metadata.datasets.utility.enums import EncryptionAlgorithm
 from dapla_metadata.datasets.utility.utils import get_current_date
 from tests.datasets.constants import TEST_PSEUDO_DIRECTORY
@@ -61,10 +55,8 @@ def _assert_dicts_in_list(expected: list[dict] | None, actual: list[dict]):
             expected_algorithm=EncryptionAlgorithm.PAPIS_ENCRYPTION_ALGORITHM.value,
             expected_key=PAPIS_ENCRYPTION_KEY_REFERENCE,
             expected_params=[
-                {KEY_ID: PAPIS_ENCRYPTION_KEY_REFERENCE},
-                {
-                    PAPIS_ENCRYPTION_PARAMETER_STRATEGY: PAPIS_ENCRYPTION_PARAMETER_STRATEGY_SKIP
-                },
+                {ENCRYPTION_PARAMETER_KEY_ID: PAPIS_ENCRYPTION_KEY_REFERENCE},
+                {ENCRYPTION_PARAMETER_STRATEGY: ENCRYPTION_PARAMETER_STRATEGY_SKIP},
             ],
         ),
         PseudoCase(
@@ -75,10 +67,8 @@ def _assert_dicts_in_list(expected: list[dict] | None, actual: list[dict]):
             expected_algorithm=EncryptionAlgorithm.PAPIS_ENCRYPTION_ALGORITHM.value,
             expected_key="fall-out-2",
             expected_params=[
-                {KEY_ID: PAPIS_ENCRYPTION_KEY_REFERENCE},
-                {
-                    PAPIS_ENCRYPTION_PARAMETER_STRATEGY: PAPIS_ENCRYPTION_PARAMETER_STRATEGY_SKIP
-                },
+                {ENCRYPTION_PARAMETER_KEY_ID: PAPIS_ENCRYPTION_KEY_REFERENCE},
+                {ENCRYPTION_PARAMETER_STRATEGY: ENCRYPTION_PARAMETER_STRATEGY_SKIP},
             ],
         ),
         PseudoCase(
@@ -95,10 +85,8 @@ def _assert_dicts_in_list(expected: list[dict] | None, actual: list[dict]):
             expected_algorithm=EncryptionAlgorithm.PAPIS_ENCRYPTION_ALGORITHM.value,
             expected_key=PAPIS_ENCRYPTION_KEY_REFERENCE,
             expected_params=[
-                {KEY_ID: PAPIS_ENCRYPTION_KEY_REFERENCE},
-                {
-                    PAPIS_ENCRYPTION_PARAMETER_STRATEGY: PAPIS_ENCRYPTION_PARAMETER_STRATEGY_SKIP
-                },
+                {ENCRYPTION_PARAMETER_KEY_ID: PAPIS_ENCRYPTION_KEY_REFERENCE},
+                {ENCRYPTION_PARAMETER_STRATEGY: ENCRYPTION_PARAMETER_STRATEGY_SKIP},
             ],
             expected_pseudo_time=datetime(2018, 3, 3, 12, 30, 0, tzinfo=timezone.utc),
         ),
@@ -111,24 +99,22 @@ def _assert_dicts_in_list(expected: list[dict] | None, actual: list[dict]):
             expected_key=PAPIS_ENCRYPTION_KEY_REFERENCE,
             expected_params=[
                 {"someKey": "someValue"},
-                {KEY_ID: PAPIS_ENCRYPTION_KEY_REFERENCE},
-                {
-                    PAPIS_ENCRYPTION_PARAMETER_STRATEGY: PAPIS_ENCRYPTION_PARAMETER_STRATEGY_SKIP
-                },
+                {ENCRYPTION_PARAMETER_KEY_ID: PAPIS_ENCRYPTION_KEY_REFERENCE},
+                {ENCRYPTION_PARAMETER_STRATEGY: ENCRYPTION_PARAMETER_STRATEGY_SKIP},
             ],
         ),
         PseudoCase(
             new_pseudo=Pseudonymization(
                 encryption_algorithm=EncryptionAlgorithm.PAPIS_ENCRYPTION_ALGORITHM.value,
-                encryption_algorithm_parameters=[{KEY_ID: "heaven-ref-3"}],
+                encryption_algorithm_parameters=[
+                    {ENCRYPTION_PARAMETER_KEY_ID: "heaven-ref-3"}
+                ],
             ),
             expected_algorithm=EncryptionAlgorithm.PAPIS_ENCRYPTION_ALGORITHM.value,
             expected_key=PAPIS_ENCRYPTION_KEY_REFERENCE,
             expected_params=[
-                {KEY_ID: "heaven-ref-3"},
-                {
-                    PAPIS_ENCRYPTION_PARAMETER_STRATEGY: PAPIS_ENCRYPTION_PARAMETER_STRATEGY_SKIP
-                },
+                {ENCRYPTION_PARAMETER_KEY_ID: "heaven-ref-3"},
+                {ENCRYPTION_PARAMETER_STRATEGY: ENCRYPTION_PARAMETER_STRATEGY_SKIP},
             ],
         ),
     ],
@@ -180,13 +166,9 @@ def test_add_default_pseudonymization_values_papis_without_stable_id(
             expected_stable_type=PAPIS_STABLE_IDENTIFIER_TYPE,
             expected_key=PAPIS_ENCRYPTION_KEY_REFERENCE,
             expected_params=[
-                {KEY_ID: PAPIS_ENCRYPTION_KEY_REFERENCE},
-                {
-                    PAPIS_WITH_STABLE_ID_ENCRYPTION_PARAMETER_SNAPSHOT_DATE: get_current_date()
-                },
-                {
-                    PAPIS_ENCRYPTION_PARAMETER_STRATEGY: PAPIS_ENCRYPTION_PARAMETER_STRATEGY_SKIP
-                },
+                {ENCRYPTION_PARAMETER_KEY_ID: PAPIS_ENCRYPTION_KEY_REFERENCE},
+                {ENCRYPTION_PARAMETER_SNAPSHOT_DATE: get_current_date()},
+                {ENCRYPTION_PARAMETER_STRATEGY: ENCRYPTION_PARAMETER_STRATEGY_SKIP},
             ],
         ),
         PseudoCase(
@@ -199,13 +181,9 @@ def test_add_default_pseudonymization_values_papis_without_stable_id(
             expected_stable_type=PAPIS_STABLE_IDENTIFIER_TYPE,
             expected_key="oh-no-4",
             expected_params=[
-                {KEY_ID: PAPIS_ENCRYPTION_KEY_REFERENCE},
-                {
-                    PAPIS_WITH_STABLE_ID_ENCRYPTION_PARAMETER_SNAPSHOT_DATE: get_current_date()
-                },
-                {
-                    PAPIS_ENCRYPTION_PARAMETER_STRATEGY: PAPIS_ENCRYPTION_PARAMETER_STRATEGY_SKIP
-                },
+                {ENCRYPTION_PARAMETER_KEY_ID: PAPIS_ENCRYPTION_KEY_REFERENCE},
+                {ENCRYPTION_PARAMETER_SNAPSHOT_DATE: get_current_date()},
+                {ENCRYPTION_PARAMETER_STRATEGY: ENCRYPTION_PARAMETER_STRATEGY_SKIP},
             ],
         ),
         PseudoCase(
@@ -223,13 +201,9 @@ def test_add_default_pseudonymization_values_papis_without_stable_id(
             expected_stable_type=PAPIS_STABLE_IDENTIFIER_TYPE,
             expected_key=PAPIS_ENCRYPTION_KEY_REFERENCE,
             expected_params=[
-                {KEY_ID: PAPIS_ENCRYPTION_KEY_REFERENCE},
-                {
-                    PAPIS_WITH_STABLE_ID_ENCRYPTION_PARAMETER_SNAPSHOT_DATE: get_current_date()
-                },
-                {
-                    PAPIS_ENCRYPTION_PARAMETER_STRATEGY: PAPIS_ENCRYPTION_PARAMETER_STRATEGY_SKIP
-                },
+                {ENCRYPTION_PARAMETER_KEY_ID: PAPIS_ENCRYPTION_KEY_REFERENCE},
+                {ENCRYPTION_PARAMETER_SNAPSHOT_DATE: get_current_date()},
+                {ENCRYPTION_PARAMETER_STRATEGY: ENCRYPTION_PARAMETER_STRATEGY_SKIP},
             ],
             expected_pseudo_time=datetime(2018, 3, 3, 12, 30, 0, tzinfo=timezone.utc),
         ),
@@ -243,13 +217,9 @@ def test_add_default_pseudonymization_values_papis_without_stable_id(
             expected_stable_type=PAPIS_STABLE_IDENTIFIER_TYPE,
             expected_key=PAPIS_ENCRYPTION_KEY_REFERENCE,
             expected_params=[
-                {KEY_ID: PAPIS_ENCRYPTION_KEY_REFERENCE},
-                {
-                    PAPIS_WITH_STABLE_ID_ENCRYPTION_PARAMETER_SNAPSHOT_DATE: get_current_date()
-                },
-                {
-                    PAPIS_ENCRYPTION_PARAMETER_STRATEGY: PAPIS_ENCRYPTION_PARAMETER_STRATEGY_SKIP
-                },
+                {ENCRYPTION_PARAMETER_KEY_ID: PAPIS_ENCRYPTION_KEY_REFERENCE},
+                {ENCRYPTION_PARAMETER_SNAPSHOT_DATE: get_current_date()},
+                {ENCRYPTION_PARAMETER_STRATEGY: ENCRYPTION_PARAMETER_STRATEGY_SKIP},
             ],
             expected_stable_version="3012-10-11",
         ),
@@ -258,19 +228,15 @@ def test_add_default_pseudonymization_values_papis_without_stable_id(
                 encryption_algorithm=EncryptionAlgorithm.PAPIS_ENCRYPTION_ALGORITHM.value,
                 stable_identifier_type=PAPIS_STABLE_IDENTIFIER_TYPE,
                 encryption_algorithm_parameters=[
-                    {
-                        PAPIS_WITH_STABLE_ID_ENCRYPTION_PARAMETER_SNAPSHOT_DATE: "2025-12-12"
-                    }
+                    {ENCRYPTION_PARAMETER_SNAPSHOT_DATE: "2025-12-12"}
                 ],
             ),
             expected_algorithm=EncryptionAlgorithm.PAPIS_ENCRYPTION_ALGORITHM.value,
             expected_stable_type=PAPIS_STABLE_IDENTIFIER_TYPE,
             expected_key=PAPIS_ENCRYPTION_KEY_REFERENCE,
             expected_params=[
-                {KEY_ID: PAPIS_ENCRYPTION_KEY_REFERENCE},
-                {
-                    PAPIS_ENCRYPTION_PARAMETER_STRATEGY: PAPIS_ENCRYPTION_PARAMETER_STRATEGY_SKIP
-                },
+                {ENCRYPTION_PARAMETER_KEY_ID: PAPIS_ENCRYPTION_KEY_REFERENCE},
+                {ENCRYPTION_PARAMETER_STRATEGY: ENCRYPTION_PARAMETER_STRATEGY_SKIP},
             ],
         ),
     ],
@@ -319,23 +285,23 @@ def test_add_default_pseudonymization_values_papis_with_stable_id(
     [
         PseudoCase(
             new_pseudo=Pseudonymization(
-                encryption_algorithm=EncryptionAlgorithm.DAED_ENCRYPTION_ALGORITHM.value,
+                encryption_algorithm=EncryptionAlgorithm.DAEAD_ENCRYPTION_ALGORITHM.value,
             ),
-            expected_algorithm=EncryptionAlgorithm.DAED_ENCRYPTION_ALGORITHM.value,
-            expected_key=DAED_ENCRYPTION_KEY_REFERENCE,
+            expected_algorithm=EncryptionAlgorithm.DAEAD_ENCRYPTION_ALGORITHM.value,
+            expected_key=DAEAD_ENCRYPTION_KEY_REFERENCE,
             expected_params=[
-                {KEY_ID: DAED_ENCRYPTION_KEY_REFERENCE},
+                {ENCRYPTION_PARAMETER_KEY_ID: DAEAD_ENCRYPTION_KEY_REFERENCE},
             ],
         ),
         PseudoCase(
             new_pseudo=Pseudonymization(
-                encryption_algorithm=EncryptionAlgorithm.DAED_ENCRYPTION_ALGORITHM.value,
+                encryption_algorithm=EncryptionAlgorithm.DAEAD_ENCRYPTION_ALGORITHM.value,
                 encryption_key_reference="jippi-ya",
             ),
-            expected_algorithm=EncryptionAlgorithm.DAED_ENCRYPTION_ALGORITHM.value,
+            expected_algorithm=EncryptionAlgorithm.DAEAD_ENCRYPTION_ALGORITHM.value,
             expected_key="jippi-ya",
             expected_params=[
-                {KEY_ID: DAED_ENCRYPTION_KEY_REFERENCE},
+                {ENCRYPTION_PARAMETER_KEY_ID: DAEAD_ENCRYPTION_KEY_REFERENCE},
             ],
         ),
         PseudoCase(
@@ -344,40 +310,42 @@ def test_add_default_pseudonymization_values_papis_with_stable_id(
         ),
         PseudoCase(
             new_pseudo=Pseudonymization(
-                encryption_algorithm=EncryptionAlgorithm.DAED_ENCRYPTION_ALGORITHM.value,
+                encryption_algorithm=EncryptionAlgorithm.DAEAD_ENCRYPTION_ALGORITHM.value,
                 pseudonymization_time=datetime(
                     2018, 3, 3, 12, 30, 0, tzinfo=timezone.utc
                 ),
             ),
-            expected_algorithm=EncryptionAlgorithm.DAED_ENCRYPTION_ALGORITHM.value,
-            expected_key=DAED_ENCRYPTION_KEY_REFERENCE,
+            expected_algorithm=EncryptionAlgorithm.DAEAD_ENCRYPTION_ALGORITHM.value,
+            expected_key=DAEAD_ENCRYPTION_KEY_REFERENCE,
             expected_params=[
-                {KEY_ID: DAED_ENCRYPTION_KEY_REFERENCE},
+                {ENCRYPTION_PARAMETER_KEY_ID: DAEAD_ENCRYPTION_KEY_REFERENCE},
             ],
             expected_pseudo_time=datetime(2018, 3, 3, 12, 30, 0, tzinfo=timezone.utc),
         ),
         PseudoCase(
             new_pseudo=Pseudonymization(
-                encryption_algorithm=EncryptionAlgorithm.DAED_ENCRYPTION_ALGORITHM.value,
-                encryption_algorithm_parameters=[{KEY_ID: "not-my-responsibility"}],
+                encryption_algorithm=EncryptionAlgorithm.DAEAD_ENCRYPTION_ALGORITHM.value,
+                encryption_algorithm_parameters=[
+                    {ENCRYPTION_PARAMETER_KEY_ID: "not-my-responsibility"}
+                ],
             ),
-            expected_algorithm=EncryptionAlgorithm.DAED_ENCRYPTION_ALGORITHM.value,
-            expected_key=DAED_ENCRYPTION_KEY_REFERENCE,
+            expected_algorithm=EncryptionAlgorithm.DAEAD_ENCRYPTION_ALGORITHM.value,
+            expected_key=DAEAD_ENCRYPTION_KEY_REFERENCE,
             expected_params=[
-                {KEY_ID: "not-my-responsibility"},
+                {ENCRYPTION_PARAMETER_KEY_ID: "not-my-responsibility"},
             ],
             expected_pseudo_time=datetime(2025, 1, 1, 12, 30, 0, tzinfo=timezone.utc),
         ),
         PseudoCase(
             new_pseudo=Pseudonymization(
-                encryption_algorithm=EncryptionAlgorithm.DAED_ENCRYPTION_ALGORITHM.value,
+                encryption_algorithm=EncryptionAlgorithm.DAEAD_ENCRYPTION_ALGORITHM.value,
                 encryption_algorithm_parameters=[{"so-private": "key-hi-hi"}],
             ),
-            expected_algorithm=EncryptionAlgorithm.DAED_ENCRYPTION_ALGORITHM.value,
-            expected_key=DAED_ENCRYPTION_KEY_REFERENCE,
+            expected_algorithm=EncryptionAlgorithm.DAEAD_ENCRYPTION_ALGORITHM.value,
+            expected_key=DAEAD_ENCRYPTION_KEY_REFERENCE,
             expected_params=[
                 {"so-private": "key-hi-hi"},
-                {KEY_ID: DAED_ENCRYPTION_KEY_REFERENCE},
+                {ENCRYPTION_PARAMETER_KEY_ID: DAEAD_ENCRYPTION_KEY_REFERENCE},
             ],
             expected_pseudo_time=datetime(2025, 1, 1, 12, 30, 0, tzinfo=timezone.utc),
         ),
@@ -429,19 +397,19 @@ def test_add_default_pseudonymization_values_daed(case: PseudoCase, metadata: Da
                     2025, 10, 29, 0, 0, 0, tzinfo=timezone.utc
                 ),
                 encryption_algorithm="unknown",
-                encryption_key_reference=DAED_ENCRYPTION_KEY_REFERENCE,
+                encryption_key_reference=DAEAD_ENCRYPTION_KEY_REFERENCE,
                 stable_identifier_type=PAPIS_STABLE_IDENTIFIER_TYPE,
                 stable_identifier_version="2-a-3",
                 encryption_algorithm_parameters=[
-                    {KEY_ID: PAPIS_ENCRYPTION_KEY_REFERENCE},
+                    {ENCRYPTION_PARAMETER_KEY_ID: PAPIS_ENCRYPTION_KEY_REFERENCE},
                     {"someKey": "specialValue"},
                 ],
             ),
             expected_algorithm="unknown",
-            expected_key=DAED_ENCRYPTION_KEY_REFERENCE,
+            expected_key=DAEAD_ENCRYPTION_KEY_REFERENCE,
             expected_stable_type=PAPIS_STABLE_IDENTIFIER_TYPE,
             expected_params=[
-                {KEY_ID: PAPIS_ENCRYPTION_KEY_REFERENCE},
+                {ENCRYPTION_PARAMETER_KEY_ID: PAPIS_ENCRYPTION_KEY_REFERENCE},
                 {"someKey": "specialValue"},
             ],
             expected_pseudo_time=datetime(2025, 10, 29, 0, 0, 0, tzinfo=timezone.utc),

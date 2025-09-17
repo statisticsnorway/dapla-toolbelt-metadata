@@ -19,8 +19,11 @@ from datadoc_model.all_optional.model import DataSetState
 from datadoc_model.all_optional.model import VariableRole
 
 from dapla_metadata.dapla import user_info
-from dapla_metadata.datasets.utility.constants import DAED_ENCRYPTION_KEY_REFERENCE
-from dapla_metadata.datasets.utility.constants import KEY_ID
+from dapla_metadata.datasets.utility.constants import DAEAD_ENCRYPTION_KEY_REFERENCE
+from dapla_metadata.datasets.utility.constants import ENCRYPTION_PARAMETER_KEY_ID
+from dapla_metadata.datasets.utility.constants import ENCRYPTION_PARAMETER_SNAPSHOT_DATE
+from dapla_metadata.datasets.utility.constants import ENCRYPTION_PARAMETER_STRATEGY
+from dapla_metadata.datasets.utility.constants import ENCRYPTION_PARAMETER_STRATEGY_SKIP
 from dapla_metadata.datasets.utility.constants import NUM_OBLIGATORY_VARIABLES_FIELDS
 from dapla_metadata.datasets.utility.constants import (
     OBLIGATORY_DATASET_METADATA_IDENTIFIERS,
@@ -35,16 +38,7 @@ from dapla_metadata.datasets.utility.constants import (
     OBLIGATORY_VARIABLES_METADATA_IDENTIFIERS_MULTILANGUAGE,
 )
 from dapla_metadata.datasets.utility.constants import PAPIS_ENCRYPTION_KEY_REFERENCE
-from dapla_metadata.datasets.utility.constants import (
-    PAPIS_ENCRYPTION_PARAMETER_STRATEGY,
-)
-from dapla_metadata.datasets.utility.constants import (
-    PAPIS_ENCRYPTION_PARAMETER_STRATEGY_SKIP,
-)
 from dapla_metadata.datasets.utility.constants import PAPIS_STABLE_IDENTIFIER_TYPE
-from dapla_metadata.datasets.utility.constants import (
-    PAPIS_WITH_STABLE_ID_ENCRYPTION_PARAMETER_SNAPSHOT_DATE,
-)
 from dapla_metadata.datasets.utility.enums import EncryptionAlgorithm
 
 logger = logging.getLogger(__name__)
@@ -485,29 +479,27 @@ def set_default_values_pseudonymization(
                     PAPIS_ENCRYPTION_KEY_REFERENCE
                 )
             base_params = {
-                KEY_ID: PAPIS_ENCRYPTION_KEY_REFERENCE,
-                PAPIS_ENCRYPTION_PARAMETER_STRATEGY: PAPIS_ENCRYPTION_PARAMETER_STRATEGY_SKIP,
+                ENCRYPTION_PARAMETER_KEY_ID: PAPIS_ENCRYPTION_KEY_REFERENCE,
+                ENCRYPTION_PARAMETER_STRATEGY: ENCRYPTION_PARAMETER_STRATEGY_SKIP,
             }
             if pseudonymization.stable_identifier_type == PAPIS_STABLE_IDENTIFIER_TYPE:
-                base_params[PAPIS_WITH_STABLE_ID_ENCRYPTION_PARAMETER_SNAPSHOT_DATE] = (
-                    get_current_date()
-                )
+                base_params[ENCRYPTION_PARAMETER_SNAPSHOT_DATE] = get_current_date()
             pseudonymization.encryption_algorithm_parameters = (
                 _ensure_encryption_parameters(
                     pseudonymization.encryption_algorithm_parameters,
                     base_params,
                 )
             )
-        case EncryptionAlgorithm.DAED_ENCRYPTION_ALGORITHM.value:
+        case EncryptionAlgorithm.DAEAD_ENCRYPTION_ALGORITHM.value:
             if not pseudonymization.encryption_key_reference:
                 pseudonymization.encryption_key_reference = (
-                    DAED_ENCRYPTION_KEY_REFERENCE
+                    DAEAD_ENCRYPTION_KEY_REFERENCE
                 )
             pseudonymization.encryption_algorithm_parameters = (
                 _ensure_encryption_parameters(
                     pseudonymization.encryption_algorithm_parameters,
                     {
-                        KEY_ID: DAED_ENCRYPTION_KEY_REFERENCE,
+                        ENCRYPTION_PARAMETER_KEY_ID: DAEAD_ENCRYPTION_KEY_REFERENCE,
                     },
                 )
             )
