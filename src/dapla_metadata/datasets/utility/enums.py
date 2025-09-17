@@ -20,4 +20,4 @@ class EncryptionAlgorithm(str, Enum):
     """Encryption algorithm values for pseudonymization algoprithms offered on Dapla."""
 
     PAPIS_ENCRYPTION_ALGORITHM = "TINK-FPE"
-    DAED_ENCRYPTION_ALGORITHM = "TINK-DAED"
+    DAEAD_ENCRYPTION_ALGORITHM = "TINK-DAEAD"
