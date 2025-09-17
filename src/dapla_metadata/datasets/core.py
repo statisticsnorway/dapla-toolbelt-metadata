@@ -46,6 +46,7 @@ from dapla_metadata.datasets.utility.utils import (
 )
 from dapla_metadata.datasets.utility.utils import set_dataset_owner
 from dapla_metadata.datasets.utility.utils import set_default_values_dataset
+from dapla_metadata.datasets.utility.utils import set_default_values_pseudonymization
 from dapla_metadata.datasets.utility.utils import set_default_values_variables
 
 if TYPE_CHECKING:
@@ -444,9 +445,12 @@ class Datadoc:
         variable_short_name: str,
         pseudonymization: all_optional_model.Pseudonymization | None = None,
     ) -> None:
-        """Adds a new pseudo variable to the list of pseudonymized variables also sets is_personal_data to true.
+        """Adds a new pseudo variable to the list of pseudonymized variables.
 
-        If there is no pseudonymization supplied an empty Pseudonymization structure will be added to the model.
+        If `pseudonymization` is not supplied, an empty Pseudonymization structure
+        will be created and assigned to the variable.
+        If an encryption algorithm is recognized (one of the standard Dapla algorithms), default values are filled
+        for any missing fields.
 
         Args:
             variable_short_name: The short name for the variable that one wants to update the pseudo for.
@@ -454,15 +458,15 @@ class Datadoc:
 
         """
         variable = self.variables_lookup[variable_short_name]
-        variable.pseudonymization = (
-            pseudonymization or all_optional_model.Pseudonymization()
-        )
+        if pseudonymization:
+            set_default_values_pseudonymization(variable, pseudonymization)
+        else:
+            variable.pseudonymization = all_optional_model.Pseudonymization()
 
     def remove_pseudonymization(self, variable_short_name: str) -> None:
         """Removes a pseudo variable by using the shortname.
 
         Updates the pseudo variable lookup by creating a new one.
-        Sets is_personal_data to non pseudonymized encrypted personal data.
 
         Args:
             variable_short_name: The short name for the variable that one wants to remove the pseudo for.

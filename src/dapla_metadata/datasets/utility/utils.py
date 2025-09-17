@@ -4,6 +4,7 @@ import datetime  # import is needed in xdoctest
 import logging
 import pathlib
 import uuid
+from typing import Any
 from typing import TypeAlias
 
 import datadoc_model.all_optional.model as all_optional_model
@@ -18,6 +19,11 @@ from datadoc_model.all_optional.model import DataSetState
 from datadoc_model.all_optional.model import VariableRole
 
 from dapla_metadata.dapla import user_info
+from dapla_metadata.datasets.utility.constants import DAEAD_ENCRYPTION_KEY_REFERENCE
+from dapla_metadata.datasets.utility.constants import ENCRYPTION_PARAMETER_KEY_ID
+from dapla_metadata.datasets.utility.constants import ENCRYPTION_PARAMETER_SNAPSHOT_DATE
+from dapla_metadata.datasets.utility.constants import ENCRYPTION_PARAMETER_STRATEGY
+from dapla_metadata.datasets.utility.constants import ENCRYPTION_PARAMETER_STRATEGY_SKIP
 from dapla_metadata.datasets.utility.constants import NUM_OBLIGATORY_VARIABLES_FIELDS
 from dapla_metadata.datasets.utility.constants import (
     OBLIGATORY_DATASET_METADATA_IDENTIFIERS,
@@ -31,6 +37,9 @@ from dapla_metadata.datasets.utility.constants import (
 from dapla_metadata.datasets.utility.constants import (
     OBLIGATORY_VARIABLES_METADATA_IDENTIFIERS_MULTILANGUAGE,
 )
+from dapla_metadata.datasets.utility.constants import PAPIS_ENCRYPTION_KEY_REFERENCE
+from dapla_metadata.datasets.utility.constants import PAPIS_STABLE_IDENTIFIER_TYPE
+from dapla_metadata.datasets.utility.enums import EncryptionAlgorithm
 
 logger = logging.getLogger(__name__)
 
@@ -39,10 +48,18 @@ DatadocMetadataType: TypeAlias = (
 )
 DatasetType: TypeAlias = all_optional_model.Dataset | required_model.Dataset
 VariableType: TypeAlias = all_optional_model.Variable | required_model.Variable
+PseudonymizationType: TypeAlias = (
+    all_optional_model.Pseudonymization | required_model.Pseudonymization
+)
 VariableListType: TypeAlias = (
     list[all_optional_model.Variable] | list[required_model.Variable]
 )
 OptionalDatadocMetadataType: TypeAlias = DatadocMetadataType | None
+
+
+def get_current_date() -> str:
+    """Return a current date as str."""
+    return datetime.datetime.now(tz=datetime.timezone.utc).date().isoformat()
 
 
 def get_timestamp_now() -> datetime.datetime:
@@ -425,3 +442,66 @@ def running_in_notebook() -> bool:
         # interpreters and will throw a NameError. Therefore we're not running
         # in Jupyter.
         return False
+
+
+def _ensure_encryption_parameters(
+    existing: list[dict[str, Any]] | None,
+    required: dict[str, Any],
+) -> list[dict[str, Any]]:
+    """Ensure required key/value pairs exist in parameters list."""
+    result = list(existing or [])
+
+    # Ensure each required key is present in at least one dict
+    for key, value in required.items():
+        if not any(key in d for d in result):
+            result.append({key: value})
+
+    return result
+
+
+def set_default_values_pseudonymization(
+    variable: VariableType,
+    pseudonymization: PseudonymizationType | None,
+) -> None:
+    """Populate pseudonymization fields with defaults based on the encryption algorithm.
+
+    Updates the encryption key reference and encryption parameters if they are not set,
+    handling both PAPIS and DAED algorithms. Leaves unknown algorithms unchanged.
+    """
+    if pseudonymization is None:
+        return
+    if variable.pseudonymization is None:
+        variable.pseudonymization = pseudonymization
+    match pseudonymization.encryption_algorithm:
+        case EncryptionAlgorithm.PAPIS_ENCRYPTION_ALGORITHM.value:
+            if not pseudonymization.encryption_key_reference:
+                pseudonymization.encryption_key_reference = (
+                    PAPIS_ENCRYPTION_KEY_REFERENCE
+                )
+            base_params = {
+                ENCRYPTION_PARAMETER_KEY_ID: PAPIS_ENCRYPTION_KEY_REFERENCE,
+                ENCRYPTION_PARAMETER_STRATEGY: ENCRYPTION_PARAMETER_STRATEGY_SKIP,
+            }
+            if pseudonymization.stable_identifier_type == PAPIS_STABLE_IDENTIFIER_TYPE:
+                base_params[ENCRYPTION_PARAMETER_SNAPSHOT_DATE] = get_current_date()
+            pseudonymization.encryption_algorithm_parameters = (
+                _ensure_encryption_parameters(
+                    pseudonymization.encryption_algorithm_parameters,
+                    base_params,
+                )
+            )
+        case EncryptionAlgorithm.DAEAD_ENCRYPTION_ALGORITHM.value:
+            if not pseudonymization.encryption_key_reference:
+                pseudonymization.encryption_key_reference = (
+                    DAEAD_ENCRYPTION_KEY_REFERENCE
+                )
+            pseudonymization.encryption_algorithm_parameters = (
+                _ensure_encryption_parameters(
+                    pseudonymization.encryption_algorithm_parameters,
+                    {
+                        ENCRYPTION_PARAMETER_KEY_ID: DAEAD_ENCRYPTION_KEY_REFERENCE,
+                    },
+                )
+            )
+        case _:
+            pass

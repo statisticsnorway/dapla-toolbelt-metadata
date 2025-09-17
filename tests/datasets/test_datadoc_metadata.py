@@ -19,7 +19,6 @@ from datadoc_model.all_optional.model import Dataset
 from datadoc_model.all_optional.model import DataSetState
 from datadoc_model.all_optional.model import DataSetStatus
 from datadoc_model.all_optional.model import DataType
-from datadoc_model.all_optional.model import Pseudonymization
 from datadoc_model.all_optional.model import Variable
 from datadoc_model.all_optional.model import VariableRole
 from pydantic import ValidationError
@@ -39,7 +38,6 @@ from tests.datasets.constants import TEST_EXISTING_METADATA_WITH_VALID_ID_DIRECT
 from tests.datasets.constants import TEST_NAMING_STANDARD_COMPATIBLE_DATASET
 from tests.datasets.constants import TEST_PARQUET_FILEPATH
 from tests.datasets.constants import TEST_PROCESSED_DATA_POPULATION_DIRECTORY
-from tests.datasets.constants import TEST_PSEUDO_DIRECTORY
 from tests.datasets.constants import TEST_RESOURCES_DIRECTORY
 
 if TYPE_CHECKING:
@@ -583,93 +581,3 @@ def test_merge_with_fewer_variables_in_existing_metadata(tmp_path):
         "bankinnskudd",
         "dato",
     ]
-
-
-@pytest.mark.parametrize(
-    "existing_metadata_path",
-    [TEST_PSEUDO_DIRECTORY / "dataset_and_pseudo"],
-)
-def test_add_pseudo_variable(
-    existing_metadata_file: Path,  # noqa: ARG001
-    metadata: Datadoc,
-):
-    test_variable = "sykepenger"
-    is_personal_data = metadata.variables_lookup[test_variable].is_personal_data
-    metadata.add_pseudonymization(test_variable)
-    assert metadata.variables_lookup[test_variable].pseudonymization is not None
-    assert metadata.variables_lookup[test_variable].is_personal_data == is_personal_data
-
-
-@pytest.mark.parametrize(
-    "existing_metadata_path",
-    [TEST_PSEUDO_DIRECTORY / "dataset_and_pseudo"],
-)
-def test_add_pseudo_variable_non_existent_variable_name(
-    existing_metadata_file: Path,  # noqa: ARG001
-    metadata: Datadoc,
-):
-    with pytest.raises(KeyError):
-        metadata.add_pseudonymization("new_pseudo_variable")
-
-
-@pytest.mark.parametrize(
-    "existing_metadata_path",
-    [TEST_PSEUDO_DIRECTORY / "dataset_and_pseudo"],
-)
-def test_existing_metadata_file_update_pseudonymization(
-    existing_metadata_file: Path,  # noqa: ARG001
-    metadata: Datadoc,
-):
-    metadata.add_pseudonymization("pers_id")
-    variable = metadata.variables_lookup["pers_id"]
-
-    assert variable.pseudonymization is not None
-    assert variable.pseudonymization.encryption_algorithm is None
-    variable.pseudonymization.encryption_algorithm = "new_encryption_algorithm"
-    assert variable.pseudonymization.encryption_algorithm == "new_encryption_algorithm"
-
-
-@pytest.mark.parametrize(
-    "existing_metadata_path",
-    [TEST_PSEUDO_DIRECTORY / "dataset_and_pseudo"],
-)
-def test_update_pseudo(
-    existing_metadata_file: Path,  # noqa: ARG001
-    metadata: Datadoc,
-):
-    variable = metadata.variables_lookup["pers_id"]
-
-    pseudo = Pseudonymization(encryption_algorithm="new_encryption_algorithm")
-
-    metadata.add_pseudonymization("pers_id", pseudo)
-
-    assert variable.pseudonymization is not None
-    assert variable.pseudonymization.encryption_algorithm == "new_encryption_algorithm"
-    assert variable.pseudonymization.encryption_algorithm_parameters is None
-
-
-@pytest.mark.parametrize(
-    "existing_metadata_path",
-    [TEST_PSEUDO_DIRECTORY / "dataset_and_pseudo"],
-)
-def test_remove_pseudo_variable(
-    existing_metadata_file: Path,  # noqa: ARG001
-    metadata: Datadoc,
-):
-    test_variable = "alm_inntekt"
-    is_personal_data = metadata.variables_lookup[test_variable].is_personal_data
-    metadata.remove_pseudonymization(test_variable)
-    assert metadata.variables_lookup[test_variable].is_personal_data == is_personal_data
-    assert metadata.variables_lookup[test_variable].pseudonymization is None
-
-
-@pytest.mark.parametrize(
-    "existing_metadata_path",
-    [TEST_PSEUDO_DIRECTORY / "dataset_and_pseudo"],
-)
-def test_remove_pseudo_variable_non_existent_variable_name(
-    existing_metadata_file: Path,  # noqa: ARG001
-    metadata: Datadoc,
-):
-    with pytest.raises(KeyError):
-        metadata.remove_pseudonymization("fnr")
