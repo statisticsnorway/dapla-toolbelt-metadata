@@ -13,7 +13,6 @@ import google.auth
 from cloudpathlib import CloudPath
 from cloudpathlib import GSClient
 from cloudpathlib import GSPath
-from datadoc_model import model
 from datadoc_model.all_optional.model import Assessment
 from datadoc_model.all_optional.model import DataSetState
 from datadoc_model.all_optional.model import VariableRole
@@ -126,7 +125,7 @@ def set_default_values_variables(variables: list) -> None:
         variables: A list of variable objects to set default values on.
 
     Example:
-        >>> variables = [model.Variable(short_name="pers",id=None, is_personal_data = None), model.Variable(short_name="fnr",id='9662875c-c245-41de-b667-12ad2091a1ee', is_personal_data=True)]
+        >>> variables = [all_optional_model.Variable(short_name="pers",id=None, is_personal_data = None), all_optional_model.Variable(short_name="fnr",id='9662875c-c245-41de-b667-12ad2091a1ee', is_personal_data=True)]
         >>> set_default_values_variables(variables)
         >>> isinstance(variables[0].id, uuid.UUID)
         True
@@ -155,7 +154,7 @@ def set_default_values_dataset(
         dataset: The dataset object to set default values on.
 
     Example:
-        >>> dataset = model.Dataset(id=None)
+        >>> dataset = all_optional_model.Dataset(id=None)
         >>> set_default_values_dataset(dataset)
         >>> dataset.id is not None
         True
@@ -193,8 +192,8 @@ def set_variables_inherit_from_dataset(
         variables: A list of variable objects to update with dataset values.
 
     Example:
-        >>> dataset = model.Dataset(short_name='person_data_v1', id='9662875c-c245-41de-b667-12ad2091a1ee', contains_data_from="2010-09-05", contains_data_until="2022-09-05")
-        >>> variables = [model.Variable(short_name="pers", data_source=None, temporality_type=None, contains_data_from=None, contains_data_until=None)]
+        >>> dataset = all_optional_model.Dataset(short_name='person_data_v1', id='9662875c-c245-41de-b667-12ad2091a1ee', contains_data_from="2010-09-05", contains_data_until="2022-09-05")
+        >>> variables = [all_optional_model.Variable(short_name="pers", data_source=None, temporality_type=None, contains_data_from=None, contains_data_until=None)]
         >>> set_variables_inherit_from_dataset(dataset, variables)
 
         >>> variables[0].contains_data_from == dataset.contains_data_from
@@ -340,7 +339,9 @@ def num_obligatory_variables_fields_completed(variables: list) -> int:
     return num_completed
 
 
-def num_obligatory_variable_fields_completed(variable: model.Variable) -> int:
+def num_obligatory_variable_fields_completed(
+    variable: all_optional_model.Variable,
+) -> int:
     """Count the number of obligatory fields completed for one variable.
 
     This function calculates the total number of obligatory fields that have

@@ -49,6 +49,10 @@ from dapla_metadata.variable_definitions.exceptions import vardef_file_error_han
 
 logger = logging.getLogger(__name__)
 
+IDENTICAL_PATCH_ERROR_MESSAGE = (
+    "No changes detected in supported fields. Not creating identical patch."
+)
+
 
 class VariableDefinition(CompleteResponse):
     """A Variable Definition.
@@ -274,11 +278,14 @@ class VariableDefinition(CompleteResponse):
         Returns:
             VariableDefinition: Variable Definition with all details.
         """
+        new_patch = _read_file_to_model(
+            file_path or self.get_file_path(),
+            Patch,
+        )
+        if new_patch == Patch.from_dict(self.to_dict()):
+            raise ValueError(IDENTICAL_PATCH_ERROR_MESSAGE)
         return self.create_patch(
-            patch=_read_file_to_model(
-                file_path or self.get_file_path(),
-                Patch,
-            ),
+            patch=new_patch,
             valid_from=valid_from,
         )
 
