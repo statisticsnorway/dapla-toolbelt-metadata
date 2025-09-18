@@ -27,6 +27,9 @@ from dapla_metadata.variable_definitions._utils.constants import VARDEF_TEST_URL
 from dapla_metadata.variable_definitions.exceptions import PublishingBlockedError
 from dapla_metadata.variable_definitions.exceptions import VardefFileError
 from dapla_metadata.variable_definitions.vardef import Vardef
+from dapla_metadata.variable_definitions.variable_definition import (
+    IDENTICAL_PATCH_ERROR_MESSAGE,
+)
 from dapla_metadata.variable_definitions.variable_definition import VariableDefinition
 from tests.utils.constants import VARDEF_EXAMPLE_DATE
 from tests.utils.constants import VARDEF_EXAMPLE_DEFINITION_ID
@@ -229,6 +232,25 @@ def test_create_patch_from_file(variable_definition: VariableDefinition):
 
     assert my_patch.classification_reference != result.classification_reference
     mock_create_patch.assert_called_once()
+
+
+def test_create_patch_change_short_name(variable_definition: VariableDefinition):
+    mock_api_response = MagicMock(name="VariableDefinition")
+    mock_api_response.classification_reference = "702"
+    with (
+        patch.object(
+            VariableDefinition,
+            "create_patch",
+            return_value=mock_api_response,
+        ) as mock_create_patch,
+        pytest.raises(ValueError, match=IDENTICAL_PATCH_ERROR_MESSAGE),
+    ):
+        variable_definition.create_patch_from_file(
+            file_path=VARIABLE_DEFINITION_EDITING_FILES_DIR
+            / "variable_definition_var_test_wypvb3wd_2025-09-18T14-19-28.yaml",
+        )
+
+    mock_create_patch.assert_not_called()
 
 
 def test_create_patch_from_file_path_not_set(variable_definition: VariableDefinition):

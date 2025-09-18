@@ -13,7 +13,6 @@ import google.auth
 from cloudpathlib import CloudPath
 from cloudpathlib import GSClient
 from cloudpathlib import GSPath
-from datadoc_model import model
 from datadoc_model.all_optional.model import Assessment
 from datadoc_model.all_optional.model import DataSetState
 from datadoc_model.all_optional.model import VariableRole
@@ -340,7 +339,9 @@ def num_obligatory_variables_fields_completed(variables: list) -> int:
     return num_completed
 
 
-def num_obligatory_variable_fields_completed(variable: model.Variable) -> int:
+def num_obligatory_variable_fields_completed(
+    variable: all_optional_model.Variable,
+) -> int:
     """Count the number of obligatory fields completed for one variable.
 
     This function calculates the total number of obligatory fields that have
