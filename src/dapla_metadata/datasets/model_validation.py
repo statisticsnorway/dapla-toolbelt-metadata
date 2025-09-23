@@ -13,7 +13,6 @@ from typing_extensions import Self
 
 from dapla_metadata.datasets.utility.constants import DATE_VALIDATION_MESSAGE
 from dapla_metadata.datasets.utility.constants import NUM_OBLIGATORY_DATASET_FIELDS
-from dapla_metadata.datasets.utility.constants import NUM_OBLIGATORY_VARIABLES_FIELDS
 from dapla_metadata.datasets.utility.constants import OBLIGATORY_METADATA_WARNING
 from dapla_metadata.datasets.utility.utils import get_missing_obligatory_dataset_fields
 from dapla_metadata.datasets.utility.utils import (
@@ -26,10 +25,6 @@ from dapla_metadata.datasets.utility.utils import get_timestamp_now
 from dapla_metadata.datasets.utility.utils import incorrect_date_order
 from dapla_metadata.datasets.utility.utils import (
     num_obligatory_dataset_fields_completed,
-)
-from dapla_metadata.datasets.utility.utils import num_obligatory_pseudo_fields_missing
-from dapla_metadata.datasets.utility.utils import (
-    num_obligatory_variables_fields_completed,
 )
 from dapla_metadata.datasets.utility.utils import set_variables_inherit_from_dataset
 
@@ -150,37 +145,29 @@ class ValidateDatadocMetadata(model.DatadocMetadata):
             ObligatoryVariableWarning: If not all obligatory variable metadata fields
                 are filled in.
         """
-        if self.variables is not None and num_obligatory_variables_fields_completed(
-            self.variables,
-        ) != (NUM_OBLIGATORY_VARIABLES_FIELDS * len(self.variables)):
-            warnings.warn(
-                f"{OBLIGATORY_METADATA_WARNING} {get_missing_obligatory_variables_fields(self.variables)}",
-                ObligatoryVariableWarning,
-                stacklevel=2,
-            )
+        missing_fields_dict = {}
+
+        for d in get_missing_obligatory_variables_fields(self.variables):  # type: ignore[arg-type]
+            for var, fields in d.items():
+                missing_fields_dict[var] = fields.copy()
+
+        for d in get_missing_obligatory_variables_pseudo_fields(self.variables):  # type: ignore[arg-type]
+            for var, fields in d.items():
+                if var in missing_fields_dict:
+                    missing_fields_dict[var].extend(fields)
+                else:
+                    missing_fields_dict[var] = fields.copy()
+
+        missing_fields = [{var: fields} for var, fields in missing_fields_dict.items()]
+        if missing_fields:
+            message = f"{OBLIGATORY_METADATA_WARNING} {missing_fields}"
+            warnings.warn(message, ObligatoryVariableWarning, stacklevel=2)
             logger.warning(
                 "Type warning: %s.%s %s",
                 ObligatoryVariableWarning,
                 OBLIGATORY_METADATA_WARNING,
-                get_missing_obligatory_variables_fields(self.variables),
+                missing_fields,
             )
-
-        if (
-            self.variables is not None
-            and num_obligatory_pseudo_fields_missing(self.variables) != 0
-        ):
-            warnings.warn(
-                f"{OBLIGATORY_METADATA_WARNING} {get_missing_obligatory_variables_pseudo_fields(self.variables)}",
-                ObligatoryVariableWarning,
-                stacklevel=2,
-            )
-            logger.warning(
-                "Type warning: %s.%s %s",
-                ObligatoryVariableWarning,
-                OBLIGATORY_METADATA_WARNING,
-                get_missing_obligatory_variables_pseudo_fields(self.variables),
-            )
-
         return self
 
 
