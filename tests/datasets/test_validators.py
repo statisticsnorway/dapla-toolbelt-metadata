@@ -263,3 +263,19 @@ def test_obligatory_metadata_variables_warning_name(metadata: Datadoc):
     ) as record2:
         metadata.write_metadata_document()
     assert variable_with_name not in str(record2[1].message)
+
+
+def test_obligatory_metadata_variables_warning_pseudonymization(metadata: Datadoc):
+    metadata.variables_lookup["pers_id"].pseudonymization = model.Pseudonymization(
+        pseudonymization_time="2022-10-07T07:35:01Z",
+        stable_identifier_type="",
+        stable_identifier_version="",
+        encryption_algorithm=None,
+        encryption_algorithm_parameters=[],
+    )
+    with warnings.catch_warnings(record=True) as w:
+        warnings.simplefilter("always")
+        metadata.write_metadata_document()
+        if issubclass(w[0].category, ObligatoryDatasetWarning):
+            missing_obligatory_dataset = str(w[2].message)
+    assert "encryption_algorithm" in str(missing_obligatory_dataset)

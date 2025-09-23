@@ -19,11 +19,15 @@ from dapla_metadata.datasets.utility.utils import get_missing_obligatory_dataset
 from dapla_metadata.datasets.utility.utils import (
     get_missing_obligatory_variables_fields,
 )
+from dapla_metadata.datasets.utility.utils import (
+    get_missing_obligatory_variables_pseudo_fields,
+)
 from dapla_metadata.datasets.utility.utils import get_timestamp_now
 from dapla_metadata.datasets.utility.utils import incorrect_date_order
 from dapla_metadata.datasets.utility.utils import (
     num_obligatory_dataset_fields_completed,
 )
+from dapla_metadata.datasets.utility.utils import num_obligatory_pseudo_fields_missing
 from dapla_metadata.datasets.utility.utils import (
     num_obligatory_variables_fields_completed,
 )
@@ -159,6 +163,19 @@ class ValidateDatadocMetadata(model.DatadocMetadata):
                 ObligatoryVariableWarning,
                 OBLIGATORY_METADATA_WARNING,
                 get_missing_obligatory_variables_fields(self.variables),
+            )
+
+        if num_obligatory_pseudo_fields_missing(self.variables) is not None:
+            warnings.warn(
+                f"{OBLIGATORY_METADATA_WARNING} {get_missing_obligatory_variables_pseudo_fields(self.variables)}",
+                ObligatoryVariableWarning,
+                stacklevel=2,
+            )
+            logger.warning(
+                "Type warning: %s.%s %s",
+                ObligatoryVariableWarning,
+                OBLIGATORY_METADATA_WARNING,
+                get_missing_obligatory_variables_pseudo_fields(self.variables),
             )
 
         return self
