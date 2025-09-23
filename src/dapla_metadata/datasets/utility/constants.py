@@ -49,7 +49,7 @@ OBLIGATORY_VARIABLES_METADATA_IDENTIFIERS = [
 
 OBLIGATORY_VARIABLES_PSEUDONYMIZATION_IDENTIFIERS = [
     "encryption_algorithm",
-    "encryption_key_refrence",
+    "encryption_key_reference",
 ]
 
 
