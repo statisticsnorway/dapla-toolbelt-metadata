@@ -167,7 +167,7 @@ class ValidateDatadocMetadata(model.DatadocMetadata):
 
         if (
             self.variables is not None
-            and num_obligatory_pseudo_fields_missing(self.variables) is not None
+            and num_obligatory_pseudo_fields_missing(self.variables) != 0
         ):
             warnings.warn(
                 f"{OBLIGATORY_METADATA_WARNING} {get_missing_obligatory_variables_pseudo_fields(self.variables)}",
