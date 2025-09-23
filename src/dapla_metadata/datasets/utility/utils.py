@@ -381,13 +381,12 @@ def num_obligatory_pseudo_fields_missing(
     Returns:
         The number of obligatory pseudonymization fields that are missing.
     """
-    a = sum(
+    return sum(
         getattr(v.pseudonymization, field, None) is None
         for v in variables
         if v.pseudonymization is not None
         for field in OBLIGATORY_VARIABLES_PSEUDONYMIZATION_IDENTIFIERS
     )
-    return a
 
 
 def get_missing_obligatory_dataset_fields(
