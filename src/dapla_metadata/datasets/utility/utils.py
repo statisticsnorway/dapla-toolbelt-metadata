@@ -36,6 +36,9 @@ from dapla_metadata.datasets.utility.constants import (
 from dapla_metadata.datasets.utility.constants import (
     OBLIGATORY_VARIABLES_METADATA_IDENTIFIERS_MULTILANGUAGE,
 )
+from dapla_metadata.datasets.utility.constants import (
+    OBLIGATORY_VARIABLES_PSEUDONYMIZATION_IDENTIFIERS,
+)
 from dapla_metadata.datasets.utility.constants import PAPIS_ENCRYPTION_KEY_REFERENCE
 from dapla_metadata.datasets.utility.constants import PAPIS_STABLE_IDENTIFIER_TYPE
 from dapla_metadata.datasets.utility.enums import EncryptionAlgorithm
@@ -367,6 +370,25 @@ def num_obligatory_variable_fields_completed(
     return NUM_OBLIGATORY_VARIABLES_FIELDS - len(missing_metadata)
 
 
+def num_obligatory_pseudo_fields_missing(
+    variables: list[all_optional_model.Variable],
+) -> int:
+    """Counts the number of obligatory pseudonymization fields are missing.
+
+    Args:
+        variables: The variables to count obligatory fields for.
+
+    Returns:
+        The number of obligatory pseudonymization fields that are missing.
+    """
+    return sum(
+        getattr(v.pseudonymization, field, None) is None
+        for v in variables
+        if v.pseudonymization is not None
+        for field in OBLIGATORY_VARIABLES_PSEUDONYMIZATION_IDENTIFIERS
+    )
+
+
 def get_missing_obligatory_dataset_fields(
     dataset: DatasetType,
 ) -> list:
@@ -431,6 +453,40 @@ def get_missing_obligatory_variables_fields(variables: list) -> list[dict]:
     ]
     # Filtering out variable keys with empty values list
     return [item for item in missing_variables_fields if next(iter(item.values()))]
+
+
+def get_missing_obligatory_variables_pseudo_fields(
+    variables: list[all_optional_model.Variable],
+) -> list[dict]:
+    """Identify obligatory variable pseudonymization fields that are missing values for each variable.
+
+    This function checks for obligatory fields that are directly missing
+    (i.e., set to `None`).
+
+    Args:
+        variables: A list of variable objects to check for missing obligatory pseudonymization fields.
+
+    Returns:
+        A list of dictionaries with variable short names as keys and list of missing
+        obligatory variable pseudonymization fields as values. This includes:
+            - Fields that are directly `None` and are listed as obligatory metadata.
+    """
+    return [
+        {
+            v.short_name: [
+                key
+                for key, value in v.pseudonymization.model_dump().items()
+                if _is_missing_metadata(
+                    key,
+                    value,
+                    OBLIGATORY_VARIABLES_PSEUDONYMIZATION_IDENTIFIERS,
+                    [],
+                )
+            ]
+        }
+        for v in variables
+        if v.pseudonymization is not None
+    ]
 
 
 def running_in_notebook() -> bool:
