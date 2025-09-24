@@ -5,6 +5,7 @@ import pytest
 
 from dapla_metadata.datasets.core import Datadoc
 from dapla_metadata.datasets.utility.urn import SsbNaisDomains
+from dapla_metadata.datasets.utility.urn import klass_urn_converter
 from dapla_metadata.datasets.utility.urn import vardef_urn_converter
 
 VARIABLE_DEFINITION_URN_TEST_CASES = [
@@ -67,3 +68,33 @@ def test_convert_to_vardef_urn_end_to_end(
         assert str(meta.variables[0].definition_uri) == expected_result
         if not expected_result.startswith("urn:"):
             assert "Could not convert value to URN" in caplog.text
+
+
+@pytest.mark.parametrize(
+    ("case", "expected_result"),
+    [
+        (None, None),
+        (
+            "https://www.ssb.no/klass/klassifikasjoner/91",
+            "urn:ssb:classification:klass:91",
+        ),
+        (
+            "https://www.ssb.no/en/klass/klassifikasjoner/91",
+            "urn:ssb:classification:klass:91",
+        ),
+        (
+            "https://data.ssb.no/api/klass/v1/classifications/91",
+            "urn:ssb:classification:klass:91",
+        ),
+        (
+            "https://data.ssb.no/api/klass/v1/classifications/91.json",
+            "urn:ssb:classification:klass:91",
+        ),
+        (
+            "https://www.vg.no",
+            None,
+        ),
+    ],
+)
+def test_convert_to_klass_urn(case: str | None, expected_result: str | None):
+    assert klass_urn_converter.convert_to_urn(case) == expected_result

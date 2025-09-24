@@ -112,6 +112,16 @@ vardef_urn_converter = UrnConverter(
     ],
 )
 
+klass_urn_converter = UrnConverter(
+    urn_base="urn:ssb:classification:klass",
+    id_pattern=r"([0-9]{1,5})",
+    url_bases=[
+        (ReferenceUrlTypes.FRONTEND, "https://www.ssb.no/klass/klassifikasjoner"),
+        (ReferenceUrlTypes.FRONTEND, "https://www.ssb.no/en/klass/klassifikasjoner"),
+        (ReferenceUrlTypes.API, "https://data.ssb.no/api/klass/v1/classifications"),
+    ],
+)
+
 
 def convert_definition_uris_to_urns(variables: VariableListType) -> None:
     """Where definition URIs are recognized URLs, convert them to URNs.
