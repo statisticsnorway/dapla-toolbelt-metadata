@@ -145,28 +145,31 @@ class ValidateDatadocMetadata(model.DatadocMetadata):
             ObligatoryVariableWarning: If not all obligatory variable metadata fields
                 are filled in.
         """
-        missing_fields_dict = {}
-        for d in get_missing_obligatory_variables_fields(self.variables):
-            for var, fields in d.items():
-                missing_fields_dict[var] = fields.copy()
-
-        for d in get_missing_obligatory_variables_pseudo_fields(self.variables):
-            for var, fields in d.items():
-                if var in missing_fields_dict:
-                    missing_fields_dict[var].extend(fields)
-                else:
+        if self.variables is not None:
+            missing_fields_dict = {}
+            for d in get_missing_obligatory_variables_fields(self.variables):
+                for var, fields in d.items():
                     missing_fields_dict[var] = fields.copy()
 
-        missing_fields = [{var: fields} for var, fields in missing_fields_dict.items()]
-        if missing_fields:
-            message = f"{OBLIGATORY_METADATA_WARNING} {missing_fields}"
-            warnings.warn(message, ObligatoryVariableWarning, stacklevel=2)
-            logger.warning(
-                "Type warning: %s.%s %s",
-                ObligatoryVariableWarning,
-                OBLIGATORY_METADATA_WARNING,
-                missing_fields,
-            )
+            for d in get_missing_obligatory_variables_pseudo_fields(self.variables):
+                for var, fields in d.items():
+                    if var in missing_fields_dict:
+                        missing_fields_dict[var].extend(fields)
+                    else:
+                        missing_fields_dict[var] = fields.copy()
+
+            missing_fields = [
+                {var: fields} for var, fields in missing_fields_dict.items()
+            ]
+            if missing_fields:
+                message = f"{OBLIGATORY_METADATA_WARNING} {missing_fields}"
+                warnings.warn(message, ObligatoryVariableWarning, stacklevel=2)
+                logger.warning(
+                    "Type warning: %s.%s %s",
+                    ObligatoryVariableWarning,
+                    OBLIGATORY_METADATA_WARNING,
+                    missing_fields,
+                )
         return self
 
 
