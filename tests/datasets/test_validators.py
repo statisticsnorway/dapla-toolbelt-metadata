@@ -276,6 +276,6 @@ def test_obligatory_metadata_variables_warning_pseudonymization(metadata: Datado
     with warnings.catch_warnings(record=True) as w:
         warnings.simplefilter("always")
         metadata.write_metadata_document()
-        if issubclass(w[0].category, ObligatoryDatasetWarning):
-            missing_obligatory_dataset = str(w[2].message)
+        if issubclass(w[1].category, ObligatoryVariableWarning):
+            missing_obligatory_dataset = str(w[1].message)
     assert "encryption_algorithm" in str(missing_obligatory_dataset)
