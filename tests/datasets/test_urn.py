@@ -1,5 +1,6 @@
 import pytest
 
+from dapla_metadata.datasets.utility.urn import SsbNaisDomains
 from dapla_metadata.datasets.utility.urn import vardef_urn_converter
 
 
@@ -7,14 +8,20 @@ from dapla_metadata.datasets.utility.urn import vardef_urn_converter
     ("case", "expected_result"),
     [
         (None, None),
-        (
-            "https://metadata.ssb.no/variable-definitions/hd8sks89",
-            "urn:ssb:variable-definition:vardef:hd8sks89",
-        ),
-        (
-            "https://catalog.ssb.no/variable-definitions/hd8sks89",
-            "urn:ssb:variable-definition:vardef:hd8sks89",
-        ),
+        *[
+            (
+                f"https://metadata.{domain.value}/variable-definitions/hd8sks89",
+                "urn:ssb:variable-definition:vardef:hd8sks89",
+            )
+            for domain in SsbNaisDomains
+        ],
+        *[
+            (
+                f"https://catalog.{domain.value}/variable-definitions/hd8sks89",
+                "urn:ssb:variable-definition:vardef:hd8sks89",
+            )
+            for domain in SsbNaisDomains
+        ],
         (
             "https://www.vg.no",
             None,
