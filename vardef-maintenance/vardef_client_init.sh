@@ -40,7 +40,7 @@ rm -rf "$TMP_CHECKOUT_DIR"
 
 echo "$LOG_PREFIX Run ssb-project build"
 pushd "$VARIABLE_DEFINITIONS_DIR" || exit
-ssb-project build --no-verify
+"n" | ssb-project build --no-verify
 
 echo "$LOG_PREFIX Configure kernel for all Notebooks"
 KERNELSPEC_OBJECT='{"kernelspec": {"display_name": "variable_definitions", "language": "python", "name": "variable_definitions"}}'
