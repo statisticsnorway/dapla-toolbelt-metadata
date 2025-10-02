@@ -33,10 +33,7 @@ from dapla_metadata.datasets.utility.constants import (
 from dapla_metadata.datasets.utility.constants import METADATA_DOCUMENT_FILE_SUFFIX
 from dapla_metadata.datasets.utility.constants import NUM_OBLIGATORY_DATASET_FIELDS
 from dapla_metadata.datasets.utility.constants import NUM_OBLIGATORY_VARIABLES_FIELDS
-from dapla_metadata.datasets.utility.urn import convert_definition_uris_to_urns
 from dapla_metadata.datasets.utility.utils import OptionalDatadocMetadataType
-from dapla_metadata.datasets.utility.utils import VariableListType
-from dapla_metadata.datasets.utility.utils import VariableType
 from dapla_metadata.datasets.utility.utils import calculate_percentage
 from dapla_metadata.datasets.utility.utils import derive_assessment_from_state
 from dapla_metadata.datasets.utility.utils import get_timestamp_now
@@ -111,8 +108,8 @@ class Datadoc:
         self.container: all_optional_model.MetadataContainer | None = None
         self.dataset_path: pathlib.Path | CloudPath | None = None
         self.dataset = all_optional_model.Dataset()
-        self.variables: VariableListType = []
-        self.variables_lookup: dict[str, VariableType] = {}
+        self.variables: list = []
+        self.variables_lookup: dict[str, all_optional_model.Variable] = {}
         self.explicitly_defined_metadata_document = False
         self.dataset_consistency_status: list[DatasetConsistencyStatus] = []
         if metadata_document_path:
@@ -207,21 +204,22 @@ class Datadoc:
         else:
             self._set_metadata(existing_metadata or extracted_metadata)
 
-    def _set_metadata(
-        self,
-        metadata: OptionalDatadocMetadataType,
-    ) -> None:
-        if not metadata or not (metadata.dataset and metadata.variables):
-            msg = "Could not read metadata"
-            raise ValueError(msg)
-        self.dataset = cast("all_optional_model.Dataset", metadata.dataset)
-        self.variables = metadata.variables
-
         set_default_values_variables(self.variables)
         set_default_values_dataset(cast("all_optional_model.Dataset", self.dataset))
         set_dataset_owner(self.dataset)
-        convert_definition_uris_to_urns(self.variables)
         self._create_variables_lookup()
+
+    def _set_metadata(
+        self,
+        merged_metadata: OptionalDatadocMetadataType,
+    ) -> None:
+        if not merged_metadata or not (
+            merged_metadata.dataset and merged_metadata.variables
+        ):
+            msg = "Could not read metadata"
+            raise ValueError(msg)
+        self.dataset = cast("all_optional_model.Dataset", merged_metadata.dataset)
+        self.variables = merged_metadata.variables
 
     def _create_variables_lookup(self) -> None:
         self.variables_lookup = {
