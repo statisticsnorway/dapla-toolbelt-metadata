@@ -1,7 +1,11 @@
 name: Release
 
 on:
-  pull_request:
+  push:
+    branches:
+      - main
+      - master
+      - release/0.9.6
 
 jobs:
   release:
