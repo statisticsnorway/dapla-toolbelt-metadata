@@ -1,17 +1,9 @@
 """Validate, parse and render URNs."""
 
-import logging
 import re
 from dataclasses import dataclass
 from enum import Enum
 from enum import auto
-
-from pydantic import AnyUrl
-
-from dapla_metadata.datasets.utility.utils import VariableListType
-
-logger = logging.getLogger(__name__)
-
 
 VARDEF_URL_TEMPLATE = "https://{subdomain}.{domain}/variable-definitions"
 
@@ -66,7 +58,7 @@ class UrnConverter:
         """Build a URN for the given identifier."""
         return f"{self.urn_base}:{identifier}"
 
-    def convert_to_urn(self, url: str | AnyUrl | None) -> str | None:
+    def convert_to_urn(self, url: str | None) -> str | None:
         """Convert a URL to a generalized URN for that same resource.
 
         Args:
@@ -79,7 +71,7 @@ class UrnConverter:
             return None
 
         patterns = (self._build_pattern(url[-1]) for url in self.url_bases)
-        matches = (self._extract_id(str(url), p) for p in patterns)
+        matches = (self._extract_id(url, p) for p in patterns)
         identifier = next((m for m in matches if m), None)
         if identifier:
             return self.build_urn(identifier)
@@ -111,19 +103,3 @@ vardef_urn_converter = UrnConverter(
         ],
     ],
 )
-
-
-def convert_definition_uris_to_urns(variables: VariableListType) -> None:
-    """Where definition URIs are recognized URLs, convert them to URNs.
-
-    Where the value is not a known URL we preserve the value as it is and log an
-    ERROR level message.
-
-    Args:
-        variables (VariableListType): The list of variables.
-    """
-    for v in variables:
-        if urn := vardef_urn_converter.convert_to_urn(v.definition_uri):
-            v.definition_uri = urn  # type: ignore [assignment]
-        else:
-            logger.error("Could not convert value to URN: %s", v.definition_uri)
