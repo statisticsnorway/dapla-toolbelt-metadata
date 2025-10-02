@@ -121,7 +121,7 @@ def derive_assessment_from_state(state: DataSetState) -> Assessment:
             return Assessment.SENSITIVE
 
 
-def set_default_values_variables(variables: list) -> None:
+def set_default_values_variables(variables: VariableListType) -> None:
     """Set default values on variables.
 
     Args:
