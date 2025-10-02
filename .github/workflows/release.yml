@@ -6,6 +6,9 @@ on:
       - main
       - master
       - release/0.9.6
+    tags:
+      - 'v*'
+
 
 jobs:
   release:
