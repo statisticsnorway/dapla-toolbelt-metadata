@@ -9,11 +9,11 @@ from dapla_metadata.datasets.utility.urn import klass_urn_converter
 from dapla_metadata.datasets.utility.urn import vardef_urn_converter
 
 VARIABLE_DEFINITION_URN_TEST_CASES = [
-    (None, None),
     *[
         (
             f"https://metadata.{domain.value}/variable-definitions/hd8sks89",
             "urn:ssb:variable-definition:vardef:hd8sks89",
+            False,
         )
         for domain in SsbNaisDomains
     ],
@@ -21,6 +21,7 @@ VARIABLE_DEFINITION_URN_TEST_CASES = [
         (
             f"https://catalog.{domain.value}/variable-definitions/hd8sks89",
             "urn:ssb:variable-definition:vardef:hd8sks89",
+            False,
         )
         for domain in SsbNaisDomains
     ],
@@ -28,31 +29,33 @@ VARIABLE_DEFINITION_URN_TEST_CASES = [
 
 
 @pytest.mark.parametrize(
-    ("case", "expected_result"),
+    ("case", "expected_result", "expect_warning"),
     [
         *VARIABLE_DEFINITION_URN_TEST_CASES,
-        (
-            "https://www.vg.no",
-            None,
-        ),
+        ("https://www.vg.no", None, True),
     ],
 )
-def test_convert_to_vardef_urn(case: str | None, expected_result: str | None):
+def test_convert_to_vardef_urn(
+    case: str,
+    expected_result: str | None,
+    expect_warning: bool,  # noqa: ARG001
+):
     assert vardef_urn_converter.convert_to_urn(case) == expected_result
 
 
 @pytest.mark.parametrize(
-    ("case", "expected_result"),
+    ("case", "expected_result", "expect_warning"),
     [
         *VARIABLE_DEFINITION_URN_TEST_CASES,
-        (
-            "https://www.vg.no",
-            "https://www.vg.no/",
-        ),
+        ("https://www.vg.no", "https://www.vg.no/", True),
+        (None, None, False),
     ],
 )
 def test_convert_to_vardef_urn_end_to_end(
-    case: str | None, expected_result: str | None, caplog
+    case: str | None,
+    expected_result: str | None,
+    expect_warning: bool,
+    caplog: pytest.LogCaptureFixture,
 ):
     caplog.set_level(logging.ERROR)
     meta = Datadoc()
@@ -66,8 +69,7 @@ def test_convert_to_vardef_urn_end_to_end(
         assert meta.variables[0].definition_uri is None
     else:
         assert str(meta.variables[0].definition_uri) == expected_result
-        if not expected_result.startswith("urn:"):
-            assert "Could not convert value to URN" in caplog.text
+    assert ("Could not convert value to URN" in caplog.text) is expect_warning
 
 
 @pytest.mark.parametrize(

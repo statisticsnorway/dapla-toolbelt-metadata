@@ -69,18 +69,15 @@ class UrnConverter:
         """Build a URN for the given identifier."""
         return f"{self.urn_base}:{identifier}"
 
-    def convert_to_urn(self, url: str | AnyUrl | None) -> str | None:
+    def convert_to_urn(self, url: str | AnyUrl) -> str | None:
         """Convert a URL to a generalized URN for that same resource.
 
         Args:
-            url (str | None): The URL to convert.
+            url (str | AnyUrl): The URL to convert.
 
         Returns:
             str | None: The URN or None if it can't be converted.
         """
-        if not url:
-            return None
-
         patterns = (self._build_pattern(url[-1]) for url in self.url_bases)
         matches = (self._extract_id(str(url), p) for p in patterns)
         matches = (self._extract_id(str(url), p) for p in patterns)
@@ -137,7 +134,8 @@ def convert_definition_uris_to_urns(variables: VariableListType) -> None:
         variables (VariableListType): The list of variables.
     """
     for v in variables:
-        if urn := vardef_urn_converter.convert_to_urn(v.definition_uri):
-            v.definition_uri = urn  # type: ignore [assignment]
-        else:
-            logger.error("Could not convert value to URN: %s", v.definition_uri)
+        if v.definition_uri:
+            if urn := vardef_urn_converter.convert_to_urn(v.definition_uri):
+                v.definition_uri = urn  # type: ignore [assignment]
+            else:
+                logger.error("Could not convert value to URN: %s", v.definition_uri)
