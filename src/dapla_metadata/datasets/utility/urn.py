@@ -13,6 +13,9 @@ from dapla_metadata.datasets.utility.utils import VariableListType
 logger = logging.getLogger(__name__)
 
 
+logger = logging.getLogger(__name__)
+
+
 VARDEF_URL_TEMPLATE = "https://{subdomain}.{domain}/variable-definitions"
 
 
@@ -79,6 +82,7 @@ class UrnConverter:
             return None
 
         patterns = (self._build_pattern(url[-1]) for url in self.url_bases)
+        matches = (self._extract_id(str(url), p) for p in patterns)
         matches = (self._extract_id(str(url), p) for p in patterns)
         identifier = next((m for m in matches if m), None)
         if identifier:
