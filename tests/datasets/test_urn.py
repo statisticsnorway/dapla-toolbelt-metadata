@@ -51,7 +51,10 @@ def test_convert_to_vardef_urn(
     ],
 )
 def test_convert_to_vardef_urn_end_to_end(
-    case: str | None, expected_result: str | None, expect_warning: bool, caplog
+    case: str | None,
+    expected_result: str | None,
+    expect_warning: bool,
+    caplog: pytest.LogCaptureFixture,
 ):
     caplog.set_level(logging.ERROR)
     meta = Datadoc()
