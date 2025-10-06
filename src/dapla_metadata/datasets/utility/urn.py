@@ -13,9 +13,6 @@ from dapla_metadata.datasets.utility.utils import VariableListType
 logger = logging.getLogger(__name__)
 
 
-logger = logging.getLogger(__name__)
-
-
 VARDEF_URL_TEMPLATE = "https://{subdomain}.{domain}/variable-definitions"
 
 
