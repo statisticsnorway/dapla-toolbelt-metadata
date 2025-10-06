@@ -139,3 +139,20 @@ def convert_definition_uris_to_urns(variables: VariableListType) -> None:
                 v.definition_uri = urn  # type: ignore [assignment]
             else:
                 logger.error("Could not convert value to URN: %s", v.definition_uri)
+
+
+def convert_classification_uris_to_urns(variables: VariableListType) -> None:
+    """Where classification URIs are recognized URLs, convert them to URNs.
+
+    Where the value is not a known URL we preserve the value as it is and log an
+    ERROR level message.
+
+    Args:
+        variables (VariableListType): The list of variables.
+    """
+    for v in variables:
+        if v.classification_uri:
+            if urn := klass_urn_converter.convert_to_urn(v.classification_uri):
+                v.classification_uri = urn  # type: ignore [assignment]
+            else:
+                logger.error("Could not convert value to URN: %s", v.classification_uri)
