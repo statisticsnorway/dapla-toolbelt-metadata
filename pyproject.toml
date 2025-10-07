@@ -2,7 +2,7 @@
 name = "dapla-toolbelt-metadata"
 description = "Dapla Toolbelt Metadata"
 license = "MIT"
-version = "0.9.6"
+version = "0.9.7"
 classifiers = ["Development Status :: 4 - Beta"]
 readme = "README.md"
 authors = [{ name = "Statistics Norway", email = "metadata@ssb.no" }]
@@ -22,6 +22,10 @@ dependencies = [
     'ruamel-yaml >=0.18.10',
     'google-auth >=2.38.0',
     'lxml >=5.3.1',
+    "pandas>=2.3.3",
+    "urllib3>=2.5.0",
+    "pytz>=2025.2",
+    "python-dateutil>=2.9.0.post0",
 ]
 
 [project.urls]
