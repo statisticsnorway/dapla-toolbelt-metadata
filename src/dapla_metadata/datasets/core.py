@@ -33,8 +33,9 @@ from dapla_metadata.datasets.utility.constants import (
 from dapla_metadata.datasets.utility.constants import METADATA_DOCUMENT_FILE_SUFFIX
 from dapla_metadata.datasets.utility.constants import NUM_OBLIGATORY_DATASET_FIELDS
 from dapla_metadata.datasets.utility.constants import NUM_OBLIGATORY_VARIABLES_FIELDS
-from dapla_metadata.datasets.utility.urn import convert_classification_uris_to_urns
-from dapla_metadata.datasets.utility.urn import convert_definition_uris_to_urns
+from dapla_metadata.datasets.utility.urn import convert_uris_to_urns
+from dapla_metadata.datasets.utility.urn import klass_urn_converter
+from dapla_metadata.datasets.utility.urn import vardef_urn_converter
 from dapla_metadata.datasets.utility.utils import OptionalDatadocMetadataType
 from dapla_metadata.datasets.utility.utils import VariableListType
 from dapla_metadata.datasets.utility.utils import VariableType
@@ -221,8 +222,10 @@ class Datadoc:
         set_default_values_variables(self.variables)
         set_default_values_dataset(cast("all_optional_model.Dataset", self.dataset))
         set_dataset_owner(self.dataset)
-        convert_definition_uris_to_urns(self.variables)
-        convert_classification_uris_to_urns(self.variables)
+        convert_uris_to_urns(self.variables, "definition_uri", [vardef_urn_converter])
+        convert_uris_to_urns(
+            self.variables, "classification_uri", [klass_urn_converter]
+        )
         self._create_variables_lookup()
 
     def _create_variables_lookup(self) -> None:
