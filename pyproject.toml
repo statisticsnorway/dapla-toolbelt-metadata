@@ -25,6 +25,7 @@ dependencies = [
     "pandas>=2.3.3",
     "urllib3>=2.5.0",
     "pytz>=2025.2",
+    "python-dateutil>=2.9.0.post0",
 ]
 
 [project.urls]
