@@ -12,6 +12,13 @@ from dapla_metadata.datasets.utility.utils import VariableListType
 
 logger = logging.getLogger(__name__)
 
+URN_ERROR_MESSAGE_BASE = "The URL is not in a supported format"
+
+URN_ERROR_MESSAGE_TEMPLATE = (
+    URN_ERROR_MESSAGE_BASE
+    + " for field '{field_name}' of variable '{short_name}'. URL: '{value}'. Please contact Team Metadata if this URL should be supported."
+)
+
 
 VARDEF_URL_TEMPLATE = "https://{subdomain}.{domain}/variable-definitions"
 
@@ -134,7 +141,13 @@ def convert_definition_uris_to_urns(variables: VariableListType) -> None:
             if urn := vardef_urn_converter.convert_to_urn(v.definition_uri):
                 v.definition_uri = urn  # type: ignore [assignment]
             else:
-                logger.error("Could not convert value to URN: %s", v.definition_uri)
+                logger.error(
+                    URN_ERROR_MESSAGE_TEMPLATE.format(
+                        field_name="definition_uri",
+                        short_name=v.short_name,
+                        value=v.definition_uri,
+                    )
+                )
 
 
 def convert_classification_uris_to_urns(variables: VariableListType) -> None:
@@ -151,4 +164,10 @@ def convert_classification_uris_to_urns(variables: VariableListType) -> None:
             if urn := klass_urn_converter.convert_to_urn(v.classification_uri):
                 v.classification_uri = urn  # type: ignore [assignment]
             else:
-                logger.error("Could not convert value to URN: %s", v.classification_uri)
+                logger.error(
+                    URN_ERROR_MESSAGE_TEMPLATE.format(
+                        field_name="classification_uri",
+                        short_name=v.short_name,
+                        value=v.definition_uri,
+                    )
+                )

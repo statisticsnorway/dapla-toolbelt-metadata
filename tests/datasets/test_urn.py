@@ -4,6 +4,7 @@ import datadoc_model.all_optional.model as all_optional_model
 import pytest
 
 from dapla_metadata.datasets.core import Datadoc
+from dapla_metadata.datasets.utility.urn import URN_ERROR_MESSAGE_BASE
 from dapla_metadata.datasets.utility.urn import SsbNaisDomains
 from dapla_metadata.datasets.utility.urn import klass_urn_converter
 from dapla_metadata.datasets.utility.urn import vardef_urn_converter
@@ -62,14 +63,18 @@ def test_convert_to_vardef_urn_end_to_end(
     meta._set_metadata(  # noqa: SLF001
         all_optional_model.DatadocMetadata(
             dataset=all_optional_model.Dataset(),
-            variables=[all_optional_model.Variable(definition_uri=case)],
+            variables=[
+                all_optional_model.Variable(
+                    short_name="my_variable", definition_uri=case
+                )
+            ],
         )
     )
     if not expected_result:
         assert meta.variables[0].definition_uri is None
     else:
         assert str(meta.variables[0].definition_uri) == expected_result
-    assert ("Could not convert value to URN" in caplog.text) is expect_warning
+    assert (URN_ERROR_MESSAGE_BASE in caplog.text) is expect_warning
 
 
 CLASSIFICATION_URN_TEST_CASES = [
@@ -127,11 +132,15 @@ def test_convert_to_klass_urn_end_to_end(
     meta._set_metadata(  # noqa: SLF001
         all_optional_model.DatadocMetadata(
             dataset=all_optional_model.Dataset(),
-            variables=[all_optional_model.Variable(classification_uri=case)],
+            variables=[
+                all_optional_model.Variable(
+                    short_name="my_variable", classification_uri=case
+                )
+            ],
         )
     )
     if not expected_result:
         assert meta.variables[0].classification_uri is None
     else:
         assert str(meta.variables[0].classification_uri) == expected_result
-    assert ("Could not convert value to URN" in caplog.text) is expect_warning
+    assert (URN_ERROR_MESSAGE_BASE in caplog.text) is expect_warning
