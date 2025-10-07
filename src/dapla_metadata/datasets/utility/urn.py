@@ -74,7 +74,7 @@ class UrnConverter:
         """Build a URN for the given identifier."""
         return f"{self.urn_base}:{identifier}"
 
-    def convert_to_urn(self, url: str | AnyUrl) -> str | None:
+    def convert_to_urn(self, url: str | AnyUrl) -> AnyUrl | None:
         """Convert a URL to a generalized URN for that same resource.
 
         Args:
@@ -83,11 +83,14 @@ class UrnConverter:
         Returns:
             str | None: The URN or None if it can't be converted.
         """
+        if str(url).startswith(self.urn_base):
+            # In this case the value is already in the expected format and nothing needs to be done.
+            return AnyUrl(url)
         patterns = (self._build_pattern(url[-1]) for url in self.url_bases)
         matches = (self._extract_id(str(url), p) for p in patterns)
         identifier = next((m for m in matches if m), None)
         if identifier:
-            return self.build_urn(identifier)
+            return AnyUrl(self.build_urn(identifier))
 
         return None
 
