@@ -126,14 +126,14 @@ def test_convert_to_klass_urn(
     expected_result: str,
     expect_warning: bool,  # noqa: ARG001
 ):
-    assert klass_urn_converter.convert_to_urn(case) == AnyUrl(expected_result)
+    assert klass_urn_converter.convert_to_urn(case) == expected_result
 
 
 @pytest.mark.parametrize(
     ("case", "expected_result", "expect_warning"),
     [
         *CLASSIFICATION_URN_TEST_CASES,
-        ("https://www.vg.no", "https://www.vg.no/", True),
+        ("https://www.vg.no", AnyUrl("https://www.vg.no/"), True),
         (None, None, False),
     ],
 )
@@ -158,5 +158,5 @@ def test_convert_to_klass_urn_end_to_end(
     if not expected_result:
         assert meta.variables[0].classification_uri is None
     else:
-        assert meta.variables[0].classification_uri == AnyUrl(expected_result)
+        assert meta.variables[0].classification_uri == expected_result
     assert (URN_ERROR_MESSAGE_BASE in caplog.text) is expect_warning
