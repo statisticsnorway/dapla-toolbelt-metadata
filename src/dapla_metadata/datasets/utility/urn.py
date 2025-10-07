@@ -2,6 +2,7 @@
 
 import logging
 import re
+from collections.abc import Iterable
 from dataclasses import dataclass
 from enum import Enum
 from enum import auto
@@ -127,47 +128,31 @@ klass_urn_converter = UrnConverter(
 )
 
 
-def convert_definition_uris_to_urns(variables: VariableListType) -> None:
-    """Where definition URIs are recognized URLs, convert them to URNs.
+def convert_uris_to_urns(
+    variables: VariableListType, field_name: str, converters: Iterable[UrnConverter]
+) -> None:
+    """Where URIs are recognized URLs, convert them to URNs.
 
     Where the value is not a known URL we preserve the value as it is and log an
     ERROR level message.
 
     Args:
         variables (VariableListType): The list of variables.
+        field_name (str): The name of the field which has URLs to convert to URNs
+        converters (Iterable[UrnConverter]): One or more converters which implement
+            conversion of URLs into one specific URN format. These will typically be
+            specific to an individual metadata reference system.
     """
     for v in variables:
-        if v.definition_uri:
-            if urn := vardef_urn_converter.convert_to_urn(v.definition_uri):
-                v.definition_uri = urn  # type: ignore [assignment]
+        field = getattr(v, field_name, None)
+        if field:
+            if urn := next((c.convert_to_urn(field) for c in converters), None):
+                setattr(v, field_name, urn)
             else:
                 logger.error(
                     URN_ERROR_MESSAGE_TEMPLATE.format(
-                        field_name="definition_uri",
+                        field_name=field_name,
                         short_name=v.short_name,
-                        value=v.definition_uri,
-                    )
-                )
-
-
-def convert_classification_uris_to_urns(variables: VariableListType) -> None:
-    """Where classification URIs are recognized URLs, convert them to URNs.
-
-    Where the value is not a known URL we preserve the value as it is and log an
-    ERROR level message.
-
-    Args:
-        variables (VariableListType): The list of variables.
-    """
-    for v in variables:
-        if v.classification_uri:
-            if urn := klass_urn_converter.convert_to_urn(v.classification_uri):
-                v.classification_uri = urn  # type: ignore [assignment]
-            else:
-                logger.error(
-                    URN_ERROR_MESSAGE_TEMPLATE.format(
-                        field_name="classification_uri",
-                        short_name=v.short_name,
-                        value=v.definition_uri,
+                        value=field,
                     )
                 )
