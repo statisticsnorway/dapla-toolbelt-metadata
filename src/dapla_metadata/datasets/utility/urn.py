@@ -6,9 +6,12 @@ from collections.abc import Iterable
 from dataclasses import dataclass
 from enum import Enum
 from enum import auto
+from typing import Literal
 
 from pydantic import AnyUrl
 
+from dapla_metadata._shared.config import get_dapla_environment
+from dapla_metadata._shared.enums import DaplaEnvironment
 from dapla_metadata.datasets.utility.utils import VariableListType
 
 logger = logging.getLogger(__name__)
@@ -70,11 +73,69 @@ class UrnConverter:
     def _build_pattern(self, url_base: str) -> re.Pattern[str]:
         return re.compile(f"^{url_base}/{self.id_pattern}")
 
-    def build_urn(self, identifier: str) -> str:
+    def get_urn(self, identifier: str) -> str:
         """Build a URN for the given identifier."""
         return f"{self.urn_base}:{identifier}"
 
-    def convert_to_urn(self, url: str | AnyUrl) -> AnyUrl | None:
+    def get_url(
+        self,
+        identifier: str,
+        url_type: ReferenceUrlTypes,
+        visibility: Literal["public", "internal"] = "public",
+    ) -> str | None:
+        """Build concrete URL to reference a resource.
+
+        There are typically multiple URLs used to refer to one resource, this method attempts to support known variations.
+
+        Args:
+            identifier (str): The identifier of the resource the URL refers to.
+            url_type (ReferenceUrlTypes): The representation type of the URL
+            visibility (Literal[&quot;public&quot;, &quot;internal&quot;], optional): Whether the URL should be that which is publicly available or not. Defaults to "public".
+
+        Returns:
+            str | None: The concrete URL. None if we cannot satisfy the supplied requirements.
+        """
+        candidates = [base[-1] for base in self.url_bases if base[0] == url_type]
+
+        def matches_visibility(url: str, visibility: Literal["public", "internal"]):
+            return (".intern." in url) is (visibility == "internal")
+
+        def matches_environment(url: str):
+            current_environment = get_dapla_environment()
+            if current_environment == DaplaEnvironment.TEST:
+                return ".test." in url
+            return ".test." not in url
+
+        if url := next(
+            (
+                url
+                for url in candidates
+                if matches_visibility(url, visibility) and matches_environment(url)
+            ),
+            None,
+        ):
+            return url + "/" + identifier
+        return None
+
+    def get_id(self, urn_or_url: str | AnyUrl) -> str | None:
+        """Get an identifier from a URN or URL.
+
+        Args:
+            urn_or_url (str | AnyUrl): The URN or URL refering to a particular resource
+
+        Returns:
+            str | None: The identifier for the resource, or None if it cannot be extracted.
+        """
+        if str(urn_or_url).startswith(self.urn_base):
+            return str(urn_or_url).removeprefix(self.urn_base + ":")
+        return self._extract_id_from_url(urn_or_url)
+
+    def _extract_id_from_url(self, url: str | AnyUrl) -> str | None:
+        patterns = (self._build_pattern(url[-1]) for url in self.url_bases)
+        matches = (self._extract_id(str(url), p) for p in patterns)
+        return next((m for m in matches if m), None)
+
+    def convert_url_to_urn(self, url: str | AnyUrl) -> AnyUrl | None:
         """Convert a URL to a generalized URN for that same resource.
 
         Args:
@@ -86,11 +147,8 @@ class UrnConverter:
         if str(url).startswith(self.urn_base):
             # In this case the value is already in the expected format and nothing needs to be done.
             return AnyUrl(url)
-        patterns = (self._build_pattern(url[-1]) for url in self.url_bases)
-        matches = (self._extract_id(str(url), p) for p in patterns)
-        identifier = next((m for m in matches if m), None)
-        if identifier:
-            return AnyUrl(self.build_urn(identifier))
+        if identifier := self._extract_id_from_url(url):
+            return AnyUrl(self.get_urn(identifier))
 
         return None
 
@@ -149,7 +207,7 @@ def convert_uris_to_urns(
     for v in variables:
         field = getattr(v, field_name, None)
         if field:
-            if urn := next((c.convert_to_urn(field) for c in converters), None):
+            if urn := next((c.convert_url_to_urn(field) for c in converters), None):
                 setattr(v, field_name, urn)
             else:
                 logger.error(

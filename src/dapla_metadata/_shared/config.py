@@ -13,9 +13,6 @@ from dotenv import load_dotenv
 from dapla_metadata._shared.enums import DaplaEnvironment
 from dapla_metadata._shared.enums import DaplaRegion
 from dapla_metadata._shared.enums import DaplaService
-from dapla_metadata.datasets.utility.constants import (
-    DATADOC_STATISTICAL_SUBJECT_SOURCE_URL,
-)
 
 logger = logging.getLogger(__name__)
 
@@ -27,6 +24,12 @@ DAPLA_ENVIRONMENT = "DAPLA_ENVIRONMENT"
 DAPLA_SERVICE = "DAPLA_SERVICE"
 DAPLA_GROUP_CONTEXT = "DAPLA_GROUP_CONTEXT"
 OIDC_TOKEN = "OIDC_TOKEN"  # noqa: S105
+
+
+DATADOC_STATISTICAL_SUBJECT_SOURCE_URL_DEFAULT = (
+    "https://www.ssb.no/xp/_/service/mimir/subjectStructurStatistics"
+)
+
 
 env_loaded = False
 
@@ -73,7 +76,7 @@ def get_statistical_subject_source_url() -> str | None:
     """Get the URL to the statistical subject source."""
     return (
         get_config_item("DATADOC_STATISTICAL_SUBJECT_SOURCE_URL")
-        or DATADOC_STATISTICAL_SUBJECT_SOURCE_URL
+        or DATADOC_STATISTICAL_SUBJECT_SOURCE_URL_DEFAULT
     )
 
 

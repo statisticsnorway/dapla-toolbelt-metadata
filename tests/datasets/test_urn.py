@@ -6,14 +6,15 @@ from pydantic import AnyUrl
 
 from dapla_metadata.datasets.core import Datadoc
 from dapla_metadata.datasets.utility.urn import URN_ERROR_MESSAGE_BASE
+from dapla_metadata.datasets.utility.urn import ReferenceUrlTypes
 from dapla_metadata.datasets.utility.urn import SsbNaisDomains
 from dapla_metadata.datasets.utility.urn import klass_urn_converter
 from dapla_metadata.datasets.utility.urn import vardef_urn_converter
 
 EXAMPLE_KLASS_ID = "91"
-EXAMPLE_KLASS_URN = AnyUrl(klass_urn_converter.build_urn(EXAMPLE_KLASS_ID))
+EXAMPLE_KLASS_URN = AnyUrl(klass_urn_converter.get_urn(EXAMPLE_KLASS_ID))
 EXAMPLE_VARDEF_ID = "hd8sks89"
-EXAMPLE_VARDEF_URN = AnyUrl(vardef_urn_converter.build_urn(EXAMPLE_VARDEF_ID))
+EXAMPLE_VARDEF_URN = AnyUrl(vardef_urn_converter.get_urn(EXAMPLE_VARDEF_ID))
 
 VARIABLE_DEFINITION_URN_TEST_CASES = [
     *[
@@ -52,7 +53,7 @@ def test_convert_to_vardef_urn(
     expected_result: AnyUrl | None,
     expect_warning: bool,  # noqa: ARG001
 ):
-    assert vardef_urn_converter.convert_to_urn(case) == expected_result
+    assert vardef_urn_converter.convert_url_to_urn(case) == expected_result
 
 
 @pytest.mark.parametrize(
@@ -86,6 +87,25 @@ def test_convert_to_vardef_urn_end_to_end(
     else:
         assert meta.variables[0].definition_uri == expected_result
     assert (URN_ERROR_MESSAGE_BASE in caplog.text) is expect_warning
+
+
+@pytest.mark.parametrize("identifier", [EXAMPLE_VARDEF_ID])
+@pytest.mark.parametrize("visibility", ["internal", "public"])
+@pytest.mark.parametrize(
+    "url_type", [ReferenceUrlTypes.API, ReferenceUrlTypes.FRONTEND]
+)
+def test_vardef_get_url(url_type: ReferenceUrlTypes, visibility: str, identifier: str):
+    url = vardef_urn_converter.get_url(identifier, url_type, visibility)
+    assert url is not None
+    assert url.endswith("/" + identifier)
+    if url_type == ReferenceUrlTypes.API:
+        assert url.startswith("https://metadata.")
+    else:
+        assert url.startswith("https://catalog.")
+    if visibility == "internal":
+        assert ".intern." in url
+    else:
+        assert ".intern." not in url
 
 
 CLASSIFICATION_URN_TEST_CASES = [
@@ -126,7 +146,7 @@ def test_convert_to_klass_urn(
     expected_result: str,
     expect_warning: bool,  # noqa: ARG001
 ):
-    assert klass_urn_converter.convert_to_urn(case) == expected_result
+    assert klass_urn_converter.convert_url_to_urn(case) == expected_result
 
 
 @pytest.mark.parametrize(
