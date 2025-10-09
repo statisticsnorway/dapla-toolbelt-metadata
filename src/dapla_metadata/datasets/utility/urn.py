@@ -47,6 +47,9 @@ class ReferenceUrlTypes(Enum):
     FRONTEND = auto()
 
 
+UrlVisibility = Literal["public", "internal"]
+
+
 @dataclass
 class UrnConverter:
     """Converts URLs to URNs and vice versa.
@@ -90,14 +93,14 @@ class UrnConverter:
         Args:
             identifier (str): The identifier of the resource the URL refers to.
             url_type (ReferenceUrlTypes): The representation type of the URL
-            visibility (Literal[&quot;public&quot;, &quot;internal&quot;], optional): Whether the URL should be that which is publicly available or not. Defaults to "public".
+            visibility (UrlVisibility, optional): Whether the URL should be that which is publicly available or not. Defaults to "public".
 
         Returns:
             str | None: The concrete URL. None if we cannot satisfy the supplied requirements.
         """
         candidates = [base[-1] for base in self.url_bases if base[0] == url_type]
 
-        def matches_visibility(url: str, visibility: Literal["public", "internal"]):
+        def matches_visibility(url: str, visibility: UrlVisibility):
             return (".intern." in url) is (visibility == "internal")
 
         def matches_environment(url: str):
