@@ -6,7 +6,6 @@ import copy
 import json
 import logging
 from concurrent.futures import ThreadPoolExecutor
-from pathlib import Path
 from typing import TYPE_CHECKING
 from typing import cast
 
@@ -175,7 +174,7 @@ class Datadoc:
         ):
             self.dataset_consistency_status = check_dataset_consistency(
                 self.dataset_path,
-                Path(self.metadata_document),
+                self.metadata_document,
             )
             self.dataset_consistency_status.extend(
                 check_variables_consistency(

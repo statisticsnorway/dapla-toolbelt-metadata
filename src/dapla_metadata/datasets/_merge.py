@@ -78,7 +78,7 @@ class DatasetConsistencyStatus:
 
 def check_dataset_consistency(
     new_dataset_path: Path | CloudPath,
-    existing_dataset_path: Path,
+    existing_dataset_path: Path | CloudPath,
 ) -> list[DatasetConsistencyStatus]:
     """Run consistency tests.
 
