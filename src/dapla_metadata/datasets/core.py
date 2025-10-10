@@ -173,7 +173,7 @@ class Datadoc:
         ):
             self.dataset_consistency_status = check_dataset_consistency(
                 self.dataset_path,
-                Path(self.metadata_document),
+                self.metadata_document,
             )
             self.dataset_consistency_status.extend(
                 check_variables_consistency(
