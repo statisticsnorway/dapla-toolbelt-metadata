@@ -133,6 +133,18 @@ class UrnConverter:
             return str(urn_or_url).removeprefix(self.urn_base + ":")
         return self._extract_id_from_url(urn_or_url)
 
+    def is_id(self, value: str) -> bool:
+        """Check if the value is an identifier for this URN type.
+
+        Args:
+            value (str): The value to check.
+        """
+        if not isinstance(value, str):
+            # Mypy thinks it's impossible to reach this branch, but there are no guarantees in Python.
+            return False  # type: ignore [unreachable]
+        pattern = re.compile(f"^{self.id_pattern}$")
+        return bool(pattern.match(value))
+
     def _extract_id_from_url(self, url: str | AnyUrl) -> str | None:
         patterns = (self._build_pattern(url[-1]) for url in self.url_bases)
         matches = (self._extract_id(str(url), p) for p in patterns)

@@ -31,6 +31,7 @@ TESTS_SESSIONS_DEPENDENCIES = {
     "requests-mock",
     "faker",
     "testcontainers[generic]",
+    "typeguard"
 }
 
 
@@ -152,6 +153,7 @@ def mypy(session: nox.Session) -> None:
         "types-beautifulsoup4",
         "types-docker",
         "faker",
+        "typeguard"
     )
     session.run("mypy", *args)
     if not session.posargs:
