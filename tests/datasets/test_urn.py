@@ -132,6 +132,23 @@ def test_vardef_get_id(urn_or_url: str | AnyUrl, identifier: str | None):
     assert vardef_urn_converter.get_id(urn_or_url) == identifier
 
 
+@pytest.mark.parametrize(
+    ("identifier", "expected"),
+    [
+        (EXAMPLE_VARDEF_ID, True),
+        ("invalid-id", False),
+        ("123", False),
+        ("12345678", True),
+        ("123456789", False),
+        ("abcdEFGH", False),
+        ("", False),
+        (None, False),
+    ],
+)
+def test_vardef_is_id(identifier: str, expected: bool):
+    assert vardef_urn_converter.is_id(identifier) is expected
+
+
 CLASSIFICATION_URN_TEST_CASES = [
     (
         f"https://www.ssb.no/klass/klassifikasjoner/{EXAMPLE_KLASS_ID}",
@@ -246,3 +263,20 @@ def test_klass_get_url(
 )
 def test_klass_get_id(urn_or_url: str | AnyUrl, identifier: str | None):
     assert klass_urn_converter.get_id(urn_or_url) == identifier
+
+
+@pytest.mark.parametrize(
+    ("identifier", "expected"),
+    [
+        (EXAMPLE_KLASS_ID, True),
+        ("invalid-id", False),
+        ("123", True),
+        ("1", True),
+        ("123456789", False),
+        ("abcdEFGH", False),
+        ("", False),
+        (None, False),
+    ],
+)
+def test_klass_is_id(identifier: str, expected: bool):
+    assert klass_urn_converter.is_id(identifier) is expected
