@@ -3,6 +3,7 @@ import logging
 import datadoc_model.all_optional.model as all_optional_model
 import pytest
 from pydantic import AnyUrl
+from typeguard import suppress_type_checks
 
 from dapla_metadata.datasets.core import Datadoc
 from dapla_metadata.datasets.utility.urn import URN_ERROR_MESSAGE_BASE
@@ -145,6 +146,7 @@ def test_vardef_get_id(urn_or_url: str | AnyUrl, identifier: str | None):
         (None, False),
     ],
 )
+@suppress_type_checks
 def test_vardef_is_id(identifier: str, expected: bool):
     assert vardef_urn_converter.is_id(identifier) is expected
 
@@ -278,5 +280,6 @@ def test_klass_get_id(urn_or_url: str | AnyUrl, identifier: str | None):
         (None, False),
     ],
 )
+@suppress_type_checks
 def test_klass_is_id(identifier: str, expected: bool):
     assert klass_urn_converter.is_id(identifier) is expected
