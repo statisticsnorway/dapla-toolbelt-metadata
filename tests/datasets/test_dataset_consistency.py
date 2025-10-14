@@ -2,6 +2,8 @@ import contextlib
 from pathlib import Path
 
 import pytest
+from cloudpathlib.local import LocalGSClient
+from cloudpathlib.local import LocalGSPath
 from datadoc_model.all_optional.model import DatadocMetadata
 from datadoc_model.all_optional.model import DataType
 from datadoc_model.all_optional.model import Variable
@@ -21,6 +23,7 @@ from dapla_metadata.datasets._merge import InconsistentDatasetsWarning
 from dapla_metadata.datasets._merge import check_dataset_consistency
 from dapla_metadata.datasets._merge import check_ready_to_merge
 from dapla_metadata.datasets._merge import check_variables_consistency
+from dapla_metadata.datasets.core import Datadoc
 from tests.datasets.constants import TEST_BUCKET_NAMING_STANDARD_COMPATIBLE_PATH
 from tests.datasets.constants import VARIABLE_DATA_TYPES
 from tests.datasets.constants import VARIABLE_SHORT_NAMES
@@ -227,3 +230,61 @@ def test_check_variables_consistency(
                 assert r.success, f"'{r.message}' failed but should have passed"
     else:
         assert all(r.success for r in results)
+
+
+def test_bucket_check_ok_when_both_params_are_gs_paths(mocker):
+    """Test the functionality of `check_dataset_consistency`.
+
+    Verify the desired behavior when BOTH parameters are gs-paths (no Path() conversion occurs). In
+    this case no `Bucket name` warning should be issued.
+    """
+    _patch_gs_utils(mocker)
+    resource_json = (
+        Path(__file__).parent
+        / "resources"
+        / "existing_metadata_file"
+        / "person_testdata_p2020-12-31_p2020-12-31_v1__DOC.json"
+    )
+    resource_parquet = (
+        Path(__file__).parent
+        / "resources"
+        / "datasets"
+        / "person_testdata_p2021-12-31_p2021-12-31_v1.parquet"
+    )
+    assert resource_parquet.exists(), f"Parquet resource missing: {resource_parquet}"
+    assert resource_json.exists(), f"JSON resource missing: {resource_json}"
+    directory = "ssb-dapla-felles-data-produkt-test/datadoc/brukertest/10/sykefratot/klargjorte_data/"
+    dataset_gs = LocalGSPath(
+        f"gs://{directory}person_testdata_p2021-12-31_p2021-12-31_v1.parquet"
+    )
+    metadata_doc_gs = LocalGSPath(
+        f"gs://{directory}person_testdata_p2021-12-31_p2021-12-31_v1__DOC.json"
+    )
+    metadata_doc_gs.parent.mkdir(parents=True, exist_ok=True)
+    metadata_doc_gs.write_text(resource_json.read_text(), encoding="utf-8")
+    assert metadata_doc_gs.exists(), "Metadata document was not written to LocalGS"
+    dataset_gs.parent.mkdir(parents=True, exist_ok=True)
+    dataset_gs.write_bytes(resource_parquet.read_bytes())
+    assert dataset_gs.exists(), "Parquet file was not written to LocalGS"
+    dd = Datadoc(
+        dataset_path=str(dataset_gs),
+        metadata_document_path=str(metadata_doc_gs),
+        errors_as_warnings=True,
+    )
+    _assert_bucket_ok(dd.dataset_consistency_status, BUCKET_NAME_MESSAGE)
+
+
+def _assert_bucket_ok(results: list, expected_msg: str):
+    bucket_checks = [r for r in results if expected_msg in r.message]
+    assert bucket_checks, f"Expected at least one check for {expected_msg}."
+    assert all(r.success for r in bucket_checks), (
+        f"Expected {expected_msg} to have success == True when both are gs-paths."
+    )
+
+
+def _patch_gs_utils(mocker):
+    mocker.patch(
+        "dapla_metadata.datasets.utility.utils.google.auth.default", autospec=True
+    )
+    mocker.patch("dapla_metadata.datasets.utility.utils.GSClient", LocalGSClient)
+    mocker.patch("dapla_metadata.datasets.utility.utils.GSPath", LocalGSPath)
