@@ -231,7 +231,7 @@ def test_check_variables_consistency(
         assert all(r.success for r in results)
 
 
-def test_bucket_check_ok_when_both_params_are_gs_paths(mocker): 
+def test_bucket_check_ok_when_both_params_are_gs_paths(mocker):
     """
     Test the functionality of `check_dataset_consistency`.
     
@@ -275,8 +275,8 @@ def _assert_bucket_ok(results: list, expected_msg: str):
     bucket_checks = [r for r in results if expected_msg in r.message]
     assert bucket_checks, f"Expected at least one check for {expected_msg}."
     assert all(r.success for r in bucket_checks), (f"Expected {expected_msg} to have success == True when both are gs-paths.")
-    
-    
+
+
 def _patch_gs_utils(mocker):
     mocker.patch("dapla_metadata.datasets.utility.utils.google.auth.default", autospec=True)
     mocker.patch("dapla_metadata.datasets.utility.utils.GSClient", LocalGSClient)
