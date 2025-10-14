@@ -240,7 +240,8 @@ def test_bucket_check_ok_when_both_params_are_gs_paths(mocker):
     _patch_gs_utils(mocker)
     from dapla_metadata.datasets.core import Datadoc
     from dapla_metadata.datasets._merge import BUCKET_NAME_MESSAGE
-    resource_json = (Path(__file__).parent
+    resource_json = (
+        Path(__file__).parent
         / "resources"
         / "existing_metadata_file"
         / "person_testdata_p2020-12-31_p2020-12-31_v1__DOC.json"
@@ -266,17 +267,25 @@ def test_bucket_check_ok_when_both_params_are_gs_paths(mocker):
     dataset_gs.parent.mkdir(parents=True, exist_ok=True)
     dataset_gs.write_bytes(resource_parquet.read_bytes())
     assert dataset_gs.exists(), "Parquet file was not written to LocalGS"
-    dd = Datadoc(dataset_path=str(dataset_gs), metadata_document_path=str(metadata_doc_gs), errors_as_warnings=True)
+    dd = Datadoc(
+        dataset_path=str(dataset_gs),
+        metadata_document_path=str(metadata_doc_gs),
+        errors_as_warnings=True
+        )
     _assert_bucket_ok(dd.dataset_consistency_status, BUCKET_NAME_MESSAGE)
 
 
 def _assert_bucket_ok(results: list, expected_msg: str):
     bucket_checks = [r for r in results if expected_msg in r.message]
     assert bucket_checks, f"Expected at least one check for {expected_msg}."
-    assert all(r.success for r in bucket_checks), (f"Expected {expected_msg} to have success == True when both are gs-paths.")
+    assert all(r.success for r in bucket_checks), (
+        f"Expected {expected_msg} to have success == True when both are gs-paths."
+    )
 
 
 def _patch_gs_utils(mocker):
-    mocker.patch("dapla_metadata.datasets.utility.utils.google.auth.default", autospec=True)
+    mocker.patch(
+        "dapla_metadata.datasets.utility.utils.google.auth.default", autospec=True
+    )
     mocker.patch("dapla_metadata.datasets.utility.utils.GSClient", LocalGSClient)
     mocker.patch("dapla_metadata.datasets.utility.utils.GSPath", LocalGSPath)
