@@ -232,9 +232,8 @@ def test_check_variables_consistency(
 
 
 def test_bucket_check_ok_when_both_params_are_gs_paths(mocker):
-    """
-    Test the functionality of `check_dataset_consistency`.
-    
+    """Test the functionality of `check_dataset_consistency`.
+
     Verify the desired behavior when BOTH parameters are gs-paths (no Path() conversion occurs). In
     this case no `Bucket name` warning should be issued.
     """
