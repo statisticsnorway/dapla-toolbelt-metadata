@@ -2,11 +2,12 @@ import contextlib
 from pathlib import Path
 
 import pytest
+from cloudpathlib.local import LocalGSClient
+from cloudpathlib.local import LocalGSPath
 from datadoc_model.all_optional.model import DatadocMetadata
 from datadoc_model.all_optional.model import DataType
 from datadoc_model.all_optional.model import Variable
 
-from dapla_metadata.dapla.user_info import TestUserInfo
 from dapla_metadata.datasets._merge import BUCKET_NAME_MESSAGE
 from dapla_metadata.datasets._merge import DATA_PRODUCT_NAME_MESSAGE
 from dapla_metadata.datasets._merge import DATASET_SHORT_NAME_MESSAGE
@@ -22,12 +23,11 @@ from dapla_metadata.datasets._merge import InconsistentDatasetsWarning
 from dapla_metadata.datasets._merge import check_dataset_consistency
 from dapla_metadata.datasets._merge import check_ready_to_merge
 from dapla_metadata.datasets._merge import check_variables_consistency
+from dapla_metadata.datasets.core import Datadoc
 from tests.datasets.constants import TEST_BUCKET_NAMING_STANDARD_COMPATIBLE_PATH
 from tests.datasets.constants import VARIABLE_DATA_TYPES
 from tests.datasets.constants import VARIABLE_SHORT_NAMES
-from cloudpathlib.local import LocalGSClient, LocalGSPath
-from dapla_metadata.datasets.core import Datadoc
-from dapla_metadata.datasets._merge import BUCKET_NAME_MESSAGE
+
 
 @pytest.mark.parametrize(
     ("new_dataset_path", "existing_dataset_path"),
@@ -270,7 +270,7 @@ def test_bucket_check_ok_when_both_params_are_gs_paths(mocker):
         dataset_path=str(dataset_gs),
         metadata_document_path=str(metadata_doc_gs),
         errors_as_warnings=True,
-        )
+    )
     _assert_bucket_ok(dd.dataset_consistency_status, BUCKET_NAME_MESSAGE)
 
 
