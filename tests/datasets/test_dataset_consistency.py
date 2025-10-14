@@ -26,7 +26,8 @@ from tests.datasets.constants import TEST_BUCKET_NAMING_STANDARD_COMPATIBLE_PATH
 from tests.datasets.constants import VARIABLE_DATA_TYPES
 from tests.datasets.constants import VARIABLE_SHORT_NAMES
 from cloudpathlib.local import LocalGSClient, LocalGSPath
-
+from dapla_metadata.datasets.core import Datadoc
+from dapla_metadata.datasets._merge import BUCKET_NAME_MESSAGE
 
 @pytest.mark.parametrize(
     ("new_dataset_path", "existing_dataset_path"),
@@ -238,8 +239,6 @@ def test_bucket_check_ok_when_both_params_are_gs_paths(mocker):
     this case no `Bucket name` warning should be issued.
     """
     _patch_gs_utils(mocker)
-    from dapla_metadata.datasets.core import Datadoc
-    from dapla_metadata.datasets._merge import BUCKET_NAME_MESSAGE
     resource_json = (
         Path(__file__).parent
         / "resources"
@@ -270,7 +269,7 @@ def test_bucket_check_ok_when_both_params_are_gs_paths(mocker):
     dd = Datadoc(
         dataset_path=str(dataset_gs),
         metadata_document_path=str(metadata_doc_gs),
-        errors_as_warnings=True
+        errors_as_warnings=True,
         )
     _assert_bucket_ok(dd.dataset_consistency_status, BUCKET_NAME_MESSAGE)
 
