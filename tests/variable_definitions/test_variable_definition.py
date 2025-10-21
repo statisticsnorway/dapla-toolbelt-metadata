@@ -253,6 +253,30 @@ def test_create_patch_change_short_name(variable_definition: VariableDefinition)
     mock_create_patch.assert_not_called()
 
 
+def test_from_model(
+    variable_definition: VariableDefinition,
+):
+    """This covers a bug that was reported in.
+
+    It was caused by an incorrect implementation in the from_model
+    method. The only thing we're testing is that no exceptions are
+    raised in this flow.
+    """
+    mock_api_response = MagicMock(name="VariableDefinition")
+    mock_api_response.classification_reference = "702"
+    with patch.object(
+        VariableDefinition,
+        "create_patch",
+        return_value=mock_api_response,
+    ) as mock_create_patch:
+        my_patch = VariableDefinition.from_model(variable_definition)
+        my_patch.create_patch_from_file(
+            file_path=VARIABLE_DEFINITION_EDITING_FILES_DIR
+            / "variable_definition_landbak_wypvb3wd_2025-05-02T10-06-20.yaml",
+        )
+        mock_create_patch.assert_called_once()
+
+
 def test_create_patch_from_file_path_not_set(variable_definition: VariableDefinition):
     my_patch = variable_definition
     my_patch.set_file_path(file_path=None)
