@@ -33,7 +33,11 @@ class VardokId(VardokIdResponse):
         model: VardokIdResponse,
     ) -> "VardokId":
         """Create a VariableDefinition instance from a CompleteResponse."""
-        return VardokId.model_construct(**model.model_dump())
+        self = VardokId.from_dict(model.model_dump())
+        if not self:
+            msg = f"Could not construct a VardokId instance from {model}"
+            raise ValueError(msg)
+        return self
 
     def __str__(self) -> str:
         """Format as indented YAML."""
