@@ -82,7 +82,11 @@ class VariableDefinition(CompleteResponse):
         model: CompleteResponse,
     ) -> "VariableDefinition":
         """Create a VariableDefinition instance from a CompleteResponse."""
-        return VariableDefinition.model_construct(**model.model_dump())
+        self = VariableDefinition.from_dict(model.model_dump())
+        if not self:
+            msg = f"Could not construct a VariableDefinition instance from {model}"
+            raise ValueError(msg)
+        return self
 
     @vardef_exception_handler
     def list_validity_periods(self) -> list["VariableDefinition"]:

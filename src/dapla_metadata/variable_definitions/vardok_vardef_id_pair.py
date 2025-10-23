@@ -32,7 +32,11 @@ class VardokVardefIdPair(VardokVardefIdPairResponse):
         model: VardokVardefIdPairResponse,
     ) -> "VardokVardefIdPair":
         """Create a VardokVardefIdPair instance from a VardokVardefIdPairResponse."""
-        return VardokVardefIdPair.model_construct(**model.model_dump())
+        self = VardokVardefIdPair.from_dict(model.model_dump())
+        if not self:
+            msg = f"Could not construct a VardokVardefIdPair instance from {model}"
+            raise ValueError(msg)
+        return self
 
     def __str__(self) -> str:
         """Format as indented YAML."""
