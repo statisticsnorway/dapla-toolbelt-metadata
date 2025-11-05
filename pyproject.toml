@@ -26,7 +26,7 @@ dependencies = [
     "urllib3>=2.5.0",
     "pytz>=2025.2",
     "python-dateutil>=2.9.0.post0",
-    "dapla-auth-client>=1.1.0",
+    "dapla-auth-client>=1.2.0",
 ]
 
 [project.urls]
@@ -81,9 +81,6 @@ pythonpath = ["src"]
 
 [tool.uv]
 required-version = ">=0.8.0"
-
-[tool.uv.sources]
-dapla-auth-client = { git = "https://github.com/statisticsnorway/dapla-auth-client.git" }
 
 [tool.coverage.paths]
 source = ["src", "*/site-packages"]
