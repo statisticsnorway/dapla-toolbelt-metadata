@@ -82,6 +82,9 @@ pythonpath = ["src"]
 [tool.uv]
 required-version = ">=0.8.0"
 
+[tool.uv.sources]
+dapla-auth-client = { git = "https://github.com/statisticsnorway/dapla-auth-client.git" }
+
 [tool.coverage.paths]
 source = ["src", "*/site-packages"]
 tests = ["tests", "*/tests", "*/test"]
