@@ -415,13 +415,16 @@ def set_workspace_not_dir(tmp_path: Path):
 
 
 @pytest.fixture(autouse=True)
-def mock_auth_client_fetch_personal_token(mocker: MockFixture) -> MockType:
+def mock_auth_client_fetch_personal_token(
+    mocker: MockFixture, fake_labid_jwt: str
+) -> MockType:
     """Mock the fetch_personal_token method.
 
     This method can only run on Dapla Lab so we mock it for all the tests.
 
     Args:
         mocker (MockFixture): The pytest mocker fixture
+        fake_labid_jwt (str): An example JWT token
 
     Returns:
         MockType: The finally configured mock.
@@ -430,5 +433,5 @@ def mock_auth_client_fetch_personal_token(mocker: MockFixture) -> MockType:
         AuthClient,
         "fetch_personal_token",
         autospec=True,
-        return_value=EXAMPLE_ENCODED_JWT,
+        return_value=fake_labid_jwt,
     )

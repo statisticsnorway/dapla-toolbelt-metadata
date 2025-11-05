@@ -55,6 +55,7 @@ def test_dapla_lab_user_info_short_email_no_jwt_available(
     assert DaplaLabUserInfo().short_email is None
 
 
+# Parameter is indirectly passed to the fake_jwt fixture
 @pytest.mark.parametrize(("raw_jwt_payload"), [{"no_email": "no_email_in_jwt"}])
 def test_dapla_lab_user_info_short_email_no_email_in_jwt(
     fake_jwt: str,

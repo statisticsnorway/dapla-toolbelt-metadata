@@ -1,4 +1,5 @@
 import string
+import typing as t
 
 import jwt
 import pytest
@@ -6,7 +7,7 @@ from faker import Faker
 
 
 @pytest.fixture
-def raw_jwt_payload(faker: Faker) -> dict[str, object]:
+def raw_jwt_payload(faker: Faker) -> dict[str, t.Any]:
     user_name = "".join(faker.random_sample(elements=string.ascii_lowercase, length=3))
     email = f"{user_name}@ssb.no"
     first_name = faker.first_name()
@@ -50,5 +51,28 @@ def raw_jwt_payload(faker: Faker) -> dict[str, object]:
 
 
 @pytest.fixture
-def fake_jwt(raw_jwt_payload):
+def fake_jwt(raw_jwt_payload: dict[str, t.Any]) -> str:
     return jwt.encode(raw_jwt_payload, "test secret", algorithm="HS256")
+
+
+@pytest.fixture
+def raw_labid_jwt_payload(faker: Faker) -> dict[str, t.Any]:
+    return {
+        "aud": ["vardef"],
+        "dapla.group": "team-a-developers",
+        "dapla.groups": [
+            "team-a-data-admins",
+            "team-a-developers",
+            "team-b-developers",
+        ],
+        "exp": faker.unix_time(),
+        "iat": faker.unix_time(),
+        "iss": "https://labid.lab.dapla-external.ssb.no",
+        "scope": "all_groups,current_group",
+        "sub": "".join(faker.random_sample(elements=string.ascii_lowercase, length=3)),
+    }
+
+
+@pytest.fixture
+def fake_labid_jwt(raw_labid_jwt_payload: dict[str, t.Any]) -> str:
+    return jwt.encode(raw_labid_jwt_payload, "test secret", algorithm="HS256")
