@@ -8,6 +8,9 @@ from unittest.mock import Mock
 
 import docker
 import pytest
+from dapla_auth_client import AuthClient
+from pytest_mock import MockFixture
+from pytest_mock import MockType
 
 from dapla_metadata._shared.config import DAPLA_GROUP_CONTEXT
 from dapla_metadata.variable_definitions._generated import vardef_client
@@ -58,6 +61,9 @@ from tests.utils.constants import VARDEF_EXAMPLE_DEFINITION_ID
 from tests.utils.constants import VARDEF_EXAMPLE_INVALID_ID
 from tests.utils.microcks_testcontainer import MicrocksContainer
 from tests.variable_definitions.constants import OPENAPI_DIR
+
+# This value is generated from jwt.io and the claims are made up. Simply a placeholder for mocking tests.
+EXAMPLE_ENCODED_JWT = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWUsImlhdCI6MTUxNjIzOTAyMn0.KMUFsIDTnFmyG3nMiGM6H9FNFUROf3wh7SmqJp-QV30"
 
 
 class CouldNotInstantiateTestContainerError(RuntimeError):
@@ -406,3 +412,23 @@ def set_workspace_not_dir(tmp_path: Path):
     file_path = tmp_path / "funnyfiles.txt"
     file_path.write_text("This is a text file.")
     return file_path
+
+
+@pytest.fixture(autouse=True)
+def mock_auth_client_fetch_personal_token(mocker: MockFixture) -> MockType:
+    """Mock the fetch_personal_token method.
+
+    This method can only run on Dapla Lab so we mock it for all the tests.
+
+    Args:
+        mocker (MockFixture): The pytest mocker fixture
+
+    Returns:
+        MockType: The finally configured mock.
+    """
+    return mocker.patch.object(
+        AuthClient,
+        "fetch_personal_token",
+        autospec=True,
+        return_value=EXAMPLE_ENCODED_JWT,
+    )
