@@ -62,9 +62,6 @@ from tests.utils.constants import VARDEF_EXAMPLE_INVALID_ID
 from tests.utils.microcks_testcontainer import MicrocksContainer
 from tests.variable_definitions.constants import OPENAPI_DIR
 
-# This value is generated from jwt.io and the claims are made up. Simply a placeholder for mocking tests.
-EXAMPLE_ENCODED_JWT = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWUsImlhdCI6MTUxNjIzOTAyMn0.KMUFsIDTnFmyG3nMiGM6H9FNFUROf3wh7SmqJp-QV30"
-
 
 class CouldNotInstantiateTestContainerError(RuntimeError):
     def __init__(self):
