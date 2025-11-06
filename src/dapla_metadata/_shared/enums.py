@@ -5,7 +5,6 @@ class DaplaRegion(str, Enum):
     """Dapla platforms/regions."""
 
     DAPLA_LAB = "DAPLA_LAB"
-    BIP = "BIP"
     ON_PREM = "ON_PREM"
     CLOUD_RUN = "CLOUD_RUN"
 

@@ -67,11 +67,6 @@ def get_config_item(item: str, *, raising: bool = False) -> str | None:
     return value
 
 
-def get_jupyterhub_user() -> str | None:
-    """Get the JupyterHub user name."""
-    return get_config_item(JUPYTERHUB_USER)
-
-
 def get_statistical_subject_source_url() -> str | None:
     """Get the URL to the statistical subject source."""
     return (

@@ -8,7 +8,6 @@ import jwt
 
 from dapla_metadata._shared import config
 from dapla_metadata._shared.enums import DaplaRegion
-from dapla_metadata._shared.enums import DaplaService
 
 logger = logging.getLogger(__name__)
 
@@ -110,36 +109,14 @@ class DaplaLabUserInfo:
         return parse_team_name(self.current_group)
 
 
-class JupyterHubUserInfo:
-    """Information about the current user when running on JupyterHub."""
-
-    @property
-    def short_email(self) -> str | None:
-        """Get the short email address."""
-        return config.get_jupyterhub_user()
-
-    @property
-    def current_group(self) -> str:
-        """Get the group which the user is currently representing."""
-        raise NotImplementedError
-
-    @property
-    def current_team(self) -> str:
-        """Get the team which the user is currently representing."""
-        raise NotImplementedError
-
-
 def get_user_info_for_current_platform() -> UserInfo:
     """Return the correct implementation of UserInfo for the current platform."""
     if config.get_dapla_region() == DaplaRegion.DAPLA_LAB:
         return DaplaLabUserInfo()
-    elif config.get_dapla_service() == DaplaService.JUPYTERLAB:  # noqa: RET505
-        return JupyterHubUserInfo()
-    else:
-        logger.warning(
-            "Was not possible to retrieve user information! Some fields may not be set.",
-        )
-        return UnknownUserInfo()
+    logger.warning(
+        "Was not possible to retrieve user information! Some fields may not be set.",
+    )
+    return UnknownUserInfo()
 
 
 def parse_team_name(group: str) -> str:
