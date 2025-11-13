@@ -30,7 +30,6 @@ from dapla_metadata.variable_definitions._generated.vardef_client.models.validit
 from dapla_metadata.variable_definitions._generated.vardef_client.models.variable_status import (
     VariableStatus,
 )
-from dapla_metadata.variable_definitions._utils import config
 from dapla_metadata.variable_definitions._utils._client import VardefClient
 from dapla_metadata.variable_definitions._utils.variable_definition_files import (
     _convert_to_yaml_output,
@@ -132,7 +131,6 @@ class VariableDefinition(CompleteResponse):
                 VardefClient.get_client(),
             ).update_variable_definition_by_id(
                 variable_definition_id=self.id,
-                active_group=config.get_active_group(),
                 update_draft=update_draft,
             ),
         )
@@ -187,7 +185,6 @@ class VariableDefinition(CompleteResponse):
             VardefClient.get_client(),
         ).delete_variable_definition_by_id(
             variable_definition_id=self.id,
-            active_group=config.get_active_group(),
         )
         return f"✅ Variable {self.id} safely deleted"
 
@@ -239,7 +236,6 @@ class VariableDefinition(CompleteResponse):
                 VardefClient.get_client(),
             ).create_patch(
                 variable_definition_id=self.id,
-                active_group=config.get_active_group(),
                 patch=patch,
                 valid_from=valid_from,
             ),
@@ -318,7 +314,6 @@ class VariableDefinition(CompleteResponse):
                 VardefClient.get_client(),
             ).create_validity_period(
                 variable_definition_id=self.id,
-                active_group=config.get_active_group(),
                 validity_period=validity_period,
             ),
         )

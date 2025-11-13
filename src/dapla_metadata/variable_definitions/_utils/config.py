@@ -2,7 +2,6 @@ from dapla_auth_client import AuthClient
 
 from dapla_metadata._shared.config import get_config_item
 from dapla_metadata._shared.config import get_dapla_environment
-from dapla_metadata._shared.config import get_dapla_group_context
 from dapla_metadata._shared.enums import DaplaEnvironment
 from dapla_metadata.variable_definitions._generated.vardef_client.configuration import (
     Configuration,
@@ -16,15 +15,6 @@ WORKSPACE_DIR = "WORKSPACE_DIR"
 def get_workspace_dir() -> str | None:
     """Get the path to work directory from workspace environment variable."""
     return get_config_item(WORKSPACE_DIR)
-
-
-def get_active_group() -> str:
-    """Get the group the user currently represents.
-
-    Returns:
-        A string with the active group.
-    """
-    return str(get_dapla_group_context(raising=True))
 
 
 def get_vardef_host() -> str:

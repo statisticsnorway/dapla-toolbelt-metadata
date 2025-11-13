@@ -207,9 +207,7 @@ class Draft(BaseModel):
                 "subject_fields": obj.get("subject_fields"),
                 "contains_special_categories_of_personal_data": obj.get(
                     "contains_special_categories_of_personal_data"
-                )
-                if obj.get("contains_special_categories_of_personal_data") is not None
-                else False,
+                ),
                 "measurement_type": obj.get("measurement_type"),
                 "valid_from": obj.get("valid_from"),
                 "valid_until": obj.get("valid_until"),

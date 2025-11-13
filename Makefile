@@ -5,7 +5,7 @@ install-openapi-generator:
 .PHONY: update-vardef-openapi-definition
 update-vardef-openapi-definition:
 	cp \
-		../vardef/build/generated/ksp/main/resources/META-INF/swagger/variable-definitions/variable-definitions-internal.yml \
+		../vardef/build/generated/ksp/main/resources/META-INF/swagger/variable-definitions-internal.yml \
 		tests/variable_definitions/resources/openapi/variable-definitions-internal.yml
 
 .PHONY: generate-vardef-client

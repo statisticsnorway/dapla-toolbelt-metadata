@@ -46,9 +46,9 @@ class ValidityPeriodsApi:
             Field(description="Unique identifier for the variable definition."),
         ],
         active_group: Annotated[
-            StrictStr,
+            StrictStr | None,
             Field(description="The group which the user currently represents."),
-        ],
+        ] = None,
         validity_period: ValidityPeriod | None = None,
         _request_timeout: None
         | Annotated[StrictFloat, Field(gt=0)]
@@ -66,7 +66,7 @@ class ValidityPeriodsApi:
 
         :param variable_definition_id: Unique identifier for the variable definition. (required)
         :type variable_definition_id: str
-        :param active_group: The group which the user currently represents. (required)
+        :param active_group: The group which the user currently represents.
         :type active_group: str
         :param validity_period:
         :type validity_period: ValidityPeriod
@@ -124,9 +124,9 @@ class ValidityPeriodsApi:
             Field(description="Unique identifier for the variable definition."),
         ],
         active_group: Annotated[
-            StrictStr,
+            StrictStr | None,
             Field(description="The group which the user currently represents."),
-        ],
+        ] = None,
         validity_period: ValidityPeriod | None = None,
         _request_timeout: None
         | Annotated[StrictFloat, Field(gt=0)]
@@ -144,7 +144,7 @@ class ValidityPeriodsApi:
 
         :param variable_definition_id: Unique identifier for the variable definition. (required)
         :type variable_definition_id: str
-        :param active_group: The group which the user currently represents. (required)
+        :param active_group: The group which the user currently represents.
         :type active_group: str
         :param validity_period:
         :type validity_period: ValidityPeriod
@@ -202,9 +202,9 @@ class ValidityPeriodsApi:
             Field(description="Unique identifier for the variable definition."),
         ],
         active_group: Annotated[
-            StrictStr,
+            StrictStr | None,
             Field(description="The group which the user currently represents."),
-        ],
+        ] = None,
         validity_period: ValidityPeriod | None = None,
         _request_timeout: None
         | Annotated[StrictFloat, Field(gt=0)]
@@ -222,7 +222,7 @@ class ValidityPeriodsApi:
 
         :param variable_definition_id: Unique identifier for the variable definition. (required)
         :type variable_definition_id: str
-        :param active_group: The group which the user currently represents. (required)
+        :param active_group: The group which the user currently represents.
         :type active_group: str
         :param validity_period:
         :type validity_period: ValidityPeriod

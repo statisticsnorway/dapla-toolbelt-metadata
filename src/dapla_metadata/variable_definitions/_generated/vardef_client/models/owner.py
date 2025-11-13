@@ -27,10 +27,14 @@ from typing_extensions import Self
 class Owner(BaseModel):
     """Owner"""
 
-    team: Annotated[str, Field(min_length=1, strict=True)]
+    team: Annotated[str, Field(min_length=1, strict=True)] = Field(
+        description="The Dapla team with responsibility for this variable definition."
+    )
     groups: Annotated[
         list[Annotated[str, Field(min_length=1, strict=True)]], Field(min_length=1)
-    ]
+    ] = Field(
+        description="The groups with permission to modify this variable definition."
+    )
     __properties: ClassVar[list[str]] = ["team", "groups"]
 
     model_config = ConfigDict(

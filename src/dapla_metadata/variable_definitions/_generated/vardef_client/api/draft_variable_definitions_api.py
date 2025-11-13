@@ -43,9 +43,9 @@ class DraftVariableDefinitionsApi:
     def create_variable_definition(
         self,
         active_group: Annotated[
-            StrictStr,
+            StrictStr | None,
             Field(description="The group which the user currently represents."),
-        ],
+        ] = None,
         draft: Draft | None = None,
         _request_timeout: None
         | Annotated[StrictFloat, Field(gt=0)]
@@ -61,7 +61,7 @@ class DraftVariableDefinitionsApi:
 
         Create a variable definition. New variable definitions are automatically assigned status DRAFT and must include all required fields. Attempts to specify id or variable_status in a request will receive 400 BAD REQUEST responses.
 
-        :param active_group: The group which the user currently represents. (required)
+        :param active_group: The group which the user currently represents.
         :type active_group: str
         :param draft:
         :type draft: Draft
@@ -113,9 +113,9 @@ class DraftVariableDefinitionsApi:
     def create_variable_definition_with_http_info(
         self,
         active_group: Annotated[
-            StrictStr,
+            StrictStr | None,
             Field(description="The group which the user currently represents."),
-        ],
+        ] = None,
         draft: Draft | None = None,
         _request_timeout: None
         | Annotated[StrictFloat, Field(gt=0)]
@@ -131,7 +131,7 @@ class DraftVariableDefinitionsApi:
 
         Create a variable definition. New variable definitions are automatically assigned status DRAFT and must include all required fields. Attempts to specify id or variable_status in a request will receive 400 BAD REQUEST responses.
 
-        :param active_group: The group which the user currently represents. (required)
+        :param active_group: The group which the user currently represents.
         :type active_group: str
         :param draft:
         :type draft: Draft
@@ -183,9 +183,9 @@ class DraftVariableDefinitionsApi:
     def create_variable_definition_without_preload_content(
         self,
         active_group: Annotated[
-            StrictStr,
+            StrictStr | None,
             Field(description="The group which the user currently represents."),
-        ],
+        ] = None,
         draft: Draft | None = None,
         _request_timeout: None
         | Annotated[StrictFloat, Field(gt=0)]
@@ -201,7 +201,7 @@ class DraftVariableDefinitionsApi:
 
         Create a variable definition. New variable definitions are automatically assigned status DRAFT and must include all required fields. Attempts to specify id or variable_status in a request will receive 400 BAD REQUEST responses.
 
-        :param active_group: The group which the user currently represents. (required)
+        :param active_group: The group which the user currently represents.
         :type active_group: str
         :param draft:
         :type draft: Draft
@@ -320,9 +320,9 @@ class DraftVariableDefinitionsApi:
             Field(description="Unique identifier for the variable definition."),
         ],
         active_group: Annotated[
-            StrictStr,
+            StrictStr | None,
             Field(description="The group which the user currently represents."),
-        ],
+        ] = None,
         _request_timeout: None
         | Annotated[StrictFloat, Field(gt=0)]
         | tuple[
@@ -339,7 +339,7 @@ class DraftVariableDefinitionsApi:
 
         :param variable_definition_id: Unique identifier for the variable definition. (required)
         :type variable_definition_id: str
-        :param active_group: The group which the user currently represents. (required)
+        :param active_group: The group which the user currently represents.
         :type active_group: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -393,9 +393,9 @@ class DraftVariableDefinitionsApi:
             Field(description="Unique identifier for the variable definition."),
         ],
         active_group: Annotated[
-            StrictStr,
+            StrictStr | None,
             Field(description="The group which the user currently represents."),
-        ],
+        ] = None,
         _request_timeout: None
         | Annotated[StrictFloat, Field(gt=0)]
         | tuple[
@@ -412,7 +412,7 @@ class DraftVariableDefinitionsApi:
 
         :param variable_definition_id: Unique identifier for the variable definition. (required)
         :type variable_definition_id: str
-        :param active_group: The group which the user currently represents. (required)
+        :param active_group: The group which the user currently represents.
         :type active_group: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -466,9 +466,9 @@ class DraftVariableDefinitionsApi:
             Field(description="Unique identifier for the variable definition."),
         ],
         active_group: Annotated[
-            StrictStr,
+            StrictStr | None,
             Field(description="The group which the user currently represents."),
-        ],
+        ] = None,
         _request_timeout: None
         | Annotated[StrictFloat, Field(gt=0)]
         | tuple[
@@ -485,7 +485,7 @@ class DraftVariableDefinitionsApi:
 
         :param variable_definition_id: Unique identifier for the variable definition. (required)
         :type variable_definition_id: str
-        :param active_group: The group which the user currently represents. (required)
+        :param active_group: The group which the user currently represents.
         :type active_group: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -592,9 +592,9 @@ class DraftVariableDefinitionsApi:
             Field(description="Unique identifier for the variable definition."),
         ],
         active_group: Annotated[
-            StrictStr,
+            StrictStr | None,
             Field(description="The group which the user currently represents."),
-        ],
+        ] = None,
         update_draft: UpdateDraft | None = None,
         _request_timeout: None
         | Annotated[StrictFloat, Field(gt=0)]
@@ -612,7 +612,7 @@ class DraftVariableDefinitionsApi:
 
         :param variable_definition_id: Unique identifier for the variable definition. (required)
         :type variable_definition_id: str
-        :param active_group: The group which the user currently represents. (required)
+        :param active_group: The group which the user currently represents.
         :type active_group: str
         :param update_draft:
         :type update_draft: UpdateDraft
@@ -671,9 +671,9 @@ class DraftVariableDefinitionsApi:
             Field(description="Unique identifier for the variable definition."),
         ],
         active_group: Annotated[
-            StrictStr,
+            StrictStr | None,
             Field(description="The group which the user currently represents."),
-        ],
+        ] = None,
         update_draft: UpdateDraft | None = None,
         _request_timeout: None
         | Annotated[StrictFloat, Field(gt=0)]
@@ -691,7 +691,7 @@ class DraftVariableDefinitionsApi:
 
         :param variable_definition_id: Unique identifier for the variable definition. (required)
         :type variable_definition_id: str
-        :param active_group: The group which the user currently represents. (required)
+        :param active_group: The group which the user currently represents.
         :type active_group: str
         :param update_draft:
         :type update_draft: UpdateDraft
@@ -750,9 +750,9 @@ class DraftVariableDefinitionsApi:
             Field(description="Unique identifier for the variable definition."),
         ],
         active_group: Annotated[
-            StrictStr,
+            StrictStr | None,
             Field(description="The group which the user currently represents."),
-        ],
+        ] = None,
         update_draft: UpdateDraft | None = None,
         _request_timeout: None
         | Annotated[StrictFloat, Field(gt=0)]
@@ -770,7 +770,7 @@ class DraftVariableDefinitionsApi:
 
         :param variable_definition_id: Unique identifier for the variable definition. (required)
         :type variable_definition_id: str
-        :param active_group: The group which the user currently represents. (required)
+        :param active_group: The group which the user currently represents.
         :type active_group: str
         :param update_draft:
         :type update_draft: UpdateDraft
