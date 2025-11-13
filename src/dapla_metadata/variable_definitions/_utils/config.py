@@ -1,7 +1,8 @@
+from dapla_auth_client import AuthClient
+
 from dapla_metadata._shared.config import get_config_item
 from dapla_metadata._shared.config import get_dapla_environment
 from dapla_metadata._shared.config import get_dapla_group_context
-from dapla_metadata._shared.config import get_oidc_token
 from dapla_metadata._shared.enums import DaplaEnvironment
 from dapla_metadata.variable_definitions._generated.vardef_client.configuration import (
     Configuration,
@@ -46,9 +47,12 @@ def get_vardef_host() -> str:
             return get_config_item("VARDEF_HOST") or "http://localhost:8080"
 
 
+def refresh_access_token() -> str:
+    return AuthClient.fetch_personal_token(
+        scopes=["all_groups", "current_group"], audiences=["vardef"]
+    )
+
+
 def get_vardef_client_configuration() -> Configuration:
     """Build a config to be supplied to the `ApiClient`."""
-    return Configuration(
-        host=get_vardef_host(),
-        access_token=get_oidc_token(raising=True),
-    )
+    return Configuration(host=get_vardef_host(), access_token=refresh_access_token())

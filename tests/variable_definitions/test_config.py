@@ -1,8 +1,8 @@
 import pytest
+from pytest_mock import MockType
 
 from dapla_metadata._shared.config import DAPLA_ENVIRONMENT
 from dapla_metadata._shared.config import DAPLA_GROUP_CONTEXT
-from dapla_metadata._shared.config import OIDC_TOKEN
 from dapla_metadata._shared.enums import DaplaEnvironment
 from dapla_metadata.variable_definitions._utils.config import VARDEF_HOST_PROD
 from dapla_metadata.variable_definitions._utils.config import VARDEF_HOST_TEST
@@ -13,6 +13,7 @@ from dapla_metadata.variable_definitions._utils.config import (
 )
 from dapla_metadata.variable_definitions._utils.config import get_vardef_host
 from dapla_metadata.variable_definitions._utils.config import get_workspace_dir
+from dapla_metadata.variable_definitions.vardef import Vardef
 
 
 @pytest.mark.parametrize(
@@ -49,26 +50,12 @@ def test_vardef_host_specified(monkeypatch: pytest.MonkeyPatch):
 
 
 def test_get_vardef_client_configuration(
-    monkeypatch: pytest.MonkeyPatch,
-    fake_jwt: str,
+    monkeypatch: pytest.MonkeyPatch, fake_labid_jwt: str
 ):
     monkeypatch.setenv(DAPLA_ENVIRONMENT, DaplaEnvironment.TEST.value)
-    monkeypatch.setenv(OIDC_TOKEN, fake_jwt)
     config = get_vardef_client_configuration()
-    assert config.host is not None
-    assert config.access_token is not None
-
-
-def test_get_vardef_client_configuration_no_token(
-    monkeypatch: pytest.MonkeyPatch,
-):
-    monkeypatch.setenv(DAPLA_ENVIRONMENT, DaplaEnvironment.TEST.value)
-    monkeypatch.delenv(OIDC_TOKEN, raising=False)
-    with pytest.raises(
-        OSError,
-        match="Environment variable OIDC_TOKEN not defined",
-    ):
-        get_vardef_client_configuration()
+    assert config.host == get_vardef_host()
+    assert config.access_token == fake_labid_jwt
 
 
 def test_active_group_unset(monkeypatch: pytest.MonkeyPatch):
@@ -88,3 +75,16 @@ def test_active_group_set(monkeypatch: pytest.MonkeyPatch):
 def test_workspace_dir_set(monkeypatch: pytest.MonkeyPatch):
     monkeypatch.setenv(WORKSPACE_DIR, "home/work")
     assert get_workspace_dir() == "home/work"
+
+
+@pytest.mark.parametrize("number_of_calls", [0, 3, 10])
+def test_access_token_refreshed_for_each_request(
+    mock_auth_client_fetch_personal_token: MockType, number_of_calls: int
+):
+    for _ in range(number_of_calls):
+        Vardef.list_variable_definitions()
+    assert mock_auth_client_fetch_personal_token.call_count == number_of_calls
+    if number_of_calls:
+        mock_auth_client_fetch_personal_token.assert_called_with(
+            scopes=["all_groups", "current_group"], audiences=["vardef"]
+        )
