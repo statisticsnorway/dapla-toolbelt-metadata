@@ -2,7 +2,6 @@ from datetime import date
 
 VARDEF_EXAMPLE_DEFINITION_ID = "wypvb3wd"
 VARDEF_EXAMPLE_INVALID_ID = "invalid id"
-VARDEF_EXAMPLE_ACTIVE_GROUP = "dapla-felles-developers"
 VARDEF_EXAMPLE_SHORT_NAME = "landbak"
 VARDEF_EXAMPLE_DATE = date(1970, 1, 1)
 CONSTRAINT_VIOLATION_BODY = """{

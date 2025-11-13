@@ -21,7 +21,6 @@ from dapla_metadata.variable_definitions._generated.vardef_client.models.draft i
 from dapla_metadata.variable_definitions._generated.vardef_client.models.vardok_id_response import (
     VardokIdResponse,
 )
-from dapla_metadata.variable_definitions._utils import config
 from dapla_metadata.variable_definitions._utils._client import VardefClient
 from dapla_metadata.variable_definitions._utils.template_files import (
     _find_latest_template_file,
@@ -110,7 +109,6 @@ class Vardef:
             DraftVariableDefinitionsApi(
                 VardefClient.get_client(),
             ).create_variable_definition(
-                active_group=config.get_active_group(),
                 draft=draft,
             ),
         )
@@ -167,7 +165,6 @@ class Vardef:
             DataMigrationApi(
                 VardefClient.get_client(),
             ).create_variable_definition_from_var_dok(
-                active_group=config.get_active_group(),
                 vardok_id=vardok_id,
             ),
         )

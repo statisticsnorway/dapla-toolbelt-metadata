@@ -12,7 +12,6 @@ from dapla_auth_client import AuthClient
 from pytest_mock import MockFixture
 from pytest_mock import MockType
 
-from dapla_metadata._shared.config import DAPLA_GROUP_CONTEXT
 from dapla_metadata.variable_definitions._generated import vardef_client
 from dapla_metadata.variable_definitions._generated.vardef_client.api_client import (
     ApiClient,
@@ -56,7 +55,6 @@ from dapla_metadata.variable_definitions._utils.template_files import (
     create_template_yaml,
 )
 from dapla_metadata.variable_definitions.variable_definition import VariableDefinition
-from tests.utils.constants import VARDEF_EXAMPLE_ACTIVE_GROUP
 from tests.utils.constants import VARDEF_EXAMPLE_DEFINITION_ID
 from tests.utils.constants import VARDEF_EXAMPLE_INVALID_ID
 from tests.utils.microcks_testcontainer import MicrocksContainer
@@ -69,13 +67,6 @@ class CouldNotInstantiateTestContainerError(RuntimeError):
         super().__init__(
             "Could not instantiate the TestContainer. Please check that your local Docker is correctly configured."
         )
-
-
-@pytest.fixture(autouse=True)
-def _set_dapla_group_context(
-    monkeypatch: pytest.MonkeyPatch,
-):
-    monkeypatch.setenv(DAPLA_GROUP_CONTEXT, VARDEF_EXAMPLE_ACTIVE_GROUP)
 
 
 @pytest.fixture(scope="session")

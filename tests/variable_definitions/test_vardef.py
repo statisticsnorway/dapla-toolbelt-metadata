@@ -9,7 +9,6 @@ from unittest.mock import patch
 import pytest
 import urllib3
 
-from dapla_metadata._shared.config import DAPLA_GROUP_CONTEXT
 from dapla_metadata.variable_definitions._generated.vardef_client.api.variable_definitions_api import (
     VariableDefinitionsApi,
 )
@@ -41,7 +40,6 @@ from dapla_metadata.variable_definitions.exceptions import VariableNotFoundError
 from dapla_metadata.variable_definitions.vardef import Vardef
 from dapla_metadata.variable_definitions.vardok_id import VardokId
 from dapla_metadata.variable_definitions.variable_definition import VariableDefinition
-from tests.utils.constants import VARDEF_EXAMPLE_ACTIVE_GROUP
 from tests.utils.constants import VARDEF_EXAMPLE_DATE
 from tests.utils.constants import VARDEF_EXAMPLE_DEFINITION_ID
 from tests.utils.constants import VARDEF_EXAMPLE_INVALID_ID
@@ -161,11 +159,9 @@ def test_urllib_exceptions(
     ],
 )
 def test_not_found(
-    monkeypatch: pytest.MonkeyPatch,
     client_configuration: Configuration,
     method: Callable,
 ):
-    monkeypatch.setenv(DAPLA_GROUP_CONTEXT, VARDEF_EXAMPLE_ACTIVE_GROUP)
     VardefClient.set_config(client_configuration)
     with pytest.raises(VardefClientError) as e:
         method()
@@ -176,11 +172,9 @@ def test_not_found(
 
 
 def test_create_draft(
-    monkeypatch: pytest.MonkeyPatch,
     client_configuration: Configuration,
     draft: Draft,
 ):
-    monkeypatch.setenv(DAPLA_GROUP_CONTEXT, VARDEF_EXAMPLE_ACTIVE_GROUP)
     VardefClient.set_config(client_configuration)
     my_draft = Vardef.create_draft(
         draft=draft,
@@ -209,10 +203,8 @@ def test_create_draft_from_file_specify_path(work_folder_complete_patch_output: 
 
 
 def test_migrate_from_vardok(
-    monkeypatch: pytest.MonkeyPatch,
     client_configuration: Configuration,
 ):
-    monkeypatch.setenv(DAPLA_GROUP_CONTEXT, VARDEF_EXAMPLE_ACTIVE_GROUP)
     VardefClient.set_config(client_configuration)
     my_draft = Vardef.migrate_from_vardok(
         vardok_id="1607",

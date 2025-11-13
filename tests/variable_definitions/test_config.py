@@ -2,12 +2,10 @@ import pytest
 from pytest_mock import MockType
 
 from dapla_metadata._shared.config import DAPLA_ENVIRONMENT
-from dapla_metadata._shared.config import DAPLA_GROUP_CONTEXT
 from dapla_metadata._shared.enums import DaplaEnvironment
 from dapla_metadata.variable_definitions._utils.config import VARDEF_HOST_PROD
 from dapla_metadata.variable_definitions._utils.config import VARDEF_HOST_TEST
 from dapla_metadata.variable_definitions._utils.config import WORKSPACE_DIR
-from dapla_metadata.variable_definitions._utils.config import get_active_group
 from dapla_metadata.variable_definitions._utils.config import (
     get_vardef_client_configuration,
 )
@@ -56,20 +54,6 @@ def test_get_vardef_client_configuration(
     config = get_vardef_client_configuration()
     assert config.host == get_vardef_host()
     assert config.access_token == fake_labid_jwt
-
-
-def test_active_group_unset(monkeypatch: pytest.MonkeyPatch):
-    monkeypatch.delenv(DAPLA_GROUP_CONTEXT, raising=False)
-    with pytest.raises(
-        OSError,
-        match="Environment variable DAPLA_GROUP_CONTEXT not defined",
-    ):
-        get_active_group()
-
-
-def test_active_group_set(monkeypatch: pytest.MonkeyPatch):
-    monkeypatch.setenv(DAPLA_GROUP_CONTEXT, "my-group")
-    assert get_active_group() == "my-group"
 
 
 def test_workspace_dir_set(monkeypatch: pytest.MonkeyPatch):
