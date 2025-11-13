@@ -48,9 +48,9 @@ class DataMigrationApi:
             StrictStr, Field(description="The ID of the definition in Vardok.")
         ],
         active_group: Annotated[
-            StrictStr,
+            StrictStr | None,
             Field(description="The group which the user currently represents."),
-        ],
+        ] = None,
         _request_timeout: None
         | Annotated[StrictFloat, Field(gt=0)]
         | tuple[
@@ -67,7 +67,7 @@ class DataMigrationApi:
 
         :param vardok_id: The ID of the definition in Vardok. (required)
         :type vardok_id: str
-        :param active_group: The group which the user currently represents. (required)
+        :param active_group: The group which the user currently represents.
         :type active_group: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -119,9 +119,9 @@ class DataMigrationApi:
             StrictStr, Field(description="The ID of the definition in Vardok.")
         ],
         active_group: Annotated[
-            StrictStr,
+            StrictStr | None,
             Field(description="The group which the user currently represents."),
-        ],
+        ] = None,
         _request_timeout: None
         | Annotated[StrictFloat, Field(gt=0)]
         | tuple[
@@ -138,7 +138,7 @@ class DataMigrationApi:
 
         :param vardok_id: The ID of the definition in Vardok. (required)
         :type vardok_id: str
-        :param active_group: The group which the user currently represents. (required)
+        :param active_group: The group which the user currently represents.
         :type active_group: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -190,9 +190,9 @@ class DataMigrationApi:
             StrictStr, Field(description="The ID of the definition in Vardok.")
         ],
         active_group: Annotated[
-            StrictStr,
+            StrictStr | None,
             Field(description="The group which the user currently represents."),
-        ],
+        ] = None,
         _request_timeout: None
         | Annotated[StrictFloat, Field(gt=0)]
         | tuple[
@@ -209,7 +209,7 @@ class DataMigrationApi:
 
         :param vardok_id: The ID of the definition in Vardok. (required)
         :type vardok_id: str
-        :param active_group: The group which the user currently represents. (required)
+        :param active_group: The group which the user currently represents.
         :type active_group: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request

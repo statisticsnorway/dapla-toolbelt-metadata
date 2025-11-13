@@ -46,15 +46,15 @@ class PatchesApi:
             StrictStr,
             Field(description="Unique identifier for the variable definition."),
         ],
-        active_group: Annotated[
-            StrictStr,
-            Field(description="The group which the user currently represents."),
-        ],
         valid_from: Annotated[
             date | None,
             Field(
                 description="Valid from date for the specific validity period to be patched."
             ),
+        ] = None,
+        active_group: Annotated[
+            StrictStr | None,
+            Field(description="The group which the user currently represents."),
         ] = None,
         patch: Patch | None = None,
         _request_timeout: None
@@ -73,10 +73,10 @@ class PatchesApi:
 
         :param variable_definition_id: Unique identifier for the variable definition. (required)
         :type variable_definition_id: str
-        :param active_group: The group which the user currently represents. (required)
-        :type active_group: str
         :param valid_from: Valid from date for the specific validity period to be patched.
         :type valid_from: date
+        :param active_group: The group which the user currently represents.
+        :type active_group: str
         :param patch:
         :type patch: Patch
         :param _request_timeout: timeout setting for this request. If one
@@ -102,8 +102,8 @@ class PatchesApi:
         """
         _param = self._create_patch_serialize(
             variable_definition_id=variable_definition_id,
-            active_group=active_group,
             valid_from=valid_from,
+            active_group=active_group,
             patch=patch,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -133,15 +133,15 @@ class PatchesApi:
             StrictStr,
             Field(description="Unique identifier for the variable definition."),
         ],
-        active_group: Annotated[
-            StrictStr,
-            Field(description="The group which the user currently represents."),
-        ],
         valid_from: Annotated[
             date | None,
             Field(
                 description="Valid from date for the specific validity period to be patched."
             ),
+        ] = None,
+        active_group: Annotated[
+            StrictStr | None,
+            Field(description="The group which the user currently represents."),
         ] = None,
         patch: Patch | None = None,
         _request_timeout: None
@@ -160,10 +160,10 @@ class PatchesApi:
 
         :param variable_definition_id: Unique identifier for the variable definition. (required)
         :type variable_definition_id: str
-        :param active_group: The group which the user currently represents. (required)
-        :type active_group: str
         :param valid_from: Valid from date for the specific validity period to be patched.
         :type valid_from: date
+        :param active_group: The group which the user currently represents.
+        :type active_group: str
         :param patch:
         :type patch: Patch
         :param _request_timeout: timeout setting for this request. If one
@@ -189,8 +189,8 @@ class PatchesApi:
         """
         _param = self._create_patch_serialize(
             variable_definition_id=variable_definition_id,
-            active_group=active_group,
             valid_from=valid_from,
+            active_group=active_group,
             patch=patch,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -220,15 +220,15 @@ class PatchesApi:
             StrictStr,
             Field(description="Unique identifier for the variable definition."),
         ],
-        active_group: Annotated[
-            StrictStr,
-            Field(description="The group which the user currently represents."),
-        ],
         valid_from: Annotated[
             date | None,
             Field(
                 description="Valid from date for the specific validity period to be patched."
             ),
+        ] = None,
+        active_group: Annotated[
+            StrictStr | None,
+            Field(description="The group which the user currently represents."),
         ] = None,
         patch: Patch | None = None,
         _request_timeout: None
@@ -247,10 +247,10 @@ class PatchesApi:
 
         :param variable_definition_id: Unique identifier for the variable definition. (required)
         :type variable_definition_id: str
-        :param active_group: The group which the user currently represents. (required)
-        :type active_group: str
         :param valid_from: Valid from date for the specific validity period to be patched.
         :type valid_from: date
+        :param active_group: The group which the user currently represents.
+        :type active_group: str
         :param patch:
         :type patch: Patch
         :param _request_timeout: timeout setting for this request. If one
@@ -276,8 +276,8 @@ class PatchesApi:
         """
         _param = self._create_patch_serialize(
             variable_definition_id=variable_definition_id,
-            active_group=active_group,
             valid_from=valid_from,
+            active_group=active_group,
             patch=patch,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -299,8 +299,8 @@ class PatchesApi:
     def _create_patch_serialize(
         self,
         variable_definition_id,
-        active_group,
         valid_from,
+        active_group,
         patch,
         _request_auth,
         _content_type,
