@@ -2,15 +2,10 @@ import pytest
 
 from dapla_metadata._shared.config import DAPLA_GROUP_CONTEXT
 from dapla_metadata._shared.config import DAPLA_REGION
-from dapla_metadata._shared.config import DAPLA_SERVICE
-from dapla_metadata._shared.config import JUPYTERHUB_USER
 from dapla_metadata._shared.config import OIDC_TOKEN
 from dapla_metadata._shared.enums import DaplaRegion
-from dapla_metadata._shared.enums import DaplaService
 from dapla_metadata.dapla import user_info
 from dapla_metadata.dapla.user_info import DaplaLabUserInfo
-from dapla_metadata.dapla.user_info import JupyterHubUserInfo
-from dapla_metadata.dapla.user_info import TestUserInfo
 from dapla_metadata.dapla.user_info import UnknownUserInfo
 from dapla_metadata.dapla.user_info import UserInfo
 
@@ -18,7 +13,6 @@ from dapla_metadata.dapla.user_info import UserInfo
 @pytest.mark.parametrize(
     ("environment_variable_name", "environment_variable_value", "expected_class"),
     [
-        (DAPLA_SERVICE, DaplaService.JUPYTERLAB.value, JupyterHubUserInfo),
         (DAPLA_REGION, DaplaRegion.DAPLA_LAB.value, DaplaLabUserInfo),
         (None, None, UnknownUserInfo),
     ],
@@ -32,11 +26,6 @@ def test_get_user_info_for_current_platform(
     if environment_variable_name:
         monkeypatch.setenv(environment_variable_name, environment_variable_value)
     assert isinstance(user_info.get_user_info_for_current_platform(), expected_class)
-
-
-def test_jupyterhub_user_info_short_email(monkeypatch: pytest.MonkeyPatch):
-    monkeypatch.setenv(JUPYTERHUB_USER, TestUserInfo.PLACEHOLDER_EMAIL_ADDRESS)
-    assert JupyterHubUserInfo().short_email == TestUserInfo.PLACEHOLDER_EMAIL_ADDRESS
 
 
 def test_dapla_lab_user_info_short_email(
