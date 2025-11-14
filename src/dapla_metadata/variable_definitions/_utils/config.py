@@ -42,7 +42,7 @@ def get_vardef_host() -> str:
 def refresh_access_token() -> str:
     # TODO @mmwinther: https://github.com/statisticsnorway/dapla-auth-client/issues/29
     # Remove catch_warnings when this issue is resolved
-    with warnings.catch_warnings(category=DeprecationWarning):
+    with warnings.catch_warnings():
         return AuthClient.fetch_personal_token(
             scopes=["all_groups", "current_group"], audiences=["vardef"]
         )
