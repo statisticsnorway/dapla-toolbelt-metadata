@@ -1,6 +1,9 @@
 import warnings
 
-from dapla_auth_client import AuthClient
+# TODO @mmwinther: https://github.com/statisticsnorway/dapla-auth-client/issues/29
+# Remove catch_warnings when this issue is resolved
+with warnings.catch_warnings():
+    from dapla_auth_client import AuthClient
 
 from dapla_metadata._shared.config import get_config_item
 from dapla_metadata._shared.config import get_dapla_environment
