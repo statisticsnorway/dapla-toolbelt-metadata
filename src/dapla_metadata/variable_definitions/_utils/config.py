@@ -1,3 +1,5 @@
+import warnings
+
 from dapla_auth_client import AuthClient
 
 from dapla_metadata._shared.config import get_config_item
@@ -38,9 +40,12 @@ def get_vardef_host() -> str:
 
 
 def refresh_access_token() -> str:
-    return AuthClient.fetch_personal_token(
-        scopes=["all_groups", "current_group"], audiences=["vardef"]
-    )
+    # TODO @mmwinther: https://github.com/statisticsnorway/dapla-auth-client/issues/29
+    # Remove catch_warnings when this issue is resolved
+    with warnings.catch_warnings(category=DeprecationWarning):
+        return AuthClient.fetch_personal_token(
+            scopes=["all_groups", "current_group"], audiences=["vardef"]
+        )
 
 
 def get_vardef_client_configuration() -> Configuration:
