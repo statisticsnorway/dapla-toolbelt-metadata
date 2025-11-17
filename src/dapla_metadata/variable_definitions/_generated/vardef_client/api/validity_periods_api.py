@@ -45,10 +45,6 @@ class ValidityPeriodsApi:
             StrictStr,
             Field(description="Unique identifier for the variable definition."),
         ],
-        active_group: Annotated[
-            StrictStr | None,
-            Field(description="The group which the user currently represents."),
-        ] = None,
         validity_period: ValidityPeriod | None = None,
         _request_timeout: None
         | Annotated[StrictFloat, Field(gt=0)]
@@ -66,8 +62,6 @@ class ValidityPeriodsApi:
 
         :param variable_definition_id: Unique identifier for the variable definition. (required)
         :type variable_definition_id: str
-        :param active_group: The group which the user currently represents.
-        :type active_group: str
         :param validity_period:
         :type validity_period: ValidityPeriod
         :param _request_timeout: timeout setting for this request. If one
@@ -93,7 +87,6 @@ class ValidityPeriodsApi:
         """
         _param = self._create_validity_period_serialize(
             variable_definition_id=variable_definition_id,
-            active_group=active_group,
             validity_period=validity_period,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -123,10 +116,6 @@ class ValidityPeriodsApi:
             StrictStr,
             Field(description="Unique identifier for the variable definition."),
         ],
-        active_group: Annotated[
-            StrictStr | None,
-            Field(description="The group which the user currently represents."),
-        ] = None,
         validity_period: ValidityPeriod | None = None,
         _request_timeout: None
         | Annotated[StrictFloat, Field(gt=0)]
@@ -144,8 +133,6 @@ class ValidityPeriodsApi:
 
         :param variable_definition_id: Unique identifier for the variable definition. (required)
         :type variable_definition_id: str
-        :param active_group: The group which the user currently represents.
-        :type active_group: str
         :param validity_period:
         :type validity_period: ValidityPeriod
         :param _request_timeout: timeout setting for this request. If one
@@ -171,7 +158,6 @@ class ValidityPeriodsApi:
         """
         _param = self._create_validity_period_serialize(
             variable_definition_id=variable_definition_id,
-            active_group=active_group,
             validity_period=validity_period,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -201,10 +187,6 @@ class ValidityPeriodsApi:
             StrictStr,
             Field(description="Unique identifier for the variable definition."),
         ],
-        active_group: Annotated[
-            StrictStr | None,
-            Field(description="The group which the user currently represents."),
-        ] = None,
         validity_period: ValidityPeriod | None = None,
         _request_timeout: None
         | Annotated[StrictFloat, Field(gt=0)]
@@ -222,8 +204,6 @@ class ValidityPeriodsApi:
 
         :param variable_definition_id: Unique identifier for the variable definition. (required)
         :type variable_definition_id: str
-        :param active_group: The group which the user currently represents.
-        :type active_group: str
         :param validity_period:
         :type validity_period: ValidityPeriod
         :param _request_timeout: timeout setting for this request. If one
@@ -249,7 +229,6 @@ class ValidityPeriodsApi:
         """
         _param = self._create_validity_period_serialize(
             variable_definition_id=variable_definition_id,
-            active_group=active_group,
             validity_period=validity_period,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -271,7 +250,6 @@ class ValidityPeriodsApi:
     def _create_validity_period_serialize(
         self,
         variable_definition_id,
-        active_group,
         validity_period,
         _request_auth,
         _content_type,
@@ -295,9 +273,6 @@ class ValidityPeriodsApi:
         if variable_definition_id is not None:
             _path_params["variable-definition-id"] = variable_definition_id
         # process the query parameters
-        if active_group is not None:
-            _query_params.append(("active_group", active_group))
-
         # process the header parameters
         # process the form parameters
         # process the body parameter

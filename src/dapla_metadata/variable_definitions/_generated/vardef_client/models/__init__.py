@@ -24,6 +24,7 @@ from ..models.language_string_type import LanguageStringType
 from ..models.owner import Owner
 from ..models.patch import Patch
 from ..models.problem import Problem
+from ..models.status_type import StatusType
 from ..models.update_draft import UpdateDraft
 from ..models.validity_period import ValidityPeriod
 from ..models.vardok_id_response import VardokIdResponse

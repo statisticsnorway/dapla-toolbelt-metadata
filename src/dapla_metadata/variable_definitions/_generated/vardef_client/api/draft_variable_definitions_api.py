@@ -42,10 +42,6 @@ class DraftVariableDefinitionsApi:
     @validate_call
     def create_variable_definition(
         self,
-        active_group: Annotated[
-            StrictStr | None,
-            Field(description="The group which the user currently represents."),
-        ] = None,
         draft: Draft | None = None,
         _request_timeout: None
         | Annotated[StrictFloat, Field(gt=0)]
@@ -61,8 +57,6 @@ class DraftVariableDefinitionsApi:
 
         Create a variable definition. New variable definitions are automatically assigned status DRAFT and must include all required fields. Attempts to specify id or variable_status in a request will receive 400 BAD REQUEST responses.
 
-        :param active_group: The group which the user currently represents.
-        :type active_group: str
         :param draft:
         :type draft: Draft
         :param _request_timeout: timeout setting for this request. If one
@@ -87,7 +81,6 @@ class DraftVariableDefinitionsApi:
         :return: Returns the result object.
         """
         _param = self._create_variable_definition_serialize(
-            active_group=active_group,
             draft=draft,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -112,10 +105,6 @@ class DraftVariableDefinitionsApi:
     @validate_call
     def create_variable_definition_with_http_info(
         self,
-        active_group: Annotated[
-            StrictStr | None,
-            Field(description="The group which the user currently represents."),
-        ] = None,
         draft: Draft | None = None,
         _request_timeout: None
         | Annotated[StrictFloat, Field(gt=0)]
@@ -131,8 +120,6 @@ class DraftVariableDefinitionsApi:
 
         Create a variable definition. New variable definitions are automatically assigned status DRAFT and must include all required fields. Attempts to specify id or variable_status in a request will receive 400 BAD REQUEST responses.
 
-        :param active_group: The group which the user currently represents.
-        :type active_group: str
         :param draft:
         :type draft: Draft
         :param _request_timeout: timeout setting for this request. If one
@@ -157,7 +144,6 @@ class DraftVariableDefinitionsApi:
         :return: Returns the result object.
         """
         _param = self._create_variable_definition_serialize(
-            active_group=active_group,
             draft=draft,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -182,10 +168,6 @@ class DraftVariableDefinitionsApi:
     @validate_call
     def create_variable_definition_without_preload_content(
         self,
-        active_group: Annotated[
-            StrictStr | None,
-            Field(description="The group which the user currently represents."),
-        ] = None,
         draft: Draft | None = None,
         _request_timeout: None
         | Annotated[StrictFloat, Field(gt=0)]
@@ -201,8 +183,6 @@ class DraftVariableDefinitionsApi:
 
         Create a variable definition. New variable definitions are automatically assigned status DRAFT and must include all required fields. Attempts to specify id or variable_status in a request will receive 400 BAD REQUEST responses.
 
-        :param active_group: The group which the user currently represents.
-        :type active_group: str
         :param draft:
         :type draft: Draft
         :param _request_timeout: timeout setting for this request. If one
@@ -227,7 +207,6 @@ class DraftVariableDefinitionsApi:
         :return: Returns the result object.
         """
         _param = self._create_variable_definition_serialize(
-            active_group=active_group,
             draft=draft,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -247,7 +226,6 @@ class DraftVariableDefinitionsApi:
 
     def _create_variable_definition_serialize(
         self,
-        active_group,
         draft,
         _request_auth,
         _content_type,
@@ -269,9 +247,6 @@ class DraftVariableDefinitionsApi:
 
         # process the path parameters
         # process the query parameters
-        if active_group is not None:
-            _query_params.append(("active_group", active_group))
-
         # process the header parameters
         # process the form parameters
         # process the body parameter
@@ -319,10 +294,6 @@ class DraftVariableDefinitionsApi:
             StrictStr,
             Field(description="Unique identifier for the variable definition."),
         ],
-        active_group: Annotated[
-            StrictStr | None,
-            Field(description="The group which the user currently represents."),
-        ] = None,
         _request_timeout: None
         | Annotated[StrictFloat, Field(gt=0)]
         | tuple[
@@ -339,8 +310,6 @@ class DraftVariableDefinitionsApi:
 
         :param variable_definition_id: Unique identifier for the variable definition. (required)
         :type variable_definition_id: str
-        :param active_group: The group which the user currently represents.
-        :type active_group: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -364,7 +333,6 @@ class DraftVariableDefinitionsApi:
         """
         _param = self._delete_variable_definition_by_id_serialize(
             variable_definition_id=variable_definition_id,
-            active_group=active_group,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -392,10 +360,6 @@ class DraftVariableDefinitionsApi:
             StrictStr,
             Field(description="Unique identifier for the variable definition."),
         ],
-        active_group: Annotated[
-            StrictStr | None,
-            Field(description="The group which the user currently represents."),
-        ] = None,
         _request_timeout: None
         | Annotated[StrictFloat, Field(gt=0)]
         | tuple[
@@ -412,8 +376,6 @@ class DraftVariableDefinitionsApi:
 
         :param variable_definition_id: Unique identifier for the variable definition. (required)
         :type variable_definition_id: str
-        :param active_group: The group which the user currently represents.
-        :type active_group: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -437,7 +399,6 @@ class DraftVariableDefinitionsApi:
         """
         _param = self._delete_variable_definition_by_id_serialize(
             variable_definition_id=variable_definition_id,
-            active_group=active_group,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -465,10 +426,6 @@ class DraftVariableDefinitionsApi:
             StrictStr,
             Field(description="Unique identifier for the variable definition."),
         ],
-        active_group: Annotated[
-            StrictStr | None,
-            Field(description="The group which the user currently represents."),
-        ] = None,
         _request_timeout: None
         | Annotated[StrictFloat, Field(gt=0)]
         | tuple[
@@ -485,8 +442,6 @@ class DraftVariableDefinitionsApi:
 
         :param variable_definition_id: Unique identifier for the variable definition. (required)
         :type variable_definition_id: str
-        :param active_group: The group which the user currently represents.
-        :type active_group: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -510,7 +465,6 @@ class DraftVariableDefinitionsApi:
         """
         _param = self._delete_variable_definition_by_id_serialize(
             variable_definition_id=variable_definition_id,
-            active_group=active_group,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -530,7 +484,6 @@ class DraftVariableDefinitionsApi:
     def _delete_variable_definition_by_id_serialize(
         self,
         variable_definition_id,
-        active_group,
         _request_auth,
         _content_type,
         _headers,
@@ -553,9 +506,6 @@ class DraftVariableDefinitionsApi:
         if variable_definition_id is not None:
             _path_params["variable-definition-id"] = variable_definition_id
         # process the query parameters
-        if active_group is not None:
-            _query_params.append(("active_group", active_group))
-
         # process the header parameters
         # process the form parameters
         # process the body parameter
@@ -591,10 +541,6 @@ class DraftVariableDefinitionsApi:
             StrictStr,
             Field(description="Unique identifier for the variable definition."),
         ],
-        active_group: Annotated[
-            StrictStr | None,
-            Field(description="The group which the user currently represents."),
-        ] = None,
         update_draft: UpdateDraft | None = None,
         _request_timeout: None
         | Annotated[StrictFloat, Field(gt=0)]
@@ -612,8 +558,6 @@ class DraftVariableDefinitionsApi:
 
         :param variable_definition_id: Unique identifier for the variable definition. (required)
         :type variable_definition_id: str
-        :param active_group: The group which the user currently represents.
-        :type active_group: str
         :param update_draft:
         :type update_draft: UpdateDraft
         :param _request_timeout: timeout setting for this request. If one
@@ -639,7 +583,6 @@ class DraftVariableDefinitionsApi:
         """
         _param = self._update_variable_definition_by_id_serialize(
             variable_definition_id=variable_definition_id,
-            active_group=active_group,
             update_draft=update_draft,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -670,10 +613,6 @@ class DraftVariableDefinitionsApi:
             StrictStr,
             Field(description="Unique identifier for the variable definition."),
         ],
-        active_group: Annotated[
-            StrictStr | None,
-            Field(description="The group which the user currently represents."),
-        ] = None,
         update_draft: UpdateDraft | None = None,
         _request_timeout: None
         | Annotated[StrictFloat, Field(gt=0)]
@@ -691,8 +630,6 @@ class DraftVariableDefinitionsApi:
 
         :param variable_definition_id: Unique identifier for the variable definition. (required)
         :type variable_definition_id: str
-        :param active_group: The group which the user currently represents.
-        :type active_group: str
         :param update_draft:
         :type update_draft: UpdateDraft
         :param _request_timeout: timeout setting for this request. If one
@@ -718,7 +655,6 @@ class DraftVariableDefinitionsApi:
         """
         _param = self._update_variable_definition_by_id_serialize(
             variable_definition_id=variable_definition_id,
-            active_group=active_group,
             update_draft=update_draft,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -749,10 +685,6 @@ class DraftVariableDefinitionsApi:
             StrictStr,
             Field(description="Unique identifier for the variable definition."),
         ],
-        active_group: Annotated[
-            StrictStr | None,
-            Field(description="The group which the user currently represents."),
-        ] = None,
         update_draft: UpdateDraft | None = None,
         _request_timeout: None
         | Annotated[StrictFloat, Field(gt=0)]
@@ -770,8 +702,6 @@ class DraftVariableDefinitionsApi:
 
         :param variable_definition_id: Unique identifier for the variable definition. (required)
         :type variable_definition_id: str
-        :param active_group: The group which the user currently represents.
-        :type active_group: str
         :param update_draft:
         :type update_draft: UpdateDraft
         :param _request_timeout: timeout setting for this request. If one
@@ -797,7 +727,6 @@ class DraftVariableDefinitionsApi:
         """
         _param = self._update_variable_definition_by_id_serialize(
             variable_definition_id=variable_definition_id,
-            active_group=active_group,
             update_draft=update_draft,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -820,7 +749,6 @@ class DraftVariableDefinitionsApi:
     def _update_variable_definition_by_id_serialize(
         self,
         variable_definition_id,
-        active_group,
         update_draft,
         _request_auth,
         _content_type,
@@ -844,9 +772,6 @@ class DraftVariableDefinitionsApi:
         if variable_definition_id is not None:
             _path_params["variable-definition-id"] = variable_definition_id
         # process the query parameters
-        if active_group is not None:
-            _query_params.append(("active_group", active_group))
-
         # process the header parameters
         # process the form parameters
         # process the body parameter

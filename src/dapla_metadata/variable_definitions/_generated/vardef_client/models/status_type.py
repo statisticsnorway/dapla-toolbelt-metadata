@@ -19,29 +19,17 @@ from typing import ClassVar
 
 from pydantic import BaseModel
 from pydantic import ConfigDict
+from pydantic import StrictInt
 from pydantic import StrictStr
 from typing_extensions import Self
 
-from ..models.status_type import StatusType
 
+class StatusType(BaseModel):
+    """StatusType"""
 
-class Problem(BaseModel):
-    """Problem"""
-
-    type: StrictStr
-    title: StrictStr
-    status: StatusType
-    detail: StrictStr
-    instance: StrictStr
-    parameters: dict[str, dict[str, Any]]
-    __properties: ClassVar[list[str]] = [
-        "type",
-        "title",
-        "status",
-        "detail",
-        "instance",
-        "parameters",
-    ]
+    status_code: StrictInt
+    reason_phrase: StrictStr
+    __properties: ClassVar[list[str]] = ["status_code", "reason_phrase"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -60,7 +48,7 @@ class Problem(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Self | None:
-        """Create an instance of Problem from a JSON string"""
+        """Create an instance of StatusType from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> dict[str, Any]:
@@ -80,14 +68,11 @@ class Problem(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
-        # override the default output from pydantic by calling `to_dict()` of status
-        if self.status:
-            _dict["status"] = self.status.to_dict()
         return _dict
 
     @classmethod
     def from_dict(cls, obj: dict[str, Any] | None) -> Self | None:
-        """Create an instance of Problem from a dict"""
+        """Create an instance of StatusType from a dict"""
         if obj is None:
             return None
 
@@ -96,14 +81,8 @@ class Problem(BaseModel):
 
         _obj = cls.model_validate(
             {
-                "type": obj.get("type"),
-                "title": obj.get("title"),
-                "status": StatusType.from_dict(obj["status"])
-                if obj.get("status") is not None
-                else None,
-                "detail": obj.get("detail"),
-                "instance": obj.get("instance"),
-                "parameters": obj.get("parameters"),
+                "status_code": obj.get("status_code"),
+                "reason_phrase": obj.get("reason_phrase"),
             }
         )
         return _obj

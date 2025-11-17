@@ -233,15 +233,6 @@ paths:
           examples:
             Migrate Vardok:
               value: "1607"
-        - name: active_group
-          in: query
-          description: The group which the user currently represents.
-          explode: false
-          schema:
-            type: string
-            nullable: true
-          examples:
-            Migrate Vardok: {}
       responses:
         "201":
           description: Successfully created.
@@ -507,15 +498,6 @@ paths:
         id or variable_status in a request will receive 400 BAD REQUEST responses.
       operationId: createVariableDefinition
       parameters:
-        - name: active_group
-          in: query
-          description: The group which the user currently represents.
-          explode: false
-          schema:
-            type: string
-            nullable: true
-          examples:
-            Create draft: {}
       requestBody:
         content:
           application/json:
@@ -917,15 +899,6 @@ paths:
               value: wypvb3wd
             Not found:
               value: invalid id
-        - name: active_group
-          in: query
-          description: The group which the user currently represents.
-          explode: false
-          schema:
-            type: string
-            nullable: true
-          examples:
-            Delete: {}
       responses:
         "204":
           description: Successfully deleted
@@ -981,15 +954,6 @@ paths:
               value: wypvb3wd
             Not found:
               value: invalid id
-        - name: active_group
-          in: query
-          description: The group which the user currently represents.
-          explode: false
-          schema:
-            type: string
-            nullable: true
-          examples:
-            Update: {}
       requestBody:
         content:
           application/json:
@@ -1272,15 +1236,6 @@ paths:
           examples:
             Create patch:
               value: 1970-01-01
-        - name: active_group
-          in: query
-          description: The group which the user currently represents.
-          explode: false
-          schema:
-            type: string
-            nullable: true
-          examples:
-            Create patch: {}
       requestBody:
         content:
           application/json:
@@ -1714,15 +1669,6 @@ paths:
               value: wypvb3wd
             Not found:
               value: invalid id
-        - name: active_group
-          in: query
-          description: The group which the user currently represents.
-          explode: false
-          schema:
-            type: string
-            nullable: true
-          examples:
-            Create validity period: {}
       requestBody:
         content:
           application/json:
