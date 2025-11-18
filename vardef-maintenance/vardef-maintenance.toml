@@ -1,6 +1,6 @@
 [project]
 name = "vardef-maintenance"
-version = "0.1.0"
+version = "0.1.1"
 description = "Dependencies necessary to run Notebooks for maintenance of variable definitions at Statistics Norway."
 requires-python = "^3.10"                                                                                             # This should match the range in dapla-toolbelt-metadata
 dependencies = ["dapla-toolbelt-metadata>=0.10.0", "ipykernel"]
