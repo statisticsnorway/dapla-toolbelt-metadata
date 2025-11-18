@@ -387,7 +387,7 @@ class Configuration:
         """
         auth = {}
         if self.access_token is not None:
-            auth["keycloak_token"] = {
+            auth["labid_token"] = {
                 "type": "bearer",
                 "in": "header",
                 "format": "JWT",

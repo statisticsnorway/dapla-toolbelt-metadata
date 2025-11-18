@@ -52,10 +52,6 @@ class PatchesApi:
                 description="Valid from date for the specific validity period to be patched."
             ),
         ] = None,
-        active_group: Annotated[
-            StrictStr | None,
-            Field(description="The group which the user currently represents."),
-        ] = None,
         patch: Patch | None = None,
         _request_timeout: None
         | Annotated[StrictFloat, Field(gt=0)]
@@ -75,8 +71,6 @@ class PatchesApi:
         :type variable_definition_id: str
         :param valid_from: Valid from date for the specific validity period to be patched.
         :type valid_from: date
-        :param active_group: The group which the user currently represents.
-        :type active_group: str
         :param patch:
         :type patch: Patch
         :param _request_timeout: timeout setting for this request. If one
@@ -103,7 +97,6 @@ class PatchesApi:
         _param = self._create_patch_serialize(
             variable_definition_id=variable_definition_id,
             valid_from=valid_from,
-            active_group=active_group,
             patch=patch,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -139,10 +132,6 @@ class PatchesApi:
                 description="Valid from date for the specific validity period to be patched."
             ),
         ] = None,
-        active_group: Annotated[
-            StrictStr | None,
-            Field(description="The group which the user currently represents."),
-        ] = None,
         patch: Patch | None = None,
         _request_timeout: None
         | Annotated[StrictFloat, Field(gt=0)]
@@ -162,8 +151,6 @@ class PatchesApi:
         :type variable_definition_id: str
         :param valid_from: Valid from date for the specific validity period to be patched.
         :type valid_from: date
-        :param active_group: The group which the user currently represents.
-        :type active_group: str
         :param patch:
         :type patch: Patch
         :param _request_timeout: timeout setting for this request. If one
@@ -190,7 +177,6 @@ class PatchesApi:
         _param = self._create_patch_serialize(
             variable_definition_id=variable_definition_id,
             valid_from=valid_from,
-            active_group=active_group,
             patch=patch,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -226,10 +212,6 @@ class PatchesApi:
                 description="Valid from date for the specific validity period to be patched."
             ),
         ] = None,
-        active_group: Annotated[
-            StrictStr | None,
-            Field(description="The group which the user currently represents."),
-        ] = None,
         patch: Patch | None = None,
         _request_timeout: None
         | Annotated[StrictFloat, Field(gt=0)]
@@ -249,8 +231,6 @@ class PatchesApi:
         :type variable_definition_id: str
         :param valid_from: Valid from date for the specific validity period to be patched.
         :type valid_from: date
-        :param active_group: The group which the user currently represents.
-        :type active_group: str
         :param patch:
         :type patch: Patch
         :param _request_timeout: timeout setting for this request. If one
@@ -277,7 +257,6 @@ class PatchesApi:
         _param = self._create_patch_serialize(
             variable_definition_id=variable_definition_id,
             valid_from=valid_from,
-            active_group=active_group,
             patch=patch,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -300,7 +279,6 @@ class PatchesApi:
         self,
         variable_definition_id,
         valid_from,
-        active_group,
         patch,
         _request_auth,
         _content_type,
@@ -335,9 +313,6 @@ class PatchesApi:
             else:
                 _query_params.append(("valid_from", valid_from))
 
-        if active_group is not None:
-            _query_params.append(("active_group", active_group))
-
         # process the header parameters
         # process the form parameters
         # process the body parameter
@@ -361,7 +336,7 @@ class PatchesApi:
                 _header_params["Content-Type"] = _default_content_type
 
         # authentication setting
-        _auth_settings: list[str] = ["keycloak_token"]
+        _auth_settings: list[str] = ["labid_token"]
 
         return self.api_client.param_serialize(
             method="POST",
@@ -626,7 +601,7 @@ class PatchesApi:
             )
 
         # authentication setting
-        _auth_settings: list[str] = ["keycloak_token"]
+        _auth_settings: list[str] = ["labid_token"]
 
         return self.api_client.param_serialize(
             method="GET",
@@ -870,7 +845,7 @@ class PatchesApi:
             )
 
         # authentication setting
-        _auth_settings: list[str] = ["keycloak_token"]
+        _auth_settings: list[str] = ["labid_token"]
 
         return self.api_client.param_serialize(
             method="GET",

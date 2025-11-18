@@ -47,10 +47,6 @@ class DataMigrationApi:
         vardok_id: Annotated[
             StrictStr, Field(description="The ID of the definition in Vardok.")
         ],
-        active_group: Annotated[
-            StrictStr | None,
-            Field(description="The group which the user currently represents."),
-        ] = None,
         _request_timeout: None
         | Annotated[StrictFloat, Field(gt=0)]
         | tuple[
@@ -67,8 +63,6 @@ class DataMigrationApi:
 
         :param vardok_id: The ID of the definition in Vardok. (required)
         :type vardok_id: str
-        :param active_group: The group which the user currently represents.
-        :type active_group: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -92,7 +86,6 @@ class DataMigrationApi:
         """
         _param = self._create_variable_definition_from_var_dok_serialize(
             vardok_id=vardok_id,
-            active_group=active_group,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -118,10 +111,6 @@ class DataMigrationApi:
         vardok_id: Annotated[
             StrictStr, Field(description="The ID of the definition in Vardok.")
         ],
-        active_group: Annotated[
-            StrictStr | None,
-            Field(description="The group which the user currently represents."),
-        ] = None,
         _request_timeout: None
         | Annotated[StrictFloat, Field(gt=0)]
         | tuple[
@@ -138,8 +127,6 @@ class DataMigrationApi:
 
         :param vardok_id: The ID of the definition in Vardok. (required)
         :type vardok_id: str
-        :param active_group: The group which the user currently represents.
-        :type active_group: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -163,7 +150,6 @@ class DataMigrationApi:
         """
         _param = self._create_variable_definition_from_var_dok_serialize(
             vardok_id=vardok_id,
-            active_group=active_group,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -189,10 +175,6 @@ class DataMigrationApi:
         vardok_id: Annotated[
             StrictStr, Field(description="The ID of the definition in Vardok.")
         ],
-        active_group: Annotated[
-            StrictStr | None,
-            Field(description="The group which the user currently represents."),
-        ] = None,
         _request_timeout: None
         | Annotated[StrictFloat, Field(gt=0)]
         | tuple[
@@ -209,8 +191,6 @@ class DataMigrationApi:
 
         :param vardok_id: The ID of the definition in Vardok. (required)
         :type vardok_id: str
-        :param active_group: The group which the user currently represents.
-        :type active_group: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -234,7 +214,6 @@ class DataMigrationApi:
         """
         _param = self._create_variable_definition_from_var_dok_serialize(
             vardok_id=vardok_id,
-            active_group=active_group,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -253,7 +232,6 @@ class DataMigrationApi:
     def _create_variable_definition_from_var_dok_serialize(
         self,
         vardok_id,
-        active_group,
         _request_auth,
         _content_type,
         _headers,
@@ -276,9 +254,6 @@ class DataMigrationApi:
         if vardok_id is not None:
             _path_params["vardok-id"] = vardok_id
         # process the query parameters
-        if active_group is not None:
-            _query_params.append(("active_group", active_group))
-
         # process the header parameters
         # process the form parameters
         # process the body parameter
@@ -290,7 +265,7 @@ class DataMigrationApi:
             )
 
         # authentication setting
-        _auth_settings: list[str] = ["keycloak_token"]
+        _auth_settings: list[str] = ["labid_token"]
 
         return self.api_client.param_serialize(
             method="POST",
@@ -507,7 +482,7 @@ class DataMigrationApi:
             )
 
         # authentication setting
-        _auth_settings: list[str] = ["keycloak_token"]
+        _auth_settings: list[str] = ["labid_token"]
 
         return self.api_client.param_serialize(
             method="GET",
@@ -748,7 +723,7 @@ class DataMigrationApi:
             )
 
         # authentication setting
-        _auth_settings: list[str] = ["keycloak_token"]
+        _auth_settings: list[str] = ["labid_token"]
 
         return self.api_client.param_serialize(
             method="GET",

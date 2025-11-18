@@ -13,7 +13,6 @@ vardef_client/models/language_string_type.py
 vardef_client/models/owner.py
 vardef_client/models/patch.py
 vardef_client/models/problem.py
-vardef_client/models/status_type.py
 vardef_client/models/update_draft.py
 vardef_client/models/validity_period.py
 vardef_client/models/vardok_id_response.py
