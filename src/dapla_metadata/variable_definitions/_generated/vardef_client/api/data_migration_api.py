@@ -265,7 +265,7 @@ class DataMigrationApi:
             )
 
         # authentication setting
-        _auth_settings: list[str] = ["keycloak_token"]
+        _auth_settings: list[str] = ["labid_token"]
 
         return self.api_client.param_serialize(
             method="POST",
@@ -482,7 +482,7 @@ class DataMigrationApi:
             )
 
         # authentication setting
-        _auth_settings: list[str] = ["keycloak_token"]
+        _auth_settings: list[str] = ["labid_token"]
 
         return self.api_client.param_serialize(
             method="GET",
@@ -723,7 +723,7 @@ class DataMigrationApi:
             )
 
         # authentication setting
-        _auth_settings: list[str] = ["keycloak_token"]
+        _auth_settings: list[str] = ["labid_token"]
 
         return self.api_client.param_serialize(
             method="GET",

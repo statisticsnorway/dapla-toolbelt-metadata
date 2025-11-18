@@ -107,7 +107,7 @@ paths:
                     }
                     ]
       security:
-        - keycloak_token: []
+        - labid_token: []
   /vardok-migration/{id}:
     get:
       tags:
@@ -215,7 +215,7 @@ paths:
                   value:
                     vardok_id: "25"
       security:
-        - keycloak_token: []
+        - labid_token: []
   /vardok-migration/{vardok-id}:
     post:
       tags:
@@ -318,7 +318,7 @@ paths:
           content:
             application/problem+json:
               schema:
-                $ref: "#/components/schemas/Problem"
+                $ref: https://opensource.zalando.com/restful-api-guidelines/models/problem-1.0.1.yaml#/Problem
               examples:
                 Bad request:
                   value:
@@ -338,7 +338,7 @@ paths:
                       - field: classificationReference
                         message: Code incorrect is not a valid classification id
       security:
-        - keycloak_token: []
+        - labid_token: []
   /variable-definitions:
     get:
       tags:
@@ -487,7 +487,7 @@ paths:
                 Date not specified:
                   value: "[]"
       security:
-        - keycloak_token: []
+        - labid_token: []
     post:
       tags:
         - Draft Variable Definitions
@@ -497,7 +497,6 @@ paths:
         assigned status DRAFT and must include all required fields. Attempts to specify
         id or variable_status in a request will receive 400 BAD REQUEST responses.
       operationId: createVariableDefinition
-      parameters:
       requestBody:
         content:
           application/json:
@@ -649,7 +648,7 @@ paths:
           content:
             application/problem+json:
               schema:
-                $ref: "#/components/schemas/Problem"
+                $ref: https://opensource.zalando.com/restful-api-guidelines/models/problem-1.0.1.yaml#/Problem
               examples:
                 Bad request:
                   value:
@@ -673,7 +672,7 @@ paths:
           content:
             application/problem+json:
               schema:
-                $ref: "#/components/schemas/Problem"
+                $ref: https://opensource.zalando.com/restful-api-guidelines/models/problem-1.0.1.yaml#/Problem
               examples:
                 Conflict:
                   value:
@@ -681,7 +680,7 @@ paths:
                     status: 409
                     detail: Short name is already in use by another variable definition.
       security:
-        - keycloak_token: []
+        - labid_token: []
   /variable-definitions/{variable-definition-id}:
     get:
       tags:
@@ -871,7 +870,7 @@ paths:
           content:
             application/problem+json:
               schema:
-                $ref: "#/components/schemas/Problem"
+                $ref: https://opensource.zalando.com/restful-api-guidelines/models/problem-1.0.1.yaml#/Problem
               examples:
                 Not found:
                   value:
@@ -880,7 +879,7 @@ paths:
                     detail: Not found
                     parameters: {}
       security:
-        - keycloak_token: []
+        - labid_token: []
     delete:
       tags:
         - Draft Variable Definitions
@@ -912,7 +911,7 @@ paths:
           content:
             application/problem+json:
               schema:
-                $ref: "#/components/schemas/Problem"
+                $ref: https://opensource.zalando.com/restful-api-guidelines/models/problem-1.0.1.yaml#/Problem
               examples:
                 Not found:
                   value:
@@ -925,7 +924,7 @@ paths:
           content:
             application/problem+json:
               schema:
-                $ref: "#/components/schemas/Problem"
+                $ref: https://opensource.zalando.com/restful-api-guidelines/models/problem-1.0.1.yaml#/Problem
               examples:
                 Method not allowed:
                   value:
@@ -933,7 +932,7 @@ paths:
                     status: 405
                     detail: Not allowed for variable definitions with this status.
       security:
-        - keycloak_token: []
+        - labid_token: []
     patch:
       tags:
         - Draft Variable Definitions
@@ -1051,7 +1050,7 @@ paths:
           content:
             application/problem+json:
               schema:
-                $ref: "#/components/schemas/Problem"
+                $ref: https://opensource.zalando.com/restful-api-guidelines/models/problem-1.0.1.yaml#/Problem
               examples:
                 Bad request:
                   value:
@@ -1075,7 +1074,7 @@ paths:
           content:
             application/problem+json:
               schema:
-                $ref: "#/components/schemas/Problem"
+                $ref: https://opensource.zalando.com/restful-api-guidelines/models/problem-1.0.1.yaml#/Problem
               examples:
                 Not found:
                   value:
@@ -1088,7 +1087,7 @@ paths:
           content:
             application/problem+json:
               schema:
-                $ref: "#/components/schemas/Problem"
+                $ref: https://opensource.zalando.com/restful-api-guidelines/models/problem-1.0.1.yaml#/Problem
               examples:
                 Method not allowed:
                   value:
@@ -1100,7 +1099,7 @@ paths:
           content:
             application/problem+json:
               schema:
-                $ref: "#/components/schemas/Problem"
+                $ref: https://opensource.zalando.com/restful-api-guidelines/models/problem-1.0.1.yaml#/Problem
               examples:
                 Conflict:
                   value:
@@ -1108,7 +1107,7 @@ paths:
                     status: 409
                     detail: Short name is already in use by another variable definition.
       security:
-        - keycloak_token: []
+        - labid_token: []
   /variable-definitions/{variable-definition-id}/patches:
     get:
       tags:
@@ -1198,7 +1197,7 @@ paths:
           content:
             application/problem+json:
               schema:
-                $ref: "#/components/schemas/Problem"
+                $ref: https://opensource.zalando.com/restful-api-guidelines/models/problem-1.0.1.yaml#/Problem
               examples:
                 Not found:
                   value:
@@ -1207,7 +1206,7 @@ paths:
                     detail: Not found
                     parameters: {}
       security:
-        - keycloak_token: []
+        - labid_token: []
     post:
       tags:
         - Patches
@@ -1380,7 +1379,7 @@ paths:
           content:
             application/problem+json:
               schema:
-                $ref: "#/components/schemas/Problem"
+                $ref: https://opensource.zalando.com/restful-api-guidelines/models/problem-1.0.1.yaml#/Problem
               examples:
                 Not found:
                   value:
@@ -1393,7 +1392,7 @@ paths:
           content:
             application/problem+json:
               schema:
-                $ref: "#/components/schemas/Problem"
+                $ref: https://opensource.zalando.com/restful-api-guidelines/models/problem-1.0.1.yaml#/Problem
               examples:
                 Bad request:
                   value:
@@ -1417,7 +1416,7 @@ paths:
           content:
             application/problem+json:
               schema:
-                $ref: "#/components/schemas/Problem"
+                $ref: https://opensource.zalando.com/restful-api-guidelines/models/problem-1.0.1.yaml#/Problem
               examples:
                 Method not allowed:
                   value:
@@ -1425,7 +1424,7 @@ paths:
                     status: 405
                     detail: Not allowed for variable definitions with this status.
       security:
-        - keycloak_token: []
+        - labid_token: []
   /variable-definitions/{variable-definition-id}/patches/{patch-id}:
     get:
       tags:
@@ -1544,7 +1543,7 @@ paths:
           content:
             application/problem+json:
               schema:
-                $ref: "#/components/schemas/Problem"
+                $ref: https://opensource.zalando.com/restful-api-guidelines/models/problem-1.0.1.yaml#/Problem
               examples:
                 Not found:
                   value:
@@ -1553,7 +1552,7 @@ paths:
                     detail: Not found
                     parameters: {}
       security:
-        - keycloak_token: []
+        - labid_token: []
   /variable-definitions/{variable-definition-id}/validity-periods:
     get:
       tags:
@@ -1641,7 +1640,7 @@ paths:
           content:
             application/problem+json:
               schema:
-                $ref: "#/components/schemas/Problem"
+                $ref: https://opensource.zalando.com/restful-api-guidelines/models/problem-1.0.1.yaml#/Problem
               examples:
                 Not found:
                   value:
@@ -1650,7 +1649,7 @@ paths:
                     detail: Not found
                     parameters: {}
       security:
-        - keycloak_token: []
+        - labid_token: []
     post:
       tags:
         - Validity Periods
@@ -1791,7 +1790,7 @@ paths:
           content:
             application/problem+json:
               schema:
-                $ref: "#/components/schemas/Problem"
+                $ref: https://opensource.zalando.com/restful-api-guidelines/models/problem-1.0.1.yaml#/Problem
               examples:
                 Not found:
                   value:
@@ -1804,7 +1803,7 @@ paths:
           content:
             application/problem+json:
               schema:
-                $ref: "#/components/schemas/Problem"
+                $ref: https://opensource.zalando.com/restful-api-guidelines/models/problem-1.0.1.yaml#/Problem
               examples:
                 Bad request:
                   value:
@@ -1828,7 +1827,7 @@ paths:
           content:
             application/problem+json:
               schema:
-                $ref: "#/components/schemas/Problem"
+                $ref: https://opensource.zalando.com/restful-api-guidelines/models/problem-1.0.1.yaml#/Problem
               examples:
                 Method not allowed:
                   value:
@@ -1836,7 +1835,7 @@ paths:
                     status: 405
                     detail: Not allowed for variable definitions with this status.
       security:
-        - keycloak_token: []
+        - labid_token: []
 components:
   schemas:
     CompleteResponse:
@@ -2038,6 +2037,7 @@ components:
             \ sensitive: Ethnicity, Political alignment, Religion, Philosophical beliefs,\
             \ Union membership, Genetics, Biometrics, Health, Sexual relations, Sexual\
             \ orientation"
+          default: false
         measurement_type:
           type: string
           description:
@@ -2322,43 +2322,6 @@ components:
             nb: Seksjon for befolkningsstatistikk
             nn: Seksjon for befolkningsstatistikk
           email: s320@ssb.no
-    Problem:
-      required:
-        - detail
-        - instance
-        - parameters
-        - status
-        - title
-        - type
-      type: object
-      properties:
-        type:
-          type: string
-          format: uri
-        title:
-          type: string
-        status:
-          $ref: "#/components/schemas/StatusType"
-        detail:
-          type: string
-        instance:
-          type: string
-          format: uri
-        parameters:
-          type: object
-          additionalProperties:
-            type: object
-    StatusType:
-      required:
-        - reason_phrase
-        - status_code
-      type: object
-      properties:
-        status_code:
-          type: integer
-          format: int32
-        reason_phrase:
-          type: string
     UpdateDraft:
       type: object
       properties:
@@ -2664,10 +2627,10 @@ components:
         - PUBLISHED_INTERNAL
         - PUBLISHED_EXTERNAL
   securitySchemes:
-    keycloak_token:
+    labid_token:
       type: http
       description:
-        A token granted by Statistics Norway's Keycloak instance. May be
-        obtained from a <a href=https://lab.dapla.ssb.no>Dapla Lab</a> service.
+        A token granted by Statistics Norway's LabID instance. May be obtained
+        from a <a href=https://lab.dapla.ssb.no>Dapla Lab</a> service.
       scheme: bearer
       bearerFormat: JWT

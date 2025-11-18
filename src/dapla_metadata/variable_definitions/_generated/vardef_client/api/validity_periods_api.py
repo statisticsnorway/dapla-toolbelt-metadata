@@ -296,7 +296,7 @@ class ValidityPeriodsApi:
                 _header_params["Content-Type"] = _default_content_type
 
         # authentication setting
-        _auth_settings: list[str] = ["keycloak_token"]
+        _auth_settings: list[str] = ["labid_token"]
 
         return self.api_client.param_serialize(
             method="POST",
@@ -540,7 +540,7 @@ class ValidityPeriodsApi:
             )
 
         # authentication setting
-        _auth_settings: list[str] = ["keycloak_token"]
+        _auth_settings: list[str] = ["labid_token"]
 
         return self.api_client.param_serialize(
             method="GET",

@@ -270,7 +270,7 @@ class DraftVariableDefinitionsApi:
                 _header_params["Content-Type"] = _default_content_type
 
         # authentication setting
-        _auth_settings: list[str] = ["keycloak_token"]
+        _auth_settings: list[str] = ["labid_token"]
 
         return self.api_client.param_serialize(
             method="POST",
@@ -517,7 +517,7 @@ class DraftVariableDefinitionsApi:
             )
 
         # authentication setting
-        _auth_settings: list[str] = ["keycloak_token"]
+        _auth_settings: list[str] = ["labid_token"]
 
         return self.api_client.param_serialize(
             method="DELETE",
@@ -795,7 +795,7 @@ class DraftVariableDefinitionsApi:
                 _header_params["Content-Type"] = _default_content_type
 
         # authentication setting
-        _auth_settings: list[str] = ["keycloak_token"]
+        _auth_settings: list[str] = ["labid_token"]
 
         return self.api_client.param_serialize(
             method="PATCH",
