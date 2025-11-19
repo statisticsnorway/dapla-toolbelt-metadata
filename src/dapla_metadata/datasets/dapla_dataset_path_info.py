@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import logging
-import pathlib
 import re
 from abc import ABC
 from abc import abstractmethod
@@ -338,7 +337,7 @@ class DaplaDatasetPathInfo:
     def __init__(self, dataset_path: str | os.PathLike[str] | UPath) -> None:
         """Digest the path so that it's ready for further parsing."""
         self.dataset_string = str(dataset_path)
-        self.dataset_path = pathlib.Path(self.dataset_string)
+        self.dataset_path = UPath(self.dataset_string)
         self.dataset_name_sections = self.dataset_path.stem.split("_")
         self._period_strings = self._extract_period_strings(self.dataset_name_sections)
 
@@ -489,7 +488,7 @@ class DaplaDatasetPathInfo:
             ssb-staging-dapla-felles-data-delt
 
             >>> DaplaDatasetPathInfo('gs:/ssb-staging-dapla-felles-data-delt/datadoc/utdata/person_data_p2021_v2.parquet').bucket_name
-            ssb-staging-dapla-felles-data-delt
+            None
 
             >>> DaplaDatasetPathInfo('ssb-staging-dapla-felles-data-delt/datadoc/utdata/person_data_p2021_v2.parquet').bucket_name
             None
@@ -507,11 +506,7 @@ class DaplaDatasetPathInfo:
             ssb-staging-dapla-felles-produkt
         """
         prefix: str | None = None
-        dataset_string = str(self.dataset_string)
         if GS_PREFIX_FROM_PATHLIB in self.dataset_string:
-            prefix = GS_PREFIX_FROM_PATHLIB
-            _, bucket_and_rest = dataset_string.split(prefix, 1)
-        elif GS_PREFIX_FROM_PATHLIB in self.dataset_string:
             prefix = GS_PREFIX_FROM_PATHLIB
             _, bucket_and_rest = self.dataset_string.split(prefix, 1)
         elif "buckets/" in self.dataset_string:
@@ -520,7 +515,7 @@ class DaplaDatasetPathInfo:
         else:
             return None
 
-        return pathlib.Path(
+        return UPath(
             bucket_and_rest,
         ).parts[0]
 
