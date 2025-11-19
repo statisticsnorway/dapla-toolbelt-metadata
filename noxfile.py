@@ -118,7 +118,7 @@ def insert_header_in_hook(header: dict[str, str], lines: list[str]) -> str:
     return "\n".join(lines)
 
 
-@nox.session(name="pre-commit", python="3.12")
+@nox.session(name="pre-commit", python=python_versions[-1])
 def precommit(session: nox.Session) -> None:
     """Lint using pre-commit."""
     args = session.posargs or [
@@ -181,7 +181,7 @@ def tests(session: nox.Session) -> None:
             session.notify("coverage", posargs=[])
 
 
-@nox.session(python="3.12")
+@nox.session(python=python_versions[-1])
 def coverage(session: nox.Session) -> None:
     """Produce the coverage report."""
     args = session.posargs or ["report", "--skip-empty"]
@@ -194,7 +194,7 @@ def coverage(session: nox.Session) -> None:
     session.run("coverage", *args)
 
 
-@nox.session(python="3.12")
+@nox.session(python=python_versions[-1])
 def typeguard(session: nox.Session) -> None:
     """Runtime type checking using Typeguard."""
     session.install(".")
@@ -202,7 +202,7 @@ def typeguard(session: nox.Session) -> None:
     session.run("pytest", f"--typeguard-packages={package}.datasets", *session.posargs)
 
 
-@nox.session(python="3.12")
+@nox.session(python=python_versions[-1])
 def xdoctest(session: nox.Session) -> None:
     """Run examples with xdoctest."""
     if session.posargs:
@@ -217,7 +217,7 @@ def xdoctest(session: nox.Session) -> None:
     session.run("python", "-m", "xdoctest", *args)
 
 
-@nox.session(name="docs-build", python="3.12")
+@nox.session(name="docs-build", python=python_versions[-1])
 def docs_build(session: nox.Session) -> None:
     """Build the documentation."""
     args = session.posargs or ["docs", "docs/_build"]
