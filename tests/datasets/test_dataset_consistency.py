@@ -1,6 +1,7 @@
 import contextlib
 from pathlib import Path
 
+import fsspec
 import pytest
 from datadoc_model.all_optional.model import DatadocMetadata
 from datadoc_model.all_optional.model import DataType
