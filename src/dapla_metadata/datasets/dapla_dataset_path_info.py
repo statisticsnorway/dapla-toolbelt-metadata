@@ -13,6 +13,7 @@ from typing import Literal
 
 import arrow
 from datadoc_model.all_optional.model import DataSetState
+from upath import UPath
 
 from dapla_metadata.datasets.utility.constants import GS_PREFIX_FROM_PATHLIB
 
@@ -21,7 +22,6 @@ if TYPE_CHECKING:
     import os
     from datetime import date
 
-    from upath import UPath
 
 logger = logging.getLogger(__name__)
 
