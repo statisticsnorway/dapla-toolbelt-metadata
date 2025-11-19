@@ -9,13 +9,10 @@ from typing import TypeAlias
 
 import datadoc_model.all_optional.model as all_optional_model
 import datadoc_model.required.model as required_model
-import google.auth
-from cloudpathlib import CloudPath
-from cloudpathlib import GSClient
-from cloudpathlib import GSPath
 from datadoc_model.all_optional.model import Assessment
 from datadoc_model.all_optional.model import DataSetState
 from datadoc_model.all_optional.model import VariableRole
+from upath import UPath
 
 from dapla_metadata.dapla import user_info
 from dapla_metadata.datasets.utility.constants import DAEAD_ENCRYPTION_KEY_REFERENCE
@@ -69,7 +66,7 @@ def get_timestamp_now() -> datetime.datetime:
     return datetime.datetime.now(tz=datetime.timezone.utc)
 
 
-def normalize_path(path: str) -> pathlib.Path | CloudPath:
+def normalize_path(path: str) -> pathlib.Path | UPath:
     """Obtain a pathlib compatible Path.
 
     Obtains a pathlib compatible Path regardless of whether the file is on a filesystem or in GCS.
@@ -80,9 +77,9 @@ def normalize_path(path: str) -> pathlib.Path | CloudPath:
     Returns:
         Pathlib compatible object.
     """
-    if path.startswith(GSPath.cloud_prefix):
-        client = GSClient(credentials=google.auth.default()[0])
-        return GSPath(path, client=client)
+    if path.startswith("gs://"):
+        # UPath automatically handles GCS authentication via google.auth
+        return UPath(path)
     return pathlib.Path(path)
 
 

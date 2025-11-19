@@ -57,7 +57,7 @@ if TYPE_CHECKING:
     import pathlib
     from datetime import datetime
 
-    from cloudpathlib import CloudPath
+    from upath import UPath
 
 logger = logging.getLogger(__name__)
 
@@ -108,9 +108,9 @@ class Datadoc:
         self.validate_required_fields_on_existing_metadata = (
             validate_required_fields_on_existing_metadata
         )
-        self.metadata_document: pathlib.Path | CloudPath | None = None
+        self.metadata_document: pathlib.Path | UPath | None = None
         self.container: all_optional_model.MetadataContainer | None = None
-        self.dataset_path: pathlib.Path | CloudPath | None = None
+        self.dataset_path: pathlib.Path | UPath | None = None
         self.dataset = all_optional_model.Dataset()
         self.variables: VariableListType = []
         self.variables_lookup: dict[str, VariableType] = {}
@@ -234,7 +234,7 @@ class Datadoc:
 
     def _extract_metadata_from_existing_document(
         self,
-        document: pathlib.Path | CloudPath,
+        document: pathlib.Path | UPath,
     ) -> OptionalDatadocMetadataType:
         """Read metadata from an existing metadata document.
 
@@ -317,7 +317,7 @@ class Datadoc:
 
     def _extract_metadata_from_dataset(
         self,
-        dataset: pathlib.Path | CloudPath,
+        dataset: pathlib.Path | UPath,
     ) -> all_optional_model.DatadocMetadata:
         """Obtain what metadata we can from the dataset itself.
 
@@ -366,8 +366,8 @@ class Datadoc:
 
     @staticmethod
     def build_metadata_document_path(
-        dataset_path: pathlib.Path | CloudPath,
-    ) -> pathlib.Path | CloudPath:
+        dataset_path: pathlib.Path | UPath,
+    ) -> pathlib.Path | UPath:
         """Build the path to the metadata document corresponding to the given dataset.
 
         Args:

@@ -13,7 +13,6 @@ from typing import Final
 from typing import Literal
 
 import arrow
-from cloudpathlib import GSPath
 from datadoc_model.all_optional.model import DataSetState
 
 if TYPE_CHECKING:
@@ -337,7 +336,8 @@ class DaplaDatasetPathInfo:
     def __init__(self, dataset_path: str | os.PathLike[str]) -> None:
         """Digest the path so that it's ready for further parsing."""
         self.dataset_string = str(dataset_path)
-        self.dataset_path = pathlib.Path(dataset_path)
+        # Convert to string first to handle UPath objects which pathlib.Path can't accept directly
+        self.dataset_path = pathlib.Path(self.dataset_string)
         self.dataset_name_sections = self.dataset_path.stem.split("_")
         self._period_strings = self._extract_period_strings(self.dataset_name_sections)
 
@@ -507,8 +507,8 @@ class DaplaDatasetPathInfo:
         """
         prefix: str | None = None
         dataset_string = str(self.dataset_string)
-        if GSPath.cloud_prefix in self.dataset_string:
-            prefix = GSPath.cloud_prefix
+        if "gs://" in self.dataset_string:
+            prefix = "gs://"
             _, bucket_and_rest = dataset_string.split(prefix, 1)
         elif GS_PREFIX_FROM_PATHLIB in self.dataset_string:
             prefix = GS_PREFIX_FROM_PATHLIB

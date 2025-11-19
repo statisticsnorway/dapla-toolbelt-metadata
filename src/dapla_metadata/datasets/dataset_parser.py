@@ -22,7 +22,7 @@ from dapla_metadata.datasets.utility.enums import SupportedLanguages
 
 if TYPE_CHECKING:
     import pyarrow as pa
-    from cloudpathlib import CloudPath
+    from upath import UPath
 
 KNOWN_INTEGER_TYPES = (
     "int",
@@ -109,12 +109,12 @@ class DatasetParser(ABC):
     - A method to extract variables (columns) from the dataset, so they may be documented.
     """
 
-    def __init__(self, dataset: pathlib.Path | CloudPath) -> None:
+    def __init__(self, dataset: pathlib.Path | UPath) -> None:
         """Initialize for a given dataset."""
         self.dataset = dataset
 
     @staticmethod
-    def for_file(dataset: pathlib.Path | CloudPath) -> DatasetParser:
+    def for_file(dataset: pathlib.Path | UPath) -> DatasetParser:
         """Return the correct subclass based on the given dataset file."""
         file_type = "Unknown"
         try:
@@ -167,7 +167,7 @@ class DatasetParser(ABC):
 class DatasetParserParquet(DatasetParser):
     """Concrete implementation for parsing parquet files."""
 
-    def __init__(self, dataset: pathlib.Path | CloudPath) -> None:
+    def __init__(self, dataset: pathlib.Path | UPath) -> None:
         """Call the super init method for initialization.
 
         Args:
@@ -193,7 +193,7 @@ class DatasetParserParquet(DatasetParser):
 class DatasetParserSas7Bdat(DatasetParser):
     """Concrete implementation for parsing SAS7BDAT files."""
 
-    def __init__(self, dataset: pathlib.Path | CloudPath) -> None:
+    def __init__(self, dataset: pathlib.Path | UPath) -> None:
         """Call the super init method for initialization.
 
         Args:

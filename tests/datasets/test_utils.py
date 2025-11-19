@@ -3,15 +3,13 @@ import os
 import pathlib
 
 import pytest
-from cloudpathlib.local import LocalGSClient
-from cloudpathlib.local import LocalGSPath
+from upath import UPath
 
 from dapla_metadata.datasets.utility.utils import calculate_percentage
 from dapla_metadata.datasets.utility.utils import get_current_date
 from dapla_metadata.datasets.utility.utils import incorrect_date_order
 from dapla_metadata.datasets.utility.utils import normalize_path
 from dapla_metadata.datasets.utility.utils import running_in_notebook
-from tests.datasets.constants import DATADOC_METADATA_MODULE_UTILS
 from tests.datasets.constants import TEST_BUCKET_PARQUET_FILEPATH
 from tests.datasets.constants import TEST_PARQUET_FILEPATH
 
@@ -19,25 +17,15 @@ from tests.datasets.constants import TEST_PARQUET_FILEPATH
 @pytest.mark.parametrize(
     ("dataset_path", "expected_type"),
     [
-        (TEST_BUCKET_PARQUET_FILEPATH, LocalGSPath),
+        (TEST_BUCKET_PARQUET_FILEPATH, UPath),
         (str(TEST_PARQUET_FILEPATH), pathlib.Path),
     ],
 )
 def test_normalize_path(
     dataset_path: str,
     expected_type: type[os.PathLike],
-    mocker,
 ):
-    mocker.patch(
-        f"{DATADOC_METADATA_MODULE_UTILS}.google.auth.default",
-        autospec=True,
-    )
-    mocker.patch(f"{DATADOC_METADATA_MODULE_UTILS}.GSClient", LocalGSClient)
-    mocker.patch(
-        f"{DATADOC_METADATA_MODULE_UTILS}.GSPath",
-        LocalGSPath,
-    )
-    file = normalize_path(  # for testing purposes
+    file = normalize_path(
         dataset_path,
     )
     assert isinstance(file, expected_type)
