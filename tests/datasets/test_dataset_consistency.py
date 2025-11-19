@@ -6,6 +6,7 @@ import pytest
 from datadoc_model.all_optional.model import DatadocMetadata
 from datadoc_model.all_optional.model import DataType
 from datadoc_model.all_optional.model import Variable
+from fsspec.registry import register_implementation
 from upath import UPath
 
 from dapla_metadata.datasets._merge import BUCKET_NAME_MESSAGE
@@ -301,3 +302,13 @@ def _patch_gs_filesystem(mocker):
         return original_filesystem(protocol, **kwargs)
 
     mocker.patch("fsspec.filesystem", side_effect=mock_filesystem)
+
+    register_implementation("gs", memory_fs.__class__, "MemoryFileSystem")
+
+    def mock_fs_factory(_urlpath, protocol, storage_options):
+        """Return memory filesystem for gs:// protocol."""
+        if protocol == "gs":
+            return memory_fs
+        return fsspec.filesystem(protocol, **storage_options)
+
+    mocker.patch("upath.core.UPath._fs_factory", side_effect=mock_fs_factory)
