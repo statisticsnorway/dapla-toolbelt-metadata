@@ -258,14 +258,12 @@ def test_bucket_check_ok_when_both_params_are_gs_paths():
     metadata_doc_gs = UPath(
         f"gs://{directory}person_testdata_p2021-12-31_p2021-12-31_v1__DOC.json"
     )
-    ##
     metadata_doc_gs.parent.mkdir(parents=True, exist_ok=True)
     metadata_doc_gs.write_text(resource_json.read_text(), encoding="utf-8")
     assert metadata_doc_gs.exists(), "Metadata document was not written to LocalGS"
     dataset_gs.parent.mkdir(parents=True, exist_ok=True)
     dataset_gs.write_bytes(resource_parquet.read_bytes())
     assert dataset_gs.exists(), "Parquet file was not written to LocalGS"
-    ##
     dd = Datadoc(
         dataset_path=str(dataset_gs),
         metadata_document_path=str(metadata_doc_gs),
