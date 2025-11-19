@@ -12,6 +12,7 @@ from typing import cast
 import datadoc_model.all_optional.model as all_optional_model
 import datadoc_model.required.model as required_model
 from datadoc_model.all_optional.model import DataSetStatus
+from upath import UPath
 
 from dapla_metadata._shared import config
 from dapla_metadata.dapla import user_info
@@ -56,7 +57,6 @@ if TYPE_CHECKING:
     import pathlib
     from datetime import datetime
 
-    from upath import UPath
 
 logger = logging.getLogger(__name__)
 
