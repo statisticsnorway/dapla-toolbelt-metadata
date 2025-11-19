@@ -332,7 +332,6 @@ def test_extract_shortname_in_path(data: str, expected: str):
     ],
 )
 def test_extract_bucketname_in_path(data: str, expected: str):
-    a = DaplaDatasetPathInfo(data).bucket_name
     assert DaplaDatasetPathInfo(data).bucket_name == expected
 
 
