@@ -14,6 +14,7 @@ from typing import Literal
 
 import arrow
 from datadoc_model.all_optional.model import DataSetState
+from upath import UPath
 
 if TYPE_CHECKING:
     import datetime
@@ -333,10 +334,9 @@ def categorize_period_string(period: str) -> IsoDateFormat | SsbDateFormat:
 class DaplaDatasetPathInfo:
     """Extract info from a path following SSB's dataset naming convention."""
 
-    def __init__(self, dataset_path: str | os.PathLike[str]) -> None:
+    def __init__(self, dataset_path: str | os.PathLike[str] | UPath) -> None:
         """Digest the path so that it's ready for further parsing."""
         self.dataset_string = str(dataset_path)
-        # Convert to string first to handle UPath objects which pathlib.Path can't accept directly
         self.dataset_path = pathlib.Path(self.dataset_string)
         self.dataset_name_sections = self.dataset_path.stem.split("_")
         self._period_strings = self._extract_period_strings(self.dataset_name_sections)

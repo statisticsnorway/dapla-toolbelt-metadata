@@ -1,6 +1,7 @@
 import contextlib
 from pathlib import Path
 
+import fsspec
 import pytest
 from datadoc_model.all_optional.model import DatadocMetadata
 from datadoc_model.all_optional.model import DataType
@@ -231,12 +232,13 @@ def test_check_variables_consistency(
         assert all(r.success for r in results)
 
 
-def test_bucket_check_ok_when_both_params_are_gs_paths():
+def test_bucket_check_ok_when_both_params_are_gs_paths(mocker):
     """Test the functionality of `check_dataset_consistency`.
 
     Verify the desired behavior when BOTH parameters are gs-paths (no Path() conversion occurs). In
     this case no `Bucket name` warning should be issued.
     """
+    _patch_gs_filesystem(mocker)
     resource_json = (
         Path(__file__).parent
         / "resources"
@@ -260,10 +262,12 @@ def test_bucket_check_ok_when_both_params_are_gs_paths():
     )
     metadata_doc_gs.parent.mkdir(parents=True, exist_ok=True)
     metadata_doc_gs.write_text(resource_json.read_text(), encoding="utf-8")
-    assert metadata_doc_gs.exists(), "Metadata document was not written to LocalGS"
+    assert metadata_doc_gs.exists(), (
+        "Metadata document was not written to memory filesystem"
+    )
     dataset_gs.parent.mkdir(parents=True, exist_ok=True)
     dataset_gs.write_bytes(resource_parquet.read_bytes())
-    assert dataset_gs.exists(), "Parquet file was not written to LocalGS"
+    assert dataset_gs.exists(), "Parquet file was not written to memory filesystem"
     dd = Datadoc(
         dataset_path=str(dataset_gs),
         metadata_document_path=str(metadata_doc_gs),
@@ -278,3 +282,22 @@ def _assert_bucket_ok(results: list, expected_msg: str):
     assert all(r.success for r in bucket_checks), (
         f"Expected {expected_msg} to have success == True when both are gs-paths."
     )
+
+
+def _patch_gs_filesystem(mocker):
+    """Mock GCS filesystem to use memory filesystem for testing.
+
+    This allows us to use gs:// paths with UPath while using an in-memory
+    filesystem that doesn't require actual GCS authentication or connectivity.
+    """
+    memory_fs = fsspec.filesystem("memory")
+
+    original_filesystem = fsspec.filesystem
+
+    def mock_filesystem(protocol, **kwargs):
+        """Return memory filesystem for gs:// protocol, otherwise use original."""
+        if protocol == "gs":
+            return memory_fs
+        return original_filesystem(protocol, **kwargs)
+
+    mocker.patch("fsspec.filesystem", side_effect=mock_filesystem)
