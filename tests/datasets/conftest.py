@@ -5,18 +5,17 @@ from __future__ import annotations
 import copy
 import functools
 import os
-import pathlib
 import shutil
 from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime
 from datetime import timezone
-from pathlib import Path
 from typing import TYPE_CHECKING
 
 import pandas as pd
 import pytest
 from bs4 import BeautifulSoup
 from bs4 import ResultSet
+from upath import UPath
 
 from dapla_metadata.dapla.user_info import TestUserInfo
 from dapla_metadata.datasets import Datadoc
@@ -78,9 +77,9 @@ def metadata(
     _mock_timestamp: None,
     _mock_user_info: None,
     subject_mapping_fake_statistical_structure: StatisticSubjectMapping,
-    tmp_path: Path,
+    tmp_path: UPath,
 ) -> Datadoc:
-    shutil.copy(TEST_PARQUET_FILEPATH, tmp_path / TEST_PARQUET_FILE_NAME)
+    shutil.copy(str(TEST_PARQUET_FILEPATH), str(tmp_path / TEST_PARQUET_FILE_NAME))
     return Datadoc(
         str(tmp_path / TEST_PARQUET_FILE_NAME),
         statistic_subject_mapping=subject_mapping_fake_statistical_structure,
@@ -92,13 +91,13 @@ def metadata_merged(
     _mock_timestamp: None,
     _mock_user_info: None,
     subject_mapping_fake_statistical_structure: StatisticSubjectMapping,
-    tmp_path: Path,
+    tmp_path: UPath,
 ) -> Datadoc:
     target = tmp_path / TEST_NAMING_STANDARD_COMPATIBLE_DATASET
     target.parent.mkdir(parents=True, exist_ok=True)
     shutil.copy(
-        TEST_DATASETS_DIRECTORY / TEST_NAMING_STANDARD_COMPATIBLE_DATASET,
-        target,
+        str(TEST_DATASETS_DIRECTORY / TEST_NAMING_STANDARD_COMPATIBLE_DATASET),
+        str(target),
     )
     return Datadoc(
         str(target),
@@ -109,16 +108,16 @@ def metadata_merged(
 
 
 @pytest.fixture
-def existing_metadata_path() -> Path:
+def existing_metadata_path() -> UPath:
     return TEST_EXISTING_METADATA_DIRECTORY
 
 
 @pytest.fixture
-def existing_metadata_file(tmp_path: Path, existing_metadata_path: Path) -> Path:
+def existing_metadata_file(tmp_path: UPath, existing_metadata_path: UPath) -> UPath:
     # Setup by copying the file into the relevant directory
     shutil.copy(
-        existing_metadata_path / TEST_EXISTING_METADATA_FILE_NAME,
-        tmp_path / TEST_EXISTING_METADATA_FILE_NAME,
+        str(existing_metadata_path / TEST_EXISTING_METADATA_FILE_NAME),
+        str(tmp_path / TEST_EXISTING_METADATA_FILE_NAME),
     )
     return tmp_path / TEST_EXISTING_METADATA_FILE_NAME
 
@@ -139,14 +138,14 @@ def nynorsk_name() -> str:
 
 
 @pytest.fixture
-def existing_data_path() -> Path:
+def existing_data_path() -> UPath:
     return TEST_PARQUET_FILEPATH
 
 
 @pytest.fixture
 def full_dataset_state_path(
     path_parts_to_insert: str | list[str],
-) -> pathlib.Path:
+) -> UPath:
     """Create a longer path structure from just one section.
 
     Examples:
@@ -155,7 +154,7 @@ def full_dataset_state_path(
     >>> full_dataset_state_path(['klargjorte_data', 'arbmark'])
     'tests/dataset/klargjorte_data/arbmark/resources/person_data_v1.parquet'
     """
-    split_path = list(pathlib.Path(TEST_PARQUET_FILEPATH).parts)
+    split_path = list(UPath(TEST_PARQUET_FILEPATH).parts)
     new_path = copy.copy(split_path)
 
     if isinstance(path_parts_to_insert, str):
@@ -164,11 +163,11 @@ def full_dataset_state_path(
         parts = path_parts_to_insert
     for p in parts:
         new_path.insert(-2, p)
-    return pathlib.Path().joinpath(*new_path)
+    return UPath().joinpath(*new_path)
 
 
 @pytest.fixture
-def subject_xml_file_path() -> pathlib.Path:
+def subject_xml_file_path() -> UPath:
     return (
         TEST_RESOURCES_DIRECTORY
         / STATISTICAL_SUBJECT_STRUCTURE_DIR
@@ -192,7 +191,7 @@ def subject_mapping_fake_statistical_structure(
 @pytest.fixture
 def _mock_fetch_statistical_structure(
     mocker,
-    subject_xml_file_path: pathlib.Path,
+    subject_xml_file_path: UPath,
 ) -> None:
     def fake_statistical_structure() -> ResultSet:
         with subject_xml_file_path.open() as f:
@@ -219,39 +218,39 @@ def subject_mapping_http_exception(
 
 
 @pytest.fixture
-def code_list_csv_filepath_nb() -> pathlib.Path:
+def code_list_csv_filepath_nb() -> UPath:
     return TEST_RESOURCES_DIRECTORY / CODE_LIST_DIR / "code_list_nb.csv"
 
 
 @pytest.fixture
-def code_list_csv_filepath_nn() -> pathlib.Path:
+def code_list_csv_filepath_nn() -> UPath:
     return TEST_RESOURCES_DIRECTORY / CODE_LIST_DIR / "code_list_nn.csv"
 
 
 @pytest.fixture
-def code_list_csv_filepath_en() -> pathlib.Path:
+def code_list_csv_filepath_en() -> UPath:
     return TEST_RESOURCES_DIRECTORY / CODE_LIST_DIR / "code_list_en.csv"
 
 
 @pytest.fixture
 def _mock_fetch_dataframe(
     mocker,
-    code_list_csv_filepath_nb: pathlib.Path,
-    code_list_csv_filepath_nn: pathlib.Path,
-    code_list_csv_filepath_en: pathlib.Path,
+    code_list_csv_filepath_nb: UPath,
+    code_list_csv_filepath_nn: UPath,
+    code_list_csv_filepath_en: UPath,
 ) -> None:
     def fake_code_list() -> dict[SupportedLanguages, pd.DataFrame]:
         return {
             SupportedLanguages.NORSK_BOKMÅL: pd.read_csv(
-                code_list_csv_filepath_nb,
+                str(code_list_csv_filepath_nb),
                 converters={"code": str},
             ),
             SupportedLanguages.NORSK_NYNORSK: pd.read_csv(
-                code_list_csv_filepath_nn,
+                str(code_list_csv_filepath_nn),
                 converters={"code": str},
             ),
             SupportedLanguages.ENGLISH: pd.read_csv(
-                code_list_csv_filepath_en,
+                str(code_list_csv_filepath_en),
                 converters={"code": str},
             ),
         }
@@ -270,10 +269,10 @@ def code_list_fake_structure(_mock_fetch_dataframe, thread_pool_executor) -> Cod
 
 @pytest.fixture
 def copy_dataset_to_path(
-    tmp_path: pathlib.Path,
-    full_dataset_state_path: pathlib.Path,
-) -> pathlib.Path:
+    tmp_path: UPath,
+    full_dataset_state_path: UPath,
+) -> UPath:
     temporary_dataset = tmp_path / full_dataset_state_path
     temporary_dataset.parent.mkdir(parents=True, exist_ok=True)
-    shutil.copy(TEST_PARQUET_FILEPATH, temporary_dataset)
+    shutil.copy(str(TEST_PARQUET_FILEPATH), str(temporary_dataset))
     return temporary_dataset

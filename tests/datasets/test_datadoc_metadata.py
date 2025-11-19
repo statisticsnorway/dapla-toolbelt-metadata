@@ -44,17 +44,20 @@ if TYPE_CHECKING:
     from collections.abc import Generator
     from datetime import datetime
 
+    from upath import UPath
+    from upath.types import ReadablePathLike
+
 
 @pytest.fixture
 def generate_periodic_file(
-    existing_data_path: Path,
+    existing_data_path: UPath,
     insert_string: str,
-) -> Generator[Path, None, None]:
+) -> Generator[UPath, None, None]:
     file_name = existing_data_path.name
     insert_pos = file_name.find("_v1")
     new_file_name = file_name[:insert_pos] + insert_string + file_name[insert_pos:]
     new_path = TEST_RESOURCES_DIRECTORY / new_file_name
-    shutil.copy(existing_data_path, new_path)
+    shutil.copy(str(existing_data_path), str(new_path))
     yield new_path
     if new_path.exists():
         new_path.unlink()
@@ -356,7 +359,7 @@ def test_dataset_status_default_value(
 )
 def test_dataset_assessment_default_value(
     expected_type: Assessment | None,
-    copy_dataset_to_path: Path,
+    copy_dataset_to_path: ReadablePathLike,
     thread_pool_executor,
 ):
     datadoc_metadata = Datadoc(
@@ -380,7 +383,7 @@ def test_dataset_assessment_default_value(
 )
 def test_extract_subject_field_value_from_statistic_structure_xml(
     subject_mapping_fake_statistical_structure: StatisticSubjectMapping,
-    copy_dataset_to_path: Path,
+    copy_dataset_to_path: ReadablePathLike,
     expected_subject_code: str,
 ):
     subject_mapping_fake_statistical_structure.wait_for_external_result()
@@ -466,7 +469,7 @@ def test_open_extracted_and_existing_metadata(metadata_merged: Datadoc, tmp_path
     assert str(metadata_merged.dataset_path) is not None
 
 
-def test_open_nonexistent_existing_metadata(existing_data_path: Path):
+def test_open_nonexistent_existing_metadata(existing_data_path: UPath):
     with pytest.raises(
         ValueError,
         match="Metadata document does not exist! Provided path:",

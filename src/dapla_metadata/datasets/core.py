@@ -54,7 +54,6 @@ from dapla_metadata.datasets.utility.utils import set_default_values_pseudonymiz
 from dapla_metadata.datasets.utility.utils import set_default_values_variables
 
 if TYPE_CHECKING:
-    import pathlib
     from datetime import datetime
 
 
@@ -107,9 +106,9 @@ class Datadoc:
         self.validate_required_fields_on_existing_metadata = (
             validate_required_fields_on_existing_metadata
         )
-        self.metadata_document: pathlib.Path | UPath | None = None
+        self.metadata_document: UPath | None = None
         self.container: all_optional_model.MetadataContainer | None = None
-        self.dataset_path: pathlib.Path | UPath | None = None
+        self.dataset_path: UPath | None = None
         self.dataset = all_optional_model.Dataset()
         self.variables: VariableListType = []
         self.variables_lookup: dict[str, VariableType] = {}
@@ -233,7 +232,7 @@ class Datadoc:
 
     def _extract_metadata_from_existing_document(
         self,
-        document: pathlib.Path | UPath,
+        document: UPath,
     ) -> OptionalDatadocMetadataType:
         """Read metadata from an existing metadata document.
 
@@ -316,7 +315,7 @@ class Datadoc:
 
     def _extract_metadata_from_dataset(
         self,
-        dataset: pathlib.Path | UPath,
+        dataset: UPath,
     ) -> all_optional_model.DatadocMetadata:
         """Obtain what metadata we can from the dataset itself.
 
@@ -365,8 +364,8 @@ class Datadoc:
 
     @staticmethod
     def build_metadata_document_path(
-        dataset_path: pathlib.Path | UPath,
-    ) -> pathlib.Path | UPath:
+        dataset_path: UPath,
+    ) -> UPath:
         """Build the path to the metadata document corresponding to the given dataset.
 
         Args:

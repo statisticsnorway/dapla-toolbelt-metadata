@@ -5,7 +5,6 @@ Handles reading in the data and transforming data types to generic metadata type
 
 from __future__ import annotations
 
-import pathlib  # noqa: TC003 import is needed for docs build
 import re
 from abc import ABC
 from abc import abstractmethod
@@ -109,12 +108,12 @@ class DatasetParser(ABC):
     - A method to extract variables (columns) from the dataset, so they may be documented.
     """
 
-    def __init__(self, dataset: pathlib.Path | UPath) -> None:
+    def __init__(self, dataset: UPath) -> None:
         """Initialize for a given dataset."""
         self.dataset = dataset
 
     @staticmethod
-    def for_file(dataset: pathlib.Path | UPath) -> DatasetParser:
+    def for_file(dataset: UPath) -> DatasetParser:
         """Return the correct subclass based on the given dataset file."""
         file_type = "Unknown"
         try:
@@ -167,7 +166,7 @@ class DatasetParser(ABC):
 class DatasetParserParquet(DatasetParser):
     """Concrete implementation for parsing parquet files."""
 
-    def __init__(self, dataset: pathlib.Path | UPath) -> None:
+    def __init__(self, dataset: UPath) -> None:
         """Call the super init method for initialization.
 
         Args:
@@ -193,7 +192,7 @@ class DatasetParserParquet(DatasetParser):
 class DatasetParserSas7Bdat(DatasetParser):
     """Concrete implementation for parsing SAS7BDAT files."""
 
-    def __init__(self, dataset: pathlib.Path | UPath) -> None:
+    def __init__(self, dataset: UPath) -> None:
         """Call the super init method for initialization.
 
         Args:

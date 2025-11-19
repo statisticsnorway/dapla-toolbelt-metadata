@@ -1,9 +1,9 @@
 """Script to upgrade metadata documents to the newest version."""
 
 import argparse
-from pathlib import Path
 
-from dapla_metadata.datasets.core import Datadoc
+from dapla_metadata.dataddsets.core import Datadoc
+from upath import UPath
 
 parser = argparse.ArgumentParser(
     description="Upgrade metadata documents to the newest version"
@@ -11,7 +11,7 @@ parser = argparse.ArgumentParser(
 parser.add_argument(
     "--path",
     nargs="+",
-    type=lambda p: Path(p).absolute(),
+    type=lambda p: UPath(p).absolute(),
     help="Path to a metadata document to upgrade",
 )
 args = parser.parse_args()
