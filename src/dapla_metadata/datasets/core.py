@@ -41,7 +41,6 @@ from dapla_metadata.datasets.utility.utils import VariableType
 from dapla_metadata.datasets.utility.utils import calculate_percentage
 from dapla_metadata.datasets.utility.utils import derive_assessment_from_state
 from dapla_metadata.datasets.utility.utils import get_timestamp_now
-from dapla_metadata.datasets.utility.utils import normalize_path
 from dapla_metadata.datasets.utility.utils import (
     num_obligatory_dataset_fields_completed,
 )
@@ -117,7 +116,7 @@ class Datadoc:
         self.explicitly_defined_metadata_document = False
         self.dataset_consistency_status: list[DatasetConsistencyStatus] = []
         if metadata_document_path:
-            self.metadata_document = normalize_path(metadata_document_path)
+            self.metadata_document = UPath(metadata_document_path)
             self.explicitly_defined_metadata_document = True
             if not self.metadata_document.exists():
                 msg = f"Metadata document does not exist! Provided path: {self.metadata_document}"
@@ -125,7 +124,7 @@ class Datadoc:
                     msg,
                 )
         if dataset_path:
-            self.dataset_path = normalize_path(dataset_path)
+            self.dataset_path = UPath(dataset_path)
             if not metadata_document_path:
                 self.metadata_document = self.build_metadata_document_path(
                     self.dataset_path,

@@ -1,34 +1,11 @@
 import datetime
-import os
-import pathlib
 
 import pytest
-from upath import UPath
 
 from dapla_metadata.datasets.utility.utils import calculate_percentage
 from dapla_metadata.datasets.utility.utils import get_current_date
 from dapla_metadata.datasets.utility.utils import incorrect_date_order
-from dapla_metadata.datasets.utility.utils import normalize_path
 from dapla_metadata.datasets.utility.utils import running_in_notebook
-from tests.datasets.constants import TEST_BUCKET_PARQUET_FILEPATH
-from tests.datasets.constants import TEST_PARQUET_FILEPATH
-
-
-@pytest.mark.parametrize(
-    ("dataset_path", "expected_type"),
-    [
-        (TEST_BUCKET_PARQUET_FILEPATH, UPath),
-        (str(TEST_PARQUET_FILEPATH), pathlib.Path),
-    ],
-)
-def test_normalize_path(
-    dataset_path: str,
-    expected_type: type[os.PathLike],
-):
-    file = normalize_path(
-        dataset_path,
-    )
-    assert isinstance(file, expected_type)
 
 
 def test_calculate_percentage():

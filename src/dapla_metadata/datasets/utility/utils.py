@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import datetime  # import is needed in xdoctest
 import logging
-import pathlib
 import uuid
 from typing import Any
 from typing import TypeAlias
@@ -12,7 +11,6 @@ import datadoc_model.required.model as required_model
 from datadoc_model.all_optional.model import Assessment
 from datadoc_model.all_optional.model import DataSetState
 from datadoc_model.all_optional.model import VariableRole
-from upath import UPath
 
 from dapla_metadata.dapla import user_info
 from dapla_metadata.datasets.utility.constants import DAEAD_ENCRYPTION_KEY_REFERENCE
@@ -20,7 +18,6 @@ from dapla_metadata.datasets.utility.constants import ENCRYPTION_PARAMETER_KEY_I
 from dapla_metadata.datasets.utility.constants import ENCRYPTION_PARAMETER_SNAPSHOT_DATE
 from dapla_metadata.datasets.utility.constants import ENCRYPTION_PARAMETER_STRATEGY
 from dapla_metadata.datasets.utility.constants import ENCRYPTION_PARAMETER_STRATEGY_SKIP
-from dapla_metadata.datasets.utility.constants import GS_PREFIX_FROM_PATHLIB
 from dapla_metadata.datasets.utility.constants import NUM_OBLIGATORY_VARIABLES_FIELDS
 from dapla_metadata.datasets.utility.constants import (
     OBLIGATORY_DATASET_METADATA_IDENTIFIERS,
@@ -65,22 +62,6 @@ def get_current_date() -> str:
 def get_timestamp_now() -> datetime.datetime:
     """Return a timestamp for the current moment."""
     return datetime.datetime.now(tz=datetime.timezone.utc)
-
-
-def normalize_path(path: str) -> pathlib.Path | UPath:
-    """Obtain a pathlib compatible Path.
-
-    Obtains a pathlib compatible Path regardless of whether the file is on a filesystem or in GCS.
-
-    Args:
-        path: Path on a filesystem or in cloud storage.
-
-    Returns:
-        Pathlib compatible object.
-    """
-    if path.startswith(GS_PREFIX_FROM_PATHLIB):
-        return UPath(path)
-    return pathlib.Path(path)
 
 
 def calculate_percentage(completed: int, total: int) -> int:
