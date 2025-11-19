@@ -15,7 +15,7 @@ import arrow
 from datadoc_model.all_optional.model import DataSetState
 from upath import UPath
 
-from dapla_metadata.datasets.utility.constants import GS_PREFIX_FROM_PATHLIB
+from dapla_metadata.datasets.utility.constants import GS_PREFIX
 
 if TYPE_CHECKING:
     import datetime
@@ -506,8 +506,8 @@ class DaplaDatasetPathInfo:
             ssb-staging-dapla-felles-produkt
         """
         prefix: str | None = None
-        if GS_PREFIX_FROM_PATHLIB in self.dataset_string:
-            prefix = GS_PREFIX_FROM_PATHLIB
+        if GS_PREFIX in self.dataset_string:
+            prefix = GS_PREFIX
             _, bucket_and_rest = self.dataset_string.split(prefix, 1)
         elif "buckets/" in self.dataset_string:
             prefix = "buckets/"
@@ -750,19 +750,15 @@ class DaplaDatasetPathInfo:
         """
         if not self.dataset_state:
             if self.bucket_name:
-                parts = self.dataset_path.parent.parts
+                parts = [p.rstrip("/") for p in self.dataset_path.parent.parts]
 
                 if self.bucket_name not in parts:
                     return None
 
-                # Find the index of bucket_name in the path
-                bucket_name_index = self.dataset_path.parent.parts.index(
-                    self.bucket_name,
-                )
+                bucket_name_index = parts.index(self.bucket_name)
 
-                # If there are parts after bucket_name, return the part immediately after it
-                if len(self.dataset_path.parent.parts) > bucket_name_index + 1:
-                    return self.dataset_path.parent.parts[bucket_name_index + 1]
+                if len(parts) > bucket_name_index + 1:
+                    return parts[bucket_name_index + 1]
 
             return None
 

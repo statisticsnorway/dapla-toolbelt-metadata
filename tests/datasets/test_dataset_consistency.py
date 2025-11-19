@@ -1,7 +1,7 @@
 import contextlib
 from pathlib import Path
 
-import fsspec  # type: ignore[import-untyped]
+import fsspec
 import pytest
 from datadoc_model.all_optional.model import DatadocMetadata
 from datadoc_model.all_optional.model import DataType
@@ -65,8 +65,8 @@ def test_check_dataset_consistency_consistent_paths(
     existing_dataset_path: str,
 ):
     result = check_dataset_consistency(
-        Path(new_dataset_path),
-        Path(existing_dataset_path),
+        UPath(new_dataset_path),
+        UPath(existing_dataset_path),
     )
     for r in result:
         assert r.success, f"'{r.message}' failed"
@@ -104,8 +104,8 @@ def test_check_dataset_consistency_inconsistent_paths(
     new_dataset_path: str, existing_dataset_path: str, request
 ):
     result = check_dataset_consistency(
-        Path(new_dataset_path),
-        Path(existing_dataset_path),
+        UPath(new_dataset_path),
+        UPath(existing_dataset_path),
     )
     test_id = request.node.callspec.id
     result_entry = next(r for r in result if r.message.lower() == test_id)  # type: ignore[attr-defined]
