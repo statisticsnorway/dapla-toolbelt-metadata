@@ -15,6 +15,8 @@ from typing import Literal
 import arrow
 from datadoc_model.all_optional.model import DataSetState
 
+from dapla_metadata.datasets.utility.constants import GS_PREFIX_FROM_PATHLIB
+
 if TYPE_CHECKING:
     import datetime
     import os
@@ -23,8 +25,6 @@ if TYPE_CHECKING:
     from upath import UPath
 
 logger = logging.getLogger(__name__)
-
-GS_PREFIX_FROM_PATHLIB = "gs:/"
 
 
 @dataclass
