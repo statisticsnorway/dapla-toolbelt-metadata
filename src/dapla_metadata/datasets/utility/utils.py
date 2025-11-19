@@ -20,6 +20,7 @@ from dapla_metadata.datasets.utility.constants import ENCRYPTION_PARAMETER_KEY_I
 from dapla_metadata.datasets.utility.constants import ENCRYPTION_PARAMETER_SNAPSHOT_DATE
 from dapla_metadata.datasets.utility.constants import ENCRYPTION_PARAMETER_STRATEGY
 from dapla_metadata.datasets.utility.constants import ENCRYPTION_PARAMETER_STRATEGY_SKIP
+from dapla_metadata.datasets.utility.constants import GS_PATH_PREFIX
 from dapla_metadata.datasets.utility.constants import NUM_OBLIGATORY_VARIABLES_FIELDS
 from dapla_metadata.datasets.utility.constants import (
     OBLIGATORY_DATASET_METADATA_IDENTIFIERS,
@@ -77,8 +78,7 @@ def normalize_path(path: str) -> pathlib.Path | UPath:
     Returns:
         Pathlib compatible object.
     """
-    if path.startswith("gs://"):
-        # UPath automatically handles GCS authentication via google.auth
+    if path.startswith(GS_PATH_PREFIX):
         return UPath(path)
     return pathlib.Path(path)
 
