@@ -508,8 +508,8 @@ class DaplaDatasetPathInfo:
         """
         prefix: str | None = None
         dataset_string = str(self.dataset_string)
-        if "gs://" in self.dataset_string:
-            prefix = "gs://"
+        if GS_PREFIX_FROM_PATHLIB in self.dataset_string:
+            prefix = GS_PREFIX_FROM_PATHLIB
             _, bucket_and_rest = dataset_string.split(prefix, 1)
         elif GS_PREFIX_FROM_PATHLIB in self.dataset_string:
             prefix = GS_PREFIX_FROM_PATHLIB
