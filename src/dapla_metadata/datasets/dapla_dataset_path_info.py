@@ -14,12 +14,13 @@ from typing import Literal
 
 import arrow
 from datadoc_model.all_optional.model import DataSetState
-from upath import UPath
 
 if TYPE_CHECKING:
     import datetime
     import os
     from datetime import date
+
+    from upath import UPath
 
 logger = logging.getLogger(__name__)
 

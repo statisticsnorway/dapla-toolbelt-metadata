@@ -1,12 +1,12 @@
 import contextlib
 from pathlib import Path
 
-import fsspec
+import fsspec  # type: ignore[import-untyped]
 import pytest
 from datadoc_model.all_optional.model import DatadocMetadata
 from datadoc_model.all_optional.model import DataType
 from datadoc_model.all_optional.model import Variable
-from fsspec.registry import register_implementation
+from fsspec.registry import register_implementation  # type: ignore[import-untyped]
 from upath import UPath
 
 from dapla_metadata.datasets._merge import BUCKET_NAME_MESSAGE
