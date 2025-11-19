@@ -2,8 +2,9 @@
 
 import argparse
 
-from dapla_metadata.dataddsets.core import Datadoc
 from upath import UPath
+
+from dapla_metadata.datasets.core import Datadoc
 
 parser = argparse.ArgumentParser(
     description="Upgrade metadata documents to the newest version"
