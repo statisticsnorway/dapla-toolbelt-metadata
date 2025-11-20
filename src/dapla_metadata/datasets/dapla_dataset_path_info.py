@@ -544,7 +544,7 @@ class DaplaDatasetPathInfo:
             >>> DaplaDatasetPathInfo('my_data/simple_dataset_name.parquet').dataset_short_name
             simple_dataset_name
 
-            >>> DaplaDatasetPathInfo('gs:/ssb-staging-dapla-felles-data-delt/datadoc/utdata/person_data_p2021_v2.parquet').dataset_short_name
+            >>> DaplaDatasetPathInfo('gs://ssb-staging-dapla-felles-data-delt/datadoc/utdata/person_data_p2021_v2.parquet').dataset_short_name
             person_data
 
             >>> DaplaDatasetPathInfo('buckets/ssb-staging-dapla-felles-data-delt/stat/utdata/folk_data_p2021_v2.parquet').dataset_short_name
@@ -768,7 +768,7 @@ class DaplaDatasetPathInfo:
         dataset_state_names = self._extract_norwegian_dataset_state_path_part(
             self.dataset_state,
         )
-        dataset_path_parts = list(self.dataset_path_parts)
+        dataset_path_parts = list(self.dataset_path.parts)
 
         for state in dataset_state_names:
             if state not in dataset_path_parts:
