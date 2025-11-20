@@ -312,6 +312,10 @@ def test_date_format_correct_end_date(date_format, period, expected):
             "gs://statistikk/produkt/klargjorte-data/persondata_p1990-Q1_p2023-Q4_v1/aar=2019/data.parquet",
             "produkt",
         ),
+        (
+            "gs://statistikk/produkt/persondata_p1990-Q1_p2023-Q4_v1/aar=2019/data.parquet",
+            None,
+        ),
     ],
 )
 def test_extract_shortname_in_path(data: str, expected: str):
