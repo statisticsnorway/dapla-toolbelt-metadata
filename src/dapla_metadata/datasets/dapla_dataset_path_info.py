@@ -334,7 +334,7 @@ def categorize_period_string(period: str) -> IsoDateFormat | SsbDateFormat:
 class DaplaDatasetPathInfo:
     """Extract info from a path following SSB's dataset naming convention."""
 
-    def __init__(self, dataset_path: str | os.PathLike[str] | UPath) -> None:
+    def __init__(self, dataset_path: ReadablePathLike) -> None:
         """Digest the path so that it's ready for further parsing."""
         self.dataset_string = str(dataset_path)
         self.dataset_path = UPath(self.dataset_string)
