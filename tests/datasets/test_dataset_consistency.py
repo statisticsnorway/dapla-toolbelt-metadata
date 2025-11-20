@@ -1,7 +1,7 @@
 import contextlib
 from pathlib import Path
 
-import fsspec
+import fsspec  # type: ignore  # noqa: PGH003
 import pytest
 from datadoc_model.all_optional.model import DatadocMetadata
 from datadoc_model.all_optional.model import DataType
