@@ -338,6 +338,7 @@ class DaplaDatasetPathInfo:
         """Digest the path so that it's ready for further parsing."""
         self.dataset_string = str(dataset_path)
         self.dataset_path = UPath(self.dataset_string)
+        self.dataset_path_parts = [p.strip("/") for p in self.dataset_path.parts]
         self.dataset_name_sections = self.dataset_path.stem.split("_")
         self._period_strings = self._extract_period_strings(self.dataset_name_sections)
 
@@ -630,7 +631,7 @@ class DaplaDatasetPathInfo:
             >>> DaplaDatasetPathInfo('my_special_data/person_data_v1.parquet').dataset_state
             None
         """
-        dataset_path_parts = set(self.dataset_path.parts)
+        dataset_path_parts = set(self.dataset_path_parts)
         for state in DataSetState:
             norwegian_variations = self._extract_norwegian_dataset_state_path_part(
                 state,
@@ -750,27 +751,24 @@ class DaplaDatasetPathInfo:
         """
         if not self.dataset_state:
             if self.bucket_name:
-                parts = self.dataset_path.parent.parts
-                parts = [p.strip("/") for p in parts]
+                parts = self.dataset_path_parts
 
                 if self.bucket_name not in parts:
                     return None
 
                 # Find the index of bucket_name in the path
-                bucket_name_index = parts.index(
-                    self.bucket_name,
-                )
+                bucket_name_index = parts.index(self.bucket_name)
 
                 # If there are parts after bucket_name, return the part immediately after it
-                if len(self.dataset_path.parent.parts) > bucket_name_index + 1:
-                    return self.dataset_path.parent.parts[bucket_name_index + 1]
+                if len(self.dataset_path_parts) > bucket_name_index + 1:
+                    return self.dataset_path_parts[bucket_name_index + 1]
 
             return None
 
         dataset_state_names = self._extract_norwegian_dataset_state_path_part(
             self.dataset_state,
         )
-        dataset_path_parts = list(self.dataset_path.parts)
+        dataset_path_parts = list(self.dataset_path_parts)
 
         for state in dataset_state_names:
             if state not in dataset_path_parts:
