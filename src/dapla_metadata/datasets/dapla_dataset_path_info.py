@@ -338,7 +338,7 @@ class DaplaDatasetPathInfo:
         """Digest the path so that it's ready for further parsing."""
         self.dataset_string = str(dataset_path)
         self.dataset_path = UPath(self.dataset_string)
-        self.dataset_path_parts = [p.strip("/") for p in self.dataset_path.parts]
+        self.dataset_path_parts = [p.strip("/") for p in self.dataset_path.parent.parts]
         self.dataset_name_sections = self.dataset_path.stem.split("_")
         self._period_strings = self._extract_period_strings(self.dataset_name_sections)
 
