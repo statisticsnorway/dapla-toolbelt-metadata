@@ -248,5 +248,4 @@ async def validate_directory(
                 yield asyncio.create_task(_validate_file(obj), name=obj.name)
             else:
                 logger.debug("Recursing into: %s", obj)
-                async for task in validate_directory(obj):
-                    yield task
+                yield validate_directory(obj)
