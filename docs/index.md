@@ -1,3 +1,10 @@
+<!--
+Use the following command to regenerate .rst files. This is necessary when adding
+new files or modules or restructuring the project.
+
+uv run sphinx-apidoc -T -f -t ./docs/templates -o ./docs ./src
+-->
+
 ```{include} ../README.md
 ---
 end-before: <!-- github-only -->
