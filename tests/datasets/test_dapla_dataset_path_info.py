@@ -375,3 +375,10 @@ def test_path_complies_with_naming_standard_invalid_input(data: str):
 )
 def test_path_complies_with_naming_standard_valid_input(data: str):
     assert DaplaDatasetPathInfo(data).path_complies_with_naming_standard() is True
+
+
+def test_extract_shortname_in_path_invalid_gs_url():
+    with pytest.raises(ValueError, match="non key-like path provided"):
+        _ = DaplaDatasetPathInfo(
+            "gs:/ssb-staging-dapla-felles-data-delt/datadoc/person_data_v1.parquet"
+        ).dataset_short_name
