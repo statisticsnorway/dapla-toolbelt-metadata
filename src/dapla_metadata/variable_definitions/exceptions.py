@@ -218,10 +218,11 @@ def publishing_blocked_error_handler(method):  # noqa: ANN201, ANN001
     """Decorator that blocks publishing variable definitions in production.
 
     - If the environment is production:
-        - If `variable_status` is present in the arguments and set to `PUBLISHED_INTERNAL` or `PUBLISHED_EXTERNAL`,
+    - If `variable_status` is present in the arguments and set to `PUBLISHED_INTERNAL` or `PUBLISHED_EXTERNAL`,
         publishing is blocked by raising a `PublishingBlockedError`.
-        - If `variable_status` is set to `DRAFT`, the method is allowed to proceed.
-        - If no arguments are provided, all publishing attempts are blocked.
+    - If `variable_status` is set to `DRAFT`, the method is allowed to proceed.
+    - If no arguments are provided, all publishing attempts are blocked.
+
     """
 
     @wraps(method)

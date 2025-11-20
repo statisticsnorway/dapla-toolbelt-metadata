@@ -404,9 +404,11 @@ def get_missing_obligatory_dataset_fields(
 
     Returns:
         A list of field names (as strings) that are missing values. This includes:
-            - Fields that are directly `None` and are listed as obligatory metadata.
-            - Multilanguage fields (listed as obligatory metadata`) where
+
+        - Fields that are directly `None` and are listed as obligatory metadata.
+        - Multilanguage fields (listed as obligatory metadata`) where
             the value exists but the primary language text is empty.
+
     """
     return [
         key
@@ -432,9 +434,10 @@ def get_missing_obligatory_variables_fields(variables: list) -> list[dict]:
     Returns:
         A list of dictionaries with variable short names as keys and list of missing
         obligatory variable fields as values. This includes:
-            - Fields that are directly `None` and are llisted as obligatory metadata.
-            - Multilanguage fields (listed as obligatory metadata) where the value
+        - Fields that are directly `None` and are llisted as obligatory metadata.
+        - Multilanguage fields (listed as obligatory metadata) where the value
             exists but the primary language text is empty.
+
     """
     missing_variables_fields = [
         {
@@ -469,7 +472,8 @@ def get_missing_obligatory_variables_pseudo_fields(
     Returns:
         A list of dictionaries with variable short names as keys and list of missing
         obligatory variable pseudonymization fields as values. This includes:
-            - Fields that are directly `None` and are listed as obligatory metadata.
+        - Fields that are directly `None` and are listed as obligatory metadata.
+
     """
     return [
         {

@@ -23,9 +23,10 @@ async def check_naming_standard(
     Args:
         file_path: The path to a bucket, directory, or specific file to validate.
                 This can be in the following forms:
-                  - A bucket URL in the form 'gs://ssb-dapla-felles-data-produkt-test'
-                  - An absolute path to a mounted bucket in the form '/buckets/produkt'
-                  - Any subdirectory or file thereof
+                - A bucket URL in the form 'gs://ssb-dapla-felles-data-produkt-test'
+                - An absolute path to a mounted bucket in the form '/buckets/produkt'
+                - Any subdirectory or file thereof
+
                 We also accept paths which don't yet exist so that you can test if a path will comply.
 
     Returns:

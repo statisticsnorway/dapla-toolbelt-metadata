@@ -54,7 +54,7 @@ UrlVisibility = Literal["public", "internal"]
 class UrnConverter:
     """Converts URLs to URNs and vice versa.
 
-    Fields:
+    Attributes:
         urn_base: The format for the URN, up to the identifier.
         id_pattern: A capturing group pattern which matches identifiers for this resource.
         url_bases: The list of all the different URL representations for a resource. There

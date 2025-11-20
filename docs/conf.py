@@ -16,7 +16,7 @@ import os
 import sys
 
 
-sys.path.insert(0, os.path.abspath("../src"))
+sys.path.insert(0, os.path.abspath("../.."))
 
 # -- Project information -----------------------------------------------------
 
@@ -32,6 +32,8 @@ author = "Team Metadata"
 extensions = [
     "sphinx.ext.autodoc",
     "sphinx.ext.napoleon",
+    "sphinx.ext.viewcode",
+    "sphinx.ext.githubpages",
     "sphinx_autodoc_typehints",
     "myst_parser",
 ]
@@ -67,3 +69,5 @@ autodoc_typehints = "description"
 
 # Do not prepend module names to object names
 add_module_names = False
+
+napoleon_google_docstring = True
