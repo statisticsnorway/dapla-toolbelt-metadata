@@ -750,15 +750,19 @@ class DaplaDatasetPathInfo:
         """
         if not self.dataset_state:
             if self.bucket_name:
-                parts = [p.rstrip("/") for p in self.dataset_path.parent.parts]
+                parts = self.dataset_path.parent.parts
 
                 if self.bucket_name not in parts:
                     return None
 
-                bucket_name_index = parts.index(self.bucket_name)
+                # Find the index of bucket_name in the path
+                bucket_name_index = self.dataset_path.parent.parts.index(
+                    self.bucket_name,
+                )
 
-                if len(parts) > bucket_name_index + 1:
-                    return parts[bucket_name_index + 1]
+                # If there are parts after bucket_name, return the part immediately after it
+                if len(self.dataset_path.parent.parts) > bucket_name_index + 1:
+                    return self.dataset_path.parent.parts[bucket_name_index + 1]
 
             return None
 

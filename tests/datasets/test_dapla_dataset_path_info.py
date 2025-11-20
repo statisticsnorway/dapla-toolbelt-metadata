@@ -308,6 +308,10 @@ def test_date_format_correct_end_date(date_format, period, expected):
         ("stat/inndata/person_data", "stat"),
         ("buckets/stat/inndata/person_data", None),
         ("buckets/bucket_name/stat/inndata/person_data", "stat"),
+        (
+            "gs://statistikk/produkt/persondata_p1990-Q1_p2023-Q4_v1/aar=2019/data.parquet",
+            None,
+        ),
     ],
 )
 def test_extract_shortname_in_path(data: str, expected: str):
