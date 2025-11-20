@@ -79,6 +79,12 @@ dev = [
 
 [tool.pytest.ini_options]
 pythonpath = ["src"]
+filterwarnings = [
+    "ignore::dapla_metadata.datasets.ObligatoryDatasetWarning",          # Our own
+    "ignore::dapla_metadata.datasets.ObligatoryVariableWarning",         # Our own
+    "ignore::dapla_metadata.datasets.InconsistentDatasetsWarning",       # Our own
+    "ignore:^The @wait_container_is_ready decorator:DeprecationWarning", # Internal third-party
+]
 
 [tool.uv]
 required-version = ">=0.8.0"

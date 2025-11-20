@@ -1,12 +1,10 @@
 import os
-import traceback
 from collections.abc import Generator
 from datetime import date
 from datetime import datetime
 from pathlib import Path
 from unittest.mock import Mock
 
-import docker
 import pytest
 from dapla_auth_client import AuthClient
 from pytest_mock import MockFixture
@@ -71,15 +69,11 @@ class CouldNotInstantiateTestContainerError(RuntimeError):
 
 @pytest.fixture(scope="session")
 def vardef_mock_service() -> Generator[MicrocksContainer | None]:
-    try:
-        with MicrocksContainer() as container:
-            container.upload_primary_artifact(
-                str(OPENAPI_DIR / "variable-definitions-internal.yml"),
-            )
-            yield container
-    except docker.errors.DockerException as e:
-        traceback.print_exception(e)
-        yield None
+    with MicrocksContainer() as container:
+        container.upload_primary_artifact(
+            str(OPENAPI_DIR / "variable-definitions-internal.yml"),
+        )
+        yield container
 
 
 @pytest.fixture(scope="session")

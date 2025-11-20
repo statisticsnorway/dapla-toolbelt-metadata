@@ -7,7 +7,7 @@ import warnings
 from typing import TYPE_CHECKING
 from typing import TextIO
 
-from datadoc_model import model
+from datadoc_model.all_optional import model
 from pydantic import model_validator
 from typing_extensions import Self
 

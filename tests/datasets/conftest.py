@@ -193,7 +193,7 @@ def _mock_fetch_statistical_structure(
     mocker,
     subject_xml_file_path: UPath,
 ) -> None:
-    def fake_statistical_structure() -> ResultSet:
+    def fake_statistical_structure(self=None) -> ResultSet:  # noqa: ARG001
         with subject_xml_file_path.open() as f:
             return BeautifulSoup(f.read(), features="xml").find_all("hovedemne")
 
@@ -239,7 +239,7 @@ def _mock_fetch_dataframe(
     code_list_csv_filepath_nn: UPath,
     code_list_csv_filepath_en: UPath,
 ) -> None:
-    def fake_code_list() -> dict[SupportedLanguages, pd.DataFrame]:
+    def fake_code_list(self=None) -> dict[SupportedLanguages, pd.DataFrame]:  # noqa: ARG001
         return {
             SupportedLanguages.NORSK_BOKMÅL: pd.read_csv(
                 str(code_list_csv_filepath_nb),

@@ -8,7 +8,7 @@ import warnings
 from typing import TYPE_CHECKING
 
 import pytest
-from datadoc_model import model
+from datadoc_model.all_optional import model
 from pydantic import ValidationError
 
 from dapla_metadata.datasets.model_validation import ObligatoryDatasetWarning

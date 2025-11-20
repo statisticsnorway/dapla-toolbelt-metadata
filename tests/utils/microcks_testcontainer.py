@@ -3,7 +3,7 @@ from pathlib import Path
 
 import ruamel.yaml
 from testcontainers.core.image import DockerImage
-from testcontainers.core.waiting_utils import wait_for_logs
+from testcontainers.core.wait_strategies import LogMessageWaitStrategy
 from testcontainers.generic import ServerContainer
 
 
@@ -33,10 +33,10 @@ class MicrocksContainer(ServerContainer):
     def start(self) -> "ServerContainer":
         """Start the container and wait for it to be ready."""
         started = super().start()
-        wait_for_logs(
-            container=started,
-            predicate=".*Started MicrocksApplication.*",
-            timeout=10,
+        started.waiting_for(
+            LogMessageWaitStrategy(
+                message=".*Started MicrocksApplication.*"
+            ).with_startup_timeout(10)
         )
         return started
 
