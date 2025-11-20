@@ -76,4 +76,4 @@ This project was generated from [Statistics Norway]'s [SSB PyPI Template].
 
 [license]: https://github.com/statisticsnorway/dapla-toolbelt-metadata/blob/main/LICENSE
 [contributor guide]: https://github.com/statisticsnorway/dapla-toolbelt-metadata/blob/main/CONTRIBUTING.md
-[reference guide]: https://statisticsnorway.github.io/dapla-toolbelt-metadata/reference.html
+[reference guide]: https://statisticsnorway.github.io/dapla-toolbelt-metadata/dapla_metadata.html
