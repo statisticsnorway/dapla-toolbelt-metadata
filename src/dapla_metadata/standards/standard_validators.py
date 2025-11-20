@@ -45,15 +45,12 @@ async def check_naming_standard(
     # Begin validation.
     # For each file this returns a task which we can wait on to complete.
     # For each directory this returns another AsyncGenerator which must be unpacked below
-    tasks = [
-        (t, getattr(t, "get_name", lambda: "unknown")())
-        async for t in validate_directory(UPath(str(file_path)))
-    ]
+    tasks = [t async for t in validate_directory(UPath(str(file_path)))]  # type:ignore [arg-type]
 
     # 5 minute timeout for safety
     start_time = time.time()
     while time.time() < start_time + (5 * 60):
-        for item in tasks.copy():  # safer to iterate over a copy when removing
+        for item in tasks:
             if isinstance(item, AsyncGenerator):
                 # Drill down into lower directories to get the validation tasks from them
                 tasks.remove(item)
