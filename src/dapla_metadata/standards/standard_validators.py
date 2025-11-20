@@ -50,7 +50,7 @@ async def check_naming_standard(
     # 5 minute timeout for safety
     start_time = time.time()
     while time.time() < start_time + (5 * 60):
-        for item in tasks:
+        for item in tasks.copy():  # safer to iterate over a copy when removing
             if isinstance(item, AsyncGenerator):
                 # Drill down into lower directories to get the validation tasks from them
                 tasks.remove(item)
