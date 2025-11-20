@@ -485,9 +485,6 @@ class DaplaDatasetPathInfo:
             >>> DaplaDatasetPathInfo('gs://ssb-staging-dapla-felles-data-delt/datadoc/utdata/person_data_p2021_v2.parquet').bucket_name
             ssb-staging-dapla-felles-data-delt
 
-            >>> DaplaDatasetPathInfo('gs://ssb-staging-dapla-felles-data-delt/datadoc/utdata/person_data_p2021_v2.parquet').bucket_name
-            ssb-staging-dapla-felles-data-delt
-
             >>> DaplaDatasetPathInfo('gs:/ssb-staging-dapla-felles-data-delt/datadoc/utdata/person_data_p2021_v2.parquet').bucket_name
             None
 
