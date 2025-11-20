@@ -3,7 +3,16 @@ name = "dapla-toolbelt-metadata"
 description = "Dapla Toolbelt Metadata"
 license = "MIT"
 version = "0.10.1"
-classifiers = ["Development Status :: 4 - Beta"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Typing :: Typed",
+]
+maintainers = [{ name = "Division for Data Enablement (724)", email = "metadata@ssb.no" }]
 readme = "README.md"
 authors = [{ name = "Statistics Norway", email = "metadata@ssb.no" }]
 requires-python = '>=3.10'
@@ -30,9 +39,9 @@ dependencies = [
 ]
 
 [project.urls]
-homepage = "https://github.com/statisticsnorway/dapla-toolbelt-metadata"
-repository = "https://github.com/statisticsnorway/dapla-toolbelt-metadata"
-documentation = "https://statisticsnorway.github.io/dapla-toolbelt-metadata"
+Homepage = "https://github.com/statisticsnorway/dapla-toolbelt-metadata"
+Repository = "https://github.com/statisticsnorway/dapla-toolbelt-metadata"
+Documentation = "https://statisticsnorway.github.io/dapla-toolbelt-metadata"
 Changelog = "https://github.com/statisticsnorway/dapla-toolbelt-metadata/releases"
 
 [tool.hatch.build.targets.wheel]
