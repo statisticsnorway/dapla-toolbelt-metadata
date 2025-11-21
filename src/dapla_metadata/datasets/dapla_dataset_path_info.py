@@ -19,8 +19,9 @@ from dapla_metadata.datasets.utility.constants import GS_PREFIX
 
 if TYPE_CHECKING:
     import datetime
-    import os
     from datetime import date
+
+    from upath.types import ReadablePathLike
 
 
 logger = logging.getLogger(__name__)
