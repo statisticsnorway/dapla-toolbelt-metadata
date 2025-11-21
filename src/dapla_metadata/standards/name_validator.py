@@ -231,9 +231,10 @@ async def _ignored_file_type_result(file: UPath) -> ValidationResult:
 
 
 async def validate_directory(
-    path: UPath,
+    path: ReadablePathLike,
 ) -> AsyncGenerator[AsyncGenerator | asyncio.Task]:
     """Validate a file or recursively validate all files in a directory."""
+    path = UPath(path)
     if set(path.parts).intersection(IGNORED_FOLDERS):
         logger.info("File path ignored: %s", path)
         yield asyncio.create_task(_ignored_folder_result(path))

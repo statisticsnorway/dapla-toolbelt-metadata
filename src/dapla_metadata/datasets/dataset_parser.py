@@ -16,12 +16,13 @@ from datadoc_model.all_optional.model import LanguageStringType
 from datadoc_model.all_optional.model import LanguageStringTypeItem
 from datadoc_model.all_optional.model import Variable
 from pyarrow import parquet as pq
+from upath import UPath
 
 from dapla_metadata.datasets.utility.enums import SupportedLanguages
 
 if TYPE_CHECKING:
     import pyarrow as pa
-    from upath import UPath
+    from upath.types import ReadablePathLike
 
 KNOWN_INTEGER_TYPES = (
     "int",
@@ -108,14 +109,15 @@ class DatasetParser(ABC):
     - A method to extract variables (columns) from the dataset, so they may be documented.
     """
 
-    def __init__(self, dataset: UPath) -> None:
+    def __init__(self, dataset: ReadablePathLike) -> None:
         """Initialize for a given dataset."""
-        self.dataset = dataset
+        self.dataset = UPath(dataset)
 
     @staticmethod
-    def for_file(dataset: UPath) -> DatasetParser:
+    def for_file(dataset: ReadablePathLike) -> DatasetParser:
         """Return the correct subclass based on the given dataset file."""
         file_type = "Unknown"
+        dataset = UPath(dataset)
         try:
             file_type = dataset.suffix
             # Gzipped parquet files can be read with DatasetParserParquet
@@ -192,7 +194,7 @@ class DatasetParserParquet(DatasetParser):
 class DatasetParserSas7Bdat(DatasetParser):
     """Concrete implementation for parsing SAS7BDAT files."""
 
-    def __init__(self, dataset: UPath) -> None:
+    def __init__(self, dataset: ReadablePathLike) -> None:
         """Call the super init method for initialization.
 
         Args:

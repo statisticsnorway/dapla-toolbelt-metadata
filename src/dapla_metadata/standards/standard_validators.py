@@ -4,8 +4,6 @@ import os
 import time
 from collections.abc import AsyncGenerator
 
-from upath import UPath
-
 from dapla_metadata.standards.name_validator import NamingStandardReport
 from dapla_metadata.standards.name_validator import ValidationResult
 from dapla_metadata.standards.name_validator import validate_directory
@@ -46,7 +44,7 @@ async def check_naming_standard(
     # For each file this returns a task which we can wait on to complete.
     # For each directory this returns another AsyncGenerator which must be unpacked below
     tasks: list[asyncio.Task] = []
-    async for t in flatten_generator(validate_directory(UPath(str(file_path)))):
+    async for t in flatten_generator(validate_directory(str(file_path))):
         tasks.append(t)  # noqa: PERF401
 
     # 5 minute timeout for safety
