@@ -170,7 +170,7 @@ class UrnConverter:
 
 vardef_urn_converter = UrnConverter(
     urn_base="urn:ssb:variable-definition:vardef",
-    id_pattern=r"([a-z0-9]{8})",
+    id_pattern=r"([a-zA-Z0-9-_]{8})",  # 8 character Nanoid with default alphabet
     url_bases=[
         *[
             (
