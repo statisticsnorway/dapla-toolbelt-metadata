@@ -56,6 +56,7 @@ from dapla_metadata.datasets.utility.utils import set_default_values_variables
 if TYPE_CHECKING:
     from datetime import datetime
 
+    from upath.types import ReadablePathLike
 
 logger = logging.getLogger(__name__)
 
@@ -77,7 +78,7 @@ class Datadoc:
 
     def __init__(
         self,
-        dataset_path: str | None = None,
+        dataset_path: ReadablePathLike | None = None,
         metadata_document_path: str | None = None,
         statistic_subject_mapping: StatisticSubjectMapping | None = None,
         errors_as_warnings: bool = False,
