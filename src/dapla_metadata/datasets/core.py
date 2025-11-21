@@ -365,13 +365,14 @@ class Datadoc:
 
     @staticmethod
     def build_metadata_document_path(
-        dataset_path: UPath,
+        dataset_path: ReadablePathLike,
     ) -> UPath:
         """Build the path to the metadata document corresponding to the given dataset.
 
         Args:
             dataset_path: Path to the dataset we wish to create metadata for.
         """
+        dataset_path = UPath(dataset_path)
         return dataset_path.parent / (dataset_path.stem + METADATA_DOCUMENT_FILE_SUFFIX)
 
     def datadoc_model(self) -> all_optional_model.MetadataContainer:
