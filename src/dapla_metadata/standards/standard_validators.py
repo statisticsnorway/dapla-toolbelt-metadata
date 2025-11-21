@@ -43,7 +43,9 @@ async def check_naming_standard(
     # Begin validation.
     # For each file this returns a task which we can wait on to complete.
     # For each directory this returns another AsyncGenerator which must be unpacked below
-    tasks = [t async for t in validate_directory(str(file_path))]
+    tasks: list[asyncio.Task] = []
+    async for t in flatten_generator(validate_directory(str(file_path))):
+        tasks.append(t)  # noqa: PERF401
 
     # 5 minute timeout for safety
     start_time = time.time()
