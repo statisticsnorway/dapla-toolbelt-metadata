@@ -17,6 +17,7 @@ spec:
   lifecycle: production
   dependsOn:
     - component:ssb-datadoc-model
+    - component:dapla-auth-client
     - resource:statistical-subjects-structure
   consumesApis:
     - klass-api
