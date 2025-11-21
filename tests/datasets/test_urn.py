@@ -15,7 +15,7 @@ from dapla_metadata.datasets.utility.urn import vardef_urn_converter
 
 EXAMPLE_KLASS_ID = "91"
 EXAMPLE_KLASS_URN = AnyUrl(klass_urn_converter.get_urn(EXAMPLE_KLASS_ID))
-EXAMPLE_VARDEF_ID = "hd8sks89"
+EXAMPLE_VARDEF_ID = "hd8_Ks-9"
 EXAMPLE_VARDEF_URN = AnyUrl(vardef_urn_converter.get_urn(EXAMPLE_VARDEF_ID))
 
 VARIABLE_DEFINITION_URN_TEST_CASES = [
@@ -141,7 +141,7 @@ def test_vardef_get_id(urn_or_url: str | AnyUrl, identifier: str | None):
         ("123", False),
         ("12345678", True),
         ("123456789", False),
-        ("abcdEFGH", False),
+        ("abc$EFGH", False),
         ("", False),
         (None, False),
     ],
