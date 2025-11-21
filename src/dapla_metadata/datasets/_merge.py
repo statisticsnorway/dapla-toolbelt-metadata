@@ -21,7 +21,7 @@ from typing import cast
 import datadoc_model
 import datadoc_model.all_optional.model as all_optional_model
 import datadoc_model.required.model as required_model
-from cloudpathlib import CloudPath
+from upath import UPath
 
 from dapla_metadata.datasets.dapla_dataset_path_info import DaplaDatasetPathInfo
 from dapla_metadata.datasets.utility.constants import (
@@ -77,8 +77,8 @@ class DatasetConsistencyStatus:
 
 
 def check_dataset_consistency(
-    new_dataset_path: Path | CloudPath,
-    existing_dataset_path: Path | CloudPath,
+    new_dataset_path: Path | UPath,
+    existing_dataset_path: Path | UPath,
 ) -> list[DatasetConsistencyStatus]:
     """Run consistency tests.
 

@@ -1,12 +1,13 @@
 import contextlib
 from pathlib import Path
 
+import fsspec  # type: ignore  # noqa: PGH003
 import pytest
-from cloudpathlib.local import LocalGSClient
-from cloudpathlib.local import LocalGSPath
 from datadoc_model.all_optional.model import DatadocMetadata
 from datadoc_model.all_optional.model import DataType
 from datadoc_model.all_optional.model import Variable
+from fsspec.registry import register_implementation  # type: ignore[import-untyped]
+from upath import UPath
 
 from dapla_metadata.datasets._merge import BUCKET_NAME_MESSAGE
 from dapla_metadata.datasets._merge import DATA_PRODUCT_NAME_MESSAGE
@@ -64,8 +65,8 @@ def test_check_dataset_consistency_consistent_paths(
     existing_dataset_path: str,
 ):
     result = check_dataset_consistency(
-        Path(new_dataset_path),
-        Path(existing_dataset_path),
+        UPath(new_dataset_path),
+        UPath(existing_dataset_path),
     )
     for r in result:
         assert r.success, f"'{r.message}' failed"
@@ -103,8 +104,8 @@ def test_check_dataset_consistency_inconsistent_paths(
     new_dataset_path: str, existing_dataset_path: str, request
 ):
     result = check_dataset_consistency(
-        Path(new_dataset_path),
-        Path(existing_dataset_path),
+        UPath(new_dataset_path),
+        UPath(existing_dataset_path),
     )
     test_id = request.node.callspec.id
     result_entry = next(r for r in result if r.message.lower() == test_id)  # type: ignore[attr-defined]
@@ -238,7 +239,7 @@ def test_bucket_check_ok_when_both_params_are_gs_paths(mocker):
     Verify the desired behavior when BOTH parameters are gs-paths (no Path() conversion occurs). In
     this case no `Bucket name` warning should be issued.
     """
-    _patch_gs_utils(mocker)
+    _patch_gs_filesystem(mocker)
     resource_json = (
         Path(__file__).parent
         / "resources"
@@ -254,18 +255,20 @@ def test_bucket_check_ok_when_both_params_are_gs_paths(mocker):
     assert resource_parquet.exists(), f"Parquet resource missing: {resource_parquet}"
     assert resource_json.exists(), f"JSON resource missing: {resource_json}"
     directory = "ssb-dapla-felles-data-produkt-test/datadoc/brukertest/10/sykefratot/klargjorte_data/"
-    dataset_gs = LocalGSPath(
+    dataset_gs = UPath(
         f"gs://{directory}person_testdata_p2021-12-31_p2021-12-31_v1.parquet"
     )
-    metadata_doc_gs = LocalGSPath(
+    metadata_doc_gs = UPath(
         f"gs://{directory}person_testdata_p2021-12-31_p2021-12-31_v1__DOC.json"
     )
     metadata_doc_gs.parent.mkdir(parents=True, exist_ok=True)
     metadata_doc_gs.write_text(resource_json.read_text(), encoding="utf-8")
-    assert metadata_doc_gs.exists(), "Metadata document was not written to LocalGS"
+    assert metadata_doc_gs.exists(), (
+        "Metadata document was not written to memory filesystem"
+    )
     dataset_gs.parent.mkdir(parents=True, exist_ok=True)
     dataset_gs.write_bytes(resource_parquet.read_bytes())
-    assert dataset_gs.exists(), "Parquet file was not written to LocalGS"
+    assert dataset_gs.exists(), "Parquet file was not written to memory filesystem"
     dd = Datadoc(
         dataset_path=str(dataset_gs),
         metadata_document_path=str(metadata_doc_gs),
@@ -282,9 +285,30 @@ def _assert_bucket_ok(results: list, expected_msg: str):
     )
 
 
-def _patch_gs_utils(mocker):
-    mocker.patch(
-        "dapla_metadata.datasets.utility.utils.google.auth.default", autospec=True
-    )
-    mocker.patch("dapla_metadata.datasets.utility.utils.GSClient", LocalGSClient)
-    mocker.patch("dapla_metadata.datasets.utility.utils.GSPath", LocalGSPath)
+def _patch_gs_filesystem(mocker):
+    """Mock GCS filesystem to use memory filesystem for testing.
+
+    This allows us to use gs:// paths with UPath while using an in-memory
+    filesystem that doesn't require actual GCS authentication or connectivity.
+    """
+    memory_fs = fsspec.filesystem("memory")
+
+    original_filesystem = fsspec.filesystem
+
+    def mock_filesystem(protocol, **kwargs):
+        """Return memory filesystem for gs:// protocol, otherwise use original."""
+        if protocol == "gs":
+            return memory_fs
+        return original_filesystem(protocol, **kwargs)
+
+    mocker.patch("fsspec.filesystem", side_effect=mock_filesystem)
+
+    register_implementation("gs", memory_fs.__class__, "MemoryFileSystem")
+
+    def mock_fs_factory(_urlpath, protocol, storage_options):
+        """Return memory filesystem for gs:// protocol."""
+        if protocol == "gs":
+            return memory_fs
+        return fsspec.filesystem(protocol, **storage_options)
+
+    mocker.patch("upath.core.UPath._fs_factory", side_effect=mock_fs_factory)

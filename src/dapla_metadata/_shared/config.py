@@ -4,11 +4,11 @@ from __future__ import annotations
 
 import logging
 import os
-from pathlib import Path
 from pprint import pformat
 
 from dotenv import dotenv_values
 from dotenv import load_dotenv
+from upath import UPath
 
 from dapla_metadata._shared.enums import DaplaEnvironment
 from dapla_metadata._shared.enums import DaplaRegion
@@ -16,7 +16,7 @@ from dapla_metadata._shared.enums import DaplaService
 
 logger = logging.getLogger(__name__)
 
-DOT_ENV_FILE_PATH = Path(__file__).parent.joinpath(".env")
+DOT_ENV_FILE_PATH = UPath(__file__).parent.joinpath(".env")
 
 JUPYTERHUB_USER = "JUPYTERHUB_USER"
 DAPLA_REGION = "DAPLA_REGION"
@@ -37,11 +37,11 @@ env_loaded = False
 def _load_dotenv_file() -> None:
     global env_loaded  # noqa: PLW0603
     if not env_loaded and DOT_ENV_FILE_PATH.exists():
-        load_dotenv(DOT_ENV_FILE_PATH)
+        load_dotenv(str(DOT_ENV_FILE_PATH))
         env_loaded = True
         logger.info(
             "Loaded .env file with config keys: \n%s",
-            pformat(list(dotenv_values(DOT_ENV_FILE_PATH).keys())),
+            pformat(list(dotenv_values(str(DOT_ENV_FILE_PATH)).keys())),
         )
 
 

@@ -5,7 +5,6 @@ Handles reading in the data and transforming data types to generic metadata type
 
 from __future__ import annotations
 
-import pathlib  # noqa: TC003 import is needed for docs build
 import re
 from abc import ABC
 from abc import abstractmethod
@@ -17,12 +16,13 @@ from datadoc_model.all_optional.model import LanguageStringType
 from datadoc_model.all_optional.model import LanguageStringTypeItem
 from datadoc_model.all_optional.model import Variable
 from pyarrow import parquet as pq
+from upath import UPath
 
 from dapla_metadata.datasets.utility.enums import SupportedLanguages
 
 if TYPE_CHECKING:
     import pyarrow as pa
-    from cloudpathlib import CloudPath
+    from upath.types import ReadablePathLike
 
 KNOWN_INTEGER_TYPES = (
     "int",
@@ -109,14 +109,15 @@ class DatasetParser(ABC):
     - A method to extract variables (columns) from the dataset, so they may be documented.
     """
 
-    def __init__(self, dataset: pathlib.Path | CloudPath) -> None:
+    def __init__(self, dataset: ReadablePathLike) -> None:
         """Initialize for a given dataset."""
-        self.dataset = dataset
+        self.dataset = UPath(dataset)
 
     @staticmethod
-    def for_file(dataset: pathlib.Path | CloudPath) -> DatasetParser:
+    def for_file(dataset: ReadablePathLike) -> DatasetParser:
         """Return the correct subclass based on the given dataset file."""
         file_type = "Unknown"
+        dataset = UPath(dataset)
         try:
             file_type = dataset.suffix
             # Gzipped parquet files can be read with DatasetParserParquet
@@ -167,7 +168,7 @@ class DatasetParser(ABC):
 class DatasetParserParquet(DatasetParser):
     """Concrete implementation for parsing parquet files."""
 
-    def __init__(self, dataset: pathlib.Path | CloudPath) -> None:
+    def __init__(self, dataset: UPath) -> None:
         """Call the super init method for initialization.
 
         Args:
@@ -193,7 +194,7 @@ class DatasetParserParquet(DatasetParser):
 class DatasetParserSas7Bdat(DatasetParser):
     """Concrete implementation for parsing SAS7BDAT files."""
 
-    def __init__(self, dataset: pathlib.Path | CloudPath) -> None:
+    def __init__(self, dataset: ReadablePathLike) -> None:
         """Call the super init method for initialization.
 
         Args:

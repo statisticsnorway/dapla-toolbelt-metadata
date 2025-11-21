@@ -1,8 +1,7 @@
 """Repository for constant values for Datadoc tests."""
 
-from pathlib import Path
-
 from datadoc_model.all_optional.model import DataType
+from upath import UPath
 
 TEST_BUCKET_PARQUET_FILEPATH = "gs://ssb-staging-dapla-felles-data-delt/datadoc/klargjorte_data/person_data_v1.parquet"
 
@@ -10,7 +9,7 @@ TEST_BUCKET_PARQUET_FILEPATH_WITH_SHORTNAME = "gs://ssb-staging-dapla-felles-dat
 
 TEST_BUCKET_NAMING_STANDARD_COMPATIBLE_PATH = "gs://ssb-my-team-data-produkt-prod/ifpn/klargjorte_data/person_testdata_p2021-12-31_p2021-12-31_v1.parquet"
 
-TEST_RESOURCES_DIRECTORY = Path("tests/datasets/resources")
+TEST_RESOURCES_DIRECTORY = UPath("tests/datasets/resources")
 
 TEST_DATASETS_DIRECTORY = TEST_RESOURCES_DIRECTORY / "datasets"
 

@@ -12,6 +12,7 @@ from typing import cast
 import datadoc_model.all_optional.model as all_optional_model
 import datadoc_model.required.model as required_model
 from datadoc_model.all_optional.model import DataSetStatus
+from upath import UPath
 
 from dapla_metadata._shared import config
 from dapla_metadata.dapla import user_info
@@ -41,7 +42,6 @@ from dapla_metadata.datasets.utility.utils import VariableType
 from dapla_metadata.datasets.utility.utils import calculate_percentage
 from dapla_metadata.datasets.utility.utils import derive_assessment_from_state
 from dapla_metadata.datasets.utility.utils import get_timestamp_now
-from dapla_metadata.datasets.utility.utils import normalize_path
 from dapla_metadata.datasets.utility.utils import (
     num_obligatory_dataset_fields_completed,
 )
@@ -54,10 +54,9 @@ from dapla_metadata.datasets.utility.utils import set_default_values_pseudonymiz
 from dapla_metadata.datasets.utility.utils import set_default_values_variables
 
 if TYPE_CHECKING:
-    import pathlib
     from datetime import datetime
 
-    from cloudpathlib import CloudPath
+    from upath.types import ReadablePathLike
 
 logger = logging.getLogger(__name__)
 
@@ -79,8 +78,8 @@ class Datadoc:
 
     def __init__(
         self,
-        dataset_path: str | None = None,
-        metadata_document_path: str | None = None,
+        dataset_path: ReadablePathLike | None = None,
+        metadata_document_path: ReadablePathLike | None = None,
         statistic_subject_mapping: StatisticSubjectMapping | None = None,
         errors_as_warnings: bool = False,
         validate_required_fields_on_existing_metadata: bool = False,
@@ -108,16 +107,16 @@ class Datadoc:
         self.validate_required_fields_on_existing_metadata = (
             validate_required_fields_on_existing_metadata
         )
-        self.metadata_document: pathlib.Path | CloudPath | None = None
+        self.metadata_document: UPath | None = None
         self.container: all_optional_model.MetadataContainer | None = None
-        self.dataset_path: pathlib.Path | CloudPath | None = None
+        self.dataset_path: UPath | None = None
         self.dataset = all_optional_model.Dataset()
         self.variables: VariableListType = []
         self.variables_lookup: dict[str, VariableType] = {}
         self.explicitly_defined_metadata_document = False
         self.dataset_consistency_status: list[DatasetConsistencyStatus] = []
         if metadata_document_path:
-            self.metadata_document = normalize_path(metadata_document_path)
+            self.metadata_document = UPath(metadata_document_path)
             self.explicitly_defined_metadata_document = True
             if not self.metadata_document.exists():
                 msg = f"Metadata document does not exist! Provided path: {self.metadata_document}"
@@ -125,7 +124,7 @@ class Datadoc:
                     msg,
                 )
         if dataset_path:
-            self.dataset_path = normalize_path(dataset_path)
+            self.dataset_path = UPath(dataset_path)
             if not metadata_document_path:
                 self.metadata_document = self.build_metadata_document_path(
                     self.dataset_path,
@@ -234,7 +233,7 @@ class Datadoc:
 
     def _extract_metadata_from_existing_document(
         self,
-        document: pathlib.Path | CloudPath,
+        document: UPath,
     ) -> OptionalDatadocMetadataType:
         """Read metadata from an existing metadata document.
 
@@ -317,7 +316,7 @@ class Datadoc:
 
     def _extract_metadata_from_dataset(
         self,
-        dataset: pathlib.Path | CloudPath,
+        dataset: UPath,
     ) -> all_optional_model.DatadocMetadata:
         """Obtain what metadata we can from the dataset itself.
 
@@ -366,13 +365,14 @@ class Datadoc:
 
     @staticmethod
     def build_metadata_document_path(
-        dataset_path: pathlib.Path | CloudPath,
-    ) -> pathlib.Path | CloudPath:
+        dataset_path: ReadablePathLike,
+    ) -> UPath:
         """Build the path to the metadata document corresponding to the given dataset.
 
         Args:
             dataset_path: Path to the dataset we wish to create metadata for.
         """
+        dataset_path = UPath(dataset_path)
         return dataset_path.parent / (dataset_path.stem + METADATA_DOCUMENT_FILE_SUFFIX)
 
     def datadoc_model(self) -> all_optional_model.MetadataContainer:

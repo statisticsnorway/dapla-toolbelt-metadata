@@ -4,6 +4,7 @@ import json
 from pathlib import Path
 
 import pytest
+from upath import UPath
 
 from dapla_metadata.datasets.compatibility import is_metadata_in_container_structure
 from dapla_metadata.datasets.compatibility import upgrade_metadata
@@ -43,9 +44,9 @@ def test_existing_metadata_current_model_version():
 
 
 def test_handle_version_2_2_0() -> None:
-    pydir: Path = Path(__file__).resolve().parent
-    rootdir: Path = pydir.parent.parent
-    existing_metadata_file: Path = (
+    pydir: UPath = UPath(__file__).resolve().parent
+    rootdir: UPath = pydir.parent.parent
+    existing_metadata_file: UPath = (
         rootdir
         / TEST_COMPATIBILITY_DIRECTORY
         / "v2_2_0"
@@ -60,9 +61,9 @@ def test_handle_version_2_2_0() -> None:
 
 
 def test_handle_version_3_3_0() -> None:
-    pydir: Path = Path(__file__).resolve().parent
-    rootdir: Path = pydir.parent.parent
-    existing_metadata_file: Path = (
+    pydir: UPath = UPath(__file__).resolve().parent
+    rootdir: UPath = pydir.parent.parent
+    existing_metadata_file: UPath = (
         rootdir
         / TEST_COMPATIBILITY_DIRECTORY
         / "v3_3_0"
@@ -78,9 +79,9 @@ def test_handle_version_3_3_0() -> None:
 
 
 def test_handle_version_4_0_0() -> None:
-    pydir: Path = Path(__file__).resolve().parent
-    rootdir: Path = pydir.parent.parent
-    existing_metadata_file: Path = (
+    pydir: UPath = UPath(__file__).resolve().parent
+    rootdir: UPath = pydir.parent.parent
+    existing_metadata_file: UPath = (
         rootdir
         / TEST_PSEUDO_DIRECTORY
         / "dataset_and_pseudo"
@@ -104,9 +105,9 @@ def test_handle_version_4_0_0() -> None:
 
 
 def test_handle_version_4_0_0_without_pseudo() -> None:
-    pydir: Path = Path(__file__).resolve().parent
-    rootdir: Path = pydir.parent.parent
-    existing_metadata_file: Path = (
+    pydir: UPath = UPath(__file__).resolve().parent
+    rootdir: UPath = pydir.parent.parent
+    existing_metadata_file: UPath = (
         rootdir
         / TEST_PSEUDO_DIRECTORY
         / "dataset_and_pseudo"
@@ -123,9 +124,9 @@ def test_handle_version_4_0_0_without_pseudo() -> None:
 
 
 def test_handle_version_5_0_1() -> None:
-    pydir: Path = Path(__file__).resolve().parent
-    rootdir: Path = pydir.parent.parent
-    existing_metadata_file: Path = (
+    pydir: UPath = UPath(__file__).resolve().parent
+    rootdir: UPath = pydir.parent.parent
+    existing_metadata_file: UPath = (
         rootdir
         / TEST_COMPATIBILITY_DIRECTORY
         / "v5_0_1"
