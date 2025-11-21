@@ -79,7 +79,7 @@ class Datadoc:
     def __init__(
         self,
         dataset_path: ReadablePathLike | None = None,
-        metadata_document_path: str | None = None,
+        metadata_document_path: ReadablePathLike | None = None,
         statistic_subject_mapping: StatisticSubjectMapping | None = None,
         errors_as_warnings: bool = False,
         validate_required_fields_on_existing_metadata: bool = False,
