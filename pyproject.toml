@@ -2,7 +2,7 @@
 name = "dapla-toolbelt-metadata"
 description = "Dapla Toolbelt Metadata"
 license = "MIT"
-version = "0.10.1"
+version = "0.10.2"
 classifiers = [
     "Development Status :: 4 - Beta",
     "Programming Language :: Python :: 3.10",
