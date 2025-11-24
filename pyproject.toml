@@ -15,7 +15,7 @@ classifiers = [
 maintainers = [{ name = "Division for Data Enablement (724)", email = "metadata@ssb.no" }]
 readme = "README.md"
 authors = [{ name = "Statistics Norway", email = "metadata@ssb.no" }]
-requires-python = '>=3.10,<4.0'
+requires-python = '>=3.10'
 dependencies = [
     'pyarrow >=8.0.0',
     'pydantic >=2.5.2',
