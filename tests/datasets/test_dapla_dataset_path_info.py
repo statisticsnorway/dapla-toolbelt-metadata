@@ -308,6 +308,18 @@ def test_date_format_correct_end_date(date_format, period, expected):
         ("stat/inndata/person_data", "stat"),
         ("buckets/stat/inndata/person_data", None),
         ("buckets/bucket_name/stat/inndata/person_data", "stat"),
+        (
+            "gs://statistikk/produkt/klargjorte-data/persondata_p1990-Q1_p2023-Q4_v1/aar=2019/data.parquet",
+            "produkt",
+        ),
+        (
+            "gs://statistikk/produkt/persondata_p1990-Q1_p2023-Q4_v1/aar=2019/data.parquet",
+            None,
+        ),
+        (
+            "buckets/ssb-staging-dapla-felles-data-delt/person_data_p2021_v2.parquet",
+            None,
+        ),
     ],
 )
 def test_extract_shortname_in_path(data: str, expected: str):
@@ -363,3 +375,10 @@ def test_path_complies_with_naming_standard_invalid_input(data: str):
 )
 def test_path_complies_with_naming_standard_valid_input(data: str):
     assert DaplaDatasetPathInfo(data).path_complies_with_naming_standard() is True
+
+
+def test_extract_shortname_in_path_invalid_gs_url():
+    with pytest.raises(ValueError, match="non key-like path provided"):
+        _ = DaplaDatasetPathInfo(
+            "gs:/ssb-staging-dapla-felles-data-delt/datadoc/person_data_v1.parquet"
+        ).dataset_short_name

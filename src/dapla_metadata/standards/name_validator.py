@@ -1,9 +1,10 @@
 import asyncio
 import logging
-import os
 import re
 from collections.abc import AsyncGenerator
-from pathlib import Path
+
+from upath import UPath
+from upath.types import ReadablePathLike
 
 from dapla_metadata.datasets.dapla_dataset_path_info import DaplaDatasetPathInfo
 from dapla_metadata.datasets.dataset_parser import SUPPORTED_DATASET_FILE_SUFFIXES
@@ -139,7 +140,7 @@ class NamingStandardReport:
         return SSB_NAMING_STANDARD_REPORT_RESULT_NO_SCORE
 
 
-def _has_invalid_symbols(path: os.PathLike[str]) -> bool:
+def _has_invalid_symbols(path: ReadablePathLike) -> bool:
     """Return True if string contains illegal symbols.
 
     Examples:
@@ -164,7 +165,7 @@ def _has_invalid_symbols(path: os.PathLike[str]) -> bool:
 
 
 def _check_violations(
-    file: Path,
+    file: UPath,
 ) -> list[str]:
     """Check for missing attributes and invalid symbols."""
     path_info = DaplaDatasetPathInfo(file)
@@ -181,7 +182,7 @@ def _check_violations(
 
 
 async def _validate_file(
-    file: Path,
+    file: UPath,
     check_file_exists: bool = False,
 ) -> ValidationResult:
     """Check for naming standard violations.
@@ -217,22 +218,23 @@ async def _validate_file(
     return result
 
 
-async def _ignored_folder_result(file: Path) -> ValidationResult:
+async def _ignored_folder_result(file: UPath) -> ValidationResult:
     r = ValidationResult(success=True, file_path=str(file))
     r.add_message(PATH_IGNORED)
     return r
 
 
-async def _ignored_file_type_result(file: Path) -> ValidationResult:
+async def _ignored_file_type_result(file: UPath) -> ValidationResult:
     r = ValidationResult(success=True, file_path=str(file))
     r.add_message(FILE_IGNORED)
     return r
 
 
 async def validate_directory(
-    path: Path,
+    path: ReadablePathLike,
 ) -> AsyncGenerator[AsyncGenerator | asyncio.Task]:
     """Validate a file or recursively validate all files in a directory."""
+    path = UPath(path)
     if set(path.parts).intersection(IGNORED_FOLDERS):
         logger.info("File path ignored: %s", path)
         yield asyncio.create_task(_ignored_folder_result(path))

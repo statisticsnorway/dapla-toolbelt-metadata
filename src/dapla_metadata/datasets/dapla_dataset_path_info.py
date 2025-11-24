@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import logging
-import pathlib
 import re
 from abc import ABC
 from abc import abstractmethod
@@ -13,17 +12,19 @@ from typing import Final
 from typing import Literal
 
 import arrow
-from cloudpathlib import GSPath
 from datadoc_model.all_optional.model import DataSetState
+from upath import UPath
+
+from dapla_metadata.datasets.utility.constants import GS_PREFIX
 
 if TYPE_CHECKING:
     import datetime
-    import os
     from datetime import date
 
-logger = logging.getLogger(__name__)
+    from upath.types import ReadablePathLike
 
-GS_PREFIX_FROM_PATHLIB = "gs:/"
+
+logger = logging.getLogger(__name__)
 
 
 @dataclass
@@ -334,12 +335,15 @@ def categorize_period_string(period: str) -> IsoDateFormat | SsbDateFormat:
 class DaplaDatasetPathInfo:
     """Extract info from a path following SSB's dataset naming convention."""
 
-    def __init__(self, dataset_path: str | os.PathLike[str]) -> None:
+    def __init__(self, dataset_path: ReadablePathLike) -> None:
         """Digest the path so that it's ready for further parsing."""
         self.dataset_string = str(dataset_path)
-        self.dataset_path = pathlib.Path(dataset_path)
+        self.dataset_path = UPath(self.dataset_string)
         self.dataset_name_sections = self.dataset_path.stem.split("_")
         self._period_strings = self._extract_period_strings(self.dataset_name_sections)
+
+        # Since UPath as a trailing slash after the bucket name we remove that so that we are able to find the bucket name in the path parts later
+        self.dataset_path_parts = [p.strip("/") for p in self.dataset_path.parent.parts]
 
     @staticmethod
     def _get_period_string_indices(dataset_name_sections: list[str]) -> list[int]:
@@ -484,12 +488,6 @@ class DaplaDatasetPathInfo:
             >>> DaplaDatasetPathInfo('gs://ssb-staging-dapla-felles-data-delt/datadoc/utdata/person_data_p2021_v2.parquet').bucket_name
             ssb-staging-dapla-felles-data-delt
 
-            >>> DaplaDatasetPathInfo(pathlib.Path('gs://ssb-staging-dapla-felles-data-delt/datadoc/utdata/person_data_p2021_v2.parquet')).bucket_name
-            ssb-staging-dapla-felles-data-delt
-
-            >>> DaplaDatasetPathInfo('gs:/ssb-staging-dapla-felles-data-delt/datadoc/utdata/person_data_p2021_v2.parquet').bucket_name
-            ssb-staging-dapla-felles-data-delt
-
             >>> DaplaDatasetPathInfo('ssb-staging-dapla-felles-data-delt/datadoc/utdata/person_data_p2021_v2.parquet').bucket_name
             None
 
@@ -506,12 +504,8 @@ class DaplaDatasetPathInfo:
             ssb-staging-dapla-felles-produkt
         """
         prefix: str | None = None
-        dataset_string = str(self.dataset_string)
-        if GSPath.cloud_prefix in self.dataset_string:
-            prefix = GSPath.cloud_prefix
-            _, bucket_and_rest = dataset_string.split(prefix, 1)
-        elif GS_PREFIX_FROM_PATHLIB in self.dataset_string:
-            prefix = GS_PREFIX_FROM_PATHLIB
+        if GS_PREFIX in self.dataset_string:
+            prefix = GS_PREFIX
             _, bucket_and_rest = self.dataset_string.split(prefix, 1)
         elif "buckets/" in self.dataset_string:
             prefix = "buckets/"
@@ -519,7 +513,7 @@ class DaplaDatasetPathInfo:
         else:
             return None
 
-        return pathlib.Path(
+        return UPath(
             bucket_and_rest,
         ).parts[0]
 
@@ -547,7 +541,7 @@ class DaplaDatasetPathInfo:
             >>> DaplaDatasetPathInfo('my_data/simple_dataset_name.parquet').dataset_short_name
             simple_dataset_name
 
-            >>> DaplaDatasetPathInfo('gs:/ssb-staging-dapla-felles-data-delt/datadoc/utdata/person_data_p2021_v2.parquet').dataset_short_name
+            >>> DaplaDatasetPathInfo('gs://ssb-staging-dapla-felles-data-delt/datadoc/utdata/person_data_p2021_v2.parquet').dataset_short_name
             person_data
 
             >>> DaplaDatasetPathInfo('buckets/ssb-staging-dapla-felles-data-delt/stat/utdata/folk_data_p2021_v2.parquet').dataset_short_name
@@ -634,7 +628,7 @@ class DaplaDatasetPathInfo:
             >>> DaplaDatasetPathInfo('my_special_data/person_data_v1.parquet').dataset_state
             None
         """
-        dataset_path_parts = set(self.dataset_path.parts)
+        dataset_path_parts = set(self.dataset_path_parts)
         for state in DataSetState:
             norwegian_variations = self._extract_norwegian_dataset_state_path_part(
                 state,
@@ -754,19 +748,17 @@ class DaplaDatasetPathInfo:
         """
         if not self.dataset_state:
             if self.bucket_name:
-                parts = self.dataset_path.parent.parts
+                parts = self.dataset_path_parts
 
                 if self.bucket_name not in parts:
                     return None
 
                 # Find the index of bucket_name in the path
-                bucket_name_index = self.dataset_path.parent.parts.index(
-                    self.bucket_name,
-                )
+                bucket_name_index = parts.index(self.bucket_name)
 
                 # If there are parts after bucket_name, return the part immediately after it
-                if len(self.dataset_path.parent.parts) > bucket_name_index + 1:
-                    return self.dataset_path.parent.parts[bucket_name_index + 1]
+                if len(self.dataset_path_parts) > bucket_name_index + 1:
+                    return self.dataset_path_parts[bucket_name_index + 1]
 
             return None
 

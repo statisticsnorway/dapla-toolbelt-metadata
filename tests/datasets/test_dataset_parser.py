@@ -1,7 +1,6 @@
 """Tests for the DatasetParser class."""
 
 import io
-import pathlib
 
 import pandas as pd
 import pytest
@@ -9,6 +8,7 @@ from datadoc_model.all_optional.model import DataType
 from datadoc_model.all_optional.model import LanguageStringType
 from datadoc_model.all_optional.model import LanguageStringTypeItem
 from datadoc_model.all_optional.model import Variable
+from upath import UPath
 
 from dapla_metadata.datasets.dataset_parser import KNOWN_BOOLEAN_TYPES
 from dapla_metadata.datasets.dataset_parser import KNOWN_DATETIME_TYPES
@@ -81,9 +81,9 @@ def test_get_fields_sas7bdat():
 
 
 @pytest.mark.parametrize("file", ["my_dataset.csv", "my_dataset.xlsx", "my_dataset"])
-def test_dataset_parser_unsupported_files(file: pathlib.Path):
+def test_dataset_parser_unsupported_files(file: UPath):
     with pytest.raises(NotImplementedError):
-        DatasetParser.for_file(pathlib.Path(file))
+        DatasetParser.for_file(UPath(file))
 
 
 def test_transform_datatype_unknown_type():
@@ -124,6 +124,6 @@ def parquet_with_index_column(tmp_path):
     return output_path
 
 
-def test_parquet_with_index_column(parquet_with_index_column: pathlib.Path):
+def test_parquet_with_index_column(parquet_with_index_column: UPath):
     fields = DatasetParser.for_file(parquet_with_index_column).get_fields()
     assert not any(f.short_name == "__index_level_0__" for f in fields)

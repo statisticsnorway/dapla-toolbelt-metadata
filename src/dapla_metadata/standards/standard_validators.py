@@ -4,7 +4,6 @@ import os
 import time
 from collections.abc import AsyncGenerator
 
-from dapla_metadata.datasets.utility.utils import normalize_path
 from dapla_metadata.standards.name_validator import NamingStandardReport
 from dapla_metadata.standards.name_validator import ValidationResult
 from dapla_metadata.standards.name_validator import validate_directory
@@ -45,7 +44,9 @@ async def check_naming_standard(
     # Begin validation.
     # For each file this returns a task which we can wait on to complete.
     # For each directory this returns another AsyncGenerator which must be unpacked below
-    tasks = [t async for t in validate_directory(normalize_path(str(file_path)))]  # type:ignore [arg-type]
+    tasks: list[asyncio.Task] = []
+    async for t in flatten_generator(validate_directory(str(file_path))):
+        tasks.append(t)  # noqa: PERF401
 
     # 5 minute timeout for safety
     start_time = time.time()
@@ -76,6 +77,16 @@ async def check_naming_standard(
         await asyncio.sleep(0.001)
 
     return results
+
+
+async def flatten_generator(gen: AsyncGenerator) -> AsyncGenerator[asyncio.Task, None]:
+    """Recursively flatten nested async generators."""
+    async for item in gen:
+        if isinstance(item, AsyncGenerator):
+            async for sub_item in flatten_generator(item):
+                yield sub_item
+        else:
+            yield item
 
 
 def generate_validation_report(
