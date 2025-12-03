@@ -1,5 +1,7 @@
 from datetime import datetime
+from datetime import date
 from typing import Any
+from dateutil.parser import parse
 
 import arrow
 
@@ -8,6 +10,7 @@ DATADOC_KEY = "datadoc"
 DATASET_KEY = "dataset"
 VARIABLES_KEY = "variables"
 PSEUDONYMIZATION_KEY = "pseudonymization"
+STABLE_IDENTIFIER_VERSION_KEY = "stable_identifier_version"
 
 
 class UnknownModelVersionError(Exception):
@@ -257,3 +260,12 @@ def is_metadata_in_container_structure(
         'datadoc' field), False otherwise.
     """
     return DATADOC_KEY in metadata
+
+def to_date_or_today(value: str | None) -> date | None:
+    if value is None:
+        return None
+
+    try:
+        return parse(value).date()
+    except Exception:
+        return date.today()

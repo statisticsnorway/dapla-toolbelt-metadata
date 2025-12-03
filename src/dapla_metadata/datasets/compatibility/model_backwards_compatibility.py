@@ -30,6 +30,7 @@ from dapla_metadata.datasets.compatibility._handlers import handle_version_3_3_0
 from dapla_metadata.datasets.compatibility._handlers import handle_version_4_0_0
 from dapla_metadata.datasets.compatibility._handlers import handle_version_5_0_1
 from dapla_metadata.datasets.compatibility._handlers import handle_version_6_0_0
+from dapla_metadata.datasets.compatibility._handlers import handle_version_6_1_0
 from dapla_metadata.datasets.compatibility._utils import DATADOC_KEY
 from dapla_metadata.datasets.compatibility._utils import DOCUMENT_VERSION_KEY
 from dapla_metadata.datasets.compatibility._utils import UnknownModelVersionError
@@ -95,7 +96,8 @@ BackwardsCompatibleVersion(version="3.3.0", handler=handle_version_3_3_0)
 BackwardsCompatibleVersion(version="4.0.0", handler=handle_version_4_0_0)
 BackwardsCompatibleVersion(version="5.0.1", handler=handle_version_5_0_1)
 BackwardsCompatibleVersion(version="6.0.0", handler=handle_version_6_0_0)
-BackwardsCompatibleVersion(version="6.1.0", handler=handle_current_version)
+BackwardsCompatibleVersion(version="6.1.0", handler=handle_version_6_1_0)
+BackwardsCompatibleVersion(version="6.1.1", handler=handle_current_version)
 
 
 def upgrade_metadata(fresh_metadata: dict[str, Any]) -> dict[str, Any]:

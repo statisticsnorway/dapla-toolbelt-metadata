@@ -269,7 +269,7 @@ def test_obligatory_metadata_variables_warning_pseudonymization(metadata: Datado
     metadata.variables_lookup["pers_id"].pseudonymization = model.Pseudonymization(
         pseudonymization_time="2022-10-07T07:35:01Z",
         stable_identifier_type="",
-        stable_identifier_version="",
+        stable_identifier_version="2022-10-07",
         encryption_algorithm=None,
         encryption_algorithm_parameters=[],
     )
