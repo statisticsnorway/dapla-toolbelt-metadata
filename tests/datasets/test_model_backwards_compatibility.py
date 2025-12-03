@@ -5,6 +5,7 @@ from pathlib import Path
 
 import pytest
 from upath import UPath
+from datetime import date
 
 from dapla_metadata.datasets.compatibility import is_metadata_in_container_structure
 from dapla_metadata.datasets.compatibility import upgrade_metadata
@@ -13,10 +14,12 @@ from dapla_metadata.datasets.compatibility._handlers import handle_version_3_3_0
 from dapla_metadata.datasets.compatibility._handlers import handle_version_4_0_0
 from dapla_metadata.datasets.compatibility._handlers import handle_version_5_0_1
 from dapla_metadata.datasets.compatibility._handlers import handle_version_6_0_0
+from dapla_metadata.datasets.compatibility._handlers import handle_version_6_1_0
 from dapla_metadata.datasets.compatibility._utils import DATADOC_KEY
 from dapla_metadata.datasets.compatibility._utils import DATASET_KEY
 from dapla_metadata.datasets.compatibility._utils import DOCUMENT_VERSION_KEY
 from dapla_metadata.datasets.compatibility._utils import PSEUDONYMIZATION_KEY
+from dapla_metadata.datasets.compatibility._utils import STABLE_IDENTIFIER_VERSION_KEY
 from dapla_metadata.datasets.compatibility._utils import VARIABLES_KEY
 from dapla_metadata.datasets.compatibility._utils import UnknownModelVersionError
 from dapla_metadata.datasets.compatibility._utils import add_container
@@ -37,7 +40,7 @@ BACKWARDS_COMPATIBLE_VERSION_NAMES = [
 
 
 def test_existing_metadata_current_model_version():
-    current_model_version = "6.1.0"
+    current_model_version = "6.1.1"
     fresh_metadata = {DATADOC_KEY: {DOCUMENT_VERSION_KEY: current_model_version}}
     upgraded_metadata = upgrade_metadata(fresh_metadata)
     assert upgraded_metadata == fresh_metadata
@@ -265,3 +268,42 @@ def test_copy_pseudonymization_metadata_shortname_mismatch():
     assert (
         supplied_metadata[DATADOC_KEY][VARIABLES_KEY][0][PSEUDONYMIZATION_KEY] is None
     )
+
+
+@pytest.mark.parametrize(
+    "input_var,expected",
+    [
+        (
+            {
+                "pseudonymization": False,
+                "stable_identifier_version": "2000-10-10",
+            },
+            "2000-10-10",
+        ),
+        (
+            {
+                "pseudonymization": True,
+                "stable_identifier_version": "some_string",
+            },
+            date.today(),
+        ),
+        (
+            {
+                "pseudonymization": True,
+                "stable_identifier_version": None,
+            },
+            None,
+        ),
+    ],
+)
+def test_handle_version_6_1_0_parametrized(input_var, expected):
+    supplied_metadata = {
+        "datadoc": {
+            "variables": [input_var]
+        }
+    }
+
+    upgraded = handle_version_6_1_0(supplied_metadata)
+    result = upgraded["datadoc"]["variables"][0]["stable_identifier_version"]
+
+    assert result == expected

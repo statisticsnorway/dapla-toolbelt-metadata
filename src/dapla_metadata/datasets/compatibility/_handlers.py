@@ -1,12 +1,14 @@
 from datetime import datetime
 from datetime import timezone
 from typing import Any
+from dapla_metadata.datasets.compatibility._utils import to_date_or_today
 
 from dapla_metadata.datasets.compatibility._utils import DATADOC_KEY
 from dapla_metadata.datasets.compatibility._utils import DATASET_KEY
 from dapla_metadata.datasets.compatibility._utils import DOCUMENT_VERSION_KEY
 from dapla_metadata.datasets.compatibility._utils import PSEUDONYMIZATION_KEY
 from dapla_metadata.datasets.compatibility._utils import VARIABLES_KEY
+from dapla_metadata.datasets.compatibility._utils import STABLE_IDENTIFIER_VERSION_KEY
 from dapla_metadata.datasets.compatibility._utils import add_container
 from dapla_metadata.datasets.compatibility._utils import cast_to_date_type
 from dapla_metadata.datasets.compatibility._utils import convert_datetime_to_date
@@ -29,6 +31,30 @@ def handle_current_version(supplied_metadata: dict[str, Any]) -> dict[str, Any]:
     Returns:
         The unmodified supplied metadata.
     """
+    return supplied_metadata
+
+
+def handle_version_6_1_0(supplied_metadata: dict[str, Any]) -> dict[str, Any]:
+    """Handle breaking changes for version 6.1.0.
+
+    This function modifies the supplied metadata to accommodate breaking changes
+    introduced in version 6.1.0. Specifically, it:
+    Converts the stable_identifier_version to a date if it is not already a date.
+    If it is a string, it is converted to todays date.
+    If it is a datetime, it is converted to a date.
+    If it is a date, it is left unchanged.
+    If it is None it remains None.
+
+    Args:
+        supplied_metadata: The metadata dictionary to be updated.
+
+    Returns:
+        The upgraded metadata dictionary.
+    """ 
+    for variable in supplied_metadata[DATADOC_KEY][VARIABLES_KEY]:
+        if variable.get(PSEUDONYMIZATION_KEY):
+            variable[STABLE_IDENTIFIER_VERSION_KEY] = to_date_or_today(variable.get(STABLE_IDENTIFIER_VERSION_KEY))
+    
     return supplied_metadata
 
 
