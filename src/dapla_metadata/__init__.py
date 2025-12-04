@@ -1,5 +1,6 @@
 """Tools and clients for working with the Dapla Metadata system."""
 
+import sys
 import warnings
 
 warnings.filterwarnings(
@@ -12,4 +13,8 @@ import datadoc_model.all_optional.model as datadoc_model
 from . import dapla
 from . import datasets
 from . import standards
-from . import variable_definitions
+
+if sys.version_info >= (3, 11):
+    # dapla_auth_client only supports Python >=3.11
+    # We must still support 3.10 for now, but variable definitions never runs on 3.10
+    from . import variable_definitions
