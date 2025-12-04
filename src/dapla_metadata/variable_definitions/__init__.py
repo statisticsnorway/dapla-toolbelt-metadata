@@ -1,11 +1,5 @@
 """Client for working with Variable Definitions at Statistics Norway."""
 
-try:
-    import dapla_auth_client
-except ImportError as e:
-    msg = "Variable Definitions does not support Python 3.10"
-    raise ImportError(msg) from e
-
 from ._generated.vardef_client import models
 from ._generated.vardef_client.exceptions import *  # noqa: F403
 from ._utils.constants import DEFAULT_DATE
