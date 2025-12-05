@@ -27,7 +27,7 @@ dependencies = [
     'gcsfs >=2023.1.0',
     'pyjwt >=2.8.0',
     'ssb-klass-python >=1.0.1',
-    "ssb-datadoc-model (>=8.0.0,<9.0.0)",
+    "ssb-datadoc-model ==8.0.0",
     'typing-extensions >=4.12.2',
     'ruamel-yaml >=0.18.10',
     'google-auth >=2.38.0',
@@ -36,7 +36,7 @@ dependencies = [
     "urllib3>=2.5.0",
     "pytz>=2025.2",
     "python-dateutil>=2.9.0.post0",
-    "dapla-auth-client>=1.2.0",
+    "dapla-auth-client>=1.2.1; python_version > '3.10'",
 ]
 
 [project.urls]
