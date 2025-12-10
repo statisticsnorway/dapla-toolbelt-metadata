@@ -25,6 +25,8 @@ from dapla_metadata.datasets.utility.constants import PAPIS_STABLE_IDENTIFIER_TY
 from dapla_metadata.datasets.utility.enums import EncryptionAlgorithm
 from dapla_metadata.datasets.utility.utils import PseudonymizationType
 from dapla_metadata.datasets.utility.utils import get_current_date
+from tests.datasets.constants import TEST_EXISTING_METADATA_FILE_NAME
+from tests.datasets.constants import TEST_EXISTING_METADATA_NAMING_STANDARD_FILEPATH
 from tests.datasets.constants import TEST_PARQUET_FILE_NAME
 from tests.datasets.constants import TEST_PARQUET_FILEPATH
 from tests.datasets.constants import TEST_PSEUDO_DIRECTORY
@@ -500,40 +502,31 @@ def test_existing_metadata_file_update_pseudonymization(
     assert variable.pseudonymization.encryption_algorithm == "new_encryption_algorithm"
 
 
+OPTIONAL_EXAMPLE = PseudonymizationOptional(
+    encryption_algorithm=EncryptionAlgorithm.DAEAD_ENCRYPTION_ALGORITHM.value,
+    encryption_key_reference="jippi-ya",
+)
+REQUIRED_EXAMPLE = PseudonymizationRequired(
+    encryption_algorithm=EncryptionAlgorithm.DAEAD_ENCRYPTION_ALGORITHM.value,
+    encryption_key_reference="jippi-ya",
+)
+
+
 @pytest.mark.parametrize(
-    ("validate_required_fields_on_existing_metadata", "input_model"),
+    ("validate_required_fields_on_existing_metadata"),
     [
-        (
-            True,
-            PseudonymizationOptional(
-                encryption_algorithm=EncryptionAlgorithm.DAEAD_ENCRYPTION_ALGORITHM.value,
-                encryption_key_reference="jippi-ya",
-            ),
-        ),
-        (
-            True,
-            PseudonymizationRequired(
-                encryption_algorithm=EncryptionAlgorithm.DAEAD_ENCRYPTION_ALGORITHM.value,
-                encryption_key_reference="jippi-ya",
-            ),
-        ),
-        (
-            False,
-            PseudonymizationOptional(
-                encryption_algorithm=EncryptionAlgorithm.DAEAD_ENCRYPTION_ALGORITHM.value,
-                encryption_key_reference="jippi-ya",
-            ),
-        ),
-        (
-            False,
-            PseudonymizationRequired(
-                encryption_algorithm=EncryptionAlgorithm.DAEAD_ENCRYPTION_ALGORITHM.value,
-                encryption_key_reference="jippi-ya",
-            ),
-        ),
+        True,
+        False,
     ],
 )
-def test_add_pseudonymization_model_types(
+@pytest.mark.parametrize(
+    ("input_model"),
+    [
+        OPTIONAL_EXAMPLE,
+        REQUIRED_EXAMPLE,
+    ],
+)
+def test_add_pseudonymization_model_types_no_existing_metadata(
     subject_mapping_fake_statistical_structure: StatisticSubjectMapping,
     tmp_path: UPath,
     validate_required_fields_on_existing_metadata: bool,
@@ -545,8 +538,71 @@ def test_add_pseudonymization_model_types(
         statistic_subject_mapping=subject_mapping_fake_statistical_structure,
         validate_required_fields_on_existing_metadata=validate_required_fields_on_existing_metadata,
     )
-
     metadata.add_pseudonymization("pers_id", input_model)
+
+
+@pytest.mark.parametrize(
+    ("validate_required_fields_on_existing_metadata"),
+    [
+        True,
+        False,
+    ],
+)
+@pytest.mark.parametrize(
+    ("input_model"),
+    [
+        OPTIONAL_EXAMPLE,
+        REQUIRED_EXAMPLE,
+    ],
+)
+def test_add_pseudonymization_model_types_existing_metadata(
+    subject_mapping_fake_statistical_structure: StatisticSubjectMapping,
+    tmp_path: UPath,
+    validate_required_fields_on_existing_metadata: bool,
+    input_model: PseudonymizationType,
+):
+    shutil.copy(
+        str(TEST_EXISTING_METADATA_NAMING_STANDARD_FILEPATH),
+        str(tmp_path / TEST_EXISTING_METADATA_FILE_NAME),
+    )
+    shutil.copy(str(TEST_PARQUET_FILEPATH), str(tmp_path / TEST_PARQUET_FILE_NAME))
+    metadata = Datadoc(
+        str(tmp_path / TEST_PARQUET_FILE_NAME),
+        statistic_subject_mapping=subject_mapping_fake_statistical_structure,
+        validate_required_fields_on_existing_metadata=validate_required_fields_on_existing_metadata,
+    )
+
+    metadata.add_pseudonymization("fnr", input_model)
+
+
+def test_add_pseudonymization_none_validate(
+    subject_mapping_fake_statistical_structure: StatisticSubjectMapping,
+    tmp_path: UPath,
+):
+    shutil.copy(str(TEST_PARQUET_FILEPATH), str(tmp_path / TEST_PARQUET_FILE_NAME))
+    metadata = Datadoc(
+        str(tmp_path / TEST_PARQUET_FILE_NAME),
+        statistic_subject_mapping=subject_mapping_fake_statistical_structure,
+        validate_required_fields_on_existing_metadata=True,
+    )
+    with pytest.raises(ValueError, match="Can't add empty pseudonymization object"):
+        metadata.add_pseudonymization("pers_id")
+
+
+def test_add_pseudonymization_none(
+    subject_mapping_fake_statistical_structure: StatisticSubjectMapping,
+    tmp_path: UPath,
+):
+    shutil.copy(str(TEST_PARQUET_FILEPATH), str(tmp_path / TEST_PARQUET_FILE_NAME))
+    metadata = Datadoc(
+        str(tmp_path / TEST_PARQUET_FILE_NAME),
+        statistic_subject_mapping=subject_mapping_fake_statistical_structure,
+        validate_required_fields_on_existing_metadata=False,
+    )
+    metadata.add_pseudonymization("pers_id")
+    assert isinstance(
+        metadata.variables_lookup["pers_id"].pseudonymization, PseudonymizationOptional
+    )
 
 
 @pytest.mark.parametrize(
