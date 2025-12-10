@@ -37,6 +37,7 @@ from dapla_metadata.datasets.utility.urn import convert_uris_to_urns
 from dapla_metadata.datasets.utility.urn import klass_urn_converter
 from dapla_metadata.datasets.utility.urn import vardef_urn_converter
 from dapla_metadata.datasets.utility.utils import OptionalDatadocMetadataType
+from dapla_metadata.datasets.utility.utils import PseudonymizationType
 from dapla_metadata.datasets.utility.utils import VariableListType
 from dapla_metadata.datasets.utility.utils import VariableType
 from dapla_metadata.datasets.utility.utils import calculate_percentage
@@ -449,7 +450,7 @@ class Datadoc:
     def add_pseudonymization(
         self,
         variable_short_name: str,
-        pseudonymization: all_optional_model.Pseudonymization | None = None,
+        pseudonymization: PseudonymizationType | None = None,
     ) -> None:
         """Adds a new pseudo variable to the list of pseudonymized variables.
 
@@ -467,6 +468,9 @@ class Datadoc:
         if pseudonymization:
             set_default_values_pseudonymization(variable, pseudonymization)
         else:
+            if self.validate_required_fields_on_existing_metadata:
+                msg = "Can't add empty pseudonymization object when validating required fields! Try setting `validate_required_fields_on_existing_metadata` to `False`."
+                raise ValueError(msg)
             variable.pseudonymization = all_optional_model.Pseudonymization()
 
     def remove_pseudonymization(self, variable_short_name: str) -> None:
