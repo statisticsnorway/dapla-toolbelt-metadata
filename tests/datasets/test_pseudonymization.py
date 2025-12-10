@@ -2,14 +2,19 @@
 
 from __future__ import annotations
 
+import shutil
 from dataclasses import dataclass
 from datetime import datetime
 from datetime import timezone
 from typing import TYPE_CHECKING
 
 import pytest
-from datadoc_model.all_optional.model import Pseudonymization
+from datadoc_model.all_optional.model import (
+    Pseudonymization as PseudonymizationOptional,
+)
+from datadoc_model.required.model import Pseudonymization as PseudonymizationRequired
 
+from dapla_metadata.datasets.core import Datadoc
 from dapla_metadata.datasets.utility.constants import DAEAD_ENCRYPTION_KEY_REFERENCE
 from dapla_metadata.datasets.utility.constants import ENCRYPTION_PARAMETER_KEY_ID
 from dapla_metadata.datasets.utility.constants import ENCRYPTION_PARAMETER_SNAPSHOT_DATE
@@ -18,19 +23,26 @@ from dapla_metadata.datasets.utility.constants import ENCRYPTION_PARAMETER_STRAT
 from dapla_metadata.datasets.utility.constants import PAPIS_ENCRYPTION_KEY_REFERENCE
 from dapla_metadata.datasets.utility.constants import PAPIS_STABLE_IDENTIFIER_TYPE
 from dapla_metadata.datasets.utility.enums import EncryptionAlgorithm
+from dapla_metadata.datasets.utility.utils import PseudonymizationType
 from dapla_metadata.datasets.utility.utils import get_current_date
+from tests.datasets.constants import TEST_PARQUET_FILE_NAME
+from tests.datasets.constants import TEST_PARQUET_FILEPATH
 from tests.datasets.constants import TEST_PSEUDO_DIRECTORY
 
 if TYPE_CHECKING:
     from datetime import datetime  # noqa: TC004
     from pathlib import Path
 
-    from dapla_metadata.datasets.core import Datadoc
+    from upath import UPath
+
+    from dapla_metadata.datasets.statistic_subject_mapping import (
+        StatisticSubjectMapping,
+    )
 
 
 @dataclass
 class PseudoCase:
-    new_pseudo: Pseudonymization | None = None
+    new_pseudo: PseudonymizationOptional | None = None
     expected_algorithm: str | None = None
     expected_stable_type: str | None = None
     expected_key: str | None = None
@@ -49,7 +61,7 @@ def _assert_dicts_in_list(expected: list[dict] | None, actual: list[dict]):
     "case",
     [
         PseudoCase(
-            new_pseudo=Pseudonymization(
+            new_pseudo=PseudonymizationOptional(
                 encryption_algorithm=EncryptionAlgorithm.PAPIS_ENCRYPTION_ALGORITHM.value,
             ),
             expected_algorithm=EncryptionAlgorithm.PAPIS_ENCRYPTION_ALGORITHM.value,
@@ -60,7 +72,7 @@ def _assert_dicts_in_list(expected: list[dict] | None, actual: list[dict]):
             ],
         ),
         PseudoCase(
-            new_pseudo=Pseudonymization(
+            new_pseudo=PseudonymizationOptional(
                 encryption_algorithm=EncryptionAlgorithm.PAPIS_ENCRYPTION_ALGORITHM.value,
                 encryption_key_reference="fall-out-2",
             ),
@@ -76,7 +88,7 @@ def _assert_dicts_in_list(expected: list[dict] | None, actual: list[dict]):
             expected_algorithm=None,
         ),
         PseudoCase(
-            new_pseudo=Pseudonymization(
+            new_pseudo=PseudonymizationOptional(
                 encryption_algorithm=EncryptionAlgorithm.PAPIS_ENCRYPTION_ALGORITHM.value,
                 pseudonymization_time=datetime(
                     2018, 3, 3, 12, 30, 0, tzinfo=timezone.utc
@@ -91,7 +103,7 @@ def _assert_dicts_in_list(expected: list[dict] | None, actual: list[dict]):
             expected_pseudo_time=datetime(2018, 3, 3, 12, 30, 0, tzinfo=timezone.utc),
         ),
         PseudoCase(
-            new_pseudo=Pseudonymization(
+            new_pseudo=PseudonymizationOptional(
                 encryption_algorithm=EncryptionAlgorithm.PAPIS_ENCRYPTION_ALGORITHM.value,
                 encryption_algorithm_parameters=[{"someKey": "someValue"}],
             ),
@@ -104,7 +116,7 @@ def _assert_dicts_in_list(expected: list[dict] | None, actual: list[dict]):
             ],
         ),
         PseudoCase(
-            new_pseudo=Pseudonymization(
+            new_pseudo=PseudonymizationOptional(
                 encryption_algorithm=EncryptionAlgorithm.PAPIS_ENCRYPTION_ALGORITHM.value,
                 encryption_algorithm_parameters=[
                     {ENCRYPTION_PARAMETER_KEY_ID: "heaven-ref-3"}
@@ -158,7 +170,7 @@ def test_add_default_pseudonymization_values_papis_without_stable_id(
     "case",
     [
         PseudoCase(
-            new_pseudo=Pseudonymization(
+            new_pseudo=PseudonymizationOptional(
                 encryption_algorithm=EncryptionAlgorithm.PAPIS_ENCRYPTION_ALGORITHM.value,
                 stable_identifier_type=PAPIS_STABLE_IDENTIFIER_TYPE,
             ),
@@ -172,7 +184,7 @@ def test_add_default_pseudonymization_values_papis_without_stable_id(
             ],
         ),
         PseudoCase(
-            new_pseudo=Pseudonymization(
+            new_pseudo=PseudonymizationOptional(
                 encryption_algorithm=EncryptionAlgorithm.PAPIS_ENCRYPTION_ALGORITHM.value,
                 stable_identifier_type=PAPIS_STABLE_IDENTIFIER_TYPE,
                 encryption_key_reference="oh-no-4",
@@ -190,7 +202,7 @@ def test_add_default_pseudonymization_values_papis_without_stable_id(
             new_pseudo=None,
         ),
         PseudoCase(
-            new_pseudo=Pseudonymization(
+            new_pseudo=PseudonymizationOptional(
                 encryption_algorithm=EncryptionAlgorithm.PAPIS_ENCRYPTION_ALGORITHM.value,
                 stable_identifier_type=PAPIS_STABLE_IDENTIFIER_TYPE,
                 pseudonymization_time=datetime(
@@ -208,7 +220,7 @@ def test_add_default_pseudonymization_values_papis_without_stable_id(
             expected_pseudo_time=datetime(2018, 3, 3, 12, 30, 0, tzinfo=timezone.utc),
         ),
         PseudoCase(
-            new_pseudo=Pseudonymization(
+            new_pseudo=PseudonymizationOptional(
                 encryption_algorithm=EncryptionAlgorithm.PAPIS_ENCRYPTION_ALGORITHM.value,
                 stable_identifier_type=PAPIS_STABLE_IDENTIFIER_TYPE,
                 stable_identifier_version="3012-10-11",
@@ -224,7 +236,7 @@ def test_add_default_pseudonymization_values_papis_without_stable_id(
             expected_stable_version="3012-10-11",
         ),
         PseudoCase(
-            new_pseudo=Pseudonymization(
+            new_pseudo=PseudonymizationOptional(
                 encryption_algorithm=EncryptionAlgorithm.PAPIS_ENCRYPTION_ALGORITHM.value,
                 stable_identifier_type=PAPIS_STABLE_IDENTIFIER_TYPE,
                 encryption_algorithm_parameters=[
@@ -284,7 +296,7 @@ def test_add_default_pseudonymization_values_papis_with_stable_id(
     "case",
     [
         PseudoCase(
-            new_pseudo=Pseudonymization(
+            new_pseudo=PseudonymizationOptional(
                 encryption_algorithm=EncryptionAlgorithm.DAEAD_ENCRYPTION_ALGORITHM.value,
             ),
             expected_algorithm=EncryptionAlgorithm.DAEAD_ENCRYPTION_ALGORITHM.value,
@@ -294,7 +306,7 @@ def test_add_default_pseudonymization_values_papis_with_stable_id(
             ],
         ),
         PseudoCase(
-            new_pseudo=Pseudonymization(
+            new_pseudo=PseudonymizationOptional(
                 encryption_algorithm=EncryptionAlgorithm.DAEAD_ENCRYPTION_ALGORITHM.value,
                 encryption_key_reference="jippi-ya",
             ),
@@ -309,7 +321,7 @@ def test_add_default_pseudonymization_values_papis_with_stable_id(
             expected_algorithm=None,
         ),
         PseudoCase(
-            new_pseudo=Pseudonymization(
+            new_pseudo=PseudonymizationOptional(
                 encryption_algorithm=EncryptionAlgorithm.DAEAD_ENCRYPTION_ALGORITHM.value,
                 pseudonymization_time=datetime(
                     2018, 3, 3, 12, 30, 0, tzinfo=timezone.utc
@@ -323,7 +335,7 @@ def test_add_default_pseudonymization_values_papis_with_stable_id(
             expected_pseudo_time=datetime(2018, 3, 3, 12, 30, 0, tzinfo=timezone.utc),
         ),
         PseudoCase(
-            new_pseudo=Pseudonymization(
+            new_pseudo=PseudonymizationOptional(
                 encryption_algorithm=EncryptionAlgorithm.DAEAD_ENCRYPTION_ALGORITHM.value,
                 encryption_algorithm_parameters=[
                     {ENCRYPTION_PARAMETER_KEY_ID: "not-my-responsibility"}
@@ -337,7 +349,7 @@ def test_add_default_pseudonymization_values_papis_with_stable_id(
             expected_pseudo_time=datetime(2025, 1, 1, 12, 30, 0, tzinfo=timezone.utc),
         ),
         PseudoCase(
-            new_pseudo=Pseudonymization(
+            new_pseudo=PseudonymizationOptional(
                 encryption_algorithm=EncryptionAlgorithm.DAEAD_ENCRYPTION_ALGORITHM.value,
                 encryption_algorithm_parameters=[{"so-private": "key-hi-hi"}],
             ),
@@ -386,13 +398,13 @@ def test_add_default_pseudonymization_values_daed(case: PseudoCase, metadata: Da
     "case",
     [
         PseudoCase(
-            new_pseudo=Pseudonymization(
+            new_pseudo=PseudonymizationOptional(
                 encryption_algorithm="unknown",
             ),
             expected_algorithm="unknown",
         ),
         PseudoCase(
-            new_pseudo=Pseudonymization(
+            new_pseudo=PseudonymizationOptional(
                 pseudonymization_time=datetime(
                     2025, 10, 29, 0, 0, 0, tzinfo=timezone.utc
                 ),
@@ -489,6 +501,55 @@ def test_existing_metadata_file_update_pseudonymization(
 
 
 @pytest.mark.parametrize(
+    ("validate_required_fields_on_existing_metadata", "input_model"),
+    [
+        (
+            True,
+            PseudonymizationOptional(
+                encryption_algorithm=EncryptionAlgorithm.DAEAD_ENCRYPTION_ALGORITHM.value,
+                encryption_key_reference="jippi-ya",
+            ),
+        ),
+        (
+            True,
+            PseudonymizationRequired(
+                encryption_algorithm=EncryptionAlgorithm.DAEAD_ENCRYPTION_ALGORITHM.value,
+                encryption_key_reference="jippi-ya",
+            ),
+        ),
+        (
+            False,
+            PseudonymizationOptional(
+                encryption_algorithm=EncryptionAlgorithm.DAEAD_ENCRYPTION_ALGORITHM.value,
+                encryption_key_reference="jippi-ya",
+            ),
+        ),
+        (
+            False,
+            PseudonymizationRequired(
+                encryption_algorithm=EncryptionAlgorithm.DAEAD_ENCRYPTION_ALGORITHM.value,
+                encryption_key_reference="jippi-ya",
+            ),
+        ),
+    ],
+)
+def test_add_pseudonymization_model_types(
+    subject_mapping_fake_statistical_structure: StatisticSubjectMapping,
+    tmp_path: UPath,
+    validate_required_fields_on_existing_metadata: bool,
+    input_model: PseudonymizationType,
+):
+    shutil.copy(str(TEST_PARQUET_FILEPATH), str(tmp_path / TEST_PARQUET_FILE_NAME))
+    metadata = Datadoc(
+        str(tmp_path / TEST_PARQUET_FILE_NAME),
+        statistic_subject_mapping=subject_mapping_fake_statistical_structure,
+        validate_required_fields_on_existing_metadata=validate_required_fields_on_existing_metadata,
+    )
+
+    metadata.add_pseudonymization("pers_id", input_model)
+
+
+@pytest.mark.parametrize(
     "existing_metadata_path",
     [TEST_PSEUDO_DIRECTORY / "dataset_and_pseudo"],
 )
@@ -498,7 +559,7 @@ def test_update_pseudo(
 ):
     variable = metadata.variables_lookup["pers_id"]
 
-    pseudo = Pseudonymization(encryption_algorithm="new_encryption_algorithm")
+    pseudo = PseudonymizationOptional(encryption_algorithm="new_encryption_algorithm")
 
     metadata.add_pseudonymization("pers_id", pseudo)
 
