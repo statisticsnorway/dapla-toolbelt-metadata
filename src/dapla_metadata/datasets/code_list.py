@@ -82,6 +82,7 @@ class CodeList(GetExternalSource):
         self,
         executor: ThreadPoolExecutor,
         classification_id: int | None,
+        level: int | None = None,
     ) -> None:
         """Initialize the CodeList with the given classification ID and executor.
 
@@ -89,12 +90,14 @@ class CodeList(GetExternalSource):
             executor: An instance of ThreadPoolExecutor to manage the asynchronous
                 execution of data fetching.
             classification_id: The ID of the classification to retrieve.
+            level: The specific heirarchical level of codes to retrieve. Defaults to all levels.
         """
         self._classifications: list[CodeListItem] = []
         self.classification_id = classification_id
         self.classifications_dataframes: (
             dict[SupportedLanguages, pd.DataFrame] | None
         ) = None
+        self.level = level
         super().__init__(executor)
 
     def _fetch_data_from_external_source(
@@ -123,7 +126,7 @@ class CodeList(GetExternalSource):
                         str(self.classification_id),
                         i.lower(),  # type: ignore [arg-type]
                     )
-                    .get_codes()
+                    .get_codes(select_level=self.level)
                     .data
                 )
             except Exception:  # noqa: PERF203
