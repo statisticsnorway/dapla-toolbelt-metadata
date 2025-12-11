@@ -500,15 +500,26 @@ def _ensure_encryption_parameters(
 
 def set_default_values_pseudonymization(
     variable: VariableType,
-    pseudonymization: PseudonymizationType | None,
+    pseudonymization: PseudonymizationType,
 ) -> None:
     """Populate pseudonymization fields with defaults based on the encryption algorithm.
 
     Updates the encryption key reference and encryption parameters if they are not set,
     handling both PAPIS and DAED algorithms. Leaves unknown algorithms unchanged.
     """
-    if pseudonymization is None:
-        return
+    # Use the model corresponding to that already in use internally
+    if isinstance(variable, required_model.Variable) and isinstance(
+        pseudonymization, all_optional_model.Pseudonymization
+    ):
+        pseudonymization = required_model.Pseudonymization.model_validate(
+            pseudonymization.model_dump()
+        )
+    elif isinstance(variable, all_optional_model.Variable) and isinstance(
+        pseudonymization, required_model.Pseudonymization
+    ):
+        pseudonymization = all_optional_model.Pseudonymization.model_validate(
+            pseudonymization.model_dump()
+        )
     if variable.pseudonymization is None:
         variable.pseudonymization = pseudonymization
     match pseudonymization.encryption_algorithm:
