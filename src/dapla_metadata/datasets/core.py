@@ -108,8 +108,17 @@ class Datadoc:
         self.validate_required_fields_on_existing_metadata = (
             validate_required_fields_on_existing_metadata
         )
+        self.metadata_model = (
+            required_model
+            if self.validate_required_fields_on_existing_metadata
+            else all_optional_model
+        )
         self.metadata_document: UPath | None = None
-        self.container: all_optional_model.MetadataContainer | None = None
+        self.container: (
+            all_optional_model.MetadataContainer
+            | required_model.MetadataContainer
+            | None
+        ) = None
         self.dataset_path: UPath | None = None
         self.dataset = all_optional_model.Dataset()
         self.variables: VariableListType = []
@@ -252,11 +261,6 @@ class Datadoc:
             json.JSONDecodeError: If the metadata document cannot be parsed.
             pydantic.ValidationError: If the data does not successfully validate.
         """
-        metadata_model = (
-            required_model
-            if self.validate_required_fields_on_existing_metadata
-            else all_optional_model
-        )
         fresh_metadata = {}
         try:
             with document.open(mode="r", encoding="utf-8") as file:
@@ -266,15 +270,17 @@ class Datadoc:
                 fresh_metadata,
             )
             if is_metadata_in_container_structure(fresh_metadata):
-                self.container = metadata_model.MetadataContainer.model_validate_json(
-                    json.dumps(fresh_metadata),
+                self.container = (
+                    self.metadata_model.MetadataContainer.model_validate_json(
+                        json.dumps(fresh_metadata),
+                    )
                 )
                 datadoc_metadata = fresh_metadata["datadoc"]
             else:
                 datadoc_metadata = fresh_metadata
             if datadoc_metadata is None:
                 return None
-            return metadata_model.DatadocMetadata.model_validate_json(
+            return self.metadata_model.DatadocMetadata.model_validate_json(
                 json.dumps(datadoc_metadata),
             )
         except json.JSONDecodeError:
@@ -376,9 +382,11 @@ class Datadoc:
         dataset_path = UPath(dataset_path)
         return dataset_path.parent / (dataset_path.stem + METADATA_DOCUMENT_FILE_SUFFIX)
 
-    def datadoc_model(self) -> all_optional_model.MetadataContainer:
+    def datadoc_model(
+        self,
+    ) -> all_optional_model.MetadataContainer | required_model.MetadataContainer:
         """Return the underlying datadoc model."""
-        datadoc: ValidateDatadocMetadata = ValidateDatadocMetadata(
+        datadoc = self.metadata_model.DatadocMetadata(
             percentage_complete=self.percent_complete,
             dataset=self.dataset,
             variables=self.variables,
@@ -387,7 +395,7 @@ class Datadoc:
             res = copy.deepcopy(self.container)
             res.datadoc = datadoc
             return res
-        return all_optional_model.MetadataContainer(datadoc=datadoc)
+        return self.metadata_model.MetadataContainer(datadoc=datadoc)
 
     def write_metadata_document(self) -> None:
         """Write all currently known metadata to file.
