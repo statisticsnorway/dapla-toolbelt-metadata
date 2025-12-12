@@ -114,7 +114,11 @@ class Datadoc:
             else all_optional_model
         )
         self.metadata_document: UPath | None = None
-        self.container: self.metadata_model.MetadataContainer | None = None
+        self.container: (
+            all_optional_model.MetadataContainer
+            | required_model.MetadataContainer
+            | None
+        ) = None
         self.dataset_path: UPath | None = None
         self.dataset = all_optional_model.Dataset()
         self.variables: VariableListType = []
