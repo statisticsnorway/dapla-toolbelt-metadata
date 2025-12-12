@@ -12,6 +12,7 @@ from unittest.mock import patch
 from uuid import UUID
 
 import arrow
+import datadoc_model.required.model as required_model
 import pytest
 from datadoc_model.all_optional.model import Assessment
 from datadoc_model.all_optional.model import DatadocMetadata
@@ -233,6 +234,23 @@ def test_validate_required_fields_complete_metadata(
         statistic_subject_mapping=subject_mapping_fake_statistical_structure,
         validate_required_fields_on_existing_metadata=True,
     )
+
+
+@pytest.mark.parametrize(
+    "metadata_document",
+    [TEST_EXISTING_METADATA_NAMING_STANDARD_FILEPATH],
+)
+@pytest.mark.usefixtures("_mock_timestamp", "_mock_user_info")
+def test_validate_required_fields_return_datadoc_model(
+    metadata_document: Path,
+    subject_mapping_fake_statistical_structure: StatisticSubjectMapping,
+):
+    datadoc = Datadoc(
+        metadata_document_path=str(metadata_document),
+        statistic_subject_mapping=subject_mapping_fake_statistical_structure,
+        validate_required_fields_on_existing_metadata=True,
+    )
+    assert isinstance(datadoc.datadoc_model(), required_model.MetadataContainer)
 
 
 def test_dataset_short_name(metadata: Datadoc):
