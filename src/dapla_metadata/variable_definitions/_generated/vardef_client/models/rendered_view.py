@@ -15,7 +15,7 @@ import json
 import pprint
 import re  # noqa: F401
 from datetime import date
-from typing import Annotated
+from datetime import datetime
 from typing import Any
 from typing import ClassVar
 
@@ -23,42 +23,46 @@ from pydantic import BaseModel
 from pydantic import ConfigDict
 from pydantic import Field
 from pydantic import StrictBool
+from pydantic import StrictInt
 from pydantic import StrictStr
 from typing_extensions import Self
 
-from ..models.contact import Contact
-from ..models.language_string_type import LanguageStringType
+from ..models.klass_reference import KlassReference
 from ..models.owner import Owner
+from ..models.rendered_contact import RenderedContact
 from ..models.variable_status import VariableStatus
 
 
-class Patch(BaseModel):
-    """Create a new Patch version on a Published Variable Definition."""
+class RenderedView(BaseModel):
+    """Render a Variable Definition in a specific language, for display to end users."""
 
-    name: LanguageStringType | None = None
-    definition: LanguageStringType | None = None
-    classification_reference: StrictStr | None = Field(
-        default=None,
-        description="ID of a classification or code list from Klass. The given classification defines all possible values for the defined variable.",
+    id: StrictStr = Field(description="Unique identifier for the variable definition.")
+    patch_id: StrictInt = Field(
+        description="Integer identifying a patch of a variable definition."
     )
-    unit_types: list[Annotated[str, Field(min_length=1, strict=True)]] | None = Field(
+    name: StrictStr | None = Field(
         default=None,
-        description="A list of one or more unit types, e.g. person, vehicle, household. Must be defined as codes from https://www.ssb.no/klass/klassifikasjoner/702.",
+        description="Name of the variable. Must be unique for a given Unit Type and Owner combination.",
     )
-    subject_fields: list[Annotated[str, Field(min_length=1, strict=True)]] | None = (
-        Field(
-            default=None,
-            description="A list of subject fields that the variable is used in. Must be defined as codes from https://www.ssb.no/klass/klassifikasjoner/618.",
-        )
+    short_name: StrictStr = Field(
+        description="Recommended short name. Must be unique within an organization."
     )
-    contains_special_categories_of_personal_data: StrictBool | None = Field(
+    definition: StrictStr | None = Field(
+        default=None, description="Definition of the variable."
+    )
+    classification_uri: StrictStr | None = Field(
         default=None,
-        description="True if variable instances contain particularly sensitive information. Applies even if the information or identifiers are pseudonymized. Information within the following categories are regarded as particularly sensitive: Ethnicity, Political alignment, Religion, Philosophical beliefs, Union membership, Genetics, Biometrics, Health, Sexual relations, Sexual orientation",
+        description="Link to the classification which defines all permitted values for this variable.",
     )
-    variable_status: VariableStatus | None = None
-    measurement_type: StrictStr | None = Field(
-        default=None,
-        description="Type of measurement for the variable, e.g. length, volume, currency. Must be defined as codes from https://www.ssb.no/klass/klassifikasjoner/303",
+    unit_types: list[KlassReference]
+    subject_fields: list[KlassReference]
+    contains_special_categories_of_personal_data: StrictBool = Field(
+        description="True if variable instances contain particularly sensitive information. Applies even if the information or identifiers are pseudonymized. Information within the following categories are regarded as particularly sensitive: Ethnicity, Political alignment, Religion, Philosophical beliefs, Union membership, Genetics, Biometrics, Health, Sexual relations, Sexual orientation"
+    )
+    variable_status: VariableStatus
+    measurement_type: KlassReference | None = None
+    valid_from: date = Field(
+        description="The variable definition is valid from this date inclusive"
     )
     valid_until: date | None = Field(
         default=None,
@@ -67,28 +71,51 @@ class Patch(BaseModel):
     external_reference_uri: StrictStr | None = Field(
         default=None, description="A link (URI) to an external definition/documentation"
     )
-    comment: LanguageStringType | None = None
+    comment: StrictStr | None = Field(
+        default=None,
+        description="Optional comment to explain the definition or communicate potential changes.",
+    )
     related_variable_definition_uris: list[StrictStr] | None = Field(
         default=None,
         description="Link(s) to related definitions of variables - a list of one or more definitions. For example for a variable after-tax income it could be relevant to link to definitions of income from work, property income etc.",
     )
-    owner: Owner | None = None
-    contact: Contact | None = None
+    owner: Owner
+    contact: RenderedContact | None = None
+    created_at: datetime = Field(
+        description="The timestamp at which this variable definition was first created."
+    )
+    created_by: StrictStr = Field(
+        description="The user who created this variable definition."
+    )
+    last_updated_at: datetime = Field(
+        description="The timestamp at which this variable definition was last modified."
+    )
+    last_updated_by: StrictStr = Field(
+        description="The user who last modified this variable definition."
+    )
     __properties: ClassVar[list[str]] = [
+        "id",
+        "patch_id",
         "name",
+        "short_name",
         "definition",
-        "classification_reference",
+        "classification_uri",
         "unit_types",
         "subject_fields",
         "contains_special_categories_of_personal_data",
         "variable_status",
         "measurement_type",
+        "valid_from",
         "valid_until",
         "external_reference_uri",
         "comment",
         "related_variable_definition_uris",
         "owner",
         "contact",
+        "created_at",
+        "created_by",
+        "last_updated_at",
+        "last_updated_by",
     ]
 
     model_config = ConfigDict(
@@ -108,7 +135,7 @@ class Patch(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Self | None:
-        """Create an instance of Patch from a JSON string"""
+        """Create an instance of RenderedView from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> dict[str, Any]:
@@ -128,46 +155,46 @@ class Patch(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
-        # override the default output from pydantic by calling `to_dict()` of name
-        if self.name:
-            _dict["name"] = self.name.to_dict()
-        # override the default output from pydantic by calling `to_dict()` of definition
-        if self.definition:
-            _dict["definition"] = self.definition.to_dict()
-        # override the default output from pydantic by calling `to_dict()` of comment
-        if self.comment:
-            _dict["comment"] = self.comment.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of each item in unit_types (list)
+        _items = []
+        if self.unit_types:
+            for _item_unit_types in self.unit_types:
+                if _item_unit_types:
+                    _items.append(_item_unit_types.to_dict())
+            _dict["unit_types"] = _items
+        # override the default output from pydantic by calling `to_dict()` of each item in subject_fields (list)
+        _items = []
+        if self.subject_fields:
+            for _item_subject_fields in self.subject_fields:
+                if _item_subject_fields:
+                    _items.append(_item_subject_fields.to_dict())
+            _dict["subject_fields"] = _items
+        # override the default output from pydantic by calling `to_dict()` of measurement_type
+        if self.measurement_type:
+            _dict["measurement_type"] = self.measurement_type.to_dict()
         # override the default output from pydantic by calling `to_dict()` of owner
         if self.owner:
             _dict["owner"] = self.owner.to_dict()
         # override the default output from pydantic by calling `to_dict()` of contact
         if self.contact:
             _dict["contact"] = self.contact.to_dict()
-        # set to None if classification_reference (nullable) is None
+        # set to None if name (nullable) is None
+        # and model_fields_set contains the field
+        if self.name is None and "name" in self.model_fields_set:
+            _dict["name"] = None
+
+        # set to None if definition (nullable) is None
+        # and model_fields_set contains the field
+        if self.definition is None and "definition" in self.model_fields_set:
+            _dict["definition"] = None
+
+        # set to None if classification_uri (nullable) is None
         # and model_fields_set contains the field
         if (
-            self.classification_reference is None
-            and "classification_reference" in self.model_fields_set
+            self.classification_uri is None
+            and "classification_uri" in self.model_fields_set
         ):
-            _dict["classification_reference"] = None
-
-        # set to None if unit_types (nullable) is None
-        # and model_fields_set contains the field
-        if self.unit_types is None and "unit_types" in self.model_fields_set:
-            _dict["unit_types"] = None
-
-        # set to None if subject_fields (nullable) is None
-        # and model_fields_set contains the field
-        if self.subject_fields is None and "subject_fields" in self.model_fields_set:
-            _dict["subject_fields"] = None
-
-        # set to None if contains_special_categories_of_personal_data (nullable) is None
-        # and model_fields_set contains the field
-        if (
-            self.contains_special_categories_of_personal_data is None
-            and "contains_special_categories_of_personal_data" in self.model_fields_set
-        ):
-            _dict["contains_special_categories_of_personal_data"] = None
+            _dict["classification_uri"] = None
 
         # set to None if measurement_type (nullable) is None
         # and model_fields_set contains the field
@@ -190,6 +217,11 @@ class Patch(BaseModel):
         ):
             _dict["external_reference_uri"] = None
 
+        # set to None if comment (nullable) is None
+        # and model_fields_set contains the field
+        if self.comment is None and "comment" in self.model_fields_set:
+            _dict["comment"] = None
+
         # set to None if related_variable_definition_uris (nullable) is None
         # and model_fields_set contains the field
         if (
@@ -198,11 +230,16 @@ class Patch(BaseModel):
         ):
             _dict["related_variable_definition_uris"] = None
 
+        # set to None if contact (nullable) is None
+        # and model_fields_set contains the field
+        if self.contact is None and "contact" in self.model_fields_set:
+            _dict["contact"] = None
+
         return _dict
 
     @classmethod
     def from_dict(cls, obj: dict[str, Any] | None) -> Self | None:
-        """Create an instance of Patch from a dict"""
+        """Create an instance of RenderedView from a dict"""
         if obj is None:
             return None
 
@@ -211,34 +248,46 @@ class Patch(BaseModel):
 
         _obj = cls.model_validate(
             {
-                "name": LanguageStringType.from_dict(obj["name"])
-                if obj.get("name") is not None
+                "id": obj.get("id"),
+                "patch_id": obj.get("patch_id"),
+                "name": obj.get("name"),
+                "short_name": obj.get("short_name"),
+                "definition": obj.get("definition"),
+                "classification_uri": obj.get("classification_uri"),
+                "unit_types": [
+                    KlassReference.from_dict(_item) for _item in obj["unit_types"]
+                ]
+                if obj.get("unit_types") is not None
                 else None,
-                "definition": LanguageStringType.from_dict(obj["definition"])
-                if obj.get("definition") is not None
+                "subject_fields": [
+                    KlassReference.from_dict(_item) for _item in obj["subject_fields"]
+                ]
+                if obj.get("subject_fields") is not None
                 else None,
-                "classification_reference": obj.get("classification_reference"),
-                "unit_types": obj.get("unit_types"),
-                "subject_fields": obj.get("subject_fields"),
                 "contains_special_categories_of_personal_data": obj.get(
                     "contains_special_categories_of_personal_data"
                 ),
                 "variable_status": obj.get("variable_status"),
-                "measurement_type": obj.get("measurement_type"),
+                "measurement_type": KlassReference.from_dict(obj["measurement_type"])
+                if obj.get("measurement_type") is not None
+                else None,
+                "valid_from": obj.get("valid_from"),
                 "valid_until": obj.get("valid_until"),
                 "external_reference_uri": obj.get("external_reference_uri"),
-                "comment": LanguageStringType.from_dict(obj["comment"])
-                if obj.get("comment") is not None
-                else None,
+                "comment": obj.get("comment"),
                 "related_variable_definition_uris": obj.get(
                     "related_variable_definition_uris"
                 ),
                 "owner": Owner.from_dict(obj["owner"])
                 if obj.get("owner") is not None
                 else None,
-                "contact": Contact.from_dict(obj["contact"])
+                "contact": RenderedContact.from_dict(obj["contact"])
                 if obj.get("contact") is not None
                 else None,
+                "created_at": obj.get("created_at"),
+                "created_by": obj.get("created_by"),
+                "last_updated_at": obj.get("last_updated_at"),
+                "last_updated_by": obj.get("last_updated_by"),
             }
         )
         return _obj

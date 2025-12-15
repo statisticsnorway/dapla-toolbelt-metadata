@@ -21,8 +21,8 @@ from pydantic import validate_call
 from ..api_client import ApiClient
 from ..api_client import RequestSerialized
 from ..api_response import ApiResponse
-from ..models.complete_response import CompleteResponse
-from ..models.draft import Draft
+from ..models.complete_view import CompleteView
+from ..models.create_draft import CreateDraft
 from ..models.update_draft import UpdateDraft
 from ..rest import RESTResponseType
 
@@ -42,7 +42,7 @@ class DraftVariableDefinitionsApi:
     @validate_call
     def create_variable_definition(
         self,
-        draft: Draft | None = None,
+        create_draft: CreateDraft | None = None,
         _request_timeout: None
         | Annotated[StrictFloat, Field(gt=0)]
         | tuple[
@@ -52,13 +52,13 @@ class DraftVariableDefinitionsApi:
         _content_type: StrictStr | None = None,
         _headers: dict[StrictStr, Any] | None = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> CompleteResponse:
+    ) -> CompleteView:
         """Create a variable definition.
 
         Create a variable definition. New variable definitions are automatically assigned status DRAFT and must include all required fields. Attempts to specify id or variable_status in a request will receive 400 BAD REQUEST responses.
 
-        :param draft:
-        :type draft: Draft
+        :param create_draft:
+        :type create_draft: CreateDraft
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -81,7 +81,7 @@ class DraftVariableDefinitionsApi:
         :return: Returns the result object.
         """
         _param = self._create_variable_definition_serialize(
-            draft=draft,
+            create_draft=create_draft,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -89,7 +89,7 @@ class DraftVariableDefinitionsApi:
         )
 
         _response_types_map: dict[str, str | None] = {
-            "201": "CompleteResponse",
+            "201": "CompleteView",
             "400": "Problem",
             "409": "Problem",
         }
@@ -105,7 +105,7 @@ class DraftVariableDefinitionsApi:
     @validate_call
     def create_variable_definition_with_http_info(
         self,
-        draft: Draft | None = None,
+        create_draft: CreateDraft | None = None,
         _request_timeout: None
         | Annotated[StrictFloat, Field(gt=0)]
         | tuple[
@@ -115,13 +115,13 @@ class DraftVariableDefinitionsApi:
         _content_type: StrictStr | None = None,
         _headers: dict[StrictStr, Any] | None = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[CompleteResponse]:
+    ) -> ApiResponse[CompleteView]:
         """Create a variable definition.
 
         Create a variable definition. New variable definitions are automatically assigned status DRAFT and must include all required fields. Attempts to specify id or variable_status in a request will receive 400 BAD REQUEST responses.
 
-        :param draft:
-        :type draft: Draft
+        :param create_draft:
+        :type create_draft: CreateDraft
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -144,7 +144,7 @@ class DraftVariableDefinitionsApi:
         :return: Returns the result object.
         """
         _param = self._create_variable_definition_serialize(
-            draft=draft,
+            create_draft=create_draft,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -152,7 +152,7 @@ class DraftVariableDefinitionsApi:
         )
 
         _response_types_map: dict[str, str | None] = {
-            "201": "CompleteResponse",
+            "201": "CompleteView",
             "400": "Problem",
             "409": "Problem",
         }
@@ -168,7 +168,7 @@ class DraftVariableDefinitionsApi:
     @validate_call
     def create_variable_definition_without_preload_content(
         self,
-        draft: Draft | None = None,
+        create_draft: CreateDraft | None = None,
         _request_timeout: None
         | Annotated[StrictFloat, Field(gt=0)]
         | tuple[
@@ -183,8 +183,8 @@ class DraftVariableDefinitionsApi:
 
         Create a variable definition. New variable definitions are automatically assigned status DRAFT and must include all required fields. Attempts to specify id or variable_status in a request will receive 400 BAD REQUEST responses.
 
-        :param draft:
-        :type draft: Draft
+        :param create_draft:
+        :type create_draft: CreateDraft
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -207,7 +207,7 @@ class DraftVariableDefinitionsApi:
         :return: Returns the result object.
         """
         _param = self._create_variable_definition_serialize(
-            draft=draft,
+            create_draft=create_draft,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -215,7 +215,7 @@ class DraftVariableDefinitionsApi:
         )
 
         _response_types_map: dict[str, str | None] = {
-            "201": "CompleteResponse",
+            "201": "CompleteView",
             "400": "Problem",
             "409": "Problem",
         }
@@ -226,7 +226,7 @@ class DraftVariableDefinitionsApi:
 
     def _create_variable_definition_serialize(
         self,
-        draft,
+        create_draft,
         _request_auth,
         _content_type,
         _headers,
@@ -250,8 +250,8 @@ class DraftVariableDefinitionsApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if draft is not None:
-            _body_params = draft
+        if create_draft is not None:
+            _body_params = create_draft
 
         # set the HTTP header `Accept`
         if "Accept" not in _header_params:
@@ -551,7 +551,7 @@ class DraftVariableDefinitionsApi:
         _content_type: StrictStr | None = None,
         _headers: dict[StrictStr, Any] | None = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> CompleteResponse:
+    ) -> CompleteView:
         """Update a variable definition.
 
         Update a variable definition. Only the fields which need updating should be supplied.
@@ -591,7 +591,7 @@ class DraftVariableDefinitionsApi:
         )
 
         _response_types_map: dict[str, str | None] = {
-            "200": "CompleteResponse",
+            "200": "CompleteView",
             "400": "Problem",
             "404": "Problem",
             "405": "Problem",
@@ -623,7 +623,7 @@ class DraftVariableDefinitionsApi:
         _content_type: StrictStr | None = None,
         _headers: dict[StrictStr, Any] | None = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[CompleteResponse]:
+    ) -> ApiResponse[CompleteView]:
         """Update a variable definition.
 
         Update a variable definition. Only the fields which need updating should be supplied.
@@ -663,7 +663,7 @@ class DraftVariableDefinitionsApi:
         )
 
         _response_types_map: dict[str, str | None] = {
-            "200": "CompleteResponse",
+            "200": "CompleteView",
             "400": "Problem",
             "404": "Problem",
             "405": "Problem",
@@ -735,7 +735,7 @@ class DraftVariableDefinitionsApi:
         )
 
         _response_types_map: dict[str, str | None] = {
-            "200": "CompleteResponse",
+            "200": "CompleteView",
             "400": "Problem",
             "404": "Problem",
             "405": "Problem",

@@ -30,7 +30,7 @@ from ..models.contact import Contact
 from ..models.language_string_type import LanguageStringType
 
 
-class ValidityPeriod(BaseModel):
+class CreateValidityPeriod(BaseModel):
     """Create a new Validity Period on a Published Variable Definition."""
 
     name: LanguageStringType | None = None
@@ -101,7 +101,7 @@ class ValidityPeriod(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Self | None:
-        """Create an instance of ValidityPeriod from a JSON string"""
+        """Create an instance of CreateValidityPeriod from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> dict[str, Any]:
@@ -133,6 +133,11 @@ class ValidityPeriod(BaseModel):
         # override the default output from pydantic by calling `to_dict()` of contact
         if self.contact:
             _dict["contact"] = self.contact.to_dict()
+        # set to None if name (nullable) is None
+        # and model_fields_set contains the field
+        if self.name is None and "name" in self.model_fields_set:
+            _dict["name"] = None
+
         # set to None if classification_reference (nullable) is None
         # and model_fields_set contains the field
         if (
@@ -175,6 +180,11 @@ class ValidityPeriod(BaseModel):
         ):
             _dict["external_reference_uri"] = None
 
+        # set to None if comment (nullable) is None
+        # and model_fields_set contains the field
+        if self.comment is None and "comment" in self.model_fields_set:
+            _dict["comment"] = None
+
         # set to None if related_variable_definition_uris (nullable) is None
         # and model_fields_set contains the field
         if (
@@ -183,11 +193,16 @@ class ValidityPeriod(BaseModel):
         ):
             _dict["related_variable_definition_uris"] = None
 
+        # set to None if contact (nullable) is None
+        # and model_fields_set contains the field
+        if self.contact is None and "contact" in self.model_fields_set:
+            _dict["contact"] = None
+
         return _dict
 
     @classmethod
     def from_dict(cls, obj: dict[str, Any] | None) -> Self | None:
-        """Create an instance of ValidityPeriod from a dict"""
+        """Create an instance of CreateValidityPeriod from a dict"""
         if obj is None:
             return None
 

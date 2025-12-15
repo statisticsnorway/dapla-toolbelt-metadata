@@ -14,18 +14,25 @@ Do not edit the class manually.
 """  # noqa: E501
 
 # import models into model package
-from ..models.complete_response import CompleteResponse
+from ..models.complete_view import CompleteView
 from ..models.contact import Contact
-from ..models.draft import Draft
+from ..models.create_draft import CreateDraft
+from ..models.create_patch import CreatePatch
+from ..models.create_validity_period import CreateValidityPeriod
 from ..models.get_vardok_vardef_mapping_by_id200_response import (
     GetVardokVardefMappingById200Response,
 )
+from ..models.klass_reference import KlassReference
 from ..models.language_string_type import LanguageStringType
+from ..models.list_variable_definitions200_response_inner import (
+    ListVariableDefinitions200ResponseInner,
+)
 from ..models.owner import Owner
-from ..models.patch import Patch
 from ..models.problem import Problem
+from ..models.rendered_contact import RenderedContact
+from ..models.rendered_view import RenderedView
+from ..models.supported_languages import SupportedLanguages
 from ..models.update_draft import UpdateDraft
-from ..models.validity_period import ValidityPeriod
 from ..models.vardok_id_response import VardokIdResponse
 from ..models.vardok_vardef_id_pair_response import VardokVardefIdPairResponse
 from ..models.variable_status import VariableStatus

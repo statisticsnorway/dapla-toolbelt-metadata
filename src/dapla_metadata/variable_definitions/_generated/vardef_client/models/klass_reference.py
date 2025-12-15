@@ -22,15 +22,14 @@ from pydantic import ConfigDict
 from pydantic import StrictStr
 from typing_extensions import Self
 
-from ..models.language_string_type import LanguageStringType
 
+class KlassReference(BaseModel):
+    """KlassReference"""
 
-class Contact(BaseModel):
-    """Contact details"""
-
-    title: LanguageStringType
-    email: StrictStr
-    __properties: ClassVar[list[str]] = ["title", "email"]
+    reference_uri: StrictStr
+    code: StrictStr | None = None
+    title: StrictStr | None = None
+    __properties: ClassVar[list[str]] = ["reference_uri", "code", "title"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -49,7 +48,7 @@ class Contact(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Self | None:
-        """Create an instance of Contact from a JSON string"""
+        """Create an instance of KlassReference from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> dict[str, Any]:
@@ -69,14 +68,21 @@ class Contact(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
-        # override the default output from pydantic by calling `to_dict()` of title
-        if self.title:
-            _dict["title"] = self.title.to_dict()
+        # set to None if code (nullable) is None
+        # and model_fields_set contains the field
+        if self.code is None and "code" in self.model_fields_set:
+            _dict["code"] = None
+
+        # set to None if title (nullable) is None
+        # and model_fields_set contains the field
+        if self.title is None and "title" in self.model_fields_set:
+            _dict["title"] = None
+
         return _dict
 
     @classmethod
     def from_dict(cls, obj: dict[str, Any] | None) -> Self | None:
-        """Create an instance of Contact from a dict"""
+        """Create an instance of KlassReference from a dict"""
         if obj is None:
             return None
 
@@ -85,10 +91,9 @@ class Contact(BaseModel):
 
         _obj = cls.model_validate(
             {
-                "title": LanguageStringType.from_dict(obj["title"])
-                if obj.get("title") is not None
-                else None,
-                "email": obj.get("email"),
+                "reference_uri": obj.get("reference_uri"),
+                "code": obj.get("code"),
+                "title": obj.get("title"),
             }
         )
         return _obj

@@ -22,13 +22,11 @@ from pydantic import ConfigDict
 from pydantic import StrictStr
 from typing_extensions import Self
 
-from ..models.language_string_type import LanguageStringType
 
+class RenderedContact(BaseModel):
+    """RenderedContact"""
 
-class Contact(BaseModel):
-    """Contact details"""
-
-    title: LanguageStringType
+    title: StrictStr
     email: StrictStr
     __properties: ClassVar[list[str]] = ["title", "email"]
 
@@ -49,7 +47,7 @@ class Contact(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Self | None:
-        """Create an instance of Contact from a JSON string"""
+        """Create an instance of RenderedContact from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> dict[str, Any]:
@@ -69,14 +67,11 @@ class Contact(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
-        # override the default output from pydantic by calling `to_dict()` of title
-        if self.title:
-            _dict["title"] = self.title.to_dict()
         return _dict
 
     @classmethod
     def from_dict(cls, obj: dict[str, Any] | None) -> Self | None:
-        """Create an instance of Contact from a dict"""
+        """Create an instance of RenderedContact from a dict"""
         if obj is None:
             return None
 
@@ -84,11 +79,6 @@ class Contact(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate(
-            {
-                "title": LanguageStringType.from_dict(obj["title"])
-                if obj.get("title") is not None
-                else None,
-                "email": obj.get("email"),
-            }
+            {"title": obj.get("title"), "email": obj.get("email")}
         )
         return _obj

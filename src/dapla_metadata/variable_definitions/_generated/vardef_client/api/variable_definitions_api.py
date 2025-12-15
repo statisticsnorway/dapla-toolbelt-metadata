@@ -14,6 +14,7 @@ from typing import Annotated
 from typing import Any
 
 from pydantic import Field
+from pydantic import StrictBool
 from pydantic import StrictFloat
 from pydantic import StrictInt
 from pydantic import StrictStr
@@ -22,7 +23,10 @@ from pydantic import validate_call
 from ..api_client import ApiClient
 from ..api_client import RequestSerialized
 from ..api_response import ApiResponse
-from ..models.complete_response import CompleteResponse
+from ..models.list_variable_definitions200_response_inner import (
+    ListVariableDefinitions200ResponseInner,
+)
+from ..models.supported_languages import SupportedLanguages
 from ..rest import RESTResponseType
 
 
@@ -41,6 +45,10 @@ class VariableDefinitionsApi:
     @validate_call
     def get_variable_definition_by_id(
         self,
+        accept_language: Annotated[
+            SupportedLanguages,
+            Field(description="Render the variable definition in the given language."),
+        ],
         variable_definition_id: Annotated[
             StrictStr,
             Field(description="Unique identifier for the variable definition."),
@@ -49,6 +57,12 @@ class VariableDefinitionsApi:
             date | None,
             Field(
                 description="List only variable definitions which are valid on this date."
+            ),
+        ] = None,
+        render: Annotated[
+            StrictBool | None,
+            Field(
+                description="Render the Variable Definition for presentation in a frontend"
             ),
         ] = None,
         _request_timeout: None
@@ -60,15 +74,19 @@ class VariableDefinitionsApi:
         _content_type: StrictStr | None = None,
         _headers: dict[StrictStr, Any] | None = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> CompleteResponse:
+    ) -> ListVariableDefinitions200ResponseInner:
         """Get one variable definition.
 
         Get one variable definition.
 
+        :param accept_language: Render the variable definition in the given language. (required)
+        :type accept_language: SupportedLanguages
         :param variable_definition_id: Unique identifier for the variable definition. (required)
         :type variable_definition_id: str
         :param date_of_validity: List only variable definitions which are valid on this date.
         :type date_of_validity: date
+        :param render: Render the Variable Definition for presentation in a frontend
+        :type render: bool
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -91,8 +109,10 @@ class VariableDefinitionsApi:
         :return: Returns the result object.
         """
         _param = self._get_variable_definition_by_id_serialize(
+            accept_language=accept_language,
             variable_definition_id=variable_definition_id,
             date_of_validity=date_of_validity,
+            render=render,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -100,7 +120,7 @@ class VariableDefinitionsApi:
         )
 
         _response_types_map: dict[str, str | None] = {
-            "200": "CompleteResponse",
+            "200": "ListVariableDefinitions200ResponseInner",
             "404": "Problem",
         }
         response_data = self.api_client.call_api(
@@ -115,6 +135,10 @@ class VariableDefinitionsApi:
     @validate_call
     def get_variable_definition_by_id_with_http_info(
         self,
+        accept_language: Annotated[
+            SupportedLanguages,
+            Field(description="Render the variable definition in the given language."),
+        ],
         variable_definition_id: Annotated[
             StrictStr,
             Field(description="Unique identifier for the variable definition."),
@@ -123,6 +147,12 @@ class VariableDefinitionsApi:
             date | None,
             Field(
                 description="List only variable definitions which are valid on this date."
+            ),
+        ] = None,
+        render: Annotated[
+            StrictBool | None,
+            Field(
+                description="Render the Variable Definition for presentation in a frontend"
             ),
         ] = None,
         _request_timeout: None
@@ -134,15 +164,19 @@ class VariableDefinitionsApi:
         _content_type: StrictStr | None = None,
         _headers: dict[StrictStr, Any] | None = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[CompleteResponse]:
+    ) -> ApiResponse[ListVariableDefinitions200ResponseInner]:
         """Get one variable definition.
 
         Get one variable definition.
 
+        :param accept_language: Render the variable definition in the given language. (required)
+        :type accept_language: SupportedLanguages
         :param variable_definition_id: Unique identifier for the variable definition. (required)
         :type variable_definition_id: str
         :param date_of_validity: List only variable definitions which are valid on this date.
         :type date_of_validity: date
+        :param render: Render the Variable Definition for presentation in a frontend
+        :type render: bool
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -165,8 +199,10 @@ class VariableDefinitionsApi:
         :return: Returns the result object.
         """
         _param = self._get_variable_definition_by_id_serialize(
+            accept_language=accept_language,
             variable_definition_id=variable_definition_id,
             date_of_validity=date_of_validity,
+            render=render,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -174,7 +210,7 @@ class VariableDefinitionsApi:
         )
 
         _response_types_map: dict[str, str | None] = {
-            "200": "CompleteResponse",
+            "200": "ListVariableDefinitions200ResponseInner",
             "404": "Problem",
         }
         response_data = self.api_client.call_api(
@@ -189,6 +225,10 @@ class VariableDefinitionsApi:
     @validate_call
     def get_variable_definition_by_id_without_preload_content(
         self,
+        accept_language: Annotated[
+            SupportedLanguages,
+            Field(description="Render the variable definition in the given language."),
+        ],
         variable_definition_id: Annotated[
             StrictStr,
             Field(description="Unique identifier for the variable definition."),
@@ -197,6 +237,12 @@ class VariableDefinitionsApi:
             date | None,
             Field(
                 description="List only variable definitions which are valid on this date."
+            ),
+        ] = None,
+        render: Annotated[
+            StrictBool | None,
+            Field(
+                description="Render the Variable Definition for presentation in a frontend"
             ),
         ] = None,
         _request_timeout: None
@@ -213,10 +259,14 @@ class VariableDefinitionsApi:
 
         Get one variable definition.
 
+        :param accept_language: Render the variable definition in the given language. (required)
+        :type accept_language: SupportedLanguages
         :param variable_definition_id: Unique identifier for the variable definition. (required)
         :type variable_definition_id: str
         :param date_of_validity: List only variable definitions which are valid on this date.
         :type date_of_validity: date
+        :param render: Render the Variable Definition for presentation in a frontend
+        :type render: bool
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -239,8 +289,10 @@ class VariableDefinitionsApi:
         :return: Returns the result object.
         """
         _param = self._get_variable_definition_by_id_serialize(
+            accept_language=accept_language,
             variable_definition_id=variable_definition_id,
             date_of_validity=date_of_validity,
+            render=render,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -248,7 +300,7 @@ class VariableDefinitionsApi:
         )
 
         _response_types_map: dict[str, str | None] = {
-            "200": "CompleteResponse",
+            "200": "ListVariableDefinitions200ResponseInner",
             "404": "Problem",
         }
         response_data = self.api_client.call_api(
@@ -258,8 +310,10 @@ class VariableDefinitionsApi:
 
     def _get_variable_definition_by_id_serialize(
         self,
+        accept_language,
         variable_definition_id,
         date_of_validity,
+        render,
         _request_auth,
         _content_type,
         _headers,
@@ -295,7 +349,12 @@ class VariableDefinitionsApi:
             else:
                 _query_params.append(("date_of_validity", date_of_validity))
 
+        if render is not None:
+            _query_params.append(("render", render))
+
         # process the header parameters
+        if accept_language is not None:
+            _header_params["Accept-Language"] = accept_language
         # process the form parameters
         # process the body parameter
 
@@ -326,6 +385,10 @@ class VariableDefinitionsApi:
     @validate_call
     def list_variable_definitions(
         self,
+        accept_language: Annotated[
+            SupportedLanguages,
+            Field(description="Render the variable definition in the given language."),
+        ],
         date_of_validity: Annotated[
             date | None,
             Field(
@@ -338,6 +401,12 @@ class VariableDefinitionsApi:
                 description="List only the variable definition with the given short name."
             ),
         ] = None,
+        render: Annotated[
+            StrictBool | None,
+            Field(
+                description="Render the Variable Definition for presentation in a frontend"
+            ),
+        ] = None,
         _request_timeout: None
         | Annotated[StrictFloat, Field(gt=0)]
         | tuple[
@@ -347,15 +416,19 @@ class VariableDefinitionsApi:
         _content_type: StrictStr | None = None,
         _headers: dict[StrictStr, Any] | None = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> list[CompleteResponse]:
+    ) -> list[ListVariableDefinitions200ResponseInner]:
         """List all variable definitions.
 
         List all variable definitions.
 
+        :param accept_language: Render the variable definition in the given language. (required)
+        :type accept_language: SupportedLanguages
         :param date_of_validity: List only variable definitions which are valid on this date.
         :type date_of_validity: date
         :param short_name: List only the variable definition with the given short name.
         :type short_name: str
+        :param render: Render the Variable Definition for presentation in a frontend
+        :type render: bool
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -378,8 +451,10 @@ class VariableDefinitionsApi:
         :return: Returns the result object.
         """
         _param = self._list_variable_definitions_serialize(
+            accept_language=accept_language,
             date_of_validity=date_of_validity,
             short_name=short_name,
+            render=render,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -387,7 +462,7 @@ class VariableDefinitionsApi:
         )
 
         _response_types_map: dict[str, str | None] = {
-            "200": "List[CompleteResponse]",
+            "200": "List[ListVariableDefinitions200ResponseInner]",
         }
         response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
@@ -401,6 +476,10 @@ class VariableDefinitionsApi:
     @validate_call
     def list_variable_definitions_with_http_info(
         self,
+        accept_language: Annotated[
+            SupportedLanguages,
+            Field(description="Render the variable definition in the given language."),
+        ],
         date_of_validity: Annotated[
             date | None,
             Field(
@@ -413,6 +492,12 @@ class VariableDefinitionsApi:
                 description="List only the variable definition with the given short name."
             ),
         ] = None,
+        render: Annotated[
+            StrictBool | None,
+            Field(
+                description="Render the Variable Definition for presentation in a frontend"
+            ),
+        ] = None,
         _request_timeout: None
         | Annotated[StrictFloat, Field(gt=0)]
         | tuple[
@@ -422,15 +507,19 @@ class VariableDefinitionsApi:
         _content_type: StrictStr | None = None,
         _headers: dict[StrictStr, Any] | None = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[list[CompleteResponse]]:
+    ) -> ApiResponse[list[ListVariableDefinitions200ResponseInner]]:
         """List all variable definitions.
 
         List all variable definitions.
 
+        :param accept_language: Render the variable definition in the given language. (required)
+        :type accept_language: SupportedLanguages
         :param date_of_validity: List only variable definitions which are valid on this date.
         :type date_of_validity: date
         :param short_name: List only the variable definition with the given short name.
         :type short_name: str
+        :param render: Render the Variable Definition for presentation in a frontend
+        :type render: bool
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -453,8 +542,10 @@ class VariableDefinitionsApi:
         :return: Returns the result object.
         """
         _param = self._list_variable_definitions_serialize(
+            accept_language=accept_language,
             date_of_validity=date_of_validity,
             short_name=short_name,
+            render=render,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -462,7 +553,7 @@ class VariableDefinitionsApi:
         )
 
         _response_types_map: dict[str, str | None] = {
-            "200": "List[CompleteResponse]",
+            "200": "List[ListVariableDefinitions200ResponseInner]",
         }
         response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
@@ -476,6 +567,10 @@ class VariableDefinitionsApi:
     @validate_call
     def list_variable_definitions_without_preload_content(
         self,
+        accept_language: Annotated[
+            SupportedLanguages,
+            Field(description="Render the variable definition in the given language."),
+        ],
         date_of_validity: Annotated[
             date | None,
             Field(
@@ -486,6 +581,12 @@ class VariableDefinitionsApi:
             StrictStr | None,
             Field(
                 description="List only the variable definition with the given short name."
+            ),
+        ] = None,
+        render: Annotated[
+            StrictBool | None,
+            Field(
+                description="Render the Variable Definition for presentation in a frontend"
             ),
         ] = None,
         _request_timeout: None
@@ -502,10 +603,14 @@ class VariableDefinitionsApi:
 
         List all variable definitions.
 
+        :param accept_language: Render the variable definition in the given language. (required)
+        :type accept_language: SupportedLanguages
         :param date_of_validity: List only variable definitions which are valid on this date.
         :type date_of_validity: date
         :param short_name: List only the variable definition with the given short name.
         :type short_name: str
+        :param render: Render the Variable Definition for presentation in a frontend
+        :type render: bool
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -528,8 +633,10 @@ class VariableDefinitionsApi:
         :return: Returns the result object.
         """
         _param = self._list_variable_definitions_serialize(
+            accept_language=accept_language,
             date_of_validity=date_of_validity,
             short_name=short_name,
+            render=render,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -537,7 +644,7 @@ class VariableDefinitionsApi:
         )
 
         _response_types_map: dict[str, str | None] = {
-            "200": "List[CompleteResponse]",
+            "200": "List[ListVariableDefinitions200ResponseInner]",
         }
         response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
@@ -546,8 +653,10 @@ class VariableDefinitionsApi:
 
     def _list_variable_definitions_serialize(
         self,
+        accept_language,
         date_of_validity,
         short_name,
+        render,
         _request_auth,
         _content_type,
         _headers,
@@ -584,7 +693,12 @@ class VariableDefinitionsApi:
         if short_name is not None:
             _query_params.append(("short_name", short_name))
 
+        if render is not None:
+            _query_params.append(("render", render))
+
         # process the header parameters
+        if accept_language is not None:
+            _header_params["Accept-Language"] = accept_language
         # process the form parameters
         # process the body parameter
 
