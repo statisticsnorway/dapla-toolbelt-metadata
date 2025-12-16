@@ -9,9 +9,7 @@ import urllib3
 from pytz import UnknownTimeZoneError
 from ruamel.yaml.error import YAMLError
 
-from dapla_metadata.variable_definitions._generated.vardef_client.exceptions import (
-    OpenApiException,
-)
+from dapla_metadata.variable_definitions._generated.vardef_client import ApiException
 from dapla_metadata.variable_definitions._generated.vardef_client.exceptions import (
     UnauthorizedException,
 )
@@ -81,7 +79,7 @@ class VardefClientError(Exception):
                 self.detail = f"\nDetail: {self.detail}"
             self.response_body = response_body
         except (json.JSONDecodeError, TypeError):
-            self.detail = "Could not decode error response from API"
+            self.detail = f"Could not decode error response as Problem JSON. Body: {response_body}"
 
         super().__init__(
             f"{self._get_status_explanation(self.status)}{self.detail if self.detail else ''}",
@@ -127,8 +125,8 @@ Original exception:
                     },
                 ),
             ) from e
-        except OpenApiException as e:
-            raise VardefClientError(e.body) from e
+        except ApiException as e:
+            raise VardefClientError(e.body or "No body in error response") from e
 
     return _impl
 

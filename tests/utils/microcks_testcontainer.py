@@ -19,7 +19,7 @@ class MicrocksContainer(ServerContainer):
     def __init__(
         self,
         port: int = 8080,
-        image: str | DockerImage = "quay.io/microcks/microcks-uber:1.10.1-native",
+        image: str | DockerImage = "quay.io/microcks/microcks-uber:1.13.1-native",
     ) -> None:
         """Instantiate a Microcks container.
 

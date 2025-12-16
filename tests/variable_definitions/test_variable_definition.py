@@ -6,14 +6,14 @@ from unittest.mock import patch
 import pytest
 from pydantic import ValidationError
 
-from dapla_metadata.variable_definitions._generated.vardef_client.models.patch import (
-    Patch,
+from dapla_metadata.variable_definitions._generated.vardef_client.models.create_patch import (
+    CreatePatch,
+)
+from dapla_metadata.variable_definitions._generated.vardef_client.models.create_validity_period import (
+    CreateValidityPeriod,
 )
 from dapla_metadata.variable_definitions._generated.vardef_client.models.update_draft import (
     UpdateDraft,
-)
-from dapla_metadata.variable_definitions._generated.vardef_client.models.validity_period import (
-    ValidityPeriod,
 )
 from dapla_metadata.variable_definitions._generated.vardef_client.models.variable_status import (
     VariableStatus,
@@ -93,7 +93,7 @@ def test_delete_draft():
 
 
 def test_create_patch(
-    patch_fixture: Patch,
+    patch_fixture: CreatePatch,
     variable_definition: VariableDefinition,
 ):
     my_variable = variable_definition
@@ -110,7 +110,7 @@ def test_create_patch(
 
 
 def test_create_patch_check_model_change(
-    patch_fixture: Patch,
+    patch_fixture: CreatePatch,
     mock_update_variable_definition_by_id,
 ):
     my_draft = Vardef.get_variable_definition_by_id(
@@ -126,7 +126,7 @@ def test_create_patch_check_model_change(
 
 
 def test_create_validity_period(
-    validity_period: ValidityPeriod,
+    validity_period: CreateValidityPeriod,
     variable_definition: VariableDefinition,
 ):
     my_variable = variable_definition
@@ -137,7 +137,7 @@ def test_create_validity_period(
 
 
 def test_create_validity_period_check_model_change(
-    validity_period: ValidityPeriod,
+    validity_period: CreateValidityPeriod,
     mock_update_variable_definition_by_id,
 ):
     my_draft = Vardef.get_variable_definition_by_id(
@@ -156,7 +156,9 @@ def test_update_draft_from_file():
     my_draft = Vardef.get_variable_definition_by_id(
         variable_definition_id=VARDEF_EXAMPLE_DEFINITION_ID,
     ).to_file()
-    assert my_draft.get_file_path().exists()
+    path = my_draft.get_file_path()
+    assert path is not None
+    assert path.exists()
     assert isinstance(my_draft.update_draft_from_file(), VariableDefinition)
 
 
@@ -333,8 +335,12 @@ def test_create_draft_with_special_characters():
             file_path=VARIABLE_DEFINITION_EDITING_FILES_DIR
             / "variable_definition_landbak_wypvb3wd_2025-05-02T10-06-20.yaml",
         )
-    assert ":" in result.definition["nb"]
-    assert result.definition["nn"] == ""
+    bokmal = result.definition["nb"]
+    nynorsk = result.definition["nn"]
+    assert bokmal is not None
+    assert ":" in bokmal
+    assert nynorsk is not None
+    assert nynorsk == ""
     mock_create_draft.assert_called_once()
 
 
@@ -357,8 +363,12 @@ def test_update_draft_with_special_characters(variable_definition: VariableDefin
             / "variable_definition_landbak_wypvb3wd_2025-05-02T10-06-20.yaml",
         )
     assert result.definition != prev_variable_definition.definition
-    assert ":" in result.definition["nb"]
-    assert "&" in result.definition["nn"]
+    bokmal = result.definition["nb"]
+    nynorsk = result.definition["nn"]
+    assert bokmal is not None
+    assert ":" in bokmal
+    assert nynorsk is not None
+    assert "&" in nynorsk
     mock_update_draft.assert_called_once()
 
 
@@ -417,7 +427,7 @@ def test_publish_methods(
         method_to_call()
         mock_update_draft.assert_not_called()
         mock_create_patch.assert_called_once_with(
-            Patch(variable_status=VariableStatus.PUBLISHED_EXTERNAL),
+            CreatePatch(variable_status=VariableStatus.PUBLISHED_EXTERNAL),
         )
 
 

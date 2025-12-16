@@ -22,7 +22,7 @@ def test_response_empty_status():
     response_body = '{"status": , "detail": "Bad Request"}'
     exc = VardefClientError(response_body)
     assert exc.status is None
-    assert str(exc) == "Could not decode error response from API"
+    assert "Could not decode error response" in str(exc)
 
 
 def test_no_status():
@@ -47,8 +47,8 @@ def test_invalid_json():
     response_body = "Not a JSON string"
     exc = VardefClientError(response_body)
     assert exc.status is None
-    assert exc.detail == "Could not decode error response from API"
-    assert str(exc) == "Could not decode error response from API"
+    assert "Could not decode error response" in exc.detail
+    assert "Could not decode error response" in str(exc)
 
 
 def test_missing_keys():

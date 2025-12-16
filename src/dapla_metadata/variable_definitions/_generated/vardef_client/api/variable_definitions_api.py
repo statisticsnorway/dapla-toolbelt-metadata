@@ -26,7 +26,6 @@ from ..api_response import ApiResponse
 from ..models.list_variable_definitions200_response_inner import (
     ListVariableDefinitions200ResponseInner,
 )
-from ..models.supported_languages import SupportedLanguages
 from ..rest import RESTResponseType
 
 
@@ -45,14 +44,14 @@ class VariableDefinitionsApi:
     @validate_call
     def get_variable_definition_by_id(
         self,
-        accept_language: Annotated[
-            SupportedLanguages,
-            Field(description="Render the variable definition in the given language."),
-        ],
         variable_definition_id: Annotated[
             StrictStr,
             Field(description="Unique identifier for the variable definition."),
         ],
+        accept_language: Annotated[
+            Any | None,
+            Field(description="Render the variable definition in the given language."),
+        ] = None,
         date_of_validity: Annotated[
             date | None,
             Field(
@@ -79,10 +78,10 @@ class VariableDefinitionsApi:
 
         Get one variable definition.
 
-        :param accept_language: Render the variable definition in the given language. (required)
-        :type accept_language: SupportedLanguages
         :param variable_definition_id: Unique identifier for the variable definition. (required)
         :type variable_definition_id: str
+        :param accept_language: Render the variable definition in the given language.
+        :type accept_language: SupportedLanguages
         :param date_of_validity: List only variable definitions which are valid on this date.
         :type date_of_validity: date
         :param render: Render the Variable Definition for presentation in a frontend
@@ -109,8 +108,8 @@ class VariableDefinitionsApi:
         :return: Returns the result object.
         """
         _param = self._get_variable_definition_by_id_serialize(
-            accept_language=accept_language,
             variable_definition_id=variable_definition_id,
+            accept_language=accept_language,
             date_of_validity=date_of_validity,
             render=render,
             _request_auth=_request_auth,
@@ -135,14 +134,14 @@ class VariableDefinitionsApi:
     @validate_call
     def get_variable_definition_by_id_with_http_info(
         self,
-        accept_language: Annotated[
-            SupportedLanguages,
-            Field(description="Render the variable definition in the given language."),
-        ],
         variable_definition_id: Annotated[
             StrictStr,
             Field(description="Unique identifier for the variable definition."),
         ],
+        accept_language: Annotated[
+            Any | None,
+            Field(description="Render the variable definition in the given language."),
+        ] = None,
         date_of_validity: Annotated[
             date | None,
             Field(
@@ -169,10 +168,10 @@ class VariableDefinitionsApi:
 
         Get one variable definition.
 
-        :param accept_language: Render the variable definition in the given language. (required)
-        :type accept_language: SupportedLanguages
         :param variable_definition_id: Unique identifier for the variable definition. (required)
         :type variable_definition_id: str
+        :param accept_language: Render the variable definition in the given language.
+        :type accept_language: SupportedLanguages
         :param date_of_validity: List only variable definitions which are valid on this date.
         :type date_of_validity: date
         :param render: Render the Variable Definition for presentation in a frontend
@@ -199,8 +198,8 @@ class VariableDefinitionsApi:
         :return: Returns the result object.
         """
         _param = self._get_variable_definition_by_id_serialize(
-            accept_language=accept_language,
             variable_definition_id=variable_definition_id,
+            accept_language=accept_language,
             date_of_validity=date_of_validity,
             render=render,
             _request_auth=_request_auth,
@@ -225,14 +224,14 @@ class VariableDefinitionsApi:
     @validate_call
     def get_variable_definition_by_id_without_preload_content(
         self,
-        accept_language: Annotated[
-            SupportedLanguages,
-            Field(description="Render the variable definition in the given language."),
-        ],
         variable_definition_id: Annotated[
             StrictStr,
             Field(description="Unique identifier for the variable definition."),
         ],
+        accept_language: Annotated[
+            Any | None,
+            Field(description="Render the variable definition in the given language."),
+        ] = None,
         date_of_validity: Annotated[
             date | None,
             Field(
@@ -259,10 +258,10 @@ class VariableDefinitionsApi:
 
         Get one variable definition.
 
-        :param accept_language: Render the variable definition in the given language. (required)
-        :type accept_language: SupportedLanguages
         :param variable_definition_id: Unique identifier for the variable definition. (required)
         :type variable_definition_id: str
+        :param accept_language: Render the variable definition in the given language.
+        :type accept_language: SupportedLanguages
         :param date_of_validity: List only variable definitions which are valid on this date.
         :type date_of_validity: date
         :param render: Render the Variable Definition for presentation in a frontend
@@ -289,8 +288,8 @@ class VariableDefinitionsApi:
         :return: Returns the result object.
         """
         _param = self._get_variable_definition_by_id_serialize(
-            accept_language=accept_language,
             variable_definition_id=variable_definition_id,
+            accept_language=accept_language,
             date_of_validity=date_of_validity,
             render=render,
             _request_auth=_request_auth,
@@ -310,8 +309,8 @@ class VariableDefinitionsApi:
 
     def _get_variable_definition_by_id_serialize(
         self,
-        accept_language,
         variable_definition_id,
+        accept_language,
         date_of_validity,
         render,
         _request_auth,
@@ -386,9 +385,9 @@ class VariableDefinitionsApi:
     def list_variable_definitions(
         self,
         accept_language: Annotated[
-            SupportedLanguages,
+            Any | None,
             Field(description="Render the variable definition in the given language."),
-        ],
+        ] = None,
         date_of_validity: Annotated[
             date | None,
             Field(
@@ -421,7 +420,7 @@ class VariableDefinitionsApi:
 
         List all variable definitions.
 
-        :param accept_language: Render the variable definition in the given language. (required)
+        :param accept_language: Render the variable definition in the given language.
         :type accept_language: SupportedLanguages
         :param date_of_validity: List only variable definitions which are valid on this date.
         :type date_of_validity: date
@@ -477,9 +476,9 @@ class VariableDefinitionsApi:
     def list_variable_definitions_with_http_info(
         self,
         accept_language: Annotated[
-            SupportedLanguages,
+            Any | None,
             Field(description="Render the variable definition in the given language."),
-        ],
+        ] = None,
         date_of_validity: Annotated[
             date | None,
             Field(
@@ -512,7 +511,7 @@ class VariableDefinitionsApi:
 
         List all variable definitions.
 
-        :param accept_language: Render the variable definition in the given language. (required)
+        :param accept_language: Render the variable definition in the given language.
         :type accept_language: SupportedLanguages
         :param date_of_validity: List only variable definitions which are valid on this date.
         :type date_of_validity: date
@@ -568,9 +567,9 @@ class VariableDefinitionsApi:
     def list_variable_definitions_without_preload_content(
         self,
         accept_language: Annotated[
-            SupportedLanguages,
+            Any | None,
             Field(description="Render the variable definition in the given language."),
-        ],
+        ] = None,
         date_of_validity: Annotated[
             date | None,
             Field(
@@ -603,7 +602,7 @@ class VariableDefinitionsApi:
 
         List all variable definitions.
 
-        :param accept_language: Render the variable definition in the given language. (required)
+        :param accept_language: Render the variable definition in the given language.
         :type accept_language: SupportedLanguages
         :param date_of_validity: List only variable definitions which are valid on this date.
         :type date_of_validity: date

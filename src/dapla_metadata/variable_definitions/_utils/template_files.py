@@ -1,9 +1,7 @@
 from pathlib import Path
 from typing import TYPE_CHECKING
 
-from dapla_metadata.variable_definitions._generated.vardef_client.models.complete_response import (
-    CompleteResponse,
-)
+from dapla_metadata.variable_definitions._generated.vardef_client import CompleteView
 from dapla_metadata.variable_definitions._generated.vardef_client.models.language_string_type import (
     LanguageStringType,
 )
@@ -52,7 +50,7 @@ def _get_default_template() -> "VariableDefinition":
         contains_special_categories_of_personal_data=False,
         owner=Owner(team="default team", groups=["default group"]),
         contact=GENERATED_CONTACT,
-        variable_status=VariableStatus.DRAFT.value,
+        variable_status=VariableStatus.DRAFT,
         id="",
         patch_id=0,
         created_at=DEFAULT_DATE,
@@ -63,7 +61,7 @@ def _get_default_template() -> "VariableDefinition":
 
 
 def create_template_yaml(
-    model_instance: CompleteResponse | None = None,
+    model_instance: CompleteView | None = None,
     custom_directory: Path | None = None,
 ) -> Path:
     """Creates a template yaml file for a new variable definition."""
