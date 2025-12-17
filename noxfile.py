@@ -55,7 +55,7 @@ def tests(session: nox.Session) -> None:
             session.notify("coverage", posargs=[])
 
 
-@session(python=python_versions[-1], uv_only_groups=["test"])
+@session(python=python_versions[-1], uv_only_groups=["test"], default=False)
 def coverage(session: nox.Session) -> None:
     """Produce the coverage report."""
     args = session.posargs or ["report", "--skip-empty"]
@@ -83,7 +83,7 @@ def xdoctest(session: nox.Session) -> None:
     session.run("python", "-m", "xdoctest", *args)
 
 
-@session(name="docs-build", python=python_versions[-1], uv_groups=["docs"], default=False)
+@session(name="docs-build", python=python_versions[-1], uv_groups=["docs"])
 def docs_build(session: nox.Session) -> None:
     """Build the documentation."""
     args = session.posargs or ["docs", "docs/_build"]
