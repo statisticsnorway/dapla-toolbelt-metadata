@@ -2,6 +2,7 @@ import logging
 from datetime import date
 from os import PathLike
 from pathlib import Path
+from typing import cast
 
 from dapla_metadata.variable_definitions._generated.vardef_client.api.data_migration_api import (
     DataMigrationApi,
@@ -270,7 +271,9 @@ class Vardef:
             list[VariableDefinition]: The list of Variable Definitions.
         """
         return [
-            VariableDefinition.from_model(definition.actual_instance)
+            VariableDefinition.from_model(
+                cast("CompleteView", definition.actual_instance)
+            )
             for definition in VariableDefinitionsApi(
                 VardefClient.get_client(),
             ).list_variable_definitions(
@@ -300,16 +303,19 @@ class Vardef:
             NotFoundException when the given ID is not found
         """
         return VariableDefinition.from_model(
-            VariableDefinitionsApi(
-                VardefClient.get_client(),
+            cast(
+                "CompleteView",
+                VariableDefinitionsApi(
+                    VardefClient.get_client(),
+                )
+                .get_variable_definition_by_id(
+                    variable_definition_id=variable_definition_id,
+                    date_of_validity=date_of_validity,
+                    render=False,
+                    accept_language=SupportedLanguages.NB,
+                )
+                .actual_instance,
             )
-            .get_variable_definition_by_id(
-                variable_definition_id=variable_definition_id,
-                date_of_validity=date_of_validity,
-                render=False,
-                accept_language=SupportedLanguages.NB,
-            )
-            .actual_instance,
         )
 
     @classmethod
@@ -348,7 +354,9 @@ class Vardef:
             msg = f"Lookup by short name {short_name} found multiple variables which should not be possible."
             raise VariableNotFoundError(msg)
 
-        return VariableDefinition.from_model(variable_definitions[0].actual_instance)
+        return VariableDefinition.from_model(
+            cast("CompleteView", variable_definitions[0].actual_instance)
+        )
 
     @classmethod
     @vardef_file_error_handler
