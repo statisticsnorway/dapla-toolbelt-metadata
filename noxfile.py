@@ -8,16 +8,44 @@ from pathlib import Path
 from textwrap import dedent
 
 import nox
-from nox_uv import session
 
 package = "dapla_metadata"
 python_versions = ["3.10", "3.11", "3.12", "3.13", "3.14"]
 nox.needs_version = ">= 2021.6.6"
 nox.options.default_venv_backend = "uv"
 
-@session(name="pre-commit", python=python_versions[-1], uv_only_groups=["dev"])
+
+def install_with_uv(
+    session: nox.Session,
+    *,
+    groups: list[str] | None = None,
+    only_groups: list[str] | None = None,
+    all_extras: bool = False,
+    locked: bool = True,
+) -> None:
+    """Install packages using uv, pinned to uv.lock."""
+    cmd = ["uv", "sync", "--no-default-groups"]
+    if locked:
+        cmd.append("--locked")
+    if groups:
+        for group in groups:
+            cmd.extend(["--group", group])
+    if only_groups:
+        for group in only_groups or []:
+            cmd.extend(["--only-group", group])
+    if all_extras:
+        cmd.append("--all-extras")
+    cmd.append(
+        f"--python={session.virtualenv.location}"
+    )  # Target the nox venv's Python interpreter
+    session.run_install(
+        *cmd, env={"UV_PROJECT_ENVIRONMENT": session.virtualenv.location}
+    )
+
+@nox.session(name="pre-commit", python=python_versions[-1])
 def precommit(session: nox.Session) -> None:
     """Lint using pre-commit."""
+    install_with_uv(session, only_groups=["dev"])
     args = session.posargs or [
         "run",
         "--all-files",
@@ -27,18 +55,20 @@ def precommit(session: nox.Session) -> None:
     session.run("pre-commit", *args)
 
 
-@session(python=python_versions[1:], uv_groups=["type_check"])
+@nox.session(python=python_versions[1:])
 def mypy(session: nox.Session) -> None:
     """Type-check using mypy."""
+    install_with_uv(session, groups=["type_check"])
     args = session.posargs or ["src", "tests"]
     session.run("mypy", *args)
     if not session.posargs:
         session.run("mypy", f"--python-executable={sys.executable}", "noxfile.py")
 
 
-@session(python=python_versions, uv_groups=["test"])
+@nox.session(python=python_versions)
 def tests(session: nox.Session) -> None:
     """Run the test suite."""
+    install_with_uv(session, groups=["test"])
     try:
         session.run(
             "coverage",
@@ -55,9 +85,10 @@ def tests(session: nox.Session) -> None:
             session.notify("coverage", posargs=[])
 
 
-@session(python=python_versions[-1], uv_only_groups=["test"], default=False)
+@nox.session(python=python_versions[-1], default=False)
 def coverage(session: nox.Session) -> None:
     """Produce the coverage report."""
+    install_with_uv(session, only_groups=["test"])
     args = session.posargs or ["report", "--skip-empty"]
     if not session.posargs and any(Path().glob(".coverage.*")):
         session.run("coverage", "combine")
@@ -65,15 +96,17 @@ def coverage(session: nox.Session) -> None:
     session.run("coverage", *args)
 
 
-@session(python=python_versions[-1], uv_groups=["test"])
+@nox.session(python=python_versions[-1])
 def typeguard(session: nox.Session) -> None:
     """Runtime type checking using Typeguard."""
+    install_with_uv(session, groups=["test"])
     session.run("pytest", f"--typeguard-packages={package}.datasets", *session.posargs)
 
 
-@session(python=python_versions[-1], uv_groups=["test"])
+@nox.session(python=python_versions[-1])
 def xdoctest(session: nox.Session) -> None:
     """Run examples with xdoctest."""
+    install_with_uv(session, groups=["test"])
     if session.posargs:
         args = [package, *session.posargs]
     else:
@@ -83,9 +116,10 @@ def xdoctest(session: nox.Session) -> None:
     session.run("python", "-m", "xdoctest", *args)
 
 
-@session(name="docs-build", python=python_versions[-1], uv_groups=["docs"])
+@nox.session(name="docs-build", python=python_versions[-1])
 def docs_build(session: nox.Session) -> None:
     """Build the documentation."""
+    install_with_uv(session, groups=["docs"])
     args = session.posargs or ["docs", "docs/_build"]
     if not session.posargs and "FORCE_COLOR" in os.environ:
         args.insert(0, "--color")
@@ -96,9 +130,10 @@ def docs_build(session: nox.Session) -> None:
     session.run("sphinx-build", *args)
 
 
-@session(python=python_versions[-1], uv_only_groups=["docs"], default=False)
+@nox.session(python=python_versions[-1], default=False)
 def docs(session: nox.Session) -> None:
     """Build and serve the documentation with live reloading on file changes."""
+    install_with_uv(session, only_groups=["docs"])
     args = session.posargs or ["--open-browser", "docs", "docs/_build"]
     build_dir = Path("docs", "_build")
     if build_dir.exists():

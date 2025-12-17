@@ -47,7 +47,7 @@ No specific Python version needs to be installed, uv handles this automatically.
 ### Install [Nox]
 
 ```console
-uv tool install nox --with nox-uv
+uv tool install nox
 ```
 
 ### Install nbstripout
