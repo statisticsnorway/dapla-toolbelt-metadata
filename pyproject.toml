@@ -49,41 +49,41 @@ Changelog = "https://github.com/statisticsnorway/dapla-toolbelt-metadata/release
 packages = ["src/dapla_metadata"]
 
 [dependency-groups]
-dev = [
-    "pygments>=2.18.0",
+test = [
     "coverage[toml]>=6.2",
     "faker>=26.1.0",
-    "furo>=2024.7.18",
-    "pre-commit>=3.8.0",
-    "ruff>=0.5.6",
+    "pygments>=2.18.0",
+    "pytest-asyncio>=0.26.0",
+    "pytest-cov>=3.0.0",
+    "pytest-mock>=3.14.0",
     "pytest>=8.3.2",
+    "requests-mock>=1.12.1",
+    "testcontainers[generic]>=4.8.2",
+    "typeguard>=2.13.3",
+    "xdoctest[colors]>=0.15.10",
+]
+type_check = [
+    "mypy>=0.950",
+    "pandas-stubs",
+    "pyarrow-stubs>=10.0.1.9",
+    "types-beautifulsoup4>=4.12.0.20240511",
+    "types-colorama",
+    "types-docker>=7.1.0.20250503",
+    "types-Pygments",
+    "types-requests",
+    "types-setuptools",
+]
+docs = [
+    "furo>=2024.7.18",
     "sphinx>=6.2.1",
     "sphinx-autobuild>=2021.3.14",
     "sphinx-autodoc-typehints>=1.24.0",
     "sphinx-click>=3.0.2",
-    "typeguard>=2.13.3",
-    "xdoctest[colors]>=0.15.10",
     "myst-parser>=0.16.1",
-    "mypy>=0.950",
-    "pandas>=1.4.2",
-    "pytest-cov>=3.0.0",
-    "python-kacl",
-    "pytest-mock>=3.14.0",
-    "deptry>=0.12.0",
-    "pandas-stubs",
-    "pyarrow-stubs>=10.0.1.9",
-    "requests-mock>=1.12.1",
-    "types-Pygments",
-    "types-colorama",
-    "types-setuptools",
-    "types-requests",
-    "types-beautifulsoup4>=4.12.0.20240511",
-    "ipykernel>=6.29.5",
-    "rich>=13.9.4",
-    "bpython>=0.24",
-    "testcontainers[generic]>=4.8.2",
-    "pytest-asyncio>=0.26.0",
-    "types-docker>=7.1.0.20250503",
+]
+dev = [
+    "pre-commit>=3.8.0",
+    "ruff>=0.5.6",
 ]
 
 [tool.pytest.ini_options]
@@ -97,6 +97,7 @@ filterwarnings = [
 
 [tool.uv]
 required-version = ">=0.8.0"
+default-groups = ["dev", "test", "type_check"]
 
 [tool.coverage.paths]
 source = ["src", "*/site-packages"]
@@ -131,7 +132,19 @@ disable_error_code = ["unreachable"]
 
 [[tool.mypy.overrides]]
 # Allow missing type hints in third-party libraries without type information.
-module = ["nox", "dapla", "gcsfs", "pyarrow", "pyarrow.parquet", "pytest_mock", "testcontainers.*", "httpx", "ruamel.*"]
+module = [
+    "dapla",
+    "faker",
+    "gcsfs",
+    "httpx",
+    "nox",
+    "pyarrow",
+    "pyarrow.parquet",
+    "pytest_mock",
+    "ruamel.*",
+    "testcontainers.*",
+    "typeguard",
+]
 ignore_missing_imports = true
 
 # Disable specific error codes in the 'tests' package

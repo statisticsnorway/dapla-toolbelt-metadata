@@ -4,7 +4,7 @@ import typing as t
 
 import jwt
 import pytest
-from faker import Faker
+from faker import Faker  # type: ignore [import-not-found]
 
 if sys.version_info < (3, 11):
     # dapla_auth_client only supports Python >=3.11
