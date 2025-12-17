@@ -25,7 +25,7 @@ jobs:
       - name: Install uv
         uses: astral-sh/setup-uv@v7
       - id: set-matrix
-        run: echo session=$(uvx nox --json -l | jq -c '[.[].session]') | tee --append $GITHUB_OUTPUT
+        run: echo session=$(uvx --with nox-uv nox --json -l | jq -c '[.[].session]') | tee --append $GITHUB_OUTPUT
   tests:
     name: Session ${{ matrix.session }}
     needs: [generate-jobs]
@@ -75,7 +75,7 @@ jobs:
 
       - name: Run Nox
         run: |
-          uvx --constraints "${{ github.workspace }}/.github/workflows/constraints.txt" nox --session=${{ matrix.session }}
+          uvx --with nox-uv --constraints "${{ github.workspace }}/.github/workflows/constraints.txt" nox --session=${{ matrix.session }}
 
       - name: Upload coverage data
         if: always() && contains(matrix.session, 'tests')
@@ -116,11 +116,11 @@ jobs:
 
       - name: Combine coverage data and display human readable report
         run: |
-          uvx --constraints "${{ github.workspace }}/.github/workflows/constraints.txt" nox --session=coverage
+          uvx --with nox-uv --constraints "${{ github.workspace }}/.github/workflows/constraints.txt" nox --session=coverage
 
       - name: Create coverage report
         run: |
-          uvx --constraints "${{ github.workspace }}/.github/workflows/constraints.txt" nox --session=coverage -- xml
+          uvx --with nox-uv --constraints "${{ github.workspace }}/.github/workflows/constraints.txt" nox --session=coverage -- xml
 
       # Need to fix coverage source paths for SonarCloud scanning in GitHub actions.
       # Replace root path with /github/workspace (mounted in docker container).
