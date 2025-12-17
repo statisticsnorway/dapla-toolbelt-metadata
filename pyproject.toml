@@ -113,6 +113,10 @@ show_missing = true
 fail_under = 80
 omit = ["*/dapla_metadata/variable_definitions/_generated/*"]
 
+[tool.ty.src]
+include = ["src", "tests"]
+exclude = ["src/dapla_metadata/variable_definitions/_generated"]
+
 [tool.mypy]
 plugins = ["pydantic.mypy"]
 strict = false
