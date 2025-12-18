@@ -321,7 +321,7 @@ def num_obligatory_variables_fields_completed(variables: list) -> int:
 
 
 def num_obligatory_variable_fields_completed(
-    variable: all_optional_model.Variable,
+    variable: VariableType,
 ) -> int:
     """Count the number of obligatory fields completed for one variable.
 
