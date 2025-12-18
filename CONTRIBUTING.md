@@ -100,6 +100,13 @@ nox --session=tests
 Unit tests are located in the _tests_ directory,
 and are written using the [pytest] testing framework.
 
+### Recommended editor tooling
+
+For a comfortable development experience we recommend the following tools/extensions/language servers as a minimum:
+
+- [Ruff](https://docs.astral.sh/ruff/editors/setup/)
+- [Tombi](https://tombi-toml.github.io/tombi/docs/editors) (for TOML files)
+
 ## How to incorporate breaking model changes
 
 We keep the version of `ssb-datadoc-model` pinned since almost all changes there are breaking changes and we don't want this package to be bumped accidentally. When upgrading the version of this package there are a number of things to consider:
