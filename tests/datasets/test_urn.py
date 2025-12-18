@@ -3,7 +3,7 @@ import logging
 import datadoc_model.all_optional.model as all_optional_model
 import pytest
 from pydantic import AnyUrl
-from typeguard import suppress_type_checks
+from typeguard import suppress_type_checks  # type: ignore [import-not-found]
 
 from dapla_metadata.datasets.core import Datadoc
 from dapla_metadata.datasets.utility.urn import URN_ERROR_MESSAGE_BASE

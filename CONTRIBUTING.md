@@ -32,33 +32,30 @@ Request features on the [Issue Tracker].
 
 ## How to set up your development environment
 
-You need Python 3.10+ and the following tools:
+You need the following tools:
 
 - [uv]
 - [Nox]
 - nbstripout
 
-### Install [pipx]
-
-```console
-python -m pip install --user pipx
-python -m pipx ensurepath
-```
-
 ### Install [uv]
 
 Instructions: <https://docs.astral.sh/uv/getting-started/installation/>
 
+No specific Python version needs to be installed, uv handles this automatically.
+
 ### Install [Nox]
 
 ```console
-pipx install nox
+uv tool install nox
 ```
 
 ### Install nbstripout
 
+This tool is necessary when working with the Notebooks in the [demo](./demo) directory.
+
 ```console
-pipx install nbstripout
+uv tool install nbstripout
 ```
 
 ### Install the pre-commit hooks
@@ -70,7 +67,7 @@ nox --session=pre-commit -- install
 ### Install the package with development requirements
 
 ```console
-uv sync --dev
+uv sync
 ```
 
 ## How to test the project
@@ -79,6 +76,12 @@ Run the full test suite:
 
 ```console
 nox
+```
+
+After running the suite for the first time, we recommend reusing the virtual environment for speed of execution. This can be done using the `-r` flag e.g.
+
+```console
+nox -r
 ```
 
 List the available Nox sessions:
@@ -96,6 +99,13 @@ nox --session=tests
 
 Unit tests are located in the _tests_ directory,
 and are written using the [pytest] testing framework.
+
+### Recommended editor tooling
+
+For a comfortable development experience we recommend the following tools/extensions/language servers as a minimum:
+
+- [Ruff](https://docs.astral.sh/ruff/editors/setup/)
+- [Tombi](https://tombi-toml.github.io/tombi/docs/editors) (for TOML files)
 
 ## How to incorporate breaking model changes
 
