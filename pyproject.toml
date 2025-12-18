@@ -156,7 +156,9 @@ disable_error_code = [
   "no-untyped-def"
 ]
 
-[tool.pytest]
+# tombi: lint.rules.one-of-multiple-match.disabled = true
+# tombi: lint.rules.deprecated.disabled = true
+[tool.pytest.ini_options]
 filterwarnings = [
   "ignore::dapla_metadata.datasets.InconsistentDatasetsWarning",  # Our own
   "ignore::dapla_metadata.datasets.ObligatoryDatasetWarning",  # Our own

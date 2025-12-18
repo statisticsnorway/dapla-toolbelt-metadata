@@ -1,4 +1,8 @@
-"""Nox sessions."""
+#!/usr/bin/env -S uv run --script --quiet
+
+# /// script
+# dependencies = ["nox",]
+# ///
 
 import os
 import shlex
@@ -140,3 +144,7 @@ def docs(session: nox.Session) -> None:
         shutil.rmtree(build_dir)
 
     session.run("sphinx-autobuild", *args)
+
+
+if __name__ == "__main__":
+    nox.main()
