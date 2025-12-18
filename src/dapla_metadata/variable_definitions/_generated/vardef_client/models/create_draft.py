@@ -29,47 +29,40 @@ from typing_extensions import Self
 
 from ..models.contact import Contact
 from ..models.language_string_type import LanguageStringType
-from ..models.owner import Owner
-from ..models.variable_status import VariableStatus
 
 
-class UpdateDraft(BaseModel):
-    """Update variable definition Data structure with all fields optional for updating a Draft Variable Definition."""
+class CreateDraft(BaseModel):
+    """Create a Draft Variable Definition"""
 
-    name: LanguageStringType | None = None
-    short_name: Annotated[str, Field(strict=True)] | None = Field(
-        default=None,
-        description="Recommended short name. Must be unique within an organization.",
+    name: LanguageStringType
+    short_name: Annotated[str, Field(strict=True)] = Field(
+        description="Recommended short name. Must be unique within an organization."
     )
-    definition: LanguageStringType | None = None
+    definition: LanguageStringType
     classification_reference: StrictStr | None = Field(
         default=None,
         description="ID of a classification or code list from Klass. The given classification defines all possible values for the defined variable.",
     )
-    unit_types: list[Annotated[str, Field(min_length=1, strict=True)]] | None = Field(
-        default=None,
-        description="A list of one or more unit types, e.g. person, vehicle, household. Must be defined as codes from https://www.ssb.no/klass/klassifikasjoner/702.",
+    unit_types: list[Annotated[str, Field(min_length=1, strict=True)]] = Field(
+        description="A list of one or more unit types, e.g. person, vehicle, household. Must be defined as codes from https://www.ssb.no/klass/klassifikasjoner/702."
     )
-    subject_fields: list[Annotated[str, Field(min_length=1, strict=True)]] | None = (
-        Field(
-            default=None,
-            description="A list of subject fields that the variable is used in. Must be defined as codes from https://www.ssb.no/klass/klassifikasjoner/618.",
-        )
+    subject_fields: list[Annotated[str, Field(min_length=1, strict=True)]] = Field(
+        description="A list of subject fields that the variable is used in. Must be defined as codes from https://www.ssb.no/klass/klassifikasjoner/618."
     )
-    contains_special_categories_of_personal_data: StrictBool | None = Field(
-        default=None,
-        description="True if variable instances contain particularly sensitive information. Applies even if the information or identifiers are pseudonymized. Information within the following categories are regarded as particularly sensitive: Ethnicity, Political alignment, Religion, Philosophical beliefs, Union membership, Genetics, Biometrics, Health, Sexual relations, Sexual orientation",
+    contains_special_categories_of_personal_data: StrictBool = Field(
+        description="True if variable instances contain particularly sensitive information. Applies even if the information or identifiers are pseudonymized. Information within the following categories are regarded as particularly sensitive: Ethnicity, Political alignment, Religion, Philosophical beliefs, Union membership, Genetics, Biometrics, Health, Sexual relations, Sexual orientation"
     )
-    variable_status: VariableStatus | None = None
     measurement_type: StrictStr | None = Field(
         default=None,
         description="Type of measurement for the variable, e.g. length, volume, currency. Must be defined as codes from https://www.ssb.no/klass/klassifikasjoner/303",
     )
-    valid_from: date | None = Field(
-        default=None,
-        description="The variable definition is valid from this date inclusive",
+    valid_from: date = Field(
+        description="The variable definition is valid from this date inclusive"
     )
-    valid_until: date | None = None
+    valid_until: date | None = Field(
+        default=None,
+        description="The variable definition is valid until this date inclusive",
+    )
     external_reference_uri: StrictStr | None = Field(
         default=None, description="A link (URI) to an external definition/documentation"
     )
@@ -78,8 +71,7 @@ class UpdateDraft(BaseModel):
         default=None,
         description="Link(s) to related definitions of variables - a list of one or more definitions. For example for a variable after-tax income it could be relevant to link to definitions of income from work, property income etc.",
     )
-    owner: Owner | None = None
-    contact: Contact | None = None
+    contact: Contact
     __properties: ClassVar[list[str]] = [
         "name",
         "short_name",
@@ -88,23 +80,18 @@ class UpdateDraft(BaseModel):
         "unit_types",
         "subject_fields",
         "contains_special_categories_of_personal_data",
-        "variable_status",
         "measurement_type",
         "valid_from",
         "valid_until",
         "external_reference_uri",
         "comment",
         "related_variable_definition_uris",
-        "owner",
         "contact",
     ]
 
     @field_validator("short_name")
     def short_name_validate_regular_expression(cls, value):
         """Validates the regular expression"""
-        if value is None:
-            return value
-
         if not re.match(r"^[a-z0-9_]{2,}$", value):
             raise ValueError(r"must validate the regular expression /^[a-z0-9_]{2,}$/")
         return value
@@ -126,7 +113,7 @@ class UpdateDraft(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Self | None:
-        """Create an instance of UpdateDraft from a JSON string"""
+        """Create an instance of CreateDraft from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> dict[str, Any]:
@@ -155,27 +142,9 @@ class UpdateDraft(BaseModel):
         # override the default output from pydantic by calling `to_dict()` of comment
         if self.comment:
             _dict["comment"] = self.comment.to_dict()
-        # override the default output from pydantic by calling `to_dict()` of owner
-        if self.owner:
-            _dict["owner"] = self.owner.to_dict()
         # override the default output from pydantic by calling `to_dict()` of contact
         if self.contact:
             _dict["contact"] = self.contact.to_dict()
-        # set to None if name (nullable) is None
-        # and model_fields_set contains the field
-        if self.name is None and "name" in self.model_fields_set:
-            _dict["name"] = None
-
-        # set to None if short_name (nullable) is None
-        # and model_fields_set contains the field
-        if self.short_name is None and "short_name" in self.model_fields_set:
-            _dict["short_name"] = None
-
-        # set to None if definition (nullable) is None
-        # and model_fields_set contains the field
-        if self.definition is None and "definition" in self.model_fields_set:
-            _dict["definition"] = None
-
         # set to None if classification_reference (nullable) is None
         # and model_fields_set contains the field
         if (
@@ -184,29 +153,6 @@ class UpdateDraft(BaseModel):
         ):
             _dict["classification_reference"] = None
 
-        # set to None if unit_types (nullable) is None
-        # and model_fields_set contains the field
-        if self.unit_types is None and "unit_types" in self.model_fields_set:
-            _dict["unit_types"] = None
-
-        # set to None if subject_fields (nullable) is None
-        # and model_fields_set contains the field
-        if self.subject_fields is None and "subject_fields" in self.model_fields_set:
-            _dict["subject_fields"] = None
-
-        # set to None if contains_special_categories_of_personal_data (nullable) is None
-        # and model_fields_set contains the field
-        if (
-            self.contains_special_categories_of_personal_data is None
-            and "contains_special_categories_of_personal_data" in self.model_fields_set
-        ):
-            _dict["contains_special_categories_of_personal_data"] = None
-
-        # set to None if variable_status (nullable) is None
-        # and model_fields_set contains the field
-        if self.variable_status is None and "variable_status" in self.model_fields_set:
-            _dict["variable_status"] = None
-
         # set to None if measurement_type (nullable) is None
         # and model_fields_set contains the field
         if (
@@ -214,11 +160,6 @@ class UpdateDraft(BaseModel):
             and "measurement_type" in self.model_fields_set
         ):
             _dict["measurement_type"] = None
-
-        # set to None if valid_from (nullable) is None
-        # and model_fields_set contains the field
-        if self.valid_from is None and "valid_from" in self.model_fields_set:
-            _dict["valid_from"] = None
 
         # set to None if valid_until (nullable) is None
         # and model_fields_set contains the field
@@ -246,21 +187,11 @@ class UpdateDraft(BaseModel):
         ):
             _dict["related_variable_definition_uris"] = None
 
-        # set to None if owner (nullable) is None
-        # and model_fields_set contains the field
-        if self.owner is None and "owner" in self.model_fields_set:
-            _dict["owner"] = None
-
-        # set to None if contact (nullable) is None
-        # and model_fields_set contains the field
-        if self.contact is None and "contact" in self.model_fields_set:
-            _dict["contact"] = None
-
         return _dict
 
     @classmethod
     def from_dict(cls, obj: dict[str, Any] | None) -> Self | None:
-        """Create an instance of UpdateDraft from a dict"""
+        """Create an instance of CreateDraft from a dict"""
         if obj is None:
             return None
 
@@ -281,8 +212,9 @@ class UpdateDraft(BaseModel):
                 "subject_fields": obj.get("subject_fields"),
                 "contains_special_categories_of_personal_data": obj.get(
                     "contains_special_categories_of_personal_data"
-                ),
-                "variable_status": obj.get("variable_status"),
+                )
+                if obj.get("contains_special_categories_of_personal_data") is not None
+                else False,
                 "measurement_type": obj.get("measurement_type"),
                 "valid_from": obj.get("valid_from"),
                 "valid_until": obj.get("valid_until"),
@@ -293,9 +225,6 @@ class UpdateDraft(BaseModel):
                 "related_variable_definition_uris": obj.get(
                     "related_variable_definition_uris"
                 ),
-                "owner": Owner.from_dict(obj["owner"])
-                if obj.get("owner") is not None
-                else None,
                 "contact": Contact.from_dict(obj["contact"])
                 if obj.get("contact") is not None
                 else None,

@@ -11,9 +11,7 @@ from ruamel.yaml import RoundTripRepresenter
 from ruamel.yaml.scalarstring import DoubleQuotedScalarString
 from ruamel.yaml.scalarstring import LiteralScalarString
 
-from dapla_metadata.variable_definitions._generated.vardef_client.models.complete_response import (
-    CompleteResponse,
-)
+from dapla_metadata.variable_definitions._generated.vardef_client import CompleteView
 from dapla_metadata.variable_definitions._generated.vardef_client.models.variable_status import (
     VariableStatus,
 )
@@ -78,11 +76,12 @@ def _get_current_time() -> str:
 def _get_workspace_dir() -> Path:
     """Determine the workspace directory."""
     workspace_dir = config.get_workspace_dir()
+    workspace_dir_path = Path()
 
     if workspace_dir is None:
         msg = "WORKSPACE_DIR is not set. Check your configuration or provide a custom directory."
         raise VardefFileError(msg)
-    workspace_dir_path: Path
+
     if workspace_dir is not None:
         workspace_dir_path = Path(workspace_dir)
         workspace_dir_path.resolve()
@@ -237,7 +236,7 @@ def pre_process_data(data: dict) -> dict:
 
 
 def _model_to_yaml_with_comments(
-    model_instance: CompleteResponse,
+    model_instance: CompleteView,
     file_name: str,
     start_comment: str,
     custom_directory: Path | None = None,

@@ -10,9 +10,7 @@ from typing import TypeVar
 from pydantic import BaseModel
 from ruamel.yaml import YAML
 
-from dapla_metadata.variable_definitions._generated.vardef_client.models.complete_response import (
-    CompleteResponse,
-)
+from dapla_metadata.variable_definitions._generated.vardef_client import CompleteView
 from dapla_metadata.variable_definitions._utils.constants import HEADER
 from dapla_metadata.variable_definitions._utils.files import _create_file_name
 from dapla_metadata.variable_definitions._utils.files import _get_current_time
@@ -29,7 +27,7 @@ T = TypeVar("T", bound=BaseModel)
 
 
 def create_variable_yaml(
-    model_instance: CompleteResponse,
+    model_instance: CompleteView,
     custom_directory: Path | None = None,
 ) -> Path:
     """Creates a yaml file for an existing variable definition."""

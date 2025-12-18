@@ -22,23 +22,23 @@ from pydantic import field_validator
 from typing_extensions import Self
 
 from ..models.complete_view import CompleteView
-from ..models.vardok_id_response import VardokIdResponse
+from ..models.rendered_view import RenderedView
 
-GETVARDOKVARDEFMAPPINGBYID200RESPONSE_ONE_OF_SCHEMAS = [
+LISTVARIABLEDEFINITIONS200RESPONSEINNER_ONE_OF_SCHEMAS = [
     "CompleteView",
-    "VardokIdResponse",
+    "RenderedView",
 ]
 
 
-class GetVardokVardefMappingById200Response(BaseModel):
-    """GetVardokVardefMappingById200Response"""
+class ListVariableDefinitions200ResponseInner(BaseModel):
+    """ListVariableDefinitions200ResponseInner"""
 
     # data type: CompleteView
     oneof_schema_1_validator: CompleteView | None = None
-    # data type: VardokIdResponse
-    oneof_schema_2_validator: VardokIdResponse | None = None
-    actual_instance: CompleteView | VardokIdResponse | None = None
-    one_of_schemas: set[str] = {"CompleteView", "VardokIdResponse"}
+    # data type: RenderedView
+    oneof_schema_2_validator: RenderedView | None = None
+    actual_instance: CompleteView | RenderedView | None = None
+    one_of_schemas: set[str] = {"CompleteView", "RenderedView"}
 
     model_config = ConfigDict(
         validate_assignment=True,
@@ -61,7 +61,7 @@ class GetVardokVardefMappingById200Response(BaseModel):
 
     @field_validator("actual_instance")
     def actual_instance_must_validate_oneof(cls, v):
-        instance = GetVardokVardefMappingById200Response.model_construct()
+        instance = ListVariableDefinitions200ResponseInner.model_construct()
         error_messages = []
         match = 0
         # validate data type: CompleteView
@@ -71,23 +71,23 @@ class GetVardokVardefMappingById200Response(BaseModel):
             )
         else:
             match += 1
-        # validate data type: VardokIdResponse
-        if not isinstance(v, VardokIdResponse):
+        # validate data type: RenderedView
+        if not isinstance(v, RenderedView):
             error_messages.append(
-                f"Error! Input type `{type(v)}` is not `VardokIdResponse`"
+                f"Error! Input type `{type(v)}` is not `RenderedView`"
             )
         else:
             match += 1
         if match > 1:
             # more than 1 match
             raise ValueError(
-                "Multiple matches found when setting `actual_instance` in GetVardokVardefMappingById200Response with oneOf schemas: CompleteView, VardokIdResponse. Details: "
+                "Multiple matches found when setting `actual_instance` in ListVariableDefinitions200ResponseInner with oneOf schemas: CompleteView, RenderedView. Details: "
                 + ", ".join(error_messages)
             )
         if match == 0:
             # no match
             raise ValueError(
-                "No match found when setting `actual_instance` in GetVardokVardefMappingById200Response with oneOf schemas: CompleteView, VardokIdResponse. Details: "
+                "No match found when setting `actual_instance` in ListVariableDefinitions200ResponseInner with oneOf schemas: CompleteView, RenderedView. Details: "
                 + ", ".join(error_messages)
             )
         return v
@@ -109,9 +109,9 @@ class GetVardokVardefMappingById200Response(BaseModel):
             match += 1
         except (ValidationError, ValueError) as e:
             error_messages.append(str(e))
-        # deserialize data into VardokIdResponse
+        # deserialize data into RenderedView
         try:
-            instance.actual_instance = VardokIdResponse.from_json(json_str)
+            instance.actual_instance = RenderedView.from_json(json_str)
             match += 1
         except (ValidationError, ValueError) as e:
             error_messages.append(str(e))
@@ -119,13 +119,13 @@ class GetVardokVardefMappingById200Response(BaseModel):
         if match > 1:
             # more than 1 match
             raise ValueError(
-                "Multiple matches found when deserializing the JSON string into GetVardokVardefMappingById200Response with oneOf schemas: CompleteView, VardokIdResponse. Details: "
+                "Multiple matches found when deserializing the JSON string into ListVariableDefinitions200ResponseInner with oneOf schemas: CompleteView, RenderedView. Details: "
                 + ", ".join(error_messages)
             )
         if match == 0:
             # no match
             raise ValueError(
-                "No match found when deserializing the JSON string into GetVardokVardefMappingById200Response with oneOf schemas: CompleteView, VardokIdResponse. Details: "
+                "No match found when deserializing the JSON string into ListVariableDefinitions200ResponseInner with oneOf schemas: CompleteView, RenderedView. Details: "
                 + ", ".join(error_messages)
             )
         return instance
@@ -141,7 +141,7 @@ class GetVardokVardefMappingById200Response(BaseModel):
             return self.actual_instance.to_json()
         return json.dumps(self.actual_instance)
 
-    def to_dict(self) -> dict[str, Any] | CompleteView | VardokIdResponse | None:
+    def to_dict(self) -> dict[str, Any] | CompleteView | RenderedView | None:
         """Returns the dict representation of the actual instance"""
         if self.actual_instance is None:
             return None

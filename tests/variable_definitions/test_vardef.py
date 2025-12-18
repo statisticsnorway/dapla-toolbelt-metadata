@@ -18,8 +18,8 @@ from dapla_metadata.variable_definitions._generated.vardef_client.api_client imp
 from dapla_metadata.variable_definitions._generated.vardef_client.configuration import (
     Configuration,
 )
-from dapla_metadata.variable_definitions._generated.vardef_client.models.draft import (
-    Draft,
+from dapla_metadata.variable_definitions._generated.vardef_client.models.create_draft import (
+    CreateDraft,
 )
 from dapla_metadata.variable_definitions._generated.vardef_client.models.get_vardok_vardef_mapping_by_id200_response import (
     GetVardokVardefMappingById200Response,
@@ -173,7 +173,7 @@ def test_not_found(
 
 def test_create_draft(
     client_configuration: Configuration,
-    draft: Draft,
+    draft: CreateDraft,
 ):
     VardefClient.set_config(client_configuration)
     my_draft = Vardef.create_draft(

@@ -18,7 +18,7 @@ from typing_extensions import Self
 
 
 class VariableStatus(str, Enum):
-    """Life cycle status of a variable definition."""
+    """Status of the life cycle of the variable"""
 
     """
     allowed enum values

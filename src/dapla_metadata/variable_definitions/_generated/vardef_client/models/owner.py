@@ -25,7 +25,7 @@ from typing_extensions import Self
 
 
 class Owner(BaseModel):
-    """Owner"""
+    """Owner of the definition, i.e. responsible Dapla team (statistics team) and information about access management groups."""
 
     team: Annotated[str, Field(min_length=1, strict=True)] = Field(
         description="The Dapla team with responsibility for this variable definition."

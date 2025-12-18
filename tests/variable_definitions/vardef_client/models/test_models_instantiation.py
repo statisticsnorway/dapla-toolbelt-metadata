@@ -4,14 +4,20 @@ import pytest
 from pydantic import BaseModel
 from pydantic import ValidationError
 
-from dapla_metadata.variable_definitions._generated.vardef_client.models.complete_response import (
-    CompleteResponse,
+from dapla_metadata.variable_definitions._generated.vardef_client.models.complete_view import (
+    CompleteView,
 )
 from dapla_metadata.variable_definitions._generated.vardef_client.models.contact import (
     Contact,
 )
-from dapla_metadata.variable_definitions._generated.vardef_client.models.draft import (
-    Draft,
+from dapla_metadata.variable_definitions._generated.vardef_client.models.create_draft import (
+    CreateDraft,
+)
+from dapla_metadata.variable_definitions._generated.vardef_client.models.create_patch import (
+    CreatePatch,
+)
+from dapla_metadata.variable_definitions._generated.vardef_client.models.create_validity_period import (
+    CreateValidityPeriod,
 )
 from dapla_metadata.variable_definitions._generated.vardef_client.models.language_string_type import (
     LanguageStringType,
@@ -19,14 +25,8 @@ from dapla_metadata.variable_definitions._generated.vardef_client.models.languag
 from dapla_metadata.variable_definitions._generated.vardef_client.models.owner import (
     Owner,
 )
-from dapla_metadata.variable_definitions._generated.vardef_client.models.patch import (
-    Patch,
-)
 from dapla_metadata.variable_definitions._generated.vardef_client.models.update_draft import (
     UpdateDraft,
-)
-from dapla_metadata.variable_definitions._generated.vardef_client.models.validity_period import (
-    ValidityPeriod,
 )
 from dapla_metadata.variable_definitions._generated.vardef_client.models.variable_status import (
     VariableStatus,
@@ -38,11 +38,11 @@ from dapla_metadata.variable_definitions._generated.vardef_client.models.variabl
 @pytest.mark.parametrize(
     "model",
     [
-        Draft,
-        CompleteResponse,
+        CreateDraft,
+        CompleteView,
         Contact,
         Owner,
-        ValidityPeriod,
+        CreateValidityPeriod,
     ],
 )
 def test_empty_instantiation_model_with_required_fields(model: type[BaseModel]):
@@ -54,7 +54,7 @@ def test_empty_instantiation_model_with_required_fields(model: type[BaseModel]):
     "model",
     [
         LanguageStringType,
-        Patch,
+        CreatePatch,
         UpdateDraft,
     ],
 )
@@ -63,7 +63,7 @@ def test_empty_instantiation_model_without_required_fields(model: type[BaseModel
 
 
 def test_instantiate_draft_all_fields(language_string_type, contact):
-    Draft(
+    CreateDraft(
         name=language_string_type,
         short_name="test",
         definition=language_string_type,
@@ -101,7 +101,7 @@ def test_instantiate_update_draft_all_fields(language_string_type, contact, owne
 
 
 def test_instantiate_patch_all_fields(language_string_type, contact, owner):
-    Patch(
+    CreatePatch(
         name=language_string_type,
         definition=language_string_type,
         classification_reference="91",
@@ -120,14 +120,13 @@ def test_instantiate_patch_all_fields(language_string_type, contact, owner):
 
 
 def test_instantiate_validity_period_all_fields(language_string_type, contact):
-    ValidityPeriod(
+    CreateValidityPeriod(
         name=language_string_type,
         definition=language_string_type,
         classification_reference="91",
         unit_types=["a", "b"],
         subject_fields=["a", "b"],
         contains_special_categories_of_personal_data=True,
-        variable_status=VariableStatus.PUBLISHED_EXTERNAL,
         measurement_type="test",
         valid_from=date(2024, 11, 1),
         external_reference_uri="http://www.example.com",
