@@ -21,8 +21,8 @@ from pydantic import validate_call
 from ..api_client import ApiClient
 from ..api_client import RequestSerialized
 from ..api_response import ApiResponse
-from ..models.complete_response import CompleteResponse
-from ..models.validity_period import ValidityPeriod
+from ..models.complete_view import CompleteView
+from ..models.create_validity_period import CreateValidityPeriod
 from ..rest import RESTResponseType
 
 
@@ -45,7 +45,7 @@ class ValidityPeriodsApi:
             StrictStr,
             Field(description="Unique identifier for the variable definition."),
         ],
-        validity_period: ValidityPeriod | None = None,
+        create_validity_period: CreateValidityPeriod | None = None,
         _request_timeout: None
         | Annotated[StrictFloat, Field(gt=0)]
         | tuple[
@@ -55,15 +55,15 @@ class ValidityPeriodsApi:
         _content_type: StrictStr | None = None,
         _headers: dict[StrictStr, Any] | None = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> CompleteResponse:
+    ) -> CompleteView:
         """Create a new validity period for a variable definition.
 
         Create a new validity period for a variable definition.
 
         :param variable_definition_id: Unique identifier for the variable definition. (required)
         :type variable_definition_id: str
-        :param validity_period:
-        :type validity_period: ValidityPeriod
+        :param create_validity_period:
+        :type create_validity_period: CreateValidityPeriod
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -87,7 +87,7 @@ class ValidityPeriodsApi:
         """
         _param = self._create_validity_period_serialize(
             variable_definition_id=variable_definition_id,
-            validity_period=validity_period,
+            create_validity_period=create_validity_period,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -95,7 +95,7 @@ class ValidityPeriodsApi:
         )
 
         _response_types_map: dict[str, str | None] = {
-            "201": "CompleteResponse",
+            "201": "CompleteView",
             "404": "Problem",
             "400": "Problem",
             "405": "Problem",
@@ -116,7 +116,7 @@ class ValidityPeriodsApi:
             StrictStr,
             Field(description="Unique identifier for the variable definition."),
         ],
-        validity_period: ValidityPeriod | None = None,
+        create_validity_period: CreateValidityPeriod | None = None,
         _request_timeout: None
         | Annotated[StrictFloat, Field(gt=0)]
         | tuple[
@@ -126,15 +126,15 @@ class ValidityPeriodsApi:
         _content_type: StrictStr | None = None,
         _headers: dict[StrictStr, Any] | None = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[CompleteResponse]:
+    ) -> ApiResponse[CompleteView]:
         """Create a new validity period for a variable definition.
 
         Create a new validity period for a variable definition.
 
         :param variable_definition_id: Unique identifier for the variable definition. (required)
         :type variable_definition_id: str
-        :param validity_period:
-        :type validity_period: ValidityPeriod
+        :param create_validity_period:
+        :type create_validity_period: CreateValidityPeriod
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -158,7 +158,7 @@ class ValidityPeriodsApi:
         """
         _param = self._create_validity_period_serialize(
             variable_definition_id=variable_definition_id,
-            validity_period=validity_period,
+            create_validity_period=create_validity_period,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -166,7 +166,7 @@ class ValidityPeriodsApi:
         )
 
         _response_types_map: dict[str, str | None] = {
-            "201": "CompleteResponse",
+            "201": "CompleteView",
             "404": "Problem",
             "400": "Problem",
             "405": "Problem",
@@ -187,7 +187,7 @@ class ValidityPeriodsApi:
             StrictStr,
             Field(description="Unique identifier for the variable definition."),
         ],
-        validity_period: ValidityPeriod | None = None,
+        create_validity_period: CreateValidityPeriod | None = None,
         _request_timeout: None
         | Annotated[StrictFloat, Field(gt=0)]
         | tuple[
@@ -204,8 +204,8 @@ class ValidityPeriodsApi:
 
         :param variable_definition_id: Unique identifier for the variable definition. (required)
         :type variable_definition_id: str
-        :param validity_period:
-        :type validity_period: ValidityPeriod
+        :param create_validity_period:
+        :type create_validity_period: CreateValidityPeriod
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -229,7 +229,7 @@ class ValidityPeriodsApi:
         """
         _param = self._create_validity_period_serialize(
             variable_definition_id=variable_definition_id,
-            validity_period=validity_period,
+            create_validity_period=create_validity_period,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -237,7 +237,7 @@ class ValidityPeriodsApi:
         )
 
         _response_types_map: dict[str, str | None] = {
-            "201": "CompleteResponse",
+            "201": "CompleteView",
             "404": "Problem",
             "400": "Problem",
             "405": "Problem",
@@ -250,7 +250,7 @@ class ValidityPeriodsApi:
     def _create_validity_period_serialize(
         self,
         variable_definition_id,
-        validity_period,
+        create_validity_period,
         _request_auth,
         _content_type,
         _headers,
@@ -276,8 +276,8 @@ class ValidityPeriodsApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if validity_period is not None:
-            _body_params = validity_period
+        if create_validity_period is not None:
+            _body_params = create_validity_period
 
         # set the HTTP header `Accept`
         if "Accept" not in _header_params:
@@ -329,7 +329,7 @@ class ValidityPeriodsApi:
         _content_type: StrictStr | None = None,
         _headers: dict[StrictStr, Any] | None = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> list[CompleteResponse]:
+    ) -> list[CompleteView]:
         """List all validity periods.
 
         List all validity periods.
@@ -366,7 +366,7 @@ class ValidityPeriodsApi:
         )
 
         _response_types_map: dict[str, str | None] = {
-            "200": "List[CompleteResponse]",
+            "200": "List[CompleteView]",
             "404": "Problem",
         }
         response_data = self.api_client.call_api(
@@ -394,7 +394,7 @@ class ValidityPeriodsApi:
         _content_type: StrictStr | None = None,
         _headers: dict[StrictStr, Any] | None = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[list[CompleteResponse]]:
+    ) -> ApiResponse[list[CompleteView]]:
         """List all validity periods.
 
         List all validity periods.
@@ -431,7 +431,7 @@ class ValidityPeriodsApi:
         )
 
         _response_types_map: dict[str, str | None] = {
-            "200": "List[CompleteResponse]",
+            "200": "List[CompleteView]",
             "404": "Problem",
         }
         response_data = self.api_client.call_api(
@@ -496,7 +496,7 @@ class ValidityPeriodsApi:
         )
 
         _response_types_map: dict[str, str | None] = {
-            "200": "List[CompleteResponse]",
+            "200": "List[CompleteView]",
             "404": "Problem",
         }
         response_data = self.api_client.call_api(

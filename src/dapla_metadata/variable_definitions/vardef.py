@@ -2,6 +2,7 @@ import logging
 from datetime import date
 from os import PathLike
 from pathlib import Path
+from typing import cast
 
 from dapla_metadata.variable_definitions._generated.vardef_client.api.data_migration_api import (
     DataMigrationApi,
@@ -12,11 +13,14 @@ from dapla_metadata.variable_definitions._generated.vardef_client.api.draft_vari
 from dapla_metadata.variable_definitions._generated.vardef_client.api.variable_definitions_api import (
     VariableDefinitionsApi,
 )
-from dapla_metadata.variable_definitions._generated.vardef_client.models.complete_response import (
-    CompleteResponse,
+from dapla_metadata.variable_definitions._generated.vardef_client.models.complete_view import (
+    CompleteView,
 )
-from dapla_metadata.variable_definitions._generated.vardef_client.models.draft import (
-    Draft,
+from dapla_metadata.variable_definitions._generated.vardef_client.models.create_draft import (
+    CreateDraft,
+)
+from dapla_metadata.variable_definitions._generated.vardef_client.models.supported_languages import (
+    SupportedLanguages,
 )
 from dapla_metadata.variable_definitions._generated.vardef_client.models.vardok_id_response import (
     VardokIdResponse,
@@ -103,13 +107,13 @@ class Vardef:
 
     @classmethod
     @vardef_exception_handler
-    def create_draft(cls, draft: Draft) -> VariableDefinition:
+    def create_draft(cls, draft: CreateDraft) -> VariableDefinition:
         """Create a Draft Variable Definition."""
         new_variable = VariableDefinition.from_model(
             DraftVariableDefinitionsApi(
                 VardefClient.get_client(),
             ).create_variable_definition(
-                draft=draft,
+                create_draft=draft,
             ),
         )
 
@@ -142,7 +146,7 @@ class Vardef:
         return cls.create_draft(
             _read_file_to_model(
                 file_path or _find_latest_template_file(),
-                Draft,
+                CreateDraft,
             ),
         )
 
@@ -214,7 +218,7 @@ class Vardef:
             vardok_id,
         )
 
-        if isinstance(raw_response.actual_instance, CompleteResponse):
+        if isinstance(raw_response.actual_instance, CompleteView):
             return VariableDefinition.from_model(raw_response.actual_instance)
         msg = "Unexpected response type"
         raise TypeError(msg)
@@ -267,11 +271,15 @@ class Vardef:
             list[VariableDefinition]: The list of Variable Definitions.
         """
         return [
-            VariableDefinition.from_model(definition)
+            VariableDefinition.from_model(
+                cast("CompleteView", definition.actual_instance)
+            )
             for definition in VariableDefinitionsApi(
                 VardefClient.get_client(),
             ).list_variable_definitions(
+                accept_language=SupportedLanguages.NB,
                 date_of_validity=date_of_validity,
+                render=False,
             )
         ]
 
@@ -295,12 +303,19 @@ class Vardef:
             NotFoundException when the given ID is not found
         """
         return VariableDefinition.from_model(
-            VariableDefinitionsApi(
-                VardefClient.get_client(),
-            ).get_variable_definition_by_id(
-                variable_definition_id=variable_definition_id,
-                date_of_validity=date_of_validity,
-            ),
+            cast(
+                "CompleteView",
+                VariableDefinitionsApi(
+                    VardefClient.get_client(),
+                )
+                .get_variable_definition_by_id(
+                    variable_definition_id=variable_definition_id,
+                    date_of_validity=date_of_validity,
+                    render=False,
+                    accept_language=SupportedLanguages.NB,
+                )
+                .actual_instance,
+            )
         )
 
     @classmethod
@@ -327,6 +342,7 @@ class Vardef:
         api = VariableDefinitionsApi(client)
 
         variable_definitions = api.list_variable_definitions(
+            accept_language=SupportedLanguages.NB,
             short_name=short_name,
             date_of_validity=date_of_validity,
         )
@@ -338,7 +354,9 @@ class Vardef:
             msg = f"Lookup by short name {short_name} found multiple variables which should not be possible."
             raise VariableNotFoundError(msg)
 
-        return VariableDefinition.from_model(variable_definitions[0])
+        return VariableDefinition.from_model(
+            cast("CompleteView", variable_definitions[0].actual_instance)
+        )
 
     @classmethod
     @vardef_file_error_handler

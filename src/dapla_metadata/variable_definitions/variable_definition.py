@@ -15,17 +15,17 @@ from dapla_metadata.variable_definitions._generated.vardef_client.api.patches_ap
 from dapla_metadata.variable_definitions._generated.vardef_client.api.validity_periods_api import (
     ValidityPeriodsApi,
 )
-from dapla_metadata.variable_definitions._generated.vardef_client.models.complete_response import (
-    CompleteResponse,
+from dapla_metadata.variable_definitions._generated.vardef_client.models.complete_view import (
+    CompleteView,
 )
-from dapla_metadata.variable_definitions._generated.vardef_client.models.patch import (
-    Patch,
+from dapla_metadata.variable_definitions._generated.vardef_client.models.create_patch import (
+    CreatePatch,
+)
+from dapla_metadata.variable_definitions._generated.vardef_client.models.create_validity_period import (
+    CreateValidityPeriod,
 )
 from dapla_metadata.variable_definitions._generated.vardef_client.models.update_draft import (
     UpdateDraft,
-)
-from dapla_metadata.variable_definitions._generated.vardef_client.models.validity_period import (
-    ValidityPeriod,
 )
 from dapla_metadata.variable_definitions._generated.vardef_client.models.variable_status import (
     VariableStatus,
@@ -53,7 +53,7 @@ IDENTICAL_PATCH_ERROR_MESSAGE = (
 )
 
 
-class VariableDefinition(CompleteResponse):
+class VariableDefinition(CompleteView):
     """A Variable Definition.
 
     - Provides access to the fields of the specific Variable Definition.
@@ -61,7 +61,7 @@ class VariableDefinition(CompleteResponse):
     - Provides methods allowing maintenance of this Variable Definition.
 
     Args:
-        CompleteResponse: The Pydantic model superclass, representing a Variable Definition.
+        CompleteView: The Pydantic model superclass, representing a Variable Definition.
     """
 
     _file_path: Path | None = PrivateAttr(None)
@@ -78,9 +78,9 @@ class VariableDefinition(CompleteResponse):
 
     @staticmethod
     def from_model(
-        model: CompleteResponse,
+        model: CompleteView,
     ) -> "VariableDefinition":
-        """Create a VariableDefinition instance from a CompleteResponse."""
+        """Create a VariableDefinition instance from a CompleteView."""
         self = VariableDefinition.from_dict(model.model_dump())
         if not self:
             msg = f"Could not construct a VariableDefinition instance from {model}"
@@ -146,7 +146,7 @@ class VariableDefinition(CompleteResponse):
     @vardef_file_error_handler
     def update_draft_from_file(
         self,
-        file_path: PathLike | None = None,
+        file_path: PathLike[str] | None = None,
     ) -> "VariableDefinition":
         """Update this Variable Definition.
 
@@ -208,7 +208,7 @@ class VariableDefinition(CompleteResponse):
     @vardef_exception_handler
     def create_patch(
         self,
-        patch: Patch,
+        patch: CreatePatch,
         valid_from: date | None = None,
     ) -> "VariableDefinition":
         """Create a new Patch for this Variable Definition.
@@ -236,7 +236,7 @@ class VariableDefinition(CompleteResponse):
                 VardefClient.get_client(),
             ).create_patch(
                 variable_definition_id=self.id,
-                patch=patch,
+                create_patch=patch,
                 valid_from=valid_from,
             ),
         )
@@ -253,7 +253,7 @@ class VariableDefinition(CompleteResponse):
     @vardef_file_error_handler
     def create_patch_from_file(
         self,
-        file_path: PathLike | None = None,
+        file_path: PathLike[str] | None = None,
         valid_from: date | None = None,
     ) -> "VariableDefinition":
         """Create a new Patch for this Variable Definition from a file.
@@ -280,9 +280,9 @@ class VariableDefinition(CompleteResponse):
         """
         new_patch = _read_file_to_model(
             file_path or self.get_file_path(),
-            Patch,
+            CreatePatch,
         )
-        if new_patch == Patch.from_dict(self.to_dict()):
+        if new_patch == CreatePatch.from_dict(self.to_dict()):
             raise ValueError(IDENTICAL_PATCH_ERROR_MESSAGE)
         return self.create_patch(
             patch=new_patch,
@@ -292,7 +292,7 @@ class VariableDefinition(CompleteResponse):
     @vardef_exception_handler
     def create_validity_period(
         self,
-        validity_period: ValidityPeriod,
+        validity_period: CreateValidityPeriod,
     ) -> "VariableDefinition":
         """Create a new Validity Period for this Variable Definition.
 
@@ -314,7 +314,7 @@ class VariableDefinition(CompleteResponse):
                 VardefClient.get_client(),
             ).create_validity_period(
                 variable_definition_id=self.id,
-                validity_period=validity_period,
+                create_validity_period=validity_period,
             ),
         )
         self.__dict__.update(new_validity_period)
@@ -330,7 +330,7 @@ class VariableDefinition(CompleteResponse):
     @vardef_file_error_handler
     def create_validity_period_from_file(
         self,
-        file_path: PathLike | None = None,
+        file_path: PathLike[str] | None = None,
     ) -> "VariableDefinition":
         """Create a new ValidityPeriod for this Variable Definition from a file.
 
@@ -346,7 +346,7 @@ class VariableDefinition(CompleteResponse):
         return self.create_validity_period(
             validity_period=_read_file_to_model(
                 file_path or self.get_file_path(),
-                ValidityPeriod,
+                CreateValidityPeriod,
             ),
         )
 
@@ -383,7 +383,7 @@ class VariableDefinition(CompleteResponse):
             )
         else:
             update = self.create_patch(
-                Patch(variable_status=VariableStatus.PUBLISHED_EXTERNAL),
+                CreatePatch(variable_status=VariableStatus.PUBLISHED_EXTERNAL),
             )
         logger.info(
             "✅ Variable definition '%s' with ID '%s' successfully published, new status: %s",

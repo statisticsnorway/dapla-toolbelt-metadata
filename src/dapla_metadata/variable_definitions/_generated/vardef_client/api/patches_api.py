@@ -22,8 +22,8 @@ from pydantic import validate_call
 from ..api_client import ApiClient
 from ..api_client import RequestSerialized
 from ..api_response import ApiResponse
-from ..models.complete_response import CompleteResponse
-from ..models.patch import Patch
+from ..models.complete_view import CompleteView
+from ..models.create_patch import CreatePatch
 from ..rest import RESTResponseType
 
 
@@ -52,7 +52,7 @@ class PatchesApi:
                 description="Valid from date for the specific validity period to be patched."
             ),
         ] = None,
-        patch: Patch | None = None,
+        create_patch: CreatePatch | None = None,
         _request_timeout: None
         | Annotated[StrictFloat, Field(gt=0)]
         | tuple[
@@ -62,7 +62,7 @@ class PatchesApi:
         _content_type: StrictStr | None = None,
         _headers: dict[StrictStr, Any] | None = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> CompleteResponse:
+    ) -> CompleteView:
         """Create a new patch for a variable definition.
 
         Create a new patch for a variable definition.
@@ -71,8 +71,8 @@ class PatchesApi:
         :type variable_definition_id: str
         :param valid_from: Valid from date for the specific validity period to be patched.
         :type valid_from: date
-        :param patch:
-        :type patch: Patch
+        :param create_patch:
+        :type create_patch: CreatePatch
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -97,7 +97,7 @@ class PatchesApi:
         _param = self._create_patch_serialize(
             variable_definition_id=variable_definition_id,
             valid_from=valid_from,
-            patch=patch,
+            create_patch=create_patch,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -105,7 +105,7 @@ class PatchesApi:
         )
 
         _response_types_map: dict[str, str | None] = {
-            "201": "CompleteResponse",
+            "201": "CompleteView",
             "404": "Problem",
             "400": "Problem",
             "405": "Problem",
@@ -132,7 +132,7 @@ class PatchesApi:
                 description="Valid from date for the specific validity period to be patched."
             ),
         ] = None,
-        patch: Patch | None = None,
+        create_patch: CreatePatch | None = None,
         _request_timeout: None
         | Annotated[StrictFloat, Field(gt=0)]
         | tuple[
@@ -142,7 +142,7 @@ class PatchesApi:
         _content_type: StrictStr | None = None,
         _headers: dict[StrictStr, Any] | None = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[CompleteResponse]:
+    ) -> ApiResponse[CompleteView]:
         """Create a new patch for a variable definition.
 
         Create a new patch for a variable definition.
@@ -151,8 +151,8 @@ class PatchesApi:
         :type variable_definition_id: str
         :param valid_from: Valid from date for the specific validity period to be patched.
         :type valid_from: date
-        :param patch:
-        :type patch: Patch
+        :param create_patch:
+        :type create_patch: CreatePatch
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -177,7 +177,7 @@ class PatchesApi:
         _param = self._create_patch_serialize(
             variable_definition_id=variable_definition_id,
             valid_from=valid_from,
-            patch=patch,
+            create_patch=create_patch,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -185,7 +185,7 @@ class PatchesApi:
         )
 
         _response_types_map: dict[str, str | None] = {
-            "201": "CompleteResponse",
+            "201": "CompleteView",
             "404": "Problem",
             "400": "Problem",
             "405": "Problem",
@@ -212,7 +212,7 @@ class PatchesApi:
                 description="Valid from date for the specific validity period to be patched."
             ),
         ] = None,
-        patch: Patch | None = None,
+        create_patch: CreatePatch | None = None,
         _request_timeout: None
         | Annotated[StrictFloat, Field(gt=0)]
         | tuple[
@@ -231,8 +231,8 @@ class PatchesApi:
         :type variable_definition_id: str
         :param valid_from: Valid from date for the specific validity period to be patched.
         :type valid_from: date
-        :param patch:
-        :type patch: Patch
+        :param create_patch:
+        :type create_patch: CreatePatch
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -257,7 +257,7 @@ class PatchesApi:
         _param = self._create_patch_serialize(
             variable_definition_id=variable_definition_id,
             valid_from=valid_from,
-            patch=patch,
+            create_patch=create_patch,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -265,7 +265,7 @@ class PatchesApi:
         )
 
         _response_types_map: dict[str, str | None] = {
-            "201": "CompleteResponse",
+            "201": "CompleteView",
             "404": "Problem",
             "400": "Problem",
             "405": "Problem",
@@ -279,7 +279,7 @@ class PatchesApi:
         self,
         variable_definition_id,
         valid_from,
-        patch,
+        create_patch,
         _request_auth,
         _content_type,
         _headers,
@@ -316,8 +316,8 @@ class PatchesApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if patch is not None:
-            _body_params = patch
+        if create_patch is not None:
+            _body_params = create_patch
 
         # set the HTTP header `Accept`
         if "Accept" not in _header_params:
@@ -372,7 +372,7 @@ class PatchesApi:
         _content_type: StrictStr | None = None,
         _headers: dict[StrictStr, Any] | None = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> CompleteResponse:
+    ) -> CompleteView:
         """Get one concrete patch for the given variable definition.
 
         Get one concrete patch for the given variable definition. The full object is returned for comparison purposes.
@@ -412,7 +412,7 @@ class PatchesApi:
         )
 
         _response_types_map: dict[str, str | None] = {
-            "200": "CompleteResponse",
+            "200": "CompleteView",
             "404": "Problem",
         }
         response_data = self.api_client.call_api(
@@ -443,7 +443,7 @@ class PatchesApi:
         _content_type: StrictStr | None = None,
         _headers: dict[StrictStr, Any] | None = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[CompleteResponse]:
+    ) -> ApiResponse[CompleteView]:
         """Get one concrete patch for the given variable definition.
 
         Get one concrete patch for the given variable definition. The full object is returned for comparison purposes.
@@ -483,7 +483,7 @@ class PatchesApi:
         )
 
         _response_types_map: dict[str, str | None] = {
-            "200": "CompleteResponse",
+            "200": "CompleteView",
             "404": "Problem",
         }
         response_data = self.api_client.call_api(
@@ -554,7 +554,7 @@ class PatchesApi:
         )
 
         _response_types_map: dict[str, str | None] = {
-            "200": "CompleteResponse",
+            "200": "CompleteView",
             "404": "Problem",
         }
         response_data = self.api_client.call_api(
@@ -634,7 +634,7 @@ class PatchesApi:
         _content_type: StrictStr | None = None,
         _headers: dict[StrictStr, Any] | None = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> list[CompleteResponse]:
+    ) -> list[CompleteView]:
         """List all patches for the given variable definition.
 
         List all patches for the given variable definition. The full object is returned for comparison purposes.
@@ -671,7 +671,7 @@ class PatchesApi:
         )
 
         _response_types_map: dict[str, str | None] = {
-            "200": "List[CompleteResponse]",
+            "200": "List[CompleteView]",
             "404": "Problem",
         }
         response_data = self.api_client.call_api(
@@ -699,7 +699,7 @@ class PatchesApi:
         _content_type: StrictStr | None = None,
         _headers: dict[StrictStr, Any] | None = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[list[CompleteResponse]]:
+    ) -> ApiResponse[list[CompleteView]]:
         """List all patches for the given variable definition.
 
         List all patches for the given variable definition. The full object is returned for comparison purposes.
@@ -736,7 +736,7 @@ class PatchesApi:
         )
 
         _response_types_map: dict[str, str | None] = {
-            "200": "List[CompleteResponse]",
+            "200": "List[CompleteView]",
             "404": "Problem",
         }
         response_data = self.api_client.call_api(
@@ -801,7 +801,7 @@ class PatchesApi:
         )
 
         _response_types_map: dict[str, str | None] = {
-            "200": "List[CompleteResponse]",
+            "200": "List[CompleteView]",
             "404": "Problem",
         }
         response_data = self.api_client.call_api(

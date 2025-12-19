@@ -21,7 +21,7 @@ from pydantic import validate_call
 from ..api_client import ApiClient
 from ..api_client import RequestSerialized
 from ..api_response import ApiResponse
-from ..models.complete_response import CompleteResponse
+from ..models.complete_view import CompleteView
 from ..models.get_vardok_vardef_mapping_by_id200_response import (
     GetVardokVardefMappingById200Response,
 )
@@ -56,7 +56,7 @@ class DataMigrationApi:
         _content_type: StrictStr | None = None,
         _headers: dict[StrictStr, Any] | None = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> CompleteResponse:
+    ) -> CompleteView:
         """Create a variable definition from a VarDok variable definition.
 
         Create a variable definition from a VarDok variable definition.
@@ -93,7 +93,7 @@ class DataMigrationApi:
         )
 
         _response_types_map: dict[str, str | None] = {
-            "201": "CompleteResponse",
+            "201": "CompleteView",
             "400": "Problem",
         }
         response_data = self.api_client.call_api(
@@ -120,7 +120,7 @@ class DataMigrationApi:
         _content_type: StrictStr | None = None,
         _headers: dict[StrictStr, Any] | None = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[CompleteResponse]:
+    ) -> ApiResponse[CompleteView]:
         """Create a variable definition from a VarDok variable definition.
 
         Create a variable definition from a VarDok variable definition.
@@ -157,7 +157,7 @@ class DataMigrationApi:
         )
 
         _response_types_map: dict[str, str | None] = {
-            "201": "CompleteResponse",
+            "201": "CompleteView",
             "400": "Problem",
         }
         response_data = self.api_client.call_api(
@@ -221,7 +221,7 @@ class DataMigrationApi:
         )
 
         _response_types_map: dict[str, str | None] = {
-            "201": "CompleteResponse",
+            "201": "CompleteView",
             "400": "Problem",
         }
         response_data = self.api_client.call_api(

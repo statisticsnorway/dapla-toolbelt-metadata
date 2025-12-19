@@ -33,8 +33,8 @@ from ..models.owner import Owner
 from ..models.variable_status import VariableStatus
 
 
-class CompleteResponse(BaseModel):
-    """Complete response For internal users who need all details while maintaining variable definitions."""
+class CompleteView(BaseModel):
+    """Complete view For internal users who need all details while maintaining variable definitions."""
 
     id: StrictStr = Field(description="Unique identifier for the variable definition.")
     patch_id: StrictInt = Field(
@@ -58,7 +58,7 @@ class CompleteResponse(BaseModel):
     contains_special_categories_of_personal_data: StrictBool = Field(
         description="True if variable instances contain particularly sensitive information. Applies even if the information or identifiers are pseudonymized. Information within the following categories are regarded as particularly sensitive: Ethnicity, Political alignment, Religion, Philosophical beliefs, Union membership, Genetics, Biometrics, Health, Sexual relations, Sexual orientation"
     )
-    variable_status: VariableStatus | None = None
+    variable_status: VariableStatus
     measurement_type: StrictStr | None = Field(
         default=None,
         description="Type of measurement for the variable, e.g. length, volume, currency. Must be defined as codes from https://www.ssb.no/klass/klassifikasjoner/303",
@@ -134,7 +134,7 @@ class CompleteResponse(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Self | None:
-        """Create an instance of CompleteResponse from a JSON string"""
+        """Create an instance of CompleteView from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> dict[str, Any]:
@@ -198,6 +198,11 @@ class CompleteResponse(BaseModel):
         ):
             _dict["external_reference_uri"] = None
 
+        # set to None if comment (nullable) is None
+        # and model_fields_set contains the field
+        if self.comment is None and "comment" in self.model_fields_set:
+            _dict["comment"] = None
+
         # set to None if related_variable_definition_uris (nullable) is None
         # and model_fields_set contains the field
         if (
@@ -210,7 +215,7 @@ class CompleteResponse(BaseModel):
 
     @classmethod
     def from_dict(cls, obj: dict[str, Any] | None) -> Self | None:
-        """Create an instance of CompleteResponse from a dict"""
+        """Create an instance of CompleteView from a dict"""
         if obj is None:
             return None
 

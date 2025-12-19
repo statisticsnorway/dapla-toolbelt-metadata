@@ -12,83 +12,22 @@ Do not edit the class manually.
 from __future__ import annotations
 
 import json
-import pprint
-import re  # noqa: F401
-from typing import Any
-from typing import ClassVar
+from enum import Enum
 
-from pydantic import BaseModel
-from pydantic import ConfigDict
-from pydantic import StrictStr
 from typing_extensions import Self
 
-from ..models.language_string_type import LanguageStringType
 
+class SupportedLanguages(str, Enum):
+    """Languages the application supports."""
 
-class Contact(BaseModel):
-    """Contact details"""
-
-    title: LanguageStringType
-    email: StrictStr
-    __properties: ClassVar[list[str]] = ["title", "email"]
-
-    model_config = ConfigDict(
-        populate_by_name=True,
-        validate_assignment=True,
-        protected_namespaces=(),
-    )
-
-    def to_str(self) -> str:
-        """Returns the string representation of the model using alias"""
-        return pprint.pformat(self.model_dump(by_alias=True))
-
-    def to_json(self) -> str:
-        """Returns the JSON representation of the model using alias"""
-        # TODO: pydantic v2: use .model_dump_json(by_alias=True, exclude_unset=True) instead
-        return json.dumps(self.to_dict())
+    """
+    allowed enum values
+    """
+    NB = "nb"
+    NN = "nn"
+    EN = "en"
 
     @classmethod
-    def from_json(cls, json_str: str) -> Self | None:
-        """Create an instance of Contact from a JSON string"""
-        return cls.from_dict(json.loads(json_str))
-
-    def to_dict(self) -> dict[str, Any]:
-        """Return the dictionary representation of the model using alias.
-
-        This has the following differences from calling pydantic's
-        `self.model_dump(by_alias=True)`:
-
-        * `None` is only added to the output dict for nullable fields that
-          were set at model initialization. Other fields with value `None`
-          are ignored.
-        """
-        excluded_fields: set[str] = set([])
-
-        _dict = self.model_dump(
-            by_alias=True,
-            exclude=excluded_fields,
-            exclude_none=True,
-        )
-        # override the default output from pydantic by calling `to_dict()` of title
-        if self.title:
-            _dict["title"] = self.title.to_dict()
-        return _dict
-
-    @classmethod
-    def from_dict(cls, obj: dict[str, Any] | None) -> Self | None:
-        """Create an instance of Contact from a dict"""
-        if obj is None:
-            return None
-
-        if not isinstance(obj, dict):
-            return cls.model_validate(obj)
-
-        _obj = cls.model_validate(
-            {
-                "title": LanguageStringType.from_dict(obj["title"])
-                if obj.get("title") is not None
-                else None,
-                "email": obj.get("email"),
-            }
-        )
-        return _obj
+    def from_json(cls, json_str: str) -> Self:
+        """Create an instance of SupportedLanguages from a JSON string"""
+        return cls(json.loads(json_str))

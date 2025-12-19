@@ -17,14 +17,20 @@ from dapla_metadata.variable_definitions._generated.vardef_client.api_client imp
 from dapla_metadata.variable_definitions._generated.vardef_client.configuration import (
     Configuration,
 )
-from dapla_metadata.variable_definitions._generated.vardef_client.models.complete_response import (
-    CompleteResponse,
+from dapla_metadata.variable_definitions._generated.vardef_client.models.complete_view import (
+    CompleteView,
 )
 from dapla_metadata.variable_definitions._generated.vardef_client.models.contact import (
     Contact,
 )
-from dapla_metadata.variable_definitions._generated.vardef_client.models.draft import (
-    Draft,
+from dapla_metadata.variable_definitions._generated.vardef_client.models.create_draft import (
+    CreateDraft,
+)
+from dapla_metadata.variable_definitions._generated.vardef_client.models.create_patch import (
+    CreatePatch,
+)
+from dapla_metadata.variable_definitions._generated.vardef_client.models.create_validity_period import (
+    CreateValidityPeriod,
 )
 from dapla_metadata.variable_definitions._generated.vardef_client.models.language_string_type import (
     LanguageStringType,
@@ -32,14 +38,8 @@ from dapla_metadata.variable_definitions._generated.vardef_client.models.languag
 from dapla_metadata.variable_definitions._generated.vardef_client.models.owner import (
     Owner,
 )
-from dapla_metadata.variable_definitions._generated.vardef_client.models.patch import (
-    Patch,
-)
 from dapla_metadata.variable_definitions._generated.vardef_client.models.update_draft import (
     UpdateDraft,
-)
-from dapla_metadata.variable_definitions._generated.vardef_client.models.validity_period import (
-    ValidityPeriod,
 )
 from dapla_metadata.variable_definitions._generated.vardef_client.models.variable_status import (
     VariableStatus,
@@ -74,6 +74,9 @@ def vardef_mock_service() -> Generator[MicrocksContainer | None]:
             str(OPENAPI_DIR / "variable-definitions-internal.yml"),
         )
         yield container
+        stderr, _ = container.get_logs()
+        for line in stderr.decode().split("\n"):
+            print(line)  # noqa: T201
 
 
 @pytest.fixture(scope="session")
@@ -124,8 +127,8 @@ def owner() -> Owner:
 
 
 @pytest.fixture
-def draft(language_string_type, contact) -> Draft:
-    return Draft(
+def draft(language_string_type, contact) -> CreateDraft:
+    return CreateDraft(
         name=language_string_type,
         short_name="test",
         definition=language_string_type,
@@ -205,15 +208,14 @@ def update_draft(language_string_type, contact, owner) -> UpdateDraft:
 
 
 @pytest.fixture
-def validity_period(language_string_type, contact) -> ValidityPeriod:
-    return ValidityPeriod(
+def validity_period(language_string_type, contact) -> CreateValidityPeriod:
+    return CreateValidityPeriod(
         name=language_string_type,
         definition=language_string_type,
         classification_reference="91",
         unit_types=["a", "b"],
         subject_fields=["a", "b"],
         contains_special_categories_of_personal_data=True,
-        variable_status=VariableStatus.PUBLISHED_EXTERNAL,
         measurement_type="test",
         valid_from=date(2024, 11, 1),
         external_reference_uri="http://www.example.com",
@@ -224,8 +226,8 @@ def validity_period(language_string_type, contact) -> ValidityPeriod:
 
 
 @pytest.fixture
-def patch_fixture(language_string_type, contact, owner) -> Patch:
-    return Patch(
+def patch_fixture(language_string_type, contact, owner) -> CreatePatch:
+    return CreatePatch(
         name=language_string_type,
         definition=language_string_type,
         classification_reference="91",
@@ -275,7 +277,7 @@ def sample_complete_patch_output() -> VariableDefinition:
 @pytest.fixture
 def mock_update_variable_definition_by_id():
     return Mock(
-        return_value=CompleteResponse(
+        return_value=CompleteView(
             id="test-id",
             patch_id=1,
             name=LanguageStringType(en="Name", nb="Navn"),
