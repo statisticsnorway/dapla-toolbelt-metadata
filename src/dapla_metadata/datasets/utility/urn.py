@@ -141,7 +141,7 @@ class UrnConverter:
         """
         if not isinstance(value, str):
             # Mypy thinks it's impossible to reach this branch, but there are no guarantees in Python.
-            return False  # type: ignore [unreachable]
+            return False
         pattern = re.compile(f"^{self.id_pattern}$")
         return bool(pattern.match(value))
 

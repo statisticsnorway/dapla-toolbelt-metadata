@@ -1,21 +1,11 @@
-#!/usr/bin/env -S uv run --script --quiet
-
-# /// script
-# dependencies = ["nox",]
-# ///
-
 import os
-import shlex
 import shutil
-import sys
 from pathlib import Path
-from textwrap import dedent
 
 import nox
 
 package = "dapla_metadata"
 python_versions = ["3.10", "3.11", "3.12", "3.13", "3.14"]
-nox.needs_version = ">= 2021.6.6"
 nox.options.default_venv_backend = "uv"
 
 
@@ -46,6 +36,7 @@ def install_with_uv(
         *cmd, env={"UV_PROJECT_ENVIRONMENT": session.virtualenv.location}
     )
 
+
 @nox.session(name="pre-commit", python=python_versions[-1])
 def precommit(session: nox.Session) -> None:
     """Lint using pre-commit."""
@@ -59,14 +50,12 @@ def precommit(session: nox.Session) -> None:
     session.run("pre-commit", *args)
 
 
-@nox.session(python=python_versions[1:])
-def mypy(session: nox.Session) -> None:
-    """Type-check using mypy."""
-    install_with_uv(session, groups=["type_check"])
+@nox.session(python=python_versions)
+def type_check(session: nox.Session) -> None:
+    """Type-check using ty."""
+    install_with_uv(session, groups=["type_check", "test"])
     args = session.posargs or ["src", "tests"]
-    session.run("mypy", *args)
-    if not session.posargs:
-        session.run("mypy", f"--python-executable={sys.executable}", "noxfile.py")
+    session.run("ty", "check", f"--python-version={session.python}", *args)
 
 
 @nox.session(python=python_versions)

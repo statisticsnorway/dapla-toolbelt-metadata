@@ -3,7 +3,7 @@ import logging
 import datadoc_model.all_optional.model as all_optional_model
 import pytest
 from pydantic import AnyUrl
-from typeguard import suppress_type_checks  # type: ignore [import-not-found]
+from typeguard import suppress_type_checks
 
 from dapla_metadata.datasets.core import Datadoc
 from dapla_metadata.datasets.utility.urn import URN_ERROR_MESSAGE_BASE
@@ -79,7 +79,8 @@ def test_convert_to_vardef_urn_end_to_end(
             dataset=all_optional_model.Dataset(),
             variables=[
                 all_optional_model.Variable(
-                    short_name="my_variable", definition_uri=case
+                    short_name="my_variable",
+                    definition_uri=case,  # ty:ignore[invalid-argument-type] Pydantic coerces the type
                 )
             ],
         )
@@ -196,13 +197,13 @@ def test_convert_to_klass_urn(
     ("case", "expected_result", "expect_warning"),
     [
         *CLASSIFICATION_URN_TEST_CASES,
-        ("https://www.vg.no", AnyUrl("https://www.vg.no/"), True),
+        (AnyUrl("https://www.vg.no"), AnyUrl("https://www.vg.no/"), True),
         (None, None, False),
     ],
 )
 def test_convert_to_klass_urn_end_to_end(
-    case: str | None,
-    expected_result: str | None,
+    case: AnyUrl | None,
+    expected_result: AnyUrl | None,
     expect_warning: bool,
     caplog: pytest.LogCaptureFixture,
 ):
@@ -213,7 +214,8 @@ def test_convert_to_klass_urn_end_to_end(
             dataset=all_optional_model.Dataset(),
             variables=[
                 all_optional_model.Variable(
-                    short_name="my_variable", classification_uri=case
+                    short_name="my_variable",
+                    classification_uri=case,
                 )
             ],
         )

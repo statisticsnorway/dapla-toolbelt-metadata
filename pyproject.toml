@@ -49,6 +49,7 @@ Repository = "https://github.com/statisticsnorway/dapla-toolbelt-metadata"
 
 [dependency-groups]
 dev = [
+  "nox>=2025.11.12",
   "pre-commit>=3.8.0",
   "ruff>=0.5.6",
 ]
@@ -74,15 +75,7 @@ test = [
   "xdoctest[colors]>=0.15.10",
 ]
 type_check = [
-  "mypy>=0.950",
-  "pandas-stubs",
-  "pyarrow-stubs>=10.0.1.9",
-  "types-Pygments",
-  "types-beautifulsoup4>=4.12.0.20240511",
-  "types-colorama",
-  "types-docker>=7.1.0.20250503",
-  "types-requests",
-  "types-setuptools",
+  "ty>=0.0.4",
 ]
 
 [build-system]
@@ -109,52 +102,12 @@ show_missing = true
 fail_under = 80
 omit = ["*/dapla_metadata/variable_definitions/_generated/*"]
 
+[tool.ty.src]
+include = ["src", "tests"]
+exclude = ["src/dapla_metadata/variable_definitions/_generated"]
+
 [tool.hatch.build.targets.wheel]
 packages = ["src/dapla_metadata"]
-
-[tool.mypy]
-plugins = ["pydantic.mypy"]
-strict = false
-warn_unreachable = true
-pretty = true
-show_column_numbers = true
-show_error_context = true
-# Generated code is not high quality, just ignore the problems there
-exclude = "_generated/vardef_client/.*"
-
-[[tool.mypy.overrides]]
-module = ["dapla_metadata.variable_definitions._generated.vardef_client.*"]
-warn_unreachable = false
-ignore_errors = true
-disable_error_code = ["unreachable"]
-
-[[tool.mypy.overrides]]
-# Allow missing type hints in third-party libraries without type information.
-module = [
-  "dapla",
-  "faker",
-  "gcsfs",
-  "httpx",
-  "nox",
-  "pyarrow",
-  "pyarrow.parquet",
-  "pytest_mock",
-  "ruamel.*",
-  "testcontainers.*",
-  "typeguard",
-]
-ignore_missing_imports = true
-
-# Disable specific error codes in the 'tests' package
-# Also don't require type annotations
-[[tool.mypy.overrides]]
-module = ["tests.*"]
-disable_error_code = [
-  "var-annotated",
-  "has-type",
-  "no-any-return",
-  "no-untyped-def"
-]
 
 # tombi: lint.rules.one-of-multiple-match.disabled = true
 # tombi: lint.rules.deprecated.disabled = true
@@ -177,7 +130,6 @@ extend-exclude = [
   "__pycache__",
   "old",
   ".ipynb_checkpoints",
-  "noxfile.py",
   "docs/conf.py",
   "_generated/"
 ]
@@ -187,7 +139,6 @@ extend-exclude = [
 select = ["ALL"]
 ignore = [
   "ANN202",  # Don't requiere return type annotation for private functions.
-  "ANN401",  # Allow type annotation with type Any.
   "COM812",  # Suggested to ignore when using ruff format
   "D100",  # Supress undocumented-public-module. Only doc of public api required.
   "FBT001",  # Allow boolean positional arguments in a function.

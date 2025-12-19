@@ -3,10 +3,16 @@ import logging
 import os
 import time
 from collections.abc import AsyncGenerator
+from typing import TYPE_CHECKING
+from typing import cast
 
 from dapla_metadata.standards.name_validator import NamingStandardReport
 from dapla_metadata.standards.name_validator import ValidationResult
 from dapla_metadata.standards.name_validator import validate_directory
+
+if TYPE_CHECKING:
+    from asyncio.tasks import Task
+    from typing import Any
 
 logger = logging.getLogger(__name__)
 
@@ -55,7 +61,9 @@ async def check_naming_standard(
             if isinstance(item, AsyncGenerator):
                 # Drill down into lower directories to get the validation tasks from them
                 tasks.remove(item)
-                new_tasks = [t async for t in item]
+                new_tasks: list[Task[Any]] = [
+                    t async for t in cast("AsyncGenerator[Task[Any]]", item)
+                ]
                 logger.debug("New Tasks: %s %s", len(new_tasks), new_tasks)
                 tasks.extend(
                     new_tasks,

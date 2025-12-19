@@ -24,7 +24,7 @@ from tests.datasets.constants import TEST_SAS7BDAT_FILEPATH
 
 def test_use_abstract_class_directly():
     with pytest.raises(TypeError):
-        DatasetParser().get_fields()
+        DatasetParser().get_fields()  # ty:ignore[missing-argument]
 
 
 @pytest.mark.parametrize(

@@ -228,7 +228,7 @@ class Datadoc:
         self.variables = metadata.variables
 
         set_default_values_variables(self.variables)
-        set_default_values_dataset(cast("all_optional_model.Dataset", self.dataset))
+        set_default_values_dataset(self.dataset)
         set_dataset_owner(self.dataset)
         convert_uris_to_urns(self.variables, "definition_uri", [vardef_urn_converter])
         convert_uris_to_urns(

@@ -1,6 +1,7 @@
 """Constants for variable definitions."""
 
 from datetime import date
+from datetime import datetime
 
 from dapla_metadata.variable_definitions._generated.vardef_client.models.contact import (
     Contact,
@@ -32,6 +33,7 @@ TEMPLATE_SECTION_HEADER_MACHINE_GENERATED_EN = (
 )
 
 DEFAULT_DATE = date(1000, 1, 1)
+DEFAULT_DATETIME = datetime(1000, 1, 1)  # noqa: DTZ001
 
 GENERATED_CONTACT = Contact(
     title=LanguageStringType(

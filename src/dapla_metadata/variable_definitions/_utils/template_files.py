@@ -12,6 +12,7 @@ from dapla_metadata.variable_definitions._generated.vardef_client.models.variabl
     VariableStatus,
 )
 from dapla_metadata.variable_definitions._utils.constants import DEFAULT_DATE
+from dapla_metadata.variable_definitions._utils.constants import DEFAULT_DATETIME
 from dapla_metadata.variable_definitions._utils.constants import GENERATED_CONTACT
 from dapla_metadata.variable_definitions._utils.constants import TEMPLATE_HEADER
 from dapla_metadata.variable_definitions._utils.files import _create_file_name
@@ -53,9 +54,9 @@ def _get_default_template() -> "VariableDefinition":
         variable_status=VariableStatus.DRAFT,
         id="",
         patch_id=0,
-        created_at=DEFAULT_DATE,
+        created_at=DEFAULT_DATETIME,
         created_by="",
-        last_updated_at=DEFAULT_DATE,
+        last_updated_at=DEFAULT_DATETIME,
         last_updated_by="",
     )
 

@@ -85,8 +85,8 @@ def test_metadata_document_percent_complete(metadata: Datadoc):
         dataset=dataset,
         variables=[variable_1, variable_2],
     )
-    metadata.dataset = document.dataset  # type: ignore [assignment]
-    metadata.variables = document.variables  # type: ignore [assignment]
+    metadata.dataset = document.dataset
+    metadata.variables = document.variables
 
     assert metadata.percent_complete == 13
 
@@ -475,7 +475,7 @@ def test_default_spatial_coverage_description(
     expected_text: str,
 ):
     ls = metadata.dataset.spatial_coverage_description
-    assert ls.root[index].languageText == expected_text  # type: ignore[union-attr, index]
+    assert ls.root[index].languageText == expected_text
 
 
 def test_open_extracted_and_existing_metadata(metadata_merged: Datadoc, tmp_path: Path):
@@ -545,13 +545,16 @@ def test_merge_extracted_and_existing_dataset_metadata(metadata_merged: Datadoc)
     assert metadata_merged.dataset.metadata_last_updated_date is None
 
 
-def test_merge_variables(tmp_path):
+def test_merge_variables(tmp_path: Path):
     dataset = tmp_path / "fewer_variables_p2021-12-31_p2021-12-31_v1.parquet"
     existing_document = TEST_EXISTING_METADATA_NAMING_STANDARD_FILEPATH
     dataset.parent.mkdir(parents=True, exist_ok=True)
     shutil.copy(
-        TEST_DATASETS_DIRECTORY / "fewer_variables_p2021-12-31_p2021-12-31_v1.parquet",
-        dataset,
+        str(
+            TEST_DATASETS_DIRECTORY
+            / "fewer_variables_p2021-12-31_p2021-12-31_v1.parquet"
+        ),
+        str(dataset),
     )
     extracted = Datadoc(
         dataset_path=str(dataset),
@@ -579,12 +582,12 @@ def test_merge_variables(tmp_path):
     )
 
 
-def test_merge_with_fewer_variables_in_existing_metadata(tmp_path):
+def test_merge_with_fewer_variables_in_existing_metadata(tmp_path: Path):
     target = tmp_path / TEST_NAMING_STANDARD_COMPATIBLE_DATASET
     target.parent.mkdir(parents=True, exist_ok=True)
     shutil.copy(
-        TEST_DATASETS_DIRECTORY / TEST_NAMING_STANDARD_COMPATIBLE_DATASET,
-        target,
+        str(TEST_DATASETS_DIRECTORY / TEST_NAMING_STANDARD_COMPATIBLE_DATASET),
+        str(target),
     )
     datadoc = Datadoc(
         str(target),
