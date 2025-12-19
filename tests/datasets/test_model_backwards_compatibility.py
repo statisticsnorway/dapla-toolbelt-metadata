@@ -2,6 +2,8 @@
 
 import json
 from pathlib import Path
+from typing import TYPE_CHECKING
+from typing import cast
 
 import pytest
 from upath import UPath
@@ -26,6 +28,9 @@ from dapla_metadata.datasets.core import Datadoc
 from tests.datasets.constants import TEST_COMPATIBILITY_DIRECTORY
 from tests.datasets.constants import TEST_EXISTING_METADATA_FILE_NAME
 from tests.datasets.constants import TEST_PSEUDO_DIRECTORY
+
+if TYPE_CHECKING:
+    from typing import Any
 
 BACKWARDS_COMPATIBLE_VERSION_DIRECTORIES = [
     d for d in TEST_COMPATIBILITY_DIRECTORY.iterdir() if d.is_dir()
@@ -197,7 +202,7 @@ def test_backwards_compatibility(
         file_metadata = file_metadata[DATADOC_KEY]
 
     # Just test a single value to make sure we have a working model
-    assert metadata.dataset.short_name == file_metadata[DATASET_KEY]["short_name"]  # type: ignore [union-attr, index]
+    assert metadata.dataset.short_name == file_metadata[DATASET_KEY]["short_name"]
 
 
 def test_add_container():
@@ -261,7 +266,9 @@ def test_copy_pseudonymization_metadata_shortname_mismatch():
 
     copy_pseudonymization_metadata(supplied_metadata)
 
-    assert len(supplied_metadata[DATADOC_KEY][VARIABLES_KEY]) == 1
-    assert (
-        supplied_metadata[DATADOC_KEY][VARIABLES_KEY][0][PSEUDONYMIZATION_KEY] is None
+    variables = cast(
+        "list[dict[str, Any]]", supplied_metadata[DATADOC_KEY][VARIABLES_KEY]
     )
+
+    assert len(variables) == 1
+    assert variables[0][PSEUDONYMIZATION_KEY] is None

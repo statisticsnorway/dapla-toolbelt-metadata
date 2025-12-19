@@ -138,6 +138,7 @@ extend-exclude = [
 [tool.ruff.lint]
 select = ["ALL"]
 ignore = [
+  "ANN202",  # Don't requiere return type annotation for private functions.
   "COM812",  # Suggested to ignore when using ruff format
   "D100",  # Supress undocumented-public-module. Only doc of public api required.
   "FBT001",  # Allow boolean positional arguments in a function.

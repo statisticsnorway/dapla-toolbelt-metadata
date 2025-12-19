@@ -4,7 +4,6 @@ import logging
 from io import StringIO
 from os import PathLike
 from pathlib import Path
-from typing import Any
 from typing import TypeVar
 
 from pydantic import BaseModel
@@ -55,7 +54,7 @@ def _read_variable_definition_file(file_path: Path) -> dict:
         return yaml.load(f)
 
 
-def _strip_strings_recursively(data: Any) -> Any:
+def _strip_strings_recursively(data: dict | list | str) -> dict | list | str:
     """Recursively strip leading and trailing whitespace from string values in nested dicts/lists.
 
     This function traverses the provided data, which may be a dictionary, list, or other types,
@@ -100,7 +99,7 @@ def _read_file_to_model(
     try:
         file_path = Path(
             # type incongruence (i.e. None) is handled by catching the exception
-            file_path,  # type: ignore [arg-type]
+            file_path,
         )
     except TypeError as e:
         msg = "Could not deduce a path to the file. Please supply a path to the yaml file you wish to submit with the `file_path` parameter."
