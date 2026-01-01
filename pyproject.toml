@@ -34,7 +34,7 @@ dependencies = [
   "pytz>=2025.2",
   "requests >=2.31.0",
   "ruamel-yaml >=0.18.10",
-  "ssb-datadoc-model ==8.0.0",
+  "ssb-datadoc-model==8.0.3",
   "ssb-klass-python >=1.0.1",
   "typing-extensions >=4.12.2",
   "universal-pathlib >=0.3.0",
