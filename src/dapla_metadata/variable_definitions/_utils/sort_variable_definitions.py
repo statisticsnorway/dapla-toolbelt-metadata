@@ -29,18 +29,16 @@ def make_key_func(field_name: str, sort_language: str | None = None):
     def key_func(obj: VariableDefinition):
         attr = getattr(obj, field_name, None)
         if attr is None:
-            return ""  # fallback for missing attribute
-
-        # LanguageStringType handling
+            return ""
+        # LanguageStringType
         if sort_language and hasattr(attr, sort_language):
             val = getattr(attr, sort_language)
             return val.casefold() if isinstance(val, str) else val
 
-        # Owner object handling
+        # Owner handling
         if isinstance(attr, Owner):
             return getattr(attr, "team", "")
 
-        # Plain string handling
         if isinstance(attr, str):
             return attr.casefold()
 
