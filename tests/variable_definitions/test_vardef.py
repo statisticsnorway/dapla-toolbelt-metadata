@@ -65,6 +65,15 @@ def test_list_variable_definitions_with_date_of_validity(
     )
 
 
+def test_list_variable_definitions_is_sorted(
+    client_configuration: Configuration,
+):
+    VardefClient.set_config(client_configuration)
+    result = Vardef.list_variable_definitions()
+    names = [item.name.nb.casefold() for item in result]
+    assert names == sorted(names)
+
+
 def test_get_variable_definition_by_id(client_configuration: Configuration):
     VardefClient.set_config(client_configuration)
     landbak = Vardef.get_variable_definition_by_id(
