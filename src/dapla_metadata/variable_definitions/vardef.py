@@ -283,7 +283,7 @@ class Vardef:
                     render=False,
                 )
             ],
-            key=lambda p: p.name.nb,
+            key=lambda p: (p.name.nb or ""),
         )
 
     @classmethod
