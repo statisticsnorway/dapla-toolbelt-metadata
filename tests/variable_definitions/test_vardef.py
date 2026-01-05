@@ -73,9 +73,53 @@ def test_list_variable_definitions_sorted_by_name(variable_definitions):
         mock_api.return_value = mock_api.return_value = [
             SimpleNamespace(actual_instance=var) for var in variable_definitions
         ]
-        sorted_vars = Vardef.list_variable_definitions()
-        names = [(item.name.nb or "").casefold() for item in sorted_vars]
-        assert names == sorted(names)
+        sorted_vars_asc = Vardef.list_variable_definitions()
+        names_asc = [(item.name.nb or "").casefold() for item in sorted_vars_asc]
+        assert names_asc == sorted(names_asc)
+        sorted_vars_desc = Vardef.list_variable_definitions(sort="name-descending")
+        names_desc = [(item.name.nb or "").casefold() for item in sorted_vars_desc]
+        assert names_desc == sorted(names_desc, reverse=True)
+        sorted_vars_nn = Vardef.list_variable_definitions(
+            sort="short_name-ascending", sort_language="nn"
+        )
+        names_nn = [(item.name.nb or "").casefold() for item in sorted_vars_nn]
+        assert names_nn == sorted(names_nn)
+
+
+def test_list_variable_definitions_sorted_by_short_name(variable_definitions):
+    with patch(
+        "dapla_metadata.variable_definitions.vardef.VariableDefinitionsApi.list_variable_definitions"
+    ) as mock_api:
+        mock_api.return_value = mock_api.return_value = [
+            SimpleNamespace(actual_instance=var) for var in variable_definitions
+        ]
+        sorted_vars_asc = Vardef.list_variable_definitions(sort="short_name-ascending")
+        short_names_asc = [
+            (item.short_name or "").casefold() for item in sorted_vars_asc
+        ]
+        assert short_names_asc == sorted(short_names_asc)
+        sorted_vars_desc = Vardef.list_variable_definitions(
+            sort="short_name-descending"
+        )
+        short_names_desc = [
+            (item.short_name or "").casefold() for item in sorted_vars_desc
+        ]
+        assert short_names_desc == sorted(short_names_desc, reverse=True)
+
+
+def test_list_variable_definitions_sorted_by_owner(variable_definitions):
+    with patch(
+        "dapla_metadata.variable_definitions.vardef.VariableDefinitionsApi.list_variable_definitions"
+    ) as mock_api:
+        mock_api.return_value = mock_api.return_value = [
+            SimpleNamespace(actual_instance=var) for var in variable_definitions
+        ]
+        sorted_vars_asc = Vardef.list_variable_definitions(sort="owner-ascending")
+        owners_asc = [(item.owner.team) for item in sorted_vars_asc]
+        assert owners_asc == sorted(owners_asc)
+        sorted_vars_desc = Vardef.list_variable_definitions(sort="owner-descending")
+        owners_desc = [(item.owner.team) for item in sorted_vars_desc]
+        assert owners_desc == sorted(owners_desc, reverse=True)
 
 
 def test_get_variable_definition_by_id(client_configuration: Configuration):

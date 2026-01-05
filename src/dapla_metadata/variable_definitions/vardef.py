@@ -26,6 +26,15 @@ from dapla_metadata.variable_definitions._generated.vardef_client.models.vardok_
     VardokIdResponse,
 )
 from dapla_metadata.variable_definitions._utils._client import VardefClient
+from dapla_metadata.variable_definitions._utils.sort_variable_definitions import (
+    FIELD_MAP,
+)
+from dapla_metadata.variable_definitions._utils.sort_variable_definitions import (
+    SortOption,
+)
+from dapla_metadata.variable_definitions._utils.sort_variable_definitions import (
+    make_key_func,
+)
 from dapla_metadata.variable_definitions._utils.template_files import (
     _find_latest_template_file,
 )
@@ -255,6 +264,8 @@ class Vardef:
     def list_variable_definitions(
         cls,
         date_of_validity: date | None = None,
+        sort: SortOption | None = None,
+        sort_language: str | None = SupportedLanguages.NB,
     ) -> list[VariableDefinition]:
         """List variable definitions.
 
@@ -266,25 +277,36 @@ class Vardef:
 
         Args:
             date_of_validity (date | None, optional): List only variable definitions which are valid on this date. Defaults to None.
+            sort (SortOption | None): Sort result on name,short name or owner team
+            sort_language (SupportedLanguages | None): If sort on name optional provide language
 
         Returns:
             list[VariableDefinition]: The list of Variable Definitions.
         """
-        return sorted(
-            [
-                VariableDefinition.from_model(
-                    cast("CompleteView", definition.actual_instance)
-                )
-                for definition in VariableDefinitionsApi(
-                    VardefClient.get_client(),
-                ).list_variable_definitions(
-                    accept_language=SupportedLanguages.NB,
-                    date_of_validity=date_of_validity,
-                    render=False,
-                )
-            ],
-            key=lambda p: (p.name.nb or "").casefold(),
-        )
+        variable_definitions = [
+            VariableDefinition.from_model(
+                cast("CompleteView", definition.actual_instance)
+            )
+            for definition in VariableDefinitionsApi(
+                VardefClient.get_client(),
+            ).list_variable_definitions(
+                accept_language=SupportedLanguages.NB,
+                date_of_validity=date_of_validity,
+                render=False,
+            )
+        ]
+
+        if sort is None:
+            # Default: sort by name ascending
+            sort = SortOption.NAME_ASC
+        try:
+            sort_enum = SortOption(sort)
+        except ValueError:
+            sort_enum = SortOption.NAME_ASC
+        field_name, reverse = FIELD_MAP[sort_enum]
+        key = make_key_func(field_name, sort_language)
+
+        return sorted(variable_definitions, key=key, reverse=reverse)
 
     @classmethod
     @vardef_exception_handler

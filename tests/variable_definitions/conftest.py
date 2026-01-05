@@ -181,7 +181,7 @@ def sample_variable_definitions() -> list:
         VariableDefinition(
             id=VARDEF_EXAMPLE_DEFINITION_ID,
             patch_id=1,
-            name=LanguageStringType(nb="Abradakabra", nn="", en=""),
+            name=LanguageStringType(nb="Abradakabra", nn="Abrai", en="Abradough"),
             short_name="abra",
             definition=LanguageStringType(nb="test", nn="test", en="test"),
             classification_reference="91",
@@ -199,7 +199,7 @@ def sample_variable_definitions() -> list:
                 title=LanguageStringType(nb="test", nn="test", en="test"),
                 email="me@example.com",
             ),
-            owner=Owner(team="my_team", groups=["my_team_developers"]),
+            owner=Owner(team="a_team", groups=["my_team_developers"]),
             created_at=date(2024, 11, 1),
             created_by="ano@ssb.no",
             last_updated_at=date(2024, 11, 1),
