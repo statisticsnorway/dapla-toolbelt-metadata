@@ -256,7 +256,7 @@ class Vardef:
         cls,
         date_of_validity: date | None = None,
     ) -> list[VariableDefinition]:
-        """List variable definitions sorted by name norwegian bokmål.
+        """List variable definitions.
 
         ---------
         Filtering
@@ -283,7 +283,7 @@ class Vardef:
                     render=False,
                 )
             ],
-            key=lambda p: (p.name.nb or ""),
+            key=lambda p: (p.name.nb or "").casefold(),
         )
 
     @classmethod

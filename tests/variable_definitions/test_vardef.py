@@ -2,6 +2,7 @@ import functools
 from collections.abc import Callable
 from http import HTTPStatus
 from pathlib import Path
+from types import SimpleNamespace
 from unittest.mock import MagicMock
 from unittest.mock import Mock
 from unittest.mock import patch
@@ -65,13 +66,16 @@ def test_list_variable_definitions_with_date_of_validity(
     )
 
 
-def test_list_variable_definitions_is_sorted(
-    client_configuration: Configuration,
-):
-    VardefClient.set_config(client_configuration)
-    result = Vardef.list_variable_definitions()
-    names = [item.name.nb.casefold() for item in result]
-    assert names == sorted(names)
+def test_list_variable_definitions_sorted_by_name(variable_definitions):
+    with patch(
+        "dapla_metadata.variable_definitions.vardef.VariableDefinitionsApi.list_variable_definitions"
+    ) as mock_api:
+        mock_api.return_value = mock_api.return_value = [
+            SimpleNamespace(actual_instance=var) for var in variable_definitions
+        ]
+        sorted_vars = Vardef.list_variable_definitions()
+        names = [(item.name.nb or "").casefold() for item in sorted_vars]
+        assert names == sorted(names)
 
 
 def test_get_variable_definition_by_id(client_configuration: Configuration):

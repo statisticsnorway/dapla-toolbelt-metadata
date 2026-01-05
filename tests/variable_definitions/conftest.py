@@ -175,6 +175,39 @@ def sample_variable_definition() -> VariableDefinition:
     )
 
 
+def sample_variable_definitions() -> list:
+    return [
+        sample_variable_definition(),
+        VariableDefinition(
+            id=VARDEF_EXAMPLE_DEFINITION_ID,
+            patch_id=1,
+            name=LanguageStringType(nb="Abradakabra", nn="", en=""),
+            short_name="abra",
+            definition=LanguageStringType(nb="test", nn="test", en="test"),
+            classification_reference="91",
+            unit_types=["01"],
+            subject_fields=["a", "b"],
+            contains_special_categories_of_personal_data=True,
+            variable_status=VariableStatus.PUBLISHED_EXTERNAL,
+            measurement_type="test",
+            valid_from=date(2024, 11, 1),
+            valid_until=None,
+            external_reference_uri="http://www.example.com",
+            comment=LanguageStringType(nb="test", nn="test", en="test"),
+            related_variable_definition_uris=["http://www.example.com"],
+            contact=Contact(
+                title=LanguageStringType(nb="test", nn="test", en="test"),
+                email="me@example.com",
+            ),
+            owner=Owner(team="my_team", groups=["my_team_developers"]),
+            created_at=date(2024, 11, 1),
+            created_by="ano@ssb.no",
+            last_updated_at=date(2024, 11, 1),
+            last_updated_by="ano@ssb.no",
+        ),
+    ]
+
+
 def unknown_variable_definition() -> VariableDefinition:
     unknown = sample_variable_definition()
     unknown.id = VARDEF_EXAMPLE_INVALID_ID
@@ -184,6 +217,11 @@ def unknown_variable_definition() -> VariableDefinition:
 @pytest.fixture
 def variable_definition() -> VariableDefinition:
     return sample_variable_definition()
+
+
+@pytest.fixture
+def variable_definitions() -> list:
+    return sample_variable_definitions()
 
 
 @pytest.fixture
