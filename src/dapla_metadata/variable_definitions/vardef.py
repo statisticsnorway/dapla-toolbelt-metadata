@@ -256,7 +256,7 @@ class Vardef:
         cls,
         date_of_validity: date | None = None,
     ) -> list[VariableDefinition]:
-        """List variable definitions.
+        """List variable definitions sorted by name norwegian bokmål.
 
         ---------
         Filtering
@@ -270,18 +270,21 @@ class Vardef:
         Returns:
             list[VariableDefinition]: The list of Variable Definitions.
         """
-        return [
-            VariableDefinition.from_model(
-                cast("CompleteView", definition.actual_instance)
-            )
-            for definition in VariableDefinitionsApi(
-                VardefClient.get_client(),
-            ).list_variable_definitions(
-                accept_language=SupportedLanguages.NB,
-                date_of_validity=date_of_validity,
-                render=False,
-            )
-        ]
+        return sorted(
+            [
+                VariableDefinition.from_model(
+                    cast("CompleteView", definition.actual_instance)
+                )
+                for definition in VariableDefinitionsApi(
+                    VardefClient.get_client(),
+                ).list_variable_definitions(
+                    accept_language=SupportedLanguages.NB,
+                    date_of_validity=date_of_validity,
+                    render=False,
+                )
+            ],
+            key=lambda p: p.name.nb,
+        )
 
     @classmethod
     @vardef_exception_handler
