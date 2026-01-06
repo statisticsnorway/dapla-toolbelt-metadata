@@ -17,8 +17,8 @@ from dapla_metadata.variable_definitions.variable_definition import VariableDefi
 class SortOption(Enum):
     NAME_ASC = "name-ascending"
     NAME_DESC = "name-descending"
-    SHORT_NAME_ASC = "short_name-ascending"
-    SHORT_NAME_DESC = "short_name-descending"
+    SHORT_NAME_ASC = "short-name-ascending"
+    SHORT_NAME_DESC = "short-name-descending"
     OWNER_ASC = "owner-ascending"
     OWNER_DESC = "owner-descending"
 
@@ -34,37 +34,22 @@ MAP_SORT_OPTIONS = {
 }
 
 
-def make_sort_key(field_name: str, sort_language: SupportedLanguages | None = None):
-    """Create a robust sort key function for a given object attribute.
-
-    The returned key function:
-    - Safely handles missing or unsupported attributes
-    - Performs case-insensitive sorting
-    - Supports language-specific field
-    - Falls back to Norwegian (NB) or empty strings when needed
-    - Avoids raising exceptions during sorting
-    """
+def make_sort_key(field_name: str):
+    """Create a robust sort key function for a given object attribute."""
 
     def key_func(obj: VariableDefinition):
-        attr = getattr(obj, field_name, None)
-        if attr is None:
-            result = ""
+        variable_definition = getattr(obj, field_name, None)
+        if variable_definition is None:
+            result: str = ""
+        if isinstance(variable_definition, LanguageStringType):
+            val = getattr(variable_definition, SupportedLanguages.NB)
+            result = val.casefold() if isinstance(val, str) else ""
 
-        if isinstance(attr, LanguageStringType):
-            try:
-                if sort_language and hasattr(attr, sort_language):
-                    val = getattr(attr, sort_language)
-                    result = val.casefold() if isinstance(val, str) else ""
-            except TypeError:
-                val = getattr(attr, SupportedLanguages.NB, "")
-                result = val.casefold() if isinstance(val, str) else ""
-            result = str(attr).casefold()
+        if isinstance(variable_definition, Owner):
+            result = getattr(variable_definition, "team", "")
 
-        if isinstance(attr, Owner):
-            result = getattr(attr, "team", "")
-
-        if isinstance(attr, str):
-            result = attr.casefold()
+        if isinstance(variable_definition, str):
+            result = variable_definition.casefold()
 
         return result
 

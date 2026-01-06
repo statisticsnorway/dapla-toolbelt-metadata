@@ -67,24 +67,19 @@ def test_list_variable_definitions_with_date_of_validity(
 
 
 @pytest.mark.parametrize(
-    ("sort", "sort_language", "name_attr", "reverse"),
+    ("sort", "reverse"),
     [
-        (None, None, "nb", False),
-        ("", "en", "en", False),
-        ("names-ascending", "", "nb", False),
-        ("name-descending", None, "nb", True),
-        (None, "nn", "nn", False),
-        ("", "", "nb", False),
-        ("what", None, "nb", False),
-        (1000, None, "nb", False),
-        (None, 45, "nb", False),
+        (None, False),
+        ("", False),
+        ("names-ascending", False),
+        ("name-descending", True),
+        ("what", False),
+        (1000, False),
     ],
 )
 def test_list_variable_definitions_sorted_by_name(
     variable_definitions,
     sort,
-    sort_language,
-    name_attr,
     reverse,
 ):
     with patch(
@@ -95,28 +90,23 @@ def test_list_variable_definitions_sorted_by_name(
         ]
         result = Vardef.list_variable_definitions(
             sort=sort,
-            sort_language=sort_language,
         )
 
-        names = [(getattr(item.name, name_attr) or "").casefold() for item in result]
+        names = [(item.name.nb or "").casefold() for item in result]
 
         assert names == sorted(names, reverse=reverse)
 
 
 @pytest.mark.parametrize(
-    ("sort", "sort_language", "reverse"),
+    ("sort", "reverse"),
     [
-        ("short_name-ascending", None, False),
-        ("short_name-ascending", "en", False),
-        ("short_name-ascending", "nn", False),
-        ("short_name-descending", None, True),
-        ("short_name-descending", 678, True),
+        ("short_name-ascending", False),
+        ("short_name-descending", True),
     ],
 )
 def test_list_variable_definitions_sorted_by_short_name(
     variable_definitions,
     sort,
-    sort_language,
     reverse,
 ):
     with patch(
@@ -127,7 +117,6 @@ def test_list_variable_definitions_sorted_by_short_name(
         ]
         result = Vardef.list_variable_definitions(
             sort=sort,
-            sort_language=sort_language,
         )
         short_names = [(item.short_name or "").casefold() for item in result]
 
@@ -135,19 +124,15 @@ def test_list_variable_definitions_sorted_by_short_name(
 
 
 @pytest.mark.parametrize(
-    ("sort", "sort_language", "reverse"),
+    ("sort", "reverse"),
     [
-        ("owner-ascending", None, False),
-        ("owner-ascending", "en", False),
-        ("owner-ascending", "nn", False),
-        ("owner-descending", None, True),
-        ("owner-descending", "falala", True),
+        ("owner-ascending", False),
+        ("owner-descending", True),
     ],
 )
 def test_list_variable_definitions_sorted_by_owner(
     variable_definitions,
     sort,
-    sort_language,
     reverse,
 ):
     with patch(
@@ -158,7 +143,6 @@ def test_list_variable_definitions_sorted_by_owner(
         ]
         result = Vardef.list_variable_definitions(
             sort=sort,
-            sort_language=sort_language,
         )
         owners = [(item.owner.team).casefold() for item in result]
         assert owners == sorted(owners, reverse=reverse)

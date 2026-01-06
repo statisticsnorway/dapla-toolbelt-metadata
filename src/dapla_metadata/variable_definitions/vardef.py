@@ -265,7 +265,6 @@ class Vardef:
         cls,
         date_of_validity: date | None = None,
         sort: SortOption | None = SortOption.NAME_ASC,
-        sort_language: SupportedLanguages | None = SupportedLanguages.NB,
     ) -> list[VariableDefinition]:
         """List variable definitions.
 
@@ -275,13 +274,22 @@ class Vardef:
         If no filter arguments are provided then all Variable Definitions are returned. See the documentation for the
         individual arguments to understand their effect. Filter arguments are combined with AND logic.
 
-        Variable definitions are returned as a sorted list. Sorting is case-insensitive and supports language-aware fields.
+        ---------
+        Sorting
+        ---------
+        Variable definitions are, by default, sorted by Norwegian name (NB) ascending order. Sorting is case-insensitive.
+        Other sorting strategies can be selected by providing one of the following:
+        - "name-descending"
+        - "short-name-ascending"
+        - "short-name-descending"
+        - "owner-ascending"
+        - "owner-descending"
+
         Invalid or unsupported sort options fall back to ascending name sorting.
 
         Args:
             date_of_validity (date | None, optional): List only variable definitions which are valid on this date. Defaults to None.
-            sort: Sorting strategy (e.g. name ascending/descending, short name, owner). Invalid or unsupported values default to name ascending.
-            sort_language: Optional language used when sorting on name-based fields. Defaults to Norwegian (NB) and falls back safely if unavailable.
+            sort (str, optional): Sorting strategy. Invalid or unsupported values default to "name-ascending".
 
         Returns:
             list[VariableDefinition]: The list of Variable Definitions.
@@ -304,7 +312,7 @@ class Vardef:
             sort_enum = SortOption.NAME_ASC
 
         field_name, reverse = MAP_SORT_OPTIONS[sort_enum]
-        key = make_sort_key(field_name, sort_language)
+        key = make_sort_key(field_name)
 
         return sorted(variable_definitions, key=key, reverse=reverse)
 
