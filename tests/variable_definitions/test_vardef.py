@@ -66,60 +66,102 @@ def test_list_variable_definitions_with_date_of_validity(
     )
 
 
-def test_list_variable_definitions_sorted_by_name(variable_definitions):
+@pytest.mark.parametrize(
+    ("sort", "sort_language", "name_attr", "reverse"),
+    [
+        (None, None, "nb", False),
+        ("", "en", "en", False),
+        ("names-ascending", "", "nb", False),
+        ("name-descending", None, "nb", True),
+        (None, "nn", "nn", False),
+        ("", "", "nb", False),
+        ("what", None, "nb", False),
+        (1000, None, "nb", False),
+        (None, 45, "nb", False),
+    ],
+)
+def test_list_variable_definitions_sorted_by_name(
+    variable_definitions,
+    sort,
+    sort_language,
+    name_attr,
+    reverse,
+):
     with patch(
         "dapla_metadata.variable_definitions.vardef.VariableDefinitionsApi.list_variable_definitions"
     ) as mock_api:
         mock_api.return_value = mock_api.return_value = [
             SimpleNamespace(actual_instance=var) for var in variable_definitions
         ]
-        sorted_vars_asc = Vardef.list_variable_definitions()
-        names_asc = [(item.name.nb or "").casefold() for item in sorted_vars_asc]
-        assert names_asc == sorted(names_asc)
-        sorted_vars_desc = Vardef.list_variable_definitions(sort="name-descending")
-        names_desc = [(item.name.nb or "").casefold() for item in sorted_vars_desc]
-        assert names_desc == sorted(names_desc, reverse=True)
-        sorted_vars_nn = Vardef.list_variable_definitions(
-            sort="short_name-ascending", sort_language="nn"
+        result = Vardef.list_variable_definitions(
+            sort=sort,
+            sort_language=sort_language,
         )
-        names_nn = [(item.name.nb or "").casefold() for item in sorted_vars_nn]
-        assert names_nn == sorted(names_nn)
+
+        names = [(getattr(item.name, name_attr) or "").casefold() for item in result]
+
+        assert names == sorted(names, reverse=reverse)
 
 
-def test_list_variable_definitions_sorted_by_short_name(variable_definitions):
+@pytest.mark.parametrize(
+    ("sort", "sort_language", "reverse"),
+    [
+        ("short_name-ascending", None, False),
+        ("short_name-ascending", "en", False),
+        ("short_name-ascending", "nn", False),
+        ("short_name-descending", None, True),
+        ("short_name-descending", 678, True),
+    ],
+)
+def test_list_variable_definitions_sorted_by_short_name(
+    variable_definitions,
+    sort,
+    sort_language,
+    reverse,
+):
     with patch(
         "dapla_metadata.variable_definitions.vardef.VariableDefinitionsApi.list_variable_definitions"
     ) as mock_api:
         mock_api.return_value = mock_api.return_value = [
             SimpleNamespace(actual_instance=var) for var in variable_definitions
         ]
-        sorted_vars_asc = Vardef.list_variable_definitions(sort="short_name-ascending")
-        short_names_asc = [
-            (item.short_name or "").casefold() for item in sorted_vars_asc
-        ]
-        assert short_names_asc == sorted(short_names_asc)
-        sorted_vars_desc = Vardef.list_variable_definitions(
-            sort="short_name-descending"
+        result = Vardef.list_variable_definitions(
+            sort=sort,
+            sort_language=sort_language,
         )
-        short_names_desc = [
-            (item.short_name or "").casefold() for item in sorted_vars_desc
-        ]
-        assert short_names_desc == sorted(short_names_desc, reverse=True)
+        short_names = [(item.short_name or "").casefold() for item in result]
+
+        assert short_names == sorted(short_names, reverse=reverse)
 
 
-def test_list_variable_definitions_sorted_by_owner(variable_definitions):
+@pytest.mark.parametrize(
+    ("sort", "sort_language", "reverse"),
+    [
+        ("owner-ascending", None, False),
+        ("owner-ascending", "en", False),
+        ("owner-ascending", "nn", False),
+        ("owner-descending", None, True),
+        ("owner-descending", "falala", True),
+    ],
+)
+def test_list_variable_definitions_sorted_by_owner(
+    variable_definitions,
+    sort,
+    sort_language,
+    reverse,
+):
     with patch(
         "dapla_metadata.variable_definitions.vardef.VariableDefinitionsApi.list_variable_definitions"
     ) as mock_api:
         mock_api.return_value = mock_api.return_value = [
             SimpleNamespace(actual_instance=var) for var in variable_definitions
         ]
-        sorted_vars_asc = Vardef.list_variable_definitions(sort="owner-ascending")
-        owners_asc = [(item.owner.team) for item in sorted_vars_asc]
-        assert owners_asc == sorted(owners_asc)
-        sorted_vars_desc = Vardef.list_variable_definitions(sort="owner-descending")
-        owners_desc = [(item.owner.team) for item in sorted_vars_desc]
-        assert owners_desc == sorted(owners_desc, reverse=True)
+        result = Vardef.list_variable_definitions(
+            sort=sort,
+            sort_language=sort_language,
+        )
+        owners = [(item.owner.team).casefold() for item in result]
+        assert owners == sorted(owners, reverse=reverse)
 
 
 def test_get_variable_definition_by_id(client_configuration: Configuration):

@@ -182,7 +182,7 @@ def sample_variable_definitions() -> list:
             id=VARDEF_EXAMPLE_DEFINITION_ID,
             patch_id=1,
             name=LanguageStringType(nb="Abradakabra", nn="Abrai", en="Abradough"),
-            short_name="abra",
+            short_name="zebra",
             definition=LanguageStringType(nb="test", nn="test", en="test"),
             classification_reference="91",
             unit_types=["01"],
