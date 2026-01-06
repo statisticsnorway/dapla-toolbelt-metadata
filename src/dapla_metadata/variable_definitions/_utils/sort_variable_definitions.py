@@ -2,9 +2,14 @@
 
 from enum import Enum
 
-from dapla_metadata.datasets.utility.enums import SupportedLanguages
+from dapla_metadata.variable_definitions._generated.vardef_client.models.language_string_type import (
+    LanguageStringType,
+)
 from dapla_metadata.variable_definitions._generated.vardef_client.models.owner import (
     Owner,
+)
+from dapla_metadata.variable_definitions._generated.vardef_client.models.supported_languages import (
+    SupportedLanguages,
 )
 from dapla_metadata.variable_definitions.variable_definition import VariableDefinition
 
@@ -18,7 +23,7 @@ class SortOption(Enum):
     OWNER_DESC = "owner-descending"
 
 
-# Map enum sort options to fieldname and set reverse order
+# Map enum sort options to field name and set order
 MAP_SORT_OPTIONS = {
     SortOption.NAME_ASC: ("name", False),
     SortOption.NAME_DESC: ("name", True),
@@ -30,24 +35,37 @@ MAP_SORT_OPTIONS = {
 
 
 def make_sort_key(field_name: str, sort_language: SupportedLanguages | None = None):
-    """Safely handle input attributes."""
+    """Create a robust sort key function for a given object attribute.
+
+    The returned key function:
+    - Safely handles missing or unsupported attributes
+    - Performs case-insensitive sorting
+    - Supports language-specific field
+    - Falls back to Norwegian (NB) or empty strings when needed
+    - Avoids raising exceptions during sorting
+    """
 
     def key_func(obj: VariableDefinition):
         attr = getattr(obj, field_name, None)
         if attr is None:
-            return ""
-        # LanguageStringType
-        if sort_language and hasattr(attr, sort_language):
-            val = getattr(attr, sort_language)
-            return val.casefold() if isinstance(val, str) else val
+            result = ""
 
-        # Owner handling
+        if isinstance(attr, LanguageStringType):
+            try:
+                if sort_language and hasattr(attr, sort_language):
+                    val = getattr(attr, sort_language)
+                    result = val.casefold() if isinstance(val, str) else ""
+            except TypeError:
+                val = getattr(attr, SupportedLanguages.NB, "")
+                result = val.casefold() if isinstance(val, str) else ""
+            result = str(attr).casefold()
+
         if isinstance(attr, Owner):
-            return getattr(attr, "team", "")
+            result = getattr(attr, "team", "")
 
         if isinstance(attr, str):
-            return attr.casefold()
+            result = attr.casefold()
 
-        return attr
+        return result
 
     return key_func
