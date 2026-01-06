@@ -1,5 +1,8 @@
+"""Utilities for sorting variable definitions."""
+
 from enum import Enum
 
+from dapla_metadata.datasets.utility.enums import SupportedLanguages
 from dapla_metadata.variable_definitions._generated.vardef_client.models.owner import (
     Owner,
 )
@@ -15,7 +18,8 @@ class SortOption(Enum):
     OWNER_DESC = "owner-descending"
 
 
-FIELD_MAP = {
+# Map enum sort options to fieldname and set reverse order
+MAP_SORT_OPTIONS = {
     SortOption.NAME_ASC: ("name", False),
     SortOption.NAME_DESC: ("name", True),
     SortOption.SHORT_NAME_ASC: ("short_name", False),
@@ -25,7 +29,9 @@ FIELD_MAP = {
 }
 
 
-def make_key_func(field_name: str, sort_language: str | None = None):
+def make_sort_key(field_name: str, sort_language: SupportedLanguages | None = None):
+    """Safely handle input attributes."""
+
     def key_func(obj: VariableDefinition):
         attr = getattr(obj, field_name, None)
         if attr is None:

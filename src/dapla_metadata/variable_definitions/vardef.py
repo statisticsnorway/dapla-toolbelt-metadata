@@ -27,7 +27,7 @@ from dapla_metadata.variable_definitions._generated.vardef_client.models.vardok_
 )
 from dapla_metadata.variable_definitions._utils._client import VardefClient
 from dapla_metadata.variable_definitions._utils.sort_variable_definitions import (
-    FIELD_MAP,
+    MAP_SORT_OPTIONS,
 )
 from dapla_metadata.variable_definitions._utils.sort_variable_definitions import (
     SortOption,
@@ -264,7 +264,7 @@ class Vardef:
     def list_variable_definitions(
         cls,
         date_of_validity: date | None = None,
-        sort: SortOption | None = None,
+        sort: SortOption | None = SortOption.NAME_ASC,
         sort_language: str | None = SupportedLanguages.NB,
     ) -> list[VariableDefinition]:
         """List variable definitions.
@@ -295,15 +295,11 @@ class Vardef:
                 render=False,
             )
         ]
-
-        if sort is None:
-            # Default: sort by name ascending
-            sort = SortOption.NAME_ASC
         try:
             sort_enum = SortOption(sort)
         except ValueError:
             sort_enum = SortOption.NAME_ASC
-        field_name, reverse = FIELD_MAP[sort_enum]
+        field_name, reverse = MAP_SORT_OPTIONS[sort_enum]
         key = make_key_func(field_name, sort_language)
 
         return sorted(variable_definitions, key=key, reverse=reverse)
