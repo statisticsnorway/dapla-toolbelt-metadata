@@ -75,6 +75,7 @@ def test_list_variable_definitions_with_date_of_validity(
         ("name-descending", True),
         ("what", False),
         (1000, False),
+        ("short-ascending", False),
     ],
 )
 def test_list_variable_definitions_sorted_by_name(
@@ -100,8 +101,8 @@ def test_list_variable_definitions_sorted_by_name(
 @pytest.mark.parametrize(
     ("sort", "reverse"),
     [
-        ("short_name-ascending", False),
-        ("short_name-descending", True),
+        ("short-name-ascending", False),
+        ("short-name-descending", True),
     ],
 )
 def test_list_variable_definitions_sorted_by_short_name(
