@@ -7,6 +7,7 @@ import re
 import warnings
 from typing import TYPE_CHECKING
 
+import arrow
 import pytest
 from datadoc_model.all_optional import model
 from pydantic import ValidationError
@@ -252,7 +253,9 @@ def test_obligatory_metadata_variables_warning_name(metadata: Datadoc):
     assert metadata.variables_lookup["pers_id"].name is None
     assert variable_with_name in str(record[1].message)
 
-    metadata.variables_lookup["pers_id"].name = model.LanguageStringType(
+    metadata.variables_lookup[
+        "pers_id"
+    ].name = model.LanguageStringType(  # ty:ignore[invalid-assignment]
         [
             model.LanguageStringTypeItem(languageCode="nb", languageText="Navnet"),
         ],
@@ -266,8 +269,10 @@ def test_obligatory_metadata_variables_warning_name(metadata: Datadoc):
 
 
 def test_obligatory_metadata_variables_warning_pseudonymization(metadata: Datadoc):
-    metadata.variables_lookup["pers_id"].pseudonymization = model.Pseudonymization(
-        pseudonymization_time="2022-10-07T07:35:01Z",
+    metadata.variables_lookup[
+        "pers_id"
+    ].pseudonymization = model.Pseudonymization(  # ty:ignore[invalid-assignment]
+        pseudonymization_time=arrow.get("2022-10-07T07:35:01Z").datetime,
         stable_identifier_type="",
         stable_identifier_version="",
         encryption_algorithm=None,

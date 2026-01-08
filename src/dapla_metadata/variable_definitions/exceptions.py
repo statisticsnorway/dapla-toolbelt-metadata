@@ -1,9 +1,13 @@
 """Vardef client exceptions."""
 
 import json
+from collections.abc import Callable
 from functools import wraps
 from http import HTTPStatus
 from types import MappingProxyType
+from typing import TYPE_CHECKING
+from typing import Any
+from typing import cast
 
 import urllib3
 from pytz import UnknownTimeZoneError
@@ -170,11 +174,13 @@ class VardefFileError(Exception):
         return f"VardefFileError: {self.message}"
 
 
-def vardef_file_error_handler(method):  # noqa: ANN201, ANN001
+def vardef_file_error_handler(method: Callable) -> Callable:
     """Decorator for handling exceptions when generating yaml files for variable definitions."""
 
     @wraps(method)
-    def _impl(*method_args, **method_kwargs):  # noqa: ANN002, ANN003
+    def _impl(
+        *method_args: tuple[Any, ...], **method_kwargs: dict[str, Any]
+    ) -> Callable:
         try:
             return method(
                 *method_args,
@@ -212,7 +218,7 @@ class PublishingBlockedError(RuntimeError):
         return self.default_message
 
 
-def publishing_blocked_error_handler(method):  # noqa: ANN201, ANN001
+def publishing_blocked(method: Callable) -> Callable:
     """Decorator that blocks publishing variable definitions in production.
 
     - If the environment is production:
@@ -220,21 +226,28 @@ def publishing_blocked_error_handler(method):  # noqa: ANN201, ANN001
         publishing is blocked by raising a `PublishingBlockedError`.
     - If `variable_status` is set to `DRAFT`, the method is allowed to proceed.
     - If no arguments are provided, all publishing attempts are blocked.
-
     """
 
     @wraps(method)
-    def _impl(*method_args, **method_kwargs):  # noqa: ANN002, ANN003
+    def _impl(
+        *method_args: tuple[Any, ...],
+        **method_kwargs: dict[str, Any],
+    ) -> Callable:
+        if TYPE_CHECKING:
+            from dapla_metadata.variable_definitions.variable_definition import (
+                VariableDefinition,
+            )
         try:
             client = VardefClient()
-            host = client.get_config().host
+            if config := client.get_config():
+                host = config.host
         except VardefClientError as e:
             msg = f"Failed to get VardefClient config: {e}"
             raise RuntimeError(msg) from e
 
         if host == VARDEF_PROD_URL:
             if len(method_args) > 1:
-                status = method_args[1].variable_status
+                status = cast("VariableDefinition", method_args[1]).variable_status
                 if status == VariableStatus.DRAFT:
                     return method(
                         *method_args,

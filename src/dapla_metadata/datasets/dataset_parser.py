@@ -179,11 +179,11 @@ class DatasetParserParquet(DatasetParser):
     def get_fields(self) -> list[Variable]:
         """Extract the fields from this dataset."""
         with self.dataset.open(mode="rb") as f:
-            schema: pa.Schema = pq.read_schema(f)  # type: ignore [arg-type, assignment]
+            schema: pa.Schema = pq.read_schema(f)
         return [
             Variable(
                 short_name=data_field.name.strip(),
-                data_type=self.transform_data_type(str(data_field.type)),  # type: ignore [attr-defined]
+                data_type=self.transform_data_type(str(data_field.type)),
             )
             for data_field in schema
             if data_field.name
@@ -220,21 +220,19 @@ class DatasetParserSas7Bdat(DatasetParser):
         for i, v in enumerate(row.to_numpy().tolist()[0]):
             fields.append(
                 Variable(
-                    short_name=sas_reader.columns[i].name,  # type: ignore [attr-defined]
+                    short_name=sas_reader.columns[i].name,
                     # Assume labels are defined in the default language (NORSK_BOKMÅL)
                     # If this is not correct, the user may fix it via the UI
                     name=LanguageStringType(
                         [
                             LanguageStringTypeItem(
                                 languageCode=SupportedLanguages.NORSK_BOKMÅL.value,
-                                languageText=sas_reader.columns[  # type: ignore [attr-defined]
-                                    i
-                                ].label,
+                                languageText=sas_reader.columns[i].label,
                             ),
                         ],
                     ),
                     # Access the python type for the value and transform it to a DataDoc Data type
-                    data_type=self.transform_data_type(type(v).__name__.lower()),  # type: ignore  # noqa: PGH003
+                    data_type=self.transform_data_type(type(v).__name__.lower()),
                 ),
             )
 

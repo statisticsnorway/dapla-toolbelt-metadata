@@ -474,7 +474,7 @@ def get_missing_obligatory_variables_pseudo_fields(
 def running_in_notebook() -> bool:
     """Return True if running in Jupyter Notebook."""
     try:
-        return bool(get_ipython().__class__.__name__ == "ZMQInteractiveShell")  # type: ignore [name-defined]
+        return bool(get_ipython().__class__.__name__ == "ZMQInteractiveShell")
     except NameError:
         # The get_ipython method is globally available in ipython interpreters
         # as used in Jupyter. However it is not available in other python

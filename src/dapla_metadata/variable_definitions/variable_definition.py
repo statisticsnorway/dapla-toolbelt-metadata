@@ -40,9 +40,7 @@ from dapla_metadata.variable_definitions._utils.variable_definition_files import
 from dapla_metadata.variable_definitions._utils.variable_definition_files import (
     create_variable_yaml,
 )
-from dapla_metadata.variable_definitions.exceptions import (
-    publishing_blocked_error_handler,
-)
+from dapla_metadata.variable_definitions.exceptions import publishing_blocked
 from dapla_metadata.variable_definitions.exceptions import vardef_exception_handler
 from dapla_metadata.variable_definitions.exceptions import vardef_file_error_handler
 
@@ -109,7 +107,7 @@ class VariableDefinition(CompleteView):
             )
         ]
 
-    @publishing_blocked_error_handler
+    @publishing_blocked
     @vardef_exception_handler
     def update_draft(
         self,
@@ -350,7 +348,7 @@ class VariableDefinition(CompleteView):
             ),
         )
 
-    @publishing_blocked_error_handler
+    @publishing_blocked
     def publish_internal(self) -> "VariableDefinition":
         """Publish this variable definition internally."""
         if self.variable_status != VariableStatus.DRAFT.name:
@@ -369,7 +367,7 @@ class VariableDefinition(CompleteView):
         )
         return update
 
-    @publishing_blocked_error_handler
+    @publishing_blocked
     def publish_external(self) -> "VariableDefinition":
         """Publish this variable definition externally."""
         if self.variable_status == VariableStatus.PUBLISHED_EXTERNAL.name:

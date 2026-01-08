@@ -199,5 +199,7 @@ def custom_warning_handler(
     )
 
 
-warnings.showwarning = custom_warning_handler
+warnings.showwarning = (  # ty:ignore[invalid-assignment] intentional override
+    custom_warning_handler
+)
 warnings.simplefilter("always")

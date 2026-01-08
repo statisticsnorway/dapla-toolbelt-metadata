@@ -111,7 +111,7 @@ def test_generate_yaml_from_dict() -> None:
     """Check if the generated YAML file with saved values contains the expected data."""
     with pytest.raises(AttributeError) as exc_info:
         create_template_yaml(
-            VARIABLE_DEFINITION_DICT,  # type: ignore[arg-type]
+            VARIABLE_DEFINITION_DICT,
             custom_directory=None,
         )
     assert str(exc_info.value) == "'dict' object has no attribute 'model_dump'"

@@ -1,12 +1,12 @@
 import contextlib
 from pathlib import Path
 
-import fsspec  # type: ignore  # noqa: PGH003
+import fsspec
 import pytest
 from datadoc_model.all_optional.model import DatadocMetadata
 from datadoc_model.all_optional.model import DataType
 from datadoc_model.all_optional.model import Variable
-from fsspec.registry import register_implementation  # type: ignore[import-untyped]
+from fsspec.registry import register_implementation
 from upath import UPath
 
 from dapla_metadata.datasets._merge import BUCKET_NAME_MESSAGE
@@ -108,7 +108,7 @@ def test_check_dataset_consistency_inconsistent_paths(
         UPath(existing_dataset_path),
     )
     test_id = request.node.callspec.id
-    result_entry = next(r for r in result if r.message.lower() == test_id)  # type: ignore[attr-defined]
+    result_entry = next(r for r in result if r.message.lower() == test_id)
     assert not result_entry.success
 
 
@@ -156,7 +156,7 @@ def test_check_ready_to_merge_errors_as_warnings(
 
 
 def test_check_dataset_consistency_inconsistent_variable_data_types():
-    def create_variables(data_types):
+    def create_variables(data_types) -> list[Variable]:
         return [
             Variable(short_name=name, data_type=data_type)
             for name, data_type in zip(VARIABLE_SHORT_NAMES, data_types, strict=False)

@@ -168,9 +168,9 @@ def sample_variable_definition() -> VariableDefinition:
             email="me@example.com",
         ),
         owner=Owner(team="my_team", groups=["my_team_developers"]),
-        created_at=date(2024, 11, 1),
+        created_at=datetime(2024, 11, 1, tzinfo=None),  # noqa: DTZ001
         created_by="ano@ssb.no",
-        last_updated_at=date(2024, 11, 1),
+        last_updated_at=datetime(2024, 11, 1, tzinfo=None),  # noqa: DTZ001
         last_updated_by="ano@ssb.no",
     )
 
@@ -305,9 +305,9 @@ def sample_complete_patch_output() -> VariableDefinition:
             email="me@example.com",
         ),
         owner=Owner(team="my_team", groups=["my_team_developers"]),
-        created_at=date(2024, 11, 1),
+        created_at=datetime(2024, 11, 1, tzinfo=None),  # noqa: DTZ001
         created_by="ano@ssb.no",
-        last_updated_at=date(2024, 11, 1),
+        last_updated_at=datetime(2024, 11, 1, tzinfo=None),  # noqa: DTZ001
         last_updated_by="ano@ssb.no",
     )
 
