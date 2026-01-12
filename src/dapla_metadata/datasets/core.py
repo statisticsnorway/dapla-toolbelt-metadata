@@ -502,18 +502,12 @@ class Datadoc:
             target_short_name: The short name for the variable that one wants to update.
             source_variable: The variable data to update with.
         """
-        idx = next(
-            (
-                i
-                for i, v in enumerate(self.variables)
-                if v.short_name == target_short_name
-            ),
-            None,
-        )
-        if idx is None:
-            msg = f"Variable with short_name '{target_short_name}' not found."
-            raise ValueError(msg)
-        self.variables[idx] = source_variable
+        for i, variable in enumerate(self.variables):
+            if variable.short_name == target_short_name:
+                self.variables[i] = source_variable
+                return
+        msg = f"Variable with short_name '{target_short_name}' not found."
+        raise ValueError(msg)
 
     def copy_variables(
         self,
