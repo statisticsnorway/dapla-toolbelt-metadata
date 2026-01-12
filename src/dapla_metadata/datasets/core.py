@@ -40,7 +40,6 @@ from dapla_metadata.datasets.utility.utils import OptionalDatadocMetadataType
 from dapla_metadata.datasets.utility.utils import PseudonymizationType
 from dapla_metadata.datasets.utility.utils import VariableListType
 from dapla_metadata.datasets.utility.utils import VariableType
-from dapla_metadata.datasets.utility.utils import _read_variables_from_metadata_document
 from dapla_metadata.datasets.utility.utils import calculate_percentage
 from dapla_metadata.datasets.utility.utils import derive_assessment_from_state
 from dapla_metadata.datasets.utility.utils import get_timestamp_now
@@ -50,6 +49,7 @@ from dapla_metadata.datasets.utility.utils import (
 from dapla_metadata.datasets.utility.utils import (
     num_obligatory_variables_fields_completed,
 )
+from dapla_metadata.datasets.utility.utils import read_variables_from_metadata_document
 from dapla_metadata.datasets.utility.utils import set_dataset_owner
 from dapla_metadata.datasets.utility.utils import set_default_values_dataset
 from dapla_metadata.datasets.utility.utils import set_default_values_pseudonymization
@@ -531,14 +531,13 @@ class Datadoc:
 
         source_short_name = source_short_name or target_short_name
 
-        metadata_document_variables = _read_variables_from_metadata_document(
-            metadata_document_path
-        )
+        raw_variables = read_variables_from_metadata_document(metadata_document_path)
 
-        variables_by_short_name: dict[
-            str,
-            all_optional_model.Variable | required_model.Variable,
-        ] = {
+        metadata_document_variables: list[all_optional_model.Variable] = [
+            all_optional_model.Variable.model_validate(v) for v in raw_variables
+        ]
+
+        variables_by_short_name = {
             v.short_name: v
             for v in metadata_document_variables
             if v.short_name is not None

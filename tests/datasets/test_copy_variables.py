@@ -1,7 +1,6 @@
 import json
 import pathlib
 import shutil
-from typing import cast
 
 import datadoc_model.all_optional.model as all_optional_model
 import pytest
@@ -29,17 +28,10 @@ def test_copy_variable(
         datadoc_metadata = written_metadata["datadoc"]["variables"]
 
         assert datadoc_metadata[0]["short_name"] == target_short_name
-
-        var_dict = cast("dict", metadata.variables_lookup[target_short_name])
-
-        assert (
-            next(
-                item["languageText"]
-                for item in var_dict["name"]
-                if item["languageCode"] == "nb"
-            )
-            == "Ny persid"
-        )
+        correct_variable = datadoc_metadata[0]
+        assert correct_variable["name"] is not None
+        assert correct_variable["name"][2]["languageCode"] == "nb"
+        assert correct_variable["name"][2]["languageText"] == "Ny persid"
 
 
 def test_variable_not_in_target_dataset(
@@ -82,16 +74,10 @@ def test_different_source_and_target_short_name(
         datadoc_metadata = written_metadata["datadoc"]["variables"]
 
         assert datadoc_metadata[0]["short_name"] == source_short_name
-        target_variable = metadata.variables_lookup[target_short_name]
-        assert target_variable.name is not None
-        assert (
-            next(
-                item[1].languageText
-                for item in target_variable.name
-                if item[1].languageCode == "nb"
-            )
-            == "Test kopiering"
-        )
+        correct_variable = datadoc_metadata[0]
+        assert correct_variable["name"] is not None
+        assert correct_variable["name"][2]["languageCode"] == "nb"
+        assert correct_variable["name"][2]["languageText"] == "Test kopiering"
 
 
 def test_update_variable_error_handling(metadata: Datadoc):
@@ -128,13 +114,7 @@ def test_update_variable_from_outdated_metadata_file(
         datadoc_metadata = written_metadata["datadoc"]["variables"]
 
         assert datadoc_metadata[0]["short_name"] == target_short_name
-        target_variable = metadata.variables_lookup[target_short_name]
-        assert target_variable.name is not None
-        assert (
-            next(
-                item[1].languageText
-                for item in target_variable.name
-                if item[1].languageCode == "nb"
-            )
-            == "Ny persid"
-        )
+        correct_variable = datadoc_metadata[0]
+        assert correct_variable["name"] is not None
+        assert correct_variable["name"][2]["languageCode"] == "nb"
+        assert correct_variable["name"][2]["languageText"] == "Ny persid"

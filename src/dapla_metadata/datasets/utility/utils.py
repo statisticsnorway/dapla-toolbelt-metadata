@@ -566,7 +566,7 @@ def set_default_values_pseudonymization(
             pass
 
 
-def _read_variables_from_metadata_document(
+def read_variables_from_metadata_document(
     metadata_document: ReadablePathLike,
 ) -> list[VariableType]:
     """Read variables from metadata document.
