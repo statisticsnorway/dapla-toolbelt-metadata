@@ -512,7 +512,7 @@ class Datadoc:
         msg = f"Variable with short_name '{target_short_name}' not found."
         raise ValueError(msg)
 
-    def copy_variables(
+    def copy_variable(
         self,
         metadata_document_path: ReadablePathLike,
         target_short_name: str,
