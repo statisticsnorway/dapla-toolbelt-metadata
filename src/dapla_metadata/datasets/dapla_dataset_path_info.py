@@ -798,6 +798,5 @@ class DaplaDatasetPathInfo:
             self.dataset_state
             and self.statistic_short_name
             and self.contains_data_from
-            and self.contains_data_until
-            and self.dataset_version,
+            and self.contains_data_until,
         )
