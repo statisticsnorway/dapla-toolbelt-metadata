@@ -18,7 +18,7 @@ def test_copy_variable(
     shutil.copy(
         str(TEST_COPY_VARIABLES_FILEPATH), str(tmp_path / "copy_variables.json")
     )
-    metadata.copy_variables(str(tmp_path / "copy_variables.json"), target_short_name)
+    metadata.copy_variable(str(tmp_path / "copy_variables.json"), target_short_name)
 
     metadata.write_metadata_document()
     written_document = tmp_path / TEST_EXISTING_METADATA_FILE_NAME
@@ -47,9 +47,7 @@ def test_variable_not_in_target_dataset(
         ValueError,
         match=rf"Target variable {target_short_name} does not exist in the metadata document you are copying into!",
     ):
-        metadata.copy_variables(
-            str(tmp_path / "copy_variables.json"), target_short_name
-        )
+        metadata.copy_variable(str(tmp_path / "copy_variables.json"), target_short_name)
 
 
 def test_different_source_and_target_short_name(
@@ -62,7 +60,7 @@ def test_different_source_and_target_short_name(
     shutil.copy(
         str(TEST_COPY_VARIABLES_FILEPATH), str(tmp_path / "copy_variables.json")
     )
-    metadata.copy_variables(
+    metadata.copy_variable(
         str(tmp_path / "copy_variables.json"), target_short_name, source_short_name
     )
 
@@ -102,7 +100,7 @@ def test_update_variable_from_outdated_metadata_file(
     shutil.copy(
         str(TEST_COPY_VARIABLES_FILEPATH), str(tmp_path / "outdated_metadata_file.json")
     )
-    metadata.copy_variables(
+    metadata.copy_variable(
         str(tmp_path / "outdated_metadata_file.json"), target_short_name
     )
 
