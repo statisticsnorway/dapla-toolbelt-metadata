@@ -116,3 +116,38 @@ def test_update_variable_from_outdated_metadata_file(
         assert correct_variable["name"] is not None
         assert correct_variable["name"][2]["languageCode"] == "nb"
         assert correct_variable["name"][2]["languageText"] == "Ny persid"
+
+
+def test_copy_multiple_variables(
+    metadata: Datadoc,
+    tmp_path: pathlib.Path,
+):
+    target_short_name = "pers_id"
+    another_target_short_name = "sivilstand"
+    shutil.copy(
+        str(TEST_COPY_VARIABLES_FILEPATH), str(tmp_path / "copy_variables.json")
+    )
+    metadata.copy_variable(str(tmp_path / "copy_variables.json"), target_short_name)
+    metadata.copy_variable(
+        str(tmp_path / "copy_variables.json"),
+        another_target_short_name,
+    )
+
+    metadata.write_metadata_document()
+    written_document = tmp_path / TEST_EXISTING_METADATA_FILE_NAME
+
+    with pathlib.Path.open(written_document) as f:
+        written_metadata = json.loads(f.read())
+        datadoc_metadata = written_metadata["datadoc"]["variables"]
+
+        checks = [
+            (0, target_short_name, "Ny persid"),
+            (2, another_target_short_name, "Ny Sivilstand"),
+        ]
+
+        for idx, short_name, language_text in checks:
+            item = datadoc_metadata[idx]
+            assert item["short_name"] == short_name
+            assert item["name"] is not None
+            assert item["name"][2]["languageCode"] == "nb"
+            assert item["name"][2]["languageText"] == language_text

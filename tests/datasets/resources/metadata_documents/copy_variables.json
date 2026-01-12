@@ -180,7 +180,7 @@
                 "name": [
                     {
                         "languageCode": "en",
-                        "languageText": "Marital status"
+                        "languageText": "New Marital status"
                     },
                     {
                         "languageCode": "nn",
@@ -188,7 +188,7 @@
                     },
                     {
                         "languageCode": "nb",
-                        "languageText": "Sivilstand"
+                        "languageText": "Ny Sivilstand"
                     }
                 ],
                 "data_type": "STRING",
