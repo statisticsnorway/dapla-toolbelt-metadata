@@ -568,7 +568,7 @@ def set_default_values_pseudonymization(
 
 def read_variables_from_metadata_document(
     metadata_document: ReadablePathLike,
-) -> list[VariableType]:
+) -> list[all_optional_model.Variable]:
     """Read variables from metadata document.
 
     Upgrades metadata document if needed to ensure we dont get any errors later on with old metadata files.
