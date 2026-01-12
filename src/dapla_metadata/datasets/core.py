@@ -531,11 +531,9 @@ class Datadoc:
 
         source_short_name = source_short_name or target_short_name
 
-        raw_variables = read_variables_from_metadata_document(metadata_document_path)
-
-        metadata_document_variables: list[all_optional_model.Variable] = [
-            all_optional_model.Variable.model_validate(v) for v in raw_variables
-        ]
+        metadata_document_variables = read_variables_from_metadata_document(
+            metadata_document_path
+        )
 
         variables_by_short_name = {
             v.short_name: v

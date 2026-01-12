@@ -589,4 +589,9 @@ def read_variables_from_metadata_document(
 
     upgraded_metadata = upgrade_metadata(metadata_dict)
 
-    return upgraded_metadata["datadoc"]["variables"]
+    metadata_document_variables: list[all_optional_model.Variable] = [
+        all_optional_model.Variable.model_validate(v)
+        for v in upgraded_metadata["datadoc"]["variables"]
+    ]
+
+    return metadata_document_variables
