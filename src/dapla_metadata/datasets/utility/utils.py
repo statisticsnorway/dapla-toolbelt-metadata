@@ -1,8 +1,10 @@
 from __future__ import annotations
 
 import datetime  # import is needed in xdoctest
+import json
 import logging
 import uuid
+from typing import TYPE_CHECKING
 from typing import Any
 from typing import TypeAlias
 
@@ -11,8 +13,12 @@ import datadoc_model.required.model as required_model
 from datadoc_model.all_optional.model import Assessment
 from datadoc_model.all_optional.model import DataSetState
 from datadoc_model.all_optional.model import VariableRole
+from upath import UPath
 
 from dapla_metadata.dapla import user_info
+from dapla_metadata.datasets.compatibility.model_backwards_compatibility import (
+    upgrade_metadata,
+)
 from dapla_metadata.datasets.utility.constants import DAEAD_ENCRYPTION_KEY_REFERENCE
 from dapla_metadata.datasets.utility.constants import ENCRYPTION_PARAMETER_KEY_ID
 from dapla_metadata.datasets.utility.constants import ENCRYPTION_PARAMETER_SNAPSHOT_DATE
@@ -37,6 +43,9 @@ from dapla_metadata.datasets.utility.constants import (
 from dapla_metadata.datasets.utility.constants import PAPIS_ENCRYPTION_KEY_REFERENCE
 from dapla_metadata.datasets.utility.constants import PAPIS_STABLE_IDENTIFIER_TYPE
 from dapla_metadata.datasets.utility.enums import EncryptionAlgorithm
+
+if TYPE_CHECKING:
+    from upath.types import ReadablePathLike
 
 logger = logging.getLogger(__name__)
 
@@ -555,3 +564,34 @@ def set_default_values_pseudonymization(
             )
         case _:
             pass
+
+
+def read_variables_from_metadata_document(
+    metadata_document: ReadablePathLike,
+) -> list[all_optional_model.Variable]:
+    """Read variables from metadata document.
+
+    Upgrades metadata document if needed to ensure we dont get any errors later on with old metadata files.
+
+    Args:
+        metadata_document: Path to the metadata document.
+
+    Returns:
+        List of variables from the metadata document.
+    """
+    metadata_path = UPath(metadata_document)
+    if not metadata_path.exists():
+        msg = f"Metadata document does not exist! Provided path: {metadata_path}"
+        raise ValueError(msg)
+
+    with metadata_path.open("r", encoding="utf-8") as f:
+        metadata_dict = json.load(f)
+
+    upgraded_metadata = upgrade_metadata(metadata_dict)
+
+    metadata_document_variables: list[all_optional_model.Variable] = [
+        all_optional_model.Variable.model_validate(v)
+        for v in upgraded_metadata["datadoc"]["variables"]
+    ]
+
+    return metadata_document_variables

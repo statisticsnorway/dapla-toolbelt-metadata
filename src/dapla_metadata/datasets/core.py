@@ -49,6 +49,7 @@ from dapla_metadata.datasets.utility.utils import (
 from dapla_metadata.datasets.utility.utils import (
     num_obligatory_variables_fields_completed,
 )
+from dapla_metadata.datasets.utility.utils import read_variables_from_metadata_document
 from dapla_metadata.datasets.utility.utils import set_dataset_owner
 from dapla_metadata.datasets.utility.utils import set_default_values_dataset
 from dapla_metadata.datasets.utility.utils import set_default_values_pseudonymization
@@ -491,3 +492,63 @@ class Datadoc:
         """
         if self.variables_lookup[variable_short_name].pseudonymization is not None:
             self.variables_lookup[variable_short_name].pseudonymization = None
+
+    def _update_variable(
+        self, target_short_name: str, source_variable: VariableType
+    ) -> None:
+        """Updates a variable by short_name.
+
+        Args:
+            target_short_name: The short name for the variable that one wants to update.
+            source_variable: The variable data to update with.
+        """
+        for i, variable in enumerate(self.variables):
+            if (
+                hasattr(variable, "short_name")
+                and variable.short_name == target_short_name
+            ):
+                self.variables[i] = source_variable  # type: ignore[assignment]
+                return
+        msg = f"Variable with short_name '{target_short_name}' not found."
+        raise ValueError(msg)
+
+    def copy_variable(
+        self,
+        metadata_document_path: ReadablePathLike,
+        target_short_name: str,
+        source_short_name: str | None = None,
+    ) -> None:
+        """Copies the variables from the given dataset to the current dataset.
+
+        Args:
+            metadata_document_path: The path to the metadata document one wants to copy from.
+            target_short_name: The short name for the variable that one wants to copy to.
+            source_short_name: The short name for the variable that one wants to copy from. If None, the target short name is used.
+        """
+        if target_short_name not in self.variables_lookup:
+            msg = f"Target variable {target_short_name} does not exist in the metadata document you are copying into!"
+            raise ValueError(msg)
+
+        source_short_name = source_short_name or target_short_name
+
+        metadata_document_variables = read_variables_from_metadata_document(
+            metadata_document_path
+        )
+
+        variables_by_short_name = {
+            v.short_name: v
+            for v in metadata_document_variables
+            if v.short_name is not None
+        }
+
+        if source_short_name not in variables_by_short_name:
+            msg = f"{source_short_name} does not exist!"
+            raise ValueError(msg)
+
+        source_variable = variables_by_short_name[source_short_name]
+
+        self.variables_lookup[target_short_name] = source_variable
+
+        source_variable = all_optional_model.Variable.model_validate(source_variable)
+
+        self._update_variable(target_short_name, source_variable)
