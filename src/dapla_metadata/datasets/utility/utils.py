@@ -579,16 +579,14 @@ def _read_variables_from_metadata_document(
     Returns:
         List of variables from the metadata document.
     """
-    metadata_document = UPath(metadata_document)
-    if not metadata_document.exists():
-        msg = f"Metadata document does not exist! Provided path: {metadata_document}"
-        raise ValueError(
-            msg,
-        )
+    metadata_path = UPath(metadata_document)
+    if not metadata_path.exists():
+        msg = f"Metadata document does not exist! Provided path: {metadata_path}"
+        raise ValueError(msg)
 
-    with metadata_document.open("r", encoding="utf-8") as f:
-        metadata_document = json.load(f)
+    with metadata_path.open("r", encoding="utf-8") as f:
+        metadata_dict = json.load(f)
 
-    metadata_document = upgrade_metadata(metadata_document)
+    upgraded_metadata = upgrade_metadata(metadata_dict)
 
-    return metadata_document["datadoc"]["variables"]
+    return upgraded_metadata["datadoc"]["variables"]

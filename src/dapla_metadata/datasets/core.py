@@ -494,7 +494,7 @@ class Datadoc:
             self.variables_lookup[variable_short_name].pseudonymization = None
 
     def _update_variable(
-        self, target_short_name: str, source_variable: all_optional_model.Variable
+        self, target_short_name: str, source_variable: VariableType
     ) -> None:
         """Updates a variable by short_name.
 
@@ -503,8 +503,11 @@ class Datadoc:
             source_variable: The variable data to update with.
         """
         for i, variable in enumerate(self.variables):
-            if variable.short_name == target_short_name:
-                self.variables[i] = source_variable
+            if (
+                hasattr(variable, "short_name")
+                and variable.short_name == target_short_name
+            ):
+                self.variables[i] = source_variable  # type: ignore[assignment]
                 return
         msg = f"Variable with short_name '{target_short_name}' not found."
         raise ValueError(msg)
@@ -522,11 +525,9 @@ class Datadoc:
             target_short_name: The short name for the variable that one wants to copy to.
             source_short_name: The short name for the variable that one wants to copy from. If None, the target short name is used.
         """
-        try:
-            self.variables_lookup[target_short_name]
-        except Exception as err:
+        if target_short_name not in self.variables_lookup:
             msg = f"Target variable {target_short_name} does not exist in the metadata document you are copying into!"
-            raise ValueError(msg) from err
+            raise ValueError(msg)
 
         source_short_name = source_short_name or target_short_name
 
@@ -534,21 +535,23 @@ class Datadoc:
             metadata_document_path
         )
 
-        variables_by_short_name = {
-            v["short_name"]: v for v in metadata_document_variables
+        variables_by_short_name: dict[
+            str,
+            all_optional_model.Variable | required_model.Variable,
+        ] = {
+            v.short_name: v
+            for v in metadata_document_variables
+            if v.short_name is not None
         }
 
-        try:
-            source_variable = variables_by_short_name[source_short_name]
-        except KeyError as err:
+        if source_short_name not in variables_by_short_name:
             msg = f"{source_short_name} does not exist!"
-            raise ValueError(msg) from err
+            raise ValueError(msg)
+
+        source_variable = variables_by_short_name[source_short_name]
 
         self.variables_lookup[target_short_name] = source_variable
 
         source_variable = all_optional_model.Variable.model_validate(source_variable)
 
-        self._update_variable(
-            target_short_name,
-            source_variable,
-        )
+        self._update_variable(target_short_name, source_variable)

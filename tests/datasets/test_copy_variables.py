@@ -1,6 +1,7 @@
 import json
 import pathlib
 import shutil
+from typing import cast
 
 import datadoc_model.all_optional.model as all_optional_model
 import pytest
@@ -28,10 +29,13 @@ def test_copy_variable(
         datadoc_metadata = written_metadata["datadoc"]["variables"]
 
         assert datadoc_metadata[0]["short_name"] == target_short_name
+
+        var_dict = cast("dict", metadata.variables_lookup[target_short_name])
+
         assert (
             next(
                 item["languageText"]
-                for item in metadata.variables_lookup[target_short_name]["name"]
+                for item in var_dict["name"]
                 if item["languageCode"] == "nb"
             )
             == "Ny persid"
@@ -78,11 +82,13 @@ def test_different_source_and_target_short_name(
         datadoc_metadata = written_metadata["datadoc"]["variables"]
 
         assert datadoc_metadata[0]["short_name"] == source_short_name
+        target_variable = metadata.variables_lookup[target_short_name]
+        assert target_variable.name is not None
         assert (
             next(
-                item["languageText"]
-                for item in metadata.variables_lookup[target_short_name]["name"]
-                if item["languageCode"] == "nb"
+                item[1].languageText
+                for item in target_variable.name
+                if item[1].languageCode == "nb"
             )
             == "Test kopiering"
         )
@@ -122,11 +128,13 @@ def test_update_variable_from_outdated_metadata_file(
         datadoc_metadata = written_metadata["datadoc"]["variables"]
 
         assert datadoc_metadata[0]["short_name"] == target_short_name
+        target_variable = metadata.variables_lookup[target_short_name]
+        assert target_variable.name is not None
         assert (
             next(
-                item["languageText"]
-                for item in metadata.variables_lookup[target_short_name]["name"]
-                if item["languageCode"] == "nb"
+                item[1].languageText
+                for item in target_variable.name
+                if item[1].languageCode == "nb"
             )
             == "Ny persid"
         )
