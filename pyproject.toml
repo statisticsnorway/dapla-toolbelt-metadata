@@ -1,14 +1,12 @@
 [project]
 name = "dapla-toolbelt-metadata"
-version = "0.11.0"
+version = "0.12.0"
 description = "Dapla Toolbelt Metadata"
 readme = "README.md"
 requires-python = ">=3.10"
 license = "MIT"
 authors = [{ name = "Statistics Norway", email = "metadata@ssb.no" }]
-maintainers = [
-  { name = "Division for Data Enablement (724)", email = "metadata@ssb.no" }
-]
+maintainers = [{ name = "Division for Data Enablement (724)", email = "metadata@ssb.no" }]
 classifiers = [
   "Development Status :: 4 - Beta",
   "Programming Language :: Python :: 3.10",
@@ -48,10 +46,7 @@ Homepage = "https://github.com/statisticsnorway/dapla-toolbelt-metadata"
 Repository = "https://github.com/statisticsnorway/dapla-toolbelt-metadata"
 
 [dependency-groups]
-dev = [
-  "pre-commit>=3.8.0",
-  "ruff>=0.5.6",
-]
+dev = ["pre-commit>=3.8.0", "ruff>=0.5.6"]
 docs = [
   "furo>=2024.7.18",
   "myst-parser>=0.16.1",
@@ -97,11 +92,7 @@ tests = ["tests", "*/tests", "*/test"]
 [tool.coverage.run]
 branch = true
 source = ["dapla_metadata"]
-omit = [
-  "tests/*",
-  "__init__.py",
-  "*/dapla_metadata/variable_definitions/_generated/*"
-]
+omit = ["tests/*", "__init__.py", "*/dapla_metadata/variable_definitions/_generated/*"]
 relative_files = true
 
 [tool.coverage.report]
@@ -149,38 +140,26 @@ ignore_missing_imports = true
 # Also don't require type annotations
 [[tool.mypy.overrides]]
 module = ["tests.*"]
-disable_error_code = [
-  "var-annotated",
-  "has-type",
-  "no-any-return",
-  "no-untyped-def"
-]
+disable_error_code = ["var-annotated", "has-type", "no-any-return", "no-untyped-def"]
 
 # tombi: lint.rules.one-of-multiple-match.disabled = true
 # tombi: lint.rules.deprecated.disabled = true
 [tool.pytest.ini_options]
 filterwarnings = [
-  "ignore::dapla_metadata.datasets.InconsistentDatasetsWarning",  # Our own
-  "ignore::dapla_metadata.datasets.ObligatoryDatasetWarning",  # Our own
-  "ignore::dapla_metadata.datasets.ObligatoryVariableWarning",  # Our own
-  "ignore:^The @wait_container_is_ready decorator:DeprecationWarning",  # Internal third-party
+  "ignore::dapla_metadata.datasets.InconsistentDatasetsWarning",       # Our own
+  "ignore::dapla_metadata.datasets.ObligatoryDatasetWarning",          # Our own
+  "ignore::dapla_metadata.datasets.ObligatoryVariableWarning",         # Our own
+  "ignore:^The @wait_container_is_ready decorator:DeprecationWarning", # Internal third-party
 ]
 pythonpath = ["src"]
 
 [tool.ruff]
-force-exclude = true  # Apply excludes to pre-commit
+force-exclude = true                                                                                       # Apply excludes to pre-commit
 show-fixes = true
 src = ["src", "tests"]
-target-version = "py310"  # Minimum Python version supported
+target-version = "py310"                                                                                   # Minimum Python version supported
 include = ["*.py", "*.pyi", "**/pyproject.toml", "*.ipynb"]
-extend-exclude = [
-  "__pycache__",
-  "old",
-  ".ipynb_checkpoints",
-  "noxfile.py",
-  "docs/conf.py",
-  "_generated/"
-]
+extend-exclude = ["__pycache__", "old", ".ipynb_checkpoints", "noxfile.py", "docs/conf.py", "_generated/"]
 
 # Ruff rules may be customized as desired: https://docs.astral.sh/ruff/rules/
 [tool.ruff.lint]
@@ -189,13 +168,13 @@ ignore = [
   "ANN202",  # Don't requiere return type annotation for private functions.
   "ANN401",  # Allow type annotation with type Any.
   "COM812",  # Suggested to ignore when using ruff format
-  "D100",  # Supress undocumented-public-module. Only doc of public api required.
+  "D100",    # Supress undocumented-public-module. Only doc of public api required.
   "FBT001",  # Allow boolean positional arguments in a function.
   "FBT002",  # Allow boolean default positional arguments in a function.
   "FIX002",  # Don't fail on TODO as long as it's documented correctly.
-  "E402",  # Supress module-import-not-at-top-of-file, needed in jupyter notebooks.
-  "E501",  # Supress line-too-long warnings: trust black's judgement on this one.
-  "PLR2004",  # Allow to compare with unnamed numerical constants.
+  "E402",    # Supress module-import-not-at-top-of-file, needed in jupyter notebooks.
+  "E501",    # Supress line-too-long warnings: trust black's judgement on this one.
+  "PLR2004", # Allow to compare with unnamed numerical constants.
 ]
 
 [tool.ruff.lint.isort]
@@ -205,7 +184,7 @@ force-single-line = true
 max-complexity = 15
 
 [tool.ruff.lint.pydocstyle]
-convention = "google"  # You can also use "numpy".
+convention = "google" # You can also use "numpy".
 
 [tool.ruff.lint.flake8-pytest-style]
 fixture-parentheses = false
@@ -214,28 +193,23 @@ fixture-parentheses = false
 max-args = 8
 
 [tool.ruff.lint.pep8-naming]
-classmethod-decorators = [
-  "classmethod",
-  "validator",
-  "root_validator",
-  "pydantic.validator"
-]
+classmethod-decorators = ["classmethod", "validator", "root_validator", "pydantic.validator"]
 
 [tool.ruff.lint.per-file-ignores]
 "*/__init__.py" = ["F401"]
 "**/tests/*" = [
-  "ANN001",  # type annotations don't add value for test functions
-  "ANN002",  # type annotations don't add value for test functions
-  "ANN003",  # type annotations don't add value for test functions
-  "ANN201",  # type annotations don't add value for test functions
-  "ANN204",  # type annotations don't add value for test functions
-  "ANN205",  # type annotations don't add value for test functions
-  "ANN206",  # type annotations don't add value for test functions
-  "D100",  # docstrings are overkill for test functions
+  "ANN001", # type annotations don't add value for test functions
+  "ANN002", # type annotations don't add value for test functions
+  "ANN003", # type annotations don't add value for test functions
+  "ANN201", # type annotations don't add value for test functions
+  "ANN204", # type annotations don't add value for test functions
+  "ANN205", # type annotations don't add value for test functions
+  "ANN206", # type annotations don't add value for test functions
+  "D100",   # docstrings are overkill for test functions
   "D101",
   "D102",
   "D103",
-  "S101",  # asserts are encouraged in pytest
+  "S101",   # asserts are encouraged in pytest
 ]
 
 [tool.uv]
