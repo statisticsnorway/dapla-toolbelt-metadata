@@ -436,6 +436,34 @@ def get_missing_obligatory_variables_fields(variables: list) -> list[dict]:
     return [item for item in missing_variables_fields if next(iter(item.values()))]
 
 
+def get_missing_obligatory_variables_pseudo_fields2(
+    variables: list[all_optional_model.Variable],
+) -> list[dict]:
+    """Identify obligatory variable pseudonymization fields that are missing values for each variable."""
+    missing_vars = []
+
+    for v in variables:
+        if v.pseudonymization is None:
+            continue
+
+        missing_fields = [
+            key
+            for key, value in v.pseudonymization.model_dump().items()
+            if _is_missing_metadata(
+                key,
+                value,
+                OBLIGATORY_VARIABLES_PSEUDONYMIZATION_IDENTIFIERS,
+                [],
+            )
+        ]
+
+        # Only include this variable if there are actually missing fields
+        if missing_fields:
+            missing_vars.append({v.short_name: missing_fields})
+
+    return missing_vars
+
+
 def get_missing_obligatory_variables_pseudo_fields(
     variables: list[all_optional_model.Variable],
 ) -> list[dict]:
