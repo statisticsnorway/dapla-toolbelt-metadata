@@ -189,21 +189,25 @@ def check_variables_consistency(
     return results
 
 
-def check_ready_to_merge(
-    results: list[DatasetConsistencyStatus], *, errors_as_warnings: bool
+def report_metadata_consistency(
+    results: list[DatasetConsistencyStatus],
+    *,
+    errors_as_warnings: bool,
+    message: str = INCONSISTENCIES_MESSAGE,
 ) -> None:
     """Check if the datasets are consistent enough to make a successful merge of metadata.
 
     Args:
         results: List if dict with property name and boolean success flag
         errors_as_warnings: True if failing checks should be raised as warnings, not errors.
+        message: The primary message to be displayed.
 
     Raises:
         InconsistentDatasetsError: If inconsistencies are found and `errors_as_warnings == False`
     """
     if failures := [result for result in results if not result.success]:
         messages_list = "\n - ".join(str(f) for f in failures)
-        msg = f"{INCONSISTENCIES_MESSAGE}\n - {messages_list}"
+        msg = f"{message}\n - {messages_list}"
         if errors_as_warnings:
             warnings.warn(
                 message=msg,

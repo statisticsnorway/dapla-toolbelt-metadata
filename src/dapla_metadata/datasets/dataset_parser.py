@@ -104,6 +104,11 @@ for concrete_type, abstract_type in TYPE_CORRESPONDENCE:
     TYPE_MAP.update(dict.fromkeys(concrete_type, abstract_type))
 
 
+def pretty_print_supported_types() -> str:
+    """Return a human-readable string of the supported data types."""
+    return "\n".join(f"{t[1].value}: {t[0]}" for t in TYPE_CORRESPONDENCE)
+
+
 class DatasetParser(ABC):
     """Abstract Base Class for all Dataset parsers.
 

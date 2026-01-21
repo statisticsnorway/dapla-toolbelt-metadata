@@ -18,13 +18,18 @@ from dapla_metadata._shared import config
 from dapla_metadata.dapla import user_info
 from dapla_metadata.datasets._merge import DatasetConsistencyStatus
 from dapla_metadata.datasets._merge import check_dataset_consistency
-from dapla_metadata.datasets._merge import check_ready_to_merge
 from dapla_metadata.datasets._merge import check_variables_consistency
 from dapla_metadata.datasets._merge import merge_metadata
-from dapla_metadata.datasets.compatibility import is_metadata_in_container_structure
-from dapla_metadata.datasets.compatibility import upgrade_metadata
+from dapla_metadata.datasets._merge import report_metadata_consistency
+from dapla_metadata.datasets.compatibility._utils import (
+    is_metadata_in_container_structure,
+)
+from dapla_metadata.datasets.compatibility.model_backwards_compatibility import (
+    upgrade_metadata,
+)
 from dapla_metadata.datasets.dapla_dataset_path_info import DaplaDatasetPathInfo
 from dapla_metadata.datasets.dataset_parser import DatasetParser
+from dapla_metadata.datasets.dataset_parser import pretty_print_supported_types
 from dapla_metadata.datasets.model_validation import ValidateDatadocMetadata
 from dapla_metadata.datasets.statistic_subject_mapping import StatisticSubjectMapping
 from dapla_metadata.datasets.utility.constants import (
@@ -126,6 +131,7 @@ class Datadoc:
         self.variables_lookup: dict[str, VariableType] = {}
         self.explicitly_defined_metadata_document = False
         self.dataset_consistency_status: list[DatasetConsistencyStatus] = []
+        self.concrete_data_types_lookup: dict[str, str] = {}
         if metadata_document_path:
             self.metadata_document = UPath(metadata_document_path)
             self.explicitly_defined_metadata_document = True
@@ -169,22 +175,25 @@ class Datadoc:
                 self.metadata_document,
             )
 
-        if (
-            self.dataset_path is not None
-            and self.dataset == all_optional_model.Dataset()
-            and len(self.variables) == 0
-        ):
+        if self.dataset_path:
             extracted_metadata = self._extract_metadata_from_dataset(self.dataset_path)
+            self.dataset_consistency_status.extend(
+                self.check_illegal_variable_data_type(
+                    extracted_metadata.variables or [], self.concrete_data_types_lookup
+                )
+            )
 
         if (
             self.dataset_path
             and self.metadata_document
             and extracted_metadata
             and existing_metadata
-        ):
-            self.dataset_consistency_status = check_dataset_consistency(
-                self.dataset_path,
-                self.metadata_document,
+        ) and self.explicitly_defined_metadata_document:
+            self.dataset_consistency_status.extend(
+                check_dataset_consistency(
+                    self.dataset_path,
+                    self.metadata_document,
+                )
             )
             self.dataset_consistency_status.extend(
                 check_variables_consistency(
@@ -192,19 +201,11 @@ class Datadoc:
                     existing_metadata.variables or [],
                 )
             )
-
-        if (
-            self.dataset_path
-            and self.explicitly_defined_metadata_document
-            and self.metadata_document is not None
-            and self.metadata_document.exists()
-            and extracted_metadata is not None
-            and existing_metadata is not None
-        ):
-            check_ready_to_merge(
+            report_metadata_consistency(
                 self.dataset_consistency_status,
                 errors_as_warnings=self.errors_as_warnings,
             )
+            # Merge existing metadata with a new dataset
             merged_metadata = merge_metadata(
                 extracted_metadata,
                 existing_metadata,
@@ -215,8 +216,31 @@ class Datadoc:
                 self.dataset_path,
             )
             self._set_metadata(merged_metadata)
-        else:
-            self._set_metadata(existing_metadata or extracted_metadata)
+            return
+
+        report_metadata_consistency(
+            self.dataset_consistency_status,
+            errors_as_warnings=self.errors_as_warnings,
+            message="Problems were detected with the metadata.",
+        )
+        self._set_metadata(existing_metadata or extracted_metadata)
+
+    def check_illegal_variable_data_type(
+        self, variables: VariableListType, concrete_data_types_lookup: dict[str, str]
+    ) -> list[DatasetConsistencyStatus]:
+        """Check whether any of the variable types are unsupported.
+
+        When we encounter a variable which is unsupported, the `DatasetParser` sets the variable `data_type` to `None`.
+        This function detects that situation and creates a friendly error message to inform of the situation.
+        """
+        return [
+            DatasetConsistencyStatus(
+                message=f"Unsupported data type for variable '{v.short_name}' type: '{concrete_data_types_lookup.get(v.short_name, 'unknown')}' from dataset {self.dataset_path}\nPlease change the type of the variable to one of the supported options:\n{pretty_print_supported_types()}",
+                success=False,
+            )
+            for v in variables
+            if v.short_name and not v.data_type
+        ]
 
     def _set_metadata(
         self,
@@ -369,6 +393,14 @@ class Datadoc:
             spatial_coverage_description=DEFAULT_SPATIAL_COVERAGE_DESCRIPTION,
         )
         metadata.variables = DatasetParser.for_file(dataset).get_fields()
+        try:
+            self.concrete_data_types_lookup = DatasetParser.for_file(
+                dataset
+            ).get_concrete_data_types()
+        except RuntimeError:
+            logger.exception(
+                "Failed to get concrete data types for dataset %s", dataset
+            )
         return metadata
 
     @staticmethod
