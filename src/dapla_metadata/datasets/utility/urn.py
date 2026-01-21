@@ -140,9 +140,9 @@ class UrnConverter:
             value (str): The value to check.
         """
         if not isinstance(value, str):
-            # Mypy thinks it's impossible to reach this branch, but there are no guarantees in Python.
             return False
         pattern = re.compile(f"^{self.id_pattern}$")
+
         return bool(pattern.match(value))
 
     def _extract_id_from_url(self, url: str | AnyUrl) -> str | None:
