@@ -281,42 +281,122 @@ def test_obligatory_metadata_variables_warning_pseudonymization(metadata: Datado
     with warnings.catch_warnings(record=True) as w:
         warnings.simplefilter("always")
         metadata.write_metadata_document()
-        if issubclass(w[1].category, ObligatoryVariableWarning):
-            missing_obligatory_dataset = str(w[1].message)
-    assert "encryption_algorithm" in str(missing_obligatory_dataset)
-    assert "pseudonymization_time" not in str(missing_obligatory_dataset)
+
+    warning_message = ""
+    for warning in w:
+        if issubclass(warning.category, ObligatoryVariableWarning):
+            warning_message = str(warning.message)
+            break
+
+    assert "encryption_algorithm" in str(warning_message)
+    assert "pseudonymization_time" not in str(warning_message)
 
 
-# add full variables til list
-def test_obligatory_metadata_variables_warning_pseudonymization2(metadata: Datadoc):
-    metadata.variables_lookup["pers_id"].pseudonymization = model.Pseudonymization(
-        pseudonymization_time="2022-10-07T07:35:01Z",
-        encryption_key_reference=PAPIS_ENCRYPTION_KEY_REFERENCE,
-        encryption_algorithm=EncryptionAlgorithm.PAPIS_ENCRYPTION_ALGORITHM.value,
-        encryption_algorithm_parameters=[
-            {ENCRYPTION_PARAMETER_KEY_ID: PAPIS_ENCRYPTION_KEY_REFERENCE},
-            {ENCRYPTION_PARAMETER_STRATEGY: ENCRYPTION_PARAMETER_STRATEGY_SKIP},
-        ],
-    )
-    metadata.variables_lookup["pers_id"].name = model.LanguageStringType(
-        [
-            model.LanguageStringTypeItem(languageCode="nb", languageText="Navn"),
-        ],
-    )
-    metadata.variables_lookup["pers_id"].data_type = model.DataType.BOOLEAN
-    metadata.variables_lookup["pers_id"].variable_role = model.VariableRole.MEASURE
-    metadata.variables_lookup["pers_id"].data_source = "23"
-    metadata.variables_lookup["pers_id"].unit_type = "20"
-    metadata.variables_lookup["pers_id"].population_description = [
-        {"languageCode": "nb", "languageText": "Syntetisk"}
-    ]
-    metadata.variables_lookup[
-        "pers_id"
-    ].temporality_type = model.TemporalityTypeType.ACCUMULATED
+@pytest.mark.parametrize(
+    (
+        "pseudonymization",
+        "set_all_obligatory_fields",
+        "expected_in_message",
+        "expected_not_in_message",
+    ),
+    [
+        # Missing obligatory pseudonymization field 'encryption_algorithm'
+        (
+            {
+                "pseudonymization_time": "2022-10-07T07:35:01Z",
+                "stable_identifier_type": "",
+                "stable_identifier_version": "",
+                "encryption_algorithm": None,
+                "encryption_key_reference": PAPIS_ENCRYPTION_KEY_REFERENCE,
+                "encryption_algorithm_parameters": [],
+            },
+            False,
+            "encryption_algorithm",
+            "encryption_key_reference",
+        ),
+        # Missing obligatory pseudonymization field 'encryption_key_reference'
+        (
+            {
+                "pseudonymization_time": "2022-10-07T07:35:01Z",
+                "stable_identifier_type": "",
+                "stable_identifier_version": "",
+                "encryption_algorithm": EncryptionAlgorithm.PAPIS_ENCRYPTION_ALGORITHM.value,
+                "encryption_key_reference": None,
+                "encryption_algorithm_parameters": [],
+            },
+            False,
+            "encryption_key_reference",
+            "encryption_algorithm",
+        ),
+        # All obligatory fields set (no missing variables)
+        (
+            {
+                "pseudonymization_time": "2022-10-07T07:35:01Z",
+                "stable_identifier_type": PAPIS_ENCRYPTION_KEY_REFERENCE,
+                "stable_identifier_version": "",
+                "encryption_algorithm": EncryptionAlgorithm.PAPIS_ENCRYPTION_ALGORITHM.value,
+                "encryption_key_reference": PAPIS_ENCRYPTION_KEY_REFERENCE,
+                "encryption_algorithm_parameters": [
+                    {ENCRYPTION_PARAMETER_KEY_ID: PAPIS_ENCRYPTION_KEY_REFERENCE},
+                    {ENCRYPTION_PARAMETER_STRATEGY: ENCRYPTION_PARAMETER_STRATEGY_SKIP},
+                ],
+            },
+            True,
+            None,
+            "{'pers_id': []}",
+        ),
+        # Pseudonymization OK, but other obligatory variable fields missing
+        (
+            {
+                "pseudonymization_time": "2022-10-07T07:35:01Z",
+                "stable_identifier_type": PAPIS_ENCRYPTION_KEY_REFERENCE,
+                "stable_identifier_version": "",
+                "encryption_algorithm": EncryptionAlgorithm.PAPIS_ENCRYPTION_ALGORITHM.value,
+                "encryption_key_reference": PAPIS_ENCRYPTION_KEY_REFERENCE,
+                "encryption_algorithm_parameters": [
+                    {ENCRYPTION_PARAMETER_KEY_ID: PAPIS_ENCRYPTION_KEY_REFERENCE},
+                    {ENCRYPTION_PARAMETER_STRATEGY: ENCRYPTION_PARAMETER_STRATEGY_SKIP},
+                ],
+            },
+            False,
+            "pers_id",
+            "{'pers_id': []}",
+        ),
+    ],
+)
+def test_obligatory_metadata_variable_warning(
+    metadata: Datadoc,
+    pseudonymization,
+    set_all_obligatory_fields,
+    expected_in_message,
+    expected_not_in_message,
+):
+    var = metadata.variables_lookup["pers_id"]
+
+    var.pseudonymization = model.Pseudonymization(**pseudonymization)
+
+    if set_all_obligatory_fields:
+        var.name = model.LanguageStringType(
+            [model.LanguageStringTypeItem(languageCode="nb", languageText="Navn")]
+        )
+        var.data_source = "23"
+        var.population_description = [
+            {"languageCode": "nb", "languageText": "Syntetisk"}
+        ]
+        var.temporality_type = model.TemporalityTypeType.ACCUMULATED
+
     with warnings.catch_warnings(record=True) as w:
         warnings.simplefilter("always")
         metadata.write_metadata_document()
-        if issubclass(w[1].category, ObligatoryVariableWarning):
-            missing_obligatory_dataset = str(w[1].message)
 
-    assert "{'pers_id': []}" not in missing_obligatory_dataset
+    warning_message = ""
+    for warning in w:
+        if issubclass(warning.category, ObligatoryVariableWarning):
+            warning_message = str(warning.message)
+            break
+
+    if expected_in_message:
+        assert expected_in_message in warning_message
+
+    if expected_not_in_message:
+        assert expected_not_in_message not in warning_message
