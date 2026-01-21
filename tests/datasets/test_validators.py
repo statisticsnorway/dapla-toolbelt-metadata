@@ -380,9 +380,9 @@ def test_obligatory_metadata_variable_warning(
             [model.LanguageStringTypeItem(languageCode="nb", languageText="Navn")]
         )
         var.data_source = "23"
-        var.population_description = [
-            {"languageCode": "nb", "languageText": "Syntetisk"}
-        ]
+        var.population_description = model.LanguageStringType(
+            [model.LanguageStringTypeItem(languageCode="nb", languageText="Syntetisk")]
+        )
         var.temporality_type = model.TemporalityTypeType.ACCUMULATED
 
     with warnings.catch_warnings(record=True) as w:
