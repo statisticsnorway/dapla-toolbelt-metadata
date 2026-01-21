@@ -436,10 +436,23 @@ def get_missing_obligatory_variables_fields(variables: list) -> list[dict]:
     return [item for item in missing_variables_fields if next(iter(item.values()))]
 
 
-def get_missing_obligatory_variables_pseudo_fields2(
+def get_missing_obligatory_variables_pseudo_fields(
     variables: list[all_optional_model.Variable],
 ) -> list[dict]:
-    """Identify obligatory variable pseudonymization fields that are missing values for each variable."""
+    """Identify obligatory variable pseudonymization fields that are missing values for each variable.
+
+    This function checks for obligatory fields that are directly missing
+    (i.e., set to `None`).
+
+    Args:
+        variables: A list of variable objects to check for missing obligatory pseudonymization fields.
+
+    Returns:
+        A list of dictionaries with variable short names as keys and list of missing
+        obligatory variable pseudonymization fields as values. This includes:
+        - Fields that are directly `None` and are listed as obligatory metadata.
+
+    """
     missing_vars = []
 
     for v in variables:
@@ -462,41 +475,6 @@ def get_missing_obligatory_variables_pseudo_fields2(
             missing_vars.append({v.short_name: missing_fields})
 
     return missing_vars
-
-
-def get_missing_obligatory_variables_pseudo_fields(
-    variables: list[all_optional_model.Variable],
-) -> list[dict]:
-    """Identify obligatory variable pseudonymization fields that are missing values for each variable.
-
-    This function checks for obligatory fields that are directly missing
-    (i.e., set to `None`).
-
-    Args:
-        variables: A list of variable objects to check for missing obligatory pseudonymization fields.
-
-    Returns:
-        A list of dictionaries with variable short names as keys and list of missing
-        obligatory variable pseudonymization fields as values. This includes:
-        - Fields that are directly `None` and are listed as obligatory metadata.
-
-    """
-    return [
-        {
-            v.short_name: [
-                key
-                for key, value in v.pseudonymization.model_dump().items()
-                if _is_missing_metadata(
-                    key,
-                    value,
-                    OBLIGATORY_VARIABLES_PSEUDONYMIZATION_IDENTIFIERS,
-                    [],
-                )
-            ]
-        }
-        for v in variables
-        if v.pseudonymization is not None
-    ]
 
 
 def running_in_notebook() -> bool:

@@ -13,11 +13,12 @@ from pydantic import ValidationError
 
 from dapla_metadata.datasets.model_validation import ObligatoryDatasetWarning
 from dapla_metadata.datasets.model_validation import ObligatoryVariableWarning
+from dapla_metadata.datasets.utility.constants import ENCRYPTION_PARAMETER_KEY_ID
+from dapla_metadata.datasets.utility.constants import ENCRYPTION_PARAMETER_STRATEGY
+from dapla_metadata.datasets.utility.constants import ENCRYPTION_PARAMETER_STRATEGY_SKIP
 from dapla_metadata.datasets.utility.constants import OBLIGATORY_METADATA_WARNING
+from dapla_metadata.datasets.utility.constants import PAPIS_ENCRYPTION_KEY_REFERENCE
 from dapla_metadata.datasets.utility.enums import EncryptionAlgorithm
-from dapla_metadata.datasets.utility.utils import (
-    get_missing_obligatory_variables_pseudo_fields,
-)
 
 if TYPE_CHECKING:
     from dapla_metadata.datasets.core import Datadoc
@@ -283,17 +284,39 @@ def test_obligatory_metadata_variables_warning_pseudonymization(metadata: Datado
         if issubclass(w[1].category, ObligatoryVariableWarning):
             missing_obligatory_dataset = str(w[1].message)
     assert "encryption_algorithm" in str(missing_obligatory_dataset)
+    assert "pseudonymization_time" not in str(missing_obligatory_dataset)
 
 
 # add full variables til list
 def test_obligatory_metadata_variables_warning_pseudonymization2(metadata: Datadoc):
     metadata.variables_lookup["pers_id"].pseudonymization = model.Pseudonymization(
         pseudonymization_time="2022-10-07T07:35:01Z",
-        stable_identifier_type="FREG_SNR",
-        stable_identifier_version="2022-10-07",
+        encryption_key_reference=PAPIS_ENCRYPTION_KEY_REFERENCE,
         encryption_algorithm=EncryptionAlgorithm.PAPIS_ENCRYPTION_ALGORITHM.value,
-        encryption_algorithm_parameters=[],
+        encryption_algorithm_parameters=[
+            {ENCRYPTION_PARAMETER_KEY_ID: PAPIS_ENCRYPTION_KEY_REFERENCE},
+            {ENCRYPTION_PARAMETER_STRATEGY: ENCRYPTION_PARAMETER_STRATEGY_SKIP},
+        ],
     )
-    variables_list = list(metadata.variables_lookup.values())
-    result = get_missing_obligatory_variables_pseudo_fields(variables_list)
-    assert result == ""
+    metadata.variables_lookup["pers_id"].name = model.LanguageStringType(
+        [
+            model.LanguageStringTypeItem(languageCode="nb", languageText="Navn"),
+        ],
+    )
+    metadata.variables_lookup["pers_id"].data_type = model.DataType.BOOLEAN
+    metadata.variables_lookup["pers_id"].variable_role = model.VariableRole.MEASURE
+    metadata.variables_lookup["pers_id"].data_source = "23"
+    metadata.variables_lookup["pers_id"].unit_type = "20"
+    metadata.variables_lookup["pers_id"].population_description = [
+        {"languageCode": "nb", "languageText": "Syntetisk"}
+    ]
+    metadata.variables_lookup[
+        "pers_id"
+    ].temporality_type = model.TemporalityTypeType.ACCUMULATED
+    with warnings.catch_warnings(record=True) as w:
+        warnings.simplefilter("always")
+        metadata.write_metadata_document()
+        if issubclass(w[1].category, ObligatoryVariableWarning):
+            missing_obligatory_dataset = str(w[1].message)
+
+    assert "{'pers_id': []}" not in missing_obligatory_dataset
