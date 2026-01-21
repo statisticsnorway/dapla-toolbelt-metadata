@@ -49,6 +49,28 @@ def test_get_fields_parquet(local_parser: DatasetParserParquet):
     assert local_parser.get_fields() == expected_fields
 
 
+@pytest.mark.parametrize(
+    "local_parser",
+    [
+        DatasetParser.for_file(TEST_PARQUET_FILEPATH),
+        DatasetParser.for_file(TEST_PARQUET_GZIP_FILEPATH),
+    ],
+)
+def test_get_concrete_data_types_parquet(local_parser: DatasetParserParquet):
+    expected_fields = {
+        "alm_inntekt": "int64",
+        "ber_bruttoformue": "int64",
+        "fullf_utdanning": "string",
+        "hoveddiagnose": "string",
+        "pers_id": "string",
+        "sivilstand": "string",
+        "sykepenger": "int64",
+        "tidspunkt": "timestamp[us]",
+    }
+
+    assert local_parser.get_concrete_data_types() == expected_fields
+
+
 def test_get_fields_sas7bdat():
     expected_fields = [
         Variable(
@@ -101,8 +123,7 @@ def test_transform_datatype_unknown_type():
     ],
 )
 def test_transform_datatype(expected: DataType, concrete_type: str):
-    actual = DatasetParser.transform_data_type(concrete_type)
-    assert actual == expected
+    assert DatasetParser.transform_data_type(concrete_type) == expected
 
 
 @pytest.fixture

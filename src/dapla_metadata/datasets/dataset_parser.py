@@ -9,6 +9,7 @@ import re
 from abc import ABC
 from abc import abstractmethod
 from typing import TYPE_CHECKING
+from typing import ClassVar
 
 import pandas as pd
 from datadoc_model.all_optional.model import DataType
@@ -23,6 +24,11 @@ from dapla_metadata.datasets.utility.enums import SupportedLanguages
 if TYPE_CHECKING:
     import pyarrow as pa
     from upath.types import ReadablePathLike
+
+
+PARQUET_FILE_SUFFIX = ".parquet"
+PARQUET_GZIP_FILE_SUFFIX = ".parquet.gzip"
+SAS7BDAT_FILE_SUFFIX = ".sas7bdat"
 
 KNOWN_INTEGER_TYPES = (
     "int",
@@ -162,11 +168,17 @@ class DatasetParser(ABC):
 
     @abstractmethod
     def get_fields(self) -> list[Variable]:
-        """Abstract method, must be implemented by subclasses."""
+        """Extract the variable names and abstract data types for this dataset."""
+
+    @abstractmethod
+    def get_concrete_data_types(self) -> dict[str, str]:
+        """Extract the variable names and concrete data types for this dataset."""
 
 
 class DatasetParserParquet(DatasetParser):
     """Concrete implementation for parsing parquet files."""
+
+    _EXCLUDED_VARIABLE_NAMES: ClassVar[set[str]] = {"__index_level_0__"}
 
     def __init__(self, dataset: UPath) -> None:
         """Call the super init method for initialization.
@@ -178,17 +190,23 @@ class DatasetParserParquet(DatasetParser):
 
     def get_fields(self) -> list[Variable]:
         """Extract the fields from this dataset."""
-        with self.dataset.open(mode="rb") as f:
-            schema: pa.Schema = pq.read_schema(f)  # type: ignore [arg-type, assignment]
         return [
             Variable(
-                short_name=data_field.name.strip(),
-                data_type=self.transform_data_type(str(data_field.type)),  # type: ignore [attr-defined]
+                short_name=data_field[0],
+                data_type=self.transform_data_type(data_field[1]),
             )
-            for data_field in schema
-            if data_field.name
-            != "__index_level_0__"  # Index columns should not be documented
+            for data_field in self.get_concrete_data_types().items()
         ]
+
+    def get_concrete_data_types(self) -> dict[str, str]:
+        """Extract the variable names and concrete data types for this dataset."""
+        with self.dataset.open(mode="rb") as f:
+            schema: pa.Schema = pq.read_schema(f)
+        return {
+            data_field.name.strip(): str(data_field.type)
+            for data_field in schema
+            if data_field.name not in self._EXCLUDED_VARIABLE_NAMES
+        }
 
 
 class DatasetParserSas7Bdat(DatasetParser):
@@ -240,10 +258,10 @@ class DatasetParserSas7Bdat(DatasetParser):
 
         return fields
 
+    def get_concrete_data_types(self) -> dict[str, str]:
+        """Extract the variable names and concrete data types for this dataset."""
+        raise NotImplementedError
 
-PARQUET_FILE_SUFFIX = ".parquet"
-PARQUET_GZIP_FILE_SUFFIX = ".parquet.gzip"
-SAS7BDAT_FILE_SUFFIX = ".sas7bdat"
 
 SUPPORTED_DATASET_FILE_SUFFIXES: dict[
     str,
