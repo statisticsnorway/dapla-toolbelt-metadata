@@ -22,8 +22,8 @@ from dapla_metadata.datasets._merge import DatasetConsistencyStatus
 from dapla_metadata.datasets._merge import InconsistentDatasetsError
 from dapla_metadata.datasets._merge import InconsistentDatasetsWarning
 from dapla_metadata.datasets._merge import check_dataset_consistency
-from dapla_metadata.datasets._merge import check_ready_to_merge
 from dapla_metadata.datasets._merge import check_variables_consistency
+from dapla_metadata.datasets._merge import report_metadata_consistency
 from dapla_metadata.datasets.core import Datadoc
 from tests.datasets.constants import TEST_BUCKET_NAMING_STANDARD_COMPATIBLE_PATH
 from tests.datasets.constants import VARIABLE_DATA_TYPES
@@ -140,7 +140,7 @@ def test_check_dataset_consistency_inconsistent_paths(
     [True, False],
     ids=["warnings", "errors"],
 )
-def test_check_ready_to_merge_errors_as_warnings(
+def test_report_metadata_consistency_errors_as_warnings(
     dataset_consistency_status: list[DatasetConsistencyStatus],
     errors_as_warnings: bool,
 ):
@@ -149,7 +149,7 @@ def test_check_ready_to_merge_errors_as_warnings(
             stack.enter_context(pytest.warns(InconsistentDatasetsWarning))
         else:
             stack.enter_context(pytest.raises(InconsistentDatasetsError))
-        check_ready_to_merge(
+        report_metadata_consistency(
             dataset_consistency_status,
             errors_as_warnings=errors_as_warnings,
         )

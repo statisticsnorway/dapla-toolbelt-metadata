@@ -25,6 +25,7 @@ from datadoc_model.all_optional.model import VariableRole
 from pydantic import ValidationError
 
 from dapla_metadata.dapla.user_info import TestUserInfo
+from dapla_metadata.datasets._merge import InconsistentDatasetsError
 from dapla_metadata.datasets.core import Datadoc
 from dapla_metadata.datasets.statistic_subject_mapping import StatisticSubjectMapping
 from dapla_metadata.datasets.utility.constants import (
@@ -602,3 +603,12 @@ def test_merge_with_fewer_variables_in_existing_metadata(tmp_path):
         "bankinnskudd",
         "dato",
     ]
+
+
+def test_unknown_data_type():
+    with pytest.raises(
+        InconsistentDatasetsError, match="Unsupported data type for variable"
+    ):
+        Datadoc(
+            dataset_path="tests/datasets/resources/datasets/category_data_type.parquet"
+        )
