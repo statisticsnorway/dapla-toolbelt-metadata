@@ -462,22 +462,28 @@ def get_missing_obligatory_variables_pseudo_fields(
         - Fields that are directly `None` and are listed as obligatory metadata.
 
     """
-    return [
-        {
-            v.short_name: [
-                key
-                for key, value in v.pseudonymization.model_dump().items()
-                if _is_missing_metadata(
-                    key,
-                    value,
-                    OBLIGATORY_VARIABLES_PSEUDONYMIZATION_IDENTIFIERS,
-                    [],
-                )
-            ]
-        }
-        for v in variables
-        if v.pseudonymization is not None
-    ]
+    missing_vars = []
+
+    for v in variables:
+        if v.pseudonymization is None:
+            continue
+
+        missing_fields = [
+            key
+            for key, value in v.pseudonymization.model_dump().items()
+            if _is_missing_metadata(
+                key,
+                value,
+                OBLIGATORY_VARIABLES_PSEUDONYMIZATION_IDENTIFIERS,
+                [],
+            )
+        ]
+
+        # Only include this variable if there are actually missing fields
+        if missing_fields:
+            missing_vars.append({v.short_name: missing_fields})
+
+    return missing_vars
 
 
 def running_in_notebook() -> bool:
