@@ -354,7 +354,6 @@ def test_extract_bucketname_in_path(data: str, expected: str):
         "gs://ssb-staging-dapla-felles-data-delt/datadoc/person_data_v1.parquet",
         "gs://ssb-staging-dapla-felles-data-delt/datadoc/person_data_p2021_v3.parquet",
         "gs://ssb-staging-dapla-felles-data-delt/datadoc/utdata/person_data_v1.parquet",
-        "gs://ssb-staging-dapla-felles-data-delt/datadoc/utdata/person_data_p2021.parquet",
         "gs://utdata/person_data_p2021_p2022_v2.parquet",
         "buckets/klargjorte_data/person_data_p2021-12-31_p2021-12-31_v1.parquet",
     ],
@@ -371,6 +370,7 @@ def test_path_complies_with_naming_standard_invalid_input(data: str):
         "gs://ssb-staging-dapla-felles-data-delt/datadoc/utdata/undermappe/person_data_p2021_v2.parquet",
         "buckets/bucket_name/dataset/klargjorte_data/person_data_p2021-12-31_p2021-12-31_v1.parquet",
         "dataset/klargjorte_data/person_data_p2021-12-31_p2021-12-31_v1.parquet",
+        "gs://ssb-staging-dapla-felles-data-delt/datadoc/utdata/person_data_p2021.parquet",
     ],
 )
 def test_path_complies_with_naming_standard_valid_input(data: str):
