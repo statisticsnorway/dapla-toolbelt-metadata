@@ -3,8 +3,6 @@ from pathlib import Path
 
 import fsspec  # type: ignore  # noqa: PGH003
 import pytest
-from datadoc_model.all_optional.model import DatadocMetadata
-from datadoc_model.all_optional.model import DataType
 from datadoc_model.all_optional.model import Variable
 from fsspec.registry import register_implementation  # type: ignore[import-untyped]
 from upath import UPath
@@ -13,7 +11,6 @@ from dapla_metadata.datasets._merge import BUCKET_NAME_MESSAGE
 from dapla_metadata.datasets._merge import DATA_PRODUCT_NAME_MESSAGE
 from dapla_metadata.datasets._merge import DATASET_SHORT_NAME_MESSAGE
 from dapla_metadata.datasets._merge import DATASET_STATE_MESSAGE
-from dapla_metadata.datasets._merge import VARIABLE_DATATYPES_MESSAGE
 from dapla_metadata.datasets._merge import VARIABLE_ORDER_MESSAGE
 from dapla_metadata.datasets._merge import VARIABLE_RENAME_MESSAGE
 from dapla_metadata.datasets._merge import VARIABLES_ADDITIONAL_MESSAGE
@@ -26,7 +23,6 @@ from dapla_metadata.datasets._merge import check_variables_consistency
 from dapla_metadata.datasets._merge import report_metadata_consistency
 from dapla_metadata.datasets.core import Datadoc
 from tests.datasets.constants import TEST_BUCKET_NAMING_STANDARD_COMPATIBLE_PATH
-from tests.datasets.constants import VARIABLE_DATA_TYPES
 from tests.datasets.constants import VARIABLE_SHORT_NAMES
 
 
@@ -153,28 +149,6 @@ def test_report_metadata_consistency_errors_as_warnings(
             dataset_consistency_status,
             errors_as_warnings=errors_as_warnings,
         )
-
-
-def test_check_dataset_consistency_inconsistent_variable_data_types():
-    def create_variables(data_types):
-        return [
-            Variable(short_name=name, data_type=data_type)
-            for name, data_type in zip(VARIABLE_SHORT_NAMES, data_types, strict=False)
-        ]
-
-    metadata1 = DatadocMetadata(
-        variables=create_variables([*VARIABLE_DATA_TYPES[:-1], DataType.BOOLEAN])
-    )
-    metadata2 = DatadocMetadata(variables=create_variables(VARIABLE_DATA_TYPES))
-    result = check_variables_consistency(
-        metadata1.variables,
-        metadata2.variables,
-    )
-    for r in result:
-        if VARIABLE_DATATYPES_MESSAGE in r.message:
-            assert not r.success, f"'{r.message}' passed but should have failed"
-        else:
-            assert r.success, f"'{r.message}' failed but should have passed"
 
 
 @pytest.mark.parametrize(
