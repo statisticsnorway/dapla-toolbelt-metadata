@@ -188,7 +188,7 @@ class Datadoc:
             and self.metadata_document
             and extracted_metadata
             and existing_metadata
-        ) and self.explicitly_defined_metadata_document:
+        ):
             self.dataset_consistency_status.extend(
                 check_dataset_consistency(
                     self.dataset_path,
@@ -209,9 +209,9 @@ class Datadoc:
             merged_metadata = merge_metadata(
                 extracted_metadata,
                 existing_metadata,
+                explicitly_defined_metadata_document=self.explicitly_defined_metadata_document,
             )
-            # We need to override this so that the document gets saved to the correct
-            # location, otherwise we would overwrite the existing document!
+            # Ensure the document path corresponds to the dataset path
             self.metadata_document = self.build_metadata_document_path(
                 self.dataset_path,
             )
