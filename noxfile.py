@@ -73,20 +73,16 @@ def mypy(session: nox.Session) -> None:
 def tests(session: nox.Session) -> None:
     """Run the test suite."""
     install_with_uv(session, groups=["test"])
-    try:
-        session.run(
-            "coverage",
-            "run",
-            "--parallel",
-            "-m",
-            "pytest",
-            "-o",
-            "pythonpath=",
-            *session.posargs,
-        )
-    finally:
-        if session.interactive:
-            session.notify("coverage", posargs=[])
+    session.run(
+        "coverage",
+        "run",
+        "--parallel",
+        "-m",
+        "pytest",
+        "-o",
+        "pythonpath=",
+        *session.posargs,
+    )
 
 
 @nox.session(python=python_versions[-1], default=False)
