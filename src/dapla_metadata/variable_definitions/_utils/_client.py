@@ -1,3 +1,4 @@
+from dapla_metadata._shared.utils import get_user_agent
 from dapla_metadata.variable_definitions._generated.vardef_client.api_client import (
     ApiClient,
 )
@@ -40,5 +41,6 @@ class VardefClient:
             if not cls._config:
                 cls._config = get_vardef_client_configuration()
             cls._client = ApiClient(cls._config)
+            cls._client.user_agent = get_user_agent()
         cls._client.configuration.access_token = refresh_access_token()
         return cls._client
