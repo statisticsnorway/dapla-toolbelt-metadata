@@ -41,6 +41,7 @@ from tests.datasets.constants import TEST_NAMING_STANDARD_COMPATIBLE_DATASET
 from tests.datasets.constants import TEST_PARQUET_FILEPATH
 from tests.datasets.constants import TEST_PROCESSED_DATA_POPULATION_DIRECTORY
 from tests.datasets.constants import TEST_RESOURCES_DIRECTORY
+from tests.datasets.datasets import create_dataset_for_metadata_document
 
 if TYPE_CHECKING:
     from collections.abc import Generator
@@ -170,9 +171,10 @@ def test_metadata_id(metadata: Datadoc):
     [TEST_EXISTING_METADATA_DIRECTORY / "invalid_id_field"],
 )
 def test_existing_metadata_none_id(
-    existing_metadata_file: Path,
-    metadata: Datadoc,
+    existing_metadata_file: UPath,
 ):
+    dataset = create_dataset_for_metadata_document(existing_metadata_file)
+    metadata = Datadoc(dataset)
     with existing_metadata_file.open() as f:
         pre_open_id: None = json.load(f)["datadoc"]["dataset"]["id"]
     assert pre_open_id is None

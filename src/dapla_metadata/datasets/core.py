@@ -191,8 +191,8 @@ class Datadoc:
         ):
             self.dataset_consistency_status.extend(
                 check_dataset_consistency(
-                    self.dataset_path,
-                    self.metadata_document,
+                    UPath(extracted_metadata.dataset.file_path),
+                    UPath(existing_metadata.dataset.file_path),
                 )
             )
             self.dataset_consistency_status.extend(

@@ -1,11 +1,24 @@
 import datetime
 
 import pytest
+from upath import UPath
 
 from dapla_metadata.datasets.utility.utils import calculate_percentage
 from dapla_metadata.datasets.utility.utils import get_current_date
 from dapla_metadata.datasets.utility.utils import incorrect_date_order
 from dapla_metadata.datasets.utility.utils import running_in_notebook
+from tests.datasets.datasets import create_dataset_for_metadata_document
+
+
+def test_create_dataset():
+    create_dataset_for_metadata_document(
+        metadata_document=UPath(
+            "/Users/mmw/code/metadata-system/dapla-toolbelt-metadata/tests/datasets/resources/existing_metadata_file/fewer_variables_p2020-12-31_p2020-12-31_v1__DOC.json"
+        ),
+        output_dataset_path=UPath(
+            "/Users/mmw/code/metadata-system/dapla-toolbelt-metadata/tests/datasets/resources/existing_metadata_file/fewer_variables_p2020-12-31_p2020-12-31_v1.parquet"
+        ),
+    )
 
 
 def test_calculate_percentage():

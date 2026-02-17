@@ -79,6 +79,7 @@ def metadata(
     subject_mapping_fake_statistical_structure: StatisticSubjectMapping,
     tmp_path: UPath,
 ) -> Datadoc:
+    """Copy the default test dataset to temporary directory, then instantiate a Datadoc class."""
     shutil.copy(str(TEST_PARQUET_FILEPATH), str(tmp_path / TEST_PARQUET_FILE_NAME))
     return Datadoc(
         str(tmp_path / TEST_PARQUET_FILE_NAME),
