@@ -8,11 +8,11 @@ from upath.types import ReadablePathLike
 
 from dapla_metadata.datasets.dapla_dataset_path_info import DaplaDatasetPathInfo
 from dapla_metadata.datasets.dataset_parser import SUPPORTED_DATASET_FILE_SUFFIXES
+from dapla_metadata.standards.utils.constants import DESCRIPTION_OTHER_THAN_DASHES
 from dapla_metadata.standards.utils.constants import FILE_DOES_NOT_EXIST
 from dapla_metadata.standards.utils.constants import FILE_IGNORED
 from dapla_metadata.standards.utils.constants import IGNORED_FOLDERS
 from dapla_metadata.standards.utils.constants import INVALID_SYMBOLS
-from dapla_metadata.standards.utils.constants import DESCRIPTION_OTHER_THAN_DASHES
 from dapla_metadata.standards.utils.constants import MISSING_DATA_STATE
 from dapla_metadata.standards.utils.constants import MISSING_DATASET_SHORT_NAME
 from dapla_metadata.standards.utils.constants import MISSING_PERIOD
