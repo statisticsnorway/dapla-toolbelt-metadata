@@ -165,7 +165,7 @@ def _has_invalid_symbols(path: ReadablePathLike) -> bool:
     return bool(re.search(r"[^a-zA-Z0-9\./:_\-=]", str(path).strip()))
 
 
-def _desc_other_than_dashes(dataset_short_name: str) -> bool:
+def _desc_other_than_dashes(dataset_short_name: str | None) -> bool:
     """Return True if short name contains anything else than letters, digits or dashes (no underscores allowed).
 
     Examples:
@@ -181,6 +181,8 @@ def _desc_other_than_dashes(dataset_short_name: str) -> bool:
         >>> _desc_only_dashes("data.parquet")  # Returns True because . was sent in, should have been stripped into dataset_short_name.
         True
     """
+    if dataset_short_name is None or not dataset_short_name:
+        return False
     return bool(re.search(r"[^a-zA-Z0-9\-]", str(dataset_short_name).strip()))
 
 
@@ -196,7 +198,9 @@ def _check_violations(
         MISSING_DATASET_SHORT_NAME: path_info.dataset_short_name,
         MISSING_VERSION: path_info.dataset_version,
         INVALID_SYMBOLS: not _has_invalid_symbols(file),
-        DESCRIPTION_OTHER_THAN_DASHES: _desc_other_than_dashes(path_info.dataset_short_name),
+        DESCRIPTION_OTHER_THAN_DASHES: _desc_other_than_dashes(
+            path_info.dataset_short_name
+        ),
     }
 
     return [message for message, value in checks.items() if not value]
