@@ -169,16 +169,16 @@ def _desc_other_than_dashes(dataset_short_name: str | None) -> bool:
     """Return True if short name contains anything else than letters, digits or dashes (no underscores allowed).
 
     Examples:
-        >>> _desc_only_dashes("åregang-øre")  # å and ø not allowed
+        >>> _desc_other_than_dashes("åregang-øre")  # å and ø not allowed
         True
 
-        >>> _desc_only_dashes("Azor89")
+        >>> _desc_other_than_dashes("Azor89")
         False
 
-        >>> _desc_only_dashes("skjema_2_p2018_p2020_v1")  # Because 2 is considered part of shortname, and seperated by underscore.
+        >>> _desc_other_than_dashes("skjema_2_p2018_p2020_v1")  # Because 2 is considered part of shortname, and seperated by underscore.
         True
 
-        >>> _desc_only_dashes("data.parquet")  # Returns True because . was sent in, should have been stripped into dataset_short_name.
+        >>> _desc_other_than_dashes("data.parquet")  # Returns True because . was sent in, should have been stripped into dataset_short_name.
         True
     """
     if dataset_short_name is None or not dataset_short_name:
