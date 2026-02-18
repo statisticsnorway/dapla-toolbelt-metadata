@@ -611,3 +611,23 @@ def test_unknown_data_type():
         Datadoc(
             dataset_path="tests/datasets/resources/datasets/category_data_type.parquet"
         )
+
+
+@pytest.mark.parametrize(
+    "existing_metadata_path",
+    [TEST_EXISTING_METADATA_DIRECTORY / "inconsistent_data_types"],
+)
+def test_data_types_always_match_dataset(
+    existing_metadata_file: UPath,  # noqa: ARG001
+    metadata: Datadoc,
+):
+    assert {v.short_name: v.data_type for v in metadata.variables} == {
+        "pers_id": DataType.STRING,
+        "tidspunkt": DataType.DATETIME,
+        "sivilstand": DataType.STRING,
+        "alm_inntekt": DataType.INTEGER,
+        "sykepenger": DataType.INTEGER,
+        "ber_bruttoformue": DataType.INTEGER,
+        "fullf_utdanning": DataType.STRING,
+        "hoveddiagnose": DataType.STRING,
+    }
