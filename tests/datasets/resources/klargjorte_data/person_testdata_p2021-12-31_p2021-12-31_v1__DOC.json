@@ -4,7 +4,7 @@
         "percentage_complete": 100,
         "document_version": "6.0.0",
         "dataset": {
-            "short_name": "person_testdata_p2021-12-31_p2021-12-31",
+            "short_name": "person_testdata",
             "assessment": "PROTECTED",
             "dataset_status": "INTERNAL",
             "dataset_state": "PROCESSED_DATA",

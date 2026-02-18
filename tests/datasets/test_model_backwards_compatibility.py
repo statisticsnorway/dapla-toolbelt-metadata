@@ -188,7 +188,7 @@ def test_existing_metadata_unknown_model_version():
 )
 def test_backwards_compatibility(
     existing_metadata_file: Path,
-    metadata: Datadoc,
+    metadata_from_existing: Datadoc,
 ):
     with existing_metadata_file.open() as f:
         file_metadata = json.loads(f.read())
@@ -197,7 +197,10 @@ def test_backwards_compatibility(
         file_metadata = file_metadata[DATADOC_KEY]
 
     # Just test a single value to make sure we have a working model
-    assert metadata.dataset.short_name == file_metadata[DATASET_KEY]["short_name"]  # type: ignore [union-attr, index]
+    assert (
+        metadata_from_existing.dataset.short_name
+        == file_metadata[DATASET_KEY]["short_name"]
+    )  # type: ignore [union-attr, index]
 
 
 def test_add_container():

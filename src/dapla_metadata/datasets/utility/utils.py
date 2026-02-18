@@ -24,6 +24,7 @@ from dapla_metadata.datasets.utility.constants import ENCRYPTION_PARAMETER_KEY_I
 from dapla_metadata.datasets.utility.constants import ENCRYPTION_PARAMETER_SNAPSHOT_DATE
 from dapla_metadata.datasets.utility.constants import ENCRYPTION_PARAMETER_STRATEGY
 from dapla_metadata.datasets.utility.constants import ENCRYPTION_PARAMETER_STRATEGY_SKIP
+from dapla_metadata.datasets.utility.constants import METADATA_DOCUMENT_FILE_SUFFIX
 from dapla_metadata.datasets.utility.constants import NUM_OBLIGATORY_VARIABLES_FIELDS
 from dapla_metadata.datasets.utility.constants import (
     OBLIGATORY_DATASET_METADATA_IDENTIFIERS,
@@ -42,6 +43,7 @@ from dapla_metadata.datasets.utility.constants import (
 )
 from dapla_metadata.datasets.utility.constants import PAPIS_ENCRYPTION_KEY_REFERENCE
 from dapla_metadata.datasets.utility.constants import PAPIS_STABLE_IDENTIFIER_TYPE
+from dapla_metadata.datasets.utility.constants import PARQUET_DATASET_FILE_EXTENSION
 from dapla_metadata.datasets.utility.enums import EncryptionAlgorithm
 
 if TYPE_CHECKING:
@@ -601,3 +603,29 @@ def read_variables_from_metadata_document(
     ]
 
     return metadata_document_variables
+
+
+def build_metadata_document_path(
+    dataset_path: ReadablePathLike,
+) -> UPath:
+    """Build the path to the metadata document corresponding to the given dataset.
+
+    Args:
+        dataset_path: Path to the dataset we wish to create metadata for.
+    """
+    dataset_path = UPath(dataset_path)
+    return dataset_path.parent / (dataset_path.stem + METADATA_DOCUMENT_FILE_SUFFIX)
+
+
+def build_dataset_path(
+    metadata_document_path: ReadablePathLike,
+) -> UPath:
+    """Build the path to the dataset corresponding to the given metadata document.
+
+    Args:
+        metadata_document_path: Path to the existing metadata document.
+    """
+    return UPath(
+        str(metadata_document_path).replace(METADATA_DOCUMENT_FILE_SUFFIX, "")
+        + PARQUET_DATASET_FILE_EXTENSION
+    )

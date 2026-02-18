@@ -5,7 +5,7 @@ from pyarrow import parquet
 from upath.core import UPath
 
 from dapla_metadata.datasets.core import Datadoc
-from dapla_metadata.datasets.utility.constants import METADATA_DOCUMENT_FILE_SUFFIX
+from dapla_metadata.datasets.utility.utils import build_dataset_path
 
 
 def get_arrow_data_type(
@@ -54,9 +54,6 @@ def create_dataset_for_metadata_document(
         ]
     )
     if output_dataset_path is None:
-        output_dataset_path = UPath(
-            str(metadata_document).replace(METADATA_DOCUMENT_FILE_SUFFIX, "")
-            + ".parquet"
-        )
+        output_dataset_path = build_dataset_path(metadata_document)
     parquet.write_table(table=schema.empty_table(), where=str(output_dataset_path))
     return output_dataset_path

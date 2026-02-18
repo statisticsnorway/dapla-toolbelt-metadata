@@ -35,7 +35,6 @@ from dapla_metadata.datasets.statistic_subject_mapping import StatisticSubjectMa
 from dapla_metadata.datasets.utility.constants import (
     DEFAULT_SPATIAL_COVERAGE_DESCRIPTION,
 )
-from dapla_metadata.datasets.utility.constants import METADATA_DOCUMENT_FILE_SUFFIX
 from dapla_metadata.datasets.utility.constants import NUM_OBLIGATORY_DATASET_FIELDS
 from dapla_metadata.datasets.utility.constants import NUM_OBLIGATORY_VARIABLES_FIELDS
 from dapla_metadata.datasets.utility.urn import convert_uris_to_urns
@@ -45,6 +44,8 @@ from dapla_metadata.datasets.utility.utils import OptionalDatadocMetadataType
 from dapla_metadata.datasets.utility.utils import PseudonymizationType
 from dapla_metadata.datasets.utility.utils import VariableListType
 from dapla_metadata.datasets.utility.utils import VariableType
+from dapla_metadata.datasets.utility.utils import build_dataset_path
+from dapla_metadata.datasets.utility.utils import build_metadata_document_path
 from dapla_metadata.datasets.utility.utils import calculate_percentage
 from dapla_metadata.datasets.utility.utils import derive_assessment_from_state
 from dapla_metadata.datasets.utility.utils import get_timestamp_now
@@ -143,7 +144,7 @@ class Datadoc:
         if dataset_path:
             self.dataset_path = UPath(dataset_path)
             if not metadata_document_path:
-                self.metadata_document = self.build_metadata_document_path(
+                self.metadata_document = build_metadata_document_path(
                     self.dataset_path,
                 )
         if metadata_document_path or dataset_path:
@@ -212,7 +213,7 @@ class Datadoc:
                 explicitly_defined_metadata_document=self.explicitly_defined_metadata_document,
             )
             # Ensure the document path corresponds to the dataset path
-            self.metadata_document = self.build_metadata_document_path(
+            self.metadata_document = build_metadata_document_path(
                 self.dataset_path,
             )
             self._set_metadata(merged_metadata)
@@ -305,9 +306,15 @@ class Datadoc:
                 datadoc_metadata = fresh_metadata
             if datadoc_metadata is None:
                 return None
-            return self.metadata_model.DatadocMetadata.model_validate_json(
+            existing = self.metadata_model.DatadocMetadata.model_validate_json(
                 json.dumps(datadoc_metadata),
             )
+
+            # Always override the stored dataset path to ensure it matches
+            if existing.dataset:
+                existing.dataset.file_path = str(
+                    self.dataset_path or build_dataset_path(document)
+                )
         except json.JSONDecodeError:
             logger.warning(
                 "Could not open existing metadata file %s. \
@@ -316,6 +323,8 @@ class Datadoc:
                 exc_info=True,
             )
             return None
+        else:
+            return existing
 
     def _extract_subject_field_from_path(
         self,
@@ -402,18 +411,6 @@ class Datadoc:
                 "Failed to get concrete data types for dataset %s", dataset
             )
         return metadata
-
-    @staticmethod
-    def build_metadata_document_path(
-        dataset_path: ReadablePathLike,
-    ) -> UPath:
-        """Build the path to the metadata document corresponding to the given dataset.
-
-        Args:
-            dataset_path: Path to the dataset we wish to create metadata for.
-        """
-        dataset_path = UPath(dataset_path)
-        return dataset_path.parent / (dataset_path.stem + METADATA_DOCUMENT_FILE_SUFFIX)
 
     def datadoc_model(
         self,

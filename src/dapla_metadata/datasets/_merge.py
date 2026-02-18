@@ -350,7 +350,7 @@ def merge_metadata(
     else:
         # Use the existing metadata as a base
         merged_metadata = all_optional_model.DatadocMetadata(
-            dataset=copy.deepcopy(existing_metadata.dataset),
+            dataset=existing_metadata.dataset.model_dump(),
             variables=[],
         )
 
