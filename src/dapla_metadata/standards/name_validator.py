@@ -12,6 +12,7 @@ from dapla_metadata.standards.utils.constants import FILE_DOES_NOT_EXIST
 from dapla_metadata.standards.utils.constants import FILE_IGNORED
 from dapla_metadata.standards.utils.constants import IGNORED_FOLDERS
 from dapla_metadata.standards.utils.constants import INVALID_SYMBOLS
+from dapla_metadata.standards.utils.constants import DESCRIPTION_OTHER_THAN_DASHES
 from dapla_metadata.standards.utils.constants import MISSING_DATA_STATE
 from dapla_metadata.standards.utils.constants import MISSING_DATASET_SHORT_NAME
 from dapla_metadata.standards.utils.constants import MISSING_PERIOD
@@ -164,6 +165,25 @@ def _has_invalid_symbols(path: ReadablePathLike) -> bool:
     return bool(re.search(r"[^a-zA-Z0-9\./:_\-=]", str(path).strip()))
 
 
+def _desc_only_dashes(dataset_short_name: str) -> bool:
+    """Return True if short name contains anything else than letters, digits or dashes (no underscores allowed).
+
+    Examples:
+        >>> _desc_only_dashes("åregang-øre")  # å and ø not allowed
+        True
+
+        >>> _desc_only_dashes("Azor89")
+        False
+
+        >>> _desc_only_dashes("skjema_2_p2018_p2020_v1")  # Because 2 is considered part of shortname, and seperated by underscore.
+        True
+
+        >>> _desc_only_dashes("data.parquet")  # Returns True because . was sent in, should have been stripped into dataset_short_name.
+        True
+    """
+    return bool(re.search(r"[^a-zA-Z0-9\-]", str(dataset_short_name).strip()))
+
+
 def _check_violations(
     file: UPath,
 ) -> list[str]:
@@ -176,6 +196,7 @@ def _check_violations(
         MISSING_DATASET_SHORT_NAME: path_info.dataset_short_name,
         MISSING_VERSION: path_info.dataset_version,
         INVALID_SYMBOLS: not _has_invalid_symbols(file),
+        DESCRIPTION_OTHER_THAN_DASHES: _desc_other_than_dashes(path_info.dataset_short_name),
     }
 
     return [message for message, value in checks.items() if not value]
