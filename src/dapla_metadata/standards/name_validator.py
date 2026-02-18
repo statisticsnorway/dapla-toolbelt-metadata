@@ -181,11 +181,8 @@ def _desc_other_than_dashes(dataset_short_name: str | None) -> bool:
         >>> _desc_other_than_dashes("data.parquet")  # Returns True because . was sent in, should have been stripped into dataset_short_name.
         True
     """
-    print(dataset_short_name)
     if dataset_short_name is None or not dataset_short_name:
-        print("Nekting")
         return False
-    print(bool(re.search(r"[^a-zA-Z0-9\-]", str(dataset_short_name).strip())))
     return bool(re.search(r"[^a-zA-Z0-9\-]", str(dataset_short_name).strip()))
 
 
