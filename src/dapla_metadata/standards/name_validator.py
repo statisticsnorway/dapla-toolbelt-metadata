@@ -165,7 +165,7 @@ def _has_invalid_symbols(path: ReadablePathLike) -> bool:
     return bool(re.search(r"[^a-zA-Z0-9\./:_\-=]", str(path).strip()))
 
 
-def _desc_only_dashes(dataset_short_name: str) -> bool:
+def _desc_other_than_dashes(dataset_short_name: str) -> bool:
     """Return True if short name contains anything else than letters, digits or dashes (no underscores allowed).
 
     Examples:
