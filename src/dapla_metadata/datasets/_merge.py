@@ -9,7 +9,6 @@ It is important to be able to detect changes in the structure of the data and wa
 make changes as appropriate.
 """
 
-import copy
 import logging
 import warnings
 from collections.abc import Iterable
@@ -328,19 +327,19 @@ def merge_metadata(
         all_optional_model.DatadocMetadata: The `merged_metadata` resulting from merging `existing_metadata`
         and `extracted_metadata`.
     """
-    if not existing_metadata:
+    if not existing_metadata or not existing_metadata.dataset:
         logger.warning(
             "No existing metadata found, no merge to perform. Continuing with extracted metadata.",
         )
         return extracted_metadata or all_optional_model.DatadocMetadata()
 
-    if not extracted_metadata:
+    if not extracted_metadata or not extracted_metadata.dataset:
         return cast("all_optional_model.DatadocMetadata", existing_metadata)
 
     if explicitly_defined_metadata_document:
         # Use the extracted metadata as a base
         merged_metadata = all_optional_model.DatadocMetadata(
-            dataset=copy.deepcopy(extracted_metadata.dataset),
+            dataset=extracted_metadata.dataset.model_dump(),
             variables=[],
         )
         override_dataset_fields(

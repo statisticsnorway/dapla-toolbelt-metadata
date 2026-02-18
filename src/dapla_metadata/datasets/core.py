@@ -190,12 +190,13 @@ class Datadoc:
             and extracted_metadata
             and existing_metadata
         ):
-            self.dataset_consistency_status.extend(
-                check_dataset_consistency(
-                    UPath(extracted_metadata.dataset.file_path),
-                    UPath(existing_metadata.dataset.file_path),
+            if extracted_metadata.dataset and existing_metadata.dataset:
+                self.dataset_consistency_status.extend(
+                    check_dataset_consistency(
+                        UPath(str(extracted_metadata.dataset.file_path)),
+                        UPath(str(existing_metadata.dataset.file_path)),
+                    )
                 )
-            )
             self.dataset_consistency_status.extend(
                 check_variables_consistency(
                     extracted_metadata.variables or [],
