@@ -407,28 +407,34 @@ def test_publish_methods(
 ):
     variable_definition.variable_status = initial_status
     method_to_call = getattr(variable_definition, method_name)
-    if initial_status is VariableStatus.PUBLISHED_EXTERNAL:
+    if initial_status == VariableStatus.PUBLISHED_EXTERNAL:
         # It doesn't make sense to publish other statuses internally
         with pytest.raises(ValueError, match="That won't work here."):
             method_to_call()
     elif method_name == "publish_internal":
-        if initial_status is VariableStatus.DRAFT:
-            # Normal publishing flow
+        if initial_status == VariableStatus.DRAFT:
             method_to_call()
             mock_update_draft.assert_called_once_with(
                 UpdateDraft(variable_status=expected_status),
             )
             mock_create_patch.assert_not_called()
-        else:
-            # It doesn't make sense to publish other statuses internally
+        if initial_status == VariableStatus.PUBLISHED_INTERNAL:
+            # It doesn't make sense to publish internally already published internally
             with pytest.raises(ValueError, match="That won't work here."):
                 method_to_call()
-    else:
-        method_to_call()
-        mock_update_draft.assert_not_called()
-        mock_create_patch.assert_called_once_with(
-            CreatePatch(variable_status=VariableStatus.PUBLISHED_EXTERNAL),
-        )
+    elif method_name == "publish_external":
+        if initial_status == VariableStatus.PUBLISHED_INTERNAL:
+            method_to_call()
+            mock_update_draft.assert_not_called()
+            mock_create_patch.assert_called_once_with(
+                CreatePatch(variable_status=VariableStatus.PUBLISHED_EXTERNAL),
+            )
+        if initial_status == VariableStatus.DRAFT:
+            method_to_call()
+            mock_update_draft.assert_called_once_with(
+                UpdateDraft(variable_status=expected_status),
+            )
+            mock_create_patch.assert_not_called()
 
 
 def test_str(variable_definition):
@@ -491,6 +497,27 @@ last_updated_at: '2024-11-01T00:00:00'
 last_updated_by: "ano@ssb.no"
 """
     )
+
+
+@patch.object(VariableDefinition, "update_draft")
+@patch("dapla_metadata.variable_definitions._utils._client.VardefClient.get_config")
+def test_publish_external_variable_definition_from_draft(
+    mock_get_config: MagicMock,
+    mock_update_draft: MagicMock,
+    variable_definition: VariableDefinition,
+):
+    mock_config = MagicMock()
+    mock_get_config.return_value = mock_config
+
+    client = VardefClient()
+    config = client.get_config()
+    assert config is not None
+
+    variable_definition.variable_status = VariableStatus.DRAFT
+
+    assert variable_definition.variable_status == "DRAFT"
+    variable_definition.publish_external()
+    assert mock_update_draft.called
 
 
 @pytest.mark.parametrize("method_name", ["publish_internal", "publish_external"])
