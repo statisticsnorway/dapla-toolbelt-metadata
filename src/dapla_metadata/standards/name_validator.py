@@ -169,16 +169,16 @@ def _short_name_has_illegal_chars(dataset_short_name: str | None) -> bool:
     """Return True if short name contains anything else than letters, digits or dashes (no underscores allowed).
 
     Examples:
-        >>> _desc_other_than_dashes("åregang-øre")  # å and ø not allowed
+        >>> _short_name_has_illegal_chars("åregang-øre")  # å and ø not allowed
         True
 
-        >>> _desc_other_than_dashes("Azor89")
+        >>> _short_name_has_illegal_chars("Azor89")
         False
 
-        >>> _desc_other_than_dashes("skjema_2_p2018_p2020_v1")  # Because 2 is considered part of shortname, and seperated by underscore.
+        >>> _short_name_has_illegal_chars("skjema_2_p2018_p2020_v1")  # Because 2 is considered part of shortname, and seperated by underscore.
         True
 
-        >>> _desc_other_than_dashes("data.parquet")  # Returns True because . was sent in, should have been stripped into dataset_short_name.
+        >>> _short_name_has_illegal_chars("data.parquet")  # Returns True because . was sent in, should have been stripped into dataset_short_name.
         True
     """
     if dataset_short_name is None or not dataset_short_name:
@@ -198,7 +198,7 @@ def _check_violations(
         MISSING_DATASET_SHORT_NAME: path_info.dataset_short_name,
         MISSING_VERSION: path_info.dataset_version,
         INVALID_SYMBOLS: not _has_invalid_symbols(file),
-        DESCRIPTION_OTHER_THAN_DASHES: not _desc_other_than_dashes(
+        DESCRIPTION_OTHER_THAN_DASHES: not _short_name_has_illegal_chars(
             path_info.dataset_short_name
         ),
     }
