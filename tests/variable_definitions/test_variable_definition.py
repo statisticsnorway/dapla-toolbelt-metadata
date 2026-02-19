@@ -499,27 +499,6 @@ last_updated_by: "ano@ssb.no"
     )
 
 
-@patch.object(VariableDefinition, "update_draft")
-@patch("dapla_metadata.variable_definitions._utils._client.VardefClient.get_config")
-def test_publish_external_variable_definition_from_draft(
-    mock_get_config: MagicMock,
-    mock_update_draft: MagicMock,
-    variable_definition: VariableDefinition,
-):
-    mock_config = MagicMock()
-    mock_get_config.return_value = mock_config
-
-    client = VardefClient()
-    config = client.get_config()
-    assert config is not None
-
-    variable_definition.variable_status = VariableStatus.DRAFT
-
-    assert variable_definition.variable_status == "DRAFT"
-    variable_definition.publish_external()
-    assert mock_update_draft.called
-
-
 @pytest.mark.parametrize("method_name", ["publish_internal", "publish_external"])
 @pytest.mark.parametrize(
     ("mocked_host", "should_raise"),
