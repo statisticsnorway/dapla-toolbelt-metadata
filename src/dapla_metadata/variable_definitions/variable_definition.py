@@ -377,7 +377,7 @@ class VariableDefinition(CompleteView):
             raise ValueError(
                 msg,
             )
-        if self.variable_status is VariableStatus.DRAFT:
+        if self.variable_status == VariableStatus.DRAFT.name:
             update = self.update_draft(
                 UpdateDraft(variable_status=VariableStatus.PUBLISHED_EXTERNAL),
             )
