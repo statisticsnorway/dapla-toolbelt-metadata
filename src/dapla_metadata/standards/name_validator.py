@@ -16,7 +16,6 @@ from dapla_metadata.standards.utils.constants import MISSING_DATA_STATE
 from dapla_metadata.standards.utils.constants import MISSING_DATASET_SHORT_NAME
 from dapla_metadata.standards.utils.constants import MISSING_PERIOD
 from dapla_metadata.standards.utils.constants import MISSING_SHORT_NAME
-from dapla_metadata.standards.utils.constants import MISSING_VERSION
 from dapla_metadata.standards.utils.constants import NAME_STANDARD_SUCCESS
 from dapla_metadata.standards.utils.constants import NAME_STANDARD_VIOLATION
 from dapla_metadata.standards.utils.constants import PATH_IGNORED
@@ -174,7 +173,6 @@ def _check_violations(
         MISSING_DATA_STATE: path_info.dataset_state,
         MISSING_PERIOD: path_info.contains_data_from,
         MISSING_DATASET_SHORT_NAME: path_info.dataset_short_name,
-        MISSING_VERSION: path_info.dataset_version,
         INVALID_SYMBOLS: not _has_invalid_symbols(file),
     }
 
