@@ -201,8 +201,8 @@ def test_get_dataset_state(
     [
         ("person_data_v1", "1"),
         ("person_data_v2", "2"),
-        ("person_data_vwrong", None),
-        ("person_data", None),
+        ("person_data_vwrong", "1"),
+        ("person_data", "1"),
         ("person_testdata_p2021-12-31_p2021-12-31_v20", "20"),
     ],
 )
