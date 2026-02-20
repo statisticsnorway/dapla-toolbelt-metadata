@@ -646,7 +646,7 @@ class DaplaDatasetPathInfo:
         Version validation is intentionally bypassed to preserve existing
         behavior with minimal code changes. If the version cannot be
         determined the function returns 1 instead of None.
-        
+
         Returns:
             The extracted version information if available in the filename,
             otherwise None.
@@ -678,7 +678,6 @@ class DaplaDatasetPathInfo:
             ):
                 return last_filename_element[1:]
         return "1"
-
 
     def _get_left_parts(
         self,
