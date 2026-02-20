@@ -407,28 +407,34 @@ def test_publish_methods(
 ):
     variable_definition.variable_status = initial_status
     method_to_call = getattr(variable_definition, method_name)
-    if initial_status is VariableStatus.PUBLISHED_EXTERNAL:
+    if initial_status == VariableStatus.PUBLISHED_EXTERNAL:
         # It doesn't make sense to publish other statuses internally
         with pytest.raises(ValueError, match="That won't work here."):
             method_to_call()
     elif method_name == "publish_internal":
-        if initial_status is VariableStatus.DRAFT:
-            # Normal publishing flow
+        if initial_status == VariableStatus.DRAFT:
             method_to_call()
             mock_update_draft.assert_called_once_with(
                 UpdateDraft(variable_status=expected_status),
             )
             mock_create_patch.assert_not_called()
-        else:
-            # It doesn't make sense to publish other statuses internally
+        if initial_status == VariableStatus.PUBLISHED_INTERNAL:
+            # It doesn't make sense to publish internally already published internally
             with pytest.raises(ValueError, match="That won't work here."):
                 method_to_call()
-    else:
-        method_to_call()
-        mock_update_draft.assert_not_called()
-        mock_create_patch.assert_called_once_with(
-            CreatePatch(variable_status=VariableStatus.PUBLISHED_EXTERNAL),
-        )
+    elif method_name == "publish_external":
+        if initial_status == VariableStatus.PUBLISHED_INTERNAL:
+            method_to_call()
+            mock_update_draft.assert_not_called()
+            mock_create_patch.assert_called_once_with(
+                CreatePatch(variable_status=VariableStatus.PUBLISHED_EXTERNAL),
+            )
+        if initial_status == VariableStatus.DRAFT:
+            method_to_call()
+            mock_update_draft.assert_called_once_with(
+                UpdateDraft(variable_status=expected_status),
+            )
+            mock_create_patch.assert_not_called()
 
 
 def test_str(variable_definition):
