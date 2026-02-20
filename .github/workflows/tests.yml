@@ -13,7 +13,6 @@ on:
       - ".pre-commit-config.yaml"
       - "noxfile.py"
       - ".github/workflows/tests.yml"
-      - ".github/workflows/constraints.txt"
 permissions:
   contents: read
 jobs:
@@ -66,7 +65,7 @@ jobs:
           subprocess.run(cmd, shell=True)
 
       - name: Restore pre-commit cache
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         if: matrix.session == 'pre-commit'
         with:
           path: ~/.cache/pre-commit
@@ -76,11 +75,11 @@ jobs:
 
       - name: Run Nox
         run: |
-          uvx --constraints "${{ github.workspace }}/.github/workflows/constraints.txt" nox --reuse-venv=yes --session=${{ matrix.session }}
+          uvx nox@2025.11.12 --reuse-venv=yes --session=${{ matrix.session }}
 
       - name: Upload coverage data
         if: always() && contains(matrix.session, 'tests')
-        uses: "actions/upload-artifact@v5"
+        uses: "actions/upload-artifact@v6"
         with:
           name: coverage-data-${{ matrix.session }}
           path: ".coverage.*"
@@ -88,7 +87,7 @@ jobs:
 
       - name: Upload documentation
         if: matrix.session == 'docs-build'
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: docs
           path: docs/_build
@@ -108,18 +107,18 @@ jobs:
           enable-cache: true
 
       - name: Download coverage data
-        uses: actions/download-artifact@v6
+        uses: actions/download-artifact@v7
         with:
           pattern: coverage-data-*
           merge-multiple: true
 
       - name: Combine coverage data and display human readable report
         run: |
-          uvx --constraints "${{ github.workspace }}/.github/workflows/constraints.txt" nox --reuse-venv=yes --session=coverage
+          uvx nox@2025.11.12 --reuse-venv=yes --session=coverage
 
       - name: Create coverage report
         run: |
-          uvx --constraints "${{ github.workspace }}/.github/workflows/constraints.txt" nox --reuse-venv=yes --session=coverage -- xml
+          uvx nox@2025.11.12 --reuse-venv=yes --session=coverage -- xml
 
       # Need to fix coverage source paths for SonarCloud scanning in GitHub actions.
       # Replace root path with /github/workspace (mounted in docker container).
@@ -133,4 +132,4 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         # No need to run SonarCloud analysis if dependabot update or token not defined
         if: env.SONAR_TOKEN != '' && (github.actor != 'dependabot[bot]')
-        uses: SonarSource/sonarqube-scan-action@v6.0.0
+        uses: SonarSource/sonarqube-scan-action@v7.0.0
