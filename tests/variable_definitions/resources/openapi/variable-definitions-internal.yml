@@ -102,8 +102,8 @@ paths:
                   value: |-
                     [
                         {
-                        "vardok_id": "25",
-                        "vardef_id": "A1699WWE"
+                        "vardok_id": 1607,
+                        "vardef_id": wypvb3wd
                     }
                     ]
       security:
@@ -127,7 +127,24 @@ paths:
         examples:
           Vardok id:
             value: "1607"
+          Vardef id:
+            value: wypvb3wd
+          Not found:
+            value: Xy9_7-Az
       responses:
+        "404":
+          description: Not found
+          content:
+            application/problem+json:
+              schema:
+                $ref: https://opensource.zalando.com/restful-api-guidelines/models/problem-1.0.1.yaml#/Problem
+              examples:
+                Not found:
+                  value:
+                    type: about:blank
+                    status: 404
+                    detail: Not found
+                    parameters: {}
         "200":
           description: OK response
           content:
@@ -178,6 +195,7 @@ paths:
                     - he04
                     contains_special_categories_of_personal_data: true
                     variable_status: DRAFT
+                    measurement_type: "01"
                     valid_from: 2003-01-01
                     external_reference_uri: https://www.ssb.no/a/metadata/conceptvariable/vardok/1919/nb
                     comment:
@@ -204,8 +222,7 @@ paths:
                     last_updated_at: 2024-06-11T08:15:19.038Z
                     last_updated_by: ano@ssb.no
                 Vardef id:
-                  value:
-                    vardok_id: "25"
+                  value: "1607"
       security:
       - labid_token: []
   /vardok-migration/{vardok-id}:
@@ -274,6 +291,7 @@ paths:
                     - he04
                     contains_special_categories_of_personal_data: true
                     variable_status: DRAFT
+                    measurement_type: "01"
                     valid_from: 2003-01-01
                     external_reference_uri: https://www.ssb.no/a/metadata/conceptvariable/vardok/1919/nb
                     comment:
@@ -342,12 +360,6 @@ paths:
           - $ref: "#/components/schemas/SupportedLanguages"
         examples:
           Date not specified:
-            value: nb
-          Specific date:
-            value: nb
-          Rendered:
-            value: nb
-          Not found:
             value: nb
       - name: date_of_validity
         in: query
@@ -420,7 +432,7 @@ paths:
                         "subject_fields": ["he04"],
                         "contains_special_categories_of_personal_data": true,
                         "variable_status": "DRAFT",
-                        "measurement_type": null,
+                        "measurement_type": "01",
                         "valid_from": "2003-01-01",
                         "valid_until": null,
                         "external_reference_uri": "https://www.ssb.no/a/metadata/conceptvariable/vardok/1919/nb",
@@ -473,7 +485,7 @@ paths:
                         "subject_fields": ["he04"],
                         "contains_special_categories_of_personal_data": true,
                         "variable_status": "DRAFT",
-                        "measurement_type": null,
+                        "measurement_type": "01",
                         "valid_from": "2003-01-01",
                         "valid_until": null,
                         "external_reference_uri": "https://www.ssb.no/a/metadata/conceptvariable/vardok/1919/nb",
@@ -530,7 +542,11 @@ paths:
                         ],
                         "contains_special_categories_of_personal_data": true,
                         "variable_status": "PUBLISHED_INTERNAL",
-                        "measurement_type": null,
+                        "measurement_type": {
+                            "reference_uri": "https://www.ssb.no/klass/klassifikasjoner/303",
+                            "code": "01",
+                            "title": "Andel"
+                        },
                         "valid_from": "2003-01-01",
                         "valid_until": null,
                         "external_reference_uri": "https://www.ssb.no/a/metadata/conceptvariable/vardok/1919/nb",
@@ -605,6 +621,7 @@ paths:
                   subject_fields:
                   - he04
                   contains_special_categories_of_personal_data: true
+                  measurement_type: "01"
                   valid_from: 2003-01-01
                   external_reference_uri: https://www.ssb.no/a/metadata/conceptvariable/vardok/1919/nb
                   comment:
@@ -671,6 +688,7 @@ paths:
                     - he04
                     contains_special_categories_of_personal_data: true
                     variable_status: DRAFT
+                    measurement_type: "01"
                     valid_from: 2003-01-01
                     external_reference_uri: https://www.ssb.no/a/metadata/conceptvariable/vardok/1919/nb
                     comment:
@@ -751,12 +769,6 @@ paths:
           - $ref: "#/components/schemas/SupportedLanguages"
         examples:
           Date not specified:
-            value: nb
-          Specific date:
-            value: nb
-          Rendered:
-            value: nb
-          Not found:
             value: nb
       - name: variable-definition-id
         in: path
@@ -851,6 +863,7 @@ paths:
                     - he04
                     contains_special_categories_of_personal_data: true
                     variable_status: DRAFT
+                    measurement_type: "01"
                     valid_from: 2003-01-01
                     external_reference_uri: https://www.ssb.no/a/metadata/conceptvariable/vardok/1919/nb
                     comment:
@@ -917,6 +930,7 @@ paths:
                     - he04
                     contains_special_categories_of_personal_data: true
                     variable_status: DRAFT
+                    measurement_type: "01"
                     valid_from: 2003-01-01
                     external_reference_uri: https://www.ssb.no/a/metadata/conceptvariable/vardok/1919/nb
                     comment:
@@ -965,6 +979,10 @@ paths:
                       title: Innvandrere
                     contains_special_categories_of_personal_data: true
                     variable_status: PUBLISHED_INTERNAL
+                    measurement_type:
+                      reference_uri: https://www.ssb.no/klass/klassifikasjoner/303
+                      code: "01"
+                      title: Andel
                     valid_from: 2003-01-01
                     external_reference_uri: https://www.ssb.no/a/metadata/conceptvariable/vardok/1919/nb
                     comment: Fra og med 1.1.2003 ble definisjon endret til også å
@@ -1130,6 +1148,7 @@ paths:
                     - he04
                     contains_special_categories_of_personal_data: true
                     variable_status: DRAFT
+                    measurement_type: "01"
                     valid_from: 2003-01-01
                     external_reference_uri: https://www.ssb.no/a/metadata/conceptvariable/vardok/1919/nb
                     comment:
@@ -1269,7 +1288,7 @@ paths:
                         "subject_fields": ["he04"],
                         "contains_special_categories_of_personal_data": true,
                         "variable_status": "DRAFT",
-                        "measurement_type": null,
+                        "measurement_type": "01",
                         "valid_from": "2003-01-01",
                         "valid_until": null,
                         "external_reference_uri": "https://www.ssb.no/a/metadata/conceptvariable/vardok/1919/nb",
@@ -1385,6 +1404,7 @@ paths:
                   subject_fields:
                   - he04
                   contains_special_categories_of_personal_data: false
+                  measurement_type: "01"
                   valid_until: 2026-01-01
                   external_reference_uri: https://www.ssb.no/a/metadata/conceptvariable/vardok/1919/nb
                   comment:
@@ -1448,6 +1468,7 @@ paths:
                     - he04
                     contains_special_categories_of_personal_data: true
                     variable_status: PUBLISHED_INTERNAL
+                    measurement_type: "01"
                     valid_from: 2003-01-01
                     external_reference_uri: https://www.ssb.no/a/metadata/conceptvariable/vardok/1919/nb
                     comment:
@@ -1604,6 +1625,7 @@ paths:
                     - he04
                     contains_special_categories_of_personal_data: true
                     variable_status: DRAFT
+                    measurement_type: "01"
                     valid_from: 2003-01-01
                     external_reference_uri: https://www.ssb.no/a/metadata/conceptvariable/vardok/1919/nb
                     comment:
@@ -1695,7 +1717,7 @@ paths:
                         "subject_fields": ["he04"],
                         "contains_special_categories_of_personal_data": true,
                         "variable_status": "DRAFT",
-                        "measurement_type": null,
+                        "measurement_type": "01",
                         "valid_from": "2003-01-01",
                         "valid_until": null,
                         "external_reference_uri": "https://www.ssb.no/a/metadata/conceptvariable/vardok/1919/nb",
@@ -1782,6 +1804,7 @@ paths:
                   subject_fields:
                   - he04
                   contains_special_categories_of_personal_data: false
+                  measurement_type: "01"
                   valid_from: 2026-01-02
                   external_reference_uri: https://www.ssb.no/a/metadata/conceptvariable/vardok/1919/nb
                   comment:
@@ -1845,6 +1868,7 @@ paths:
                     - he04
                     contains_special_categories_of_personal_data: true
                     variable_status: DRAFT
+                    measurement_type: "01"
                     valid_from: 2003-01-01
                     external_reference_uri: https://www.ssb.no/a/metadata/conceptvariable/vardok/1919/nb
                     comment:
@@ -2167,7 +2191,7 @@ components:
         subject_fields:
         - he04
         contains_special_categories_of_personal_data: true
-        measurement_type: null
+        measurement_type: "01"
         valid_from: 2003-01-01
         external_reference_uri: https://www.ssb.no/a/metadata/conceptvariable/vardok/1919/nb
         comment:
@@ -2300,7 +2324,7 @@ components:
         subject_fields:
         - he04
         contains_special_categories_of_personal_data: false
-        measurement_type: null
+        measurement_type: "01"
         valid_until: 2026-01-01
         external_reference_uri: https://www.ssb.no/a/metadata/conceptvariable/vardok/1919/nb
         comment:
@@ -2406,7 +2430,7 @@ components:
         subject_fields:
         - he04
         contains_special_categories_of_personal_data: false
-        measurement_type: null
+        measurement_type: "01"
         valid_from: 2026-01-02
         external_reference_uri: https://www.ssb.no/a/metadata/conceptvariable/vardok/1919/nb
         comment:
@@ -2625,7 +2649,10 @@ components:
           title: Innvandrere
         contains_special_categories_of_personal_data: true
         variable_status: PUBLISHED_INTERNAL
-        measurement_type: null
+        measurement_type:
+          reference_uri: https://www.ssb.no/klass/klassifikasjoner/303
+          code: "01"
+          title: Andel
         valid_from: 2003-01-01
         valid_until: null
         external_reference_uri: https://www.ssb.no/a/metadata/conceptvariable/vardok/1919/nb
@@ -2781,7 +2808,7 @@ components:
         subject_fields:
         - he04
         contains_special_categories_of_personal_data: true
-        measurement_type: null
+        measurement_type: "01"
         valid_from: 2003-01-01
         external_reference_uri: https://www.ssb.no/a/metadata/conceptvariable/vardok/1919/nb
         comment:
