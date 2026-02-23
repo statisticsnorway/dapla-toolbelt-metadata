@@ -16,86 +16,44 @@ Do not edit the class manually.
 
 __version__ = "1.0.0"
 
-# Define package exports
-__all__ = [
-    "DataMigrationApi",
-    "DraftVariableDefinitionsApi",
-    "PatchesApi",
-    "ValidityPeriodsApi",
-    "VariableDefinitionsApi",
-    "ApiResponse",
-    "ApiClient",
-    "Configuration",
-    "OpenApiException",
-    "ApiTypeError",
-    "ApiValueError",
-    "ApiKeyError",
-    "ApiAttributeError",
-    "ApiException",
-    "CompleteView",
-    "Contact",
-    "CreateDraft",
-    "CreatePatch",
-    "CreateValidityPeriod",
-    "GetVardokVardefMappingById200Response",
-    "KlassReference",
-    "LanguageStringType",
-    "ListVariableDefinitions200ResponseInner",
-    "Owner",
-    "Problem",
-    "RenderedContact",
-    "RenderedView",
-    "SupportedLanguages",
-    "UpdateDraft",
-    "VardokIdResponse",
-    "VardokVardefIdPairResponse",
-    "VariableStatus",
-]
-
 # import apis into sdk package
-from .api.data_migration_api import DataMigrationApi as DataMigrationApi
-from .api.draft_variable_definitions_api import (
-    DraftVariableDefinitionsApi as DraftVariableDefinitionsApi,
-)
-from .api.patches_api import PatchesApi as PatchesApi
-from .api.validity_periods_api import ValidityPeriodsApi as ValidityPeriodsApi
-from .api.variable_definitions_api import (
-    VariableDefinitionsApi as VariableDefinitionsApi,
-)
+from .api.data_migration_api import DataMigrationApi
+from .api.draft_variable_definitions_api import DraftVariableDefinitionsApi
+from .api.patches_api import PatchesApi
+from .api.validity_periods_api import ValidityPeriodsApi
+from .api.variable_definitions_api import VariableDefinitionsApi
 
 # import ApiClient
-from .api_response import ApiResponse as ApiResponse
-from .api_client import ApiClient as ApiClient
-from .configuration import Configuration as Configuration
-from .exceptions import OpenApiException as OpenApiException
-from .exceptions import ApiTypeError as ApiTypeError
-from .exceptions import ApiValueError as ApiValueError
-from .exceptions import ApiKeyError as ApiKeyError
-from .exceptions import ApiAttributeError as ApiAttributeError
-from .exceptions import ApiException as ApiException
+from .api_response import ApiResponse
+from .api_client import ApiClient
+from .configuration import Configuration
+from .exceptions import OpenApiException
+from .exceptions import ApiTypeError
+from .exceptions import ApiValueError
+from .exceptions import ApiKeyError
+from .exceptions import ApiAttributeError
+from .exceptions import ApiException
 
 # import models into sdk package
-from .models.complete_view import CompleteView as CompleteView
-from .models.contact import Contact as Contact
-from .models.create_draft import CreateDraft as CreateDraft
-from .models.create_patch import CreatePatch as CreatePatch
-from .models.create_validity_period import CreateValidityPeriod as CreateValidityPeriod
+from .models.complete_view import CompleteView
+from .models.contact import Contact
+from .models.create_draft import CreateDraft
+from .models.create_patch import CreatePatch
+from .models.create_validity_period import CreateValidityPeriod
 from .models.get_vardok_vardef_mapping_by_id200_response import (
-    GetVardokVardefMappingById200Response as GetVardokVardefMappingById200Response,
+    GetVardokVardefMappingById200Response,
 )
-from .models.klass_reference import KlassReference as KlassReference
-from .models.language_string_type import LanguageStringType as LanguageStringType
+from .models.klass_reference import KlassReference
+from .models.language_string_type import LanguageStringType
 from .models.list_variable_definitions200_response_inner import (
-    ListVariableDefinitions200ResponseInner as ListVariableDefinitions200ResponseInner,
+    ListVariableDefinitions200ResponseInner,
 )
-from .models.owner import Owner as Owner
-from .models.problem import Problem as Problem
-from .models.rendered_contact import RenderedContact as RenderedContact
-from .models.rendered_view import RenderedView as RenderedView
-from .models.supported_languages import SupportedLanguages as SupportedLanguages
-from .models.update_draft import UpdateDraft as UpdateDraft
-from .models.vardok_id_response import VardokIdResponse as VardokIdResponse
-from .models.vardok_vardef_id_pair_response import (
-    VardokVardefIdPairResponse as VardokVardefIdPairResponse,
-)
-from .models.variable_status import VariableStatus as VariableStatus
+from .models.owner import Owner
+from .models.problem import Problem
+from .models.rendered_contact import RenderedContact
+from .models.rendered_view import RenderedView
+from .models.supported_languages import SupportedLanguages
+from .models.update_draft import UpdateDraft
+from .models.vardok_id_response import VardokIdResponse
+from .models.vardok_vardef_id_pair_response import VardokVardefIdPairResponse
+from .models.variable_status import VariableStatus

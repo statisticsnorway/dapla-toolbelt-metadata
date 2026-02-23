@@ -84,13 +84,14 @@ class ListVariableDefinitions200ResponseInner(BaseModel):
                 "Multiple matches found when setting `actual_instance` in ListVariableDefinitions200ResponseInner with oneOf schemas: CompleteView, RenderedView. Details: "
                 + ", ".join(error_messages)
             )
-        if match == 0:
+        elif match == 0:
             # no match
             raise ValueError(
                 "No match found when setting `actual_instance` in ListVariableDefinitions200ResponseInner with oneOf schemas: CompleteView, RenderedView. Details: "
                 + ", ".join(error_messages)
             )
-        return v
+        else:
+            return v
 
     @classmethod
     def from_dict(cls, obj: str | dict[str, Any]) -> Self:
@@ -122,13 +123,14 @@ class ListVariableDefinitions200ResponseInner(BaseModel):
                 "Multiple matches found when deserializing the JSON string into ListVariableDefinitions200ResponseInner with oneOf schemas: CompleteView, RenderedView. Details: "
                 + ", ".join(error_messages)
             )
-        if match == 0:
+        elif match == 0:
             # no match
             raise ValueError(
                 "No match found when deserializing the JSON string into ListVariableDefinitions200ResponseInner with oneOf schemas: CompleteView, RenderedView. Details: "
                 + ", ".join(error_messages)
             )
-        return instance
+        else:
+            return instance
 
     def to_json(self) -> str:
         """Returns the JSON representation of the actual instance"""
@@ -139,7 +141,8 @@ class ListVariableDefinitions200ResponseInner(BaseModel):
             self.actual_instance.to_json
         ):
             return self.actual_instance.to_json()
-        return json.dumps(self.actual_instance)
+        else:
+            return json.dumps(self.actual_instance)
 
     def to_dict(self) -> dict[str, Any] | CompleteView | RenderedView | None:
         """Returns the dict representation of the actual instance"""
@@ -150,8 +153,9 @@ class ListVariableDefinitions200ResponseInner(BaseModel):
             self.actual_instance.to_dict
         ):
             return self.actual_instance.to_dict()
-        # primitive type
-        return self.actual_instance
+        else:
+            # primitive type
+            return self.actual_instance
 
     def to_str(self) -> str:
         """Returns the string representation of the actual instance"""
