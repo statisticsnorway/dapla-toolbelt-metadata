@@ -22,7 +22,7 @@ pytest_plugins = ("pytest_asyncio",)
 @pytest.mark.parametrize(
     ("file_path"),
     [
-        "buckets/data/sirkus/utdata/person_data_p2021_v2.parquet",
+        "buckets/data/sirkus/utdata/person-data_p2021_v2.parquet",
     ],
 )
 @pytest.mark.asyncio
@@ -36,8 +36,8 @@ async def test_non_existent_path(file_path: str):
 @pytest.mark.parametrize(
     ("file_path"),
     [
-        "ssb-staging-dapla-felles-data-delt/datadoc/utdata/person_data_v1.parquet",
-        "dataset/klargjorte_data/arbmark/resources/person_data_v1.parquet",
+        "ssb-staging-dapla-felles-data-delt/datadoc/utdata/person-data_v1.parquet",
+        "dataset/klargjorte_data/arbmark/resources/person-data_v1.parquet",
     ],
 )
 @pytest.mark.asyncio
@@ -53,9 +53,9 @@ async def test_missing_date_period(file_path, tmp_path):
 @pytest.mark.parametrize(
     ("file_path"),
     [
-        "gs://ssb-staging-dapla-felles-data-delt/stat_reg/person_data_p2022_v1.parquet",
-        "gs://ssb-staging-dapla-felles-data-delt/datadoc/person_data_p2021_v3.parquet",
-        "buckets/produkt/test-2/person_testdata_p2021-12-31_p2021-12-31_v1.parquet",
+        "gs://ssb-staging-dapla-felles-data-delt/stat_reg/person-data_p2022_v1.parquet",
+        "gs://ssb-staging-dapla-felles-data-delt/datadoc/person-data_p2021_v3.parquet",
+        "buckets/produkt/test-2/person-testdata_p2021-12-31_p2021-12-31_v1.parquet",
     ],
 )
 @pytest.mark.asyncio
@@ -72,10 +72,10 @@ async def test_missing_data_state(file_path, tmp_path):
 @pytest.mark.parametrize(
     ("file_path"),
     [
-        "buckets/stat/inndata/person_data_p2022_v1.parquet",
-        "gs://ssb-staging-dapla-felles-data-delt/inndata/person_data_p2022_v1.parquet",
-        "gs://ssb-staging-dapla-felles-data-delt/klargjorte-data/person_data_p2021_v3.parquet",
-        "buckets/produkt/utdata/person_testdata_p2021-12-31_p2021-12-31_v1.parquet",
+        "buckets/stat/inndata/person-data_p2022_v1.parquet",
+        "gs://ssb-staging-dapla-felles-data-delt/inndata/person-data_p2022_v1.parquet",
+        "gs://ssb-staging-dapla-felles-data-delt/klargjorte-data/person-data_p2021_v3.parquet",
+        "buckets/produkt/utdata/person-testdata_p2021-12-31_p2021-12-31_v1.parquet",
     ],
 )
 @pytest.mark.asyncio
@@ -111,8 +111,8 @@ async def test_ignored_paths(file_path, tmp_path):
 @pytest.mark.parametrize(
     ("file_path"),
     [
-        "buckets/ssb-dapla-example-data-produkt-prod/ledstill/utdata/persån_testdata_p2021-12-31_p2021-12-31_v1.parquet",
-        "gs://ssb-dapla-example-data-prædukt-prod/ledstill/utdata/person_testdata_p2021-12-31_p2021-12-31_v1.parquet",
+        "buckets/ssb-dapla-example-data-produkt-prod/ledstill/utdata/persån-testdata_p2021-12-31_p2021-12-31_v1.parquet",
+        "gs://ssb-dapla-example-data-prædukt-prod/ledstill/utdata/person-testdata_p2021-12-31_p2021-12-31_v1.parquet",
     ],
 )
 @pytest.mark.asyncio
@@ -190,13 +190,13 @@ async def test_missing_multiple(file_path: str, violations: list, tmp_path):
 @pytest.mark.parametrize(
     ("file_path"),
     [
-        "buckets/produkt/datadoc/utdata/person_data_p2021_v2.parquet",
-        "produkt/datadoc/utdata/person_data_p2021_p2022_v2.parquet",
-        "datadoc/utdata/undermappe/person_data_p2021_v2.parquet",
-        "delt-data/dataset/klargjorte_data/arbmark/resources/person_data_p2021-12-31_p2021-12-31_v1.parquet",
-        "stat/inndata/person_testdata_p2021-12-31_p2021-12-31_v1.parquet",
-        "ssb-delt/stat/klargjorte-data/person_testdata_p2021-12-31_p2021-12-31_v1.parquet",
-        "produkt-delt/datadoc/brukertest/1/sykefratot/klargjorte_data/person_testdata_p2021-12-31_p2021-12-31_v1.parquet",
+        "buckets/produkt/datadoc/utdata/person-data_p2021_v2.parquet",
+        "produkt/datadoc/utdata/person-data_p2021_p2022_v2.parquet",
+        "datadoc/utdata/undermappe/person-data_p2021_v2.parquet",
+        "delt-data/dataset/klargjorte_data/arbmark/resources/person-data_p2021-12-31_p2021-12-31_v1.parquet",
+        "stat/inndata/person-testdata_p2021-12-31_p2021-12-31_v1.parquet",
+        "ssb-delt/stat/klargjorte-data/person-testdata_p2021-12-31_p2021-12-31_v1.parquet",
+        "produkt-delt/datadoc/brukertest/1/sykefratot/klargjorte_data/person-testdata_p2021-12-31_p2021-12-31_v1.parquet",
     ],
 )
 @pytest.mark.asyncio
@@ -219,8 +219,8 @@ async def test_check_naming_standard_specific_file_path(
 @pytest.mark.parametrize(
     ("file_path"),
     [
-        "buckets/produkt/datadoc/utdata/person_data_p2021_v2.csv",
-        "samfunns-produkt/datadoc/brukertest/1/sykefratot/klargjorte_data/person_testdata_p2021-12-31_p2021-12-31_v1.json",
+        "buckets/produkt/datadoc/utdata/person-data_p2021_v2.csv",
+        "samfunns-produkt/datadoc/brukertest/1/sykefratot/klargjorte_data/person-testdata_p2021-12-31_p2021-12-31_v1.json",
     ],
 )
 @pytest.mark.asyncio
@@ -250,8 +250,8 @@ async def test_check_naming_standard_ignored_file_type(
         (
             "stat_reg",
             [
-                ("person_data_p2022_v1.parquet", NAME_STANDARD_SUCCESS),
-                ("bil_data_p2022_v1.parquet", NAME_STANDARD_SUCCESS),
+                ("person-data_p2022_v1.parquet", NAME_STANDARD_SUCCESS),
+                ("bil-data_p2022_v1.parquet", NAME_STANDARD_SUCCESS),
                 ("my%stuff.csv", FILE_IGNORED),
             ],
             "ssb-staging-dapla-felles-data-delt",
@@ -260,7 +260,7 @@ async def test_check_naming_standard_ignored_file_type(
             "temp_stuff",
             [
                 ("_p2022_v1.parquet", MISSING_DATASET_SHORT_NAME),
-                ("bil_data_v1.parquet", MISSING_PERIOD),
+                ("bil-data_v1.parquet", MISSING_PERIOD),
                 ("my%stuff.csv", FILE_IGNORED),
             ],
             "ssb-staging-dapla-felles-data-delt",
@@ -350,6 +350,7 @@ async def test_generate_naming_standard_report(tmp_path):
         "buckets/ssb-dapla-example-data-produkt-prod/utdata/editert_v1.parquet",
         "buckets/ssb-dapla-example-data-produkt-prod/klargjorte_data/_p2021-12-31_p2021-12-31_v1.parquet",
         "buckets/ssb-dapla-example-data-produkt-prod/ledstill/klargjorte_data/park_p2021-12-31_p2021-12-31_v1.parquet",
+        "buckets/ssb-dapla-example-data-produkt-prod/ledstill/park_wrongunderscore_v1.parquet",
     ]
     for file_path in file_paths:
         full_path = tmp_path / file_path
@@ -362,8 +363,8 @@ async def test_generate_naming_standard_report(tmp_path):
 
     if isinstance(results, list):
         report = generate_validation_report(validation_results=results)
-        assert report.num_failures == 3
-        assert report.num_files_validated == 5
+        assert report.num_failures == 4
+        assert report.num_files_validated == 6
         assert report.num_success == 2
 
 

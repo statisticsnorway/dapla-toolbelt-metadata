@@ -16,6 +16,7 @@ MISSING_DATA_STATE = "Mappe for datatilstand mangler ref: https://manual.dapla.s
 MISSING_DATASET_SHORT_NAME = "Filnavn mangler datasett kortnavn ref: https://manual.dapla.ssb.no/statistikkere/navnestandard.html#filnavn"
 
 INVALID_SYMBOLS = "Filnavn inneholder ulovlige tegn ref: https://manual.dapla.ssb.no/statistikkere/navnestandard.html#filnavn"
+DESCRIPTION_OTHER_THAN_DASHES = "Datasett kortnavn inneholder ulovlige tegn ref: https://manual.dapla.ssb.no/statistikkere/navnestandard.html#filnavn"
 
 PATH_IGNORED = "Ignorert, mappen er ikke underlagt krav til navnestandard."
 FILE_IGNORED = f"Ignorert, kun datasett med {', '.join(SUPPORTED_DATASET_FILE_SUFFIXES.keys())} filendelser valideres foreløpig."
