@@ -9,6 +9,7 @@ import requests
 from bs4 import BeautifulSoup
 from bs4 import ResultSet
 
+from dapla_metadata._shared.utils import get_user_agent
 from dapla_metadata.datasets.external_sources.external_sources import GetExternalSource
 from dapla_metadata.datasets.utility.enums import SupportedLanguages
 
@@ -121,7 +122,11 @@ class StatisticSubjectMapping(GetExternalSource):
             return None
 
         try:
-            response = requests.get(str(self.source_url), timeout=30)
+            response = requests.get(
+                str(self.source_url),
+                headers={"User-Agent": get_user_agent()},
+                timeout=30,
+            )
             response.encoding = "utf-8"
             logger.debug("Got response %s from %s", response, self.source_url)
             soup = BeautifulSoup(response.text, features="xml")
