@@ -25,13 +25,15 @@ def test_copy_variable(
 
     with pathlib.Path.open(written_document) as f:
         written_metadata = json.loads(f.read())
-        datadoc_metadata = written_metadata["datadoc"]["variables"]
 
-        assert datadoc_metadata[0]["short_name"] == target_short_name
-        correct_variable = datadoc_metadata[0]
-        assert correct_variable["name"] is not None
-        assert correct_variable["name"][2]["languageCode"] == "nb"
-        assert correct_variable["name"][2]["languageText"] == "Ny persid"
+    variables = written_metadata["datadoc"]["variables"]
+    assert variables[0]["short_name"] == target_short_name
+    correct_variable = variables[0]
+    assert correct_variable["name"] is not None
+    assert correct_variable["name"][2]["languageCode"] == "nb"
+    assert correct_variable["name"][2]["languageText"] == "Ny persid"
+    # Data type must match that from the dataset.
+    assert correct_variable["data_type"] == "STRING"
 
 
 def test_variable_not_in_target_dataset(
