@@ -357,8 +357,8 @@ def test_list_vardok_vardef_mappings(
         vardok_vardef_mapping,
         VardokVardefIdPairResponse,
     )
-    assert vardok_vardef_mapping.vardef_id == "A1699WWE"
-    assert vardok_vardef_mapping.vardok_id == "25"
+    assert vardok_vardef_mapping.vardef_id == "wypvb3wd"
+    assert vardok_vardef_mapping.vardok_id == "1607"
 
 
 def test_empty_list_vardok_vardef_mappings(
