@@ -8,40 +8,29 @@ from upath.types import ReadablePathLike
 
 from dapla_metadata.datasets.dapla_dataset_path_info import DaplaDatasetPathInfo
 from dapla_metadata.datasets.dataset_parser import SUPPORTED_DATASET_FILE_SUFFIXES
-from dapla_metadata.standards.utils.constants import DESCRIPTION_OTHER_THAN_DASHES
-from dapla_metadata.standards.utils.constants import FILE_DOES_NOT_EXIST
-from dapla_metadata.standards.utils.constants import FILE_IGNORED
-from dapla_metadata.standards.utils.constants import IGNORED_FOLDERS
-from dapla_metadata.standards.utils.constants import INVALID_SYMBOLS
-from dapla_metadata.standards.utils.constants import MISSING_DATA_STATE
-from dapla_metadata.standards.utils.constants import MISSING_DATASET_SHORT_NAME
-from dapla_metadata.standards.utils.constants import MISSING_PERIOD
-from dapla_metadata.standards.utils.constants import MISSING_SHORT_NAME
-from dapla_metadata.standards.utils.constants import NAME_STANDARD_SUCCESS
-from dapla_metadata.standards.utils.constants import NAME_STANDARD_VIOLATION
-from dapla_metadata.standards.utils.constants import PATH_IGNORED
-from dapla_metadata.standards.utils.constants import SSB_NAMING_STANDARD_REPORT
-from dapla_metadata.standards.utils.constants import SSB_NAMING_STANDARD_REPORT_FILES
 from dapla_metadata.standards.utils.constants import (
+    FILE_DOES_NOT_EXIST,
+    FILE_IGNORED,
+    IGNORED_FOLDERS,
+    INVALID_SYMBOLS,
+    MAX_TWO_PERIODS,
+    MISSING_DATA_STATE,
+    MISSING_DATASET_SHORT_NAME,
+    MISSING_PERIOD,
+    MISSING_SHORT_NAME,
+    NAME_STANDARD_SUCCESS,
+    NAME_STANDARD_VIOLATION,
+    PATH_IGNORED,
+    SHORT_NAME_OTHER_THAN_DASHES,
+    SSB_NAMING_STANDARD_REPORT,
+    SSB_NAMING_STANDARD_REPORT_FILES,
     SSB_NAMING_STANDARD_REPORT_RESULT_AVERAGE,
-)
-from dapla_metadata.standards.utils.constants import (
     SSB_NAMING_STANDARD_REPORT_RESULT_BEST,
-)
-from dapla_metadata.standards.utils.constants import (
     SSB_NAMING_STANDARD_REPORT_RESULT_GOOD,
-)
-from dapla_metadata.standards.utils.constants import (
     SSB_NAMING_STANDARD_REPORT_RESULT_LOW,
-)
-from dapla_metadata.standards.utils.constants import (
     SSB_NAMING_STANDARD_REPORT_RESULT_NO_SCORE,
-)
-from dapla_metadata.standards.utils.constants import SSB_NAMING_STANDARD_REPORT_SUCCESS
-from dapla_metadata.standards.utils.constants import (
+    SSB_NAMING_STANDARD_REPORT_SUCCESS,
     SSB_NAMING_STANDARD_REPORT_SUCCESS_RATE,
-)
-from dapla_metadata.standards.utils.constants import (
     SSB_NAMING_STANDARD_REPORT_VIOLATIONS,
 )
 
@@ -194,9 +183,10 @@ def _check_violations(
         MISSING_SHORT_NAME: path_info.statistic_short_name,
         MISSING_DATA_STATE: path_info.dataset_state,
         MISSING_PERIOD: path_info.contains_data_from,
+        MAX_TWO_PERIODS: len(path_info._period_strings) <= 2,
         MISSING_DATASET_SHORT_NAME: path_info.dataset_short_name,
         INVALID_SYMBOLS: not _has_invalid_symbols(file),
-        DESCRIPTION_OTHER_THAN_DASHES: not _short_name_has_illegal_chars(
+        SHORT_NAME_OTHER_THAN_DASHES: not _short_name_has_illegal_chars(
             path_info.dataset_short_name
         ),
     }
