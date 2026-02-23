@@ -153,7 +153,7 @@
                         "languageText": "Ny persid"
                     }
                 ],
-                "data_type": "STRING",
+                "data_type": "ARRAY",
                 "variable_role": "IDENTIFIER",
                 "definition_uri": "https://www.ssb.no/a/metadata/conceptvariable/vardok/26/nb",
                 "is_personal_data": true,

@@ -563,21 +563,17 @@ class Datadoc:
 
         source_short_name = source_short_name or target_short_name
 
-        metadata_document_variables = read_variables_from_metadata_document(
-            metadata_document_path
-        )
+        source_variables = read_variables_from_metadata_document(metadata_document_path)
 
-        variables_by_short_name = {
-            v.short_name: v
-            for v in metadata_document_variables
-            if v.short_name is not None
+        source_variables_lookup = {
+            v.short_name: v for v in source_variables if v.short_name is not None
         }
 
-        if source_short_name not in variables_by_short_name:
+        if source_short_name not in source_variables_lookup:
             msg = f"{source_short_name} does not exist!"
             raise ValueError(msg)
 
-        source_variable = variables_by_short_name[source_short_name]
+        source_variable = source_variables_lookup[source_short_name]
 
         self.variables_lookup[target_short_name] = source_variable
 
