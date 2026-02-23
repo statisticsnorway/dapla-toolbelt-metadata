@@ -9,7 +9,6 @@ It is important to be able to detect changes in the structure of the data and wa
 make changes as appropriate.
 """
 
-import copy
 import logging
 import warnings
 from collections.abc import Iterable
@@ -42,7 +41,6 @@ VARIABLES_ADDITIONAL_MESSAGE = (
 )
 VARIABLE_RENAME_MESSAGE = "Variables have been renamed in the dataset"
 VARIABLE_ORDER_MESSAGE = "The order of variables in the dataset has changed"
-VARIABLE_DATATYPES_MESSAGE = "Variable datatypes differ"
 VARIABLES_FEWER_MESSAGE = "Dataset has fewer variables than defined in metadata"
 
 
@@ -164,13 +162,6 @@ def check_variables_consistency(
                     == [v.short_name or "" for v in existing_variables],
                 )
             )
-            results.append(
-                DatasetConsistencyStatus(
-                    message=VARIABLE_DATATYPES_MESSAGE,
-                    success=[v.data_type for v in extracted_variables]
-                    == [v.data_type for v in existing_variables],
-                )
-            )
     else:
         results.extend(
             [
@@ -252,6 +243,7 @@ def merge_variables(
     existing_metadata: OptionalDatadocMetadataType,
     extracted_metadata: all_optional_model.DatadocMetadata,
     merged_metadata: all_optional_model.DatadocMetadata,
+    explicitly_defined_metadata_document: bool = True,
 ) -> all_optional_model.DatadocMetadata:
     """Merges variables from the extracted metadata into the existing metadata and updates the merged metadata.
 
@@ -264,6 +256,9 @@ def merge_variables(
         existing_metadata: The metadata object containing the current state of variables.
         extracted_metadata: The metadata object containing new or updated variables to merge.
         merged_metadata: The metadata object that will contain the result of the merge.
+        explicitly_defined_metadata_document: True when the user has supplied a path to a metadata document in addition to
+            the dataset. This is done when re-using metadata from another dataset for convenience. There are some differences
+            in behaviour in this case.
 
     Returns:
         all_optional_model.DatadocMetadata: The `merged_metadata` object containing variables from both `existing_metadata`
@@ -277,24 +272,26 @@ def merge_variables(
         and merged_metadata.variables is not None
     ):
         for extracted in extracted_metadata.variables:
-            existing = next(
+            if existing := next(
                 (
                     existing
                     for existing in existing_metadata.variables
                     if existing.short_name == extracted.short_name
                 ),
                 None,
-            )
-            if existing:
-                existing.id = (
-                    None  # Set to None so that it will be set assigned a fresh ID later
-                )
+            ):
+                if explicitly_defined_metadata_document:
+                    # In this case we're transferring metadata to a new dataset so we must
+                    # assign a new ID
+                    existing.id = None  # Set to None so that it will be set assigned a fresh ID later
                 existing.contains_data_from = (
                     extracted.contains_data_from or existing.contains_data_from
                 )
                 existing.contains_data_until = (
                     extracted.contains_data_until or existing.contains_data_until
                 )
+                # We must ensure that the data type always corresponds to the dataset.
+                existing.data_type = extracted.data_type
                 merged_metadata.variables.append(
                     cast("datadoc_model.all_optional.model.Variable", existing)
                 )
@@ -307,26 +304,54 @@ def merge_variables(
 def merge_metadata(
     extracted_metadata: all_optional_model.DatadocMetadata | None,
     existing_metadata: OptionalDatadocMetadataType,
+    explicitly_defined_metadata_document: bool = True,
 ) -> all_optional_model.DatadocMetadata:
-    if not existing_metadata:
+    """Merge metadata extracted from a dataset with existing metadata from a metadata document.
+
+    There are two cases this function can handle:
+        1. When the user has explicitly supplied the path to another metadata document. This is
+            convenience functionality to allow metadata to be reused and copied from one dataset
+            to another. In this case there is an explicit list of fields which are to be copied
+            over, defined in `DATASET_FIELDS_FROM_EXISTING_METADATA`. We also want to create new
+            IDs for the dataset and all variables.
+
+    Args:
+        existing_metadata: The metadata object containing the current state of variables.
+        extracted_metadata: The metadata object containing new or updated variables to merge.
+        merged_metadata: The metadata object that will contain the result of the merge.
+        explicitly_defined_metadata_document: True when the user has supplied a path to a metadata document in addition to
+            the dataset. This is done when re-using metadata from another dataset for convenience. There are some differences
+            in behaviour in this case.
+
+    Returns:
+        all_optional_model.DatadocMetadata: The `merged_metadata` resulting from merging `existing_metadata`
+        and `extracted_metadata`.
+    """
+    if not existing_metadata or not existing_metadata.dataset:
         logger.warning(
             "No existing metadata found, no merge to perform. Continuing with extracted metadata.",
         )
         return extracted_metadata or all_optional_model.DatadocMetadata()
 
-    if not extracted_metadata:
+    if not extracted_metadata or not extracted_metadata.dataset:
         return cast("all_optional_model.DatadocMetadata", existing_metadata)
 
-    # Use the extracted metadata as a base
-    merged_metadata = all_optional_model.DatadocMetadata(
-        dataset=copy.deepcopy(extracted_metadata.dataset),
-        variables=[],
-    )
-
-    override_dataset_fields(
-        merged_metadata=merged_metadata,
-        existing_metadata=existing_metadata,
-    )
+    if explicitly_defined_metadata_document:
+        # Use the extracted metadata as a base
+        merged_metadata = all_optional_model.DatadocMetadata(
+            dataset=extracted_metadata.dataset.model_dump(),
+            variables=[],
+        )
+        override_dataset_fields(
+            merged_metadata=merged_metadata,
+            existing_metadata=existing_metadata,
+        )
+    else:
+        # Use the existing metadata as a base
+        merged_metadata = all_optional_model.DatadocMetadata(
+            dataset=existing_metadata.dataset.model_dump(),
+            variables=[],
+        )
 
     # Merge variables.
     # For each extracted variable, copy existing metadata into the merged metadata
@@ -334,4 +359,5 @@ def merge_metadata(
         existing_metadata=existing_metadata,
         extracted_metadata=extracted_metadata,
         merged_metadata=merged_metadata,
+        explicitly_defined_metadata_document=explicitly_defined_metadata_document,
     )

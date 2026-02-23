@@ -4,7 +4,7 @@
     "percentage_complete": 100,
     "document_version": "6.0.0",
     "dataset": {
-      "short_name": "person_testdata",
+      "short_name": "person_data",
       "assessment": "PROTECTED",
       "dataset_status": "DRAFT",
       "dataset_state": "PROCESSED_DATA",
@@ -81,12 +81,11 @@
           "languageText": "Norway"
         }
       ],
-      "use_restriction": "PROCESS_LIMITATIONS",
-      "use_restriction_date": "2024-12-31T23:59:59Z",
+      "use_restrictions": [],
       "custom_type": null,
       "id": "77346986-a2b4-4211-8d74-817e8b1f99d4",
-      "owner": "",
-      "file_path": "None",
+      "owner": "team-statistikk",
+      "file_path": "person_data_v1.parquet",
       "metadata_created_date": "2024-07-09T09:47:28.347248Z",
       "metadata_created_by": "kari.nordmann@ssb.no",
       "metadata_last_updated_date": "2025-09-03T12:15:39.929634Z",

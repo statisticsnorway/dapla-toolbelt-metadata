@@ -32,6 +32,7 @@ from tests.datasets.constants import TEST_NAMING_STANDARD_COMPATIBLE_DATASET
 from tests.datasets.constants import TEST_PARQUET_FILE_NAME
 from tests.datasets.constants import TEST_PARQUET_FILEPATH
 from tests.datasets.constants import TEST_RESOURCES_DIRECTORY
+from tests.datasets.datasets import create_dataset_for_metadata_document
 from tests.datasets.test_statistic_subject_mapping import (
     STATISTICAL_SUBJECT_STRUCTURE_DIR,
 )
@@ -79,6 +80,7 @@ def metadata(
     subject_mapping_fake_statistical_structure: StatisticSubjectMapping,
     tmp_path: UPath,
 ) -> Datadoc:
+    """Copy the default test dataset to temporary directory, then instantiate a Datadoc class."""
     shutil.copy(str(TEST_PARQUET_FILEPATH), str(tmp_path / TEST_PARQUET_FILE_NAME))
     return Datadoc(
         str(tmp_path / TEST_PARQUET_FILE_NAME),
@@ -115,11 +117,35 @@ def existing_metadata_path() -> UPath:
 @pytest.fixture
 def existing_metadata_file(tmp_path: UPath, existing_metadata_path: UPath) -> UPath:
     # Setup by copying the file into the relevant directory
+    if not existing_metadata_path.suffix:
+        # In this case we're pointing at a directory and we assume the file within
+        # has the default name.
+        existing_metadata_path = (
+            existing_metadata_path / TEST_EXISTING_METADATA_FILE_NAME
+        )
     shutil.copy(
-        str(existing_metadata_path / TEST_EXISTING_METADATA_FILE_NAME),
+        str(existing_metadata_path),
         str(tmp_path / TEST_EXISTING_METADATA_FILE_NAME),
     )
     return tmp_path / TEST_EXISTING_METADATA_FILE_NAME
+
+
+@pytest.fixture
+def metadata_from_existing(
+    _mock_timestamp: None,
+    _mock_user_info: None,
+    subject_mapping_fake_statistical_structure: StatisticSubjectMapping,
+    existing_metadata_file: UPath,
+) -> Datadoc:
+    """Create a Datadoc instance based on existing metadata.
+
+    Uses a specified or default existing metadata document. Creates a compatible dataset
+    on-the-fly matching the structure of the metadata document.
+    """
+    return Datadoc(
+        create_dataset_for_metadata_document(existing_metadata_file),
+        statistic_subject_mapping=subject_mapping_fake_statistical_structure,
+    )
 
 
 @pytest.fixture

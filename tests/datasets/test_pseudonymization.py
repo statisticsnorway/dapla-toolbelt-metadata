@@ -25,15 +25,14 @@ from dapla_metadata.datasets.utility.constants import PAPIS_STABLE_IDENTIFIER_TY
 from dapla_metadata.datasets.utility.enums import EncryptionAlgorithm
 from dapla_metadata.datasets.utility.utils import PseudonymizationType
 from dapla_metadata.datasets.utility.utils import get_current_date
-from tests.datasets.constants import TEST_EXISTING_METADATA_FILE_NAME
 from tests.datasets.constants import TEST_EXISTING_METADATA_NAMING_STANDARD_FILEPATH
 from tests.datasets.constants import TEST_PARQUET_FILE_NAME
 from tests.datasets.constants import TEST_PARQUET_FILEPATH
 from tests.datasets.constants import TEST_PSEUDO_DIRECTORY
+from tests.datasets.datasets import create_dataset_for_metadata_document
 
 if TYPE_CHECKING:
     from datetime import datetime  # noqa: TC004
-    from pathlib import Path
 
     from upath import UPath
 
@@ -463,14 +462,21 @@ def test_add_pseudonymization_unknown_algorithm(case: PseudoCase, metadata: Data
     [TEST_PSEUDO_DIRECTORY / "dataset_and_pseudo"],
 )
 def test_add_pseudo_variable(
-    existing_metadata_file: Path,  # noqa: ARG001
-    metadata: Datadoc,
+    metadata_from_existing: Datadoc,
 ):
     test_variable = "sykepenger"
-    is_personal_data = metadata.variables_lookup[test_variable].is_personal_data
-    metadata.add_pseudonymization(test_variable)
-    assert metadata.variables_lookup[test_variable].pseudonymization is not None
-    assert metadata.variables_lookup[test_variable].is_personal_data == is_personal_data
+    is_personal_data = metadata_from_existing.variables_lookup[
+        test_variable
+    ].is_personal_data
+    metadata_from_existing.add_pseudonymization(test_variable)
+    assert (
+        metadata_from_existing.variables_lookup[test_variable].pseudonymization
+        is not None
+    )
+    assert (
+        metadata_from_existing.variables_lookup[test_variable].is_personal_data
+        == is_personal_data
+    )
 
 
 @pytest.mark.parametrize(
@@ -478,11 +484,10 @@ def test_add_pseudo_variable(
     [TEST_PSEUDO_DIRECTORY / "dataset_and_pseudo"],
 )
 def test_add_pseudo_variable_non_existent_variable_name(
-    existing_metadata_file: Path,  # noqa: ARG001
-    metadata: Datadoc,
+    metadata_from_existing: Datadoc,
 ):
     with pytest.raises(KeyError):
-        metadata.add_pseudonymization("new_pseudo_variable")
+        metadata_from_existing.add_pseudonymization("new_pseudo_variable")
 
 
 @pytest.mark.parametrize(
@@ -490,11 +495,10 @@ def test_add_pseudo_variable_non_existent_variable_name(
     [TEST_PSEUDO_DIRECTORY / "dataset_and_pseudo"],
 )
 def test_existing_metadata_file_update_pseudonymization(
-    existing_metadata_file: Path,  # noqa: ARG001
-    metadata: Datadoc,
+    metadata_from_existing: Datadoc,
 ):
-    metadata.add_pseudonymization("pers_id")
-    variable = metadata.variables_lookup["pers_id"]
+    metadata_from_existing.add_pseudonymization("pers_id")
+    variable = metadata_from_existing.variables_lookup["pers_id"]
 
     assert variable.pseudonymization is not None
     assert variable.pseudonymization.encryption_algorithm is None
@@ -555,19 +559,18 @@ def test_add_pseudonymization_model_types_no_existing_metadata(
         REQUIRED_EXAMPLE,
     ],
 )
+@pytest.mark.parametrize(
+    "existing_metadata_path",
+    [TEST_EXISTING_METADATA_NAMING_STANDARD_FILEPATH],
+)
 def test_add_pseudonymization_model_types_existing_metadata(
+    existing_metadata_file: UPath,
     subject_mapping_fake_statistical_structure: StatisticSubjectMapping,
-    tmp_path: UPath,
     validate_required_fields_on_existing_metadata: bool,
     input_model: PseudonymizationType,
 ):
-    shutil.copy(
-        str(TEST_EXISTING_METADATA_NAMING_STANDARD_FILEPATH),
-        str(tmp_path / TEST_EXISTING_METADATA_FILE_NAME),
-    )
-    shutil.copy(str(TEST_PARQUET_FILEPATH), str(tmp_path / TEST_PARQUET_FILE_NAME))
     metadata = Datadoc(
-        str(tmp_path / TEST_PARQUET_FILE_NAME),
+        create_dataset_for_metadata_document(existing_metadata_file),
         statistic_subject_mapping=subject_mapping_fake_statistical_structure,
         validate_required_fields_on_existing_metadata=validate_required_fields_on_existing_metadata,
     )
@@ -610,14 +613,13 @@ def test_add_pseudonymization_none(
     [TEST_PSEUDO_DIRECTORY / "dataset_and_pseudo"],
 )
 def test_update_pseudo(
-    existing_metadata_file: Path,  # noqa: ARG001
-    metadata: Datadoc,
+    metadata_from_existing: Datadoc,
 ):
-    variable = metadata.variables_lookup["pers_id"]
+    variable = metadata_from_existing.variables_lookup["pers_id"]
 
     pseudo = PseudonymizationOptional(encryption_algorithm="new_encryption_algorithm")
 
-    metadata.add_pseudonymization("pers_id", pseudo)
+    metadata_from_existing.add_pseudonymization("pers_id", pseudo)
 
     assert variable.pseudonymization is not None
     assert variable.pseudonymization.encryption_algorithm == "new_encryption_algorithm"
@@ -629,14 +631,20 @@ def test_update_pseudo(
     [TEST_PSEUDO_DIRECTORY / "dataset_and_pseudo"],
 )
 def test_remove_pseudo_variable(
-    existing_metadata_file: Path,  # noqa: ARG001
-    metadata: Datadoc,
+    metadata_from_existing: Datadoc,
 ):
     test_variable = "alm_inntekt"
-    is_personal_data = metadata.variables_lookup[test_variable].is_personal_data
-    metadata.remove_pseudonymization(test_variable)
-    assert metadata.variables_lookup[test_variable].is_personal_data == is_personal_data
-    assert metadata.variables_lookup[test_variable].pseudonymization is None
+    is_personal_data = metadata_from_existing.variables_lookup[
+        test_variable
+    ].is_personal_data
+    metadata_from_existing.remove_pseudonymization(test_variable)
+    assert (
+        metadata_from_existing.variables_lookup[test_variable].is_personal_data
+        == is_personal_data
+    )
+    assert (
+        metadata_from_existing.variables_lookup[test_variable].pseudonymization is None
+    )
 
 
 @pytest.mark.parametrize(
@@ -644,8 +652,7 @@ def test_remove_pseudo_variable(
     [TEST_PSEUDO_DIRECTORY / "dataset_and_pseudo"],
 )
 def test_remove_pseudo_variable_non_existent_variable_name(
-    existing_metadata_file: Path,  # noqa: ARG001
-    metadata: Datadoc,
+    metadata_from_existing: Datadoc,
 ):
     with pytest.raises(KeyError):
-        metadata.remove_pseudonymization("fnr")
+        metadata_from_existing.remove_pseudonymization("fnr")

@@ -31,6 +31,7 @@ from dapla_metadata.datasets.statistic_subject_mapping import StatisticSubjectMa
 from dapla_metadata.datasets.utility.constants import (
     DATASET_FIELDS_FROM_EXISTING_METADATA,
 )
+from dapla_metadata.datasets.utility.utils import build_metadata_document_path
 from tests.datasets.constants import DATADOC_METADATA_MODULE_CORE
 from tests.datasets.constants import TEST_DATASETS_DIRECTORY
 from tests.datasets.constants import TEST_EXISTING_METADATA_DIRECTORY
@@ -65,11 +66,10 @@ def generate_periodic_file(
         new_path.unlink()
 
 
-@pytest.mark.usefixtures("existing_metadata_file")
 def test_existing_metadata_file(
-    metadata: Datadoc,
+    metadata_from_existing: Datadoc,
 ):
-    root = getattr(metadata.dataset.name, "root", [])
+    root = getattr(metadata_from_existing.dataset.name, "root", [])
     if root:
         assert root[0].languageText == "successfully_read_existing_file"
     else:
@@ -139,7 +139,6 @@ def test_write_metadata_document(
     )
 
 
-@pytest.mark.usefixtures("existing_metadata_file")
 @patch(
     DATADOC_METADATA_MODULE_CORE + ".user_info.get_user_info_for_current_platform",
     return_value=TestUserInfo(),
@@ -147,18 +146,18 @@ def test_write_metadata_document(
 def test_write_metadata_document_existing_document(
     _mock_user_info: MagicMock,  # noqa: PT019 it's a patch, not a fixture
     dummy_timestamp: datetime,
-    metadata: Datadoc,
+    metadata_from_existing: Datadoc,
 ):
-    original_created_date = metadata.dataset.metadata_created_date
-    original_created_by = metadata.dataset.metadata_created_by
-    metadata.write_metadata_document()
-    assert metadata.dataset.metadata_created_by == original_created_by
-    assert metadata.dataset.metadata_created_date == original_created_date
+    original_created_date = metadata_from_existing.dataset.metadata_created_date
+    original_created_by = metadata_from_existing.dataset.metadata_created_by
+    metadata_from_existing.write_metadata_document()
+    assert metadata_from_existing.dataset.metadata_created_by == original_created_by
+    assert metadata_from_existing.dataset.metadata_created_date == original_created_date
     assert (
-        metadata.dataset.metadata_last_updated_by
+        metadata_from_existing.dataset.metadata_last_updated_by
         == TestUserInfo.PLACEHOLDER_EMAIL_ADDRESS
     )
-    assert metadata.dataset.metadata_last_updated_date == dummy_timestamp
+    assert metadata_from_existing.dataset.metadata_last_updated_date == dummy_timestamp
 
 
 def test_metadata_id(metadata: Datadoc):
@@ -170,17 +169,17 @@ def test_metadata_id(metadata: Datadoc):
     [TEST_EXISTING_METADATA_DIRECTORY / "invalid_id_field"],
 )
 def test_existing_metadata_none_id(
-    existing_metadata_file: Path,
-    metadata: Datadoc,
+    existing_metadata_file: UPath,
+    metadata_from_existing: Datadoc,
 ):
     with existing_metadata_file.open() as f:
         pre_open_id: None = json.load(f)["datadoc"]["dataset"]["id"]
     assert pre_open_id is None
-    assert isinstance(metadata.dataset.id, UUID)
-    metadata.write_metadata_document()
+    assert isinstance(metadata_from_existing.dataset.id, UUID)
+    metadata_from_existing.write_metadata_document()
     with existing_metadata_file.open() as f:
         post_write_id = json.load(f)["datadoc"]["dataset"]["id"]
-    assert post_write_id == str(metadata.dataset.id)
+    assert post_write_id == str(metadata_from_existing.dataset.id)
 
 
 @pytest.mark.parametrize(
@@ -189,16 +188,16 @@ def test_existing_metadata_none_id(
 )
 def test_existing_metadata_valid_id(
     existing_metadata_file: Path,
-    metadata: Datadoc,
+    metadata_from_existing: Datadoc,
 ):
     pre_open_id = ""
     post_write_id = ""
     with existing_metadata_file.open() as f:
         pre_open_id = json.load(f)["datadoc"]["dataset"]["id"]
     assert pre_open_id is not None
-    assert isinstance(metadata.dataset.id, UUID)
-    assert str(metadata.dataset.id) == pre_open_id
-    metadata.write_metadata_document()
+    assert isinstance(metadata_from_existing.dataset.id, UUID)
+    assert str(metadata_from_existing.dataset.id) == pre_open_id
+    metadata_from_existing.write_metadata_document()
     with existing_metadata_file.open() as f:
         post_write_id = json.load(f)["datadoc"]["dataset"]["id"]
     assert post_write_id == pre_open_id
@@ -274,12 +273,12 @@ def test_is_personal_data_value(metadata: Datadoc):
 
 def test_save_file_path_metadata_field(
     existing_metadata_file: Path,
-    metadata: Datadoc,
+    metadata_from_existing: Datadoc,
 ):
-    metadata.write_metadata_document()
+    metadata_from_existing.write_metadata_document()
     with existing_metadata_file.open() as f:
         saved_file_path = json.load(f)["datadoc"]["dataset"]["file_path"]
-    assert saved_file_path == str(metadata.dataset_path)
+    assert saved_file_path == str(metadata_from_existing.dataset_path)
 
 
 def test_save_file_path_dataset_and_no_metadata(
@@ -425,19 +424,19 @@ def test_generate_variables_id(
 )
 def test_existing_metadata_variables_none_id(
     existing_metadata_file: Path,
-    metadata: Datadoc,
+    metadata_from_existing: Datadoc,
 ):
     with existing_metadata_file.open() as f:
         pre_open_id: list = [v["id"] for v in json.load(f)["datadoc"]["variables"]]
     assert all(i is None for i in pre_open_id)
 
-    assert all(isinstance(v.id, UUID) for v in metadata.variables)
+    assert all(isinstance(v.id, UUID) for v in metadata_from_existing.variables)
 
-    metadata.write_metadata_document()
+    metadata_from_existing.write_metadata_document()
     with existing_metadata_file.open() as f:
         post_write_id: list = [v["id"] for v in json.load(f)["datadoc"]["variables"]]
 
-    assert post_write_id == [str(v.id) for v in metadata.variables]
+    assert post_write_id == [str(v.id) for v in metadata_from_existing.variables]
 
 
 @pytest.mark.parametrize(
@@ -446,16 +445,16 @@ def test_existing_metadata_variables_none_id(
 )
 def test_existing_metadata_variables_valid_id(
     existing_metadata_file: Path,
-    metadata: Datadoc,
+    metadata_from_existing: Datadoc,
 ):
     with existing_metadata_file.open() as f:
         pre_open_id: list = [v["id"] for v in json.load(f)["datadoc"]["variables"]]
 
-    assert all(isinstance(v.id, UUID) for v in metadata.variables)
-    metadata_variable_ids = [str(v.id) for v in metadata.variables]
+    assert all(isinstance(v.id, UUID) for v in metadata_from_existing.variables)
+    metadata_variable_ids = [str(v.id) for v in metadata_from_existing.variables]
     assert metadata_variable_ids == pre_open_id
 
-    metadata.write_metadata_document()
+    metadata_from_existing.write_metadata_document()
     with existing_metadata_file.open() as f:
         post_write_id: list = [v["id"] for v in json.load(f)["datadoc"]["variables"]]
 
@@ -495,7 +494,7 @@ def test_open_nonexistent_existing_metadata(existing_data_path: UPath):
     ):
         Datadoc(
             str(existing_data_path),
-            str(Datadoc.build_metadata_document_path(existing_data_path)),
+            str(build_metadata_document_path(existing_data_path)),
         )
 
 
@@ -612,3 +611,23 @@ def test_unknown_data_type():
         Datadoc(
             dataset_path="tests/datasets/resources/datasets/category_data_type.parquet"
         )
+
+
+@pytest.mark.parametrize(
+    "existing_metadata_path",
+    [TEST_EXISTING_METADATA_DIRECTORY / "inconsistent_data_types"],
+)
+def test_data_types_always_match_dataset(
+    existing_metadata_file: UPath,  # noqa: ARG001
+    metadata: Datadoc,
+):
+    assert {v.short_name: v.data_type for v in metadata.variables} == {
+        "pers_id": DataType.STRING,
+        "tidspunkt": DataType.DATETIME,
+        "sivilstand": DataType.STRING,
+        "alm_inntekt": DataType.INTEGER,
+        "sykepenger": DataType.INTEGER,
+        "ber_bruttoformue": DataType.INTEGER,
+        "fullf_utdanning": DataType.STRING,
+        "hoveddiagnose": DataType.STRING,
+    }
