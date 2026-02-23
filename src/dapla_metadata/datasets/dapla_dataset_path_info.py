@@ -340,7 +340,7 @@ class DaplaDatasetPathInfo:
         self.dataset_string = str(dataset_path)
         self.dataset_path = UPath(self.dataset_string)
         self.dataset_name_sections = self.dataset_path.stem.split("_")
-        self._period_strings = self._extract_period_strings(self.dataset_name_sections)
+        self.period_strings = self._extract_period_strings(self.dataset_name_sections)
 
         # Since UPath as a trailing slash after the bucket name we remove that so that we are able to find the bucket name in the path parts later
         self.dataset_path_parts = [p.strip("/") for p in self.dataset_path.parent.parts]
@@ -446,7 +446,7 @@ class DaplaDatasetPathInfo:
             The extracted period string if it exists, otherwise None.
         """
         try:
-            return self._period_strings[index]
+            return self.period_strings[index]
         except IndexError:
             return None
 
@@ -574,7 +574,7 @@ class DaplaDatasetPathInfo:
         """
         period_string = self._extract_period_string_from_index(0)
         if not period_string or (
-            len(self._period_strings) > 1 and period_string > self._period_strings[1]
+            len(self.period_strings) > 1 and period_string > self.period_strings[1]
         ):
             return None
         date_format = categorize_period_string(period_string)
