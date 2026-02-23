@@ -32,6 +32,7 @@ def test_copy_variable(
     assert correct_variable["name"] is not None
     assert correct_variable["name"][2]["languageCode"] == "nb"
     assert correct_variable["name"][2]["languageText"] == "Ny persid"
+    # Data type must match that from the dataset.
     assert correct_variable["data_type"] == "STRING"
 
 

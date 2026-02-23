@@ -574,7 +574,8 @@ class Datadoc:
             raise ValueError(msg)
 
         source_variable = source_variables_lookup[source_short_name]
-
+        # Always override the data type to ensure it matches the physical dataset.
+        source_variable.data_type = self.variables_lookup[target_short_name].data_type
         self.variables_lookup[target_short_name] = source_variable
 
         source_variable = all_optional_model.Variable.model_validate(source_variable)
