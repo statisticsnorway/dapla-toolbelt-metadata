@@ -351,6 +351,7 @@ async def test_generate_naming_standard_report(tmp_path):
         "buckets/ssb-dapla-example-data-produkt-prod/klargjorte_data/_p2021-12-31_p2021-12-31_v1.parquet",
         "buckets/ssb-dapla-example-data-produkt-prod/ledstill/klargjorte_data/park_p2021-12-31_p2021-12-31_v1.parquet",
         "buckets/ssb-dapla-example-data-produkt-prod/ledstill/park_wrongunderscore_v1.parquet",
+        "buckets/ssb-dapla-example-data-produkt-prod/ledstill/klargjorte_data/three-periods_p2020-12-31_p2021-12-31_p2022-12-31_v1.parquet",
     ]
     for file_path in file_paths:
         full_path = tmp_path / file_path
@@ -363,8 +364,8 @@ async def test_generate_naming_standard_report(tmp_path):
 
     if isinstance(results, list):
         report = generate_validation_report(validation_results=results)
-        assert report.num_failures == 4
-        assert report.num_files_validated == 6
+        assert report.num_failures == 5
+        assert report.num_files_validated == 7
         assert report.num_success == 2
 
 

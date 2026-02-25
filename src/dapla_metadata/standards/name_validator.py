@@ -8,11 +8,11 @@ from upath.types import ReadablePathLike
 
 from dapla_metadata.datasets.dapla_dataset_path_info import DaplaDatasetPathInfo
 from dapla_metadata.datasets.dataset_parser import SUPPORTED_DATASET_FILE_SUFFIXES
-from dapla_metadata.standards.utils.constants import DESCRIPTION_OTHER_THAN_DASHES
 from dapla_metadata.standards.utils.constants import FILE_DOES_NOT_EXIST
 from dapla_metadata.standards.utils.constants import FILE_IGNORED
 from dapla_metadata.standards.utils.constants import IGNORED_FOLDERS
 from dapla_metadata.standards.utils.constants import INVALID_SYMBOLS
+from dapla_metadata.standards.utils.constants import MAX_TWO_PERIODS
 from dapla_metadata.standards.utils.constants import MISSING_DATA_STATE
 from dapla_metadata.standards.utils.constants import MISSING_DATASET_SHORT_NAME
 from dapla_metadata.standards.utils.constants import MISSING_PERIOD
@@ -20,6 +20,7 @@ from dapla_metadata.standards.utils.constants import MISSING_SHORT_NAME
 from dapla_metadata.standards.utils.constants import NAME_STANDARD_SUCCESS
 from dapla_metadata.standards.utils.constants import NAME_STANDARD_VIOLATION
 from dapla_metadata.standards.utils.constants import PATH_IGNORED
+from dapla_metadata.standards.utils.constants import SHORT_NAME_OTHER_THAN_DASHES
 from dapla_metadata.standards.utils.constants import SSB_NAMING_STANDARD_REPORT
 from dapla_metadata.standards.utils.constants import SSB_NAMING_STANDARD_REPORT_FILES
 from dapla_metadata.standards.utils.constants import (
@@ -194,9 +195,10 @@ def _check_violations(
         MISSING_SHORT_NAME: path_info.statistic_short_name,
         MISSING_DATA_STATE: path_info.dataset_state,
         MISSING_PERIOD: path_info.contains_data_from,
+        MAX_TWO_PERIODS: len(path_info.period_strings) <= 2,
         MISSING_DATASET_SHORT_NAME: path_info.dataset_short_name,
         INVALID_SYMBOLS: not _has_invalid_symbols(file),
-        DESCRIPTION_OTHER_THAN_DASHES: not _short_name_has_illegal_chars(
+        SHORT_NAME_OTHER_THAN_DASHES: not _short_name_has_illegal_chars(
             path_info.dataset_short_name
         ),
     }
