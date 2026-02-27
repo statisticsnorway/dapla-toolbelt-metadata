@@ -1,5 +1,6 @@
 import functools
 from collections.abc import Callable
+from dataclasses import dataclass
 from http import HTTPStatus
 from pathlib import Path
 from types import SimpleNamespace
@@ -365,6 +366,16 @@ def test_get_variable_by_vardok_id(
     assert vardok_vardef_mapping.short_name == "landbak"
 
 
+def test_get_variable_by_unknown_vardok_id(
+    client_configuration: Configuration,
+):
+    VardefClient.set_config(client_configuration)
+
+    with pytest.raises(VardefClientError) as e:
+        Vardef.get_variable_definition_by_vardok_id("9999")
+    assert e.value.status == HTTPStatus.NOT_FOUND
+
+
 def test_get_variable_by_vardok_id_but_supplying_vardef_id(
     client_configuration: Configuration,
 ):
@@ -378,6 +389,23 @@ def test_get_variable_by_vardok_id_but_supplying_vardef_id(
 def test_get_vardok_id_by_short_name(client_configuration: Configuration):
     VardefClient.set_config(client_configuration)
     vardok_vardef_mapping = Vardef.get_vardok_id_by_short_name("landbak")
-
     assert isinstance(vardok_vardef_mapping, VardokId)
     assert vardok_vardef_mapping.vardok_id == "1607"
+
+
+def test_get_vardok_id_by_unknown_short_name(client_configuration: Configuration):
+    VardefClient.set_config(client_configuration)
+
+    @dataclass
+    class IdWrapper:
+        id: str
+
+    with (
+        patch(
+            "dapla_metadata.variable_definitions.vardef.Vardef.get_variable_definition_by_shortname",
+            return_value=IdWrapper(id="Xy9_7-Az"),
+        ),
+        pytest.raises(VardefClientError) as e,
+    ):
+        Vardef.get_vardok_id_by_short_name("unknown")
+    assert e.value.status == HTTPStatus.NOT_FOUND
