@@ -19,9 +19,6 @@ from ..models.contact import Contact
 from ..models.create_draft import CreateDraft
 from ..models.create_patch import CreatePatch
 from ..models.create_validity_period import CreateValidityPeriod
-from ..models.get_vardok_vardef_mapping_by_id200_response import (
-    GetVardokVardefMappingById200Response,
-)
 from ..models.klass_reference import KlassReference
 from ..models.language_string_type import LanguageStringType
 from ..models.list_variable_definitions200_response_inner import (

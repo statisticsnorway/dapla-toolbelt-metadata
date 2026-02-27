@@ -22,9 +22,7 @@ from ..api_client import ApiClient
 from ..api_client import RequestSerialized
 from ..api_response import ApiResponse
 from ..models.complete_view import CompleteView
-from ..models.get_vardok_vardef_mapping_by_id200_response import (
-    GetVardokVardefMappingById200Response,
-)
+from ..models.vardok_id_response import VardokIdResponse
 from ..models.vardok_vardef_id_pair_response import VardokVardefIdPairResponse
 from ..rest import RESTResponseType
 
@@ -283,7 +281,501 @@ class DataMigrationApi:
         )
 
     @validate_call
-    def get_vardok_vardef_mapping(
+    def get_vardef_by_vardok_id(
+        self,
+        vardok_id: Annotated[
+            str, Field(strict=True, description="The ID of the definition in Vardok.")
+        ],
+        _request_timeout: None
+        | Annotated[StrictFloat, Field(gt=0)]
+        | tuple[
+            Annotated[StrictFloat, Field(gt=0)], Annotated[StrictFloat, Field(gt=0)]
+        ] = None,
+        _request_auth: dict[StrictStr, Any] | None = None,
+        _content_type: StrictStr | None = None,
+        _headers: dict[StrictStr, Any] | None = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> CompleteView:
+        """Get a variable definition by vardok id.
+
+        Get a variable definition by vardok id.
+
+        :param vardok_id: The ID of the definition in Vardok. (required)
+        :type vardok_id: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """
+        _param = self._get_vardef_by_vardok_id_serialize(
+            vardok_id=vardok_id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index,
+        )
+
+        _response_types_map: dict[str, str | None] = {
+            "404": "Problem",
+            "200": "CompleteView",
+        }
+        response_data = self.api_client.call_api(
+            *_param, _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+    @validate_call
+    def get_vardef_by_vardok_id_with_http_info(
+        self,
+        vardok_id: Annotated[
+            str, Field(strict=True, description="The ID of the definition in Vardok.")
+        ],
+        _request_timeout: None
+        | Annotated[StrictFloat, Field(gt=0)]
+        | tuple[
+            Annotated[StrictFloat, Field(gt=0)], Annotated[StrictFloat, Field(gt=0)]
+        ] = None,
+        _request_auth: dict[StrictStr, Any] | None = None,
+        _content_type: StrictStr | None = None,
+        _headers: dict[StrictStr, Any] | None = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[CompleteView]:
+        """Get a variable definition by vardok id.
+
+        Get a variable definition by vardok id.
+
+        :param vardok_id: The ID of the definition in Vardok. (required)
+        :type vardok_id: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """
+        _param = self._get_vardef_by_vardok_id_serialize(
+            vardok_id=vardok_id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index,
+        )
+
+        _response_types_map: dict[str, str | None] = {
+            "404": "Problem",
+            "200": "CompleteView",
+        }
+        response_data = self.api_client.call_api(
+            *_param, _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+    @validate_call
+    def get_vardef_by_vardok_id_without_preload_content(
+        self,
+        vardok_id: Annotated[
+            str, Field(strict=True, description="The ID of the definition in Vardok.")
+        ],
+        _request_timeout: None
+        | Annotated[StrictFloat, Field(gt=0)]
+        | tuple[
+            Annotated[StrictFloat, Field(gt=0)], Annotated[StrictFloat, Field(gt=0)]
+        ] = None,
+        _request_auth: dict[StrictStr, Any] | None = None,
+        _content_type: StrictStr | None = None,
+        _headers: dict[StrictStr, Any] | None = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Get a variable definition by vardok id.
+
+        Get a variable definition by vardok id.
+
+        :param vardok_id: The ID of the definition in Vardok. (required)
+        :type vardok_id: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """
+        _param = self._get_vardef_by_vardok_id_serialize(
+            vardok_id=vardok_id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index,
+        )
+
+        _response_types_map: dict[str, str | None] = {
+            "404": "Problem",
+            "200": "CompleteView",
+        }
+        response_data = self.api_client.call_api(
+            *_param, _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+    def _get_vardef_by_vardok_id_serialize(
+        self,
+        vardok_id,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+        _host = None
+
+        _collection_formats: dict[str, str] = {}
+
+        _path_params: dict[str, str] = {}
+        _query_params: list[tuple[str, str]] = []
+        _header_params: dict[str, str | None] = _headers or {}
+        _form_params: list[tuple[str, str]] = []
+        _files: dict[
+            str, str | bytes | list[str] | list[bytes] | list[tuple[str, bytes]]
+        ] = {}
+        _body_params: bytes | None = None
+
+        # process the path parameters
+        if vardok_id is not None:
+            _path_params["vardok-id"] = vardok_id
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+        # set the HTTP header `Accept`
+        if "Accept" not in _header_params:
+            _header_params["Accept"] = self.api_client.select_header_accept(
+                ["application/problem+json", "application/json"]
+            )
+
+        # authentication setting
+        _auth_settings: list[str] = ["labid_token"]
+
+        return self.api_client.param_serialize(
+            method="GET",
+            resource_path="/vardok-migration/{vardok-id}",
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth,
+        )
+
+    @validate_call
+    def get_vardok_by_vardef_id(
+        self,
+        vardef_id: Annotated[
+            str,
+            Field(
+                strict=True,
+                description="The ID of a variable definition which has been migrated.",
+            ),
+        ],
+        _request_timeout: None
+        | Annotated[StrictFloat, Field(gt=0)]
+        | tuple[
+            Annotated[StrictFloat, Field(gt=0)], Annotated[StrictFloat, Field(gt=0)]
+        ] = None,
+        _request_auth: dict[StrictStr, Any] | None = None,
+        _content_type: StrictStr | None = None,
+        _headers: dict[StrictStr, Any] | None = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> VardokIdResponse:
+        """Get a vardok id by vardef id.
+
+        Get a vardok id by vardef id.
+
+        :param vardef_id: The ID of a variable definition which has been migrated. (required)
+        :type vardef_id: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """
+        _param = self._get_vardok_by_vardef_id_serialize(
+            vardef_id=vardef_id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index,
+        )
+
+        _response_types_map: dict[str, str | None] = {
+            "404": "Problem",
+            "200": "VardokIdResponse",
+        }
+        response_data = self.api_client.call_api(
+            *_param, _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+    @validate_call
+    def get_vardok_by_vardef_id_with_http_info(
+        self,
+        vardef_id: Annotated[
+            str,
+            Field(
+                strict=True,
+                description="The ID of a variable definition which has been migrated.",
+            ),
+        ],
+        _request_timeout: None
+        | Annotated[StrictFloat, Field(gt=0)]
+        | tuple[
+            Annotated[StrictFloat, Field(gt=0)], Annotated[StrictFloat, Field(gt=0)]
+        ] = None,
+        _request_auth: dict[StrictStr, Any] | None = None,
+        _content_type: StrictStr | None = None,
+        _headers: dict[StrictStr, Any] | None = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[VardokIdResponse]:
+        """Get a vardok id by vardef id.
+
+        Get a vardok id by vardef id.
+
+        :param vardef_id: The ID of a variable definition which has been migrated. (required)
+        :type vardef_id: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """
+        _param = self._get_vardok_by_vardef_id_serialize(
+            vardef_id=vardef_id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index,
+        )
+
+        _response_types_map: dict[str, str | None] = {
+            "404": "Problem",
+            "200": "VardokIdResponse",
+        }
+        response_data = self.api_client.call_api(
+            *_param, _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+    @validate_call
+    def get_vardok_by_vardef_id_without_preload_content(
+        self,
+        vardef_id: Annotated[
+            str,
+            Field(
+                strict=True,
+                description="The ID of a variable definition which has been migrated.",
+            ),
+        ],
+        _request_timeout: None
+        | Annotated[StrictFloat, Field(gt=0)]
+        | tuple[
+            Annotated[StrictFloat, Field(gt=0)], Annotated[StrictFloat, Field(gt=0)]
+        ] = None,
+        _request_auth: dict[StrictStr, Any] | None = None,
+        _content_type: StrictStr | None = None,
+        _headers: dict[StrictStr, Any] | None = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Get a vardok id by vardef id.
+
+        Get a vardok id by vardef id.
+
+        :param vardef_id: The ID of a variable definition which has been migrated. (required)
+        :type vardef_id: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """
+        _param = self._get_vardok_by_vardef_id_serialize(
+            vardef_id=vardef_id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index,
+        )
+
+        _response_types_map: dict[str, str | None] = {
+            "404": "Problem",
+            "200": "VardokIdResponse",
+        }
+        response_data = self.api_client.call_api(
+            *_param, _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+    def _get_vardok_by_vardef_id_serialize(
+        self,
+        vardef_id,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+        _host = None
+
+        _collection_formats: dict[str, str] = {}
+
+        _path_params: dict[str, str] = {}
+        _query_params: list[tuple[str, str]] = []
+        _header_params: dict[str, str | None] = _headers or {}
+        _form_params: list[tuple[str, str]] = []
+        _files: dict[
+            str, str | bytes | list[str] | list[bytes] | list[tuple[str, bytes]]
+        ] = {}
+        _body_params: bytes | None = None
+
+        # process the path parameters
+        if vardef_id is not None:
+            _path_params["vardef-id"] = vardef_id
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+        # set the HTTP header `Accept`
+        if "Accept" not in _header_params:
+            _header_params["Accept"] = self.api_client.select_header_accept(
+                ["application/problem+json", "application/json"]
+            )
+
+        # authentication setting
+        _auth_settings: list[str] = ["labid_token"]
+
+        return self.api_client.param_serialize(
+            method="GET",
+            resource_path="/vardok-migration/{vardef-id}",
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth,
+        )
+
+    @validate_call
+    def list_vardok_vardef_mappings(
         self,
         _request_timeout: None
         | Annotated[StrictFloat, Field(gt=0)]
@@ -320,7 +812,7 @@ class DataMigrationApi:
         :type _host_index: int, optional
         :return: Returns the result object.
         """
-        _param = self._get_vardok_vardef_mapping_serialize(
+        _param = self._list_vardok_vardef_mappings_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -340,7 +832,7 @@ class DataMigrationApi:
         ).data
 
     @validate_call
-    def get_vardok_vardef_mapping_with_http_info(
+    def list_vardok_vardef_mappings_with_http_info(
         self,
         _request_timeout: None
         | Annotated[StrictFloat, Field(gt=0)]
@@ -377,7 +869,7 @@ class DataMigrationApi:
         :type _host_index: int, optional
         :return: Returns the result object.
         """
-        _param = self._get_vardok_vardef_mapping_serialize(
+        _param = self._list_vardok_vardef_mappings_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -397,7 +889,7 @@ class DataMigrationApi:
         )
 
     @validate_call
-    def get_vardok_vardef_mapping_without_preload_content(
+    def list_vardok_vardef_mappings_without_preload_content(
         self,
         _request_timeout: None
         | Annotated[StrictFloat, Field(gt=0)]
@@ -434,7 +926,7 @@ class DataMigrationApi:
         :type _host_index: int, optional
         :return: Returns the result object.
         """
-        _param = self._get_vardok_vardef_mapping_serialize(
+        _param = self._list_vardok_vardef_mappings_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -449,7 +941,7 @@ class DataMigrationApi:
         )
         return response_data.response
 
-    def _get_vardok_vardef_mapping_serialize(
+    def _list_vardok_vardef_mappings_serialize(
         self,
         _request_auth,
         _content_type,
@@ -487,250 +979,6 @@ class DataMigrationApi:
         return self.api_client.param_serialize(
             method="GET",
             resource_path="/vardok-migration",
-            path_params=_path_params,
-            query_params=_query_params,
-            header_params=_header_params,
-            body=_body_params,
-            post_params=_form_params,
-            files=_files,
-            auth_settings=_auth_settings,
-            collection_formats=_collection_formats,
-            _host=_host,
-            _request_auth=_request_auth,
-        )
-
-    @validate_call
-    def get_vardok_vardef_mapping_by_id(
-        self,
-        id: Annotated[
-            StrictStr,
-            Field(description="The ID of the definition in Vardok or Vardef."),
-        ],
-        _request_timeout: None
-        | Annotated[StrictFloat, Field(gt=0)]
-        | tuple[
-            Annotated[StrictFloat, Field(gt=0)], Annotated[StrictFloat, Field(gt=0)]
-        ] = None,
-        _request_auth: dict[StrictStr, Any] | None = None,
-        _content_type: StrictStr | None = None,
-        _headers: dict[StrictStr, Any] | None = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> GetVardokVardefMappingById200Response:
-        """Get one variable definition by vardok id or get the vardok id by vardef id.
-
-        Get one variable definition by vardok id or get the vardok id by vardef id.
-
-        :param id: The ID of the definition in Vardok or Vardef. (required)
-        :type id: str
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """
-        _param = self._get_vardok_vardef_mapping_by_id_serialize(
-            id=id,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index,
-        )
-
-        _response_types_map: dict[str, str | None] = {
-            "404": "Problem",
-            "200": "GetVardokVardefMappingById200Response",
-        }
-        response_data = self.api_client.call_api(
-            *_param, _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        ).data
-
-    @validate_call
-    def get_vardok_vardef_mapping_by_id_with_http_info(
-        self,
-        id: Annotated[
-            StrictStr,
-            Field(description="The ID of the definition in Vardok or Vardef."),
-        ],
-        _request_timeout: None
-        | Annotated[StrictFloat, Field(gt=0)]
-        | tuple[
-            Annotated[StrictFloat, Field(gt=0)], Annotated[StrictFloat, Field(gt=0)]
-        ] = None,
-        _request_auth: dict[StrictStr, Any] | None = None,
-        _content_type: StrictStr | None = None,
-        _headers: dict[StrictStr, Any] | None = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[GetVardokVardefMappingById200Response]:
-        """Get one variable definition by vardok id or get the vardok id by vardef id.
-
-        Get one variable definition by vardok id or get the vardok id by vardef id.
-
-        :param id: The ID of the definition in Vardok or Vardef. (required)
-        :type id: str
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """
-        _param = self._get_vardok_vardef_mapping_by_id_serialize(
-            id=id,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index,
-        )
-
-        _response_types_map: dict[str, str | None] = {
-            "404": "Problem",
-            "200": "GetVardokVardefMappingById200Response",
-        }
-        response_data = self.api_client.call_api(
-            *_param, _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        )
-
-    @validate_call
-    def get_vardok_vardef_mapping_by_id_without_preload_content(
-        self,
-        id: Annotated[
-            StrictStr,
-            Field(description="The ID of the definition in Vardok or Vardef."),
-        ],
-        _request_timeout: None
-        | Annotated[StrictFloat, Field(gt=0)]
-        | tuple[
-            Annotated[StrictFloat, Field(gt=0)], Annotated[StrictFloat, Field(gt=0)]
-        ] = None,
-        _request_auth: dict[StrictStr, Any] | None = None,
-        _content_type: StrictStr | None = None,
-        _headers: dict[StrictStr, Any] | None = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RESTResponseType:
-        """Get one variable definition by vardok id or get the vardok id by vardef id.
-
-        Get one variable definition by vardok id or get the vardok id by vardef id.
-
-        :param id: The ID of the definition in Vardok or Vardef. (required)
-        :type id: str
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """
-        _param = self._get_vardok_vardef_mapping_by_id_serialize(
-            id=id,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index,
-        )
-
-        _response_types_map: dict[str, str | None] = {
-            "404": "Problem",
-            "200": "GetVardokVardefMappingById200Response",
-        }
-        response_data = self.api_client.call_api(
-            *_param, _request_timeout=_request_timeout
-        )
-        return response_data.response
-
-    def _get_vardok_vardef_mapping_by_id_serialize(
-        self,
-        id,
-        _request_auth,
-        _content_type,
-        _headers,
-        _host_index,
-    ) -> RequestSerialized:
-        _host = None
-
-        _collection_formats: dict[str, str] = {}
-
-        _path_params: dict[str, str] = {}
-        _query_params: list[tuple[str, str]] = []
-        _header_params: dict[str, str | None] = _headers or {}
-        _form_params: list[tuple[str, str]] = []
-        _files: dict[
-            str, str | bytes | list[str] | list[bytes] | list[tuple[str, bytes]]
-        ] = {}
-        _body_params: bytes | None = None
-
-        # process the path parameters
-        if id is not None:
-            _path_params["id"] = id
-        # process the query parameters
-        # process the header parameters
-        # process the form parameters
-        # process the body parameter
-
-        # set the HTTP header `Accept`
-        if "Accept" not in _header_params:
-            _header_params["Accept"] = self.api_client.select_header_accept(
-                ["application/problem+json", "application/json"]
-            )
-
-        # authentication setting
-        _auth_settings: list[str] = ["labid_token"]
-
-        return self.api_client.param_serialize(
-            method="GET",
-            resource_path="/vardok-migration/{id}",
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
