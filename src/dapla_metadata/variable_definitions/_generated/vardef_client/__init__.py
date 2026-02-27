@@ -37,7 +37,6 @@ __all__ = [
     "CreateDraft",
     "CreatePatch",
     "CreateValidityPeriod",
-    "GetVardokVardefMappingById200Response",
     "KlassReference",
     "LanguageStringType",
     "ListVariableDefinitions200ResponseInner",
@@ -80,9 +79,6 @@ from .models.contact import Contact as Contact
 from .models.create_draft import CreateDraft as CreateDraft
 from .models.create_patch import CreatePatch as CreatePatch
 from .models.create_validity_period import CreateValidityPeriod as CreateValidityPeriod
-from .models.get_vardok_vardef_mapping_by_id200_response import (
-    GetVardokVardefMappingById200Response as GetVardokVardefMappingById200Response,
-)
 from .models.klass_reference import KlassReference as KlassReference
 from .models.language_string_type import LanguageStringType as LanguageStringType
 from .models.list_variable_definitions200_response_inner import (
