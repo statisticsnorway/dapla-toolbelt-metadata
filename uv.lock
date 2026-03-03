@@ -669,7 +669,7 @@ wheels = [
 
 [[package]]
 name = "dapla-toolbelt-metadata"
-version = "0.14.0rc1"
+version = "0.14.0"
 source = { editable = "." }
 dependencies = [
     { name = "arrow" },
