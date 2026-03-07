@@ -49,3 +49,10 @@ for file in ./*.ipynb; do
     # shellcheck disable=SC2005
     input=$(cat "$file") && jq ".metadata += $KERNELSPEC_OBJECT" <<< "$input" > "$file"
 done
+
+README_FILE="$VARIABLE_DEFINITIONS_DIR/README.md"
+
+if [ -f "$README_FILE" ]; then
+    echo "$LOG_PREFIX Opening README"
+    xdg-open "$README_FILE" >/dev/null 2>&1 &
+fi
