@@ -53,11 +53,13 @@ done
 README_FILE="$VARIABLE_DEFINITIONS_DIR/README.md"
 README_FILE_NOTEBOOK="$VARIABLE_DEFINITIONS_DIR/readme_notebook.ipynb"
 
+# can only work on vs code - code --preview
 if [ -f "$README_FILE" ]; then
     echo "$LOG_PREFIX Opening README at $README_FILE"
     open "$README_FILE"
 fi
 
+# Test in dapla lab - opens new workspace?
 if [ -f "$README_FILE_NOTEBOOK" ]; then
     echo "$LOG_PREFIX Opening README at $README_FILE_NOTEBOOK"
     jupyter lab "$README_FILE_NOTEBOOK"
