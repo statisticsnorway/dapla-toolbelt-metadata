@@ -1,7 +1,7 @@
 #! /bin/bash
 
 LOG_PREFIX="[Personal init script] Vardef Forvaltning:"
-BRANCH="main"
+BRANCH="feat/add-vardef-forvaltning-readme-file"
 BASE_DIR=$HOME
 
 while [ "$#" -gt 0 ]; do
@@ -53,6 +53,6 @@ done
 README_FILE="$VARIABLE_DEFINITIONS_DIR/README.md"
 
 if [ -f "$README_FILE" ]; then
-    echo "$LOG_PREFIX Opening README"
-    xdg-open "$README_FILE" >/dev/null 2>&1 &
+    echo "$LOG_PREFIX Opening README at $README_FILE"
+    open "$README_FILE"
 fi
