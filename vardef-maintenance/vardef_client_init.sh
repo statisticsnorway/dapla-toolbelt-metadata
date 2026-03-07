@@ -60,5 +60,5 @@ fi
 
 if [ -f "$README_FILE_NOTEBOOK" ]; then
     echo "$LOG_PREFIX Opening README at $README_FILE_NOTEBOOK"
-    open "$README_FILE_NOTEBOOK"
+    jupyter lab "$README_FILE_NOTEBOOK"
 fi
