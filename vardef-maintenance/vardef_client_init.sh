@@ -1,7 +1,7 @@
 #! /bin/bash
 
 LOG_PREFIX="[Personal init script] Vardef Forvaltning:"
-BRANCH="feat/add-vardef-forvaltning-readme-file"
+BRANCH="main"
 BASE_DIR=$HOME
 
 while [ "$#" -gt 0 ]; do
