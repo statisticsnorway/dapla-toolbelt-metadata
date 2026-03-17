@@ -569,14 +569,90 @@ def test_merge_variables(tmp_path):
     ]
     assert all(v.id is not None for v in merged.variables)
     assert [v.id for v in merged.variables] != [v.id for v in existing.variables]
+    assert all(v.contains_data_from is None for v in merged.variables)
+    assert all(v.contains_data_until is None for v in merged.variables)
+
+
+def test_merge_variables_dataset_dates_preserved(tmp_path):
+    """Dataset-level dates are kept, but variables are set to none."""
+    dataset = tmp_path / "fewer_variables_p2021-12-31_p2021-12-31_v1.parquet"
+    dataset.parent.mkdir(parents=True, exist_ok=True)
+    shutil.copy(
+        TEST_DATASETS_DIRECTORY / "fewer_variables_p2021-12-31_p2021-12-31_v1.parquet",
+        dataset,
+    )
+    merged = Datadoc(
+        dataset_path=str(dataset),
+        metadata_document_path=str(TEST_EXISTING_METADATA_NAMING_STANDARD_FILEPATH),
+        errors_as_warnings=True,
+    )
+    assert merged.dataset.contains_data_from is not None
+    assert merged.dataset.contains_data_until is not None
+    assert all(v.contains_data_from is None for v in merged.variables)
+    assert all(v.contains_data_until is None for v in merged.variables)
+
+
+@pytest.mark.usefixtures("_mock_user_info")
+def test_merge_variables_dataset_dates_preserved_after_save(tmp_path):
+    """Variable-level dates remain None in the saved JSON after write_metadata_document."""
+    dataset = tmp_path / "fewer_variables_p2021-12-31_p2021-12-31_v1.parquet"
+    dataset.parent.mkdir(parents=True, exist_ok=True)
+    shutil.copy(
+        TEST_DATASETS_DIRECTORY / "fewer_variables_p2021-12-31_p2021-12-31_v1.parquet",
+        dataset,
+    )
+    merged = Datadoc(
+        dataset_path=str(dataset),
+        metadata_document_path=str(TEST_EXISTING_METADATA_NAMING_STANDARD_FILEPATH),
+        errors_as_warnings=True,
+    )
+    merged.write_metadata_document()
+
+    saved = json.loads(merged.metadata_document.read_text())
+    assert saved["datadoc"]["dataset"]["contains_data_from"] is not None
+    assert saved["datadoc"]["dataset"]["contains_data_until"] is not None
+    for v in saved["datadoc"]["variables"]:
+        assert v["contains_data_from"] is None
+        assert v["contains_data_until"] is None
+
+
+def test_first_open_variables_inherit_dataset_dates(tmp_path):
+    """When opening a dataset for the first time, variable dates inherit from the dataset."""
+    target = tmp_path / TEST_NAMING_STANDARD_COMPATIBLE_DATASET
+    target.parent.mkdir(parents=True, exist_ok=True)
+    shutil.copy(
+        TEST_DATASETS_DIRECTORY / TEST_NAMING_STANDARD_COMPATIBLE_DATASET,
+        target,
+    )
+    datadoc = Datadoc(dataset_path=str(target))
+    assert datadoc.dataset.contains_data_from is not None
+    assert datadoc.dataset.contains_data_until is not None
     assert all(
-        v.contains_data_from == merged.dataset.contains_data_from
-        for v in merged.variables
+        v.contains_data_from == datadoc.dataset.contains_data_from
+        for v in datadoc.variables
     )
     assert all(
-        v.contains_data_until == merged.dataset.contains_data_until
-        for v in merged.variables
+        v.contains_data_until == datadoc.dataset.contains_data_until
+        for v in datadoc.variables
     )
+
+
+def test_first_open_variable_dates_persisted_after_save_and_reload(tmp_path):
+    """Variable dates inherited at first open are preserved after save and reload."""
+    target = tmp_path / TEST_NAMING_STANDARD_COMPATIBLE_DATASET
+    target.parent.mkdir(parents=True, exist_ok=True)
+    shutil.copy(
+        TEST_DATASETS_DIRECTORY / TEST_NAMING_STANDARD_COMPATIBLE_DATASET,
+        target,
+    )
+    datadoc = Datadoc(dataset_path=str(target))
+    expected_from = datadoc.dataset.contains_data_from
+    expected_until = datadoc.dataset.contains_data_until
+    datadoc.write_metadata_document()
+
+    datadoc = Datadoc(dataset_path=str(target))
+    assert all(v.contains_data_from == expected_from for v in datadoc.variables)
+    assert all(v.contains_data_until == expected_until for v in datadoc.variables)
 
 
 def test_merge_with_fewer_variables_in_existing_metadata(tmp_path):

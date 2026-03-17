@@ -175,9 +175,9 @@ def set_variables_inherit_from_dataset(
 ) -> None:
     """Set specific dataset values on a list of variable objects.
 
-    This function populates 'data source', 'temporality type', 'contains data from',
-    and 'contains data until' fields in each variable if they are not set (None).
-    The values are inherited from the corresponding fields in the dataset.
+    This function populates 'contains data from' and 'contains data until' fields
+    in each variable if they are not set (None). The values are inherited from the
+    corresponding fields in the dataset.
 
     Args:
         dataset: The dataset object from which to inherit values.
@@ -185,7 +185,7 @@ def set_variables_inherit_from_dataset(
 
     Example:
         >>> dataset = all_optional_model.Dataset(short_name='person_data_v1', id='9662875c-c245-41de-b667-12ad2091a1ee', contains_data_from="2010-09-05", contains_data_until="2022-09-05")
-        >>> variables = [all_optional_model.Variable(short_name="pers", data_source=None, temporality_type=None, contains_data_from=None, contains_data_until=None)]
+        >>> variables = [all_optional_model.Variable(short_name="pers", contains_data_from=None, contains_data_until=None)]
         >>> set_variables_inherit_from_dataset(dataset, variables)
 
         >>> variables[0].contains_data_from == dataset.contains_data_from

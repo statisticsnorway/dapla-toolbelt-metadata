@@ -284,12 +284,16 @@ def merge_variables(
                     # In this case we're transferring metadata to a new dataset so we must
                     # assign a new ID
                     existing.id = None  # Set to None so that it will be set assigned a fresh ID later
-                existing.contains_data_from = (
-                    extracted.contains_data_from or existing.contains_data_from
-                )
-                existing.contains_data_until = (
-                    extracted.contains_data_until or existing.contains_data_until
-                )
+                    # Set dates to none
+                    existing.contains_data_from = None
+                    existing.contains_data_until = None
+                else:
+                    existing.contains_data_from = (
+                        extracted.contains_data_from or existing.contains_data_from
+                    )
+                    existing.contains_data_until = (
+                        extracted.contains_data_until or existing.contains_data_until
+                    )
                 # We must ensure that the data type always corresponds to the dataset.
                 existing.data_type = extracted.data_type
                 merged_metadata.variables.append(

@@ -26,7 +26,6 @@ from dapla_metadata.datasets.utility.utils import incorrect_date_order
 from dapla_metadata.datasets.utility.utils import (
     num_obligatory_dataset_fields_completed,
 )
-from dapla_metadata.datasets.utility.utils import set_variables_inherit_from_dataset
 
 if TYPE_CHECKING:
     from datetime import datetime
@@ -78,22 +77,6 @@ class ValidateDatadocMetadata(model.DatadocMetadata):
         timestamp: datetime = get_timestamp_now()  # --check-untyped-defs
         if self.dataset is not None and self.dataset.metadata_created_date is None:
             self.dataset.metadata_created_date = timestamp
-        return self
-
-    @model_validator(mode="after")
-    def check_inherit_values(self) -> Self:
-        """Inherit values from dataset to variables if not set.
-
-        Sets values for 'data source', 'temporality type', 'contains data from',
-        and 'contains data until' if they are None.
-
-        Mode: This validator runs after other validation.
-
-        Returns:
-            The instance of the model after validation.
-        """
-        if self.variables and self.dataset is not None:
-            set_variables_inherit_from_dataset(self.dataset, self.variables)
         return self
 
     @model_validator(mode="after")

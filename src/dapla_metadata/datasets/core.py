@@ -60,6 +60,7 @@ from dapla_metadata.datasets.utility.utils import set_dataset_owner
 from dapla_metadata.datasets.utility.utils import set_default_values_dataset
 from dapla_metadata.datasets.utility.utils import set_default_values_pseudonymization
 from dapla_metadata.datasets.utility.utils import set_default_values_variables
+from dapla_metadata.datasets.utility.utils import set_variables_inherit_from_dataset
 
 if TYPE_CHECKING:
     from datetime import datetime
@@ -218,6 +219,8 @@ class Datadoc:
                 self.dataset_path,
             )
             self._set_metadata(merged_metadata)
+            if not self.explicitly_defined_metadata_document:
+                set_variables_inherit_from_dataset(self.dataset, self.variables)
             return
 
         report_metadata_consistency(
@@ -226,6 +229,8 @@ class Datadoc:
             message="Problems were detected with the metadata.",
         )
         self._set_metadata(existing_metadata or extracted_metadata)
+        if not self.explicitly_defined_metadata_document:
+            set_variables_inherit_from_dataset(self.dataset, self.variables)
 
     def check_illegal_variable_data_type(
         self, variables: VariableListType, concrete_data_types_lookup: dict[str, str]
