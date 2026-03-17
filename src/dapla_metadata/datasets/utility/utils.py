@@ -169,6 +169,36 @@ def set_dataset_owner(
         logger.exception("Failed to find environment variable DAPLA_GROUP_CONTEXT")
 
 
+def set_variables_inherit_from_dataset(
+    dataset: DatasetType,
+    variables: list,
+) -> None:
+    """Set specific dataset values on a list of variable objects.
+
+    This function populates 'contains data from' and 'contains data until' fields
+    in each variable if they are not set (None). The values are inherited from the
+    corresponding fields in the dataset.
+
+    Args:
+        dataset: The dataset object from which to inherit values.
+        variables: A list of variable objects to update with dataset values.
+
+    Example:
+        >>> dataset = all_optional_model.Dataset(short_name='person_data_v1', id='9662875c-c245-41de-b667-12ad2091a1ee', contains_data_from="2010-09-05", contains_data_until="2022-09-05")
+        >>> variables = [all_optional_model.Variable(short_name="pers", contains_data_from=None, contains_data_until=None)]
+        >>> set_variables_inherit_from_dataset(dataset, variables)
+
+        >>> variables[0].contains_data_from == dataset.contains_data_from
+        True
+
+        >>> variables[0].contains_data_until == dataset.contains_data_until
+        True
+    """
+    for v in variables:
+        v.contains_data_from = v.contains_data_from or dataset.contains_data_from
+        v.contains_data_until = v.contains_data_until or dataset.contains_data_until
+
+
 def incorrect_date_order(
     date_from: datetime.date | None,
     date_until: datetime.date | None,

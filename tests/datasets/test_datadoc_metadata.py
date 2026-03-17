@@ -616,8 +616,8 @@ def test_merge_variables_dataset_dates_preserved_after_save(tmp_path):
         assert v["contains_data_until"] is None
 
 
-def test_first_open_variable_dates_are_none(tmp_path):
-    """Variable-level dates are None when opening a dataset for the first time."""
+def test_first_open_variables_inherit_dataset_dates(tmp_path):
+    """When opening a dataset for the first time, variable dates inherit from the dataset."""
     target = tmp_path / TEST_NAMING_STANDARD_COMPATIBLE_DATASET
     target.parent.mkdir(parents=True, exist_ok=True)
     shutil.copy(
@@ -627,8 +627,32 @@ def test_first_open_variable_dates_are_none(tmp_path):
     datadoc = Datadoc(dataset_path=str(target))
     assert datadoc.dataset.contains_data_from is not None
     assert datadoc.dataset.contains_data_until is not None
-    assert all(v.contains_data_from is None for v in datadoc.variables)
-    assert all(v.contains_data_until is None for v in datadoc.variables)
+    assert all(
+        v.contains_data_from == datadoc.dataset.contains_data_from
+        for v in datadoc.variables
+    )
+    assert all(
+        v.contains_data_until == datadoc.dataset.contains_data_until
+        for v in datadoc.variables
+    )
+
+
+def test_first_open_variable_dates_persisted_after_save_and_reload(tmp_path):
+    """Variable dates inherited at first open are preserved after save and reload."""
+    target = tmp_path / TEST_NAMING_STANDARD_COMPATIBLE_DATASET
+    target.parent.mkdir(parents=True, exist_ok=True)
+    shutil.copy(
+        TEST_DATASETS_DIRECTORY / TEST_NAMING_STANDARD_COMPATIBLE_DATASET,
+        target,
+    )
+    datadoc = Datadoc(dataset_path=str(target))
+    expected_from = datadoc.dataset.contains_data_from
+    expected_until = datadoc.dataset.contains_data_until
+    datadoc.write_metadata_document()
+
+    datadoc = Datadoc(dataset_path=str(target))
+    assert all(v.contains_data_from == expected_from for v in datadoc.variables)
+    assert all(v.contains_data_until == expected_until for v in datadoc.variables)
 
 
 def test_merge_with_fewer_variables_in_existing_metadata(tmp_path):
