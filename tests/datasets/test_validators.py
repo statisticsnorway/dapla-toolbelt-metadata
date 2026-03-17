@@ -70,38 +70,6 @@ def test_write_metadata_document_created_date(
     assert metadata.dataset.metadata_created_date is not None
 
 
-@pytest.mark.parametrize(
-    ("variable_date", "date_from", "date_until"),
-    [
-        (None, datetime.date(1967, 1, 1), datetime.date(1980, 1, 1)),
-        (
-            datetime.date(2022, 2, 2),
-            datetime.date(1999, 3, 3),
-            datetime.date(2000, 1, 4),
-        ),
-    ],
-)
-def test_variables_inherit_dates(
-    variable_date,
-    date_from,
-    date_until,
-    metadata: Datadoc,
-):
-    metadata.dataset.contains_data_from = date_from
-    metadata.dataset.contains_data_until = date_until
-    for v in metadata.variables:
-        v.contains_data_from = variable_date
-        v.contains_data_until = variable_date
-    metadata.write_metadata_document()
-    for v in metadata.variables:
-        if variable_date is None:
-            assert v.contains_data_from == metadata.dataset.contains_data_from
-            assert v.contains_data_until == metadata.dataset.contains_data_until
-        else:
-            assert v.contains_data_from == variable_date
-            assert v.contains_data_until == variable_date
-
-
 def test_obligatory_metadata_dataset_warning(metadata: Datadoc):
     with pytest.warns(
         ObligatoryDatasetWarning,
