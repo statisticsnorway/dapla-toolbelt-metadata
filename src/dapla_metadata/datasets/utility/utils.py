@@ -169,7 +169,6 @@ def set_dataset_owner(
         logger.exception("Failed to find environment variable DAPLA_GROUP_CONTEXT")
 
 
-
 def incorrect_date_order(
     date_from: datetime.date | None,
     date_until: datetime.date | None,
