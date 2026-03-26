@@ -33,10 +33,10 @@ async def check_naming_standard(
         including success status, checked file path, messages, and any detected violations.
 
     Examples:
-        >>> check_naming_standard("/data/example_file.parquet").success
+        >>> (await check_naming_standard("/data/example_file.parquet"))[0].success
         False
 
-        >>> check_naming_standard("/buckets/produkt/datadoc/utdata/person_data_p2021_v2.parquet").success
+        >>> (await check_naming_standard("/buckets/produkt/datadoc/utdata/person-data_p2021_v2.parquet"))[0].success
         True
     """
     results = []
