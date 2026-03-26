@@ -1,15 +1,9 @@
 import string
-import sys
 import typing as t
 
 import jwt
 import pytest
 from faker import Faker  # type: ignore [import-not-found]
-
-if sys.version_info < (3, 11):
-    # dapla_auth_client only supports Python >=3.11
-    # We must still support 3.10 for now, but variable definitions never runs on 3.10
-    collect_ignore_glob = ["*variable_definitions*"]
 
 
 @pytest.fixture

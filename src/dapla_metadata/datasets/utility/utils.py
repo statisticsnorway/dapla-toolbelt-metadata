@@ -6,7 +6,6 @@ import logging
 import uuid
 from typing import TYPE_CHECKING
 from typing import Any
-from typing import TypeAlias
 
 import datadoc_model.all_optional.model as all_optional_model
 import datadoc_model.required.model as required_model
@@ -51,28 +50,28 @@ if TYPE_CHECKING:
 
 logger = logging.getLogger(__name__)
 
-DatadocMetadataType: TypeAlias = (
+type DatadocMetadataType = (
     all_optional_model.DatadocMetadata | required_model.DatadocMetadata
 )
-DatasetType: TypeAlias = all_optional_model.Dataset | required_model.Dataset
-VariableType: TypeAlias = all_optional_model.Variable | required_model.Variable
-PseudonymizationType: TypeAlias = (
+type DatasetType = all_optional_model.Dataset | required_model.Dataset
+type VariableType = all_optional_model.Variable | required_model.Variable
+type PseudonymizationType = (
     all_optional_model.Pseudonymization | required_model.Pseudonymization
 )
-VariableListType: TypeAlias = (
+type VariableListType = (
     list[all_optional_model.Variable] | list[required_model.Variable]
 )
-OptionalDatadocMetadataType: TypeAlias = DatadocMetadataType | None
+type OptionalDatadocMetadataType = DatadocMetadataType | None
 
 
 def get_current_date() -> str:
     """Return a current date as str."""
-    return datetime.datetime.now(tz=datetime.timezone.utc).date().isoformat()
+    return datetime.datetime.now(tz=datetime.UTC).date().isoformat()
 
 
 def get_timestamp_now() -> datetime.datetime:
     """Return a timestamp for the current moment."""
-    return datetime.datetime.now(tz=datetime.timezone.utc)
+    return datetime.datetime.now(tz=datetime.UTC)
 
 
 def calculate_percentage(completed: int, total: int) -> int:
