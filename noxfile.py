@@ -54,7 +54,6 @@ def precommit(session: nox.Session) -> None:
         "run",
         "--all-files",
         "--hook-stage=manual",
-        "--show-diff-on-failure",
     ]
     session.run("pre-commit", *args)
 

@@ -235,6 +235,10 @@ classmethod-decorators = [
   "S101",  # asserts are encouraged in pytest
 ]
 
+[tool.tombi]
+[tool.tombi.files]
+exclude = ["uv.lock"]
+
 [tool.uv]
 required-version = ">=0.8.0"
 default-groups = ["dev", "test", "type_check"]
