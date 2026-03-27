@@ -335,8 +335,8 @@ def test_create_draft_with_special_characters():
             file_path=VARIABLE_DEFINITION_EDITING_FILES_DIR
             / "variable_definition_landbak_wypvb3wd_2025-05-02T10-06-20.yaml",
         )
-    bokmal = result.definition.nb
-    nynorsk = result.definition.nn
+    bokmal = result.definition["nb"]
+    nynorsk = result.definition["nn"]
     assert bokmal is not None
     assert ":" in bokmal
     assert nynorsk is not None
@@ -363,8 +363,8 @@ def test_update_draft_with_special_characters(variable_definition: VariableDefin
             / "variable_definition_landbak_wypvb3wd_2025-05-02T10-06-20.yaml",
         )
     assert result.definition != prev_variable_definition.definition
-    bokmal = result.definition.nb
-    nynorsk = result.definition.nn
+    bokmal = result.definition["nb"]
+    nynorsk = result.definition["nn"]
     assert bokmal is not None
     assert ":" in bokmal
     assert nynorsk is not None
