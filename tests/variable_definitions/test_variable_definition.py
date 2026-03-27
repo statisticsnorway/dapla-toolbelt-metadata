@@ -335,8 +335,8 @@ def test_create_draft_with_special_characters():
             file_path=VARIABLE_DEFINITION_EDITING_FILES_DIR
             / "variable_definition_landbak_wypvb3wd_2025-05-02T10-06-20.yaml",
         )
-    bokmal = result.definition["nb"]
-    nynorsk = result.definition["nn"]
+    bokmal = result.definition.nb
+    nynorsk = result.definition.nn
     assert bokmal is not None
     assert ":" in bokmal
     assert nynorsk is not None
@@ -363,8 +363,8 @@ def test_update_draft_with_special_characters(variable_definition: VariableDefin
             / "variable_definition_landbak_wypvb3wd_2025-05-02T10-06-20.yaml",
         )
     assert result.definition != prev_variable_definition.definition
-    bokmal = result.definition["nb"]
-    nynorsk = result.definition["nn"]
+    bokmal = result.definition.nb
+    nynorsk = result.definition.nn
     assert bokmal is not None
     assert ":" in bokmal
     assert nynorsk is not None
@@ -409,7 +409,7 @@ def test_publish_methods(
     method_to_call = getattr(variable_definition, method_name)
     if initial_status == VariableStatus.PUBLISHED_EXTERNAL:
         # It doesn't make sense to publish other statuses internally
-        with pytest.raises(ValueError, match="That won't work here."):
+        with pytest.raises(ValueError, match=r"That won't work here."):
             method_to_call()
     elif method_name == "publish_internal":
         if initial_status == VariableStatus.DRAFT:
@@ -420,7 +420,7 @@ def test_publish_methods(
             mock_create_patch.assert_not_called()
         if initial_status == VariableStatus.PUBLISHED_INTERNAL:
             # It doesn't make sense to publish internally already published internally
-            with pytest.raises(ValueError, match="That won't work here."):
+            with pytest.raises(ValueError, match=r"That won't work here."):
                 method_to_call()
     elif method_name == "publish_external":
         if initial_status == VariableStatus.PUBLISHED_INTERNAL:

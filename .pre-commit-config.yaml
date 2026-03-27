@@ -5,7 +5,7 @@ default_language_version:
 exclude: /_generated/
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v5.0.0
+    rev: v6.0.0
     hooks:
       - id: check-merge-conflict
       - id: check-case-conflict
@@ -19,16 +19,16 @@ repos:
       - id: check-json
       - id: check-ast
   - repo: https://github.com/tombi-toml/tombi-pre-commit
-    rev: v0.7.7
+    rev: v0.9.9
     hooks:
       - id: tombi-format
         exclude: "uv.lock"
       - id: tombi-lint
         exclude: "uv.lock"
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.9.9
+    rev: v0.15.8
     hooks:
-      - id: ruff
+      - id: ruff-check
         types_or: [python, pyi]
         args: [--fix]
       - id: ruff-format

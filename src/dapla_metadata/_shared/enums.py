@@ -1,7 +1,7 @@
-from enum import Enum
+from enum import StrEnum
 
 
-class DaplaRegion(str, Enum):
+class DaplaRegion(StrEnum):
     """Dapla platforms/regions."""
 
     DAPLA_LAB = "DAPLA_LAB"
@@ -9,7 +9,7 @@ class DaplaRegion(str, Enum):
     CLOUD_RUN = "CLOUD_RUN"
 
 
-class DaplaEnvironment(str, Enum):
+class DaplaEnvironment(StrEnum):
     """Dapla lifecycle environment."""
 
     PROD = "PROD"
@@ -17,7 +17,7 @@ class DaplaEnvironment(str, Enum):
     DEV = "DEV"
 
 
-class DaplaService(str, Enum):
+class DaplaService(StrEnum):
     """Dapla services."""
 
     DATADOC = "DATADOC"

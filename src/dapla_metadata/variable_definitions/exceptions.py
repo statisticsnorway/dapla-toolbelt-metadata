@@ -82,7 +82,7 @@ class VardefClientError(Exception):
             self.detail = f"Could not decode error response as Problem JSON. Body: {response_body}"
 
         super().__init__(
-            f"{self._get_status_explanation(self.status)}{self.detail if self.detail else ''}",
+            f"{self._get_status_explanation(self.status)}{self.detail or ''}",
         )
 
     @staticmethod

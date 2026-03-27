@@ -169,7 +169,7 @@ class DatasetParser(ABC):
         Returns:
             The abstract data type or None
         """
-        return TYPE_MAP.get(data_type.lower(), None)
+        return TYPE_MAP.get(data_type.lower())
 
     @abstractmethod
     def get_fields(self) -> list[Variable]:

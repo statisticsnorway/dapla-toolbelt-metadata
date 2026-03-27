@@ -210,7 +210,7 @@ def convert_datetime_to_date(date_value: str | None) -> str | None:
         return date_value
 
     try:
-        dt = datetime.fromisoformat(date_value.replace("Z", "+00:00"))
+        dt = datetime.fromisoformat(date_value)
         return dt.date().isoformat()
     except ValueError:
         return date_value

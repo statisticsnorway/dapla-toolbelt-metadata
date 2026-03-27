@@ -1,21 +1,15 @@
-from __future__ import annotations
-
 import logging
 from abc import ABC
 from abc import abstractmethod
-from typing import TYPE_CHECKING
-from typing import Generic
+from concurrent.futures import ThreadPoolExecutor
 from typing import TypeVar
-
-if TYPE_CHECKING:
-    from concurrent.futures import ThreadPoolExecutor
 
 logger = logging.getLogger(__name__)
 
 T = TypeVar("T")
 
 
-class GetExternalSource(ABC, Generic[T]):
+class GetExternalSource[T](ABC):
     """Abstract base class for retrieving data from external sources asynchronously.
 
     This class provides methods to initiate an asynchronous data retrieval

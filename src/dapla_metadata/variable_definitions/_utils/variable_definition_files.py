@@ -80,8 +80,8 @@ def _strip_strings_recursively(data: Any) -> Any:
     return data
 
 
-def _read_file_to_model(
-    file_path: PathLike[str] | None,
+def _read_file_to_model[T: BaseModel](
+    file_path: PathLike[str] | str | None,
     model_class: type[T],
 ) -> T:
     """Read from a variable definition file into the given Pydantic model.

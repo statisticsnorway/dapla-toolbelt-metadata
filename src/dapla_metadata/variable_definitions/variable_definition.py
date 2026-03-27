@@ -146,7 +146,7 @@ class VariableDefinition(CompleteView):
     @vardef_file_error_handler
     def update_draft_from_file(
         self,
-        file_path: PathLike[str] | None = None,
+        file_path: PathLike[str] | str | None = None,
     ) -> "VariableDefinition":
         """Update this Variable Definition.
 
@@ -253,7 +253,7 @@ class VariableDefinition(CompleteView):
     @vardef_file_error_handler
     def create_patch_from_file(
         self,
-        file_path: PathLike[str] | None = None,
+        file_path: PathLike[str] | str | None = None,
         valid_from: date | None = None,
     ) -> "VariableDefinition":
         """Create a new Patch for this Variable Definition from a file.
@@ -330,7 +330,7 @@ class VariableDefinition(CompleteView):
     @vardef_file_error_handler
     def create_validity_period_from_file(
         self,
-        file_path: PathLike[str] | None = None,
+        file_path: PathLike[str] | str | None = None,
     ) -> "VariableDefinition":
         """Create a new ValidityPeriod for this Variable Definition from a file.
 

@@ -5,6 +5,7 @@ import re
 from collections.abc import Iterable
 from dataclasses import dataclass
 from enum import Enum
+from enum import StrEnum
 from enum import auto
 from typing import Literal
 
@@ -27,7 +28,7 @@ URN_ERROR_MESSAGE_TEMPLATE = (
 VARDEF_URL_TEMPLATE = "https://{subdomain}.{domain}/variable-definitions"
 
 
-class SsbNaisDomains(str, Enum):
+class SsbNaisDomains(StrEnum):
     """The available domains on SSBs Nais instance."""
 
     TEST_EXTERNAL = "test.ssb.no"
