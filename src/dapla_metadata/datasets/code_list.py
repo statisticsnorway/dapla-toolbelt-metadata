@@ -129,7 +129,7 @@ class CodeList(GetExternalSource):
                     .get_codes(select_level=self.level)
                     .data
                 )
-            except Exception:  # noqa: PERF203
+            except Exception:
                 logger.exception(
                     "Exception while getting classifications from Klass",
                 )

@@ -1,11 +1,9 @@
 """Enumerations used in Datadoc."""
 
-from __future__ import annotations
-
-from enum import Enum
+from enum import StrEnum
 
 
-class SupportedLanguages(str, Enum):
+class SupportedLanguages(StrEnum):
     """The list of languages metadata may be recorded in.
 
     Reference: https://www.iana.org/assignments/language-subtag-registry/language-subtag-registry
@@ -16,7 +14,7 @@ class SupportedLanguages(str, Enum):
     ENGLISH = "en"
 
 
-class EncryptionAlgorithm(str, Enum):
+class EncryptionAlgorithm(StrEnum):
     """Encryption algorithm values for pseudonymization algoprithms offered on Dapla."""
 
     PAPIS_ENCRYPTION_ALGORITHM = "TINK-FPE"

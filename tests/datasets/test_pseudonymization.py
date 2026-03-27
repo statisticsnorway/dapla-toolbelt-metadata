@@ -4,8 +4,8 @@ from __future__ import annotations
 
 import shutil
 from dataclasses import dataclass
+from datetime import UTC
 from datetime import datetime
-from datetime import timezone
 from typing import TYPE_CHECKING
 
 import pytest
@@ -91,9 +91,7 @@ def _assert_dicts_in_list(expected: list[dict] | None, actual: list[dict]):
         PseudoCase(
             new_pseudo=PseudonymizationOptional(
                 encryption_algorithm=EncryptionAlgorithm.PAPIS_ENCRYPTION_ALGORITHM.value,
-                pseudonymization_time=datetime(
-                    2018, 3, 3, 12, 30, 0, tzinfo=timezone.utc
-                ),
+                pseudonymization_time=datetime(2018, 3, 3, 12, 30, 0, tzinfo=UTC),
             ),
             expected_algorithm=EncryptionAlgorithm.PAPIS_ENCRYPTION_ALGORITHM.value,
             expected_key=PAPIS_ENCRYPTION_KEY_REFERENCE,
@@ -101,7 +99,7 @@ def _assert_dicts_in_list(expected: list[dict] | None, actual: list[dict]):
                 {ENCRYPTION_PARAMETER_KEY_ID: PAPIS_ENCRYPTION_KEY_REFERENCE},
                 {ENCRYPTION_PARAMETER_STRATEGY: ENCRYPTION_PARAMETER_STRATEGY_SKIP},
             ],
-            expected_pseudo_time=datetime(2018, 3, 3, 12, 30, 0, tzinfo=timezone.utc),
+            expected_pseudo_time=datetime(2018, 3, 3, 12, 30, 0, tzinfo=UTC),
         ),
         PseudoCase(
             new_pseudo=PseudonymizationOptional(
@@ -206,9 +204,7 @@ def test_add_default_pseudonymization_values_papis_without_stable_id(
             new_pseudo=PseudonymizationOptional(
                 encryption_algorithm=EncryptionAlgorithm.PAPIS_ENCRYPTION_ALGORITHM.value,
                 stable_identifier_type=PAPIS_STABLE_IDENTIFIER_TYPE,
-                pseudonymization_time=datetime(
-                    2018, 3, 3, 12, 30, 0, tzinfo=timezone.utc
-                ),
+                pseudonymization_time=datetime(2018, 3, 3, 12, 30, 0, tzinfo=UTC),
             ),
             expected_algorithm=EncryptionAlgorithm.PAPIS_ENCRYPTION_ALGORITHM.value,
             expected_stable_type=PAPIS_STABLE_IDENTIFIER_TYPE,
@@ -218,7 +214,7 @@ def test_add_default_pseudonymization_values_papis_without_stable_id(
                 {ENCRYPTION_PARAMETER_SNAPSHOT_DATE: get_current_date()},
                 {ENCRYPTION_PARAMETER_STRATEGY: ENCRYPTION_PARAMETER_STRATEGY_SKIP},
             ],
-            expected_pseudo_time=datetime(2018, 3, 3, 12, 30, 0, tzinfo=timezone.utc),
+            expected_pseudo_time=datetime(2018, 3, 3, 12, 30, 0, tzinfo=UTC),
         ),
         PseudoCase(
             new_pseudo=PseudonymizationOptional(
@@ -324,16 +320,14 @@ def test_add_default_pseudonymization_values_papis_with_stable_id(
         PseudoCase(
             new_pseudo=PseudonymizationOptional(
                 encryption_algorithm=EncryptionAlgorithm.DAEAD_ENCRYPTION_ALGORITHM.value,
-                pseudonymization_time=datetime(
-                    2018, 3, 3, 12, 30, 0, tzinfo=timezone.utc
-                ),
+                pseudonymization_time=datetime(2018, 3, 3, 12, 30, 0, tzinfo=UTC),
             ),
             expected_algorithm=EncryptionAlgorithm.DAEAD_ENCRYPTION_ALGORITHM.value,
             expected_key=DAEAD_ENCRYPTION_KEY_REFERENCE,
             expected_params=[
                 {ENCRYPTION_PARAMETER_KEY_ID: DAEAD_ENCRYPTION_KEY_REFERENCE},
             ],
-            expected_pseudo_time=datetime(2018, 3, 3, 12, 30, 0, tzinfo=timezone.utc),
+            expected_pseudo_time=datetime(2018, 3, 3, 12, 30, 0, tzinfo=UTC),
         ),
         PseudoCase(
             new_pseudo=PseudonymizationOptional(
@@ -347,7 +341,7 @@ def test_add_default_pseudonymization_values_papis_with_stable_id(
             expected_params=[
                 {ENCRYPTION_PARAMETER_KEY_ID: "not-my-responsibility"},
             ],
-            expected_pseudo_time=datetime(2025, 1, 1, 12, 30, 0, tzinfo=timezone.utc),
+            expected_pseudo_time=datetime(2025, 1, 1, 12, 30, 0, tzinfo=UTC),
         ),
         PseudoCase(
             new_pseudo=PseudonymizationOptional(
@@ -360,7 +354,7 @@ def test_add_default_pseudonymization_values_papis_with_stable_id(
                 {"so-private": "key-hi-hi"},
                 {ENCRYPTION_PARAMETER_KEY_ID: DAEAD_ENCRYPTION_KEY_REFERENCE},
             ],
-            expected_pseudo_time=datetime(2025, 1, 1, 12, 30, 0, tzinfo=timezone.utc),
+            expected_pseudo_time=datetime(2025, 1, 1, 12, 30, 0, tzinfo=UTC),
         ),
     ],
     ids=[
@@ -406,9 +400,7 @@ def test_add_default_pseudonymization_values_daed(case: PseudoCase, metadata: Da
         ),
         PseudoCase(
             new_pseudo=PseudonymizationOptional(
-                pseudonymization_time=datetime(
-                    2025, 10, 29, 0, 0, 0, tzinfo=timezone.utc
-                ),
+                pseudonymization_time=datetime(2025, 10, 29, 0, 0, 0, tzinfo=UTC),
                 encryption_algorithm="unknown",
                 encryption_key_reference=DAEAD_ENCRYPTION_KEY_REFERENCE,
                 stable_identifier_type=PAPIS_STABLE_IDENTIFIER_TYPE,
@@ -425,7 +417,7 @@ def test_add_default_pseudonymization_values_daed(case: PseudoCase, metadata: Da
                 {ENCRYPTION_PARAMETER_KEY_ID: PAPIS_ENCRYPTION_KEY_REFERENCE},
                 {"someKey": "specialValue"},
             ],
-            expected_pseudo_time=datetime(2025, 10, 29, 0, 0, 0, tzinfo=timezone.utc),
+            expected_pseudo_time=datetime(2025, 10, 29, 0, 0, 0, tzinfo=UTC),
             expected_stable_version="2-a-3",
         ),
     ],

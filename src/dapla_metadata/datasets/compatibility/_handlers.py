@@ -1,5 +1,5 @@
+from datetime import UTC
 from datetime import datetime
-from datetime import timezone
 from typing import Any
 
 from dapla_metadata.datasets.compatibility._utils import DATADOC_KEY
@@ -302,7 +302,7 @@ def handle_version_1_0_0(supplied_metadata: dict[str, Any]) -> dict[str, Any]:
                 datetime.fromisoformat(
                     supplied_metadata[DATASET_KEY][field]
                 ).astimezone(
-                    tz=timezone.utc,
+                    tz=UTC,
                 ),
                 timespec="seconds",
             )

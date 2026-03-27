@@ -7,8 +7,8 @@ import functools
 import os
 import shutil
 from concurrent.futures import ThreadPoolExecutor
+from datetime import UTC
 from datetime import datetime
-from datetime import timezone
 from typing import TYPE_CHECKING
 
 import pandas as pd
@@ -54,7 +54,7 @@ def faker_session_locale():
 
 @pytest.fixture
 def dummy_timestamp() -> datetime:
-    return datetime(2022, 1, 1, tzinfo=timezone.utc)
+    return datetime(2022, 1, 1, tzinfo=UTC)
 
 
 @pytest.fixture

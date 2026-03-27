@@ -14,7 +14,7 @@ from textwrap import dedent
 import nox
 
 package = "dapla_metadata"
-python_versions = ["3.10", "3.11", "3.12", "3.13", "3.14"]
+python_versions = ["3.12", "3.13", "3.14"]
 nox.needs_version = ">= 2021.6.6"
 nox.options.default_venv_backend = "uv"
 
@@ -54,7 +54,6 @@ def precommit(session: nox.Session) -> None:
         "run",
         "--all-files",
         "--hook-stage=manual",
-        "--show-diff-on-failure",
     ]
     session.run("pre-commit", *args)
 

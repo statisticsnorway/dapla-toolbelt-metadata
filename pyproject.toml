@@ -3,7 +3,7 @@ name = "dapla-toolbelt-metadata"
 version = "0.14.1"
 description = "Dapla Toolbelt Metadata"
 readme = "README.md"
-requires-python = ">=3.10"
+requires-python = ">=3.12"
 license = "MIT"
 authors = [{ name = "Statistics Norway", email = "metadata@ssb.no" }]
 maintainers = [
@@ -11,8 +11,6 @@ maintainers = [
 ]
 classifiers = [
   "Development Status :: 4 - Beta",
-  "Programming Language :: Python :: 3.10",
-  "Programming Language :: Python :: 3.11",
   "Programming Language :: Python :: 3.12",
   "Programming Language :: Python :: 3.13",
   "Programming Language :: Python :: 3.14",
@@ -79,6 +77,7 @@ type_check = [
   "types-beautifulsoup4>=4.12.0.20240511",
   "types-colorama",
   "types-docker>=7.1.0.20250503",
+  "types-pytz>=2026.1.1.20260304",
   "types-requests",
   "types-setuptools",
 ]
@@ -169,7 +168,7 @@ pythonpath = ["src"]
 force-exclude = true  # Apply excludes to pre-commit
 show-fixes = true
 src = ["src", "tests"]
-target-version = "py310"  # Minimum Python version supported
+target-version = "py312"  # Minimum Python version supported
 include = ["*.py", "*.pyi", "**/pyproject.toml", "*.ipynb"]
 extend-exclude = [
   "__pycache__",
@@ -235,6 +234,10 @@ classmethod-decorators = [
   "D103",
   "S101",  # asserts are encouraged in pytest
 ]
+
+[tool.tombi]
+[tool.tombi.files]
+exclude = ["uv.lock"]
 
 [tool.uv]
 required-version = ">=0.8.0"
