@@ -26,6 +26,7 @@ from ..api_response import ApiResponse
 from ..models.list_variable_definitions200_response_inner import (
     ListVariableDefinitions200ResponseInner,
 )
+from ..models.supported_languages import SupportedLanguages
 from ..rest import RESTResponseType
 
 
@@ -49,7 +50,7 @@ class VariableDefinitionsApi:
             Field(description="Unique identifier for the variable definition."),
         ],
         accept_language: Annotated[
-            Any | None,
+            SupportedLanguages | None,
             Field(description="Render the variable definition in the given language."),
         ] = None,
         date_of_validity: Annotated[
@@ -139,7 +140,7 @@ class VariableDefinitionsApi:
             Field(description="Unique identifier for the variable definition."),
         ],
         accept_language: Annotated[
-            Any | None,
+            SupportedLanguages | None,
             Field(description="Render the variable definition in the given language."),
         ] = None,
         date_of_validity: Annotated[
@@ -229,7 +230,7 @@ class VariableDefinitionsApi:
             Field(description="Unique identifier for the variable definition."),
         ],
         accept_language: Annotated[
-            Any | None,
+            SupportedLanguages | None,
             Field(description="Render the variable definition in the given language."),
         ] = None,
         date_of_validity: Annotated[
@@ -385,7 +386,7 @@ class VariableDefinitionsApi:
     def list_variable_definitions(
         self,
         accept_language: Annotated[
-            Any | None,
+            SupportedLanguages | None,
             Field(description="Render the variable definition in the given language."),
         ] = None,
         date_of_validity: Annotated[
@@ -476,7 +477,7 @@ class VariableDefinitionsApi:
     def list_variable_definitions_with_http_info(
         self,
         accept_language: Annotated[
-            Any | None,
+            SupportedLanguages | None,
             Field(description="Render the variable definition in the given language."),
         ] = None,
         date_of_validity: Annotated[
@@ -567,7 +568,7 @@ class VariableDefinitionsApi:
     def list_variable_definitions_without_preload_content(
         self,
         accept_language: Annotated[
-            Any | None,
+            SupportedLanguages | None,
             Field(description="Render the variable definition in the given language."),
         ] = None,
         date_of_validity: Annotated[

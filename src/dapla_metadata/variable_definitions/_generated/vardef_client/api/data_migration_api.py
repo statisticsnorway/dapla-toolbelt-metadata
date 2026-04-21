@@ -332,8 +332,8 @@ class DataMigrationApi:
         )
 
         _response_types_map: dict[str, str | None] = {
-            "404": "Problem",
             "200": "CompleteView",
+            "404": "Problem",
         }
         response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
@@ -396,8 +396,8 @@ class DataMigrationApi:
         )
 
         _response_types_map: dict[str, str | None] = {
-            "404": "Problem",
             "200": "CompleteView",
+            "404": "Problem",
         }
         response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
@@ -460,8 +460,8 @@ class DataMigrationApi:
         )
 
         _response_types_map: dict[str, str | None] = {
-            "404": "Problem",
             "200": "CompleteView",
+            "404": "Problem",
         }
         response_data = self.api_client.call_api(
             *_param, _request_timeout=_request_timeout
@@ -500,7 +500,7 @@ class DataMigrationApi:
         # set the HTTP header `Accept`
         if "Accept" not in _header_params:
             _header_params["Accept"] = self.api_client.select_header_accept(
-                ["application/problem+json", "application/json"]
+                ["application/json", "application/problem+json"]
             )
 
         # authentication setting
