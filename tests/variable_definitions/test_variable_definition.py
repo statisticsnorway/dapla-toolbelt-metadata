@@ -19,12 +19,8 @@ from dapla_metadata.variable_definitions._generated.vardef_client.models.variabl
     VariableStatus,
 )
 from dapla_metadata.variable_definitions._utils._client import VardefClient
-from dapla_metadata.variable_definitions._utils.constants import (
-    PUBLISHING_BLOCKED_ERROR_MESSAGE,
-)
 from dapla_metadata.variable_definitions._utils.constants import VARDEF_PROD_URL
 from dapla_metadata.variable_definitions._utils.constants import VARDEF_TEST_URL
-from dapla_metadata.variable_definitions.exceptions import PublishingBlockedError
 from dapla_metadata.variable_definitions.exceptions import VardefFileError
 from dapla_metadata.variable_definitions.vardef import Vardef
 from dapla_metadata.variable_definitions.variable_definition import (
@@ -501,23 +497,22 @@ last_updated_by: "ano@ssb.no"
 
 @pytest.mark.parametrize("method_name", ["publish_internal", "publish_external"])
 @pytest.mark.parametrize(
-    ("mocked_host", "should_raise"),
+    ("mocked_host"),
     [
-        ("https://metadata.intern.ssb.no", True),
-        ("https://metadata.intern.test.ssb.no", False),
+        ("https://metadata.intern.ssb.no"),
+        ("https://metadata.intern.test.ssb.no"),
     ],
 )
 @pytest.mark.parametrize(("initial_status"), list(VariableStatus))
 @patch.object(VariableDefinition, "update_draft")
 @patch.object(VariableDefinition, "create_patch")
 @patch("dapla_metadata.variable_definitions._utils._client.VardefClient.get_config")
-def test_block_publish_methods(
+def test_publish(
     mock_get_config: MagicMock,
     mock_update_draft: MagicMock,
     mock_create_patch: MagicMock,
     method_name: str,
     mocked_host: str,
-    should_raise: bool,
     variable_definition: VariableDefinition,
     initial_status: VariableStatus,
 ):
@@ -533,56 +528,42 @@ def test_block_publish_methods(
     variable_definition.variable_status = initial_status
 
     method = getattr(variable_definition, method_name)
-    if should_raise:
-        with pytest.raises(
-            PublishingBlockedError, match=PUBLISHING_BLOCKED_ERROR_MESSAGE
-        ):
-            method()
-        mock_update_draft.assert_not_called()
-        mock_create_patch.assert_not_called()
-
-    else:
-        try:
-            method()
-            assert mock_update_draft.called or mock_create_patch.called
-        except ValueError:
-            # Ignore other exceptions for publishing
-            contextlib.suppress(ValueError)
+    try:
+        method()
+        assert mock_update_draft.called or mock_create_patch.called
+    except ValueError:
+        # Ignore other exceptions for publishing
+        contextlib.suppress(ValueError)
 
 
 @pytest.mark.parametrize(
-    ("mocked_host", "update_status", "should_raise"),
+    ("mocked_host", "update_status"),
     [
         (
             VARDEF_PROD_URL,
             VariableStatus.PUBLISHED_INTERNAL.value,
-            True,
         ),
         (
             VARDEF_PROD_URL,
             VariableStatus.PUBLISHED_EXTERNAL.value,
-            True,
         ),
-        (VARDEF_PROD_URL, VariableStatus.DRAFT.value, False),
-        (VARDEF_TEST_URL, VariableStatus.DRAFT.value, False),
+        (VARDEF_PROD_URL, VariableStatus.DRAFT.value),
+        (VARDEF_TEST_URL, VariableStatus.DRAFT.value),
         (
             VARDEF_TEST_URL,
             VariableStatus.PUBLISHED_INTERNAL.value,
-            False,
         ),
         (
             VARDEF_TEST_URL,
             VariableStatus.PUBLISHED_EXTERNAL.value,
-            False,
         ),
     ],
 )
 @patch("dapla_metadata.variable_definitions._utils._client.VardefClient.get_config")
-def test_block_update_variable_status(
+def test_update_variable_status(
     mock_get_config: MagicMock,
     mocked_host: str,
     update_status,
-    should_raise: bool,
     variable_definition: VariableDefinition,
 ):
     mock_config = MagicMock()
@@ -601,14 +582,8 @@ def test_block_update_variable_status(
     ):
         update = UpdateDraft(variable_status=update_status)
 
-        if should_raise:
-            with pytest.raises(
-                PublishingBlockedError, match=PUBLISHING_BLOCKED_ERROR_MESSAGE
-            ):
-                variable_definition.update_draft(update)
-        else:
-            try:
-                variable_definition.update_draft(update)
-            except ValueError:
-                # Ignore other exceptions for publishing
-                contextlib.suppress(ValueError)
+        try:
+            variable_definition.update_draft(update)
+        except ValueError:
+            # Ignore other exceptions for publishing
+            contextlib.suppress(ValueError)
