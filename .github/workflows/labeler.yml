@@ -1,4 +1,4 @@
-name: Labeler
+name: Update labels from config
 
 on:
   push:
