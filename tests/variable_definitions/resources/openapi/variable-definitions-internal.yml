@@ -176,7 +176,7 @@ paths:
             value: "9999"
       responses:
         "200":
-          description: Ok
+          description: OK response
           content:
             application/json:
               schema:
@@ -849,7 +849,7 @@ paths:
             value: "false"
       responses:
         "200":
-          description: OK response
+          description: Ok
           content:
             application/json:
               schema:
