@@ -1,6 +1,6 @@
 [project]
 name = "dapla-toolbelt-metadata"
-version = "0.15.1"
+version = "0.15.2"
 description = "Dapla Toolbelt Metadata"
 readme = "README.md"
 requires-python = ">=3.12"
