@@ -576,13 +576,16 @@ class Datadoc:
             msg = f"{source_short_name} does not exist!"
             raise ValueError(msg)
 
-        source_variable = source_variables_lookup[source_short_name]
+        # Clone object and rename to ensure that we have the correct short_name after copy
+        source_variable = copy.deepcopy(source_variables_lookup[source_short_name])
+        source_variable.short_name = target_short_name
+
         # Always override the data type to ensure it matches the physical dataset.
         source_variable.data_type = self.variables_lookup[  # type: ignore[assignment]
             target_short_name
         ].data_type
-        self.variables_lookup[target_short_name] = source_variable
 
         source_variable = all_optional_model.Variable.model_validate(source_variable)
 
+        self.variables_lookup[target_short_name] = source_variable
         self._update_variable(target_short_name, source_variable)
