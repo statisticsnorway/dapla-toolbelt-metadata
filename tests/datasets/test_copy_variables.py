@@ -73,7 +73,7 @@ def test_different_source_and_target_short_name(
         written_metadata = json.loads(f.read())
         datadoc_metadata = written_metadata["datadoc"]["variables"]
 
-        assert datadoc_metadata[0]["short_name"] == source_short_name
+        assert datadoc_metadata[0]["short_name"] == target_short_name
         correct_variable = datadoc_metadata[0]
         assert correct_variable["name"] is not None
         assert correct_variable["name"][2]["languageCode"] == "nb"
