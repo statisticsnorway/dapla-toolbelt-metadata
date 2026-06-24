@@ -91,6 +91,9 @@ KNOWN_DATETIME_TYPES = (
 
 KNOWN_BOOLEAN_TYPES = ("bool", "bool_", "boolean")
 
+# Each of these must contain EXACTLY ONE set of format braces {}
+KNOWN_ARRAY_TYPES = ("list<element: {}>", "large_list<element: {}>")
+
 
 TYPE_CORRESPONDENCE: list[tuple[tuple[str, ...], DataType]] = [
     (KNOWN_INTEGER_TYPES, DataType.INTEGER),
@@ -102,6 +105,13 @@ TYPE_CORRESPONDENCE: list[tuple[tuple[str, ...], DataType]] = [
 TYPE_MAP: dict[str, DataType] = {}
 for concrete_type, abstract_type in TYPE_CORRESPONDENCE:
     TYPE_MAP.update(dict.fromkeys(concrete_type, abstract_type))
+    TYPE_MAP.update(
+        {
+            template.format(t): DataType.ARRAY
+            for template in KNOWN_ARRAY_TYPES
+            for t in concrete_type
+        }
+    )
 
 
 def pretty_print_supported_types() -> str:
