@@ -15,7 +15,6 @@ from dapla_metadata.datasets.dataset_parser import KNOWN_DATETIME_TYPES
 from dapla_metadata.datasets.dataset_parser import KNOWN_FLOAT_TYPES
 from dapla_metadata.datasets.dataset_parser import KNOWN_INTEGER_TYPES
 from dapla_metadata.datasets.dataset_parser import KNOWN_STRING_TYPES
-from dapla_metadata.datasets.dataset_parser import TYPE_MAP
 from dapla_metadata.datasets.dataset_parser import DatasetParser
 from dapla_metadata.datasets.dataset_parser import DatasetParserParquet
 from tests.datasets.constants import TEST_PARQUET_FILEPATH
