@@ -15,6 +15,7 @@ from dapla_metadata.datasets.dataset_parser import KNOWN_DATETIME_TYPES
 from dapla_metadata.datasets.dataset_parser import KNOWN_FLOAT_TYPES
 from dapla_metadata.datasets.dataset_parser import KNOWN_INTEGER_TYPES
 from dapla_metadata.datasets.dataset_parser import KNOWN_STRING_TYPES
+from dapla_metadata.datasets.dataset_parser import TYPE_MAP
 from dapla_metadata.datasets.dataset_parser import DatasetParser
 from dapla_metadata.datasets.dataset_parser import DatasetParserParquet
 from tests.datasets.constants import TEST_PARQUET_FILEPATH
@@ -24,7 +25,7 @@ from tests.datasets.constants import TEST_SAS7BDAT_FILEPATH
 
 def test_use_abstract_class_directly():
     with pytest.raises(TypeError):
-        DatasetParser().get_fields()
+        DatasetParser().get_fields()  # ty:ignore[missing-argument]
 
 
 @pytest.mark.parametrize(
@@ -124,6 +125,15 @@ def test_transform_datatype_unknown_type():
 )
 def test_transform_datatype(expected: DataType, concrete_type: str):
     assert DatasetParser.transform_data_type(concrete_type) == expected
+
+
+def test_parse_array_type(tmp_path):
+    df = pd.DataFrame({"col1": [[0, 1, 2], [1, 2, 3], [2, 3, 4], [3, 4, 5]]})
+    output_path = tmp_path / "test_parse_array_type.parquet"
+    df.to_parquet(output_path, engine="pyarrow")
+    fields = DatasetParser.for_file(output_path).get_fields()
+    assert fields[0].short_name == "col1"
+    assert fields[0].data_type == DataType.ARRAY
 
 
 @pytest.fixture
