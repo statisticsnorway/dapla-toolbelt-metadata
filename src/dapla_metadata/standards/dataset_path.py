@@ -6,13 +6,13 @@ from __future__ import annotations
 import re
 from enum import StrEnum
 
-from dapla_metadata.standards.utils.period_parser import validate_period_range
+from dapla_metadata._shared.dataset_naming import CANONICAL_DATA_STATE_NAMES
+from dapla_metadata._shared.dataset_naming import is_valid_dataset_short_name
+from dapla_metadata._shared.period_parser import validate_period_range
+from dapla_metadata.datasets.utility.constants import GS_PREFIX
 
-_DATA_STATES = frozenset({"inndata", "klargjorte-data", "statistikk", "utdata"})
 _BUCKET_PATTERN = re.compile(r"[a-z0-9][a-z0-9._-]*[a-z0-9]")
-_PRODUCT_PATTERN = re.compile(r"[A-Za-z0-9_-]+")
-_SHORT_DESCRIPTION_PATTERN = re.compile(r"[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*")
-_FOLDER_PATTERN = re.compile(r"[A-Za-z0-9_-]+")
+_PATH_SEGMENT_PATTERN = re.compile(r"[A-Za-z0-9_-]+")
 
 
 class FileType(StrEnum):
@@ -121,7 +121,7 @@ def dataset_path(  # noqa: PLR0913 - explicit path components are part of the pu
     if period_to is not None:
         period_section += f"_p{period_to}"
     filename = f"{short_description}{period_section}_v{version}.{file_type.value}"
-    return f"gs://{'/'.join(directory_parts)}/{filename}"
+    return f"{GS_PREFIX}{'/'.join(directory_parts)}/{filename}"
 
 
 def _validate_bucket(bucket: str) -> None:
@@ -144,7 +144,7 @@ def _validate_product(product: str) -> None:
     if not isinstance(product, str):
         msg = "product must be a string"
         raise TypeError(msg)
-    if _PRODUCT_PATTERN.fullmatch(product) is None:
+    if _PATH_SEGMENT_PATTERN.fullmatch(product) is None:
         msg = "Invalid product name"
         raise ValueError(msg)
 
@@ -153,7 +153,7 @@ def _validate_data_state(data_state: str) -> None:
     if not isinstance(data_state, str):
         msg = "data_state must be a string"
         raise TypeError(msg)
-    if data_state not in _DATA_STATES:
+    if data_state not in CANONICAL_DATA_STATE_NAMES:
         msg = "Invalid data_state"
         raise ValueError(msg)
 
@@ -162,7 +162,7 @@ def _validate_short_description(short_description: str) -> None:
     if not isinstance(short_description, str):
         msg = "short_description must be a string"
         raise TypeError(msg)
-    if _SHORT_DESCRIPTION_PATTERN.fullmatch(short_description) is None:
+    if not is_valid_dataset_short_name(short_description):
         msg = "Invalid short description"
         raise ValueError(msg)
 
@@ -200,6 +200,6 @@ def _validate_folders(folders: list[str] | None) -> None:
         msg = "folders must be a list of strings or None"
         raise TypeError(msg)
     for folder in folders:
-        if _FOLDER_PATTERN.fullmatch(folder) is None:
+        if _PATH_SEGMENT_PATTERN.fullmatch(folder) is None:
             msg = f"Invalid folder name: {folder}"
             raise ValueError(msg)

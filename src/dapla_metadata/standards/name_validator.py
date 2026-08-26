@@ -6,6 +6,7 @@ from collections.abc import AsyncGenerator
 from upath import UPath
 from upath.types import ReadablePathLike
 
+from dapla_metadata._shared.dataset_naming import is_valid_dataset_short_name
 from dapla_metadata.datasets.dapla_dataset_path_info import DaplaDatasetPathInfo
 from dapla_metadata.datasets.dataset_parser import SUPPORTED_DATASET_FILE_SUFFIXES
 from dapla_metadata.standards.utils.constants import FILE_DOES_NOT_EXIST
@@ -166,7 +167,7 @@ def _has_invalid_symbols(path: ReadablePathLike) -> bool:
 
 
 def _short_name_has_illegal_chars(dataset_short_name: str | None) -> bool:
-    """Return True if short name contains anything else than letters, digits or dashes (no underscores allowed).
+    """Return whether a present short name violates the shared naming syntax.
 
     Examples:
         >>> _short_name_has_illegal_chars("åregang-øre")  # å and ø not allowed
@@ -181,9 +182,9 @@ def _short_name_has_illegal_chars(dataset_short_name: str | None) -> bool:
         >>> _short_name_has_illegal_chars("data.parquet")  # Returns True because . was sent in, should have been stripped into dataset_short_name.
         True
     """
-    if dataset_short_name is None or not dataset_short_name:
+    if not dataset_short_name:
         return False
-    return bool(re.search(r"[^a-zA-Z0-9\-]", str(dataset_short_name).strip()))
+    return not is_valid_dataset_short_name(dataset_short_name.strip())
 
 
 def _check_violations(

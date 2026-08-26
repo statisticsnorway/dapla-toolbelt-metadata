@@ -15,6 +15,8 @@ import arrow
 from datadoc_model.all_optional.model import DataSetState
 from upath import UPath
 
+from dapla_metadata._shared.dataset_naming import dataset_state_path_names
+from dapla_metadata._shared.period_parser import period_date_range
 from dapla_metadata.datasets.utility.constants import GS_PREFIX
 
 if TYPE_CHECKING:
@@ -388,13 +390,24 @@ class DaplaDatasetPathInfo:
             """
             return regex[:1] + "p" + regex[1:]
 
+        def is_period_section(section: str) -> bool:
+            if any(
+                re.match(insert_p(date_format.regex_pattern), section)
+                for date_format in SUPPORTED_DATE_FORMATS
+            ):
+                return True
+            if not section.startswith("p"):
+                return False
+            try:
+                period_date_range(section[1:])
+            except ValueError:
+                return False
+            return True
+
         return [
             i
-            for i, x in enumerate(dataset_name_sections)
-            if any(
-                re.match(insert_p(date_format.regex_pattern), x)
-                for date_format in SUPPORTED_DATE_FORMATS
-            )
+            for i, section in enumerate(dataset_name_sections)
+            if is_period_section(section)
         ]
 
     @staticmethod
@@ -453,7 +466,7 @@ class DaplaDatasetPathInfo:
     def _extract_norwegian_dataset_state_path_part(
         self,
         dataset_state: DataSetState,
-    ) -> set:
+    ) -> frozenset[str]:
         """Extract the Norwegian dataset state path part.
 
         Args:
@@ -462,18 +475,7 @@ class DaplaDatasetPathInfo:
         Returns:
             A set of variations of the Norwegian dataset state path part.
         """
-        norwegian_mappings = {
-            "SOURCE_DATA": "kildedata",
-            "INPUT_DATA": "inndata",
-            "PROCESSED_DATA": "klargjorte_data",
-            "STATISTICS": "statistikk",
-            "OUTPUT_DATA": "utdata",
-        }
-        norwegian_state = norwegian_mappings.get(dataset_state.name)
-        if norwegian_state:
-            state_name = norwegian_state.lower().replace("_", " ")
-            return {state_name.replace(" ", "-"), state_name.replace(" ", "_")}
-        return set()
+        return dataset_state_path_names(dataset_state.name)
 
     @property
     def bucket_name(
@@ -577,8 +579,11 @@ class DaplaDatasetPathInfo:
             len(self.period_strings) > 1 and period_string > self.period_strings[1]
         ):
             return None
-        date_format = categorize_period_string(period_string)
-        return date_format.get_floor(period_string)
+        try:
+            return period_date_range(period_string)[0]
+        except ValueError:
+            date_format = categorize_period_string(period_string)
+            return date_format.get_floor(period_string)
 
     @property
     def contains_data_until(self) -> datetime.date | None:
@@ -596,8 +601,11 @@ class DaplaDatasetPathInfo:
             and second_period_string < first_period_string
         ):
             return None
-        date_format = categorize_period_string(period_string)
-        return date_format.get_ceil(period_string)
+        try:
+            return period_date_range(period_string)[1]
+        except ValueError:
+            date_format = categorize_period_string(period_string)
+            return date_format.get_ceil(period_string)
 
     @property
     def dataset_state(
