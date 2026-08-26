@@ -95,7 +95,7 @@ async def test_missing_shortname(file_path, tmp_path):
         "gs:/ssb-dapla-example-data-produkt-prod/ledstill/temp/skjema_v1.parquet",
         "buckets/ssb-dapla-example-data-produkt-prod/ledstill/inndata/temp/skjema_p2018_p2020_v2.parquet",
         "gs://ssb-dapla-example-data-produkt-prod/temp/ledstill/inndata/temp/skjema_p2018_p2020",
-        "gs://ssb-dapla-example-data-produkt-prod/konfigurasjon/ledstill/inndata/skjema_p2018_p2020",
+        "gs://ssb-dapla-example-data-produkt-prod/konfigurasjon/ledstill/inndata/skjema_p2020_p2020",
     ],
 )
 @pytest.mark.asyncio
@@ -138,6 +138,23 @@ async def test_missing_dataset_shortname(file_path, tmp_path):
     full_path.touch()
     result = await check_naming_standard(file_path=full_path)
     assert any(v for v in result[0].violations for v in [MISSING_DATASET_SHORT_NAME])
+
+
+@pytest.mark.parametrize(
+    ("file_path"),
+    [
+        "gs://ssb-staging-dapla-felles-data-delt/datadoc/utdata/dataeett_p2022_p2021_v2.parquet",
+    ],
+)
+@pytest.mark.asyncio
+async def test_missing_dataset_shortname(file_path, tmp_path):
+    full_path = tmp_path / file_path
+    full_path.parent.mkdir(parents=True, exist_ok=True)
+    full_path.touch()
+    result = await check_naming_standard(file_path=full_path)
+    print("Result", result)
+
+    pytest.fail()
 
 
 @pytest.mark.parametrize(
