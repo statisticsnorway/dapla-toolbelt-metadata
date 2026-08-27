@@ -1,3 +1,5 @@
+"""Extract info from a path following SSB's dataset naming convention."""
+
 from __future__ import annotations
 
 import logging

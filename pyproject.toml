@@ -70,6 +70,7 @@ test = [
   "xdoctest[colors]>=0.15.10",
 ]
 type_check = [
+  "hypothesis>=6.0",
   "mypy>=0.950",
   "pandas-stubs",
   "pyarrow-stubs>=10.0.1.9",

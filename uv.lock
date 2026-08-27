@@ -661,6 +661,7 @@ test = [
     { name = "xdoctest", extra = ["colors"] },
 ]
 type-check = [
+    { name = "hypothesis" },
     { name = "mypy" },
     { name = "pandas-stubs" },
     { name = "pyarrow-stubs" },
@@ -726,6 +727,7 @@ test = [
     { name = "xdoctest", extras = ["colors"], specifier = ">=0.15.10" },
 ]
 type-check = [
+    { name = "hypothesis", specifier = ">=6.0" },
     { name = "mypy", specifier = ">=0.950" },
     { name = "pandas-stubs" },
     { name = "pyarrow-stubs", specifier = ">=10.0.1.9" },
