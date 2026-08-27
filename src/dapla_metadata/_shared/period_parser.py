@@ -7,7 +7,6 @@ import re
 from datetime import date
 from datetime import datetime
 from datetime import timedelta
-from typing import Any
 from typing import cast
 
 _PeriodResult = tuple[str, date | tuple[int, ...]]
@@ -214,6 +213,10 @@ def validate_period_range(
     if from_format != to_format:
         msg = "periods must use the same format"
         raise ValueError(msg)
-    if cast("Any", from_value) > cast("Any", to_value):
+    # from_value and to_value are guaranteed to be the same concrete type
+    # here (both `date` or both `tuple[int, ...]`) because from_format ==
+    # to_format was already checked above, so this comparison is safe despite
+    # the `date | tuple[int, ...]` union type.
+    if from_value > to_value:  # type: ignore[operator]
         msg = "periods must be in chronological order"
         raise ValueError(msg)
