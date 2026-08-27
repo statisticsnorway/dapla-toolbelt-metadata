@@ -17,28 +17,32 @@ _SSB_LIMITS = {
     period_format: 12 // months for period_format, months in _MONTHS_PER_PERIOD.items()
 }
 _CALENDAR_FORMATS = (
-    ("year", r"\d{4}", "%Y"),
-    ("month", r"\d{4}-\d{2}", "%Y-%m"),
-    ("date", r"\d{4}-\d{2}-\d{2}", "%Y-%m-%d"),
+    ("year", re.compile(r"\d{4}"), "%Y"),
+    ("month", re.compile(r"\d{4}-\d{2}"), "%Y-%m"),
+    ("date", re.compile(r"\d{4}-\d{2}-\d{2}"), "%Y-%m-%d"),
 )
+_WEEK_PATTERN = re.compile(r"(\d{4})-W(\d{2})")
+_ORDINAL_PATTERN = re.compile(r"(\d{4})-(\d{3})")
+_DATETIME_PATTERN = re.compile(
+    r"(\d{4})-(\d{2})-(\d{2})T(\d{2})-(\d{2})-(\d{2})\.(\d{3})"
+)
+_SSB_PATTERN = re.compile(r"(\d{4})-([BQTH])(\d)")
 
 
 def _try_calendar(period: str) -> _PeriodResult | None:
     for period_format, pattern, strptime_format in _CALENDAR_FORMATS:
-        if re.fullmatch(pattern, period):
-            try:
-                parsed_date = datetime.strptime(  # noqa: DTZ007 - date-only input
-                    period, strptime_format
-                ).date()
-            except ValueError:
-                return None
-            else:
-                return period_format, parsed_date
+        if not pattern.fullmatch(period):
+            continue
+        try:
+            parsed_date = datetime.strptime(period, strptime_format).date()  # noqa: DTZ007 - date-only input
+        except ValueError:
+            return None
+        return period_format, parsed_date
     return None
 
 
 def _try_week(period: str) -> _PeriodResult | None:
-    match = re.fullmatch(r"(\d{4})-W(\d{2})", period)
+    match = _WEEK_PATTERN.fullmatch(period)
     if not match:
         return None
     try:
@@ -48,20 +52,19 @@ def _try_week(period: str) -> _PeriodResult | None:
 
 
 def _try_ordinal(period: str) -> _PeriodResult | None:
-    match = re.fullmatch(r"(\d{4})-(\d{3})", period)
+    match = _ORDINAL_PATTERN.fullmatch(period)
     if not match:
         return None
+    try:
+        datetime.datetime.strptime(period, "%Y-%j")
+    except ValueError:
+        return None
     year, ordinal = int(match.group(1)), int(match.group(2))
-    if 1 <= year <= 9999 and 1 <= ordinal <= 365 + calendar.isleap(year):
-        return "ordinal", (year, ordinal)
-    return None
+    return "ordinal", (year, ordinal)
 
 
 def _try_datetime(period: str) -> _PeriodResult | None:
-    match = re.fullmatch(
-        r"(\d{4})-(\d{2})-(\d{2})T(\d{2})-(\d{2})-(\d{2})\.(\d{3})",
-        period,
-    )
+    match = _DATETIME_PATTERN.fullmatch(period)
     if not match:
         return None
     components = tuple(map(int, match.groups()))
@@ -82,7 +85,7 @@ def _try_datetime(period: str) -> _PeriodResult | None:
 
 
 def _try_ssb(period: str) -> _PeriodResult | None:
-    match = re.fullmatch(r"(\d{4})-([BQTH])(\d)", period)
+    match = _SSB_PATTERN.fullmatch(period)
     if not match:
         return None
     year, kind, number = int(match.group(1)), match.group(2), int(match.group(3))
