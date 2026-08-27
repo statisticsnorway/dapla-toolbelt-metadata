@@ -229,15 +229,15 @@ def _build_filename(
         )
         raise ValueError(msg)
 
-    short_description = cast("str", short_description)
-    period_from = cast("str", period_from)
-    version = cast("int", version)
-    file_type = cast("FileType", file_type)
-
     period_section = (
-        f"_p{period_from}_p{period_to}" if period_to is not None else f"_p{period_from}"
+        f"_p{cast('str', period_from)}_p{period_to}"
+        if period_to is not None
+        else f"_p{cast('str', period_from)}"
     )
-    return f"{short_description}{period_section}_v{version}.{file_type.value}"
+    return (
+        f"{cast('str', short_description)}{period_section}"
+        f"_v{cast('int', version)}.{cast('FileType', file_type).value}"
+    )
 
 
 def _validate_contiguous_hierarchy(
