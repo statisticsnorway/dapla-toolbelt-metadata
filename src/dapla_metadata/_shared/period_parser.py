@@ -1,13 +1,20 @@
-"""Shared parsing for canonical SSB dataset periods."""
+"""Shared parsing for canonical SSB dataset periods.
+
+This module builds on ``arrow`` for date validation and arithmetic,
+consistent with ``dapla_dataset_path_info.py``. Unlike that module's more
+permissive legacy formats, this module first enforces a strict canonical
+syntax (via its own regexes, requiring separators such as ``-``) before
+handing the matched value off to ``arrow`` for validation and date-range
+calculation.
+"""
 
 from __future__ import annotations
 
-import calendar
 import re
 from datetime import date
-from datetime import datetime
-from datetime import timedelta
 from typing import cast
+
+import arrow
 
 _PeriodResult = tuple[str, date | tuple[int, ...]]
 
@@ -16,16 +23,20 @@ _SSB_LIMITS = {
     period_format: 12 // months for period_format, months in _MONTHS_PER_PERIOD.items()
 }
 _CALENDAR_FORMATS = (
-    ("year", re.compile(r"\d{4}"), "%Y"),
-    ("month", re.compile(r"\d{4}-\d{2}"), "%Y-%m"),
-    ("date", re.compile(r"\d{4}-\d{2}-\d{2}"), "%Y-%m-%d"),
+    ("year", re.compile(r"\d{4}"), "YYYY"),
+    ("month", re.compile(r"\d{4}-\d{2}"), "YYYY-MM"),
+    ("date", re.compile(r"\d{4}-\d{2}-\d{2}"), "YYYY-MM-DD"),
 )
 _WEEK_PATTERN = re.compile(r"(\d{4})-W(\d{2})")
+_WEEK_ARROW_PATTERN = "W"
 _ORDINAL_PATTERN = re.compile(r"(\d{4})-(\d{3})")
+_ORDINAL_ARROW_PATTERN = "YYYY-DDD"
 _DATETIME_PATTERN = re.compile(
     r"(\d{4})-(\d{2})-(\d{2})T(\d{2})-(\d{2})-(\d{2})\.(\d{3})"
 )
+_DATETIME_ARROW_PATTERN = "YYYY-MM-DDTHH-mm-ss.SSS"
 _SSB_PATTERN = re.compile(r"(\d{4})-([BQTH])(\d)")
+_SSB_MONTH_ARROW_PATTERN = "YYYYMM"
 
 
 def _try_calendar(period: str) -> _PeriodResult | None:
@@ -34,11 +45,11 @@ def _try_calendar(period: str) -> _PeriodResult | None:
     Return the calendar format and its first represented date, or ``None``
     when the value has an unsupported format or is not a valid calendar date.
     """
-    for period_format, pattern, strptime_format in _CALENDAR_FORMATS:
+    for period_format, pattern, arrow_pattern in _CALENDAR_FORMATS:
         if not pattern.fullmatch(period):
             continue
         try:
-            parsed_date = datetime.strptime(period, strptime_format).date()  # noqa: DTZ007 - date-only input
+            parsed_date = arrow.get(period, arrow_pattern).date()
         except ValueError:
             return None
         return period_format, parsed_date
@@ -51,13 +62,13 @@ def _try_week(period: str) -> _PeriodResult | None:
     Return ``None`` when the value is not an ISO week or identifies a week
     that does not exist.
     """
-    match = _WEEK_PATTERN.fullmatch(period)
-    if not match:
+    if not _WEEK_PATTERN.fullmatch(period):
         return None
     try:
-        return "week", date.fromisocalendar(int(match.group(1)), int(match.group(2)), 1)
+        parsed_date = arrow.get(period, _WEEK_ARROW_PATTERN).date()
     except ValueError:
         return None
+    return "week", parsed_date
 
 
 def _try_ordinal(period: str) -> _PeriodResult | None:
@@ -70,7 +81,7 @@ def _try_ordinal(period: str) -> _PeriodResult | None:
     if not match:
         return None
     try:
-        parsed_date = datetime.strptime(period, "%Y-%j")  # noqa: DTZ007 - date-only input
+        parsed_date = arrow.get(period, _ORDINAL_ARROW_PATTERN).date()
     except ValueError:
         return None
     year, ordinal = int(match.group(1)), int(match.group(2))
@@ -89,18 +100,14 @@ def _try_datetime(period: str) -> _PeriodResult | None:
     if not match:
         return None
     components = tuple(map(int, match.groups()))
-    year, month, day, hour, minute, second, millisecond = components
+    year, month, day = components[:3]
     try:
-        datetime(  # noqa: DTZ001 - timezone is not part of the period format
-            year,
-            month,
-            day,
-            hour,
-            minute,
-            second,
-            millisecond * 1000,
-        )
+        parsed = arrow.get(period, _DATETIME_ARROW_PATTERN)
     except ValueError:
+        return None
+    # Reject ISO8601's "24:00:00 = midnight at the start of the next day"
+    # special case, which arrow accepts and rolls over to the next day.
+    if (parsed.year, parsed.month, parsed.day) != (year, month, day):
         return None
     return "datetime", components
 
@@ -147,10 +154,11 @@ def parse_period(period: str) -> _PeriodResult:
     raise ValueError(msg)
 
 
-def _month_range(year: int, start_month: int, end_month: int) -> tuple[date, date]:
+def _ssb_month_range(year: int, start_month: int, end_month: int) -> tuple[date, date]:
     """Return the inclusive date range spanning two months in one year."""
-    last_day = calendar.monthrange(year, end_month)[1]
-    return date(year, start_month, 1), date(year, end_month, last_day)
+    start = arrow.get(f"{year:04d}{start_month:02d}", _SSB_MONTH_ARROW_PATTERN)
+    end = arrow.get(f"{year:04d}{end_month:02d}", _SSB_MONTH_ARROW_PATTERN)
+    return start.floor("month").date(), end.ceil("month").date()
 
 
 def period_date_range(period: str) -> tuple[date, date]:
@@ -167,16 +175,21 @@ def period_date_range(period: str) -> tuple[date, date]:
             return d, d
         case "week":
             week_value = cast("date", value)
-            return week_value, week_value + timedelta(days=6)
+            week_arrow = arrow.Arrow.fromdate(week_value)
+            return week_arrow.floor("week").date(), week_arrow.ceil("week").date()
         case "month":
             month_value = cast("date", value)
-            return _month_range(month_value.year, month_value.month, month_value.month)
+            month_arrow = arrow.Arrow.fromdate(month_value)
+            return month_arrow.floor("month").date(), month_arrow.ceil("month").date()
         case "year":
             year_value = cast("date", value)
-            return year_value, date(year_value.year, 12, 31)
+            year_arrow = arrow.Arrow.fromdate(year_value)
+            return year_arrow.floor("year").date(), year_arrow.ceil("year").date()
         case "ordinal":
             year, day_of_year = cast("tuple[int, ...]", value)
-            start = date(year, 1, 1) + timedelta(days=day_of_year - 1)
+            start = arrow.get(
+                f"{year:04d}-{day_of_year:03d}", _ORDINAL_ARROW_PATTERN
+            ).date()
             return start, start
         case _:
             # Remaining SSB sub-year periods: bimonthly (B), quarterly (Q),
@@ -186,7 +199,7 @@ def period_date_range(period: str) -> tuple[date, date]:
             year, period_index = cast("tuple[int, ...]", value)
             months = _MONTHS_PER_PERIOD[period_format]
             start_month = (period_index - 1) * months + 1
-            return _month_range(year, start_month, start_month + months - 1)
+            return _ssb_month_range(year, start_month, start_month + months - 1)
 
 
 def validate_period_range(
