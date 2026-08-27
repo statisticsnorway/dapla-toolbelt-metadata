@@ -15,13 +15,19 @@ DATASET_STATE_PATH_NAMES: Final = MappingProxyType(
         "OUTPUT_DATA": frozenset({"utdata"}),
     }
 )
-CANONICAL_DATA_STATE_NAMES: Final = frozenset(
+# The single canonical (hyphenated) path name per data state accepted by
+# dataset_path(). SOURCE_DATA/"kildedata" is deliberately omitted, since it
+# is not an accepted dataset_path() data_state value.
+_CANONICAL_DATA_STATE_NAME_BY_STATE: Final = MappingProxyType(
     {
-        "inndata",
-        "klargjorte-data",
-        "statistikk",
-        "utdata",
+        "INPUT_DATA": "inndata",
+        "PROCESSED_DATA": "klargjorte-data",
+        "STATISTICS": "statistikk",
+        "OUTPUT_DATA": "utdata",
     }
+)
+CANONICAL_DATA_STATE_NAMES: Final = frozenset(
+    _CANONICAL_DATA_STATE_NAME_BY_STATE.values()
 )
 
 _ILLEGAL_DATASET_SHORT_NAME_CHARS_PATTERN = re.compile(r"[^a-zA-Z0-9\-]")
