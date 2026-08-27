@@ -30,6 +30,11 @@ _SSB_PATTERN = re.compile(r"(\d{4})-([BQTH])(\d)")
 
 
 def _try_calendar(period: str) -> _PeriodResult | None:
+    """Parse a valid calendar year, month, or date.
+
+    Return the calendar format and its first represented date, or ``None``
+    when the value has an unsupported format or is not a valid calendar date.
+    """
     for period_format, pattern, strptime_format in _CALENDAR_FORMATS:
         if not pattern.fullmatch(period):
             continue
@@ -42,6 +47,11 @@ def _try_calendar(period: str) -> _PeriodResult | None:
 
 
 def _try_week(period: str) -> _PeriodResult | None:
+    """Parse a valid ISO week and return the date of its Monday.
+
+    Return ``None`` when the value is not an ISO week or identifies a week
+    that does not exist.
+    """
     match = _WEEK_PATTERN.fullmatch(period)
     if not match:
         return None
@@ -52,18 +62,30 @@ def _try_week(period: str) -> _PeriodResult | None:
 
 
 def _try_ordinal(period: str) -> _PeriodResult | None:
+    """Parse a valid year and ordinal day as a ``(year, day)`` tuple.
+
+    Return ``None`` when the value is not an ordinal period or the day does
+    not exist in the given year.
+    """
     match = _ORDINAL_PATTERN.fullmatch(period)
     if not match:
         return None
     try:
-        datetime.datetime.strptime(period, "%Y-%j")
+        parsed_date = datetime.strptime(period, "%Y-%j")  # noqa: DTZ007 - date-only input
     except ValueError:
         return None
     year, ordinal = int(match.group(1)), int(match.group(2))
+    if parsed_date.year != year:
+        return None
     return "ordinal", (year, ordinal)
 
 
 def _try_datetime(period: str) -> _PeriodResult | None:
+    """Parse a valid date and time into its numeric components.
+
+    The returned tuple contains year, month, day, hour, minute, second, and
+    millisecond. Return ``None`` for an unsupported or invalid datetime.
+    """
     match = _DATETIME_PATTERN.fullmatch(period)
     if not match:
         return None
@@ -85,6 +107,11 @@ def _try_datetime(period: str) -> _PeriodResult | None:
 
 
 def _try_ssb(period: str) -> _PeriodResult | None:
+    """Parse a valid SSB period into its kind, year, and period number.
+
+    Supported kinds are bimonthly (``B``), quarterly (``Q``), four-monthly
+    (``T``), and half-yearly (``H``). Return ``None`` for invalid values.
+    """
     match = _SSB_PATTERN.fullmatch(period)
     if not match:
         return None
@@ -104,7 +131,15 @@ _PARSERS = (
 
 
 def parse_period(period: str) -> _PeriodResult:
-    """Parse and validate a canonical period string."""
+    """Parse and validate a canonical period string.
+
+    Return the detected format together with a date or tuple containing the
+    parsed value.
+
+    Raises:
+        ValueError: If the period does not use a supported format or contains
+            an invalid date or period number.
+    """
     for parser in _PARSERS:
         result = parser(period)
         if result is not None:
@@ -114,12 +149,17 @@ def parse_period(period: str) -> _PeriodResult:
 
 
 def _month_range(year: int, start_month: int, end_month: int) -> tuple[date, date]:
+    """Return the inclusive date range spanning two months in one year."""
     last_day = calendar.monthrange(year, end_month)[1]
     return date(year, start_month, 1), date(year, end_month, last_day)
 
 
 def period_date_range(period: str) -> tuple[date, date]:
-    """Return the first and last calendar dates represented by a period."""
+    """Return the inclusive calendar date range represented by a period.
+
+    Raises:
+        ValueError: If the period is invalid or unsupported.
+    """
     period_format, value = parse_period(period)
 
     match period_format:
@@ -150,7 +190,16 @@ def validate_period_range(
     period_from: str,
     period_to: str | None = None,
 ) -> None:
-    """Validate canonical periods for matching formats and chronological order."""
+    """Validate one period or an inclusive range of canonical periods.
+
+    When an end period is supplied, both periods must use the same format and
+    the start must not follow the end. Period values must omit the ``p`` path
+    prefix.
+
+    Raises:
+        ValueError: If a period is invalid, uses the ``p`` prefix, differs in
+            format from the other period, or occurs out of chronological order.
+    """
     if period_from.startswith("p") or (
         period_to is not None and period_to.startswith("p")
     ):
