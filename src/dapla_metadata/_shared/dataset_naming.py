@@ -15,9 +15,6 @@ DATASET_STATE_PATH_NAMES: Final = MappingProxyType(
         "OUTPUT_DATA": frozenset({"utdata"}),
     }
 )
-# The single canonical (hyphenated) path name per data state accepted by
-# dataset_path(). SOURCE_DATA/"kildedata" is deliberately omitted, since it
-# is not an accepted dataset_path() data_state value.
 _CANONICAL_DATA_STATE_NAME_BY_STATE: Final = MappingProxyType(
     {
         "INPUT_DATA": "inndata",
