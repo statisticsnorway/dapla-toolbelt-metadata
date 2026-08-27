@@ -167,7 +167,7 @@ def _has_invalid_symbols(path: ReadablePathLike) -> bool:
 
 
 def _short_name_has_illegal_chars(dataset_short_name: str | None) -> bool:
-    """Return whether a present short name violates the shared naming syntax.
+    """Return True if short name contains anything else than letters, digits or dashes (no underscores allowed).
 
     Examples:
         >>> _short_name_has_illegal_chars("åregang-øre")  # å and ø not allowed
