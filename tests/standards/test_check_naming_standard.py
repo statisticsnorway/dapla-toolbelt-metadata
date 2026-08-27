@@ -95,7 +95,7 @@ async def test_missing_shortname(file_path, tmp_path):
         "gs:/ssb-dapla-example-data-produkt-prod/ledstill/temp/skjema_v1.parquet",
         "buckets/ssb-dapla-example-data-produkt-prod/ledstill/inndata/temp/skjema_p2018_p2020_v2.parquet",
         "gs://ssb-dapla-example-data-produkt-prod/temp/ledstill/inndata/temp/skjema_p2018_p2020",
-        "gs://ssb-dapla-example-data-produkt-prod/konfigurasjon/ledstill/inndata/skjema_p2020_p2020",
+        "gs://ssb-dapla-example-data-produkt-prod/konfigurasjon/ledstill/inndata/skjema_p2018_p2020",
     ],
 )
 @pytest.mark.asyncio
