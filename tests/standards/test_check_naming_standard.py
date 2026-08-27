@@ -143,23 +143,6 @@ async def test_missing_dataset_shortname(file_path, tmp_path):
 @pytest.mark.parametrize(
     ("file_path"),
     [
-        "gs://ssb-staging-dapla-felles-data-delt/datadoc/utdata/dataeett_p2022_p2021_v2.parquet",
-    ],
-)
-@pytest.mark.asyncio
-async def test_missing_dataset_shortname(file_path, tmp_path):
-    full_path = tmp_path / file_path
-    full_path.parent.mkdir(parents=True, exist_ok=True)
-    full_path.touch()
-    result = await check_naming_standard(file_path=full_path)
-    print("Result", result)
-
-    pytest.fail()
-
-
-@pytest.mark.parametrize(
-    ("file_path"),
-    [
         "gs://ssb-staging-dapla-felles-data-delt/datadoc/utdata/p2021_v2.parquet",
         "buckets/produkt/datadoc/brukertest/1/sykefratot/klargjorte_data/_p2021-12-31_p2021-12-31_v1.parquet",
     ],

@@ -7,7 +7,6 @@ from hypothesis import strategies as st
 
 from dapla_metadata.standards import FileType
 from dapla_metadata.standards import dataset_path
-from dapla_metadata.standards.dataset_path import _validate_bucket
 from dapla_metadata.standards.dataset_path import _validate_data_state
 from dapla_metadata.standards.dataset_path import _validate_file_type
 from dapla_metadata.standards.dataset_path import _validate_folders
@@ -22,21 +21,7 @@ ASCII_LETTERS_AND_DIGITS = (
 )
 DATA_STATES = frozenset({"inndata", "klargjorte-data", "statistikk", "utdata"})
 
-valid_bucket_names = (
-    st.text(
-        alphabet=ASCII_LOWER_AND_DIGITS + "._-",
-        min_size=1,
-        max_size=61,
-    )
-    .flatmap(
-        lambda middle: st.tuples(
-            st.sampled_from(ASCII_LOWER_AND_DIGITS),
-            st.just(middle),
-            st.sampled_from(ASCII_LOWER_AND_DIGITS),
-        ).map("".join)
-    )
-    .filter(lambda value: all(value.split(".")))
-)
+bucket_names = st.text(min_size=1, max_size=100)
 
 valid_product_names = st.text(
     alphabet=ASCII_LETTERS_AND_DIGITS + "_-",
@@ -109,7 +94,7 @@ valid_single_periods = st.one_of(
 
 
 @given(
-    bucket=valid_bucket_names,
+    bucket=bucket_names,
     product=valid_product_names,
     data_state=st.sampled_from(tuple(DATA_STATES)),
     short_description=valid_dataset_names,
@@ -163,23 +148,6 @@ def test_dataset_path_orders_two_period_markers_without_modifying_values(first, 
     )
 
     assert result.endswith(f"dataset_p{period_from}_p{period_until}_v1.parquet")
-
-
-@given(valid_bucket_names)
-def test_validate_bucket_accepts_generated_valid_names(value):
-    _validate_bucket(value)
-
-
-@given(
-    st.one_of(
-        valid_bucket_names.map(lambda value: f"gs://{value}"),
-        valid_bucket_names.map(lambda value: f"{value}/object"),
-        st.text(max_size=2),
-    )
-)
-def test_validate_bucket_rejects_generated_invalid_names(value):
-    with pytest.raises(ValueError, match="Invalid GCS bucket name"):
-        _validate_bucket(value)
 
 
 @given(valid_product_names)

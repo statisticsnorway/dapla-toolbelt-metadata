@@ -1,17 +1,15 @@
-# Copyright (c) 2026 Statistics Norway
-"""Build complete GCS paths from validated dataset metadata."""
+"""Build complete or partial paths from validated dataset metadata."""
 
 from __future__ import annotations
 
 import re
 from enum import StrEnum
 
+from dapla_metadata._shared.constants import GS_PREFIX
 from dapla_metadata._shared.dataset_naming import CANONICAL_DATA_STATE_NAMES
 from dapla_metadata._shared.dataset_naming import is_valid_dataset_short_name
 from dapla_metadata._shared.period_parser import validate_period_range
-from dapla_metadata.datasets.utility.constants import GS_PREFIX
 
-_BUCKET_PATTERN = re.compile(r"[a-z0-9][a-z0-9._-]*[a-z0-9]")
 _PATH_SEGMENT_PATTERN = re.compile(r"[A-Za-z0-9_-]+")
 
 
@@ -26,47 +24,54 @@ class FileType(StrEnum):
 
 def dataset_path(  # noqa: PLR0913 - explicit path components are part of the public API
     *,
-    bucket: str,
-    product: str,
-    data_state: str,
-    short_description: str,
-    period_from: str,
+    bucket: str | None = None,
+    product: str | None = None,
+    data_state: str | None = None,
+    short_description: str | None = None,
+    period_from: str | None = None,
     period_to: str | None = None,
-    version: int,
-    file_type: FileType,
+    version: int | None = None,
+    file_type: FileType | None = None,
     folders: list[str] | None = None,
 ) -> str:
-    """Build a complete GCS path from semantic dataset metadata.
+    """Build a complete or contiguous partial path from dataset metadata.
 
-    The function validates all arguments and returns a path in the form::
+    The complete path has the form::
 
         gs://{bucket}/{product}/{data_state}/{folders...}/{short_description}_p{period_from}[_p{period_to}]_v{version}.{file_type}
 
-    When two periods are provided, both should be included in the filename::
+    Any contiguous section can be returned, including a filename alone,
+    ``data_state/folders.../filename``, or ``bucket/product``. Leading and
+    trailing sections may be omitted, but supplied sections cannot have a gap.
+    Optional folders do not create a gap. For example, ``product/filename`` is
+    invalid because ``data_state`` is missing, while ``data_state/filename``
+    is valid.
 
-        gs://{bucket}/{product}/{data_state}/{short_description}_p{from}_p{to}_v{version}.{file_type}
+    A filename is atomic: ``short_description``, ``period_from``, ``version``,
+    and ``file_type`` must either all be provided or all be omitted.
+    ``period_to`` is optional, but can only be used as part of a complete
+    filename.
 
     Callers should provide semantic values only. The function should add the
     ``gs://``, ``_p``, ``_v``, and ``.`` syntax itself. It should not access GCS,
     inspect the filesystem, or silently correct invalid input.
 
     Args:
-        bucket: GCS bucket name, without the ``gs://`` prefix. It must contain
-            3-63 characters for a single-label bucket, or 3-222 characters for
-            a dotted bucket, and use lowercase letters, digits, ``.``, ``-``,
-            and ``_``. It must start and end with a letter or digit. For
-            example, ``"ssb-dapla-example-data-produkt-prod"``.
-        product: Non-empty statistics-product or data-product short name. It
+        bucket: Optional bucket name, without the ``gs://`` prefix. The name is
+            included verbatim and is not validated against GCS naming rules.
+            Callers are responsible for validating it when necessary. For example,
+            ``"ssb-dapla-example-data-produkt-prod"``.
+        product: Optional non-empty statistics-product or data-product short name. It
             may contain uppercase and lowercase letters, digits, ``-``, and
             ``_``. For example, ``"ledstill"`` or ``"ameld_data"``.
-        data_state: One of ``"inndata"``, ``"klargjorte-data"``,
+        data_state: Optionally one of ``"inndata"``, ``"klargjorte-data"``,
             ``"statistikk"``, or ``"utdata"``.
-        short_description: Non-empty dataset short description. It must use
+        short_description: Optional non-empty dataset short description. It must use
             only letters and digits, with optional single hyphens between
             alphanumeric parts. Underscores, spaces, slashes, and periods are
             not accepted. For example, ``"varehandel"`` or
             ``"grensehandel-imputert"``.
-        period_from: The first period as a string. Do not include the ``p``
+        period_from: The optional first period as a string. Do not include the ``p``
             prefix. Supported formats are:
 
             * year: ``YYYY`` — for example, ``"2019"``;
@@ -84,9 +89,9 @@ def dataset_path(  # noqa: PLR0913 - explicit path components are part of the pu
         period_to: An optional second period as a string, without the ``p``
             prefix. If supplied, it must use the same format as
             ``period_from`` and be in chronological order.
-        version: A non-negative integer, such as ``0`` or ``3``. Do not
+        version: An optional non-negative integer, such as ``0`` or ``3``. Do not
             include the ``v`` prefix.
-        file_type: A ``FileType`` enum member: ``FileType.JSON``,
+        file_type: An optional ``FileType`` enum member: ``FileType.JSON``,
             ``FileType.CSV``, ``FileType.XML``, or ``FileType.PARQUET``. Do
             not pass a raw string or include the leading period.
         folders: ``None`` or a list of optional folder names below the
@@ -94,53 +99,170 @@ def dataset_path(  # noqa: PLR0913 - explicit path components are part of the pu
             contain only letters, digits, ``-``, and ``_``. For example,
             ``["on-prem", "revidert_data"]``.
 
-    Example:
-        ``dataset_path(bucket="bucket", product="ledstill",
-        data_state="utdata", short_description="varehandel",
-        period_from="2018-Q1", version=1, file_type=FileType.PARQUET)``
-        returns ``"gs://bucket/ledstill/utdata/varehandel_p2018-Q1_v1.parquet"``.
+    Examples:
+        Build a complete path:
+
+        >>> dataset_path(
+        ...     bucket="bucket",
+        ...     product="ledstill",
+        ...     data_state="utdata",
+        ...     short_description="varehandel",
+        ...     period_from="2018-Q1",
+        ...     version=1,
+        ...     file_type=FileType.PARQUET,
+        ... )
+        'gs://bucket/ledstill/utdata/varehandel_p2018-Q1_v1.parquet'
+
+        Build a partial path:
+
+        >>> dataset_path(product="ledstill", data_state="inndata")
+        'ledstill/inndata'
+
+        Build a filename:
+
+        >>> dataset_path(short_description="befolkning", period_from="2025", version=0, file_type=FileType.JSON)
+        'befolkning_p2025_v0.json'
+
+        Build a path containing folders:
+
+        >>> dataset_path(data_state="utdata", folders=["publisert", "arkiv"])
+        'utdata/publisert/arkiv'
+
+        Build a filename containing a period range:
+
+        >>> dataset_path(short_description="handel", period_from="2025-Q1", period_to="2025-Q4", version=2, file_type=FileType.CSV)
+        'handel_p2025-Q1_p2025-Q4_v2.csv'
 
     Returns:
-        The complete GCS object path.
+        A complete GCS path or contiguous relative path fragment.
 
     Raises:
         TypeError: If an argument has an invalid Python type.
-        ValueError: If an argument does not satisfy the naming standard.
+        ValueError: If an argument does not satisfy the naming standard, the
+            filename is incomplete, the path contains a hierarchy gap, or no
+            path component is supplied.
     """
-    _validate_bucket(bucket)
-    _validate_product(product)
-    _validate_data_state(data_state)
-    _validate_short_description(short_description)
-    _validate_periods(period_from, period_to)
-    _validate_version(version)
-    _validate_file_type(file_type)
-    _validate_folders(folders)
+    _validate_supplied_values(
+        bucket=bucket,
+        product=product,
+        data_state=data_state,
+        short_description=short_description,
+        period_from=period_from,
+        period_to=period_to,
+        version=version,
+        file_type=file_type,
+        folders=folders,
+    )
+    filename = _build_filename(
+        short_description, period_from, period_to, version, file_type
+    )
+    _validate_contiguous_hierarchy(bucket, product, data_state, folders, filename)
 
-    directory_parts = [bucket, product, data_state, *(folders or [])]
-    period_section = f"_p{period_from}"
-    if period_to is not None:
-        period_section += f"_p{period_to}"
-    filename = f"{short_description}{period_section}_v{version}.{file_type.value}"
-    return f"{GS_PREFIX}{'/'.join(directory_parts)}/{filename}"
+    path_parts = [
+        part
+        for part in (bucket, product, data_state, *(folders or []), filename)
+        if part is not None
+    ]
+    if not path_parts:
+        msg = "At least one path component must be provided"
+        raise ValueError(msg)
+
+    path = "/".join(path_parts)
+    return f"{GS_PREFIX}{path}" if bucket is not None else path
 
 
-def _validate_bucket(bucket: str) -> None:
-    if not isinstance(bucket, str):
+def _validate_supplied_values(  # noqa: PLR0913 - mirrors dataset_path components
+    *,
+    bucket: str | None,
+    product: str | None,
+    data_state: str | None,
+    short_description: str | None,
+    period_from: str | None,
+    period_to: str | None,
+    version: int | None,
+    file_type: FileType | None,
+    folders: list[str] | None,
+) -> None:
+    """Validate the type and format of each supplied path component."""
+    if bucket is not None and not isinstance(bucket, str):
         msg = "bucket must be a string"
         raise TypeError(msg)
+    if product is not None:
+        _validate_product(product)
+    if data_state is not None:
+        _validate_data_state(data_state)
+    if short_description is not None:
+        _validate_short_description(short_description)
+    if period_from is not None:
+        _validate_periods(period_from, period_to)
+    elif period_to is not None and not isinstance(period_to, str):
+        msg = "periods must be strings"
+        raise TypeError(msg)
+    if version is not None:
+        _validate_version(version)
+    if file_type is not None:
+        _validate_file_type(file_type)
+    _validate_folders(folders)
 
-    labels = bucket.split(".")
-    maximum_length = 222 if len(labels) > 1 else 63
+
+def _build_filename(
+    short_description: str | None,
+    period_from: str | None,
+    period_to: str | None,
+    version: int | None,
+    file_type: FileType | None,
+) -> str | None:
+    """Build a filename when all required filename components are supplied."""
+    required = {
+        "short_description": short_description,
+        "period_from": period_from,
+        "version": version,
+        "file_type": file_type,
+    }
+
+    if period_to is None and all(value is None for value in required.values()):
+        return None
+
+    missing = [name for name, value in required.items() if value is None]
+    if missing:
+        msg = (
+            "short_description, period_from, version, and file_type must be "
+            f"provided together; missing: {', '.join(missing)}"
+        )
+        raise ValueError(msg)
+
+    period_section = (
+        f"_p{period_from}_p{period_to}" if period_to is not None else f"_p{period_from}"
+    )
+    return f"{short_description}{period_section}_v{version}.{file_type.value}"
+
+
+def _validate_contiguous_hierarchy(
+    bucket: str | None,
+    product: str | None,
+    data_state: str | None,
+    folders: list[str] | None,
+    filename: str | None,
+) -> None:
+    """Reject gaps between supplied path hierarchy components."""
+    has_folders = bool(folders)
+    has_product_descendant = (
+        data_state is not None or has_folders or filename is not None
+    )
+    if bucket is not None and product is None and has_product_descendant:
+        msg = "product is required between bucket and later path components"
+        raise ValueError(msg)
     if (
-        not 3 <= len(bucket) <= maximum_length
-        or _BUCKET_PATTERN.fullmatch(bucket) is None
-        or any(not label or len(label) > 63 for label in labels)
+        (bucket is not None or product is not None)
+        and data_state is None
+        and (has_folders or filename is not None)
     ):
-        msg = "Invalid GCS bucket name"
+        msg = "data_state is required between product and later path components"
         raise ValueError(msg)
 
 
 def _validate_product(product: str) -> None:
+    """Validate a product path segment."""
     if not isinstance(product, str):
         msg = "product must be a string"
         raise TypeError(msg)
@@ -150,6 +272,7 @@ def _validate_product(product: str) -> None:
 
 
 def _validate_data_state(data_state: str) -> None:
+    """Validate that a data state is canonical."""
     if not isinstance(data_state, str):
         msg = "data_state must be a string"
         raise TypeError(msg)
@@ -159,6 +282,7 @@ def _validate_data_state(data_state: str) -> None:
 
 
 def _validate_short_description(short_description: str) -> None:
+    """Validate a dataset short description."""
     if not isinstance(short_description, str):
         msg = "short_description must be a string"
         raise TypeError(msg)
@@ -168,6 +292,7 @@ def _validate_short_description(short_description: str) -> None:
 
 
 def _validate_periods(period_from: str, period_to: str | None = None) -> None:
+    """Validate one period or an optional chronological period range."""
     if not isinstance(period_from, str) or (
         period_to is not None and not isinstance(period_to, str)
     ):
@@ -177,6 +302,7 @@ def _validate_periods(period_from: str, period_to: str | None = None) -> None:
 
 
 def _validate_version(version: int) -> None:
+    """Validate that a version is a non-negative integer."""
     if not isinstance(version, int) or isinstance(version, bool):
         msg = "version must be a non-negative integer"
         raise TypeError(msg)
@@ -186,12 +312,14 @@ def _validate_version(version: int) -> None:
 
 
 def _validate_file_type(file_type: FileType) -> None:
+    """Validate that a file type is a supported enum member."""
     if not isinstance(file_type, FileType):
         msg = "file_type must be a FileType"
         raise TypeError(msg)
 
 
 def _validate_folders(folders: list[str] | None) -> None:
+    """Validate optional folder path segments."""
     if folders is None:
         return
     if not isinstance(folders, list) or any(

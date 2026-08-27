@@ -2,7 +2,6 @@ import pytest
 
 from dapla_metadata.standards import FileType
 from dapla_metadata.standards import dataset_path
-from dapla_metadata.standards.dataset_path import _validate_bucket
 from dapla_metadata.standards.dataset_path import _validate_data_state
 from dapla_metadata.standards.dataset_path import _validate_file_type
 from dapla_metadata.standards.dataset_path import _validate_folders
@@ -181,11 +180,6 @@ def test_dataset_path_supports_file_types(file_type, suffix):
 @pytest.mark.parametrize(
     ("argument", "value", "message"),
     [
-        ("bucket", "", "Invalid GCS bucket name"),
-        ("bucket", "gs://bucket", "Invalid GCS bucket name"),
-        ("bucket", "bucket/name", "Invalid GCS bucket name"),
-        ("bucket", "bucket with spaces", "Invalid GCS bucket name"),
-        ("bucket", "bucket..name", "Invalid GCS bucket name"),
         ("product", "", "Invalid product name"),
         ("product", "product/name", "Invalid product name"),
         ("product", "product with spaces", "Invalid product name"),
@@ -288,29 +282,118 @@ def test_dataset_path_rejects_negative_version():
 
 
 @pytest.mark.parametrize(
-    "argument",
+    ("metadata", "expected"),
     [
-        "bucket",
-        "product",
-        "data_state",
-        "short_description",
-        "period_from",
-        "version",
-        "file_type",
+        ({"bucket": "bucket"}, "gs://bucket"),
+        ({"bucket": "bucket", "product": "ledstill"}, "gs://bucket/ledstill"),
+        ({"product": "ledstill"}, "ledstill"),
+        (
+            {"product": "ledstill", "data_state": "utdata"},
+            "ledstill/utdata",
+        ),
+        ({"data_state": "utdata"}, "utdata"),
+        (
+            {"data_state": "utdata", "folders": ["on-prem", "revidert_data"]},
+            "utdata/on-prem/revidert_data",
+        ),
+        ({"folders": ["on-prem", "revidert_data"]}, "on-prem/revidert_data"),
+        (
+            {
+                "short_description": "varehandel",
+                "period_from": "2018-Q1",
+                "version": 1,
+                "file_type": FileType.PARQUET,
+            },
+            "varehandel_p2018-Q1_v1.parquet",
+        ),
+        (
+            {
+                "folders": ["on-prem"],
+                "short_description": "varehandel",
+                "period_from": "2018-Q1",
+                "period_to": "2018-Q4",
+                "version": 2,
+                "file_type": FileType.CSV,
+            },
+            "on-prem/varehandel_p2018-Q1_p2018-Q4_v2.csv",
+        ),
+        (
+            {
+                "data_state": "utdata",
+                "short_description": "varehandel",
+                "period_from": "2018-Q1",
+                "version": 1,
+                "file_type": FileType.PARQUET,
+            },
+            "utdata/varehandel_p2018-Q1_v1.parquet",
+        ),
+        (
+            {
+                "product": "ledstill",
+                "data_state": "utdata",
+                "short_description": "varehandel",
+                "period_from": "2018-Q1",
+                "version": 1,
+                "file_type": FileType.PARQUET,
+            },
+            "ledstill/utdata/varehandel_p2018-Q1_v1.parquet",
+        ),
     ],
 )
-def test_dataset_path_rejects_none_arguments(argument):
-    metadata = {
-        "bucket": "bucket",
-        "product": "ledstill",
-        "data_state": "utdata",
-        "short_description": "varehandel",
-        "period_from": "2018-Q1",
-        "version": 1,
-        "file_type": FileType.PARQUET,
-    }
-    metadata[argument] = None
-    with pytest.raises(TypeError):
+def test_dataset_path_supports_contiguous_partial_paths(metadata, expected):
+    assert dataset_path(**metadata) == expected
+
+
+@pytest.mark.parametrize(
+    "metadata",
+    [
+        {"bucket": "bucket", "data_state": "utdata"},
+        {"bucket": "bucket", "folders": ["on-prem"]},
+        {
+            "bucket": "bucket",
+            "short_description": "varehandel",
+            "period_from": "2018-Q1",
+            "version": 1,
+            "file_type": FileType.PARQUET,
+        },
+        {"product": "ledstill", "folders": ["on-prem"]},
+        {
+            "product": "ledstill",
+            "short_description": "varehandel",
+            "period_from": "2018-Q1",
+            "version": 1,
+            "file_type": FileType.PARQUET,
+        },
+    ],
+)
+def test_dataset_path_rejects_gaps_between_supplied_components(metadata):
+    with pytest.raises(ValueError, match="required between"):
+        dataset_path(**metadata)
+
+
+@pytest.mark.parametrize(
+    "metadata",
+    [
+        {"short_description": "varehandel"},
+        {"period_from": "2018-Q1"},
+        {"period_to": "2018-Q4"},
+        {"version": 1},
+        {"file_type": FileType.PARQUET},
+        {
+            "short_description": "varehandel",
+            "period_from": "2018-Q1",
+            "version": 1,
+        },
+    ],
+)
+def test_dataset_path_rejects_incomplete_filenames(metadata):
+    with pytest.raises(ValueError, match="must be provided together"):
+        dataset_path(**metadata)
+
+
+@pytest.mark.parametrize("metadata", [{}, {"folders": None}, {"folders": []}])
+def test_dataset_path_requires_at_least_one_component(metadata):
+    with pytest.raises(ValueError, match="At least one path component"):
         dataset_path(**metadata)
 
 
@@ -379,7 +462,7 @@ def test_dataset_path_rejects_naming_syntax_in_inputs():
         )
 
 
-@pytest.mark.parametrize("file_type", ["json", ".csv", "PARQUET", None])
+@pytest.mark.parametrize("file_type", ["json", ".csv", "PARQUET"])
 def test_dataset_path_rejects_non_enum_file_types(file_type):
     with pytest.raises(TypeError, match="file_type must be a FileType"):
         dataset_path(
@@ -391,48 +474,6 @@ def test_dataset_path_rejects_non_enum_file_types(file_type):
             version=1,
             file_type=file_type,
         )
-
-
-@pytest.mark.parametrize(
-    "value",
-    [
-        "bucket",
-        "bucket_with_underscore",
-        "ssb-dapla-example-data-produkt-prod",
-        "bucket.with.dots",
-        "999.999.999.999",
-        "192.168.5.4",
-        "my-google-bucket",
-        "my-g00gle-bucket",
-        "a" * 63,
-        f"{'a' * 63}.{'b' * 63}.{'c' * 63}.{'d' * 30}",
-    ],
-)
-def test_validate_bucket_accepts_valid_values(value):
-    _validate_bucket(value)
-
-
-@pytest.mark.parametrize(
-    "value",
-    [
-        "",
-        "ab",
-        "a" * 64,
-        f"{'a' * 64}.valid",
-        "a" * 223,
-        "GS://bucket",
-        "bucket/name",
-        "bucket..name",
-        "-bucket",
-        "bucket-",
-    ],
-)
-def test_validate_bucket_rejects_invalid_values(value):
-    with pytest.raises(ValueError, match="Invalid GCS bucket name"):
-        _validate_bucket(value)
-
-    with pytest.raises(TypeError):
-        _validate_bucket(None)
 
 
 @pytest.mark.parametrize("value", ["ledstill", "ameld_data", "product-2"])

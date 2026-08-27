@@ -15,9 +15,9 @@ import arrow
 from datadoc_model.all_optional.model import DataSetState
 from upath import UPath
 
+from dapla_metadata._shared.constants import GS_PREFIX
 from dapla_metadata._shared.dataset_naming import dataset_state_path_names
 from dapla_metadata._shared.period_parser import period_date_range
-from dapla_metadata.datasets.utility.constants import GS_PREFIX
 
 if TYPE_CHECKING:
     import datetime
