@@ -24,13 +24,17 @@ CANONICAL_DATA_STATE_NAMES: Final = frozenset(
     }
 )
 
-_DATASET_SHORT_NAME_PATTERN = re.compile(r"[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*")
+_ILLEGAL_DATASET_SHORT_NAME_CHARS_PATTERN = re.compile(r"[^a-zA-Z0-9\-]")
 
 
 def is_valid_dataset_short_name(value: str | None) -> bool:
-    """Return whether a present value follows the dataset short-name syntax."""
-    return (
-        value is not None and _DATASET_SHORT_NAME_PATTERN.fullmatch(value) is not None
+    """Return whether a present value only contains letters, digits, and hyphens.
+
+    Hyphen placement is unrestricted: leading, trailing, and consecutive
+    hyphens are all allowed.
+    """
+    return value is not None and (
+        _ILLEGAL_DATASET_SHORT_NAME_CHARS_PATTERN.search(value) is None
     )
 
 

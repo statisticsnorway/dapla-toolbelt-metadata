@@ -183,7 +183,7 @@ def test_validate_short_description_accepts_generated_valid_values(value):
 
 @given(
     st.text(max_size=30).filter(
-        lambda value: re.fullmatch(r"[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*", value) is None
+        lambda value: not value or re.search(r"[^A-Za-z0-9\-]", value)
     )
 )
 def test_validate_short_description_rejects_generated_invalid_values(value):

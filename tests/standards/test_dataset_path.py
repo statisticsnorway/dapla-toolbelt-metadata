@@ -524,7 +524,17 @@ def test_validate_short_description_accepts_valid_values(value):
 
 @pytest.mark.parametrize(
     "value",
-    ["", "name_with_underscore", "name with spaces", "name/path", "name.parquet"],
+    [
+        "",
+        "name_with_underscore",
+        "name with spaces",
+        "name/path",
+        "name.parquet",
+        "å",
+        "abc_",
+        "abc.",
+        "abc/def",
+    ],
 )
 def test_validate_short_description_rejects_invalid_values(value):
     with pytest.raises(ValueError, match="Invalid short description"):
@@ -534,6 +544,17 @@ def test_validate_short_description_rejects_invalid_values(value):
 def test_validate_short_description_rejects_non_string():
     with pytest.raises(TypeError):
         _validate_short_description(None)
+
+
+@pytest.mark.parametrize("value", ["å", "name_with_underscore", "name.parquet", "a/b"])
+def test_dataset_path_rejects_short_description_with_illegal_characters(value):
+    with pytest.raises(ValueError, match="Invalid short description"):
+        dataset_path(
+            short_description=value,
+            period_from="2025",
+            version=0,
+            file_type=FileType.JSON,
+        )
 
 
 @pytest.mark.parametrize(

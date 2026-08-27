@@ -67,11 +67,11 @@ def dataset_path(  # noqa: PLR0913 - explicit path components are part of the pu
             ``_``. For example, ``"ledstill"`` or ``"ameld_data"``.
         data_state: Optionally one of ``"inndata"``, ``"klargjorte-data"``,
             ``"statistikk"``, or ``"utdata"``.
-        short_description: Optional non-empty dataset short description. It must use
-            only letters and digits, with optional single hyphens between
-            alphanumeric parts. Underscores, spaces, slashes, and periods are
-            not accepted. For example, ``"varehandel"`` or
-            ``"grensehandel-imputert"``.
+        short_description: Optional non-empty dataset short description. It must
+            contain only letters, digits, and hyphens, with no restriction on
+            hyphen placement. Underscores, spaces, slashes, and periods are
+            not accepted. For example, ``"varehandel"``,
+            ``"grensehandel-imputert"``, or ``"-imputert--data-"``.
         period_from: The optional first period as a string. Do not include the ``p``
             prefix. Supported formats are:
 
@@ -296,7 +296,7 @@ def _validate_short_description(short_description: object) -> None:
     if not isinstance(short_description, str):
         msg = "short_description must be a string"
         raise TypeError(msg)
-    if not is_valid_dataset_short_name(short_description):
+    if not short_description or not is_valid_dataset_short_name(short_description):
         msg = "Invalid short description"
         raise ValueError(msg)
 
