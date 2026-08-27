@@ -7,6 +7,8 @@ import re
 from datetime import date
 from datetime import datetime
 from datetime import timedelta
+from typing import Any
+from typing import cast
 
 _PeriodResult = tuple[str, date | tuple[int, ...]]
 
@@ -63,9 +65,16 @@ def _try_datetime(period: str) -> _PeriodResult | None:
     if not match:
         return None
     components = tuple(map(int, match.groups()))
+    year, month, day, hour, minute, second, millisecond = components
     try:
         datetime(  # noqa: DTZ001 - timezone is not part of the period format
-            *components[:6], microsecond=components[6] * 1000
+            year,
+            month,
+            day,
+            hour,
+            minute,
+            second,
+            millisecond * 1000,
         )
     except ValueError:
         return None
@@ -115,17 +124,20 @@ def period_date_range(period: str) -> tuple[date, date]:
             d = value if isinstance(value, date) else date(*value[:3])
             return d, d
         case "week":
-            return value, value + timedelta(days=6)
+            week_value = cast("date", value)
+            return week_value, week_value + timedelta(days=6)
         case "month":
-            return _month_range(value.year, value.month, value.month)
+            month_value = cast("date", value)
+            return _month_range(month_value.year, month_value.month, month_value.month)
         case "year":
-            return value, date(value.year, 12, 31)
+            year_value = cast("date", value)
+            return year_value, date(year_value.year, 12, 31)
         case "ordinal":
-            year, day_of_year = value
+            year, day_of_year = cast("tuple[int, ...]", value)
             start = date(year, 1, 1) + timedelta(days=day_of_year - 1)
             return start, start
         case _:
-            year, period_index = value
+            year, period_index = cast("tuple[int, ...]", value)
             months = _MONTHS_PER_PERIOD[period_format]
             start_month = (period_index - 1) * months + 1
             return _month_range(year, start_month, start_month + months - 1)
@@ -150,6 +162,6 @@ def validate_period_range(
     if from_format != to_format:
         msg = "periods must use the same format"
         raise ValueError(msg)
-    if from_value > to_value:
+    if cast("Any", from_value) > cast("Any", to_value):
         msg = "periods must be in chronological order"
         raise ValueError(msg)

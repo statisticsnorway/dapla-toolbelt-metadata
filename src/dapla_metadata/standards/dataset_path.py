@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import re
 from enum import StrEnum
+from typing import cast
 
 from dapla_metadata._shared.constants import GS_PREFIX
 from dapla_metadata._shared.dataset_naming import CANONICAL_DATA_STATE_NAMES
@@ -184,9 +185,7 @@ def _validate_supplied_values(  # noqa: PLR0913 - mirrors dataset_path component
     folders: list[str] | None,
 ) -> None:
     """Validate the type and format of each supplied path component."""
-    if bucket is not None and not isinstance(bucket, str):
-        msg = "bucket must be a string"
-        raise TypeError(msg)
+    _validate_bucket(bucket)
     if product is not None:
         _validate_product(product)
     if data_state is not None:
@@ -195,9 +194,8 @@ def _validate_supplied_values(  # noqa: PLR0913 - mirrors dataset_path component
         _validate_short_description(short_description)
     if period_from is not None:
         _validate_periods(period_from, period_to)
-    elif period_to is not None and not isinstance(period_to, str):
-        msg = "periods must be strings"
-        raise TypeError(msg)
+    else:
+        _validate_period_to(period_to)
     if version is not None:
         _validate_version(version)
     if file_type is not None:
@@ -231,6 +229,11 @@ def _build_filename(
         )
         raise ValueError(msg)
 
+    short_description = cast("str", short_description)
+    period_from = cast("str", period_from)
+    version = cast("int", version)
+    file_type = cast("FileType", file_type)
+
     period_section = (
         f"_p{period_from}_p{period_to}" if period_to is not None else f"_p{period_from}"
     )
@@ -261,7 +264,14 @@ def _validate_contiguous_hierarchy(
         raise ValueError(msg)
 
 
-def _validate_product(product: str) -> None:
+def _validate_bucket(bucket: object) -> None:
+    """Validate the type of a bucket when one is supplied."""
+    if bucket is not None and not isinstance(bucket, str):
+        msg = "bucket must be a string"
+        raise TypeError(msg)
+
+
+def _validate_product(product: object) -> None:
     """Validate a product path segment."""
     if not isinstance(product, str):
         msg = "product must be a string"
@@ -271,7 +281,7 @@ def _validate_product(product: str) -> None:
         raise ValueError(msg)
 
 
-def _validate_data_state(data_state: str) -> None:
+def _validate_data_state(data_state: object) -> None:
     """Validate that a data state is canonical."""
     if not isinstance(data_state, str):
         msg = "data_state must be a string"
@@ -281,7 +291,7 @@ def _validate_data_state(data_state: str) -> None:
         raise ValueError(msg)
 
 
-def _validate_short_description(short_description: str) -> None:
+def _validate_short_description(short_description: object) -> None:
     """Validate a dataset short description."""
     if not isinstance(short_description, str):
         msg = "short_description must be a string"
@@ -291,7 +301,7 @@ def _validate_short_description(short_description: str) -> None:
         raise ValueError(msg)
 
 
-def _validate_periods(period_from: str, period_to: str | None = None) -> None:
+def _validate_periods(period_from: object, period_to: object = None) -> None:
     """Validate one period or an optional chronological period range."""
     if not isinstance(period_from, str) or (
         period_to is not None and not isinstance(period_to, str)
@@ -299,6 +309,13 @@ def _validate_periods(period_from: str, period_to: str | None = None) -> None:
         msg = "periods must be strings"
         raise TypeError(msg)
     validate_period_range(period_from, period_to)
+
+
+def _validate_period_to(period_to: object) -> None:
+    """Validate an optional end period supplied without a start period."""
+    if period_to is not None and not isinstance(period_to, str):
+        msg = "periods must be strings"
+        raise TypeError(msg)
 
 
 def _validate_version(version: int) -> None:
@@ -311,7 +328,7 @@ def _validate_version(version: int) -> None:
         raise ValueError(msg)
 
 
-def _validate_file_type(file_type: FileType) -> None:
+def _validate_file_type(file_type: object) -> None:
     """Validate that a file type is a supported enum member."""
     if not isinstance(file_type, FileType):
         msg = "file_type must be a FileType"
