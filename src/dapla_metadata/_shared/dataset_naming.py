@@ -28,14 +28,14 @@ _ILLEGAL_DATASET_SHORT_NAME_CHARS_PATTERN = re.compile(r"[^a-zA-Z0-9\-]")
 
 
 def is_valid_dataset_short_name(value: str | None) -> bool:
-    """Return whether a present value only contains letters, digits, and hyphens.
+    """Return whether a present, non-empty value only contains letters, digits, and hyphens.
 
     Hyphen placement is unrestricted: leading, trailing, and consecutive
     hyphens are all allowed.
     """
-    return value is not None and (
-        _ILLEGAL_DATASET_SHORT_NAME_CHARS_PATTERN.search(value) is None
-    )
+    if not value:
+        return False
+    return _ILLEGAL_DATASET_SHORT_NAME_CHARS_PATTERN.search(value) is None
 
 
 def dataset_state_path_names(state_name: str) -> frozenset[str]:

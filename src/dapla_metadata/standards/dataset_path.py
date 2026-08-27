@@ -296,7 +296,7 @@ def _validate_short_description(short_description: object) -> None:
     if not isinstance(short_description, str):
         msg = "short_description must be a string"
         raise TypeError(msg)
-    if not short_description or not is_valid_dataset_short_name(short_description):
+    if not is_valid_dataset_short_name(short_description):
         msg = "Invalid short description"
         raise ValueError(msg)
 
