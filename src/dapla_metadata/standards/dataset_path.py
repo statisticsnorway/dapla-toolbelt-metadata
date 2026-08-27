@@ -12,6 +12,7 @@ from dapla_metadata._shared.dataset_naming import is_valid_dataset_short_name
 from dapla_metadata._shared.period_parser import validate_period_range
 
 _PATH_SEGMENT_PATTERN = re.compile(r"[A-Za-z0-9_-]+")
+_VERSION_ERROR_MSG = "version must be a non-negative integer"
 
 
 class FileType(StrEnum):
@@ -321,11 +322,9 @@ def _validate_period_to(period_to: object) -> None:
 def _validate_version(version: int) -> None:
     """Validate that a version is a non-negative integer."""
     if not isinstance(version, int) or isinstance(version, bool):
-        msg = "version must be a non-negative integer"
-        raise TypeError(msg)
+        raise TypeError(_VERSION_ERROR_MSG)
     if version < 0:
-        msg = "version must be a non-negative integer"
-        raise ValueError(msg)
+        raise ValueError(_VERSION_ERROR_MSG)
 
 
 def _validate_file_type(file_type: object) -> None:
