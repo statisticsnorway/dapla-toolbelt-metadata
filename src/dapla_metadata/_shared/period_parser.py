@@ -36,7 +36,6 @@ _DATETIME_PATTERN = re.compile(
 )
 _DATETIME_ARROW_PATTERN = "YYYY-MM-DDTHH-mm-ss.SSS"
 _SSB_PATTERN = re.compile(r"(\d{4})-([BQTH])(\d)")
-_SSB_MONTH_ARROW_PATTERN = "YYYYMM"
 
 
 def _try_calendar(period: str) -> _PeriodResult | None:
@@ -72,7 +71,7 @@ def _try_week(period: str) -> _PeriodResult | None:
 
 
 def _try_ordinal(period: str) -> _PeriodResult | None:
-    """Parse a valid year and ordinal day as a ``(year, day)`` tuple.
+    """Parse a valid ordinal year and day, returning the represented date.
 
     Return ``None`` when the value is not an ordinal period or the day does
     not exist in the given year.
@@ -84,10 +83,10 @@ def _try_ordinal(period: str) -> _PeriodResult | None:
         parsed_date = arrow.get(period, _ORDINAL_ARROW_PATTERN).date()
     except ValueError:
         return None
-    year, ordinal = int(match.group(1)), int(match.group(2))
+    year = int(match.group(1))
     if parsed_date.year != year:
         return None
-    return "ordinal", (year, ordinal)
+    return "ordinal", parsed_date
 
 
 def _try_datetime(period: str) -> _PeriodResult | None:
@@ -156,8 +155,8 @@ def parse_period(period: str) -> _PeriodResult:
 
 def _ssb_month_range(year: int, start_month: int, end_month: int) -> tuple[date, date]:
     """Return the inclusive date range spanning two months in one year."""
-    start = arrow.get(f"{year:04d}{start_month:02d}", _SSB_MONTH_ARROW_PATTERN)
-    end = arrow.get(f"{year:04d}{end_month:02d}", _SSB_MONTH_ARROW_PATTERN)
+    start = arrow.Arrow(year, start_month, 1)
+    end = arrow.Arrow(year, end_month, 1)
     return start.floor("month").date(), end.ceil("month").date()
 
 
@@ -170,7 +169,7 @@ def period_date_range(period: str) -> tuple[date, date]:
     period_format, value = parse_period(period)
 
     match period_format:
-        case "date" | "datetime":
+        case "date" | "datetime" | "ordinal":
             d = value if isinstance(value, date) else date(*value[:3])
             return d, d
         case "week":
@@ -185,12 +184,6 @@ def period_date_range(period: str) -> tuple[date, date]:
             year_value = cast("date", value)
             year_arrow = arrow.Arrow.fromdate(year_value)
             return year_arrow.floor("year").date(), year_arrow.ceil("year").date()
-        case "ordinal":
-            year, day_of_year = cast("tuple[int, ...]", value)
-            start = arrow.get(
-                f"{year:04d}-{day_of_year:03d}", _ORDINAL_ARROW_PATTERN
-            ).date()
-            return start, start
         case _:
             # Remaining SSB sub-year periods: bimonthly (B), quarterly (Q),
             # four-monthly (T), and half-yearly (H). Adding a new period

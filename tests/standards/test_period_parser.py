@@ -13,7 +13,7 @@ from dapla_metadata._shared.period_parser import period_date_range
         ("2024-02", ("month", date(2024, 2, 1))),
         ("2024-02-29", ("date", date(2024, 2, 29))),
         ("2024-W01", ("week", date(2024, 1, 1))),
-        ("2024-060", ("ordinal", (2024, 60))),
+        ("2024-060", ("ordinal", date(2024, 2, 29))),
         (
             "2024-02-29T23-59-59.999",
             ("datetime", (2024, 2, 29, 23, 59, 59, 999)),

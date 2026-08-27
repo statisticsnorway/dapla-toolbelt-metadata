@@ -10,6 +10,14 @@ Subpackages
    dapla_metadata.standards.utils
 
 
+dapla\_metadata.standards.dataset\_path module
+-----------------------------------------------
+
+.. automodule:: dapla_metadata.standards.dataset_path
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
 dapla\_metadata.standards.name\_validator module
 ------------------------------------------------
 
