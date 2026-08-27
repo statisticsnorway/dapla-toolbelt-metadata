@@ -179,6 +179,10 @@ def period_date_range(period: str) -> tuple[date, date]:
             start = date(year, 1, 1) + timedelta(days=day_of_year - 1)
             return start, start
         case _:
+            # Remaining SSB sub-year periods: bimonthly (B), quarterly (Q),
+            # four-monthly (T), and half-yearly (H). Adding a new period
+            # format to _PARSERS/parse_period requires adding an explicit
+            # case here too, or handling this branch more defensively.
             year, period_index = cast("tuple[int, ...]", value)
             months = _MONTHS_PER_PERIOD[period_format]
             start_month = (period_index - 1) * months + 1
