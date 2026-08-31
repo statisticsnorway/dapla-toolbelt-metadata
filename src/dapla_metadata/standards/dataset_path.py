@@ -6,7 +6,6 @@ import re
 from enum import StrEnum
 
 from dapla_metadata._shared.constants import GS_PREFIX
-from dapla_metadata._shared.dataset_naming import CANONICAL_DATA_STATE_NAMES
 from dapla_metadata._shared.dataset_naming import is_valid_dataset_short_name
 from dapla_metadata._shared.period_parser import validate_period_range
 
@@ -23,11 +22,24 @@ class FileType(StrEnum):
     PARQUET = "parquet"
 
 
+class DataState(StrEnum):
+    """Data states supported by the dataset path generator.
+
+    ``SOURCE_DATA`` is excluded: kildedata filenames are not covered by the
+    naming standard that paths are generated from.
+    """
+
+    INPUT_DATA = "inndata"
+    PROCESSED_DATA = "klargjorte-data"
+    STATISTICS = "statistikk"
+    OUTPUT_DATA = "utdata"
+
+
 def dataset_path(  # noqa: PLR0913 - explicit path components are part of the public API
     *,
     bucket: str | None = None,
     product: str | None = None,
-    data_state: str | None = None,
+    data_state: DataState | None = None,
     short_description: str | None = None,
     period_from: str | None = None,
     period_to: str | None = None,
@@ -41,12 +53,7 @@ def dataset_path(  # noqa: PLR0913 - explicit path components are part of the pu
 
         gs://{bucket}/{product}/{data_state}/{folders...}/{short_description}_p{period_from}[_p{period_to}]_v{version}.{file_type}
 
-    Any contiguous section can be returned, including a filename alone,
-    ``data_state/folders.../filename``, or ``bucket/product``. Leading and
-    trailing sections may be omitted, but supplied sections cannot have a gap.
-    Optional folders do not create a gap. For example, ``product/filename`` is
-    invalid because ``data_state`` is missing, while ``data_state/filename``
-    is valid.
+    Any argument can be combined as long as they follow the correct order.
 
     A filename is atomic: ``short_description``, ``period_from``, ``version``,
     and ``file_type`` must either all be provided or all be omitted.
@@ -67,8 +74,10 @@ def dataset_path(  # noqa: PLR0913 - explicit path components are part of the pu
         product: Optional non-empty statistics-product or data-product short name. It
             may contain uppercase and lowercase letters, digits, ``-``, and
             ``_``. For example, ``"ledstill"`` or ``"ameld_data"``.
-        data_state: Optionally one of ``"inndata"``, ``"klargjorte-data"``,
-            ``"statistikk"``, or ``"utdata"``.
+        data_state: An optional ``DataState`` enum member:
+            ``DataState.INPUT_DATA``, ``DataState.PROCESSED_DATA``,
+            ``DataState.STATISTICS``, or ``DataState.OUTPUT_DATA``. Do not
+            pass a raw string.
         short_description: Optional non-empty dataset short description. It must
             contain only letters, digits, and hyphens, with no restriction on
             hyphen placement. Underscores, spaces, slashes, and periods are
@@ -108,7 +117,7 @@ def dataset_path(  # noqa: PLR0913 - explicit path components are part of the pu
         >>> dataset_path(
         ...     bucket="bucket",
         ...     product="ledstill",
-        ...     data_state="utdata",
+        ...     data_state=DataState.OUTPUT_DATA,
         ...     short_description="varehandel",
         ...     period_from="2018-Q1",
         ...     version=1,
@@ -118,7 +127,7 @@ def dataset_path(  # noqa: PLR0913 - explicit path components are part of the pu
 
         Build a partial path:
 
-        >>> dataset_path(product="ledstill", data_state="inndata")
+        >>> dataset_path(product="ledstill", data_state=DataState.INPUT_DATA)
         'ledstill/inndata'
 
         Build a filename:
@@ -128,7 +137,7 @@ def dataset_path(  # noqa: PLR0913 - explicit path components are part of the pu
 
         Build a path containing folders:
 
-        >>> dataset_path(data_state="utdata", folders=["publisert", "arkiv"])
+        >>> dataset_path(data_state=DataState.OUTPUT_DATA, folders=["publisert", "arkiv"])
         'utdata/publisert/arkiv'
 
         Build a filename containing a period range:
@@ -178,7 +187,7 @@ def _validate_supplied_values(  # noqa: PLR0913 - mirrors dataset_path component
     *,
     bucket: str | None,
     product: str | None,
-    data_state: str | None,
+    data_state: DataState | None,
     short_description: str | None,
     period_from: str | None,
     period_to: str | None,
@@ -237,7 +246,7 @@ def _build_filename(
 def _validate_contiguous_hierarchy(
     bucket: str | None,
     product: str | None,
-    data_state: str | None,
+    data_state: DataState | None,
     folders: list[str] | None,
     filename: str | None,
 ) -> None:
@@ -287,15 +296,12 @@ def _validate_product(product: object) -> None:
 
 
 def _validate_data_state(data_state: object) -> None:
-    """Validate that a data state is canonical when one is supplied."""
+    """Validate that a data state is a supported enum member when one is supplied."""
     if data_state is None:
         return
-    if not isinstance(data_state, str):
-        msg = "data_state must be a string"
+    if not isinstance(data_state, DataState):
+        msg = "data_state must be a DataState"
         raise TypeError(msg)
-    if data_state not in CANONICAL_DATA_STATE_NAMES:
-        msg = "Invalid data_state"
-        raise ValueError(msg)
 
 
 def _validate_short_description(short_description: object) -> None:

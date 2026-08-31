@@ -5,6 +5,7 @@ import pytest
 from hypothesis import given
 from hypothesis import strategies as st
 
+from dapla_metadata.standards import DataState
 from dapla_metadata.standards import FileType
 from dapla_metadata.standards import dataset_path
 from dapla_metadata.standards.dataset_path import _validate_data_state
@@ -19,7 +20,6 @@ ASCII_LOWER_AND_DIGITS = "abcdefghijklmnopqrstuvwxyz0123456789"
 ASCII_LETTERS_AND_DIGITS = (
     "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 )
-DATA_STATES = frozenset({"inndata", "klargjorte-data", "statistikk", "utdata"})
 
 bucket_names = st.text(
     alphabet=ASCII_LETTERS_AND_DIGITS + "_-.",
@@ -100,7 +100,7 @@ valid_single_periods = st.one_of(
 @given(
     bucket=bucket_names,
     product=valid_product_names,
-    data_state=st.sampled_from(tuple(DATA_STATES)),
+    data_state=st.sampled_from(DataState),
     short_description=valid_dataset_names,
     period=valid_single_periods,
     version=st.integers(min_value=0, max_value=10**9),
@@ -128,7 +128,7 @@ def test_dataset_path_preserves_valid_semantic_values(
 
     folder_sections = "" if not folders else "/".join(folders) + "/"
     assert result == (
-        f"gs://{bucket}/{product}/{data_state}/{folder_sections}"
+        f"gs://{bucket}/{product}/{data_state.value}/{folder_sections}"
         f"{short_description}_p{period}_v{version}.parquet"
     )
 
@@ -143,7 +143,7 @@ def test_dataset_path_orders_two_period_markers_without_modifying_values(first, 
     result = dataset_path(
         bucket="bucket",
         product="product",
-        data_state="utdata",
+        data_state=DataState.OUTPUT_DATA,
         short_description="dataset",
         period_from=str(period_from),
         period_to=str(period_until),
@@ -169,14 +169,14 @@ def test_validate_product_rejects_generated_invalid_characters(value):
         _validate_product(value)
 
 
-@given(st.sampled_from(tuple(DATA_STATES)))
+@given(st.sampled_from(DataState))
 def test_validate_data_state_accepts_only_generated_canonical_states(value):
     _validate_data_state(value)
 
 
-@given(st.text(max_size=30).filter(lambda value: value not in DATA_STATES))
+@given(st.text(max_size=30))
 def test_validate_data_state_rejects_generated_noncanonical_states(value):
-    with pytest.raises(ValueError, match="Invalid data_state"):
+    with pytest.raises(TypeError, match="data_state must be a DataState"):
         _validate_data_state(value)
 
 

@@ -1,5 +1,6 @@
 import pytest
 
+from dapla_metadata.standards import DataState
 from dapla_metadata.standards import FileType
 from dapla_metadata.standards import dataset_path
 from dapla_metadata.standards.dataset_path import _validate_data_state
@@ -18,7 +19,7 @@ from dapla_metadata.standards.dataset_path import _validate_version
             {
                 "bucket": "ssb-dapla-example-data-produkt-prod",
                 "product": "ledstill",
-                "data_state": "utdata",
+                "data_state": DataState.OUTPUT_DATA,
                 "short_description": "varehandel",
                 "period_from": "2018-Q1",
                 "version": 3,
@@ -30,7 +31,7 @@ from dapla_metadata.standards.dataset_path import _validate_version
             {
                 "bucket": "bucket",
                 "product": "ledstill",
-                "data_state": "inndata",
+                "data_state": DataState.INPUT_DATA,
                 "short_description": "flygende-objekter",
                 "period_from": "2019",
                 "version": 1,
@@ -42,7 +43,7 @@ from dapla_metadata.standards.dataset_path import _validate_version
             {
                 "bucket": "bucket",
                 "product": "ledstill",
-                "data_state": "klargjorte-data",
+                "data_state": DataState.PROCESSED_DATA,
                 "short_description": "ufo-observasjoner",
                 "period_from": "2019",
                 "period_to": "2020",
@@ -55,7 +56,7 @@ from dapla_metadata.standards.dataset_path import _validate_version
             {
                 "bucket": "bucket",
                 "product": "ledstill",
-                "data_state": "statistikk",
+                "data_state": DataState.STATISTICS,
                 "short_description": "grensehandel-imputert",
                 "period_from": "2022-10",
                 "period_to": "2022-12",
@@ -68,7 +69,7 @@ from dapla_metadata.standards.dataset_path import _validate_version
             {
                 "bucket": "bucket",
                 "product": "ameld_data",
-                "data_state": "utdata",
+                "data_state": DataState.OUTPUT_DATA,
                 "short_description": "omsetning",
                 "period_from": "2020-W15",
                 "version": 0,
@@ -82,11 +83,9 @@ def test_dataset_path_returns_expected_gcs_path(metadata, expected):
     assert dataset_path(**metadata) == expected
 
 
-@pytest.mark.parametrize(
-    "data_state", ["inndata", "klargjorte-data", "statistikk", "utdata"]
-)
+@pytest.mark.parametrize("data_state", list(DataState))
 def test_dataset_path_supports_canonical_data_states(data_state):
-    assert f"/ledstill/{data_state}/" in dataset_path(
+    assert f"/ledstill/{data_state.value}/" in dataset_path(
         bucket="bucket",
         product="ledstill",
         data_state=data_state,
@@ -111,7 +110,7 @@ def test_dataset_path_supports_optional_folders(folders, expected_section):
     result = dataset_path(
         bucket="bucket",
         product="ledstill",
-        data_state="utdata",
+        data_state=DataState.OUTPUT_DATA,
         folders=folders,
         short_description="varehandel",
         period_from="2018-Q1",
@@ -143,7 +142,7 @@ def test_dataset_path_supports_period_formats(periods):
     result = dataset_path(
         bucket="bucket",
         product="ledstill",
-        data_state="utdata",
+        data_state=DataState.OUTPUT_DATA,
         short_description="varehandel",
         period_from=periods[0],
         period_to=periods[1] if len(periods) == 2 else None,
@@ -167,7 +166,7 @@ def test_dataset_path_supports_file_types(file_type, suffix):
     result = dataset_path(
         bucket="bucket",
         product="ledstill",
-        data_state="utdata",
+        data_state=DataState.OUTPUT_DATA,
         short_description="varehandel",
         period_from="2018-Q1",
         version=1,
@@ -188,9 +187,6 @@ def test_dataset_path_supports_file_types(file_type, suffix):
         ("short_description", "name with spaces", "Invalid short description"),
         ("short_description", "name/path", "Invalid short description"),
         ("short_description", "påvirket", "Invalid short description"),
-        ("data_state", "kildedata", "Invalid data_state"),
-        ("data_state", "klargjorte_data", "Invalid data_state"),
-        ("data_state", "unknown-state", "Invalid data_state"),
         ("bucket", "", "Invalid bucket name"),
         ("bucket", "bucket/nested", "Invalid bucket name"),
         ("bucket", "../escaped", "Invalid bucket name"),
@@ -201,7 +197,7 @@ def test_dataset_path_rejects_invalid_string_values(argument, value, message):
     metadata = {
         "bucket": "bucket",
         "product": "ledstill",
-        "data_state": "utdata",
+        "data_state": DataState.OUTPUT_DATA,
         "short_description": "varehandel",
         "period_from": "2018-Q1",
         "version": 1,
@@ -210,6 +206,22 @@ def test_dataset_path_rejects_invalid_string_values(argument, value, message):
     metadata[argument] = value
     with pytest.raises(ValueError, match=message):
         dataset_path(**metadata)
+
+
+@pytest.mark.parametrize(
+    "data_state", ["utdata", "kildedata", "klargjorte_data", "unknown-state"]
+)
+def test_dataset_path_rejects_non_enum_data_states(data_state):
+    with pytest.raises(TypeError, match="data_state must be a DataState"):
+        dataset_path(
+            bucket="bucket",
+            product="ledstill",
+            data_state=data_state,
+            short_description="varehandel",
+            period_from="2018-Q1",
+            version=1,
+            file_type=FileType.PARQUET,
+        )
 
 
 @pytest.mark.parametrize(
@@ -249,7 +261,7 @@ def test_dataset_path_rejects_invalid_periods(periods, message):
         dataset_path(
             bucket="bucket",
             product="ledstill",
-            data_state="utdata",
+            data_state=DataState.OUTPUT_DATA,
             short_description="varehandel",
             period_from=periods[0],
             period_to=periods[1] if len(periods) == 2 else None,
@@ -264,7 +276,7 @@ def test_dataset_path_rejects_non_integer_versions(version):
         dataset_path(
             bucket="bucket",
             product="ledstill",
-            data_state="utdata",
+            data_state=DataState.OUTPUT_DATA,
             short_description="varehandel",
             period_from="2018-Q1",
             version=version,
@@ -277,7 +289,7 @@ def test_dataset_path_rejects_negative_version():
         dataset_path(
             bucket="bucket",
             product="ledstill",
-            data_state="utdata",
+            data_state=DataState.OUTPUT_DATA,
             short_description="varehandel",
             period_from="2018-Q1",
             version=-1,
@@ -292,12 +304,15 @@ def test_dataset_path_rejects_negative_version():
         ({"bucket": "bucket", "product": "ledstill"}, "gs://bucket/ledstill"),
         ({"product": "ledstill"}, "ledstill"),
         (
-            {"product": "ledstill", "data_state": "utdata"},
+            {"product": "ledstill", "data_state": DataState.OUTPUT_DATA},
             "ledstill/utdata",
         ),
-        ({"data_state": "utdata"}, "utdata"),
+        ({"data_state": DataState.OUTPUT_DATA}, "utdata"),
         (
-            {"data_state": "utdata", "folders": ["on-prem", "revidert_data"]},
+            {
+                "data_state": DataState.OUTPUT_DATA,
+                "folders": ["on-prem", "revidert_data"],
+            },
             "utdata/on-prem/revidert_data",
         ),
         ({"folders": ["on-prem", "revidert_data"]}, "on-prem/revidert_data"),
@@ -323,7 +338,7 @@ def test_dataset_path_rejects_negative_version():
         ),
         (
             {
-                "data_state": "utdata",
+                "data_state": DataState.OUTPUT_DATA,
                 "short_description": "varehandel",
                 "period_from": "2018-Q1",
                 "version": 1,
@@ -334,7 +349,7 @@ def test_dataset_path_rejects_negative_version():
         (
             {
                 "product": "ledstill",
-                "data_state": "utdata",
+                "data_state": DataState.OUTPUT_DATA,
                 "short_description": "varehandel",
                 "period_from": "2018-Q1",
                 "version": 1,
@@ -351,7 +366,7 @@ def test_dataset_path_supports_contiguous_partial_paths(metadata, expected):
 @pytest.mark.parametrize(
     "metadata",
     [
-        {"bucket": "bucket", "data_state": "utdata"},
+        {"bucket": "bucket", "data_state": DataState.OUTPUT_DATA},
         {"bucket": "bucket", "folders": ["on-prem"]},
         {
             "bucket": "bucket",
@@ -406,7 +421,7 @@ def test_dataset_path_rejects_non_string_period_from():
         dataset_path(
             bucket="bucket",
             product="ledstill",
-            data_state="utdata",
+            data_state=DataState.OUTPUT_DATA,
             short_description="varehandel",
             period_from=2018,
             version=1,
@@ -420,7 +435,7 @@ def test_dataset_path_rejects_invalid_folder_types(folders):
         dataset_path(
             bucket="bucket",
             product="ledstill",
-            data_state="utdata",
+            data_state=DataState.OUTPUT_DATA,
             folders=folders,
             short_description="varehandel",
             period_from="2018-Q1",
@@ -437,7 +452,7 @@ def test_dataset_path_rejects_invalid_folder_names(folder):
         dataset_path(
             bucket="bucket",
             product="ledstill",
-            data_state="utdata",
+            data_state=DataState.OUTPUT_DATA,
             folders=[folder],
             short_description="varehandel",
             period_from="2018-Q1",
@@ -458,7 +473,7 @@ def test_dataset_path_rejects_naming_syntax_in_inputs():
         dataset_path(
             bucket="bucket",
             product="ledstill",
-            data_state="utdata",
+            data_state=DataState.OUTPUT_DATA,
             short_description="varehandel/p2018",
             period_from="2018-Q1",
             version=1,
@@ -472,7 +487,7 @@ def test_dataset_path_rejects_non_enum_file_types(file_type):
         dataset_path(
             bucket="bucket",
             product="ledstill",
-            data_state="utdata",
+            data_state=DataState.OUTPUT_DATA,
             short_description="varehandel",
             period_from="2018-Q1",
             version=1,
@@ -496,22 +511,17 @@ def test_validate_product_rejects_non_string():
         _validate_product(123)
 
 
-@pytest.mark.parametrize(
-    "value", ["inndata", "klargjorte-data", "statistikk", "utdata"]
-)
+@pytest.mark.parametrize("value", list(DataState))
 def test_validate_data_state_accepts_valid_values(value):
     _validate_data_state(value)
 
 
-@pytest.mark.parametrize("value", ["", "kildedata", "klargjorte_data", "UTDATA"])
-def test_validate_data_state_rejects_invalid_values(value):
-    with pytest.raises(ValueError, match="Invalid data_state"):
+@pytest.mark.parametrize(
+    "value", ["", "utdata", "kildedata", "klargjorte_data", "UTDATA", 123]
+)
+def test_validate_data_state_rejects_non_enum_values(value):
+    with pytest.raises(TypeError, match="data_state must be a DataState"):
         _validate_data_state(value)
-
-
-def test_validate_data_state_rejects_non_string():
-    with pytest.raises(TypeError):
-        _validate_data_state(123)
 
 
 @pytest.mark.parametrize(

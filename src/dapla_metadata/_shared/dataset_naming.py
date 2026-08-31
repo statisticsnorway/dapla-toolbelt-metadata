@@ -17,14 +17,6 @@ _DATA_STATE_PATH_NAMES: Final = MappingProxyType(
 )
 """Accepted Norwegian path names per dataset-state enum name, canonical first."""
 
-# SOURCE_DATA is excluded: kildedata filenames are not covered by the naming
-# standard that paths are generated from, so it is not offered as a data state.
-CANONICAL_DATA_STATE_NAMES: Final = frozenset(
-    names[0]
-    for state_name, names in _DATA_STATE_PATH_NAMES.items()
-    if state_name != "SOURCE_DATA"
-)
-
 _ILLEGAL_DATASET_SHORT_NAME_CHARS_PATTERN = re.compile(r"[^a-zA-Z0-9\-]")
 
 

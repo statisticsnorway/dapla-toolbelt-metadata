@@ -19,9 +19,12 @@ import arrow
 _PeriodResult = tuple[str, date | tuple[int, ...]]
 
 _MONTHS_PER_PERIOD = {"B": 2, "Q": 3, "T": 4, "H": 6}
+# fmt: off
 _SSB_LIMITS = {
-    period_format: 12 // months for period_format, months in _MONTHS_PER_PERIOD.items()
+    period_format: 12 // months
+    for period_format, months in _MONTHS_PER_PERIOD.items()
 }
+# fmt: on
 _CALENDAR_FORMATS = (
     ("year", re.compile(r"\d{4}"), "YYYY"),
     ("month", re.compile(r"\d{4}-\d{2}"), "YYYY-MM"),
