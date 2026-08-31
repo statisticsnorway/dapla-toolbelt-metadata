@@ -72,3 +72,9 @@ def test_parse_period_rejects_invalid_periods(period):
 )
 def test_period_date_range_preserves_period_boundaries(period, expected):
     assert period_date_range(period) == expected
+
+
+@pytest.mark.parametrize("period", ["9999", "9999-12", "9999-W52", "9999-Q4"])
+def test_period_date_range_rejects_periods_ending_out_of_range(period):
+    with pytest.raises(ValueError, match=f"Invalid period: {period}"):
+        period_date_range(period)

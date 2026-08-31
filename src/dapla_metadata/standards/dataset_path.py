@@ -4,7 +4,6 @@ from __future__ import annotations
 
 import re
 from enum import StrEnum
-from typing import cast
 
 from dapla_metadata._shared.constants import GS_PREFIX
 from dapla_metadata._shared.dataset_naming import CANONICAL_DATA_STATE_NAMES
@@ -59,9 +58,11 @@ def dataset_path(  # noqa: PLR0913 - explicit path components are part of the pu
     inspect the filesystem, or silently correct invalid input.
 
     Args:
-        bucket: Optional bucket name, without the ``gs://`` prefix. The name is
-            included verbatim and is not validated against GCS naming rules.
-            Callers are responsible for validating it when necessary. For example,
+        bucket: Optional bucket name, without the ``gs://`` prefix. It must be
+            a non-empty single path segment: no slashes and no leading or
+            trailing whitespace. Beyond that the name is included verbatim and
+            is not validated against the full GCS naming rules, so callers are
+            responsible for validating it when necessary. For example,
             ``"ssb-dapla-example-data-produkt-prod"``.
         product: Optional non-empty statistics-product or data-product short name. It
             may contain uppercase and lowercase letters, digits, ``-``, and
@@ -187,20 +188,12 @@ def _validate_supplied_values(  # noqa: PLR0913 - mirrors dataset_path component
 ) -> None:
     """Validate the type and format of each supplied path component."""
     _validate_bucket(bucket)
-    if product is not None:
-        _validate_product(product)
-    if data_state is not None:
-        _validate_data_state(data_state)
-    if short_description is not None:
-        _validate_short_description(short_description)
-    if period_from is not None:
-        _validate_periods(period_from, period_to)
-    else:
-        _validate_period_to(period_to)
-    if version is not None:
-        _validate_version(version)
-    if file_type is not None:
-        _validate_file_type(file_type)
+    _validate_product(product)
+    _validate_data_state(data_state)
+    _validate_short_description(short_description)
+    _validate_periods(period_from, period_to)
+    _validate_version(version)
+    _validate_file_type(file_type)
     _validate_folders(folders)
 
 
@@ -212,33 +205,33 @@ def _build_filename(
     file_type: FileType | None,
 ) -> str | None:
     """Build a filename when all required filename components are supplied."""
-    required = {
-        "short_description": short_description,
-        "period_from": period_from,
-        "version": version,
-        "file_type": file_type,
-    }
+    named_components = (
+        ("short_description", short_description),
+        ("period_from", period_from),
+        ("version", version),
+        ("file_type", file_type),
+    )
 
-    if period_to is None and all(value is None for value in required.values()):
+    if period_to is None and all(value is None for _, value in named_components):
         return None
 
-    missing = [name for name, value in required.items() if value is None]
-    if missing:
+    if (
+        short_description is None
+        or period_from is None
+        or version is None
+        or file_type is None
+    ):
+        missing = [name for name, value in named_components if value is None]
         msg = (
             "short_description, period_from, version, and file_type must be "
             f"provided together; missing: {', '.join(missing)}"
         )
         raise ValueError(msg)
 
-    period_section = (
-        f"_p{cast('str', period_from)}_p{period_to}"
-        if period_to is not None
-        else f"_p{cast('str', period_from)}"
+    period_section = f"_p{period_from}" + (
+        f"_p{period_to}" if period_to is not None else ""
     )
-    return (
-        f"{cast('str', short_description)}{period_section}"
-        f"_v{cast('int', version)}.{cast('FileType', file_type).value}"
-    )
+    return f"{short_description}{period_section}_v{version}.{file_type.value}"
 
 
 def _validate_contiguous_hierarchy(
@@ -266,14 +259,25 @@ def _validate_contiguous_hierarchy(
 
 
 def _validate_bucket(bucket: object) -> None:
-    """Validate the type of a bucket when one is supplied."""
-    if bucket is not None and not isinstance(bucket, str):
+    """Validate a bucket name when one is supplied.
+
+    Only checks that the value can form a single path segment. The name is not
+    validated against the full GCS bucket naming rules.
+    """
+    if bucket is None:
+        return
+    if not isinstance(bucket, str):
         msg = "bucket must be a string"
         raise TypeError(msg)
+    if not bucket or "/" in bucket or bucket.strip() != bucket:
+        msg = "Invalid bucket name"
+        raise ValueError(msg)
 
 
 def _validate_product(product: object) -> None:
-    """Validate a product path segment."""
+    """Validate a product path segment when one is supplied."""
+    if product is None:
+        return
     if not isinstance(product, str):
         msg = "product must be a string"
         raise TypeError(msg)
@@ -283,7 +287,9 @@ def _validate_product(product: object) -> None:
 
 
 def _validate_data_state(data_state: object) -> None:
-    """Validate that a data state is canonical."""
+    """Validate that a data state is canonical when one is supplied."""
+    if data_state is None:
+        return
     if not isinstance(data_state, str):
         msg = "data_state must be a string"
         raise TypeError(msg)
@@ -293,7 +299,9 @@ def _validate_data_state(data_state: object) -> None:
 
 
 def _validate_short_description(short_description: object) -> None:
-    """Validate a dataset short description."""
+    """Validate a dataset short description when one is supplied."""
+    if short_description is None:
+        return
     if not isinstance(short_description, str):
         msg = "short_description must be a string"
         raise TypeError(msg)
@@ -302,25 +310,19 @@ def _validate_short_description(short_description: object) -> None:
         raise ValueError(msg)
 
 
-def _validate_periods(period_from: object, period_to: object = None) -> None:
-    """Validate one period or an optional chronological period range."""
-    if not isinstance(period_from, str) or (
-        period_to is not None and not isinstance(period_to, str)
-    ):
+def _validate_periods(period_from: object = None, period_to: object = None) -> None:
+    """Validate optional periods and their chronological order."""
+    if not isinstance(period_from, str | None) or not isinstance(period_to, str | None):
         msg = "periods must be strings"
         raise TypeError(msg)
-    validate_period_range(period_from, period_to)
+    if period_from is not None:
+        validate_period_range(period_from, period_to)
 
 
-def _validate_period_to(period_to: object) -> None:
-    """Validate an optional end period supplied without a start period."""
-    if period_to is not None and not isinstance(period_to, str):
-        msg = "periods must be strings"
-        raise TypeError(msg)
-
-
-def _validate_version(version: int) -> None:
-    """Validate that a version is a non-negative integer."""
+def _validate_version(version: object) -> None:
+    """Validate that a version is a non-negative integer when one is supplied."""
+    if version is None:
+        return
     if not isinstance(version, int) or isinstance(version, bool):
         raise TypeError(_VERSION_ERROR_MSG)
     if version < 0:
@@ -328,7 +330,9 @@ def _validate_version(version: int) -> None:
 
 
 def _validate_file_type(file_type: object) -> None:
-    """Validate that a file type is a supported enum member."""
+    """Validate that a file type is a supported enum member when one is supplied."""
+    if file_type is None:
+        return
     if not isinstance(file_type, FileType):
         msg = "file_type must be a FileType"
         raise TypeError(msg)

@@ -21,7 +21,11 @@ ASCII_LETTERS_AND_DIGITS = (
 )
 DATA_STATES = frozenset({"inndata", "klargjorte-data", "statistikk", "utdata"})
 
-bucket_names = st.text(min_size=1, max_size=100)
+bucket_names = st.text(
+    alphabet=ASCII_LETTERS_AND_DIGITS + "_-.",
+    min_size=1,
+    max_size=100,
+)
 
 valid_product_names = st.text(
     alphabet=ASCII_LETTERS_AND_DIGITS + "_-",

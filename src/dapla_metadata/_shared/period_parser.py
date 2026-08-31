@@ -38,6 +38,15 @@ _DATETIME_ARROW_PATTERN = "YYYY-MM-DDTHH-mm-ss.SSS"
 _SSB_PATTERN = re.compile(r"(\d{4})-([BQTH])(\d)")
 
 
+class _UnsupportedPeriodFormatError(Exception):
+    """A parsed period format has no date-range implementation.
+
+    Signals a bug: a parser was added to ``_PARSERS`` without a matching case
+    in ``_date_range``. Deliberately not a ``ValueError`` so that it is not
+    reported to callers as invalid input.
+    """
+
+
 def _try_calendar(period: str) -> _PeriodResult | None:
     """Parse a valid calendar year, month, or date.
 
@@ -160,14 +169,12 @@ def _ssb_month_range(year: int, start_month: int, end_month: int) -> tuple[date,
     return start.floor("month").date(), end.ceil("month").date()
 
 
-def period_date_range(period: str) -> tuple[date, date]:
-    """Return the inclusive calendar date range represented by a period.
+def _date_range(period_format: str, value: date | tuple[int, ...]) -> tuple[date, date]:
+    """Return the inclusive date range for an already parsed period.
 
     Raises:
-        ValueError: If the period is invalid or unsupported.
+        _UnsupportedPeriodFormatError: If the format has no implementation here.
     """
-    period_format, value = parse_period(period)
-
     match period_format:
         case "date" | "datetime" | "ordinal":
             d = value if isinstance(value, date) else date(*value[:3])
@@ -184,15 +191,28 @@ def period_date_range(period: str) -> tuple[date, date]:
             year_value = cast("date", value)
             year_arrow = arrow.Arrow.fromdate(year_value)
             return year_arrow.floor("year").date(), year_arrow.ceil("year").date()
-        case _:
-            # Remaining SSB sub-year periods: bimonthly (B), quarterly (Q),
-            # four-monthly (T), and half-yearly (H). Adding a new period
-            # format to _PARSERS/parse_period requires adding an explicit
-            # case here too, or handling this branch more defensively.
+        case "B" | "Q" | "T" | "H":
             year, period_index = cast("tuple[int, ...]", value)
             months = _MONTHS_PER_PERIOD[period_format]
             start_month = (period_index - 1) * months + 1
             return _ssb_month_range(year, start_month, start_month + months - 1)
+        case _:
+            raise _UnsupportedPeriodFormatError(period_format)
+
+
+def period_date_range(period: str) -> tuple[date, date]:
+    """Return the inclusive calendar date range represented by a period.
+
+    Raises:
+        ValueError: If the period is invalid, unsupported, or its date range
+            falls outside the range representable by ``datetime.date``.
+    """
+    period_format, value = parse_period(period)
+    try:
+        return _date_range(period_format, value)
+    except (ValueError, OverflowError) as exc:
+        msg = f"Invalid period: {period}"
+        raise ValueError(msg) from exc
 
 
 def validate_period_range(

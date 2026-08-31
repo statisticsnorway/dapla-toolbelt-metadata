@@ -191,6 +191,10 @@ def test_dataset_path_supports_file_types(file_type, suffix):
         ("data_state", "kildedata", "Invalid data_state"),
         ("data_state", "klargjorte_data", "Invalid data_state"),
         ("data_state", "unknown-state", "Invalid data_state"),
+        ("bucket", "", "Invalid bucket name"),
+        ("bucket", "bucket/nested", "Invalid bucket name"),
+        ("bucket", "../escaped", "Invalid bucket name"),
+        ("bucket", " bucket ", "Invalid bucket name"),
     ],
 )
 def test_dataset_path_rejects_invalid_string_values(argument, value, message):
@@ -489,7 +493,7 @@ def test_validate_product_rejects_invalid_values(value):
 
 def test_validate_product_rejects_non_string():
     with pytest.raises(TypeError):
-        _validate_product(None)
+        _validate_product(123)
 
 
 @pytest.mark.parametrize(
@@ -507,7 +511,7 @@ def test_validate_data_state_rejects_invalid_values(value):
 
 def test_validate_data_state_rejects_non_string():
     with pytest.raises(TypeError):
-        _validate_data_state(None)
+        _validate_data_state(123)
 
 
 @pytest.mark.parametrize(
@@ -543,7 +547,7 @@ def test_validate_short_description_rejects_invalid_values(value):
 
 def test_validate_short_description_rejects_non_string():
     with pytest.raises(TypeError):
-        _validate_short_description(None)
+        _validate_short_description(123)
 
 
 @pytest.mark.parametrize(
@@ -608,7 +612,7 @@ def test_validate_periods_rejects_invalid_values(period_from, period_to, message
         _validate_periods(period_from, period_to)
 
 
-@pytest.mark.parametrize("period_from", [None, 2018, ("2018",), [2018]])
+@pytest.mark.parametrize("period_from", [2018, ("2018",), [2018]])
 def test_validate_periods_rejects_invalid_types(period_from):
     with pytest.raises(TypeError):
         _validate_periods(period_from)
@@ -635,7 +639,7 @@ def test_validate_file_type_accepts_valid_values(value):
     _validate_file_type(value)
 
 
-@pytest.mark.parametrize("value", ["", ".parquet", "csv", "PARQUET", None])
+@pytest.mark.parametrize("value", ["", ".parquet", "csv", "PARQUET"])
 def test_validate_file_type_rejects_invalid_values(value):
     with pytest.raises(TypeError, match="file_type must be a FileType"):
         _validate_file_type(value)
@@ -648,4 +652,4 @@ def test_validate_folders_accepts_valid_values(value):
 
 def test_validate_file_type_rejects_non_string():
     with pytest.raises(TypeError):
-        _validate_file_type(None)
+        _validate_file_type(123)
