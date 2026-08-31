@@ -15,6 +15,7 @@ from dapla_metadata.standards.utils.constants import MISSING_SHORT_NAME
 from dapla_metadata.standards.utils.constants import NAME_STANDARD_SUCCESS
 from dapla_metadata.standards.utils.constants import NAME_STANDARD_VIOLATION
 from dapla_metadata.standards.utils.constants import PATH_IGNORED
+from dapla_metadata.standards.utils.constants import SHORT_NAME_OTHER_THAN_DASHES
 
 pytest_plugins = ("pytest_asyncio",)
 
@@ -214,6 +215,32 @@ async def test_check_naming_standard_specific_file_path(
     for r in results:
         assert r.success
         assert NAME_STANDARD_SUCCESS in r.messages
+
+
+@pytest.mark.parametrize(
+    ("file_path", "expected_violation"),
+    [
+        (
+            "buckets/produkt/datadoc/utdata/persÅn-testdata_p2021_v2.parquet",
+            INVALID_SYMBOLS,
+        ),
+        (
+            "buckets/produkt/datadoc/utdata/person_testdata_p2021_v2.parquet",
+            SHORT_NAME_OTHER_THAN_DASHES,
+        ),
+    ],
+)
+@pytest.mark.asyncio
+async def test_check_naming_standard_rejects_illegal_characters(
+    file_path: str,
+    expected_violation: str,
+    tmp_path: Path,
+):
+    full_path = tmp_path / file_path
+    full_path.parent.mkdir(parents=True, exist_ok=True)
+    full_path.touch()
+    result = await check_naming_standard(file_path=full_path)
+    assert expected_violation in result[0].violations
 
 
 @pytest.mark.parametrize(

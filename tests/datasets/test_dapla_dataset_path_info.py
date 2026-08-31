@@ -124,6 +124,16 @@ TEST_CASES = [
         expected_contains_data_from=datetime.date(2022, 1, 1),
         expected_contains_data_until=datetime.date(2022, 2, 28),
     ),
+    DatasetPathTestCase(
+        path="hendelser_p2022-015_v1.parquet",
+        expected_contains_data_from=datetime.date(2022, 1, 15),
+        expected_contains_data_until=datetime.date(2022, 1, 15),
+    ),
+    DatasetPathTestCase(
+        path="hendelser_p2024-12-31T23-59-30.000_v1.parquet",
+        expected_contains_data_from=datetime.date(2024, 12, 31),
+        expected_contains_data_until=datetime.date(2024, 12, 31),
+    ),
 ]
 
 

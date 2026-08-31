@@ -58,6 +58,7 @@ docs = [
 test = [
   "coverage[toml]>=6.2",
   "faker>=26.1.0",
+  "hypothesis>=6.0",
   "pygments>=2.18.0",
   "pytest>=8.3.2",
   "pytest-asyncio>=0.26.0",
@@ -69,6 +70,7 @@ test = [
   "xdoctest[colors]>=0.15.10",
 ]
 type_check = [
+  "hypothesis>=6.0",
   "mypy>=0.950",
   "pandas-stubs",
   "pyarrow-stubs>=10.0.1.9",
