@@ -2,7 +2,7 @@ import pytest
 
 from dapla_metadata.standards import DataState
 from dapla_metadata.standards import FileType
-from dapla_metadata.standards import dataset_path
+from dapla_metadata.standards import create_dataset_path
 from dapla_metadata.standards.dataset_path import _validate_data_state
 from dapla_metadata.standards.dataset_path import _validate_file_type
 from dapla_metadata.standards.dataset_path import _validate_folders
@@ -79,13 +79,13 @@ from dapla_metadata.standards.dataset_path import _validate_version
         ),
     ],
 )
-def test_dataset_path_returns_expected_gcs_path(metadata, expected):
-    assert dataset_path(**metadata) == expected
+def test_create_dataset_path_returns_expected_gcs_path(metadata, expected):
+    assert create_dataset_path(**metadata) == expected
 
 
 @pytest.mark.parametrize("data_state", list(DataState))
-def test_dataset_path_supports_canonical_data_states(data_state):
-    assert f"/ledstill/{data_state.value}/" in dataset_path(
+def test_create_dataset_path_supports_canonical_data_states(data_state):
+    assert f"/ledstill/{data_state.value}/" in create_dataset_path(
         bucket="bucket",
         product="ledstill",
         data_state=data_state,
@@ -106,8 +106,8 @@ def test_dataset_path_supports_canonical_data_states(data_state):
         (None, "/utdata/varehandel_"),
     ],
 )
-def test_dataset_path_supports_optional_folders(folders, expected_section):
-    result = dataset_path(
+def test_create_dataset_path_supports_optional_folders(folders, expected_section):
+    result = create_dataset_path(
         bucket="bucket",
         product="ledstill",
         data_state=DataState.OUTPUT_DATA,
@@ -138,8 +138,8 @@ def test_dataset_path_supports_optional_folders(folders, expected_section):
         ["2024-12-31T23-59-30.000", "2024-12-31T23-59-31.000"],
     ],
 )
-def test_dataset_path_supports_period_formats(periods):
-    result = dataset_path(
+def test_create_dataset_path_supports_period_formats(periods):
+    result = create_dataset_path(
         bucket="bucket",
         product="ledstill",
         data_state=DataState.OUTPUT_DATA,
@@ -162,8 +162,8 @@ def test_dataset_path_supports_period_formats(periods):
         (FileType.PARQUET, ".parquet"),
     ],
 )
-def test_dataset_path_supports_file_types(file_type, suffix):
-    result = dataset_path(
+def test_create_dataset_path_supports_file_types(file_type, suffix):
+    result = create_dataset_path(
         bucket="bucket",
         product="ledstill",
         data_state=DataState.OUTPUT_DATA,
@@ -193,7 +193,7 @@ def test_dataset_path_supports_file_types(file_type, suffix):
         ("bucket", " bucket ", "Invalid bucket name"),
     ],
 )
-def test_dataset_path_rejects_invalid_string_values(argument, value, message):
+def test_create_dataset_path_rejects_invalid_string_values(argument, value, message):
     metadata = {
         "bucket": "bucket",
         "product": "ledstill",
@@ -205,15 +205,15 @@ def test_dataset_path_rejects_invalid_string_values(argument, value, message):
     }
     metadata[argument] = value
     with pytest.raises(ValueError, match=message):
-        dataset_path(**metadata)
+        create_dataset_path(**metadata)
 
 
 @pytest.mark.parametrize(
     "data_state", ["utdata", "kildedata", "klargjorte_data", "unknown-state"]
 )
-def test_dataset_path_rejects_non_enum_data_states(data_state):
+def test_create_dataset_path_rejects_non_enum_data_states(data_state):
     with pytest.raises(TypeError, match="data_state must be a DataState"):
-        dataset_path(
+        create_dataset_path(
             bucket="bucket",
             product="ledstill",
             data_state=data_state,
@@ -256,9 +256,9 @@ def test_dataset_path_rejects_non_enum_data_states(data_state):
         ),
     ],
 )
-def test_dataset_path_rejects_invalid_periods(periods, message):
+def test_create_dataset_path_rejects_invalid_periods(periods, message):
     with pytest.raises(ValueError, match=message):
-        dataset_path(
+        create_dataset_path(
             bucket="bucket",
             product="ledstill",
             data_state=DataState.OUTPUT_DATA,
@@ -271,9 +271,9 @@ def test_dataset_path_rejects_invalid_periods(periods, message):
 
 
 @pytest.mark.parametrize("version", [1.5, "1", "v1", True])
-def test_dataset_path_rejects_non_integer_versions(version):
+def test_create_dataset_path_rejects_non_integer_versions(version):
     with pytest.raises(TypeError, match="version must be a non-negative integer"):
-        dataset_path(
+        create_dataset_path(
             bucket="bucket",
             product="ledstill",
             data_state=DataState.OUTPUT_DATA,
@@ -284,9 +284,9 @@ def test_dataset_path_rejects_non_integer_versions(version):
         )
 
 
-def test_dataset_path_rejects_negative_version():
+def test_create_dataset_path_rejects_negative_version():
     with pytest.raises(ValueError, match="version must be a non-negative integer"):
-        dataset_path(
+        create_dataset_path(
             bucket="bucket",
             product="ledstill",
             data_state=DataState.OUTPUT_DATA,
@@ -359,8 +359,8 @@ def test_dataset_path_rejects_negative_version():
         ),
     ],
 )
-def test_dataset_path_supports_contiguous_partial_paths(metadata, expected):
-    assert dataset_path(**metadata) == expected
+def test_create_dataset_path_supports_contiguous_partial_paths(metadata, expected):
+    assert create_dataset_path(**metadata) == expected
 
 
 @pytest.mark.parametrize(
@@ -385,9 +385,9 @@ def test_dataset_path_supports_contiguous_partial_paths(metadata, expected):
         },
     ],
 )
-def test_dataset_path_rejects_gaps_between_supplied_components(metadata):
+def test_create_dataset_path_rejects_gaps_between_supplied_components(metadata):
     with pytest.raises(ValueError, match="required between"):
-        dataset_path(**metadata)
+        create_dataset_path(**metadata)
 
 
 @pytest.mark.parametrize(
@@ -405,20 +405,20 @@ def test_dataset_path_rejects_gaps_between_supplied_components(metadata):
         },
     ],
 )
-def test_dataset_path_rejects_incomplete_filenames(metadata):
+def test_create_dataset_path_rejects_incomplete_filenames(metadata):
     with pytest.raises(ValueError, match="must be provided together"):
-        dataset_path(**metadata)
+        create_dataset_path(**metadata)
 
 
 @pytest.mark.parametrize("metadata", [{}, {"folders": None}, {"folders": []}])
-def test_dataset_path_requires_at_least_one_component(metadata):
+def test_create_dataset_path_requires_at_least_one_component(metadata):
     with pytest.raises(ValueError, match="At least one path component"):
-        dataset_path(**metadata)
+        create_dataset_path(**metadata)
 
 
-def test_dataset_path_rejects_non_string_period_from():
+def test_create_dataset_path_rejects_non_string_period_from():
     with pytest.raises(TypeError):
-        dataset_path(
+        create_dataset_path(
             bucket="bucket",
             product="ledstill",
             data_state=DataState.OUTPUT_DATA,
@@ -430,9 +430,9 @@ def test_dataset_path_rejects_non_string_period_from():
 
 
 @pytest.mark.parametrize("folders", ["dapla", ("dapla",), [1]])
-def test_dataset_path_rejects_invalid_folder_types(folders):
+def test_create_dataset_path_rejects_invalid_folder_types(folders):
     with pytest.raises(TypeError):
-        dataset_path(
+        create_dataset_path(
             bucket="bucket",
             product="ledstill",
             data_state=DataState.OUTPUT_DATA,
@@ -447,9 +447,9 @@ def test_dataset_path_rejects_invalid_folder_types(folders):
 @pytest.mark.parametrize(
     "folder", ["", ".", "..", "mappe/navn", "med mellomrom", "påvirket"]
 )
-def test_dataset_path_rejects_invalid_folder_names(folder):
+def test_create_dataset_path_rejects_invalid_folder_names(folder):
     with pytest.raises(ValueError, match="Invalid folder name"):
-        dataset_path(
+        create_dataset_path(
             bucket="bucket",
             product="ledstill",
             data_state=DataState.OUTPUT_DATA,
@@ -461,16 +461,16 @@ def test_dataset_path_rejects_invalid_folder_names(folder):
         )
 
 
-def test_dataset_path_requires_keyword_arguments():
+def test_create_dataset_path_requires_keyword_arguments():
     with pytest.raises(TypeError):
-        dataset_path(
+        create_dataset_path(
             "bucket", "ledstill", "utdata", "varehandel", ["2018-Q1"], 1, "parquet"
         )
 
 
-def test_dataset_path_rejects_naming_syntax_in_inputs():
+def test_create_dataset_path_rejects_naming_syntax_in_inputs():
     with pytest.raises(ValueError, match="Invalid short description"):
-        dataset_path(
+        create_dataset_path(
             bucket="bucket",
             product="ledstill",
             data_state=DataState.OUTPUT_DATA,
@@ -482,9 +482,9 @@ def test_dataset_path_rejects_naming_syntax_in_inputs():
 
 
 @pytest.mark.parametrize("file_type", ["json", ".csv", "PARQUET"])
-def test_dataset_path_rejects_non_enum_file_types(file_type):
+def test_create_dataset_path_rejects_non_enum_file_types(file_type):
     with pytest.raises(TypeError, match="file_type must be a FileType"):
-        dataset_path(
+        create_dataset_path(
             bucket="bucket",
             product="ledstill",
             data_state=DataState.OUTPUT_DATA,
@@ -581,9 +581,9 @@ def test_validate_short_description_rejects_non_string():
         "name\nnewline",
     ],
 )
-def test_dataset_path_rejects_short_description_with_illegal_characters(value):
+def test_create_dataset_path_rejects_short_description_with_illegal_characters(value):
     with pytest.raises(ValueError, match="Invalid short description"):
-        dataset_path(
+        create_dataset_path(
             short_description=value,
             period_from="2025",
             version=0,
