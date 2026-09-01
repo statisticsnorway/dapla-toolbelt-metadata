@@ -2,7 +2,7 @@ import pytest
 
 from dapla_metadata.standards import DataState
 from dapla_metadata.standards import FileType
-from dapla_metadata.standards import dataset_path
+from dapla_metadata.standards import create_dataset_path as dataset_path
 from dapla_metadata.standards.dataset_path import _validate_data_state
 from dapla_metadata.standards.dataset_path import _validate_file_type
 from dapla_metadata.standards.dataset_path import _validate_folders

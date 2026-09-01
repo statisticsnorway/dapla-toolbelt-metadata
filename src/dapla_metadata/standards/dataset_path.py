@@ -35,7 +35,7 @@ class DataState(StrEnum):
     OUTPUT_DATA = "utdata"
 
 
-def dataset_path(  # noqa: PLR0913 - explicit path components are part of the public API
+def create_dataset_path(  # noqa: PLR0913 - explicit path components are part of the public API
     *,
     bucket: str | None = None,
     product: str | None = None,
@@ -114,7 +114,7 @@ def dataset_path(  # noqa: PLR0913 - explicit path components are part of the pu
     Examples:
         Build a complete path:
 
-        >>> dataset_path(
+        >>> create_dataset_path(
         ...     bucket="bucket",
         ...     product="ledstill",
         ...     data_state=DataState.OUTPUT_DATA,
@@ -127,22 +127,22 @@ def dataset_path(  # noqa: PLR0913 - explicit path components are part of the pu
 
         Build a partial path:
 
-        >>> dataset_path(product="ledstill", data_state=DataState.INPUT_DATA)
+        >>> create_dataset_path(product="ledstill", data_state=DataState.INPUT_DATA)
         'ledstill/inndata'
 
         Build a filename:
 
-        >>> dataset_path(short_description="befolkning", period_from="2025", version=0, file_type=FileType.JSON)
+        >>> create_dataset_path(short_description="befolkning", period_from="2025", version=0, file_type=FileType.JSON)
         'befolkning_p2025_v0.json'
 
         Build a path containing folders:
 
-        >>> dataset_path(data_state=DataState.OUTPUT_DATA, folders=["publisert", "arkiv"])
+        >>> create_dataset_path(data_state=DataState.OUTPUT_DATA, folders=["publisert", "arkiv"])
         'utdata/publisert/arkiv'
 
         Build a filename containing a period range:
 
-        >>> dataset_path(short_description="handel", period_from="2025-Q1", period_to="2025-Q4", version=2, file_type=FileType.CSV)
+        >>> create_dataset_path(short_description="handel", period_from="2025-Q1", period_to="2025-Q4", version=2, file_type=FileType.CSV)
         'handel_p2025-Q1_p2025-Q4_v2.csv'
 
     Returns:
@@ -183,7 +183,7 @@ def dataset_path(  # noqa: PLR0913 - explicit path components are part of the pu
     return f"{GS_PREFIX}{path}" if bucket is not None else path
 
 
-def _validate_supplied_values(  # noqa: PLR0913 - mirrors dataset_path components
+def _validate_supplied_values(  # noqa: PLR0913 - mirrors create_dataset_path components
     *,
     bucket: str | None,
     product: str | None,
