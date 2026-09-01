@@ -7,7 +7,7 @@ from hypothesis import strategies as st
 
 from dapla_metadata.standards import DataState
 from dapla_metadata.standards import FileType
-from dapla_metadata.standards import create_dataset_path as dataset_path
+from dapla_metadata.standards import create_dataset_path
 from dapla_metadata.standards.dataset_path import _validate_data_state
 from dapla_metadata.standards.dataset_path import _validate_file_type
 from dapla_metadata.standards.dataset_path import _validate_folders
@@ -106,7 +106,7 @@ valid_single_periods = st.one_of(
     version=st.integers(min_value=0, max_value=10**9),
     folders=valid_folders,
 )
-def test_dataset_path_preserves_valid_semantic_values(
+def test_create_dataset_path_preserves_valid_semantic_values(
     bucket,
     product,
     data_state,
@@ -115,7 +115,7 @@ def test_dataset_path_preserves_valid_semantic_values(
     version,
     folders,
 ):
-    result = dataset_path(
+    result = create_dataset_path(
         bucket=bucket,
         product=product,
         data_state=data_state,
@@ -137,10 +137,12 @@ def test_dataset_path_preserves_valid_semantic_values(
     first=st.integers(min_value=1900, max_value=2100),
     second=st.integers(min_value=1900, max_value=2100),
 )
-def test_dataset_path_orders_two_period_markers_without_modifying_values(first, second):
+def test_create_dataset_path_orders_two_period_markers_without_modifying_values(
+    first, second
+):
     period_from, period_until = sorted((first, second))
 
-    result = dataset_path(
+    result = create_dataset_path(
         bucket="bucket",
         product="product",
         data_state=DataState.OUTPUT_DATA,
