@@ -11,7 +11,7 @@ from dapla_metadata.datasets.utility.utils import build_dataset_path
 def get_arrow_data_type(
     datadoc_data_type: optional.DataType | required.DataType,
 ) -> pa.DataType:
-    arrow_data_types = {
+    arrow_data_types: dict[optional.DataType, pa.DataType] = {
         optional.DataType.ARRAY_STRING_: pa.list_(pa.string()),
         optional.DataType.ARRAY_INTEGER_: pa.list_(pa.int32()),
         optional.DataType.ARRAY_DATETIME_: pa.list_(pa.date32()),
