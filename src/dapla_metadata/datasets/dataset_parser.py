@@ -92,7 +92,12 @@ KNOWN_DATETIME_TYPES = (
 KNOWN_BOOLEAN_TYPES = ("bool", "bool_", "boolean")
 
 # Each of these must contain EXACTLY ONE set of format braces {}
-KNOWN_ARRAY_TYPES = ("list<element: {}>", "large_list<element: {}>")
+KNOWN_ARRAY_TYPES = (
+    "list<element: {}>",
+    "large_list<element: {}>",
+    "list<item: {}>",
+    "large_list<item: {}>",
+)
 
 
 TYPE_CORRESPONDENCE: list[tuple[tuple[str, ...], DataType]] = [
@@ -102,12 +107,19 @@ TYPE_CORRESPONDENCE: list[tuple[tuple[str, ...], DataType]] = [
     (KNOWN_DATETIME_TYPES, DataType.DATETIME),
     (KNOWN_BOOLEAN_TYPES, DataType.BOOLEAN),
 ]
+ARRAY_TYPE_CORRESPONDENCE: dict[DataType, DataType] = {
+    DataType.STRING: DataType.ARRAY_STRING_,
+    DataType.INTEGER: DataType.ARRAY_INTEGER_,
+    DataType.DATETIME: DataType.ARRAY_DATETIME_,
+    DataType.BOOLEAN: DataType.ARRAY_BOOLEAN_,
+    DataType.FLOAT: DataType.ARRAY_FLOAT_,
+}
 TYPE_MAP: dict[str, DataType] = {}
 for concrete_type, abstract_type in TYPE_CORRESPONDENCE:
     TYPE_MAP.update(dict.fromkeys(concrete_type, abstract_type))
     TYPE_MAP.update(
         {
-            template.format(t): DataType.ARRAY
+            template.format(t): ARRAY_TYPE_CORRESPONDENCE[abstract_type]
             for template in KNOWN_ARRAY_TYPES
             for t in concrete_type
         }
@@ -116,7 +128,11 @@ for concrete_type, abstract_type in TYPE_CORRESPONDENCE:
 
 def pretty_print_supported_types() -> str:
     """Return a human-readable string of the supported data types."""
-    return "\n".join(f"{t[1].value}: {t[0]}" for t in TYPE_CORRESPONDENCE)
+    scalar_types = (f"{t[1].value}: {t[0]}" for t in TYPE_CORRESPONDENCE)
+    array_types = (
+        f"{array_type.value}" for array_type in ARRAY_TYPE_CORRESPONDENCE.values()
+    )
+    return "\n".join((*scalar_types, *array_types))
 
 
 class DatasetParser(ABC):

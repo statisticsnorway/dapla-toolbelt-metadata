@@ -11,19 +11,23 @@ from dapla_metadata.datasets.utility.utils import build_dataset_path
 def get_arrow_data_type(
     datadoc_data_type: optional.DataType | required.DataType,
 ) -> pa.DataType:
-    match optional.DataType(datadoc_data_type):
-        case optional.DataType.ARRAY:
-            raise TypeError("Not supported")  # noqa: EM101, TRY003
-        case optional.DataType.BOOLEAN:
-            return pa.bool8()
-        case optional.DataType.DATETIME:
-            return pa.date32()
-        case optional.DataType.FLOAT:
-            return pa.float32()
-        case optional.DataType.INTEGER:
-            return pa.int32()
-        case optional.DataType.STRING:
-            return pa.string()
+    arrow_data_types = {
+        optional.DataType.ARRAY_STRING_: pa.list_(pa.string()),
+        optional.DataType.ARRAY_INTEGER_: pa.list_(pa.int32()),
+        optional.DataType.ARRAY_DATETIME_: pa.list_(pa.date32()),
+        optional.DataType.ARRAY_BOOLEAN_: pa.list_(pa.bool8()),
+        optional.DataType.ARRAY_FLOAT_: pa.list_(pa.float32()),
+        optional.DataType.BOOLEAN: pa.bool8(),
+        optional.DataType.DATETIME: pa.date32(),
+        optional.DataType.FLOAT: pa.float32(),
+        optional.DataType.INTEGER: pa.int32(),
+        optional.DataType.STRING: pa.string(),
+    }
+
+    try:
+        return arrow_data_types[optional.DataType(datadoc_data_type)]
+    except KeyError as error:
+        raise TypeError("Not supported") from error  # noqa: EM101, TRY003
 
 
 def create_dataset_for_metadata_document(

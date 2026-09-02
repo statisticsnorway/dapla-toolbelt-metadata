@@ -3,16 +3,16 @@ revision = 3
 requires-python = ">=3.12"
 resolution-markers = [
     "python_full_version >= '3.15' and sys_platform == 'win32'",
-    "python_full_version == '3.14.*' and sys_platform == 'win32'",
     "python_full_version >= '3.15' and sys_platform == 'emscripten'",
-    "python_full_version == '3.14.*' and sys_platform == 'emscripten'",
     "python_full_version >= '3.15' and sys_platform != 'emscripten' and sys_platform != 'win32'",
+    "python_full_version == '3.14.*' and sys_platform == 'win32'",
+    "python_full_version == '3.14.*' and sys_platform == 'emscripten'",
     "python_full_version == '3.14.*' and sys_platform != 'emscripten' and sys_platform != 'win32'",
     "python_full_version == '3.13.*' and sys_platform == 'win32'",
-    "python_full_version < '3.13' and sys_platform == 'win32'",
     "python_full_version == '3.13.*' and sys_platform == 'emscripten'",
-    "python_full_version < '3.13' and sys_platform == 'emscripten'",
     "python_full_version == '3.13.*' and sys_platform != 'emscripten' and sys_platform != 'win32'",
+    "python_full_version < '3.13' and sys_platform == 'win32'",
+    "python_full_version < '3.13' and sys_platform == 'emscripten'",
     "python_full_version < '3.13' and sys_platform != 'emscripten' and sys_platform != 'win32'",
 ]
 
@@ -691,7 +691,7 @@ requires-dist = [
     { name = "pytz", specifier = ">=2025.2" },
     { name = "requests", specifier = ">=2.31.0" },
     { name = "ruamel-yaml", specifier = ">=0.18.10" },
-    { name = "ssb-datadoc-model", specifier = "==8.0.0" },
+    { name = "ssb-datadoc-model", specifier = "==8.1.1" },
     { name = "ssb-klass-python", specifier = ">=1.0.1" },
     { name = "typing-extensions", specifier = ">=4.12.2" },
     { name = "universal-pathlib", specifier = ">=0.3.0" },
@@ -1910,7 +1910,7 @@ name = "pexpect"
 version = "4.9.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "ptyprocess", marker = "sys_platform != 'emscripten' and sys_platform != 'win32'" },
+    { name = "ptyprocess" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/42/92/cc564bf6381ff43ce1f4d06852fc19a2f11d180f23dc32d9588bee2f149d/pexpect-4.9.0.tar.gz", hash = "sha256:ee7d41123f3c9911050ea2c2dac107568dc43b2d3b0c7557a33212c398ead30f", size = 166450, upload-time = "2023-11-25T09:07:26.339Z" }
 wheels = [
@@ -2710,14 +2710,14 @@ wheels = [
 
 [[package]]
 name = "ssb-datadoc-model"
-version = "8.0.0"
+version = "8.1.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "pydantic" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/4c/33/64bde32cea745b9053c64d92003305e6997d0bcf25d7d2fcefb30d035488/ssb_datadoc_model-8.0.0.tar.gz", hash = "sha256:a3136a98fef5158ba1e04748122a9ed730066de0dc00db3f2d49d4b9b57c352f", size = 29146, upload-time = "2025-09-04T06:58:45.104Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/02/7b/b57b619dadc7696fb7ec1292861a13b44b37b722a74f4b64bddeb951e0b2/ssb_datadoc_model-8.1.1.tar.gz", hash = "sha256:557ca3c0afa9fb65eed255d3dcaf8a040bde41c8aacfea34076d763d20aac6bb", size = 29392, upload-time = "2026-09-02T11:03:08.258Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/34/96/8a5d3fad04ba4dc27e766de2a264845da9fe007a8b0d14d619000b6a2f6b/ssb_datadoc_model-8.0.0-py3-none-any.whl", hash = "sha256:f5a413d6f9ef054275f9af61182795597016b91882ac3fae9c6b01a48942bea8", size = 11308, upload-time = "2025-09-04T06:58:43.369Z" },
+    { url = "https://files.pythonhosted.org/packages/df/61/0e17c0e4f301975858c159d71a316a5143a53075a3885fa53617cd655798/ssb_datadoc_model-8.1.1-py3-none-any.whl", hash = "sha256:a33e12b5302eed79ed4478470ed6998275e8358dc51adefde9213d77bbbdc5f6", size = 11498, upload-time = "2026-09-02T11:03:06.983Z" },
 ]
 
 [[package]]

@@ -5,6 +5,8 @@ import jwt
 import pytest
 from faker import Faker  # type: ignore [import-not-found]
 
+TEST_JWT_SECRET = "test-only-secret-key-with-at-least-32-bytes"  # noqa: S105
+
 
 @pytest.fixture
 def raw_jwt_payload(faker: Faker) -> dict[str, t.Any]:
@@ -52,7 +54,7 @@ def raw_jwt_payload(faker: Faker) -> dict[str, t.Any]:
 
 @pytest.fixture
 def fake_jwt(raw_jwt_payload: dict[str, t.Any]) -> str:
-    return jwt.encode(raw_jwt_payload, "test secret", algorithm="HS256")
+    return jwt.encode(raw_jwt_payload, TEST_JWT_SECRET, algorithm="HS256")
 
 
 @pytest.fixture
@@ -75,4 +77,4 @@ def raw_labid_jwt_payload(faker: Faker) -> dict[str, t.Any]:
 
 @pytest.fixture
 def fake_labid_jwt(raw_labid_jwt_payload: dict[str, t.Any]) -> str:
-    return jwt.encode(raw_labid_jwt_payload, "test secret", algorithm="HS256")
+    return jwt.encode(raw_labid_jwt_payload, TEST_JWT_SECRET, algorithm="HS256")
