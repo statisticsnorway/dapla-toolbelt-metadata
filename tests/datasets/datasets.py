@@ -37,26 +37,22 @@ def create_dataset_for_metadata_document(
 
     Useful for happy path testing.
     """
-
-    def raiser(exception: Exception):
-        """Workaround to raise exception from ternary."""
-        raise exception
-
     meta = Datadoc(metadata_document_path=metadata_document)
-    schema = pa.schema(
-        [
+    fields: list[tuple[str, pa.DataType]] = []
+    for variable in meta.variables:
+        if variable.short_name is None:
+            error_message = "None short name encountered"
+            raise ValueError(error_message)
+        if variable.data_type is None:
+            error_message = f"None data type encountered for {variable.short_name}"
+            raise ValueError(error_message)
+        fields.append(
             (
-                str(v.short_name),
-                get_arrow_data_type(
-                    v.data_type
-                    or raiser(
-                        ValueError(f"None data type encountered for {v.short_name}")
-                    )
-                ),
+                variable.short_name,
+                get_arrow_data_type(variable.data_type),
             )
-            for v in meta.variables
-        ]
-    )
+        )
+    schema = pa.schema(fields)
     if output_dataset_path is None:
         output_dataset_path = build_dataset_path(metadata_document)
     parquet.write_table(table=schema.empty_table(), where=str(output_dataset_path))
