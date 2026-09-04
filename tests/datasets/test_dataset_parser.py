@@ -3,13 +3,16 @@
 import io
 
 import pandas as pd
+import pyarrow as pa
 import pytest
 from datadoc_model.all_optional.model import DataType
 from datadoc_model.all_optional.model import LanguageStringType
 from datadoc_model.all_optional.model import LanguageStringTypeItem
 from datadoc_model.all_optional.model import Variable
+from pyarrow import parquet as pq
 from upath import UPath
 
+from dapla_metadata.datasets.dataset_parser import KNOWN_ARRAY_TYPES
 from dapla_metadata.datasets.dataset_parser import KNOWN_BOOLEAN_TYPES
 from dapla_metadata.datasets.dataset_parser import KNOWN_DATETIME_TYPES
 from dapla_metadata.datasets.dataset_parser import KNOWN_FLOAT_TYPES
@@ -126,13 +129,69 @@ def test_transform_datatype(expected: DataType, concrete_type: str):
     assert DatasetParser.transform_data_type(concrete_type) == expected
 
 
+@pytest.mark.parametrize(
+    ("expected", "element_types"),
+    [
+        (DataType.ARRAY_INTEGER_, KNOWN_INTEGER_TYPES),
+        (DataType.ARRAY_FLOAT_, KNOWN_FLOAT_TYPES),
+        (DataType.ARRAY_STRING_, KNOWN_STRING_TYPES),
+        (DataType.ARRAY_DATETIME_, KNOWN_DATETIME_TYPES),
+        (DataType.ARRAY_BOOLEAN_, KNOWN_BOOLEAN_TYPES),
+    ],
+)
+@pytest.mark.parametrize("array_type", KNOWN_ARRAY_TYPES)
+def test_transform_array_datatype(
+    expected: DataType,
+    element_types: tuple[str, ...],
+    array_type: str,
+):
+    for element_type in element_types:
+        assert (
+            DatasetParser.transform_data_type(array_type.format(element_type))
+            == expected
+        )
+
+
 def test_parse_array_type(tmp_path):
     df = pd.DataFrame({"col1": [[0, 1, 2], [1, 2, 3], [2, 3, 4], [3, 4, 5]]})
     output_path = tmp_path / "test_parse_array_type.parquet"
     df.to_parquet(output_path, engine="pyarrow")
     fields = DatasetParser.for_file(output_path).get_fields()
     assert fields[0].short_name == "col1"
-    assert fields[0].data_type == DataType.ARRAY
+    assert fields[0].data_type == DataType.ARRAY_INTEGER_
+
+
+def test_parse_parquet_array_types(tmp_path):
+    array_columns = [
+        ("strings", pa.list_(pa.string()), [["a", "b"], [None]]),
+        ("integers", pa.list_(pa.int64()), [[1, 2], [None]]),
+        (
+            "datetimes",
+            pa.list_(pa.timestamp("us")),
+            [[pd.Timestamp("2026-01-01")], [None]],
+        ),
+        ("booleans", pa.list_(pa.bool_()), [[True, False], [None]]),
+        ("floats", pa.list_(pa.float64()), [[1.5, 2.5], [None]]),
+    ]
+    schema = pa.schema(
+        [pa.field(name, array_type) for name, array_type, _ in array_columns],
+    )
+    table = pa.Table.from_arrays(
+        [pa.array(values, type=array_type) for _, array_type, values in array_columns],
+        schema=schema,
+    )
+    output_path = tmp_path / "array_types.parquet"
+    pq.write_table(table, output_path)
+
+    parser = DatasetParser.for_file(output_path)
+
+    assert parser.get_fields() == [
+        Variable(short_name="strings", data_type=DataType.ARRAY_STRING_),
+        Variable(short_name="integers", data_type=DataType.ARRAY_INTEGER_),
+        Variable(short_name="datetimes", data_type=DataType.ARRAY_DATETIME_),
+        Variable(short_name="booleans", data_type=DataType.ARRAY_BOOLEAN_),
+        Variable(short_name="floats", data_type=DataType.ARRAY_FLOAT_),
+    ]
 
 
 @pytest.fixture

@@ -32,6 +32,48 @@ def handle_current_version(supplied_metadata: dict[str, Any]) -> dict[str, Any]:
     return supplied_metadata
 
 
+def handle_version_6_1_2(supplied_metadata: dict[str, Any]) -> dict[str, Any]:
+    """Handle the current version of the metadata.
+
+    This function returns the supplied metadata unmodified.
+
+    Args:
+        supplied_metadata: The metadata for the current version.
+
+    Returns:
+        The unmodified supplied metadata.
+    """
+    return supplied_metadata
+
+
+def handle_version_6_1_1(supplied_metadata: dict[str, Any]) -> dict[str, Any]:
+    """Handle the current version of the metadata.
+
+    This function returns the supplied metadata unmodified.
+
+    Args:
+        supplied_metadata: The metadata for the current version.
+
+    Returns:
+        The unmodified supplied metadata.
+    """
+    return supplied_metadata
+
+
+def handle_version_6_1_0(supplied_metadata: dict[str, Any]) -> dict[str, Any]:
+    """Handle the current version of the metadata.
+
+    This function returns the supplied metadata unmodified.
+
+    Args:
+        supplied_metadata: The metadata for the current version.
+
+    Returns:
+        The unmodified supplied metadata.
+    """
+    return supplied_metadata
+
+
 def handle_version_6_0_0(supplied_metadata: dict[str, Any]) -> dict[str, Any]:
     """Handle breaking changes for version 6.1.0.
 
