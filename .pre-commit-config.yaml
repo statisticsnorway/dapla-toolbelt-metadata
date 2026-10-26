@@ -1,5 +1,5 @@
 default_language_version:
-  python: python3.12
+  python: python3.14
 # We don't want to format or lint generated files because it creates large diffs
 # when generated code is updated.
 exclude: /_generated/
